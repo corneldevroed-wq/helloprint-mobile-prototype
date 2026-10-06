@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Cart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cart-page">
+    <h1>Your Cart</h1>
+
+    <div id="cartContent"></div>
+
+    <ul class="cart-usps">
+      <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
+      <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
+    </ul>
+
+    <div class="payments" aria-label="Payment methods">
+      <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
+      <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
+      <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
+      <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
+      <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
+      <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Sticky checkout bar (Figma 15725:7380) -->
+<div class="cart-bar" id="cartBar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>
+  </div>
+</div>
+
+<!-- Sheet: Choose your file check (as live on helloprint.com/basket; euro tiers from Figma 15722:5390) -->
+<div class="sheet-layer" id="sheet-filecheck" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fcTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="fcTitle">Choose your file check</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="fc-intro">Did you know that we find mistakes in 40% of the files?</p>
+        <div class="fc-list" id="fcList" role="radiogroup" aria-label="File check"></div>
+      </div>
+    </div>
+    <div class="sheet-bar fc-bar"><button class="btn primary" id="fcConfirm">Confirm</button></div>
+  </div>
+</div>
+
+<!-- Sheet: Secured delivery (as live on helloprint.com/basket, "More info") -->
+<div class="sheet-layer" id="sheet-secured" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sdTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="sdTitle">Peace of mind with Secured Delivery</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="fc-intro">Protect your order and enjoy complete peace of mind with our Secured Delivery option. Here's why you should add it to your basket:</p>
+        <ul class="sd-list">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/><path d="M8.5 9.5c1.2 1.2 5.8 1.2 7 0"/></svg>
+            <div><b>Priority Support &amp; Urgent Handling</b><span>Any delivery issues are handled with top priority, meaning you’ll get faster responses and resolutions for any concern that may arise.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11.5C5 8 8 6 12 6c1.6 0 3 .3 4.2.9L19 5.5v3.2c.8.8 1.3 1.7 1.5 2.8H22v3.5h-1.8c-.5 1-1.3 1.8-2.2 2.4V20h-3v-1.6h-4V20H8v-2.6c-1.9-1.2-3-3.2-3-5.9Z"/><circle cx="16" cy="11" r=".6" fill="currentColor"/><path d="M5 11.5H3.5"/></svg>
+            <div><b>Instant Reprints, No Delays</b><span>Lost or delayed orders? With Secured Delivery, you’ll receive an immediate reprint, ensuring that you don’t wait any longer than necessary to receive your items. We get it sorted, hassle-free.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="14" cy="12" r="7"/><path d="M14 8.5V12l2.5 1.8"/><path d="M2.5 9h3M1.5 12h3M2.5 15h3"/></svg>
+            <div><b>Money-Back Guarantee</b><span>We believe in delivering on our promises. If your order is delayed beyond the promised date, we’ll refund 20% of the cost, guaranteed.</span></div>
+          </li>
+        </ul>
+        <p class="sd-help"><strong>Questions about this service?</strong> We're here to help! <a href="#cs">Check our Help Centre</a></p>
+      </div>
+    </div>
+    <div class="sheet-bar sd-bar">
+      <button class="btn ghost" id="sdNo">No thanks, standard delivery is fine</button>
+      <button class="btn primary" id="sdYes"></button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
+  // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
+  let addons = getAddons();
+  const saveAddons = () => { try { localStorage.setItem('hp-cart-addons', JSON.stringify(addons)); } catch (e) {} };
+  const tier = id => CHECK_TIERS.find(t => t.id === id);
+  const eur = n => '€' + n.toFixed(2);
+
+  function render() {
+    const items = getCart(), box = document.getElementById('cartContent');
+    document.getElementById('cartBar').hidden = !items.length;
+    document.body.classList.toggle('buybar-on', !!items.length); // lifts toasts above the checkout bar
+    if (!items.length) {
+      box.innerHTML = `<div class="cart-empty"><p>Your cart is empty.</p><a class="btn primary" href="business-cards.html">Shop business cards</a></div>`;
+      return;
+    }
+    const { check, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
+
+    box.innerHTML = `
+      <section class="addons">
+        <h2>Do you want a design check?</h2>
+        <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>
+        <div class="addon addon-check" role="switch" tabindex="0" aria-checked="${checkOn}" data-addon="check">
+          <span class="switch"></span>
+          <span class="t">
+            <b>${checkOn ? check.name : 'Please check my designs'}</b>
+            <small>A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.</small>
+            <span class="p">${fmt(checkOn ? check.price : tier('premium').price)}</span>
+          </span>
+          <button class="go" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/cart/arrow.png" alt=""></button>
+        </div>
+        <div class="addon" role="switch" tabindex="0" aria-checked="${!!addons.secured}" data-addon="secured">
+          <span class="switch"></span>
+          <span class="t"><b>${SECURED.name}</b><small>${SECURED.sub}</small><span class="p">${fmt(SECURED.price)}</span></span>
+          <button class="go" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/cart/arrow.png" alt=""></button>
+        </div>
+      </section>
+
+      <section class="summary-box" style="margin-top:16px">
+        <h2>Order summary</h2>
+        ${items.map((it, i) => `
+          <div class="line-item">
+            <a class="img" href="${it.href}" style="background:${it.bg}"><img src="${it.img}" alt=""></a>
+            <div class="t">
+              <strong>${it.name}</strong>
+              <small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small>
+              <small>${it.options}</small>
+              <small>Design: ${it.design}</small>
+              <button class="remove" data-remove="${i}">Remove</button>
+            </div>
+            <span class="p">${fmt(it.price)}</span>
+          </div>`).join('')}
+        <div class="totals">
+          <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
+          ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+          <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
+          <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
+          <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
+        </div>
+      </section>`;
+    document.getElementById('barTotal').textContent = eur(total);
+  }
+
+  document.getElementById('cartContent').addEventListener('click', e => {
+    if (e.target.closest('[data-open-sheet]')) return;
+    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]');
+    if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
+    if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
+    if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
+  });
+
+  document.getElementById('cartContent').addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.key === 'Enter') && e.target.matches('[data-addon]')) { e.preventDefault(); e.target.click(); }
+  });
+
+  // File check sheet: opens on the current choice; Confirm applies it
+  let fcPick = 'basic';
+  function renderFileCheck() {
+    document.getElementById('fcList').innerHTML = CHECK_TIERS.map(t => `
+      <button class="fc${t.recommended ? ' rec' : ''}" role="radio" aria-checked="${fcPick === t.id}" data-tier="${t.id}">
+        ${t.recommended ? '<span class="fc-tag">Recommended</span>' : ''}
+        <span class="fc-top"><span class="radio"></span><b>${t.name}</b><span class="fc-price">${t.price ? fmt(t.price) : 'Free'}</span></span>
+        ${t.social ? `<span class="fc-social">${t.social}</span>` : ''}
+        ${t.lead ? `<span class="fc-lead">${t.lead}</span>` : ''}
+        <ul>${t.perks.map(p => `<li>${p}</li>`).join('')}</ul>
+      </button>`).join('');
+  }
+  sheetHooks.filecheck = () => { fcPick = addons.check; renderFileCheck(); };
+  document.getElementById('fcList').addEventListener('click', e => {
+    const b = e.target.closest('[data-tier]'); if (b) { fcPick = b.dataset.tier; renderFileCheck(); }
+  });
+  document.getElementById('fcConfirm').addEventListener('click', () => {
+    const changed = fcPick !== addons.check;
+    addons.check = fcPick; saveAddons(); closeSheet(); render();
+    if (changed) {
+      document.querySelector('.addon-check').classList.add('changed');
+      showToast(fcPick === 'basic' ? 'Basic check selected' : `${tier(fcPick).name} added`);
+    }
+  });
+
+  // Secured delivery sheet: either choice closes it and sets the switch
+  sheetHooks.secured = () => { document.getElementById('sdYes').textContent = `Keep my order safe  +${fmt(SECURED.price)}`; };
+  function setSecured(on) {
+    const changed = on !== addons.secured;
+    addons.secured = on; saveAddons(); closeSheet(); render();
+    if (changed) {
+      document.querySelector('[data-addon="secured"]').classList.add('changed');
+      showToast(on ? 'Secured delivery added' : 'Standard delivery kept');
+    }
+  }
+  document.getElementById('sdYes').addEventListener('click', () => setSecured(true));
+  document.getElementById('sdNo').addEventListener('click', () => setSecured(false));
+
+  // Add-on and item prices follow the VAT toggle; the summary always shows excl. / VAT / incl.
+  const baseUpdate = updatePrices;
+  updatePrices = () => { baseUpdate(); render(); };
+  render();
+</script>
+</body>
+</html>

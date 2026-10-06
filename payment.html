@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+
+  <!-- Payment (Figma 15725:7440) -->
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Checkout steps">
+      <li class="done"><a href="details.html">Details &amp; Shipping</a></li>
+      <li class="current" aria-current="step">Payment</li>
+      <li>Order confirmed</li>
+    </ol>
+
+    <form id="payForm" class="co-extra" novalidate autocomplete="off">
+      <div class="co-head"><h2>When do you want to pay?</h2></div>
+      <div class="pay-opts" role="radiogroup" aria-label="When to pay">
+        <button type="button" class="pay-opt" role="radio" aria-checked="true" data-when="now">
+          <span class="radio"></span>
+          <span class="t"><b>Pay now</b><small>Fastest option. We start printing as soon as your files are approved.</small></span>
+        </button>
+        <button type="button" class="pay-opt" role="radio" aria-checked="false" data-when="later">
+          <span class="radio"></span>
+          <span class="t"><b>Send me a payment link</b><small>Handy if someone else pays, like your finance team. We check your files right away; printing starts once it’s paid.</small></span>
+        </button>
+      </div>
+
+      <div class="pay-methods" id="payMethods">
+        <p class="secure-line"><img src="assets/checkout/encrypted.svg" alt="">Secure payment</p>
+        <div class="wallets" role="radiogroup" aria-label="Payment method">
+          <button type="button" class="wallet apple" role="radio" aria-checked="false" data-method="Apple Pay" aria-label="Apple Pay">
+            <span class="logo-box" style="width:58px"><img src="assets/checkout/applepay.png" alt="" style="left:.86%;top:-24.36%;width:100%;height:148.72%"></span>
+          </button>
+          <button type="button" class="wallet google" role="radio" aria-checked="false" data-method="Google Pay" aria-label="Google Pay">
+            <span class="logo-box" style="width:58px"><img src="assets/checkout/googlepay.png" alt="" style="inset:0;width:100%;height:100%;object-fit:cover"></span>
+          </button>
+          <button type="button" class="wallet paypal" role="radio" aria-checked="false" data-method="PayPal" aria-label="PayPal">
+            <span class="logo-box" style="width:59px"><img src="assets/checkout/paypal.png" alt="" style="left:-39.83%;top:-33.5%;width:136.79%;height:155.21%"></span>
+          </button>
+          <button type="button" class="wallet revolut" role="radio" aria-checked="false" data-method="Revolut Pay" aria-label="Revolut Pay">
+            <span class="logo-box" style="width:83px"><img src="assets/checkout/revolut.png" alt="" style="left:-3.61%;top:-14.55%;width:109.08%;height:129.08%"></span>
+          </button>
+        </div>
+
+        <div class="card-box" aria-checked="true" id="cardBox">
+          <button type="button" class="card-head" data-method="Credit card" role="radio" aria-checked="true">
+            <span>Credit card</span>
+            <span class="brands" aria-label="Maestro, Visa, Mastercard and 2 more">
+              <span class="card"><img src="assets/pay-maestro.svg" alt=""></span>
+              <span class="card"><img src="assets/pay-visa.svg" alt=""></span>
+              <span class="card"><img src="assets/pay-mastercard.svg" alt=""></span>
+              <span class="more">+2</span>
+            </span>
+          </button>
+          <div class="card-fields" id="cardFields">
+            <!-- Prototype: card details are only format-checked in the page; nothing is stored or sent -->
+            <p class="test-hint">Prototype: card details are not stored or sent. Use test card <b>4242 4242 4242 4242</b>.</p>
+            <label class="field" data-field="cardNumber"><input name="cardNumber" inputmode="numeric" placeholder="Card number" autocomplete="off" aria-label="Card number" maxlength="23"></label>
+            <div class="co-row">
+              <label class="field" data-field="expiry"><input name="expiry" inputmode="numeric" placeholder="MM / YY" autocomplete="off" aria-label="Expiry date" maxlength="5"></label>
+              <label class="field" data-field="cvc"><input name="cvc" inputmode="numeric" placeholder="CVC" autocomplete="off" aria-label="Security code" maxlength="4"></label>
+            </div>
+            <label class="field" data-field="cardName"><input name="cardName" placeholder="Name on card" autocomplete="off" aria-label="Name on card"></label>
+          </div>
+        </div>
+      </div>
+
+      <section class="summary-box" style="margin-top:8px">
+        <h2>Order Summary</h2>
+        <div id="paySummary"></div>
+      </section>
+
+      <div class="eta"><b><img src="assets/pdp/check.svg" alt=""><span id="etaArrives"></span></b><small id="etaNote"></small></div>
+    </form>
+  </main>
+</div>
+
+<!-- Sticky bar (Figma 15738:4477) -->
+<div class="cart-bar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <button class="btn primary" id="placeOrder" form="payForm" type="submit">Place order</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  const items = getCart();
+  if (!items.length) location.replace('cart.html');
+  document.body.classList.add('buybar-on');
+  const eur = n => '€' + n.toFixed(2);
+
+  // Order summary + totals (shared maths with the cart)
+  const addons = getAddons(), { check, subtotal, vat, total } = cartTotals(items, addons);
+  document.getElementById('paySummary').innerHTML = `
+    ${items.map(it => `
+      <div class="line-item">
+        <span class="img" style="background:${it.bg}"><img src="${it.img}" alt=""></span>
+        <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small></div>
+        <span class="p">${eur(it.price)}</span>
+      </div>`).join('')}
+    <div class="totals">
+      <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
+      ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+      <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
+      <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
+      <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
+    </div>`;
+  document.getElementById('barTotal').textContent = eur(total);
+
+  // Delivery promise: files approved by 10:30 the working day before
+  function renderEta() {
+    if (!items[0]) return;
+    if (when === 'later') {
+      document.getElementById('etaArrives').textContent = 'Arrives 1 working day after payment';
+      document.getElementById('etaNote').textContent = 'Printing starts once your files are approved and the order is paid.';
+      return;
+    }
+    const arrive = new Date(`${items[0].arrives} 2026`);
+    const approve = new Date(arrive); approve.setDate(arrive.getDate() - 1);
+    const day = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
+    document.getElementById('etaArrives').textContent = `Arrives ${items[0].arrives}`;
+    document.getElementById('etaNote').textContent = `if your files are approved by 10:30 on ${day(approve)}.`;
+  }
+  const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : `Pay ${eur(total)}`; };
+
+  // Pay now / payment link
+  let when = 'now', method = 'Credit card';
+  renderEta(); renderButton();
+  document.querySelector('.pay-opts').addEventListener('click', e => {
+    const b = e.target.closest('[data-when]'); if (!b) return;
+    when = b.dataset.when;
+    document.querySelectorAll('[data-when]').forEach(x => x.setAttribute('aria-checked', x === b));
+    document.getElementById('payMethods').hidden = when === 'later';
+    renderEta(); renderButton();
+  });
+
+  // Method: a wallet or the card form
+  function setMethod(m) {
+    method = m;
+    document.querySelectorAll('.wallet').forEach(w => w.setAttribute('aria-checked', w.dataset.method === m));
+    const card = m === 'Credit card';
+    document.getElementById('cardBox').setAttribute('aria-checked', card);
+    document.querySelector('.card-head').setAttribute('aria-checked', card);
+    document.getElementById('cardFields').hidden = !card;
+  }
+  document.getElementById('payMethods').addEventListener('click', e => {
+    const b = e.target.closest('[data-method]'); if (b) setMethod(b.dataset.method);
+  });
+
+  // Card input formatting
+  const $ = n => document.querySelector(`[name=${n}]`);
+  $('cardNumber').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 19).replace(/(.{4})/g, '$1 ').trim(); });
+  $('expiry').addEventListener('input', e => { const d = e.target.value.replace(/\D/g, '').slice(0, 4); e.target.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; });
+  $('cvc').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+
+  // Validation (format only)
+  const luhn = num => { let sum = 0; [...num].reverse().forEach((d, i) => { let n = +d; if (i % 2) { n *= 2; if (n > 9) n -= 9; } sum += n; }); return num.length >= 12 && sum % 10 === 0; };
+  const notExpired = v => { const m = v.match(/^(\d{2})\/(\d{2})$/); if (!m || +m[1] < 1 || +m[1] > 12) return false; return new Date(2000 + +m[2], +m[1]) > new Date(); };
+  const RULES = {
+    cardNumber: [v => luhn(v.replace(/\D/g, '')), 'Enter a valid card number'],
+    expiry: [notExpired, 'Enter a valid expiry date'],
+    cvc: [v => /^\d{3,4}$/.test(v), 'Enter the 3 or 4 digit code'],
+    cardName: [v => v.trim().length > 1, 'Enter the name on the card'],
+  };
+  function checkField(name) {
+    const field = document.querySelector(`[data-field="${name}"]`), [ok, msg] = RULES[name];
+    const valid = !!ok($(name).value);
+    field.classList.toggle('invalid', !valid); $(name).setAttribute('aria-invalid', String(!valid));
+    field.dataset.error = valid ? '' : msg;
+    const row = field.closest('.co-row') || field;
+    while (row.nextElementSibling?.classList.contains('field-error')) row.nextElementSibling.remove();
+    const fields = row.matches('[data-field]') ? [row] : [...row.querySelectorAll('[data-field]')];
+    fields.filter(f => f.dataset.error).reverse().forEach(f => row.after(Object.assign(document.createElement('p'), { className: 'field-error', textContent: f.dataset.error })));
+    return valid;
+  }
+  Object.keys(RULES).forEach(n => {
+    $(n).addEventListener('blur', () => { if ($(n).value) checkField(n); });
+    $(n).addEventListener('input', () => { if (document.querySelector(`[data-field="${n}"]`).classList.contains('invalid')) checkField(n); });
+  });
+
+  document.getElementById('payForm').addEventListener('submit', e => {
+    e.preventDefault();
+    if (when === 'now' && method === 'Credit card') {
+      const bad = Object.keys(RULES).filter(n => !checkField(n));
+      if (bad.length) {
+        $(bad[0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        $(bad[0]).focus({ preventScroll: true });
+        showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+        return;
+      }
+    }
+    // No confirmation screen in Figma yet: confirm in place
+    showToast(when === 'later' ? 'Order placed – payment link sent' : `Order placed with ${method}`);
+  });
+</script>
+</body>
+</html>

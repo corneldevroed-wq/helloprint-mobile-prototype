@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Details &amp; Shipping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+
+  <!-- Details & shipping (Figma 15738:4488) -->
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Checkout steps">
+      <li class="current" aria-current="step">Details &amp; Shipping</li>
+      <li>Payment</li>
+      <li>Order confirmed</li>
+    </ol>
+
+    <form id="coForm" novalidate>
+      <div class="co-extra">
+        <div class="co-head"><h2>Contact details</h2><a href="#login">Login</a></div>
+        <label class="field" data-field="email"><input type="email" name="email" placeholder="Email address" autocomplete="email" aria-label="Email address"></label>
+        <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
+        <div class="co-extra" id="businessFields" hidden>
+          <label class="field" data-field="company"><input name="company" placeholder="Company name" autocomplete="organization" aria-label="Company name"></label>
+          <label class="field"><input name="vatnr" placeholder="VAT number (optional)" aria-label="VAT number"></label>
+        </div>
+
+        <div class="co-head"><h2>Delivery Address</h2></div>
+        <div class="co-row">
+          <label class="field" data-field="first"><input name="first" placeholder="First name" autocomplete="given-name" aria-label="First name"></label>
+          <label class="field" data-field="last"><input name="last" placeholder="Last name" autocomplete="family-name" aria-label="Last name"></label>
+        </div>
+        <div class="co-row">
+          <label class="field phone-prefix">
+            <select name="prefix" aria-label="Country code">
+              <option value="+353" selected>🇮🇪 +353</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+31">🇳🇱 +31</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+33">🇫🇷 +33</option>
+            </select>
+          </label>
+          <label class="field" data-field="phone"><input type="tel" name="phone" placeholder="Phone number" autocomplete="tel-national" aria-label="Phone number"></label>
+        </div>
+        <label class="field"><input name="country" value="Ireland" readonly aria-label="Country"></label>
+        <label class="field" data-field="address1"><input name="address1" placeholder="Address line 1" autocomplete="address-line1" aria-label="Address line 1"></label>
+        <label class="field"><input name="address2" placeholder="Address line 2 (optional)" autocomplete="address-line2" aria-label="Address line 2"></label>
+        <div class="co-row">
+          <label class="field" data-field="eircode"><input name="eircode" placeholder="Eircode" autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"></label>
+          <label class="field" data-field="town"><input name="town" placeholder="Town / city" autocomplete="address-level2" aria-label="Town or city"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="sameBilling" checked>Billing address is the same as delivery address</label>
+        <div class="co-extra" id="billingFields" hidden>
+          <label class="field" data-field="billAddress"><input name="billAddress" placeholder="Billing address line 1" autocomplete="billing address-line1" aria-label="Billing address line 1"></label>
+          <div class="co-row">
+            <label class="field" data-field="billEircode"><input name="billEircode" placeholder="Eircode" autocomplete="billing postal-code" aria-label="Billing Eircode" autocapitalize="characters"></label>
+            <label class="field" data-field="billTown"><input name="billTown" placeholder="Town / city" autocomplete="billing address-level2" aria-label="Billing town or city"></label>
+          </div>
+        </div>
+
+        <div class="co-head"><h2>Shipping method</h2></div>
+        <div class="ship"><span class="radio"></span><span class="t"><b>Home delivery</b><small id="shipArrives"></small></span><span class="p">Included</span></div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<!-- Sticky bar (Figma 15738:4724) -->
+<div class="cart-bar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <button class="btn primary" id="toPayment" form="coForm" type="submit">Payment</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // Nothing to check out → back to the cart
+  const items = getCart();
+  if (!items.length) location.replace('cart.html');
+  document.body.classList.add('buybar-on');
+
+  document.getElementById('barTotal').textContent = '€' + cartTotals().total.toFixed(2);
+  if (items[0]) document.getElementById('shipArrives').textContent = `${items[0].delivery} · arrives ${items[0].arrives}`;
+
+  // Optional blocks
+  const toggle = (box, id) => document.getElementById(box).toggleAttribute('hidden', !document.getElementById(id).checked);
+  document.getElementById('isBusiness').addEventListener('change', () => toggle('businessFields', 'isBusiness'));
+  document.getElementById('sameBilling').addEventListener('change', e => document.getElementById('billingFields').toggleAttribute('hidden', e.target.checked));
+
+  // Validation: errors show after leaving a field and when going to Payment
+  const EIRCODE = /^[A-Z]\d[\dW]\s?[A-Z\d]{4}$/i;
+  const RULES = {
+    email: [v => /^\S+@\S+\.\S+$/.test(v), 'Enter a valid email address'],
+    company: [v => v.trim().length > 1, 'Enter your company name', () => document.getElementById('isBusiness').checked],
+    first: [v => v.trim(), 'Enter your first name'],
+    last: [v => v.trim(), 'Enter your last name'],
+    phone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number'],
+    address1: [v => v.trim().length > 2, 'Enter your address'],
+    eircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode'],
+    town: [v => v.trim(), 'Enter your town or city'],
+    billAddress: [v => v.trim().length > 2, 'Enter your billing address', () => !document.getElementById('sameBilling').checked],
+    billEircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode', () => !document.getElementById('sameBilling').checked],
+    billTown: [v => v.trim(), 'Enter your town or city', () => !document.getElementById('sameBilling').checked],
+  };
+  function check(name) {
+    const field = document.querySelector(`[data-field="${name}"]`), input = field.querySelector('input');
+    const [ok, msg, applies] = RULES[name];
+    const valid = (applies && !applies()) || !!ok(input.value);
+    field.classList.toggle('invalid', !valid);
+    input.setAttribute('aria-invalid', String(!valid));
+    field.dataset.error = valid ? '' : msg;
+    syncErrors(field.closest('.co-row') || field);
+    return valid;
+  }
+  // Errors sit below their row (side-by-side fields keep their alignment), in field order
+  function syncErrors(row) {
+    while (row.nextElementSibling?.classList.contains('field-error')) row.nextElementSibling.remove();
+    const fields = row.matches('[data-field]') ? [row] : [...row.querySelectorAll('[data-field]')];
+    fields.filter(f => f.dataset.error).reverse().forEach(f => {
+      row.after(Object.assign(document.createElement('p'), { className: 'field-error', textContent: f.dataset.error }));
+    });
+  }
+  Object.keys(RULES).forEach(name => {
+    const input = document.querySelector(`[data-field="${name}"] input`);
+    input.addEventListener('blur', () => { if (input.value || input.dataset.touched) check(name); input.dataset.touched = '1'; });
+    input.addEventListener('input', () => { if (document.querySelector(`[data-field="${name}"]`).classList.contains('invalid')) check(name); });
+  });
+  document.querySelectorAll('[name=eircode], [name=billEircode]').forEach(i => i.addEventListener('blur', () => { i.value = i.value.toUpperCase(); }));
+
+  document.getElementById('coForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = Object.keys(RULES).filter(n => !check(n));
+    if (bad.length) {
+      const first = document.querySelector(`[data-field="${bad[0]}"] input`);
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      first.focus({ preventScroll: true });
+      showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+      return;
+    }
+    location.href = 'payment.html';
+  });
+</script>
+</body>
+</html>

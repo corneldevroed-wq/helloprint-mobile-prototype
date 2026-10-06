@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Card Printing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / Business Cards</p>
+      <div class="intro">
+        <h1>Business Card Printing.</h1>
+        <p>We specialise in top-quality Business Card Printing with 1000+ free business cards designs for all needs. Whether you're looking for stylish design templates or for the most cheap options, you'll find them here.</p>
+      </div>
+      <a class="rating" href="#reviews" data-tab-link="reviews">
+        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
+        <span>4.5 <i>|</i> 34,760 reviews</span>
+      </a>
+    </section>
+
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#types" data-tab-link="types" class="active">Types</a>
+      <a href="#sizes" data-tab-link="sizes">Sizes</a>
+      <a href="#materials" data-tab-link="materials">Materials</a>
+      <a href="#finishes" data-tab-link="finishes">Finishes</a>
+      <a href="#reviews" data-tab-link="reviews">Reviews</a>
+    </nav>
+
+    <section id="types" data-tab-target>
+      <h2>Card types.</h2>
+      <div class="types" id="types-grid"></div>
+    </section>
+
+    <section id="reviews" data-tab-target>
+      <aside class="trust">
+        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
+        <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
+      </aside>
+    </section>
+
+    <section id="sizes" data-tab-target>
+      <h2>Sizes</h2>
+      <div class="hscroll size-row">
+        <a class="size-card" href="#size-standard"><span class="shape"><span style="width:85px;height:55px"></span></span><strong>Standard</strong><small>85 x 55 mm</small></a>
+        <a class="size-card" href="#size-rounded"><span class="shape"><span style="width:85px;height:55px;border-radius:7px"></span></span><strong>Rounded</strong><small>85 x 55 mm</small></a>
+        <a class="size-card" href="#size-square"><span class="shape"><span style="width:55px;height:55px"></span></span><strong>Square</strong><small>85 x 55 mm</small></a>
+        <a class="size-card" href="#size-square-wide"><span class="shape"><span style="width:90px;height:50px"></span></span><strong>Square</strong><small>85 x 55 mm</small></a>
+        <a class="size-card" href="#size-folded"><span class="shape"><span class="fold" style="width:64.7px;height:50px"></span></span><strong>Folded</strong><small>110 x 85 mm</small></a>
+      </div>
+    </section>
+
+    <section id="materials" class="materials" data-tab-target>
+      <h2>Materials.</h2>
+      <div class="hscroll filter" id="mat-filter">
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="everyday">Everyday</button>
+        <button class="pill" data-filter="eco">Eco</button>
+        <button class="pill" data-filter="luxury">Luxury</button>
+        <button class="pill" data-filter="durable">Durable</button>
+      </div>
+      <ul class="mat-list" id="mat-list"></ul>
+    </section>
+
+    <section id="finishes" data-tab-target>
+      <h2 style="margin-bottom:16px">Make it stand out.</h2>
+      <div class="hscroll standout">
+        <article class="so-card">
+          <img class="bg" src="assets/category/so-spotuv.jpg" alt="" style="top:-21.65%">
+          <div class="info"><div><strong>Spot-UV Business Cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#spot-uv-business-cards">Shop</a></div>
+        </article>
+        <article class="so-card">
+          <img class="bg" src="assets/category/so-multilayer.png" alt="" style="left:-9.09%;top:-15.39%;width:151.17%">
+          <div class="info"><div><strong>Multilayer cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#multilayer-business-cards">Shop</a></div>
+        </article>
+        <article class="so-card">
+          <img class="bg" src="assets/category/so-eco.png" alt="" style="top:-21.99%">
+          <div class="info"><div><strong>Eco Friendly Business Cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#recycledbusinesscards">Shop</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Beyond business cards</h2>
+      <div class="hscroll beyond-row">
+        <a class="beyond" href="#loyalty-cards"><span class="ph"></span><span>Loyalty cards</span></a>
+        <a class="beyond" href="#appointment-cards"><span class="ph"></span><span>Appointment cards</span></a>
+        <a class="beyond" href="#postcards"><span class="ph"></span><span>Postcards</span></a>
+        <a class="beyond" href="#compliment-cards"><span class="ph"></span><span>Compliment cards</span></a>
+        <a class="beyond" href="#vouchers"><span class="ph"></span><span>Vouchers</span></a>
+        <a class="beyond" href="#invitations"><span class="ph"></span><span>Invitations</span></a>
+      </div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // Card types
+  const C = 'assets/category/';
+  const cardTypes = [
+    { img: 't-classic.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', price: 22.04, badge: 'Most Popular', proto: 'pdp' },
+    { img: 't-eco.png', bg: 'rgba(223,185,144,.3)', name: 'Eco Friendly Business Cards', price: 144.89, badge: 'Eco' },
+    { img: 't-pvc.png', bg: 'rgba(48,89,100,.15)', name: 'PVC Cards white', price: 18.89 },
+    { img: 't-deluxe.png', bg: 'rgba(28,28,28,.1)', name: 'Deluxe Business Cards', price: 18.89 },
+    { img: 't-special.png', bg: 'rgba(221,181,77,.2)', name: 'Business Cards Special Materials', price: 18.89 },
+    { img: 't-multilayer.png', bg: 'rgba(229,111,36,.2)', name: 'Multilayered Business Cards', price: 18.89 },
+  ];
+  document.getElementById('types-grid').innerHTML = cardTypes.map(p => `
+    <a class="product" href="#${slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
+      <div class="thumb" style="background:${p.bg}">
+        <img src="${C + p.img}" alt="" loading="lazy">
+        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+      </div>
+      <p class="name">${p.name}</p>
+      <div><p class="from">500 pcs from</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>
+    </a>`).join('');
+
+  // Materials: ten rows as in Figma (placeholder content), filterable by the chips
+  const matGroups = ['everyday', 'eco', 'luxury', 'durable'];
+  document.getElementById('mat-list').innerHTML = Array.from({ length: 10 }, (_, i) => `
+    <li data-group="${matGroups[i % 4]}">
+      <a class="mat" href="#silk-matte">
+        <span class="swatch"><img src="${C}swatch.svg" alt=""><img class="corner" src="${C}swatch-fold.svg" alt=""></span>
+        <span class="text">
+          ${i === 0 ? '<span class="badge">Most Popular</span>' : ''}
+          <strong>Silk - Matte</strong>
+          <small>Most cost-effective option · Professional appearance</small>
+        </span>
+        <img class="chev" src="${C}arrow.svg" alt="">
+      </a>
+    </li>`).join('');
+  document.getElementById('mat-filter').addEventListener('click', e => {
+    const b = e.target.closest('[data-filter]'); if (!b) return;
+    document.querySelectorAll('#mat-filter .pill').forEach(x => x.classList.toggle('active', x === b));
+    document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && li.dataset.group !== b.dataset.filter; });
+  });
+
+  // Section tabs: click scrolls to the section, the active tab follows the scroll position
+  const tabLinks = [...document.querySelectorAll('#tabs a')];
+  const targets = [...document.querySelectorAll('[data-tab-target]')];
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-tab-link]'); if (!a) return;
+    e.preventDefault();
+    document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
+  });
+  function syncTabs() {
+    const line = 150;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);
+    tabLinks.forEach(a => {
+      const on = a.dataset.tabLink === current.id;
+      if (on && !a.classList.contains('active')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      a.classList.toggle('active', on);
+    });
+  }
+  addEventListener('scroll', syncTabs, { passive: true });
+
+  updatePrices();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="33.87" height="34.1654" viewBox="0 0 33.87 34.1654" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1073715113">
+<foreignObject x="-3.41654" y="-3.41654" width="40.7031" height="40.9984"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(1.71px);clip-path:url(#bgblur_0_0_24_clip_path);height:100%;width:100%"></div></foreignObject><ellipse id="Ellipse 55" data-figma-bg-blur-radius="3.41654" cx="16.935" cy="17.0827" rx="16.935" ry="17.0827" fill="#191919" fill-opacity="0.3"/>
+<g id="arrow_forward">
+<mask id="mask0_0_24" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="22" height="22">
+<rect id="Bounding box" x="6.78906" y="6.82813" width="20.322" height="20.4992" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_24)">
+<path id="arrow_forward_2" d="M20.4732 17.9291H11.0108C10.7709 17.9291 10.5698 17.8472 10.4075 17.6835C10.2452 17.5198 10.1641 17.3169 10.1641 17.0749C10.1641 16.8329 10.2452 16.6301 10.4075 16.4664C10.5698 16.3026 10.7709 16.2208 11.0108 16.2208H20.4732L16.3242 12.0355C16.1548 11.8647 16.0737 11.6654 16.0807 11.4376C16.0878 11.2099 16.176 11.0106 16.3453 10.8397C16.5147 10.6832 16.7123 10.6013 16.9381 10.5942C17.1639 10.5871 17.3614 10.6689 17.5308 10.8397L23.1193 16.477C23.204 16.5624 23.264 16.655 23.2993 16.7546C23.3346 16.8543 23.3522 16.961 23.3522 17.0749C23.3522 17.1888 23.3346 17.2956 23.2993 17.3952C23.264 17.4949 23.204 17.5874 23.1193 17.6728L17.5308 23.3101C17.3755 23.4667 17.1815 23.545 16.9486 23.545C16.7158 23.545 16.5147 23.4667 16.3453 23.3101C16.176 23.1393 16.0913 22.9364 16.0913 22.7015C16.0913 22.4666 16.176 22.2638 16.3453 22.093L20.4732 17.9291Z" fill="white"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_24_clip_path" transform="translate(3.41654 3.41654)"><ellipse cx="16.935" cy="17.0827" rx="16.935" ry="17.0827"/>
+</clipPath></defs>
+</svg>
