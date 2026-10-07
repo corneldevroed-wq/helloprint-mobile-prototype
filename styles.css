@@ -780,3 +780,20 @@ body.info-guide .opt-info { display: none; }
 .guide-help a { font-weight: 600; text-decoration: underline; }
 .opt.changed, .qrow.changed, .deliv.changed { animation: changed 1.8s ease-out; }
 .continue-shopping { margin-top: 16px; }
+
+/* Customise sheet bar: recap, price, then Save (secondary) + Add your design (primary) */
+.bar-two-btn .total { flex: 0 0 100%; display: flex; align-items: center; gap: 10px; padding: 2px 16px 8px; }
+.bar-two-btn .total strong { display: inline; }
+.bar-btns { flex: 0 0 100%; display: flex; gap: 8px; }
+.sheet-bar .bar-btns .btn.outline { flex: 0 0 auto; padding: 0 22px; }
+.sheet-bar .bar-btns .btn.primary { flex: 1; }
+/* Design sheet: way back to the options */
+.back-link { flex-shrink: 0; align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin: -4px 0 4px 16px; font-size: 14px; line-height: 1.5; color: var(--black); }
+.back-link::before { content: ''; width: 14px; height: 14px; background: url(assets/menu/back.svg) no-repeat center / 14px; transform: scaleX(-1); }
+.back-link:hover { color: var(--light-green); }
+
+/* Edit pill with a Material Symbols Rounded pen */
+.material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-weight: 400; font-style: normal; font-size: 18px; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; direction: ltr; -webkit-font-smoothing: antialiased; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+.btn-edit.has-icon { display: inline-flex; align-items: center; gap: 6px; padding: 0 16px 0 12px; border-color: var(--dark-green); color: var(--dark-green); }
+.btn-edit.has-icon:hover { background: var(--light-grey); border-color: var(--dark-green); }
+.btn-edit.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }

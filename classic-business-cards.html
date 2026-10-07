@@ -6,6 +6,7 @@
 <title>Classic Business Cards</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,7 +38,7 @@
             <span class="recap-label" data-bind="presetLabel"></span>
             <p data-bind="recap"></p>
           </div>
-          <button class="btn-edit" data-open-sheet="customise" aria-label="Edit options">Edit</button>
+          <button class="btn-edit has-icon" data-open-sheet="customise" aria-label="Edit options"><span class="material-symbols-rounded" aria-hidden="true">edit</span>Edit</button>
         </div>
         <div class="cta-row">
           <button class="btn primary" data-open-sheet="design">Add your design</button>
@@ -126,10 +127,13 @@
         <div class="opt-group" data-option="delivery"></div>
       </div>
     </div>
-    <div class="sheet-bar">
+    <div class="sheet-bar bar-two-btn">
       <p class="bar-recap" data-bind="draftRecap"></p>
       <div class="total"><strong data-bind="draftTotal"></strong><span class="bar-sub"><span data-bind="vatLabel"></span> ·<img src="assets/pdp/check.svg" alt=""><span data-bind="draftArrives"></span></span></div>
-      <button class="btn primary" id="saveUpdate">Done</button>
+      <div class="bar-btns">
+        <button class="btn outline" id="saveUpdate">Done</button>
+        <button class="btn primary" id="toDesign">Add your design</button>
+      </div>
     </div>
   </div>
 </div>
@@ -157,6 +161,7 @@
   <div class="sheet-overlay" data-close-sheet></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="designTitle">
     <div class="grab" data-grab><span></span></div>
+    <button class="back-link" id="backToOptions">Change options</button>
     <div class="sheet-head">
       <h2 id="designTitle">How will you add your design?</h2>
       <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
@@ -300,8 +305,8 @@
     document.querySelector('[data-bind="draftRecap"]').textContent = `${pick('size', c.size).name} · ${pick('paper', c.paper).name} · ${pick('thickness', c.thickness).name} · ${c.qty} pcs · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
     document.querySelector('[data-bind="draftArrives"]').textContent = `arrives ${delivery(c).dayName}`;
-    // The button says what it will do: nothing changed → Done, something changed → Save changes
-    document.getElementById('saveUpdate').textContent = hasChanges() ? 'Save changes' : 'Done';
+    // The button says what it will do: nothing changed → Done, something changed → Save
+    document.getElementById('saveUpdate').textContent = hasChanges() ? 'Save' : 'Done';
   }
   document.getElementById('sheet-customise').addEventListener('click', e => {
     const guide = e.target.closest('[data-guide]');
@@ -311,12 +316,29 @@
     if (pre) { Object.assign(draft, PRESETS.find(p => p.id === pre.dataset.preset).cfg); renderDraft(); }
   });
   const hasChanges = () => ['size', 'paper', 'thickness', 'qty', 'delivery'].some(k => draft[k] !== saved[k]);
-  document.getElementById('saveUpdate').addEventListener('click', () => {
-    if (!hasChanges()) { closeSheet(); return; }
+  // Store the draft; returns the previous selection, or null when nothing changed
+  function saveDraft() {
+    if (!hasChanges()) return null;
     const before = saved;
     saved = { ...draft };
     renderSaved();
+    return before;
+  }
+  // Add your design: save and go straight on to the design sheet (it replaces this one, no stacking)
+  document.getElementById('toDesign').addEventListener('click', () => {
+    saveDraft();
     closeSheet();
+    openSheet('design');
+  });
+  // Change options: back from the design sheet to the customise sheet, with the saved choices
+  document.getElementById('backToOptions').addEventListener('click', () => {
+    closeSheet();
+    openSheet('customise');
+  });
+  document.getElementById('saveUpdate').addEventListener('click', () => {
+    const before = saveDraft();
+    closeSheet();
+    if (!before) return;
     // Flash what changed in the price box, so the customer sees the effect
     const box = document.querySelector('.price-box');
     if (materials(before) !== materials(saved)) flash(box.querySelector('.recap'));
