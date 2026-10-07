@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="pdp">
+    <p class="crumbs px"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / <a href="business-cards.html">Business Cards</a></p>
+
+    <section class="gallery" aria-label="Product images">
+      <span class="badge" id="pBadge" hidden></span>
+      <div class="track" id="galleryTrack">
+        <img id="pImg" src="" alt="">
+      </div>
+      <button class="nav-btn prev" data-gallery="-1" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
+      <button class="nav-btn next" data-gallery="1" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
+    </section>
+
+    <section class="buy px">
+      <h1 id="pName"></h1>
+      <p class="rating"><img class="stars" src="assets/trustpilot.svg" alt="4.5 stars"><span>4.5 <i>|</i> 34,760 reviews</span></p>
+      <div class="price-box">
+        <div>
+          <div class="row"><span class="big" data-bind="total"></span><span class="each"><span class="qty" data-bind="qty"></span> · <span data-bind="each"></span></span></div>
+          <p class="check-line"><img src="assets/pdp/check.svg" alt=""><span data-bind="deliveryRich"></span></p>
+        </div>
+        <div class="recap">
+          <div class="recap-text">
+            <span class="recap-label" data-bind="presetLabel"></span>
+            <p data-bind="recap"></p>
+          </div>
+          <button class="btn-edit has-icon" data-open-sheet="customise" aria-label="Edit options"><span class="material-symbols-rounded" aria-hidden="true">edit</span>Edit</button>
+        </div>
+        <div class="cta-row">
+          <button class="btn primary" data-open-sheet="design">Add your design</button>
+        </div>
+      </div>
+      <ul class="usps">
+        <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
+        <li><img src="assets/pdp/check.svg" alt="">Free automated file check</li>
+        <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
+      </ul>
+    </section>
+
+    <section class="about px">
+      <h2 id="pAboutTitle"></h2>
+      <!-- Description per product: products.js (from the helloprint.com product pages) -->
+      <div id="pAbout" style="display:contents"></div>
+    </section>
+
+    <div class="acc">
+      <details><summary>Specifications<img src="assets/chevron.svg" alt=""></summary>
+        <dl class="spec-table" id="pSpecs"></dl>
+      </details>
+      <details><summary>Design guidelines<img src="assets/chevron.svg" alt=""></summary>
+        <!-- Design guidelines from helloprint.com/en-gb/standardbusinesscards -->
+        <div class="guide">
+          <p>We recommend using our templates and guides for preparing your print-ready PDF. We also accept JPEG, PNG and EPS.</p>
+          <ul class="guide-list">
+            <li><b>Use CMYK as the colour mode</b><span>Not RGB. Use FOGRA39 (ISO Coated v2). We can convert it for you, but colours may differ from the original.</span></li>
+            <li><b>Resolution of at least 300 dpi</b><span>For all images and graphics in your artwork.</span></li>
+            <li><b>Add 3 mm bleed, keep 4 mm safety margin</b><span>Keep important elements 4 mm from the edge. Avoid borders or frames on small formats like business cards.</span></li>
+            <li><b>Minimum font size 6 pt</b><span>Embed or outline fonts. Small black text should be 100% black (C0 M0 Y0 K100). We don't check spelling.</span></li>
+            <li><b>Line thickness</b><span>At least 0.25 pt, negative lines at least 0.5 pt.</span></li>
+            <li><b>No overprint, max. 300% ink coverage</b><span>Unless overprint is an effect you want.</span></li>
+          </ul>
+        </div>
+      </details>
+      <details><summary>Design templates<img src="assets/chevron.svg" alt=""></summary>
+        <div class="guide">
+          <p>Remember to delete the template layers before exporting your design to PDF.</p>
+          <ul class="tpl-list">
+            <li><span>Standard <small>85 x 55 mm</small></span><a href="#template-standard-pdf">PDF</a><a href="#template-standard-indd">InDesign</a></li>
+            <li><span>Portrait <small>55 x 85 mm</small></span><a href="#template-portrait-pdf">PDF</a><a href="#template-portrait-indd">InDesign</a></li>
+            <li><span>Round corners <small>85 x 55 mm</small></span><a href="#template-round-pdf">PDF</a><a href="#template-round-indd">InDesign</a></li>
+            <li><span>Round corners portrait <small>55 x 85 mm</small></span><a href="#template-round-portrait-pdf">PDF</a><a href="#template-round-portrait-indd">InDesign</a></li>
+            <li><span>American <small>90 x 50 mm</small></span><a href="#template-american-pdf">PDF</a><a href="#template-american-indd">InDesign</a></li>
+            <li><span>Squared <small>55 x 55 mm</small></span><a href="#template-squared-pdf">PDF</a><a href="#template-squared-indd">InDesign</a></li>
+            <li><span>Folded portrait <small>55 x 85 mm</small></span><a href="#template-folded-portrait-pdf">PDF</a><a href="#template-folded-portrait-indd">InDesign</a></li>
+            <li><span>Folded landscape <small>85 x 55 mm</small></span><a href="#template-folded-landscape-pdf">PDF</a><a href="#template-folded-landscape-indd">InDesign</a></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<!-- Sheet: Customise your cards (Figma 15686:5328) -->
+<div class="sheet-layer" id="sheet-customise" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="customiseTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="customiseTitle">Customise your cards.</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <div class="opt-group">
+          <p id="presetsIntro"></p>
+          <div class="presets" id="presets"></div>
+        </div>
+        <div id="optGroups" style="display:contents"></div>
+        <div class="opt-group" data-option="qty"></div>
+        <div class="opt-group" data-option="delivery"></div>
+      </div>
+    </div>
+    <div class="sheet-bar bar-two-btn">
+      <p class="bar-recap" data-bind="draftRecap"></p>
+      <div class="total"><strong data-bind="draftTotal"></strong><span class="bar-sub"><span data-bind="vatLabel"></span> ·<img src="assets/pdp/check.svg" alt=""><span data-bind="draftArrives"></span></span></div>
+      <div class="bar-btns">
+        <button class="btn outline" id="saveUpdate">Done</button>
+        <button class="btn primary" id="toDesign">Add your design</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: option guide (ⓘ), opens on top of the customise sheet -->
+<div class="sheet-layer" id="sheet-guide" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="guideTitle"></h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <div class="guide-list" id="guideList"></div>
+        <p class="guide-help">Have a question? <a href="#chat">Chat with us</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: How will you design it? (Figma 15686:4169 / Canva variant 15686:4827) -->
+<div class="sheet-layer" id="sheet-design" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="designTitle">
+    <div class="grab" data-grab><span></span></div>
+    <button class="back-link" id="backToOptions">Change options</button>
+    <div class="sheet-head">
+      <h2 id="designTitle">How will you add your design?</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad"><div class="design-list" id="designList" role="radiogroup" aria-label="Design method"></div></div>
+    </div>
+    <div class="sheet-bar">
+      <div class="total"><strong data-bind="total"></strong><span class="bar-sub"><span data-bind="vatLabel"></span> ·<img src="assets/pdp/check.svg" alt=""><span data-bind="arrives"></span></span></div>
+      <button class="btn primary" id="designGo"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky buy bar: shows while the price box's "Add to cart" is out of view -->
+<div class="buy-bar" id="buyBar" aria-hidden="true">
+  <div class="sheet-bar">
+    <div class="total"><strong data-bind="total"></strong><span class="bar-sub" data-bind="qtyVat"></span></div>
+    <button class="btn primary" data-open-sheet="design" tabindex="-1">Add your design</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app.js"></script>
+<script src="products.js"></script>
+<script>
+  // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
+  const P = 'assets/pdp/';
+  const PRODUCT = PRODUCTS[new URLSearchParams(location.search).get('p')] || PRODUCTS['classic-business-cards'];
+  const OPTIONS = Object.fromEntries(PRODUCT.groups.map(g => [g.key, g]));
+  const KEYS = PRODUCT.groups.map(g => g.key);
+  const QTY = productQty(PRODUCT);
+  const DELIVERY = [
+    { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if your files are approved in time.' },
+    { id: 'express', name: 'Express', day: '27', dayName: 'Sun 27 Sep', month: 'September 27', extra: 9.99, info: 'Two days sooner, on Sun 27 Sep. We print your order with priority.' },
+  ];
+  const PRESETS = PRODUCT.presets;
+  // Info layers (two variants to compare): ?info=line shows only the info line, ?info=guide only the ⓘ guide
+  const GUIDE = key => `Which ${key === 'delivery' ? 'delivery' : OPTIONS[key].title.toLowerCase()} should I choose?`;
+  const infoMode = new URLSearchParams(location.search).get('info');
+  if (infoMode === 'line' || infoMode === 'guide') document.body.classList.add('info-' + infoMode);
+  const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
+  const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
+
+  const pick = (key, id) => OPTIONS[key].items.find(o => o.id === id);
+  const delivery = c => DELIVERY.find(d => d.id === c.delivery);
+  const productPrice = (c, qty = c.qty) => configPrice(PRODUCT, c, qty);
+  const totalPrice = c => productPrice(c) + delivery(c).extra;
+  const presetOf = c => PRESETS.find(p => Object.entries(p.cfg).every(([k, v]) => c[k] === v));
+
+  // Product content
+  document.title = PRODUCT.name;
+  document.getElementById('pName').textContent = PRODUCT.name + '.';
+  document.getElementById('pImg').src = PRODUCT.img;
+  document.getElementById('pImg').alt = PRODUCT.name;
+  document.querySelector('.gallery').style.background = PRODUCT.bg;
+  const badge = document.getElementById('pBadge');
+  if (PRODUCT.badge) { badge.textContent = PRODUCT.badge; badge.hidden = false; }
+  document.getElementById('pAboutTitle').textContent = 'About ' + PRODUCT.name;
+  document.getElementById('pAbout').innerHTML = PRODUCT.about.map(t => `<p>${t}</p>`).join('');
+  document.getElementById('pSpecs').innerHTML = PRODUCT.specs.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  document.getElementById('optGroups').innerHTML = KEYS.map(k => `<div class="opt-group" data-option="${k}"></div>`).join('');
+  const titles = PRODUCT.groups.map(g => g.title.toLowerCase());
+  document.getElementById('presetsIntro').textContent = `Sets ${titles.length > 1 ? titles.slice(0, -1).join(', ') + ' and ' + titles.at(-1) : titles[0]}. Quantity and delivery stay as you choose them.`;
+  // One image: no gallery arrows
+  document.querySelectorAll('.gallery .nav-btn').forEach(b => { b.hidden = document.getElementById('galleryTrack').children.length < 2; });
+
+  // saved = what the PDP shows; draft = what is being edited in the sheet
+  let saved = { ...DEFAULT }, draft = { ...DEFAULT };
+
+  const materials = c => KEYS.map(k => { const o = pick(k, c[k]); return k === 'size' ? `${o.name} ${o.sub}` : o.name; }).join(' · ');
+  const presetLabel = p => p ? `<img src="${P + p.icon}" alt="">${p.name} options` : 'Custom options';
+
+  // Everything bound to the saved configuration (PDP + design sheet)
+  function renderSaved() {
+    const c = saved, preset = presetOf(c), t = totalPrice(c);
+    const set = (k, html) => document.querySelectorAll(`[data-bind="${k}"]`).forEach(el => { el.innerHTML = html; });
+    set('qty', `${c.qty} pcs`);
+    set('total', fmt(t));
+    set('each', each({ qty: c.qty, price: productPrice(c) }));
+    set('deliveryRich', `<b>${delivery(c).name}</b> - arrives ${delivery(c).dayName}`);
+    set('arrives', `arrives ${delivery(c).dayName}`);
+    // Bars before the cart say whether the price is excl. or incl. VAT (follows the header switch)
+    set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
+    set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
+    set('presetLabel', presetLabel(preset));
+    set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
+  }
+
+  // ---------- Customise sheet ----------
+  function optCard(key, o) {
+    const visual = o.shape ? `<span class="shape" style="${o.shape}"></span>`
+      : o.img ? `<img src="${P + o.img}" alt="" style="${o.imgSize}">`
+      : o.swatch ? `<span class="swatch"><img src="${P + o.swatch}" alt="" style="left:0;top:0;width:37.5px;height:37.5px">${o.lines
+          ? `<img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:32.1px;width:15.9px;height:1.2px"><img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:24.4px;width:15.9px;height:1.2px"><img src="${P}paper-line-b.svg" alt="" style="left:4.1px;top:28.5px;width:21.2px;height:1.2px">` : ''}<img src="${P}paper-corner.svg" alt="" style="left:25.15px;top:.38px;width:12.17px;height:12.18px"></span>`
+      : o.color ? `<span class="chip" style="background:${o.color}"></span>`
+      : '';
+    return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>${visual}</button>`;
+  }
+  // Quantity info is factual: what one card costs now, and at the next step up
+  function qtyInfo(c) {
+    const unit = q => productPrice(c, q) / q, per = q => each({ qty: q, price: productPrice(c, q) });
+    // Next quantity that is really cheaper per card (the price list isn't strictly decreasing)
+    const next = QTY.map(([q]) => q).find(q => q > c.qty && unit(q) < unit(c.qty) - 0.0005);
+    if (!next) return `You get our lowest price per card: ${per(c.qty)}.`;
+    return `The more you order, the less you pay per card: ${per(c.qty)} now, ${per(next)} at ${next} pcs.`;
+  }
+  function renderDraft() {
+    const c = draft, preset = presetOf(c);
+    document.getElementById('presets').innerHTML = PRESETS.map(p => `
+      <button class="preset" aria-pressed="${preset === p}" data-preset="${p.id}"><img src="${P + p.icon}" alt="">${p.name}<small>${fmt(totalPrice({ ...c, ...p.cfg }))}</small></button>`).join('');
+    for (const key of KEYS) {
+      const g = OPTIONS[key];
+      document.querySelector(`[data-option="${key}"]`).innerHTML = `
+        <p class="opt-title">${g.title}: <span>${pick(key, c[key]).name}</span>${infoBtn(key)}</p>
+        <div class="opts" role="radiogroup" aria-label="${g.title}">${g.items.map(o => optCard(key, o)).join('')}</div>
+        <p class="opt-info">${pick(key, c[key]).info}</p>`;
+    }
+    document.querySelector('[data-option="qty"]').innerHTML = `
+      <p class="opt-title">Quantity <span>${c.qty}</span></p>
+      <div class="qty-list" role="radiogroup" aria-label="Quantity">${QTY.map(([q]) => {
+        const p = productPrice(c, q);
+        return `<button class="qrow" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
+      }).join('')}</div>
+      <p class="opt-info">${qtyInfo(c)}</p>`;
+    document.querySelector('[data-option="delivery"]').innerHTML = `
+      <p class="opt-title">Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
+      ${DELIVERY.map(d => `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
+        <span class="date"><b>${d.day}</b><small>SEPT</small></span><span class="t"><b>${d.name}</b><small>Arrives ${d.dayName}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
+      <p class="opt-info">${delivery(c).info}</p>`;
+    document.querySelector('[data-bind="draftRecap"]').textContent = `${KEYS.map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs · ${delivery(c).name}`;
+    document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
+    document.querySelector('[data-bind="draftArrives"]').textContent = `arrives ${delivery(c).dayName}`;
+    // The button says what it will do: nothing changed → Done, something changed → Save
+    document.getElementById('saveUpdate').textContent = hasChanges() ? 'Save' : 'Done';
+  }
+  document.getElementById('sheet-customise').addEventListener('click', e => {
+    const guide = e.target.closest('[data-guide]');
+    if (guide) { openGuide(guide.dataset.guide); return; }
+    const opt = e.target.closest('[data-set]'), pre = e.target.closest('[data-preset]');
+    if (opt) { const k = opt.dataset.set; draft[k] = k === 'qty' ? +opt.dataset.value : opt.dataset.value; renderDraft(); }
+    if (pre) { Object.assign(draft, PRESETS.find(p => p.id === pre.dataset.preset).cfg); renderDraft(); }
+  });
+  const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]);
+  // Store the draft; returns the previous selection, or null when nothing changed
+  function saveDraft() {
+    if (!hasChanges()) return null;
+    const before = saved;
+    saved = { ...draft };
+    renderSaved();
+    return before;
+  }
+  // Add your design: save and go straight on to the design sheet (it replaces this one, no stacking)
+  document.getElementById('toDesign').addEventListener('click', () => {
+    saveDraft();
+    closeSheet();
+    openSheet('design');
+  });
+  // Change options: back from the design sheet to the customise sheet, with the saved choices
+  document.getElementById('backToOptions').addEventListener('click', () => {
+    closeSheet();
+    openSheet('customise');
+  });
+  document.getElementById('saveUpdate').addEventListener('click', () => {
+    const before = saveDraft();
+    closeSheet();
+    if (!before) return;
+    // Flash what changed in the price box, so the customer sees the effect
+    const box = document.querySelector('.price-box');
+    if (materials(before) !== materials(saved)) flash(box.querySelector('.recap'));
+    if (before.qty !== saved.qty) flash(box.querySelector('.qty'));
+    if (before.delivery !== saved.delivery) flash(box.querySelector('.check-line'));
+    if (totalPrice(before) !== totalPrice(saved)) flash(box.querySelector('.row'));
+    showToast('Your selection is updated');
+  });
+  // ---------- Guide sheet (ⓘ): all options explained, stacked over the customise sheet ----------
+  let guideKey = null;
+  const guideItems = key => key === 'delivery' ? DELIVERY.map(d => ({ ...d, sub: `Arrives ${d.dayName} · ${d.extra ? '+' + fmt(d.extra) : 'Included'}` })) : OPTIONS[key].items;
+  function renderGuide() {
+    document.getElementById('guideTitle').textContent = GUIDE(guideKey);
+    document.getElementById('guideList').innerHTML = guideItems(guideKey).map(o => {
+      const on = draft[guideKey] === o.id;
+      return `<div class="guide-item${on ? ' on' : ''}">
+        <div class="gi-head"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>
+          ${on ? `<span class="gi-selected"><img src="${P}check.svg" alt="">Selected</span>` : `<button class="btn-edit" data-choose="${o.id}">Choose</button>`}</div>
+        <p>${o.info}</p></div>`;
+    }).join('');
+  }
+  function openGuide(key) { guideKey = key; renderGuide(); openSheet('guide'); document.querySelector('#sheet-guide .sheet-body').scrollTop = 0; }
+  document.getElementById('guideList').addEventListener('click', e => {
+    const b = e.target.closest('[data-choose]'); if (!b) return;
+    draft[guideKey] = b.dataset.choose;
+    renderDraft();
+    closeSheet();
+    // Back in the customise sheet: show the option that was just chosen
+    const chosen = document.querySelector(`#sheet-customise [data-set="${guideKey}"][aria-checked="true"]`);
+    chosen.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    flash(chosen);
+  });
+  function flash(el) { el.classList.remove('changed'); void el.offsetWidth; el.classList.add('changed'); }
+
+  // ---------- Design sheet ----------
+  const DESIGN = [
+    { id: 'upload', name: 'I will upload later', sub: 'My file is on my desktop or not finished yet.', icon: 'd-upload.svg', cta: 'Add to cart' },
+    { id: 'canva', name: 'Design it myself in Canva', sub: 'Free, easy, with thousands of ready-made designs. We set the right size for you.', icon: 'd-canva.svg', cta: 'Continue to Canva' },
+    { id: 'ai', name: 'Let us make it with AI', sub: 'Tell us what it’s for. Our AI studio makes a design you can change until you like it.', icon: 'd-ai.svg', cta: 'Design with AI' },
+    { id: 'designer', name: 'My designer will send the file', sub: 'We give you a link for your designer, with the exact size. You see the file on your product before you order.', icon: 'd-designer.svg', cta: 'Get designer link' },
+  ];
+  let design = 'upload';
+  function renderDesign() {
+    document.getElementById('designList').innerHTML = DESIGN.map(d => `
+      <button class="design" role="radio" aria-checked="${design === d.id}" data-design="${d.id}"><span class="radio"></span>
+        <span class="t"><b>${d.name}</b><small>${d.sub}</small></span><span class="ico"><img src="${P + d.icon}" alt=""></span></button>`).join('');
+    document.getElementById('designGo').textContent = DESIGN.find(d => d.id === design).cta; // the button names the next action; the price shows on the left
+  }
+  document.getElementById('designList').addEventListener('click', e => {
+    const b = e.target.closest('[data-design]'); if (b) { design = b.dataset.design; renderDesign(); }
+  });
+  // Add to cart: store the saved configuration + design choice, then go to the cart (Figma: design sheet -> Cart)
+  document.getElementById('designGo').addEventListener('click', () => {
+    closeSheet();
+    // Canva and the AI studio are separate tools (no screens in the prototype yet)
+    if (design === 'canva') { showToast('Opening Canva…'); return; }
+    if (design === 'ai') { showToast('Opening AI studio…'); return; }
+    const c = saved, d = delivery(c);
+    setCart([...getCart(), {
+      name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
+      qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c),
+      design: DESIGN.find(x => x.id === design).name, price: totalPrice(c),
+    }]);
+    if (design === 'designer') toastOnNextPage('Added to cart. We’ll email you the link for your designer.');
+    location.href = 'cart.html';
+  });
+
+  // Sheets: page-specific preparation before opening (mechanics live in app.js)
+  sheetHooks.customise = () => { draft = { ...saved }; renderDraft(); document.querySelector('#sheet-customise .sheet-body').scrollTop = 0; };
+  sheetHooks.design = () => renderDesign();
+
+  // ---------- Sticky buy bar ----------
+  // Visible whenever the price box's buttons are out of view, all the way down the page.
+  const buyBar = document.getElementById('buyBar');
+  const ctaRow = document.querySelector('.price-box .cta-row');
+  const headerH = () => document.querySelector('.header').offsetHeight;
+  function syncBuyBar() {
+    const cta = ctaRow.getBoundingClientRect();
+    const ctaVisible = cta.bottom > headerH() && cta.top < innerHeight;
+    const show = !ctaVisible;
+    if (show === buyBar.classList.contains('show')) return;
+    buyBar.classList.toggle('show', show);
+    buyBar.setAttribute('aria-hidden', String(!show));
+    buyBar.querySelector('button').tabIndex = show ? 0 : -1;
+    document.body.classList.toggle('buybar-on', show);
+  }
+  addEventListener('scroll', syncBuyBar, { passive: true });
+  addEventListener('resize', syncBuyBar);
+  // Re-check once fonts/images settle and whenever the page height changes (e.g. a dropdown opens)
+  new ResizeObserver(syncBuyBar).observe(document.querySelector('.pdp'));
+  document.fonts.ready.then(syncBuyBar);
+  syncBuyBar();
+
+  // Prices follow the VAT toggle
+  const baseUpdate = updatePrices;
+  updatePrices = () => { baseUpdate(); renderSaved(); if (openSheetEl && openSheetEl.id === 'sheet-customise') renderDraft(); renderDesign(); };
+  updatePrices();
+
+  // Gallery: swipe or use the arrows (wraps around)
+  const track = document.getElementById('galleryTrack');
+  document.querySelectorAll('[data-gallery]').forEach(b => b.addEventListener('click', () => {
+    const n = track.children.length, w = track.clientWidth;
+    const i = (Math.round(track.scrollLeft / w) + +b.dataset.gallery + n) % n;
+    track.scrollTo({ left: i * w, behavior: 'smooth' });
+  }));
+</script>
+</body>
+</html>

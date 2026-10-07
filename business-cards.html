@@ -103,21 +103,16 @@
 </div>
 
 <script src="app.js"></script>
+<script src="products.js"></script>
 <script>
   // Card types
   const C = 'assets/category/';
-  const cardTypes = [
-    { img: 't-classic.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', price: 22.04, badge: 'Most Popular', proto: 'pdp' },
-    { img: 't-eco.png', bg: 'rgba(223,185,144,.3)', name: 'Eco Friendly Business Cards', price: 144.89, badge: 'Eco' },
-    { img: 't-pvc.png', bg: 'rgba(48,89,100,.15)', name: 'PVC Cards white', price: 18.89 },
-    { img: 't-deluxe.png', bg: 'rgba(28,28,28,.1)', name: 'Deluxe Business Cards', price: 18.89 },
-    { img: 't-special.png', bg: 'rgba(221,181,77,.2)', name: 'Business Cards Special Materials', price: 18.89 },
-    { img: 't-multilayer.png', bg: 'rgba(229,111,36,.2)', name: 'Multilayered Business Cards', price: 18.89 },
-  ];
+  // Card types: the product pages (products.js); "500 pcs from" is the cheapest preset there
+  const cardTypes = Object.values(PRODUCTS).map(p => ({ img: p.thumb, bg: p.bg, name: p.name, price: fromPrice(p), badge: p.badge, href: p.href }));
   document.getElementById('types-grid').innerHTML = cardTypes.map(p => `
-    <a class="product" href="#${slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
+    <a class="product" href="${p.href}">
       <div class="thumb" style="background:${p.bg}">
-        <img src="${C + p.img}" alt="" loading="lazy">
+        <img src="${p.img}" alt="" loading="lazy">
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
       </div>
       <p class="name">${p.name}</p>

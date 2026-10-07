@@ -797,3 +797,7 @@ body.info-guide .opt-info { display: none; }
 .btn-edit.has-icon { display: inline-flex; align-items: center; gap: 6px; padding: 0 16px 0 12px; border-color: var(--dark-green); color: var(--dark-green); }
 .btn-edit.has-icon:hover { background: var(--light-grey); border-color: var(--dark-green); }
 .btn-edit.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }
+
+/* Option colour chips (foils, metallics, middle layers) */
+.opt .chip { flex-shrink: 0; align-self: flex-start; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); box-shadow: inset 0 1px 2px rgba(255,255,255,.5); }
+.gallery .nav-btn[hidden] { display: none; }

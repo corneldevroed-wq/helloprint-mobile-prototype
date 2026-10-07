@@ -114,8 +114,16 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
-  'classic-business-cards': 'classic-business-cards.html',
-  'standardbusinesscards': 'classic-business-cards.html',
+  // Business card product pages (product.html renders each type from products.js);
+  // slugs from the category page, search, menu and the live site
+  ...Object.fromEntries([
+    ['classic-business-cards', 'classic-business-cards', 'standardbusinesscards'],
+    ['eco-friendly-business-cards', 'eco-friendly-business-cards', 'eco-business-cards', 'recycledbusinesscards'],
+    ['pvc-cards-white', 'pvc-cards-white', 'plastic-business-cards', 'whiteplasticbusinesscards'],
+    ['deluxe-business-cards', 'deluxe-business-cards', 'foilbusinesscards'],
+    ['business-cards-special-materials', 'business-cards-special-materials', 'special-materials', 'specialpaperbusinesscards'],
+    ['multilayered-business-cards', 'multilayered-business-cards', 'multilayer-business-cards', 'businesscardsmultilayer810'],
+  ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
   'payment': 'payment.html',
