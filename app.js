@@ -41,23 +41,22 @@ const SHELL_FOOTER = `
         </div>
         <h2>Do you need help?</h2>
         <div class="pills">
-          <a class="pill" href="#">Helpdesk</a>
-          <a class="pill" href="#">Chat</a>
-          <a class="pill" href="#">E-mail</a>
+          <a class="pill" href="#cs">Helpdesk</a>
+          <a class="pill" href="#chat">Chat</a>
+          <a class="pill" href="#new2contactform">E-mail</a>
         </div>
         <div class="rating"><img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">4.5 out of 5 on Trustpilot</div>
-        <hr>
       </div>
 
       <div class="acc" data-acc="footer"></div>
 
       <nav class="socials" aria-label="Social media">
-        <a href="#" aria-label="Facebook"><img src="assets/s1.svg" alt=""></a>
-        <a href="#" class="tw" aria-label="Twitter"><img src="assets/s2.svg" alt=""></a>
-        <a href="#" aria-label="YouTube"><img src="assets/s3.svg" alt=""></a>
-        <a href="#" aria-label="LinkedIn"><img src="assets/s4.svg" alt=""></a>
-        <a href="#" aria-label="Instagram"><img src="assets/s5.svg" alt=""></a>
-        <a href="#" aria-label="WhatsApp"><img src="assets/whatsapp.svg" alt=""></a>
+        <a href="#facebook" aria-label="Facebook"><img src="assets/s1.svg" alt=""></a>
+        <a href="#twitter" class="tw" aria-label="Twitter"><img src="assets/s2.svg" alt=""></a>
+        <a href="#youtube" aria-label="YouTube"><img src="assets/s3.svg" alt=""></a>
+        <a href="#linkedin" aria-label="LinkedIn"><img src="assets/s4.svg" alt=""></a>
+        <a href="#instagram" aria-label="Instagram"><img src="assets/s5.svg" alt=""></a>
+        <a href="#whatsapp" aria-label="WhatsApp"><img src="assets/whatsapp.svg" alt=""></a>
       </nav>
 
       <div class="payments" aria-label="Payment methods">
@@ -74,8 +73,8 @@ const SHELL_FOOTER = `
       <img class="logo" src="assets/logo-dark.svg" alt="HelloPrint">
 
       <div class="legal">
-        <a href="#">Terms &amp; Conditions</a>
-        <a href="#">Privacy Policy</a>
+        <a href="#terms-and-conditions">Terms &amp; Conditions</a>
+        <a href="#privacy-policy">Privacy Policy</a>
       </div>
 `;
 const SHELL_OVERLAYS = `
@@ -143,7 +142,7 @@ const products = [
   { img: 'p1.png', bg: 'rgba(120,163,175,.1)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },
   { img: 'p2.png', bg: 'rgba(241,228,195,.5)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
   { img: 'p3.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
-  { img: 'p4.png', bg: 'rgba(224,252,180,.5)', name: 'Standard Flyers', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
+  { img: 'p4.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
   { img: 'p5.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
   { img: 'p6.png', bg: 'rgba(2,105,186,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
   { img: 'p7.png', bg: 'rgba(206,5,1,.1)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
@@ -235,7 +234,7 @@ const menu = {
 const sub = {
   promo: ['Promotional Prints', [['Booklets', 'brochure-and-booklet-printing'], ['Posters', 'poster-printing'], ['Flyers', 'flyers'], ['Books', 'book-printing'], ['Folded Leaflets', 'foldedleaflets'], ['Business Cards', 'businesscards-printing']]],
   booklets: ['Booklets', [['Stapled Booklets', 'booklets'], ['Glued Hardback Books', 'hardcoverbooks'], ['Perfect Bound Brochures', 'perfectboundbrochures'], ['Thread Sewn Hardcover Books', 'threadsewnhardcoverbooks'], ['Wire Bound Brochures', 'wireobooklets'], ['Loop Stitched Brochures', 'loopstitchedbrochures']]],
-  cards: ['Cards', [['Business Cards', 'standardbusinesscards'], ['Eco Business Cards', 'recycledbusinesscards'], ['Business Cards with Special Paper Materials', 'specialpaperbusinesscards'], ['Greeting Cards', 'greetingcards'], ['Business Cards with Exclusive Finishes', 'foilbusinesscards'], ['Postcards', 'postcards']]],
+  cards: ['Cards', [['Business Cards', 'businesscards-printing'], ['Eco Business Cards', 'recycledbusinesscards'], ['Business Cards with Special Paper Materials', 'specialpaperbusinesscards'], ['Greeting Cards', 'greetingcards'], ['Business Cards with Exclusive Finishes', 'foilbusinesscards'], ['Postcards', 'postcards']]],
   stationery: ['Stationary', [['Notepads', 'notepads'], ['Letterheads', 'letterheads'], ['Envelopes', 'envelopes'], ['Pens', 'ballpoint-pens'], ['Folders', 'folders'], ['Notebooks', 'notebook-printing']]],
   banners: ['Banners', [['Custom Banners', 'banners'], ['Cardboard Roller Banners', 'cardboardrollupbanners'], ['Rollup Banners', 'rollupbanners-printing'], ['Fence Banners', 'fencebanners'], ['Construction Fence Banners', 'constructionfencebanners'], ['Banners with X frame', 'xbanners']]],
   flags: ['Flags', [['Custom Flags', 'flagcustomsize'], ['Feather Flags', 'featherflags'], ['Banner Flags', 'bannerflags'], ['Teardrop Flags', 'teardropflags'], ['Facade Flags', 'facadeflags'], ['Bunting Flags', 'buntingflags']]],
@@ -302,6 +301,10 @@ function closeMenu() {
   document.body.classList.remove('menu-open');
 }
 document.querySelector('[data-proto="menu"]')?.addEventListener('click', e => { e.preventDefault(); openMenu(); });
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-open-menu]'); if (!t) return;
+  e.preventDefault(); openMenu(); pushPanel(t.dataset.openMenu);
+});
 menuLayer.addEventListener('click', e => {
   const to = e.target.closest('[data-menu-to]'), back = e.target.closest('[data-menu-back]'), close = e.target.closest('[data-menu-close]');
   if (to) pushPanel(to.dataset.menuTo);
@@ -426,20 +429,24 @@ renderCartBadge();
 // Bottom sheets (any page): [data-open-sheet="name"] opens #sheet-name, [data-close-sheet] closes.
 // Close also on handle tap / swipe down / Esc. Pages can prepare a sheet via sheetHooks[name].
 const sheetHooks = {};
+// Sheets can stack (e.g. an info guide over the customise sheet); openSheetEl is the top one
+const sheetStack = [];
 let openSheetEl = null;
 function openSheet(name) {
   if (sheetHooks[name]) sheetHooks[name]();
   document.getElementById('toast')?.classList.remove('show');
-  openSheetEl = document.getElementById('sheet-' + name);
-  openSheetEl.classList.add('open'); openSheetEl.setAttribute('aria-hidden', 'false');
+  const el = document.getElementById('sheet-' + name);
+  if (sheetStack.includes(el)) return;
+  sheetStack.push(el); openSheetEl = el;
+  el.classList.add('open'); el.setAttribute('aria-hidden', 'false');
   document.body.classList.add('menu-open');
 }
 function closeSheet() {
-  if (!openSheetEl) return;
-  openSheetEl.classList.remove('open'); openSheetEl.setAttribute('aria-hidden', 'true');
-  openSheetEl.querySelector('.sheet').style.removeProperty('--drag');
-  document.body.classList.remove('menu-open');
-  openSheetEl = null;
+  const el = sheetStack.pop(); if (!el) return;
+  el.classList.remove('open'); el.setAttribute('aria-hidden', 'true');
+  el.querySelector('.sheet').style.removeProperty('--drag');
+  openSheetEl = sheetStack.at(-1) || null;
+  if (!openSheetEl) document.body.classList.remove('menu-open');
 }
 document.addEventListener('click', e => {
   const o = e.target.closest('[data-open-sheet]'); if (o) { e.preventDefault(); openSheet(o.dataset.openSheet); }
@@ -465,4 +472,20 @@ function showToast(text) {
   if (!t) { t = Object.assign(document.createElement('div'), { id: 'toast', className: 'toast' }); t.setAttribute('role', 'status'); document.body.appendChild(t); }
   t.textContent = text; t.classList.add('show');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// A toast that survives a page change (e.g. "Added to cart" shown on the cart page)
+function toastOnNextPage(text) { try { sessionStorage.setItem('hp-toast', text); } catch (e) {} }
+try { const t = sessionStorage.getItem('hp-toast'); if (t) { sessionStorage.removeItem('hp-toast'); setTimeout(() => showToast(t), 300); } } catch (e) {}
+
+// Form errors (checkout): the message sits directly below its own input, inside the field's column
+function setFieldError(field, msg) {
+  const input = field.querySelector('input, select');
+  field.classList.toggle('invalid', !!msg);
+  input.setAttribute('aria-invalid', String(!!msg));
+  let err = field.querySelector('.field-error');
+  if (!msg) { err?.remove(); input.removeAttribute('aria-describedby'); return; }
+  if (!err) { err = document.createElement('span'); err.className = 'field-error'; err.id = 'err-' + input.name; field.appendChild(err); }
+  err.textContent = msg;
+  input.setAttribute('aria-describedby', err.id);
 }

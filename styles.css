@@ -679,3 +679,102 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li a { color: inherit; }
 /* Checkout: 8px white space between the header and the step bar (Figma: header ends at 79, content starts at 87) */
 .co-page { padding-top: 8px; }
+
+/* Cart add-ons: only the switch toggles; the card itself is not clickable */
+.addon { cursor: default; }
+.addon[data-on="true"] { border: 1px solid var(--light-green); box-shadow: inset 0 0 0 1px var(--light-green); }
+.addon .switch { border: 0; padding: 0; cursor: pointer; }
+.addon .switch[aria-checked="true"] { background: var(--light-green); }
+.addon .switch[aria-checked="true"]::after { transform: translateX(16px); }
+.addon .switch:focus-visible { outline: 2px solid var(--dark-green); outline-offset: 2px; }
+
+/* File check sheet: no tinted background on the recommended option */
+.fc.rec { background: var(--white); }
+/* Longer toasts wrap instead of running off the screen */
+.toast { white-space: normal; width: max-content; max-width: min(358px, calc(100vw - 32px)); text-align: center; line-height: 1.35; border-radius: 18px; }
+/* File check sheet: recommended option gets the normal grey border; green only when selected */
+.fc.rec { border-color: var(--mid-grey); }
+.fc.rec[aria-checked="true"] { border-color: var(--light-green); }
+
+/* Checkout: one step back, above the step bar */
+.co-back { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; padding: 4px 0; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); }
+.co-back img { width: 18px; height: 18px; transform: scaleX(-1); }
+.co-back:hover { text-decoration: underline; }
+
+/* Checkout step bar with the cart as first step: done steps are tappable and get a check */
+.co-steps { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.co-steps li.done a { display: inline-flex; align-items: center; gap: 3px; text-decoration: underline; text-underline-offset: 2px; }
+.co-steps li.done a::before { content: ''; width: 14px; height: 14px; background: url(assets/pdp/check.svg) no-repeat center / 14px; }
+
+/* Errors inside the field column, right under the input; side-by-side fields stay top-aligned */
+.co-row { align-items: flex-start; }
+.field .field-error { display: block; margin: 4px 0 0; }
+
+/* Floating labels (checkout forms): the placeholder becomes a small label top-left once the field has a value or focus */
+.field input, .field select { height: 52px; border-radius: 8px; }
+.field input { padding: 20px 12px 4px; }
+.field .fl { position: absolute; left: 13px; top: 15px; font-size: 16px; line-height: 22px; color: var(--dark-grey); pointer-events: none; transform-origin: left top; transition: transform .15s ease, color .15s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 26px); }
+.field input:focus + .fl,
+.field input:not(:placeholder-shown) + .fl { transform: translateY(-9px) scale(.75); }
+.field input:focus + .fl { color: var(--light-green); }
+.field.invalid .fl { color: #c90e2e; }
+.field input[readonly] + .fl { transform: translateY(-9px) scale(.75); }
+.phone-prefix select { height: 52px; }
+.phone-prefix + .field, .co-row > .field { min-width: 0; }
+
+/* Floating labels, robust version: password managers (LastPass, 1Password…) insert an icon right after the input,
+   so the label is found with ~ (any following sibling) instead of + (directly next). Autofilled fields count as filled. */
+.field input:focus ~ .fl,
+.field input:not(:placeholder-shown) ~ .fl,
+.field input:autofill ~ .fl,
+.field input:-webkit-autofill ~ .fl,
+.field input[readonly] ~ .fl { transform: translateY(-9px) scale(.75); }
+.field input:focus ~ .fl { color: var(--light-green); }
+.field.invalid input ~ .fl { color: #c90e2e; }
+/* Keep autofilled fields white (no light-blue browser fill) and the text black */
+.field input:not([readonly]):autofill,
+.field input:not([readonly]):-webkit-autofill { -webkit-box-shadow: 0 0 0 100px var(--white) inset; box-shadow: 0 0 0 100px var(--white) inset; -webkit-text-fill-color: var(--black); }
+.field input:not([readonly]):-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1px var(--light-green), 0 0 0 100px var(--white) inset; }
+/* Room on the right for a password-manager icon so it never sits on the text */
+.field input { padding-right: 40px; }
+
+/* Checkout step bar: completed steps read as "go back" — small back arrow, no underline */
+.co-steps li.done a { text-decoration: none; gap: 4px; }
+.co-steps li.done a::before { width: 14px; height: 14px; background: url(assets/menu/back.svg) no-repeat center / 14px; transform: none; }
+.co-steps li.done a:hover { color: var(--light-green); }
+.co-steps li.done a::before { transform: scaleX(-1); }
+/* Only the Cart step gets the back arrow; later completed steps stay plain (still tappable) */
+.co-steps li.done:not(:first-child) a::before { display: none; }
+
+/* Order summary (cart + payment): a divider between products */
+.line-item + .line-item { border-top: 1px solid #e2e2e2; padding-top: 12px; margin-top: 4px; }
+
+/* Bottom bars: the line under the price (context per page) */
+.sheet-bar .total .bar-sub { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-size: 12px; line-height: 18px; color: var(--black); }
+.sheet-bar .total .bar-sub img { width: 16px; height: 16px; margin-left: 2px; }
+/* Payment: card logos sit 2px apart (the row rule above gave them 10px) */
+.card-box .card-head > .brands { flex: 0 0 auto; gap: 2px; }
+
+/* ---------- PDP option info: info line (variant 1) + ⓘ guide sheet (variant 2) ---------- */
+.info-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; margin: -4px -6px; border-radius: 50%; }
+.info-btn img { width: 20px; height: 20px; }
+.info-btn:hover { background: var(--light-grey); }
+.opt-info { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+body.info-line .info-btn { display: none; }
+body.info-guide .opt-info { display: none; }
+#sheet-guide { z-index: 75; }
+#sheet-guide .sheet { max-height: calc(100% - 96px); }
+.guide-list { display: flex; flex-direction: column; }
+.guide-item { padding: 12px 0; display: flex; flex-direction: column; gap: 4px; }
+.guide-item + .guide-item { border-top: 1px solid var(--mid-grey); }
+.gi-head { display: flex; align-items: center; gap: 12px; }
+.gi-head .t { flex: 1; min-width: 0; }
+.gi-head b { display: block; font-weight: 600; font-size: 16px; line-height: 24px; }
+.gi-head small { display: block; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.guide-item p { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.gi-selected { flex-shrink: 0; display: flex; align-items: center; gap: 4px; min-height: 34px; font-weight: 600; font-size: 14px; color: var(--dark-green); }
+.gi-selected img { width: 20px; height: 20px; }
+.guide-help { padding-top: 4px; font-size: 14px; line-height: 1.5; text-align: center; }
+.guide-help a { font-weight: 600; text-decoration: underline; }
+.opt.changed, .qrow.changed, .deliv.changed { animation: changed 1.8s ease-out; }
+.continue-shopping { margin-top: 16px; }

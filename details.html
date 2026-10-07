@@ -15,25 +15,26 @@
   <!-- Details & shipping (Figma 15738:4488) -->
   <main class="co-page">
     <ol class="co-steps" aria-label="Checkout steps">
-      <li class="current" aria-current="step">Details &amp; Shipping</li>
+      <li class="done"><a href="cart.html">Cart</a></li>
+      <li class="current" aria-current="step">Details</li>
       <li>Payment</li>
-      <li>Order confirmed</li>
+      <li>Confirmed</li>
     </ol>
 
     <form id="coForm" novalidate>
       <div class="co-extra">
         <div class="co-head"><h2>Contact details</h2><a href="#login">Login</a></div>
-        <label class="field" data-field="email"><input type="email" name="email" placeholder="Email address" autocomplete="email" aria-label="Email address"></label>
+        <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
         <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
         <div class="co-extra" id="businessFields" hidden>
-          <label class="field" data-field="company"><input name="company" placeholder="Company name" autocomplete="organization" aria-label="Company name"></label>
-          <label class="field"><input name="vatnr" placeholder="VAT number (optional)" aria-label="VAT number"></label>
+          <label class="field" data-field="company"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name</span></label>
+          <label class="field"><input name="vatnr" placeholder=" " aria-label="VAT number"><span class="fl">VAT number (optional)</span></label>
         </div>
 
         <div class="co-head"><h2>Delivery Address</h2></div>
         <div class="co-row">
-          <label class="field" data-field="first"><input name="first" placeholder="First name" autocomplete="given-name" aria-label="First name"></label>
-          <label class="field" data-field="last"><input name="last" placeholder="Last name" autocomplete="family-name" aria-label="Last name"></label>
+          <label class="field" data-field="first"><input name="first" placeholder=" " autocomplete="given-name" aria-label="First name"><span class="fl">First name</span></label>
+          <label class="field" data-field="last"><input name="last" placeholder=" " autocomplete="family-name" aria-label="Last name"><span class="fl">Last name</span></label>
         </div>
         <div class="co-row">
           <label class="field phone-prefix">
@@ -46,21 +47,21 @@
               <option value="+33">🇫🇷 +33</option>
             </select>
           </label>
-          <label class="field" data-field="phone"><input type="tel" name="phone" placeholder="Phone number" autocomplete="tel-national" aria-label="Phone number"></label>
+          <label class="field" data-field="phone"><input type="tel" name="phone" placeholder=" " autocomplete="tel-national" aria-label="Phone number"><span class="fl">Phone number</span></label>
         </div>
-        <label class="field"><input name="country" value="Ireland" readonly aria-label="Country"></label>
-        <label class="field" data-field="address1"><input name="address1" placeholder="Address line 1" autocomplete="address-line1" aria-label="Address line 1"></label>
-        <label class="field"><input name="address2" placeholder="Address line 2 (optional)" autocomplete="address-line2" aria-label="Address line 2"></label>
+        <label class="field"><input name="country" value="Ireland" readonly aria-label="Country" placeholder=" " autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore tabindex="-1"><span class="fl">Country/Region</span></label>
+        <label class="field" data-field="address1"><input name="address1" placeholder=" " autocomplete="address-line1" aria-label="Address line 1"><span class="fl">Address line 1</span></label>
+        <label class="field"><input name="address2" placeholder=" " autocomplete="address-line2" aria-label="Address line 2"><span class="fl">Address line 2 (optional)</span></label>
         <div class="co-row">
-          <label class="field" data-field="eircode"><input name="eircode" placeholder="Eircode" autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"></label>
-          <label class="field" data-field="town"><input name="town" placeholder="Town / city" autocomplete="address-level2" aria-label="Town or city"></label>
+          <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+          <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
         </div>
         <label class="check"><input type="checkbox" id="sameBilling" checked>Billing address is the same as delivery address</label>
         <div class="co-extra" id="billingFields" hidden>
-          <label class="field" data-field="billAddress"><input name="billAddress" placeholder="Billing address line 1" autocomplete="billing address-line1" aria-label="Billing address line 1"></label>
+          <label class="field" data-field="billAddress"><input name="billAddress" placeholder=" " autocomplete="billing address-line1" aria-label="Billing address line 1"><span class="fl">Billing address line 1</span></label>
           <div class="co-row">
-            <label class="field" data-field="billEircode"><input name="billEircode" placeholder="Eircode" autocomplete="billing postal-code" aria-label="Billing Eircode" autocapitalize="characters"></label>
-            <label class="field" data-field="billTown"><input name="billTown" placeholder="Town / city" autocomplete="billing address-level2" aria-label="Billing town or city"></label>
+            <label class="field" data-field="billEircode"><input name="billEircode" placeholder=" " autocomplete="billing postal-code" aria-label="Billing Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+            <label class="field" data-field="billTown"><input name="billTown" placeholder=" " autocomplete="billing address-level2" aria-label="Billing town or city"><span class="fl">Town / city</span></label>
           </div>
         </div>
 
@@ -74,7 +75,7 @@
 <!-- Sticky bar (Figma 15738:4724) -->
 <div class="cart-bar">
   <div class="sheet-bar">
-    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <div class="total"><strong id="barTotal"></strong><span class="bar-sub">Incl. VAT ·<img src="assets/pdp/check.svg" alt=""><span id="barArrives"></span></span></div>
     <button class="btn primary" id="toPayment" form="coForm" type="submit">Payment</button>
   </div>
 </div>
@@ -87,12 +88,34 @@
   document.body.classList.add('buybar-on');
 
   document.getElementById('barTotal').textContent = '€' + cartTotals().total.toFixed(2);
+  if (items[0]) document.getElementById('barArrives').textContent = `arrives ${items[0].arrives}`;
   if (items[0]) document.getElementById('shipArrives').textContent = `${items[0].delivery} · arrives ${items[0].arrives}`;
 
   // Optional blocks
   const toggle = (box, id) => document.getElementById(box).toggleAttribute('hidden', !document.getElementById(id).checked);
   document.getElementById('isBusiness').addEventListener('change', () => toggle('businessFields', 'isBusiness'));
   document.getElementById('sameBilling').addEventListener('change', e => document.getElementById('billingFields').toggleAttribute('hidden', e.target.checked));
+
+  // Remember what was typed (this browser only, localStorage) so testers don't have to retype it every time
+  const form = document.getElementById('coForm'), KEY = 'hp-checkout-details';
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY)) || {};
+    form.querySelectorAll('input, select').forEach(el => {
+      if (!(el.name || el.id) || el.readOnly) return;
+      const v = saved[el.name || el.id];
+      if (v === undefined) return;
+      if (el.type === 'checkbox') el.checked = v; else el.value = v;
+    });
+    document.getElementById('businessFields').toggleAttribute('hidden', !document.getElementById('isBusiness').checked);
+    document.getElementById('billingFields').toggleAttribute('hidden', document.getElementById('sameBilling').checked);
+  } catch (e) {}
+  const remember = () => {
+    const data = {};
+    form.querySelectorAll('input, select').forEach(el => { if ((el.name || el.id) && !el.readOnly) data[el.name || el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  };
+  form.addEventListener('input', remember);
+  form.addEventListener('change', remember);
 
   // Validation: errors show after leaving a field and when going to Payment
   const EIRCODE = /^[A-Z]\d[\dW]\s?[A-Z\d]{4}$/i;
@@ -113,19 +136,8 @@
     const field = document.querySelector(`[data-field="${name}"]`), input = field.querySelector('input');
     const [ok, msg, applies] = RULES[name];
     const valid = (applies && !applies()) || !!ok(input.value);
-    field.classList.toggle('invalid', !valid);
-    input.setAttribute('aria-invalid', String(!valid));
-    field.dataset.error = valid ? '' : msg;
-    syncErrors(field.closest('.co-row') || field);
+    setFieldError(field, valid ? '' : msg);
     return valid;
-  }
-  // Errors sit below their row (side-by-side fields keep their alignment), in field order
-  function syncErrors(row) {
-    while (row.nextElementSibling?.classList.contains('field-error')) row.nextElementSibling.remove();
-    const fields = row.matches('[data-field]') ? [row] : [...row.querySelectorAll('[data-field]')];
-    fields.filter(f => f.dataset.error).reverse().forEach(f => {
-      row.after(Object.assign(document.createElement('p'), { className: 'field-error', textContent: f.dataset.error }));
-    });
   }
   Object.keys(RULES).forEach(name => {
     const input = document.querySelector(`[data-field="${name}"] input`);

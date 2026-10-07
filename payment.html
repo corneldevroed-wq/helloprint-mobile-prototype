@@ -15,9 +15,10 @@
   <!-- Payment (Figma 15725:7440) -->
   <main class="co-page">
     <ol class="co-steps" aria-label="Checkout steps">
-      <li class="done"><a href="details.html">Details &amp; Shipping</a></li>
+      <li class="done"><a href="cart.html">Cart</a></li>
+      <li class="done"><a href="details.html">Details</a></li>
       <li class="current" aria-current="step">Payment</li>
-      <li>Order confirmed</li>
+      <li>Confirmed</li>
     </ol>
 
     <form id="payForm" class="co-extra" novalidate autocomplete="off">
@@ -63,12 +64,12 @@
           <div class="card-fields" id="cardFields">
             <!-- Prototype: card details are only format-checked in the page; nothing is stored or sent -->
             <p class="test-hint">Prototype: card details are not stored or sent. Use test card <b>4242 4242 4242 4242</b>.</p>
-            <label class="field" data-field="cardNumber"><input name="cardNumber" inputmode="numeric" placeholder="Card number" autocomplete="off" aria-label="Card number" maxlength="23"></label>
+            <label class="field" data-field="cardNumber"><input name="cardNumber" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Card number" maxlength="23"><span class="fl">Card number</span></label>
             <div class="co-row">
-              <label class="field" data-field="expiry"><input name="expiry" inputmode="numeric" placeholder="MM / YY" autocomplete="off" aria-label="Expiry date" maxlength="5"></label>
-              <label class="field" data-field="cvc"><input name="cvc" inputmode="numeric" placeholder="CVC" autocomplete="off" aria-label="Security code" maxlength="4"></label>
+              <label class="field" data-field="expiry"><input name="expiry" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Expiry date" maxlength="5"><span class="fl">MM / YY</span></label>
+              <label class="field" data-field="cvc"><input name="cvc" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Security code" maxlength="4"><span class="fl">CVC</span></label>
             </div>
-            <label class="field" data-field="cardName"><input name="cardName" placeholder="Name on card" autocomplete="off" aria-label="Name on card"></label>
+            <label class="field" data-field="cardName"><input name="cardName" data-lpignore="true" data-1p-ignore data-bwignore placeholder=" " autocomplete="off" aria-label="Name on card"><span class="fl">Name on card</span></label>
           </div>
         </div>
       </div>
@@ -130,7 +131,7 @@
     document.getElementById('etaArrives').textContent = `Arrives ${items[0].arrives}`;
     document.getElementById('etaNote').textContent = `if your files are approved by 10:30 on ${day(approve)}.`;
   }
-  const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : `Pay ${eur(total)}`; };
+  const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
 
   // Pay now / payment link
   let when = 'now', method = 'Credit card';
@@ -174,12 +175,7 @@
   function checkField(name) {
     const field = document.querySelector(`[data-field="${name}"]`), [ok, msg] = RULES[name];
     const valid = !!ok($(name).value);
-    field.classList.toggle('invalid', !valid); $(name).setAttribute('aria-invalid', String(!valid));
-    field.dataset.error = valid ? '' : msg;
-    const row = field.closest('.co-row') || field;
-    while (row.nextElementSibling?.classList.contains('field-error')) row.nextElementSibling.remove();
-    const fields = row.matches('[data-field]') ? [row] : [...row.querySelectorAll('[data-field]')];
-    fields.filter(f => f.dataset.error).reverse().forEach(f => row.after(Object.assign(document.createElement('p'), { className: 'field-error', textContent: f.dataset.error })));
+    setFieldError(field, valid ? '' : msg);
     return valid;
   }
   Object.keys(RULES).forEach(n => {

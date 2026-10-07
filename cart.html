@@ -38,7 +38,7 @@
 <!-- Sticky checkout bar (Figma 15725:7380) -->
 <div class="cart-bar" id="cartBar">
   <div class="sheet-bar">
-    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT &amp; delivery</span></div>
     <a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>
   </div>
 </div>
@@ -121,8 +121,8 @@
       <section class="addons">
         <h2>Do you want a design check?</h2>
         <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>
-        <div class="addon addon-check" role="switch" tabindex="0" aria-checked="${checkOn}" data-addon="check">
-          <span class="switch"></span>
+        <div class="addon addon-check" data-on="${checkOn}">
+          <button class="switch" role="switch" aria-checked="${checkOn}" data-addon="check" aria-label="Design check"></button>
           <span class="t">
             <b>${checkOn ? check.name : 'Please check my designs'}</b>
             <small>A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.</small>
@@ -130,8 +130,8 @@
           </span>
           <button class="go" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/cart/arrow.png" alt=""></button>
         </div>
-        <div class="addon" role="switch" tabindex="0" aria-checked="${!!addons.secured}" data-addon="secured">
-          <span class="switch"></span>
+        <div class="addon addon-secured" data-on="${!!addons.secured}">
+          <button class="switch" role="switch" aria-checked="${!!addons.secured}" data-addon="secured" aria-label="Secured delivery"></button>
           <span class="t"><b>${SECURED.name}</b><small>${SECURED.sub}</small><span class="p">${fmt(SECURED.price)}</span></span>
           <button class="go" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/cart/arrow.png" alt=""></button>
         </div>
@@ -143,7 +143,7 @@
           <div class="line-item">
             <a class="img" href="${it.href}" style="background:${it.bg}"><img src="${it.img}" alt=""></a>
             <div class="t">
-              <strong>${it.name}</strong>
+              <a href="${it.href}"><strong>${it.name}</strong></a>
               <small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small>
               <small>${it.options}</small>
               <small>Design: ${it.design}</small>
@@ -158,7 +158,8 @@
           <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
           <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
         </div>
-      </section>`;
+      </section>
+      <a class="btn outline continue-shopping" href="index.html">Continue shopping</a>`;
     document.getElementById('barTotal').textContent = eur(total);
   }
 
@@ -170,9 +171,6 @@
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
   });
 
-  document.getElementById('cartContent').addEventListener('keydown', e => {
-    if ((e.key === ' ' || e.key === 'Enter') && e.target.matches('[data-addon]')) { e.preventDefault(); e.target.click(); }
-  });
 
   // File check sheet: opens on the current choice; Confirm applies it
   let fcPick = 'basic';
@@ -205,7 +203,7 @@
     const changed = on !== addons.secured;
     addons.secured = on; saveAddons(); closeSheet(); render();
     if (changed) {
-      document.querySelector('[data-addon="secured"]').classList.add('changed');
+      document.querySelector('.addon-secured').classList.add('changed');
       showToast(on ? 'Secured delivery added' : 'Standard delivery kept');
     }
   }
