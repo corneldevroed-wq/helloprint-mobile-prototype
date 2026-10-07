@@ -230,9 +230,11 @@
   // saved = what the PDP shows; draft = what is being edited in the sheet
   let saved = { ...DEFAULT }, draft = { ...DEFAULT };
 
-  const materials = c => KEYS.map(k => { const o = pick(k, c[k]); return k === 'size' ? `${o.name} ${o.sub}` : o.name; }).join(' · ');
+  const materials = c => KEYS.map(k => { const o = pick(k, c[k]); return k === 'size' ? `${o.name} ${o.sub}` : k === 'corners' ? `${o.name} corners` : o.name; }).join(' · ');
+  // What the customer picked on the category page, in their words: "Squared 55 x 55 mm", "Rounded corners", "Kraft"
+  const entryName = c => { const o = pick(entry.key, c[entry.key]); return entry.key === 'size' ? `${o.name} ${o.sub}` : entry.key === 'corners' ? `${o.name} corners` : o.name; };
   const fromEntry = c => entry && [...KEYS, 'qty', 'delivery'].every(k => c[k] === entry.cfg[k]);
-  const presetLabel = (p, c) => fromEntry(c) ? `<img src="${P}check.svg" alt="">Starting with ${pick(entry.key, c[entry.key]).name}`
+  const presetLabel = (p, c) => fromEntry(c) ? `<img src="${P}check.svg" alt="">Starting with ${entryName(c)}`
     : p ? `<img src="${P + p.icon}" alt="">${p.name} options` : 'Custom options';
 
   // Everything bound to the saved configuration (PDP + design sheet)
