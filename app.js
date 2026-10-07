@@ -20,7 +20,11 @@ const SHELL_HEADER = `
     </div>
   </header>
   <div class="usp">
-    <div class="usp-left"><img src="assets/check.svg" alt="">Best price guaranteed</div>
+    <div class="usp-left"><img src="assets/check.svg" alt="">
+      <span class="usp-ticker" aria-label="Best price guaranteed, 100% satisfaction, always a perfect design, always here to help"><span class="usp-track" aria-hidden="true">
+        <span>Best price guaranteed</span><span>100% satisfaction</span><span>Always a perfect design</span><span>Always here to help</span><span>Best price guaranteed</span>
+      </span></span>
+    </div>
     <button class="vat" id="vatBtn" aria-haspopup="menu" aria-expanded="false">
       <img class="flag" src="assets/flag.png" alt="">
       <span id="vatLabel">Excl VAT</span>
@@ -497,3 +501,17 @@ function setFieldError(field, msg) {
   err.textContent = msg;
   input.setAttribute('aria-describedby', err.id);
 }
+
+// USP ticker under the search bar: next USP every few seconds (the last item repeats the first for a seamless loop)
+(() => {
+  const track = document.querySelector('.usp-track'); if (!track) return;
+  const n = track.children.length - 1, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0;
+  setInterval(() => {
+    if (document.hidden) return;
+    i++;
+    track.style.transition = still ? 'none' : '';
+    track.style.transform = `translateY(${-i * 20}px)`;
+    if (i === n) setTimeout(() => { track.style.transition = 'none'; track.style.transform = 'translateY(0)'; i = 0; }, still ? 0 : 450);
+  }, 3000);
+})();

@@ -73,7 +73,7 @@
       <div class="hscroll standout">
         <article class="so-card">
           <img class="bg" src="assets/category/so-spotuv.jpg" alt="" style="top:-21.65%">
-          <div class="info"><div><strong>Spot-UV Business Cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#spot-uv-business-cards">Shop</a></div>
+          <div class="info"><div><strong>Spot-UV Business Cards</strong><small>A clear, glossy layer on selected parts of your design. Shine you can see and feel.</small></div><a class="pill" href="product.html?p=deluxe-business-cards&amp;finish=spotuv">Shop</a></div>
         </article>
         <article class="so-card">
           <img class="bg" src="assets/category/so-multilayer.png" alt="" style="left:-9.09%;top:-15.39%;width:151.17%">
@@ -81,7 +81,7 @@
         </article>
         <article class="so-card">
           <img class="bg" src="assets/category/so-eco.png" alt="" style="top:-21.99%">
-          <div class="info"><div><strong>Eco Friendly Business Cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#recycledbusinesscards">Shop</a></div>
+          <div class="info"><div><strong>Eco Friendly Business Cards</strong><small>Recycled and chlorine-free papers, with around 25% lower CO2 than standard paper.</small></div><a class="pill" href="#recycledbusinesscards">Shop</a></div>
         </article>
       </div>
     </section>
@@ -119,16 +119,15 @@
       <div><p class="from">500 pcs from</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>
     </a>`).join('');
 
-  // Materials: ten rows as in Figma (placeholder content), filterable by the chips
-  const matGroups = ['everyday', 'eco', 'luxury', 'durable'];
-  document.getElementById('mat-list').innerHTML = Array.from({ length: 10 }, (_, i) => `
-    <li data-group="${matGroups[i % 4]}">
-      <a class="mat" href="#silk-matte">
-        <span class="swatch"><img src="${C}swatch.svg" alt=""><img class="corner" src="${C}swatch-fold.svg" alt=""></span>
+  // Materials (products.js): each row opens the product with that material already chosen
+  document.getElementById('mat-list').innerHTML = MATERIALS.map(m => `
+    <li data-group="${m.groups.join(' ')}">
+      <a class="mat" href="${m.href}">
+        <span class="swatch"><img src="${C}swatch.svg" alt=""><span class="tint" style="background:${m.tint}"></span><img class="corner" src="${C}swatch-fold.svg" alt=""></span>
         <span class="text">
-          ${i === 0 ? '<span class="badge">Most Popular</span>' : ''}
-          <strong>Silk - Matte</strong>
-          <small>Most cost-effective option · Professional appearance</small>
+          ${m.badge ? `<span class="badge">${m.badge}</span>` : ''}
+          <strong>${m.name}</strong>
+          <small>${m.points.join(' · ')}</small>
         </span>
         <img class="chev" src="${C}arrow.svg" alt="">
       </a>
@@ -136,7 +135,7 @@
   document.getElementById('mat-filter').addEventListener('click', e => {
     const b = e.target.closest('[data-filter]'); if (!b) return;
     document.querySelectorAll('#mat-filter .pill').forEach(x => x.classList.toggle('active', x === b));
-    document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && li.dataset.group !== b.dataset.filter; });
+    document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position

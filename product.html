@@ -195,6 +195,14 @@
   if (infoMode === 'line' || infoMode === 'guide') document.body.classList.add('info-' + infoMode);
   const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
+  // Coming from a material on the category page (?paper=kraft etc.): start with that option,
+  // the rest from Recommended. The price box says so until the customer changes the options.
+  const params = new URLSearchParams(location.search);
+  let entry = null;
+  for (const k of KEYS) {
+    const v = params.get(k);
+    if (v && OPTIONS[k].items.some(o => o.id === v)) { DEFAULT[k] = v; entry = { key: k, cfg: { ...DEFAULT } }; }
+  }
 
   const pick = (key, id) => OPTIONS[key].items.find(o => o.id === id);
   const delivery = c => DELIVERY.find(d => d.id === c.delivery);
@@ -223,7 +231,9 @@
   let saved = { ...DEFAULT }, draft = { ...DEFAULT };
 
   const materials = c => KEYS.map(k => { const o = pick(k, c[k]); return k === 'size' ? `${o.name} ${o.sub}` : o.name; }).join(' · ');
-  const presetLabel = p => p ? `<img src="${P + p.icon}" alt="">${p.name} options` : 'Custom options';
+  const fromEntry = c => entry && [...KEYS, 'qty', 'delivery'].every(k => c[k] === entry.cfg[k]);
+  const presetLabel = (p, c) => fromEntry(c) ? `<img src="${P}check.svg" alt="">Starting with ${pick(entry.key, c[entry.key]).name}`
+    : p ? `<img src="${P + p.icon}" alt="">${p.name} options` : 'Custom options';
 
   // Everything bound to the saved configuration (PDP + design sheet)
   function renderSaved() {
@@ -237,7 +247,7 @@
     // Bars before the cart say whether the price is excl. or incl. VAT (follows the header switch)
     set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
     set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
-    set('presetLabel', presetLabel(preset));
+    set('presetLabel', presetLabel(preset, c));
     set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
   }
 
@@ -416,6 +426,8 @@
   const baseUpdate = updatePrices;
   updatePrices = () => { baseUpdate(); renderSaved(); if (openSheetEl && openSheetEl.id === 'sheet-customise') renderDraft(); renderDesign(); };
   updatePrices();
+  // Material chosen on the category page: draw the eye to it once
+  if (entry) flash(document.querySelector('.price-box .recap'));
 
   // Gallery: swipe or use the arrows (wraps around)
   const track = document.getElementById('galleryTrack');
