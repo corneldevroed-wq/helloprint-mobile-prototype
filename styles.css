@@ -840,12 +840,12 @@ body.flow-c #toDesign[hidden] { display: none; }
 .pick-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: 14px; line-height: 1.2; }
 .pick-label .tag { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12px; color: var(--dark-green); }
 .pick-label .tag img { width: 14px; height: 14px; }
-.pick-field { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 52px; padding: 10px 12px 10px 16px; border: 1px solid var(--mid-grey); border-radius: 5px; background: var(--white); text-align: left; font-size: 14px; line-height: 1.4; color: var(--black); transition: border-color .15s; }
+.pick-field { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 9px 12px 9px 14px; border: 1px solid var(--mid-grey); border-radius: 5px; background: var(--white); text-align: left; font-size: 12px; line-height: 1.5; color: var(--black); transition: border-color .15s; }
 .pick-field:hover { border-color: var(--dark-green); }
 .pick-field .v { flex: 1; min-width: 0; }
 .pick-field .v i { font-style: normal; white-space: nowrap; }
-.pick-field .sep { color: var(--mid-grey); padding: 0 4px; }
-.pick-field .chev { width: 18px; height: 18px; flex-shrink: 0; opacity: .5; }
+.pick-field .sep { color: var(--mid-grey); padding: 0 3px; }
+.pick-field .chev { width: 20px; height: 20px; flex-shrink: 0; filter: brightness(.46); } /* #bbb icon → dark grey (#555) */
 .pick-field.changed { animation: changed 1.8s ease-out; }
 body.flow-c .alt-btns { gap: 4px; }
 body.flow-c .alt-btn { flex-direction: row; justify-content: center; gap: 6px; padding: 6px 2px; border: 0; background: none; font-size: 13px; color: var(--dark-green); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(2,43,7,.3); }
