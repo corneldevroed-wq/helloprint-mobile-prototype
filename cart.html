@@ -105,6 +105,8 @@
   let addons = getAddons();
   const saveAddons = () => { try { localStorage.setItem('hp-cart-addons', JSON.stringify(addons)); } catch (e) {} };
   const tier = id => CHECK_TIERS.find(t => t.id === id);
+  // Same wording as on the product page (also for items added before the wording changed)
+  const DESIGN_LABEL = { 'I will upload later': 'Upload after checkout', 'My designer will send the file': 'Your designer sends the file' };
   const eur = n => '€' + n.toFixed(2);
 
   function render() {
@@ -146,7 +148,7 @@
               <a href="${it.href}"><strong>${it.name}</strong></a>
               <small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small>
               <small>${it.options}</small>
-              <small>Design: ${it.design}</small>
+              <small>Design: ${DESIGN_LABEL[it.design] || it.design}</small>
               <button class="remove" data-remove="${i}">Remove</button>
             </div>
             <span class="p">${fmt(it.price)}</span>

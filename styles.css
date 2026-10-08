@@ -852,3 +852,5 @@ body.flow-c .alt-btn { flex-direction: row; justify-content: center; gap: 6px; p
 body.flow-c .alt-btn img { width: 18px; height: 18px; }
 body.flow-c .alt-btn small { display: none; }
 body.flow-c .alt-btn:hover { text-decoration-color: currentColor; }
+.cta-hint { padding: 0 8px; }
+.cta-hint img { display: inline-block; width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; opacity: .7; }

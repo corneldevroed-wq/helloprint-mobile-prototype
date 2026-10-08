@@ -51,7 +51,7 @@
         <!-- Flow B: Add to cart + the other ways to get a design, each acting directly -->
         <div class="cta-stack" id="ctaStack">
           <button class="btn primary" data-order="upload">Add to cart</button>
-          <p class="cta-hint">Have a file? Upload it now or later in your cart.</p>
+          <p class="cta-hint"><img src="assets/pdp/d-upload.svg" alt="">You upload your file after checkout. No need to have it ready now.</p>
           <p class="or-row">No design yet?</p>
           <div class="alt-btns">
             <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Canva<small>Free templates</small></button>
@@ -411,10 +411,10 @@
 
   // ---------- Design sheet ----------
   const DESIGN = [
-    { id: 'upload', name: 'I will upload later', sub: 'My file is on my desktop or not finished yet.', icon: 'd-upload.svg', cta: 'Add to cart' },
+    { id: 'upload', name: 'I will upload later', sub: 'You upload your file after checkout. No need to have it ready now.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
     { id: 'canva', name: 'Design it myself in Canva', sub: 'Free, easy, with thousands of ready-made designs. We set the right size for you.', icon: 'd-canva.svg', cta: 'Continue to Canva' },
     { id: 'ai', name: 'Let us make it with AI', sub: 'Tell us what it’s for. Our AI studio makes a design you can change until you like it.', icon: 'd-ai.svg', cta: 'Design with AI' },
-    { id: 'designer', name: 'My designer will send the file', sub: 'We give you a link for your designer, with the exact size. You see the file on your product before you order.', icon: 'd-designer.svg', cta: 'Get designer link' },
+    { id: 'designer', name: 'My designer will send the file', cartLabel: 'Your designer sends the file', sub: 'We give you a link for your designer, with the exact size. You see the file on your product before you order.', icon: 'd-designer.svg', cta: 'Get designer link' },
   ];
   let design = 'upload';
   function renderDesign() {
@@ -442,7 +442,7 @@
     setCart([...getCart(), {
       name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
       qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c),
-      design: DESIGN.find(x => x.id === design).name, price: totalPrice(c),
+      design: (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
     }]);
     if (design === 'designer') toastOnNextPage('Added to cart. We’ll email you the link for your designer.');
     location.href = 'cart.html';
