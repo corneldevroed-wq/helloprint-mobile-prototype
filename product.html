@@ -33,6 +33,11 @@
           <div class="row"><span class="big" data-bind="total"></span><span class="each"><span class="qty" data-bind="qty"></span> · <span data-bind="each"></span></span></div>
           <p class="check-line"><img src="assets/pdp/check.svg" alt=""><span data-bind="deliveryRich"></span></p>
         </div>
+        <!-- Version C: the options as one selector field; tapping it opens the customise layer -->
+        <div class="pick">
+          <p class="pick-label"><span>Your cards</span><span class="tag" data-bind="pickTag"></span></p>
+          <button class="pick-field" data-open-sheet="customise" aria-label="Change your options"><span class="v" data-bind="pick"></span><img class="chev" src="assets/category/arrow.svg" alt=""></button>
+        </div>
         <div class="recap">
           <div class="recap-text">
             <span class="recap-label" data-bind="presetLabel"></span>
@@ -191,6 +196,7 @@
   <span>Flow</span>
   <button data-flow="a" title="Add your design, then a design layer">A</button>
   <button data-flow="b" title="Add to cart, with the other design options right under it">B</button>
+  <button data-flow="c" title="Options as a selector field; the layer only saves">C</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -216,13 +222,16 @@
   const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
   // Two versions to compare (prototype). A: "Add your design" opens a separate design layer.
   // B: "Add to cart" with the other ways to get a design (Canva, AI, designer) as buttons right under it.
-  // ?flow=a|b sets it; the choice is remembered while clicking through the prototype.
+  // C: like B, but the options are one selector field (tap → layer); the layer only saves, ordering happens on the page.
+  // ?flow=a|b|c sets it; the choice is remembered while clicking through the prototype.
+  const FLOWS = ['a', 'b', 'c'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
-    try { if (q === 'a' || q === 'b') localStorage.setItem('hp-flow', q); return localStorage.getItem('hp-flow') === 'b' ? 'b' : 'a'; }
-    catch (e) { return q === 'b' ? 'b' : 'a'; }
+    try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
+    catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
-  const FLOW_B = FLOW === 'b';
+  const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
+  const FLOW_C = FLOW === 'c';
   document.body.classList.add('flow-' + FLOW);
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
@@ -280,6 +289,8 @@
     set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
     set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
     set('presetLabel', presetLabel(preset, c));
+    set('pick', [...materials(c).split(' · '), PRODUCT.recapExtra].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
+    set('pickTag', fromEntry(c) ? `<img src="${P}check.svg" alt="">${entryName(c)}` : preset ? `<img src="${P + preset.icon}" alt="">${preset.name}` : 'Custom');
     set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
   }
 
@@ -354,6 +365,7 @@
     if (FLOW_B) placeOrder('upload'); else openSheet('design');
   });
   if (FLOW_B) document.getElementById('toDesign').textContent = 'Add to cart';
+  if (FLOW_C) { document.getElementById('toDesign').hidden = true; document.getElementById('saveUpdate').className = 'btn primary'; }
   // Change options: back from the design sheet to the customise sheet, with the saved choices
   document.getElementById('backToOptions').addEventListener('click', () => {
     closeSheet();
@@ -365,7 +377,7 @@
     if (!before) return;
     // Flash what changed in the price box, so the customer sees the effect
     const box = document.querySelector('.price-box');
-    if (materials(before) !== materials(saved)) flash(box.querySelector('.recap'));
+    if (materials(before) !== materials(saved)) flash(box.querySelector(FLOW_C ? '.pick-field' : '.recap'));
     if (before.qty !== saved.qty) flash(box.querySelector('.qty'));
     if (before.delivery !== saved.delivery) flash(box.querySelector('.check-line'));
     if (totalPrice(before) !== totalPrice(saved)) flash(box.querySelector('.row'));
@@ -473,7 +485,7 @@
   updatePrices = () => { baseUpdate(); renderSaved(); if (openSheetEl && openSheetEl.id === 'sheet-customise') renderDraft(); renderDesign(); };
   updatePrices();
   // Material chosen on the category page: draw the eye to it once
-  if (entry) flash(document.querySelector('.price-box .recap'));
+  if (entry) flash(document.querySelector(FLOW_C ? '.price-box .pick-field' : '.price-box .recap'));
 
   // Gallery: swipe or use the arrows (wraps around)
   const track = document.getElementById('galleryTrack');

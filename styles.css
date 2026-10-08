@@ -831,3 +831,24 @@ body.flow-a .cta-stack, body.flow-a .flow-b-only, body.flow-b .price-box .cta-ro
 .flow-switch button { width: 18px; height: 18px; border-radius: 0 50% 50% 0; color: var(--white); font-size: 10px; font-weight: 700; }
 .flow-switch button[aria-pressed="true"] { background: var(--light-green); }
 body.menu-open .flow-switch { display: none; }
+
+/* PDP version C: options as one selector field (like "Kies je iPad"); calmer design links */
+.pick { display: none; flex-direction: column; gap: 6px; }
+body.flow-c .pick { display: flex; }
+body.flow-c .price-box .recap, body.flow-c .price-box .cta-row, body.flow-c .flow-a-only { display: none; }
+body.flow-c #toDesign[hidden] { display: none; }
+.pick-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 700; font-size: 14px; line-height: 1.2; }
+.pick-label .tag { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12px; color: var(--dark-green); }
+.pick-label .tag img { width: 14px; height: 14px; }
+.pick-field { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 52px; padding: 10px 12px 10px 16px; border: 1px solid var(--mid-grey); border-radius: 5px; background: var(--white); text-align: left; font-size: 14px; line-height: 1.4; color: var(--black); transition: border-color .15s; }
+.pick-field:hover { border-color: var(--dark-green); }
+.pick-field .v { flex: 1; min-width: 0; }
+.pick-field .v i { font-style: normal; white-space: nowrap; }
+.pick-field .sep { color: var(--mid-grey); padding: 0 4px; }
+.pick-field .chev { width: 18px; height: 18px; flex-shrink: 0; opacity: .5; }
+.pick-field.changed { animation: changed 1.8s ease-out; }
+body.flow-c .alt-btns { gap: 4px; }
+body.flow-c .alt-btn { flex-direction: row; justify-content: center; gap: 6px; padding: 6px 2px; border: 0; background: none; font-size: 13px; color: var(--dark-green); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(2,43,7,.3); }
+body.flow-c .alt-btn img { width: 18px; height: 18px; }
+body.flow-c .alt-btn small { display: none; }
+body.flow-c .alt-btn:hover { text-decoration-color: currentColor; }
