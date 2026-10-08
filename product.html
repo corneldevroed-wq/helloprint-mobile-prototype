@@ -43,6 +43,17 @@
         <div class="cta-row">
           <button class="btn primary" data-open-sheet="design">Add your design</button>
         </div>
+        <!-- Flow B: Add to cart + the other ways to get a design, each acting directly -->
+        <div class="cta-stack" id="ctaStack">
+          <button class="btn primary" data-order="upload">Add to cart</button>
+          <p class="cta-hint">Have a file? Upload it now or later in your cart.</p>
+          <p class="or-row">No design yet?</p>
+          <div class="alt-btns">
+            <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Canva<small>Free templates</small></button>
+            <button class="alt-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">AI studio<small>Made for you</small></button>
+            <button class="alt-btn" data-order="designer"><img src="assets/pdp/d-designer.svg" alt="">Designer<small>Send a link</small></button>
+          </div>
+        </div>
       </div>
       <ul class="usps">
         <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
@@ -169,8 +180,17 @@
 <div class="buy-bar" id="buyBar" aria-hidden="true">
   <div class="sheet-bar">
     <div class="total"><strong data-bind="total"></strong><span class="bar-sub" data-bind="qtyVat"></span></div>
-    <button class="btn primary" data-open-sheet="design" tabindex="-1">Add your design</button>
+    <button class="btn primary flow-a-only" data-open-sheet="design" tabindex="-1">Add your design</button>
+    <button class="btn primary flow-b-only" data-order="upload" tabindex="-1">Add to cart</button>
   </div>
+  <p class="bar-link flow-b-only">No design yet? <a href="#ctaStack" id="seeOptions">See options</a></p>
+</div>
+
+<!-- Prototype only: compare the two CTA versions on the product page -->
+<div class="flow-switch" role="group" aria-label="Prototype version">
+  <span>Flow</span>
+  <button data-flow="a" title="Add your design, then a design layer">A</button>
+  <button data-flow="b" title="Add to cart, with the other design options right under it">B</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -194,6 +214,16 @@
   const infoMode = new URLSearchParams(location.search).get('info');
   if (infoMode === 'line' || infoMode === 'guide') document.body.classList.add('info-' + infoMode);
   const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
+  // Two versions to compare (prototype). A: "Add your design" opens a separate design layer.
+  // B: "Add to cart" with the other ways to get a design (Canva, AI, designer) as buttons right under it.
+  // ?flow=a|b sets it; the choice is remembered while clicking through the prototype.
+  const FLOW = (() => {
+    const q = new URLSearchParams(location.search).get('flow');
+    try { if (q === 'a' || q === 'b') localStorage.setItem('hp-flow', q); return localStorage.getItem('hp-flow') === 'b' ? 'b' : 'a'; }
+    catch (e) { return q === 'b' ? 'b' : 'a'; }
+  })();
+  const FLOW_B = FLOW === 'b';
+  document.body.classList.add('flow-' + FLOW);
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -317,11 +347,13 @@
     return before;
   }
   // Add your design: save and go straight on to the design sheet (it replaces this one, no stacking)
+  // Flow B: no design layer, this button adds to cart (upload the file later)
   document.getElementById('toDesign').addEventListener('click', () => {
     saveDraft();
     closeSheet();
-    openSheet('design');
+    if (FLOW_B) placeOrder('upload'); else openSheet('design');
   });
+  if (FLOW_B) document.getElementById('toDesign').textContent = 'Add to cart';
   // Change options: back from the design sheet to the customise sheet, with the saved choices
   document.getElementById('backToOptions').addEventListener('click', () => {
     closeSheet();
@@ -383,8 +415,14 @@
     const b = e.target.closest('[data-design]'); if (b) { design = b.dataset.design; renderDesign(); }
   });
   // Add to cart: store the saved configuration + design choice, then go to the cart (Figma: design sheet -> Cart)
-  document.getElementById('designGo').addEventListener('click', () => {
-    closeSheet();
+  document.getElementById('designGo').addEventListener('click', () => { closeSheet(); placeOrder(design); });
+  // Flow B buttons act directly with their design method
+  document.querySelectorAll('[data-order]').forEach(b => b.addEventListener('click', () => placeOrder(b.dataset.order)));
+  document.getElementById('seeOptions').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('ctaStack').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  function placeOrder(design) {
     // Canva and the AI studio are separate tools (no screens in the prototype yet)
     if (design === 'canva') { showToast('Opening Canva…'); return; }
     if (design === 'ai') { showToast('Opening AI studio…'); return; }
@@ -396,6 +434,12 @@
     }]);
     if (design === 'designer') toastOnNextPage('Added to cart. We’ll email you the link for your designer.');
     location.href = 'cart.html';
+  }
+
+  // Version switch (prototype): keep the other URL parameters
+  document.querySelectorAll('[data-flow]').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.flow === FLOW);
+    b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('flow', b.dataset.flow); location.href = u; });
   });
 
   // Sheets: page-specific preparation before opening (mechanics live in app.js)
@@ -405,7 +449,7 @@
   // ---------- Sticky buy bar ----------
   // Visible whenever the price box's buttons are out of view, all the way down the page.
   const buyBar = document.getElementById('buyBar');
-  const ctaRow = document.querySelector('.price-box .cta-row');
+  const ctaRow = document.querySelector(FLOW_B ? '#ctaStack .btn' : '.price-box .cta-row');
   const headerH = () => document.querySelector('.header').offsetHeight;
   function syncBuyBar() {
     const cta = ctaRow.getBoundingClientRect();
@@ -414,7 +458,7 @@
     if (show === buyBar.classList.contains('show')) return;
     buyBar.classList.toggle('show', show);
     buyBar.setAttribute('aria-hidden', String(!show));
-    buyBar.querySelector('button').tabIndex = show ? 0 : -1;
+    buyBar.querySelector(FLOW_B ? '.flow-b-only' : '.flow-a-only').tabIndex = show ? 0 : -1;
     document.body.classList.toggle('buybar-on', show);
   }
   addEventListener('scroll', syncBuyBar, { passive: true });

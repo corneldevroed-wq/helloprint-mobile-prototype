@@ -810,3 +810,24 @@ body.info-guide .opt-info { display: none; }
 /* Materials: tinted swatch per material (folded corner stays visible), text fills the row */
 .mat .swatch .tint { position: absolute; inset: 0; mix-blend-mode: multiply; clip-path: polygon(0 0, 67% 0, 100% 33%, 100% 100%, 0 100%); }
 .mat .text { flex: 1; width: auto; min-width: 0; }
+
+/* PDP version B: "Add to cart" + "No design yet?" buttons (A keeps "Add your design" + design layer) */
+body.flow-a .cta-stack, body.flow-a .flow-b-only, body.flow-b .price-box .cta-row, body.flow-b .flow-a-only { display: none; }
+.cta-stack { display: flex; flex-direction: column; gap: 6px; }
+.cta-hint { font-size: 12px; line-height: 1.4; color: var(--dark-grey); text-align: center; }
+.or-row { display: flex; align-items: center; gap: 8px; margin: 8px 0 2px; font-size: 12px; font-weight: 600; color: var(--dark-grey); white-space: nowrap; }
+.or-row::before, .or-row::after { content: ''; flex: 1; height: 1px; background: #dcdcdc; }
+.alt-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.alt-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 4px 8px; border: 1px solid var(--mid-grey); border-radius: 10px; background: var(--white); font-weight: 600; font-size: 13px; line-height: 1.15; text-align: center; transition: border-color .15s; }
+.alt-btn:hover { border-color: var(--dark-green); }
+.alt-btn img { width: 24px; height: 24px; }
+.alt-btn small { font-weight: 400; font-size: 11px; color: var(--dark-grey); }
+.buy-bar .bar-link { background: var(--light-grey); padding: 0 16px 10px; margin-top: -2px; font-size: 12px; text-align: right; }
+.buy-bar .bar-link a { font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Prototype version switch: a narrow tab against the left edge */
+.flow-switch { position: fixed; left: calc(50% - var(--app-w) / 2); top: 50%; z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 2px 4px 0; border-radius: 0 10px 10px 0; background: rgba(28,28,28,.82); color: var(--white); font-size: 8px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.flow-switch span { padding: 1px 0; writing-mode: vertical-rl; transform: rotate(180deg); }
+.flow-switch button { width: 18px; height: 18px; border-radius: 0 50% 50% 0; color: var(--white); font-size: 10px; font-weight: 700; }
+.flow-switch button[aria-pressed="true"] { background: var(--light-green); }
+body.menu-open .flow-switch { display: none; }
