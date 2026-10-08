@@ -292,7 +292,7 @@
     set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
     set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
     set('presetLabel', presetLabel(preset, c));
-    set('pick', [...materials(c).split(' · '), PRODUCT.recapExtra].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
+    set('pick', [...materials(c).split(' · '), ...PRODUCT.recapExtra.split(' · ')].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
     set('pickTag', fromEntry(c) ? `<img src="${P}check.svg" alt="">${entryName(c)}` : preset ? `<img src="${P + preset.icon}" alt="">${preset.name}` : 'Custom');
     set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
   }
