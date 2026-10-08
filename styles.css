@@ -857,7 +857,7 @@ body.flow-c .alt-btn:hover { text-decoration-color: currentColor; }
 
 /* Version C: the green button says what comes next on one line: label left, "Upload your file later" right (replaces the hint line) */
 .btn-sub { display: none; }
-body.flow-c #ctaStack .btn.primary { justify-content: space-between; gap: 12px; height: 48px; padding: 0 20px; }
+body.flow-c #ctaStack .btn.primary { justify-content: space-between; gap: 12px; height: 48px; padding: 0 20px; border-radius: 5px; } /* same corners as the Your cards field */
 body.flow-c #ctaStack .btn-sub { display: block; font-weight: 400; font-size: 13px; line-height: 1.2; opacity: .92; white-space: nowrap; }
 body.flow-c #ctaStack .cta-hint { display: none; }
 
