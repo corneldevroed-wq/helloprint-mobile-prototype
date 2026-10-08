@@ -860,3 +860,14 @@ body.flow-c .alt-btn:hover { text-decoration-color: currentColor; }
 body.flow-c #ctaStack .btn.primary { justify-content: space-between; gap: 12px; height: 48px; padding: 0 20px; }
 body.flow-c #ctaStack .btn-sub { display: block; font-weight: 400; font-size: 13px; line-height: 1.2; opacity: .92; white-space: nowrap; }
 body.flow-c #ctaStack .cta-hint { display: none; }
+
+/* Version D (combo): C + design options as outlined pills, ⓘ opens an explanation per option */
+.d-only { display: none; }
+body.flow-d .d-only { display: inline-grid; }
+body.flow-d .or-row .info-btn { width: 24px; height: 24px; margin: -4px -4px -4px -2px; }
+body.flow-d .or-row .info-btn img { width: 18px; height: 18px; }
+body.flow-d .alt-btns { gap: 6px; }
+body.flow-d .alt-btn { flex-direction: row; justify-content: center; gap: 5px; padding: 8px 4px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); color: var(--black); text-decoration: none; font-size: 13px; white-space: nowrap; }
+body.flow-d .alt-btn:hover { border-color: var(--dark-green); }
+body.flow-d .alt-btn img { width: 18px; height: 18px; }
+.guide-item .gi-go { align-self: flex-start; height: 36px; padding: 0 16px; margin-top: 4px; font-size: 14px; }

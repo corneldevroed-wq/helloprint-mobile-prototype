@@ -52,7 +52,7 @@
         <div class="cta-stack" id="ctaStack">
           <button class="btn primary" data-order="upload"><span>Add to cart</span><small class="btn-sub">Upload your file later</small></button>
           <p class="cta-hint"><img src="assets/pdp/d-upload.svg" alt="">You upload your file after checkout. No need to have it ready now.</p>
-          <p class="or-row">No design yet?</p>
+          <p class="or-row">No design yet?<button class="info-btn d-only" id="designInfo" aria-label="How do these options work?"><img src="assets/pdp/info.svg" alt=""></button></p>
           <div class="alt-btns">
             <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Canva<small>Free templates</small></button>
             <button class="alt-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">AI studio<small>Made for you</small></button>
@@ -197,6 +197,7 @@
   <button data-flow="a" title="Add your design, then a design layer">A</button>
   <button data-flow="b" title="Add to cart, with the other design options right under it">B</button>
   <button data-flow="c" title="Options as a selector field; the layer only saves">C</button>
+  <button data-flow="d" title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -216,7 +217,7 @@
   ];
   const PRESETS = PRODUCT.presets;
   // Info layers (two variants to compare): ?info=line shows only the info line, ?info=guide only the ⓘ guide
-  const GUIDE = key => `Which ${key === 'delivery' ? 'delivery' : OPTIONS[key].title.toLowerCase()} should I choose?`;
+  const GUIDE = key => key === 'design' ? 'No design yet? Choose how to make it' : `Which ${key === 'delivery' ? 'delivery' : OPTIONS[key].title.toLowerCase()} should I choose?`;
   const infoMode = new URLSearchParams(location.search).get('info');
   if (infoMode === 'line' || infoMode === 'guide') document.body.classList.add('info-' + infoMode);
   const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
@@ -224,15 +225,17 @@
   // B: "Add to cart" with the other ways to get a design (Canva, AI, designer) as buttons right under it.
   // C: like B, but the options are one selector field (tap → layer); the layer only saves, ordering happens on the page.
   // ?flow=a|b|c sets it; the choice is remembered while clicking through the prototype.
-  const FLOWS = ['a', 'b', 'c'];
+  // D: the combo, C + the design options as pills, with ⓘ for an explanation per option.
+  const FLOWS = ['a', 'b', 'c', 'd'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = FLOW === 'c';
+  const FLOW_C = FLOW === 'c' || FLOW === 'd';   // D builds on C
   document.body.classList.add('flow-' + FLOW);
+  if (FLOW === 'd') document.body.classList.add('flow-c');
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -388,6 +391,14 @@
   const guideItems = key => key === 'delivery' ? DELIVERY.map(d => ({ ...d, sub: `Arrives ${d.dayName} · ${d.extra ? '+' + fmt(d.extra) : 'Included'}` })) : OPTIONS[key].items;
   function renderGuide() {
     document.getElementById('guideTitle').textContent = GUIDE(guideKey);
+    // Design options (version D): explanation + a button that does it right away
+    if (guideKey === 'design') {
+      document.getElementById('guideList').innerHTML = DESIGN.filter(d => d.id !== 'upload').map(d => `<div class="guide-item">
+        <div class="gi-head"><span class="t"><b>${d.name}</b></span></div>
+        <p>${d.sub}</p>
+        <button class="btn outline gi-go" data-guide-order="${d.id}">${d.cta}</button></div>`).join('');
+      return;
+    }
     document.getElementById('guideList').innerHTML = guideItems(guideKey).map(o => {
       const on = draft[guideKey] === o.id;
       return `<div class="guide-item${on ? ' on' : ''}">
@@ -396,8 +407,11 @@
         <p>${o.info}</p></div>`;
     }).join('');
   }
+  document.getElementById('designInfo').addEventListener('click', () => openGuide('design'));
   function openGuide(key) { guideKey = key; renderGuide(); openSheet('guide'); document.querySelector('#sheet-guide .sheet-body').scrollTop = 0; }
   document.getElementById('guideList').addEventListener('click', e => {
+    const go = e.target.closest('[data-guide-order]');
+    if (go) { closeSheet(); placeOrder(go.dataset.guideOrder); return; }
     const b = e.target.closest('[data-choose]'); if (!b) return;
     draft[guideKey] = b.dataset.choose;
     renderDraft();
