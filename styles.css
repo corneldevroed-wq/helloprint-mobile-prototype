@@ -871,3 +871,4 @@ body.flow-d .alt-btn { flex-direction: row; justify-content: center; gap: 5px; p
 body.flow-d .alt-btn:hover { border-color: var(--dark-green); }
 body.flow-d .alt-btn img { width: 18px; height: 18px; }
 .guide-item .gi-go { align-self: flex-start; height: 36px; padding: 0 16px; margin-top: 4px; font-size: 14px; }
+body.flow-d #ctaStack .btn.primary { border-radius: 100px; } /* D keeps the fully rounded green button */
