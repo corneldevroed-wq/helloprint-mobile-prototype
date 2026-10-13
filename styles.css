@@ -896,3 +896,10 @@ body.flow-d .upload-now { display: flex; }
 .up-check .warn span { display: grid; place-items: center; width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: var(--orange); color: var(--white); font-weight: 800; font-size: 12px; }
 .up-checking { font-size: 14px; color: var(--dark-grey); }
 .btn.primary:disabled { opacity: .45; cursor: default; }
+
+/* Version D: the "Your cards" field shows version A's Edit pill instead of the arrow (the whole field is the button) */
+.pick-field .d-edit { display: none; pointer-events: none; }
+body.flow-d .pick-field { padding-right: 8px; }
+body.flow-d .pick-field .chev { display: none; }
+body.flow-d .pick-field .d-edit { display: inline-flex; }
+body.flow-d .pick-field:hover .d-edit { border-color: var(--black); }
