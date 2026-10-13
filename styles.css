@@ -897,9 +897,7 @@ body.flow-d .upload-now { display: flex; }
 .up-checking { font-size: 14px; color: var(--dark-grey); }
 .btn.primary:disabled { opacity: .45; cursor: default; }
 
-/* Version D: the "Your cards" field shows version A's Edit pill instead of the arrow (the whole field is the button) */
+/* Version D: the "Your cards" field shows a pen icon instead of the arrow (the whole field is the button) */
 .pick-field .d-edit { display: none; pointer-events: none; }
-body.flow-d .pick-field { padding-right: 8px; }
 body.flow-d .pick-field .chev { display: none; }
-body.flow-d .pick-field .d-edit { display: inline-flex; }
-body.flow-d .pick-field:hover .d-edit { border-color: var(--black); }
+body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22px; color: var(--dark-green); }
