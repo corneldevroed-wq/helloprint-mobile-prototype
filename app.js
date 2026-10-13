@@ -401,7 +401,7 @@ searchResults.addEventListener('click', e => { if (e.target.closest('[data-searc
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && searchLayer.classList.contains('open')) closeSearch(); });
 
 
-// Order add-ons (cart). Design check is off (Basic, free) by default; euro tiers from Figma 15722:5390.
+// Order add-ons (cart). Design check is on (Premium) by default, secured delivery off; euro tiers from Figma 15722:5390.
 const CHECK_TIERS = [
   { id: 'basic', name: 'Basic Check + Proof', price: 0, line: 'Design Check',
     perks: ['Print proof before production', 'Automated checks on resolution, size & colour settings'] },
@@ -412,7 +412,7 @@ const CHECK_TIERS = [
 ];
 const SECURED = { id: 'secured', name: 'Add secured delivery', sub: 'Ensure priority support, fast reprint and delivery guarantees for your order', price: 5.99, line: 'Secured delivery' };
 function getAddons() {
-  let a = { check: 'basic', secured: false };
+  let a = { check: 'premium', secured: false };   // design check (PAC) is on by default; secured delivery off
   try { a = { ...a, ...JSON.parse(localStorage.getItem('hp-cart-addons')) }; } catch (e) {}
   if (typeof a.check !== 'string') a.check = a.check ? 'premium' : 'basic';
   return a;
