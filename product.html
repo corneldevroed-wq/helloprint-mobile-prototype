@@ -51,6 +51,7 @@
         <!-- Flow B: Add to cart + the other ways to get a design, each acting directly -->
         <div class="cta-stack" id="ctaStack">
           <button class="btn primary" data-order="upload"><span>Add to cart</span><small class="btn-sub">Upload your file later</small></button>
+          <button class="upload-now" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">File ready? <u>Upload it now</u> ›</button>
           <p class="cta-hint"><img src="assets/pdp/d-upload.svg" alt="">You upload your file after checkout. No need to have it ready now.</p>
           <p class="or-row">No design yet?<button class="info-btn d-only" id="designInfo" aria-label="How do these options work?"><img src="assets/pdp/info.svg" alt=""></button></p>
           <div class="alt-btns">
@@ -189,6 +190,31 @@
     <button class="btn primary flow-b-only" data-order="upload" tabindex="-1">Add to cart</button>
   </div>
   <p class="bar-link flow-b-only">No design yet? <a href="#ctaStack" id="seeOptions">See options</a></p>
+</div>
+
+<!-- Sheet: upload your file now (A: design layer option; D: link under Add to cart).
+     Prototype: the file stays in the browser; only its name and size are read, nothing is sent or stored. -->
+<input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.eps" hidden>
+<div class="sheet-layer" id="sheet-upload" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="uploadTitle">Upload your file</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="up-intro">We check your file right away, for free, so you know it’s right before you pay.</p>
+        <div class="up-files" id="upFiles"></div>
+        <div class="up-check" id="upCheck"></div>
+      </div>
+    </div>
+    <div class="sheet-bar">
+      <div class="total"><strong data-bind="total"></strong><span class="bar-sub"><span data-bind="vatLabel"></span> ·<img src="assets/pdp/check.svg" alt=""><span data-bind="arrives"></span></span></div>
+      <button class="btn primary" id="upAdd" disabled>Add to cart</button>
+    </div>
+  </div>
 </div>
 
 <!-- Prototype only: compare the two CTA versions on the product page -->
@@ -393,7 +419,7 @@
     document.getElementById('guideTitle').textContent = GUIDE(guideKey);
     // Design options (version D): explanation + a button that does it right away
     if (guideKey === 'design') {
-      document.getElementById('guideList').innerHTML = DESIGN.filter(d => d.id !== 'upload').map(d => `<div class="guide-item">
+      document.getElementById('guideList').innerHTML = DESIGN.filter(d => d.id !== 'upload' && d.id !== 'file').map(d => `<div class="guide-item">
         <div class="gi-head"><span class="t"><b>${d.name}</b></span></div>
         <p>${d.sub}</p>
         <button class="btn outline gi-go" data-guide-order="${d.id}">${d.cta}</button></div>`).join('');
@@ -425,6 +451,7 @@
 
   // ---------- Design sheet ----------
   const DESIGN = [
+    { id: 'file', name: 'My file is ready – upload now', sub: 'We check it right away, for free, before you pay.', icon: 'd-upload.svg', cta: 'Upload file' },
     { id: 'upload', name: 'I will upload later', sub: 'You upload your file after checkout. No need to have it ready now.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
     { id: 'canva', name: 'Design it myself in Canva', sub: 'Free, easy, with thousands of ready-made designs. We set the right size for you.', icon: 'd-canva.svg', cta: 'Continue to Canva' },
     { id: 'ai', name: 'Let us make it with AI', sub: 'Tell us what it’s for. Our AI studio makes a design you can change until you like it.', icon: 'd-ai.svg', cta: 'Design with AI' },
@@ -441,14 +468,17 @@
     const b = e.target.closest('[data-design]'); if (b) { design = b.dataset.design; renderDesign(); }
   });
   // Add to cart: store the saved configuration + design choice, then go to the cart (Figma: design sheet -> Cart)
-  document.getElementById('designGo').addEventListener('click', () => { closeSheet(); placeOrder(design); });
+  document.getElementById('designGo').addEventListener('click', () => {
+    if (design === 'file') { pickFile('front'); return; }   // the design layer stays until a file is chosen
+    closeSheet(); placeOrder(design);
+  });
   // Flow B buttons act directly with their design method
   document.querySelectorAll('[data-order]').forEach(b => b.addEventListener('click', () => placeOrder(b.dataset.order)));
   document.getElementById('seeOptions').addEventListener('click', e => {
     e.preventDefault();
     document.getElementById('ctaStack').scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-  function placeOrder(design) {
+  function placeOrder(design, label) {
     // Canva and the AI studio are separate tools (no screens in the prototype yet)
     if (design === 'canva') { showToast('Opening Canva…'); return; }
     if (design === 'ai') { showToast('Opening AI studio…'); return; }
@@ -456,11 +486,59 @@
     setCart([...getCart(), {
       name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
       qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c),
-      design: (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
+      design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
     }]);
     if (design === 'designer') toastOnNextPage('Added to cart. We’ll email you the link for your designer.');
     location.href = 'cart.html';
   }
+
+  // ---------- Upload now ----------
+  // Front is required, back is optional for double-sided cards. The file check is simulated.
+  const fileInput = document.getElementById('fileInput');
+  let upload = { front: null, back: null }, pickSide = 'front';
+  const doubleSided = c => `${materials(c)} ${PRODUCT.recapExtra}`.includes('Double-sided');
+  // Products without a size option (PVC, Multilayered) have a fixed size in their recap line
+  const sizeOf = c => OPTIONS.size ? pick('size', c.size).sub : (PRODUCT.recapExtra.match(/\d+ x \d+ mm/) || ['85 x 55 mm'])[0];
+  function pickFile(side) { pickSide = side; fileInput.click(); }
+  document.addEventListener('click', e => { const b = e.target.closest('[data-pick]'); if (b) pickFile(b.dataset.pick); });
+  fileInput.addEventListener('change', () => {
+    const f = fileInput.files[0]; fileInput.value = '';
+    if (!f) return;
+    if (pickSide === 'front' && !sheetStack.some(el => el.id === 'sheet-upload')) upload = { front: null, back: null };
+    upload[pickSide] = { name: f.name, size: f.size, ext: (f.name.split('.').pop() || '').toLowerCase(), progress: 0 };
+    // From the design layer (A) the upload sheet takes its place
+    if (sheetStack.at(-1)?.id === 'sheet-design') closeSheet();
+    if (!sheetStack.some(el => el.id === 'sheet-upload')) openSheet('upload');
+    const it = upload[pickSide];
+    const timer = setInterval(() => { it.progress = Math.min(100, it.progress + 20); renderUpload(); if (it.progress === 100) clearInterval(timer); }, 180);
+    renderUpload();
+  });
+  const sizeText = n => n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' KB';
+  const fileRow = (side, f) => `
+    <div class="up-file">
+      <span class="up-ico">${f.ext.toUpperCase().slice(0, 4)}</span>
+      <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${side === 'front' ? 'Front' : 'Back'} · ${sizeText(f.size)}</small>
+        ${f.progress < 100 ? `<span class="up-bar"><i style="width:${f.progress}%"></i></span>` : ''}</div>
+      ${f.progress < 100 ? '' : `<button class="up-replace" data-pick="${side}">Replace</button>`}
+    </div>`;
+  function renderUpload() {
+    const c = saved, { front, back } = upload, ready = front && front.progress === 100 && (!back || back.progress === 100);
+    document.getElementById('upFiles').innerHTML = (front ? fileRow('front', front) : '')
+      + (doubleSided(c) ? (back ? fileRow('back', back) : '<button class="up-add" data-pick="back">+ Add the back side (optional)</button>') : '');
+    // Simulated check: PDFs usually include bleed, images usually don't (we add it)
+    document.getElementById('upCheck').innerHTML = ready ? `
+      <p class="up-check-title">File check</p>
+      <p class="ok"><img src="${P}check.svg" alt="">Size matches ${sizeOf(c)}</p>
+      <p class="ok"><img src="${P}check.svg" alt="">Resolution 300 dpi</p>
+      ${front.ext === 'pdf' ? `<p class="ok"><img src="${P}check.svg" alt="">3 mm bleed included</p>` : `<p class="warn"><span>!</span>No bleed found – we’ll add it for you</p>`}`
+      : front ? '<p class="up-checking">Uploading and checking…</p>' : '';
+    document.getElementById('upAdd').disabled = !ready;
+  }
+  document.getElementById('upAdd').addEventListener('click', () => {
+    const { front, back } = upload;
+    closeSheet();
+    placeOrder('file', `${front.name}${back ? ' + ' + back.name : ''} ✓ checked`);
+  });
 
   // Version switch (prototype): keep the other URL parameters
   document.querySelectorAll('[data-flow]').forEach(b => {

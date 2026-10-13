@@ -872,3 +872,27 @@ body.flow-d .alt-btn:hover { border-color: var(--dark-green); }
 body.flow-d .alt-btn img { width: 18px; height: 18px; }
 .guide-item .gi-go { align-self: flex-start; height: 36px; padding: 0 16px; margin-top: 4px; font-size: 14px; }
 body.flow-d #ctaStack .btn.primary { border-radius: 100px; } /* D keeps the fully rounded green button */
+
+/* Upload now: link under Add to cart (D) + upload sheet (A and D) */
+.upload-now { display: none; align-items: center; justify-content: center; gap: 5px; margin: 2px auto 0; padding: 4px 8px; font-size: 13px; line-height: 1.3; color: var(--black); }
+.upload-now img { width: 16px; height: 16px; }
+.upload-now u { font-weight: 600; text-underline-offset: 2px; }
+body.flow-d .upload-now { display: flex; }
+.up-intro { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.up-files { display: flex; flex-direction: column; gap: 8px; }
+.up-file { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--mid-grey); border-radius: 5px; }
+.up-ico { flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 48px; border-radius: 4px; background: var(--light-grey); font-weight: 700; font-size: 11px; color: var(--dark-green); }
+.up-file .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.up-file b { font-weight: 600; font-size: 14px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.up-file small { font-size: 12px; color: var(--dark-grey); }
+.up-bar { display: block; height: 4px; margin-top: 4px; border-radius: 2px; background: var(--light-grey); overflow: hidden; }
+.up-bar i { display: block; height: 100%; background: var(--light-green); transition: width .18s linear; }
+.up-replace { flex-shrink: 0; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.up-add { padding: 12px; border: 1px dashed var(--mid-grey); border-radius: 5px; font-size: 14px; font-weight: 600; color: var(--dark-green); text-align: center; }
+.up-check { display: flex; flex-direction: column; gap: 6px; }
+.up-check-title { font-weight: 700; font-size: 16px; line-height: 1.3; }
+.up-check .ok, .up-check .warn { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.4; }
+.up-check .ok img { width: 20px; height: 20px; flex-shrink: 0; }
+.up-check .warn span { display: grid; place-items: center; width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: var(--orange); color: var(--white); font-weight: 800; font-size: 12px; }
+.up-checking { font-size: 14px; color: var(--dark-grey); }
+.btn.primary:disabled { opacity: .45; cursor: default; }
