@@ -584,10 +584,8 @@
     document.getElementById('dpIcon').src = P + d.icon;
     document.getElementById('dpName').textContent = DESIGN_SHORT[d.id];
     // The other ways stay findable without their own buttons
-    // Upload later ↔ upload now name each other; Canva / AI / designer just say "upload file"
-    const uploadAlt = { upload: 'upload now', file: 'upload later' }[designSaved] || 'upload file';
-    const others = [uploadAlt, ...[['canva', 'Canva'], ['ai', 'AI'], ['designer', 'designer']].filter(([id]) => id !== designSaved).map(([, n]) => n)];
-    document.getElementById('dpHint').textContent = `Other options: ${others.join(', ')}`;
+    const others = ['file', 'canva', 'ai', 'designer'].filter(id => id !== designSaved).map(id => ({ file: 'upload now', canva: 'Canva', ai: 'AI', designer: 'a designer', upload: 'upload later' })[id]);
+    document.getElementById('dpHint').textContent = `or ${others.slice(0, -1).join(', ')} or ${others.at(-1)}`;
     // The green buttons say what they do, and do it
     document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar .flow-b-only').forEach(el => { el.textContent = d.cta; });
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar .flow-b-only').forEach(el => { el.dataset.order = designSaved; });
