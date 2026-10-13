@@ -907,3 +907,14 @@ body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22p
 .up-thumb img { width: 100%; height: 100%; object-fit: cover; }
 /* A PDF is rendered at 5x size and scaled down, so the viewer fits the thumbnail; the dark viewer edge is cropped */
 .up-thumb iframe { position: absolute; left: -2px; top: -2px; width: calc(500% + 20px); height: calc(500% + 20px); border: 0; transform: scale(.2); transform-origin: 0 0; pointer-events: none; }
+
+/* Version E: two selector fields (Your cards + Your design) and one button */
+.design-pick { display: none !important; }
+body.flow-e .design-pick { display: flex !important; }
+body.flow-e .upload-now, body.flow-e .or-row, body.flow-e .alt-btns, body.flow-e .cta-hint, body.flow-e #ctaStack .btn-sub, body.flow-e .buy-bar .bar-link { display: none !important; }
+body.flow-e #ctaStack .btn.primary { justify-content: center; }
+.design-pick .pick-field { gap: 10px; }
+.design-pick .dp-ico { width: 24px; height: 24px; flex-shrink: 0; }
+.design-pick .v b { display: block; font-weight: 600; font-size: 13px; line-height: 1.4; }
+.design-pick .v small { display: block; font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
+#backToOptions[hidden] { display: none; }

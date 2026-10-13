@@ -38,6 +38,15 @@
           <p class="pick-label"><span>Your cards</span><span class="tag" data-bind="pickTag"></span></p>
           <button class="pick-field" data-open-sheet="customise" aria-label="Change your options"><span class="v" data-bind="pick"></span><img class="chev" src="assets/category/arrow.svg" alt=""><span class="d-edit material-symbols-rounded" aria-hidden="true">edit</span></button>
         </div>
+        <!-- Version E: how the design gets to us, as a second selector field (same pattern as "Your cards") -->
+        <div class="pick design-pick">
+          <p class="pick-label"><span>Your design</span></p>
+          <button class="pick-field" data-open-sheet="design" aria-label="Change how you add your design">
+            <img class="dp-ico" id="dpIcon" src="assets/pdp/d-upload.svg" alt="">
+            <span class="v"><b id="dpName"></b><small id="dpHint"></small></span>
+            <span class="d-edit material-symbols-rounded" aria-hidden="true">edit</span>
+          </button>
+        </div>
         <div class="recap">
           <div class="recap-text">
             <span class="recap-label" data-bind="presetLabel"></span>
@@ -224,6 +233,7 @@
   <button data-flow="b" title="Add to cart, with the other design options right under it">B</button>
   <button data-flow="c" title="Options as a selector field; the layer only saves">C</button>
   <button data-flow="d" title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
+  <button data-flow="e" title="Two selector fields (cards + design) and one button">E</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -252,16 +262,19 @@
   // C: like B, but the options are one selector field (tap → layer); the layer only saves, ordering happens on the page.
   // ?flow=a|b|c sets it; the choice is remembered while clicking through the prototype.
   // D: the combo, C + the design options as pills, with ⓘ for an explanation per option.
-  const FLOWS = ['a', 'b', 'c', 'd'];
+  // E: two selector fields (Your cards + Your design) and one button that says what it does.
+  const FLOWS = ['a', 'b', 'c', 'd', 'e'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = FLOW === 'c' || FLOW === 'd';   // D builds on C
+  const FLOW_C = ['c', 'd', 'e'].includes(FLOW);   // D and E build on C
+  const FLOW_E = FLOW === 'e';
   document.body.classList.add('flow-' + FLOW);
-  if (FLOW === 'd') document.body.classList.add('flow-c');
+  if (FLOW === 'd' || FLOW_E) document.body.classList.add('flow-c');
+  if (FLOW_E) document.body.classList.add('flow-d');
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -462,6 +475,7 @@
     document.getElementById('designList').innerHTML = DESIGN.map(d => `
       <button class="design" role="radio" aria-checked="${design === d.id}" data-design="${d.id}"><span class="radio"></span>
         <span class="t"><b>${d.name}</b><small>${d.sub}</small></span><span class="ico"><img src="${P + d.icon}" alt=""></span></button>`).join('');
+    if (FLOW_E) { document.getElementById('designSave').textContent = design === designSaved ? 'Done' : 'Save'; return; }
     document.getElementById('designGo').textContent = DESIGN.find(d => d.id === design).cta; // the button names the next action; the price shows on the left
   }
   document.getElementById('designList').addEventListener('click', e => {
@@ -479,6 +493,7 @@
     document.getElementById('ctaStack').scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   function placeOrder(design, label) {
+    if (design === 'file' && !label) { pickFile('front'); return; }
     // Canva and the AI studio are separate tools (no screens in the prototype yet)
     if (design === 'canva') { showToast('Opening Canva…'); return; }
     if (design === 'ai') { showToast('Opening AI studio…'); return; }
@@ -561,7 +576,33 @@
 
   // Sheets: page-specific preparation before opening (mechanics live in app.js)
   sheetHooks.customise = () => { draft = { ...saved }; renderDraft(); document.querySelector('#sheet-customise .sheet-body').scrollTop = 0; };
-  sheetHooks.design = () => renderDesign();
+  // ---------- Version E: "Your design" field; the design layer only saves ----------
+  const DESIGN_SHORT = { file: 'Upload now', upload: 'Upload after checkout', canva: 'Design it in Canva', ai: 'Make it with AI', designer: 'My designer sends the file' };
+  let designSaved = 'upload';
+  function renderDesignField() {
+    const d = DESIGN.find(x => x.id === designSaved);
+    document.getElementById('dpIcon').src = P + d.icon;
+    document.getElementById('dpName').textContent = DESIGN_SHORT[d.id];
+    // The other ways stay findable without their own buttons
+    const others = ['file', 'canva', 'ai', 'designer'].filter(id => id !== designSaved).map(id => ({ file: 'upload now', canva: 'Canva', ai: 'AI', designer: 'a designer', upload: 'upload later' })[id]);
+    document.getElementById('dpHint').textContent = `or ${others.slice(0, -1).join(', ')} or ${others.at(-1)}`;
+    // The green buttons say what they do, and do it
+    document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar .flow-b-only').forEach(el => { el.textContent = d.cta; });
+    document.querySelectorAll('#ctaStack .btn.primary, #buyBar .flow-b-only').forEach(el => { el.dataset.order = designSaved; });
+  }
+  if (FLOW_E) {
+    renderDesignField();
+    document.getElementById('backToOptions').hidden = true;
+    document.getElementById('designGo').replaceWith(Object.assign(document.createElement('button'), { className: 'btn primary', id: 'designSave', textContent: 'Done' }));
+    document.getElementById('designSave').addEventListener('click', () => {
+      const changed = design !== designSaved;
+      designSaved = design;
+      closeSheet();
+      renderDesignField();
+      if (changed) { flash(document.querySelector('.design-pick .pick-field')); showToast('Your design choice is updated'); }
+    });
+  }
+  sheetHooks.design = () => { if (FLOW_E) design = designSaved; renderDesign(); };
 
   // ---------- Sticky buy bar ----------
   // Visible whenever the price box's buttons are out of view, all the way down the page.
