@@ -63,6 +63,18 @@
           <button class="btn primary" data-open-sheet="design">Add your design</button>
         </div>
         <!-- Flow B: Add to cart + the other ways to get a design, each acting directly -->
+        <!-- Version G: one question first, "Do you have a design?" -->
+        <div class="has-design">
+          <p class="hd-q">Do you have a design?</p>
+          <div class="seg" role="radiogroup" aria-label="Do you have a design?">
+            <button role="radio" aria-checked="true" data-has="yes">Yes, I have one</button>
+            <button role="radio" aria-checked="false" data-has="no">No, not yet</button>
+          </div>
+          <div class="hd-no" hidden>
+            <button class="hd-card" role="radio" aria-checked="true" data-make="canva"><img src="assets/pdp/d-canva.svg" alt=""><b>Design it in Canva</b><small>Free templates, the right size for you</small></button>
+            <button class="hd-card" role="radio" aria-checked="false" data-make="ai"><img src="assets/pdp/d-ai.svg" alt=""><b>Make it with AI</b><small>Tell us what it’s for, change it until you like it</small></button>
+          </div>
+        </div>
         <div class="cta-stack" id="ctaStack">
           <button class="btn primary" data-order="upload"><span>Add to cart</span><small class="btn-sub">Upload your file later</small></button>
           <button class="upload-now" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">File ready? <u>Upload it now</u> ›</button>
@@ -72,6 +84,10 @@
             <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Canva<small>Free templates</small></button>
             <button class="alt-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">AI studio<small>Made for you</small></button>
             <button class="alt-btn" data-order="designer"><img src="assets/pdp/d-designer.svg" alt="">Designer<small>Send a link</small></button>
+          </div>
+          <div class="hd-yes">
+            <p><button data-pick="front"><img src="assets/pdp/d-upload.svg" alt=""><u>Upload now</u></button> or after checkout</p>
+            <p>Your designer has it? <button data-order="designer"><u>Get a designer link</u></button></p>
           </div>
         </div>
       </div>
@@ -240,6 +256,7 @@
   <button data-flow="d" title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
   <button data-flow="e" title="Two selector fields (cards + design) and one button">E</button>
   <button data-flow="f" title="Spec list: every option a row, design as the last row">F</button>
+  <button data-flow="g" title="F + one question first: do you have a design?">G</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -270,20 +287,23 @@
   // D: the combo, C + the design options as pills, with ⓘ for an explanation per option.
   // E: two selector fields (Your cards + Your design) and one button that says what it does.
   // F: the options as a spec list (Cornel's reference); each row opens its option, design is the last row. Builds on E.
-  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f'];
+  // G: F + one question first, "Do you have a design?" (yes: add to cart / upload now / designer link; no: Canva or AI).
+  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = ['c', 'd', 'e', 'f'].includes(FLOW);   // D, E and F build on C
-  const FLOW_E = ['e', 'f'].includes(FLOW);            // F builds on E
-  const FLOW_F = FLOW === 'f';
+  const FLOW_C = ['c', 'd', 'e', 'f', 'g'].includes(FLOW);   // D–G build on C
+  const FLOW_E = ['e', 'f', 'g'].includes(FLOW);            // F and G build on E
+  const FLOW_F = ['f', 'g'].includes(FLOW);                 // G builds on F
+  const FLOW_G = FLOW === 'g';
   document.body.classList.add('flow-' + FLOW);
   if (FLOW === 'd' || FLOW_E) document.body.classList.add('flow-c');
   if (FLOW_E) document.body.classList.add('flow-d');
   if (FLOW_F) document.body.classList.add('flow-e');
+  if (FLOW_G) document.body.classList.add('flow-f');
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -597,7 +617,7 @@
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
       ['qty', 'Quantity', `${c.qty} pcs`],
       ['delivery', 'Delivery', `${delivery(c).name} – arrives ${delivery(c).dayName}`],
-      ['design', 'Design', DESIGN_SHORT[designSaved]],
+      ...(FLOW_G ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];
     // Fixed specs come right after the options, as rows without an arrow (nothing to change)
     const fixed = (PRODUCT.fixed || []).map(([label, v]) => `<li><div class="fixed"><span class="k">${label}</span><span class="v">${v}</span></div></li>`).join('');
@@ -638,6 +658,27 @@
     });
   }
   sheetHooks.design = () => { if (FLOW_E) design = designSaved; renderDesign(); };
+
+  // ---------- Version G: "Do you have a design?" ----------
+  let hasDesign = 'yes', makeWith = 'canva';
+  function renderHasDesign() {
+    document.querySelectorAll('[data-has]').forEach(b => b.setAttribute('aria-checked', b.dataset.has === hasDesign));
+    document.querySelectorAll('[data-make]').forEach(b => b.setAttribute('aria-checked', b.dataset.make === makeWith));
+    document.querySelector('.hd-no').hidden = hasDesign === 'yes';
+    document.querySelector('.hd-yes').hidden = hasDesign === 'no';
+    // The green button (and sticky bar) follow: Add to cart, or Continue to Canva / Design with AI
+    designSaved = hasDesign === 'yes' ? 'upload' : makeWith;
+    renderDesignField();
+  }
+  if (FLOW_G) {
+    document.querySelector('.has-design').addEventListener('click', e => {
+      const h = e.target.closest('[data-has]'), m = e.target.closest('[data-make]');
+      if (h) hasDesign = h.dataset.has;
+      if (m) makeWith = m.dataset.make;
+      if (h || m) renderHasDesign();
+    });
+    renderHasDesign();
+  }
 
   // ---------- Sticky buy bar ----------
   // Visible whenever the price box's buttons are out of view, all the way down the page.
