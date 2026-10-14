@@ -362,7 +362,8 @@
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(b => {
       b.removeAttribute('data-order');
       b.innerHTML = 'Continue';
-      b.addEventListener('click', () => openSheet('adddesign'));
+      // H: the design layer with the five choices (as in E); its button names and does the action. J: the action buttons step.
+      b.addEventListener('click', () => openSheet(FLOW_H ? 'design' : 'adddesign'));
     });
   }
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
@@ -725,6 +726,7 @@
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(el => { el.dataset.order = designSaved; });
     if (FLOW_F) renderSpecRows();
   }
+  if (FLOW_H) document.getElementById('backToOptions').hidden = true;   // the options are on the page already
   if (FLOW_E) {
     renderDesignField();
     document.getElementById('backToOptions').hidden = true;
