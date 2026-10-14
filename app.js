@@ -9,7 +9,7 @@ const SHELL_HEADER = `
         <div class="side"><a href="#menu" data-proto="menu" aria-label="Menu"><img class="icon" src="assets/menu.svg" alt=""></a></div>
         <a href="index.html" aria-label="HelloPrint home"><img class="logo" src="assets/logo.svg" alt="HelloPrint"></a>
         <div class="side right">
-          <a href="#account" aria-label="Account"><img class="icon" src="assets/account.svg" alt=""></a>
+          <a href="login.html" aria-label="Account" class="account-link"><img class="icon" src="assets/account.svg" alt=""></a>
           <a href="#cart" aria-label="Cart"><img class="icon" src="assets/bag.svg" alt=""></a>
         </div>
       </div>
@@ -132,6 +132,7 @@ const ROUTES = {
   'details-shipping': 'details.html',
   'payment': 'payment.html',
   'order-confirmed': 'confirmed.html',
+  'login': 'login.html',
 };
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="#"]');
@@ -516,3 +517,6 @@ function setFieldError(field, msg) {
     if (i === n) setTimeout(() => { track.style.transition = 'none'; track.style.transform = 'translateY(0)'; i = 0; }, still ? 0 : 450);
   }, 3000);
 })();
+
+// Logged in (prototype, login.html): the account icon gets a green dot
+try { if (localStorage.getItem('hp-user')) document.querySelector('.account-link')?.classList.add('logged-in'); } catch (e) {}

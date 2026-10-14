@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <!-- From the checkout (?return=details) the secure checkout header, otherwise the normal one -->
+  <div id="headerSlot" data-shell="header"></div>
+  <script>if (new URLSearchParams(location.search).get('return')) document.getElementById('headerSlot').dataset.shell = 'checkout-header';</script>
+
+  <!-- Log in / create account (live helloprint.com login page, mobile) -->
+  <main class="auth">
+    <a class="auth-back" id="authBack" href="details.html" hidden>Back to checkout</a>
+    <img class="auth-logo" src="assets/logo-dark.svg" alt="HelloPrint">
+
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="login">Welcome back</button>
+        <button role="tab" aria-selected="false" data-tab="register">Create an account</button>
+      </div>
+
+      <div class="auth-body">
+        <button class="auth-google" type="button" id="google">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+          Continue with Google
+        </button>
+        <p class="auth-or"><span>or</span></p>
+
+        <!-- Log in -->
+        <form class="auth-form" id="loginForm" novalidate>
+          <h1>Sign in to your account</h1>
+          <label class="auth-field" data-field="email"><span>Email address <i>*</i></span>
+            <input type="email" name="email" autocomplete="email" required></label>
+          <label class="auth-field" data-field="password"><span>Password <i>*</i></span>
+            <span class="pw"><input type="password" name="password" autocomplete="current-password" required><button type="button" class="eye" aria-label="Show password"></button></span></label>
+          <button class="btn primary auth-submit" type="submit">Sign in</button>
+          <a class="auth-link" href="#forgot-password">Forgot your password?</a>
+          <p class="auth-switch">Don’t have an account? <button type="button" data-tab="register">Create one now</button></p>
+        </form>
+
+        <!-- Create account -->
+        <form class="auth-form" id="registerForm" novalidate hidden>
+          <h1>Create your account</h1>
+          <div class="auth-row">
+            <label class="auth-field" data-field="first"><span>First name <i>*</i></span><input name="first" autocomplete="given-name" required></label>
+            <label class="auth-field" data-field="last"><span>Last name <i>*</i></span><input name="last" autocomplete="family-name" required></label>
+          </div>
+          <label class="auth-field" data-field="email"><span>Email address <i>*</i></span><input type="email" name="email" autocomplete="email" required></label>
+          <label class="auth-field" data-field="password"><span>Password <i>*</i></span>
+            <span class="pw"><input type="password" name="password" autocomplete="new-password" required><button type="button" class="eye" aria-label="Show password"></button></span>
+            <small class="hint">At least 8 characters</small></label>
+          <label class="check"><input type="checkbox" name="business">I’m ordering for a business</label>
+          <button class="btn primary auth-submit" type="submit">Create account</button>
+          <p class="auth-terms">By creating an account you agree to our <a href="#terms">terms</a> and <a href="#privacy">privacy policy</a>.</p>
+          <p class="auth-switch">Already have an account? <button type="button" data-tab="login">Sign in</button></p>
+        </form>
+
+        <a class="auth-guest" id="guestLink" href="details.html" hidden>Continue as guest</a>
+      </div>
+    </div>
+
+    <ul class="auth-trust">
+      <li><img src="assets/checkout/encrypted.svg" alt="">Secure</li>
+      <li><span class="lock" aria-hidden="true"></span>Encrypted</li>
+      <li><span class="card" aria-hidden="true"></span>Safe checkout</li>
+    </ul>
+    <p class="auth-proto">Prototype: any email and password work. Only your name and email are kept in this browser, never the password.</p>
+  </main>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // Where to go after signing in: back to the checkout (?return=details) or home
+  const params = new URLSearchParams(location.search);
+  const back = { details: 'details.html' }[params.get('return')] || 'index.html';
+  if (params.get('return')) { document.getElementById('authBack').hidden = false; document.getElementById('guestLink').hidden = false; }
+
+  // Tabs: Welcome back / Create an account (?tab=register opens the second one)
+  function showTab(tab) {
+    document.querySelectorAll('.auth-tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
+    document.getElementById('loginForm').hidden = tab !== 'login';
+    document.getElementById('registerForm').hidden = tab !== 'register';
+    document.title = tab === 'login' ? 'Log in' : 'Create an account';
+  }
+  document.addEventListener('click', e => { const t = e.target.closest('[data-tab]'); if (t) showTab(t.dataset.tab); });
+  showTab(params.get('tab') === 'register' ? 'register' : 'login');
+
+  // Show / hide password
+  document.querySelectorAll('.eye').forEach(b => b.addEventListener('click', () => {
+    const i = b.previousElementSibling, show = i.type === 'password';
+    i.type = show ? 'text' : 'password';
+    b.classList.toggle('on', show); b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  }));
+
+  // Prefill the email from the checkout details, if any
+  let details = {};
+  try { details = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
+  if (details.email) document.querySelectorAll('[name=email]').forEach(i => { i.value = details.email; });
+
+  // Validation (format only) + fake sign-in: keep name and email, never the password
+  function check(form, rules) {
+    let ok = true;
+    for (const [name, test, msg] of rules) {
+      const input = form.querySelector(`[name=${name}]`), field = input.closest('.auth-field');
+      const valid = test(input.value);
+      field.classList.toggle('invalid', !valid);
+      field.querySelector('.err')?.remove();
+      if (!valid) { field.insertAdjacentHTML('beforeend', `<small class="err">${msg}</small>`); if (ok) input.focus(); ok = false; }
+    }
+    return ok;
+  }
+  const isEmail = v => /^\S+@\S+\.\S+$/.test(v.trim());
+  function signIn(user) {
+    try { localStorage.setItem('hp-user', JSON.stringify(user)); } catch (e) {}
+    toastOnNextPage(`Welcome${user.first ? ', ' + user.first : ''}! You’re logged in`);
+    location.href = back;
+  }
+  // A readable first name from the email when we don't know it (jane.doe@… → Jane)
+  const nameFromEmail = e => { const n = e.split('@')[0].split(/[._-]/)[0]; return n ? n[0].toUpperCase() + n.slice(1) : ''; };
+
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    if (!check(f, [['email', isEmail, 'Enter a valid email address'], ['password', v => v.length > 0, 'Enter your password']])) return;
+    const email = f.email.value.trim(), same = details.email && details.email.toLowerCase() === email.toLowerCase();
+    signIn({ email, first: same && details.first ? details.first : nameFromEmail(email), last: same ? details.last || '' : '' });
+  });
+  document.getElementById('registerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    if (!check(f, [['first', v => v.trim(), 'Enter your first name'], ['last', v => v.trim(), 'Enter your last name'],
+      ['email', isEmail, 'Enter a valid email address'], ['password', v => v.length >= 8, 'Use at least 8 characters']])) return;
+    signIn({ email: f.email.value.trim(), first: f.first.value.trim(), last: f.last.value.trim(), business: f.business.checked });
+  });
+  document.getElementById('google').addEventListener('click', () => showToast('Google sign-in isn’t part of the prototype yet'));
+</script>
+</body>
+</html>

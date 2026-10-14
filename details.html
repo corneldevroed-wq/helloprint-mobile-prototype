@@ -23,7 +23,8 @@
 
     <form id="coForm" novalidate>
       <div class="co-extra">
-        <div class="co-head"><h2>Contact details</h2><a href="#login">Login</a></div>
+        <div class="co-head"><h2>Contact details</h2><a href="login.html?return=details" id="loginLink">Login</a></div>
+        <p class="co-user" id="coUser" hidden></p>
         <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
         <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
         <div class="co-extra" id="businessFields" hidden>
@@ -91,6 +92,21 @@
   if (items[0]) document.getElementById('barArrives').textContent = `arrives ${items[0].arrives}`;
   if (items[0]) document.getElementById('shipArrives').textContent = `${items[0].delivery} · arrives ${items[0].arrives}`;
 
+  // Logged in (login.html): show who, fill in what we know, offer to log out
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('hp-user')); } catch (e) {}
+  if (user) {
+    document.getElementById('loginLink').hidden = true;
+    const u = document.getElementById('coUser');
+    u.hidden = false;
+    u.innerHTML = `Logged in as <b>${user.email.replace(/</g, '&lt;')}</b> · <button type="button" id="logout">Log out</button>`;
+    document.getElementById('logout').addEventListener('click', () => {
+      try { localStorage.removeItem('hp-user'); } catch (e) {}
+      toastOnNextPage('You’re logged out. You can still check out as a guest');
+      location.reload();
+    });
+  }
+
   // Optional blocks
   const toggle = (box, id) => document.getElementById(box).toggleAttribute('hidden', !document.getElementById(id).checked);
   document.getElementById('isBusiness').addEventListener('change', () => toggle('businessFields', 'isBusiness'));
@@ -109,6 +125,11 @@
     document.getElementById('businessFields').toggleAttribute('hidden', !document.getElementById('isBusiness').checked);
     document.getElementById('billingFields').toggleAttribute('hidden', document.getElementById('sameBilling').checked);
   } catch (e) {}
+  if (user) {
+    const put = (n, v) => { const i = form.querySelector(`[name=${n}]`); if (i && v && !i.value) i.value = v; };
+    put('email', user.email); put('first', user.first); put('last', user.last);
+    if (user.business) { document.getElementById('isBusiness').checked = true; document.getElementById('businessFields').hidden = false; }
+  }
   const remember = () => {
     const data = {};
     form.querySelectorAll('input, select').forEach(el => { if ((el.name || el.id) && !el.readOnly) data[el.name || el.id] = el.type === 'checkbox' ? el.checked : el.value; });

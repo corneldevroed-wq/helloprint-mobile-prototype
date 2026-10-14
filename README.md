@@ -7,7 +7,7 @@ Clickable HTML prototype of the HelloPrint mobile redesign, built from the Figma
 
 Home → Business cards (category) → product page (6 business card types) → Cart → Details & shipping → Payment → Order confirmed
 
-Also included: drill-down menu, search, Excl/Incl VAT switch, customise sheet and
+Also included: log in / create account (prototype: any email and password work; only name and email are kept, never the password), drill-down menu, search, Excl/Incl VAT switch, customise sheet and
 design-choice sheet on the product page, file-check and secured-delivery popups in the cart.
 
 ## Run it
@@ -28,7 +28,7 @@ Then visit http://localhost:8765 (best viewed at phone width, ~390 px).
 
 ## Files
 
-- `index.html`, `business-cards.html`, `product.html`, `cart.html`, `details.html`, `payment.html`, `confirmed.html`: the screens
+- `index.html`, `business-cards.html`, `product.html`, `cart.html`, `details.html`, `payment.html`, `confirmed.html`, `login.html`: the screens
 - `product.html?p=<slug>` shows any business card type; the types, options, prices and texts live in `products.js`
 - `classic-business-cards.html`: old address, forwards to the classic product page
 - `app.js`: shared header, menu, search, VAT, cart, bottom sheets and toasts
