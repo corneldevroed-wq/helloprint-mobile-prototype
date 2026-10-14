@@ -72,6 +72,7 @@
           <div class="i-q"><span>Do you have a design?</span><span class="i-yn" id="iYn">Yes</span><button class="switch" role="switch" aria-checked="true" id="iHas" aria-label="I have a design"></button></div>
           <button class="btn primary i-btn" id="iMain"><b></b><small></small></button>
           <button class="btn outline i-btn" id="iAlt"><b></b><small></small></button>
+          <p class="i-link" id="iLink" hidden>Your designer has it? <button data-order="designer">Get a designer link</button></p>
         </div>
         <!-- Version G: one question first, "Do you have a design?" -->
         <div class="has-design">
@@ -735,6 +736,7 @@
     const [main, alt] = I_BTNS[iHas ? 'yes' : 'no'];
     document.getElementById('iHas').setAttribute('aria-checked', iHas);
     document.getElementById('iYn').textContent = iHas ? 'Yes' : 'No';
+    document.getElementById('iLink').hidden = iHas;   // the designer route belongs with "No"
     [['iMain', main], ['iAlt', alt]].forEach(([id, [order, label, sub]]) => {
       const b = document.getElementById(id);
       b.dataset.order = order; b.querySelector('b').textContent = label; b.querySelector('small').textContent = sub;

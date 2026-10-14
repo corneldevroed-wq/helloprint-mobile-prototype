@@ -1000,3 +1000,6 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .i-btn small { font-weight: 400; font-size: 13px; opacity: .92; }
 .i-btn.outline { border-color: var(--dark-grey); color: var(--black); }
 .i-btn.outline small { color: var(--dark-grey); }
+.i-link { font-size: 13px; color: var(--dark-grey); text-align: center; }
+.i-link[hidden] { display: none; }
+.i-link button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
