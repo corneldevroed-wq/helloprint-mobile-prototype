@@ -195,11 +195,14 @@
       }
     }
     // Keep what was ordered for the confirmation page, then empty the cart (add-ons back to their defaults)
-    let email = '';
-    try { email = (JSON.parse(localStorage.getItem('hp-checkout-details')) || {}).email || ''; } catch (e) {}
+    let details = {};
+    try { details = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
     const order = {
-      number: 'HP' + String(Date.now()).slice(-8), items, addons, check, total, subtotal, vat,
-      when, method: when === 'later' ? 'Payment link' : method, email, arrives: items[0]?.arrives,
+      number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, total, subtotal, vat,
+      when, method: when === 'later' ? 'Payment link' : method, email: details.email || '', arrives: items[0]?.arrives,
+      // For "Thank you, John" and "Delivering to" (the details form, this browser only)
+      name: [details.first, details.last].filter(Boolean).join(' '), first: details.first || '',
+      address: [details.address1, details.address2, [details.town, details.eircode].filter(Boolean).join(' ')].filter(Boolean).join(', '),
     };
     try { localStorage.setItem('hp-last-order', JSON.stringify(order)); localStorage.removeItem('hp-cart-addons'); } catch (e) {}
     setCart([]);

@@ -12,39 +12,55 @@
 <div class="phone">
   <div data-shell="checkout-header"></div>
 
-  <!-- Order confirmed (no Figma frame yet: built in the checkout style) -->
-  <main class="co-page">
-    <ol class="co-steps" aria-label="Checkout steps">
-      <li class="done">Cart</li>
-      <li class="done">Details</li>
-      <li class="done">Payment</li>
-      <li class="current" aria-current="step">Confirmed</li>
+  <!-- Order confirmed (Cornel's wireframe "Helloprint Mobile Flow", last screen) -->
+  <main class="co-page oc">
+    <ol class="oc-bar" aria-label="Checkout steps">
+      <li>Details &amp; Shipping</li>
+      <li>Payment</li>
+      <li aria-current="step">Order Confirmed!</li>
     </ol>
 
     <section class="oc-hero">
-      <span class="oc-check"><img src="assets/pdp/check.svg" alt=""></span>
-      <h1 id="ocTitle">Thanks, your order is placed!</h1>
-      <p id="ocLead"></p>
-      <p class="oc-number">Order number <b id="ocNumber"></b></p>
+      <p class="oc-number" id="ocNumber"></p>
+      <h1 id="ocTitle"></h1>
+      <p class="oc-lead" id="ocLead"></p>
     </section>
 
-    <section class="oc-next">
-      <h2>What happens next</h2>
-      <ol class="oc-steps" id="ocSteps"></ol>
+    <!-- Upload right here. Prototype: the file stays in the browser, only its name is read. -->
+    <section class="oc-upload" id="ocUpload">
+      <b>Upload your design</b>
+      <button class="btn primary" id="ocChoose">Choose files</button>
+      <small>PDF, AI, EPS, JPG or PNG · up to 200 MB per file</small>
+      <input type="file" id="ocFile" accept=".pdf,.ai,.eps,.jpg,.jpeg,.png" multiple hidden>
+      <ul class="oc-files" id="ocFiles"></ul>
     </section>
 
-    <section class="summary-box">
-      <h2>Order summary</h2>
-      <div id="ocSummary"></div>
+    <section>
+      <h2 class="oc-h2">Order status</h2>
+      <ol class="oc-status" id="ocStatus"></ol>
     </section>
 
-    <section class="oc-account">
-      <b>Order again in seconds</b>
-      <p>Save your details and follow your order in your account.</p>
-      <a class="btn outline" href="#create-account">Create an account</a>
+    <div class="oc-info" id="ocInfo"></div>
+
+    <section class="oc-deliver">
+      <b>Delivering to</b>
+      <p id="ocAddress"></p>
+      <p id="ocArrives"></p>
     </section>
 
-    <a class="btn primary oc-home" href="index.html">Continue shopping</a>
+    <section>
+      <h2 class="oc-h2">Questions</h2>
+      <div class="acc oc-faq">
+        <details><summary>Can I change my order?<img src="assets/chevron.svg" alt=""></summary>
+          <p>Yes, until we start printing. Reply to your confirmation email or chat with us and we’ll change it for you.</p></details>
+        <details><summary>Which file formats can I upload?<img src="assets/chevron.svg" alt=""></summary>
+          <p>PDF (preferred), AI, EPS, JPG or PNG, up to 200 MB per file. We check every file for free before printing.</p></details>
+        <details><summary>How do I track my delivery?<img src="assets/chevron.svg" alt=""></summary>
+          <p>As soon as your order ships, we email you a track &amp; trace link. You can also follow it here in your order status.</p></details>
+      </div>
+    </section>
+
+    <a class="oc-continue" href="index.html">Continue shopping</a>
   </main>
 </div>
 
@@ -60,39 +76,48 @@
     const eur = n => '€' + n.toFixed(2);
     const later = o.when === 'later';
     const needsFile = o.items.some(it => /upload after checkout|I will upload later/i.test(it.design));
-    const designer = o.items.some(it => /designer/i.test(it.design));
-    document.getElementById('ocTitle').textContent = later ? 'Thanks, your order is placed!' : 'Thanks, your order is confirmed!';
-    document.getElementById('ocLead').textContent = later
-      ? `We’ve sent a payment link${o.email ? ' to ' + o.email : ''}. We start printing once it’s paid.`
-      : `Paid with ${o.method}. We’ve sent a confirmation${o.email ? ' to ' + o.email : ''}.`;
-    document.getElementById('ocNumber').textContent = o.number;
+    // Files approved by 10:30 the working day before arrival keep the delivery date
+    const arrive = new Date(`${o.arrives} 2026`), approve = new Date(arrive); approve.setDate(arrive.getDate() - 1);
+    const day = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
 
-    // Next steps follow the order: a file still to upload, a designer link, a payment link
-    const steps = [
-      needsFile && { t: 'Upload your file', d: 'Use the link in your email or your account. No rush: we start when it’s in.', cta: ['Upload your file', '#upload-file'] },
-      designer && { t: 'Your designer sends the file', d: 'We’ve emailed you the link to forward to your designer.' },
-      later && { t: 'Pay with the link', d: 'Forward it to whoever pays, like your finance team.' },
-      { t: 'Free file check', d: 'We check your file and show you a proof before we print.' },
-      { t: 'Printing', d: 'Your cards go into production as soon as everything is approved.' },
-      { t: later ? 'Delivery' : `Arrives ${o.arrives}`, d: later ? '1 working day after payment.' : 'If your file is approved in time. You get track & trace by email.' },
-    ].filter(Boolean);
-    document.getElementById('ocSteps').innerHTML = steps.map((s, i) => `
-      <li><span class="n">${i + 1}</span><div><b>${s.t}</b><p>${s.d}</p>${s.cta ? `<a class="btn primary" href="${s.cta[1]}">${s.cta[0]}</a>` : ''}</div></li>`).join('');
+    document.getElementById('ocNumber').textContent = `Order ${o.number}`;
+    document.getElementById('ocTitle').textContent = `Thank you${o.first ? ', ' + o.first : ''}. Your order is in.`;
+    document.getElementById('ocLead').innerHTML = needsFile
+      ? `Upload and approve your files by <b>10:30 on ${day(approve)}</b> to keep delivery on <b>${o.arrives}</b>.`
+      : `Your order arrives on <b>${o.arrives}</b>.`;
+    document.getElementById('ocUpload').hidden = !needsFile;
 
-    document.getElementById('ocSummary').innerHTML = `
-      ${o.items.map(it => `
-        <div class="line-item">
-          <span class="img" style="background:${it.bg}"><img src="${it.img}" alt=""></span>
-          <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small>Design: ${it.design}</small></div>
-          <span class="p">${eur(it.price)}</span>
-        </div>`).join('')}
-      <div class="totals">
-        <div><span>${o.check.line}</span><span>${o.check.price ? eur(o.check.price) : 'Free'}</span></div>
-        ${o.addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
-        <div><span>Subtotal excl. VAT</span><span>${eur(o.subtotal)}</span></div>
-        <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(o.vat)}</span></div>
-        <div class="grand"><span>Total incl. VAT</span><span>${eur(o.total)}</span></div>
-      </div>`;
+    // Order status: placed → artwork check → production → shipped → delivered
+    let filesIn = !needsFile;
+    function renderStatus() {
+      const steps = [
+        ['Order placed', 'Today', 'done'],
+        ['Artwork check', filesIn ? 'Checking your files' : 'Waiting for your files', 'current'],
+        ['Production', ''], ['Shipped', ''], ['Delivered', o.arrives],
+      ];
+      document.getElementById('ocStatus').innerHTML = steps.map(([t, d, state]) => `
+        <li class="${state || ''}"><span class="dot"></span><div><b>${t}</b>${d ? `<small>${d}</small>` : ''}</div></li>`).join('');
+    }
+    renderStatus();
+
+    document.getElementById('ocInfo').innerHTML = `
+      <p><img src="assets/pdp/check.svg" alt=""><span>${o.email ? `Confirmation sent to <b>${o.email}</b>` : 'Confirmation sent by email'}</span></p>
+      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? 'Nothing to pay yet. We email your payment link once your artwork is approved.' : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
+
+    const it = o.items[0], more = o.items.length - 1;
+    document.getElementById('ocAddress').textContent = [o.name, o.address, 'Ireland'].filter(Boolean).join(', ');
+    document.getElementById('ocArrives').textContent = `Arrives ${o.arrives} · ${it.name}, ${it.qty} pcs${more ? ` + ${more} more` : ''}`;
+
+    // Choose files: list them and move the artwork check on
+    const input = document.getElementById('ocFile');
+    document.getElementById('ocChoose').addEventListener('click', () => input.click());
+    input.addEventListener('change', () => {
+      const files = [...input.files]; if (!files.length) return;
+      document.getElementById('ocFiles').innerHTML = files.map(f => `<li><img src="assets/pdp/check.svg" alt="">${f.name.replace(/</g, '&lt;')}</li>`).join('');
+      document.getElementById('ocChoose').textContent = 'Add more files';
+      filesIn = true; renderStatus();
+      showToast('Thanks! We’re checking your files');
+    });
   }
 </script>
 </body>
