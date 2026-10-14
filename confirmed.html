@@ -34,6 +34,12 @@
       <input type="file" id="ocFile" accept=".pdf,.ai,.eps,.jpg,.jpeg,.png" multiple hidden>
       <ul class="oc-files" id="ocFiles"></ul>
     </section>
+    <!-- More than one product needs a file: one row per product, each with its own upload -->
+    <section class="oc-perprod" id="ocPerProduct" hidden>
+      <b>Upload your designs</b>
+      <ul id="ocProducts"></ul>
+      <small>PDF, AI, EPS, JPG or PNG · up to 200 MB per file</small>
+    </section>
 
     <section>
       <h2 class="oc-h2">Order status</h2>
@@ -41,6 +47,11 @@
     </section>
 
     <div class="oc-info" id="ocInfo"></div>
+
+    <details class="oc-summary">
+      <summary><span>Order summary</span><span id="ocSumHead"></span><img src="assets/chevron.svg" alt=""></summary>
+      <div id="ocSummary"></div>
+    </details>
 
     <section class="oc-deliver">
       <b>Delivering to</b>
@@ -58,6 +69,7 @@
         <details><summary>How do I track my delivery?<img src="assets/chevron.svg" alt=""></summary>
           <p>As soon as your order ships, we email you a track &amp; trace link. You can also follow it here in your order status.</p></details>
       </div>
+      <p class="oc-support">Can’t find what you’re looking for? <a href="#chat">Contact support</a></p>
     </section>
 
     <a class="oc-continue" href="index.html">Continue shopping</a>
@@ -75,7 +87,10 @@
   function render(o) {
     const eur = n => '€' + n.toFixed(2);
     const later = o.when === 'later';
-    const needsFile = o.items.some(it => /upload after checkout|I will upload later/i.test(it.design));
+    const needs = it => /upload after checkout|I will upload later/i.test(it.design);
+    const todo = o.items.map((it, i) => ({ ...it, i })).filter(needs);   // products still waiting for a file
+    const needsFile = todo.length > 0;
+    const uploaded = {};   // item index → file name (this page only)
     // Files approved by 10:30 the working day before arrival keep the delivery date
     const arrive = new Date(`${o.arrives} 2026`), approve = new Date(arrive); approve.setDate(arrive.getDate() - 1);
     const day = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
@@ -85,14 +100,17 @@
     document.getElementById('ocLead').innerHTML = needsFile
       ? `Upload and approve your files by <b>10:30 on ${day(approve)}</b> to keep delivery on <b>${o.arrives}</b>.`
       : `Your order arrives on <b>${o.arrives}</b>.`;
-    document.getElementById('ocUpload').hidden = !needsFile;
+    // One product: the single upload box. More: a row per product.
+    document.getElementById('ocUpload').hidden = todo.length !== 1;
+    document.getElementById('ocPerProduct').hidden = todo.length < 2;
 
     // Order status: placed → artwork check → production → shipped → delivered
     let filesIn = !needsFile;
+    const waiting = () => todo.filter(it => !uploaded[it.i]).length;
     function renderStatus() {
       const steps = [
         ['Order placed', 'Today', 'done'],
-        ['Artwork check', filesIn ? 'Checking your files' : 'Waiting for your files', 'current'],
+        ['Artwork check', filesIn ? 'Checking your files' : todo.length > 1 && waiting() < todo.length ? `Waiting for ${waiting()} more ${waiting() === 1 ? 'file' : 'files'}` : 'Waiting for your files', 'current'],
         ['Production', ''], ['Shipped', ''], ['Delivered', o.arrives],
       ];
       document.getElementById('ocStatus').innerHTML = steps.map(([t, d, state]) => `
@@ -107,6 +125,46 @@
     const it = o.items[0], more = o.items.length - 1;
     document.getElementById('ocAddress').textContent = [o.name, o.address, 'Ireland'].filter(Boolean).join(', ');
     document.getElementById('ocArrives').textContent = `Arrives ${o.arrives} · ${it.name}, ${it.qty} pcs${more ? ` + ${more} more` : ''}`;
+
+    // Per product: own upload button; the row shows the file once chosen
+    const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.jpg,.jpeg,.png', hidden: true });
+    document.body.appendChild(perInput);
+    let perIndex = null;
+    function renderProducts() {
+      document.getElementById('ocProducts').innerHTML = todo.map(it => `
+        <li><span class="img" style="background:${it.bg}"><img src="${it.img}" alt=""></span>
+          <div class="t"><b>${it.name}</b>${uploaded[it.i] ? `<small class="ok"><img src="assets/pdp/check.svg" alt="">${uploaded[it.i].replace(/</g, '&lt;')}</small>` : '<small class="todo">⚠ Design still needed</small>'}</div>
+          <button class="btn ${uploaded[it.i] ? 'outline' : 'primary'}" data-up="${it.i}">${uploaded[it.i] ? 'Replace' : 'Upload design'}</button></li>`).join('');
+    }
+    renderProducts();
+    document.getElementById('ocProducts').addEventListener('click', e => {
+      const b = e.target.closest('[data-up]'); if (!b) return;
+      perIndex = +b.dataset.up; perInput.click();
+    });
+    perInput.addEventListener('change', () => {
+      const f = perInput.files[0]; perInput.value = ''; if (!f || perIndex === null) return;
+      uploaded[perIndex] = f.name;
+      filesIn = waiting() === 0;
+      renderProducts(); renderStatus();
+      showToast(filesIn ? 'Thanks! We’re checking your files' : 'File added');
+    });
+
+    // Order summary (collapsed): what was ordered and paid
+    document.getElementById('ocSumHead').textContent = `${o.items.length} ${o.items.length === 1 ? 'item' : 'items'} · ${eur(o.total)}`;
+    document.getElementById('ocSummary').innerHTML = `
+      ${o.items.map(x => `
+        <div class="line-item">
+          <span class="img" style="background:${x.bg}"><img src="${x.img}" alt=""></span>
+          <div class="t"><strong>${x.name}</strong><small>${x.qty} pcs, ${x.delivery}</small><small>${x.options}</small></div>
+          <span class="p">${eur(x.price)}</span>
+        </div>`).join('')}
+      <div class="totals">
+        <div><span>${o.check.line}</span><span>${o.check.price ? eur(o.check.price) : 'Free'}</span></div>
+        ${o.addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+        <div><span>Subtotal excl. VAT</span><span>${eur(o.subtotal)}</span></div>
+        <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(o.vat)}</span></div>
+        <div class="grand"><span>Total incl. VAT</span><span>${eur(o.total)}</span></div>
+      </div>`;
 
     // Choose files: list them and move the artwork check on
     const input = document.getElementById('ocFile');
