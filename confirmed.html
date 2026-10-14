@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order confirmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+
+  <!-- Order confirmed (no Figma frame yet: built in the checkout style) -->
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Checkout steps">
+      <li class="done">Cart</li>
+      <li class="done">Details</li>
+      <li class="done">Payment</li>
+      <li class="current" aria-current="step">Confirmed</li>
+    </ol>
+
+    <section class="oc-hero">
+      <span class="oc-check"><img src="assets/pdp/check.svg" alt=""></span>
+      <h1 id="ocTitle">Thanks, your order is placed!</h1>
+      <p id="ocLead"></p>
+      <p class="oc-number">Order number <b id="ocNumber"></b></p>
+    </section>
+
+    <section class="oc-next">
+      <h2>What happens next</h2>
+      <ol class="oc-steps" id="ocSteps"></ol>
+    </section>
+
+    <section class="summary-box">
+      <h2>Order summary</h2>
+      <div id="ocSummary"></div>
+    </section>
+
+    <section class="oc-account">
+      <b>Order again in seconds</b>
+      <p>Save your details and follow your order in your account.</p>
+      <a class="btn outline" href="#create-account">Create an account</a>
+    </section>
+
+    <a class="btn primary oc-home" href="index.html">Continue shopping</a>
+  </main>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // The order is kept by the payment page (this browser only); nothing here → back to the home page
+  let order = null;
+  try { order = JSON.parse(localStorage.getItem('hp-last-order')); } catch (e) {}
+  if (!order) location.replace('index.html');
+  else render(order);
+
+  function render(o) {
+    const eur = n => '€' + n.toFixed(2);
+    const later = o.when === 'later';
+    const needsFile = o.items.some(it => /upload after checkout|I will upload later/i.test(it.design));
+    const designer = o.items.some(it => /designer/i.test(it.design));
+    document.getElementById('ocTitle').textContent = later ? 'Thanks, your order is placed!' : 'Thanks, your order is confirmed!';
+    document.getElementById('ocLead').textContent = later
+      ? `We’ve sent a payment link${o.email ? ' to ' + o.email : ''}. We start printing once it’s paid.`
+      : `Paid with ${o.method}. We’ve sent a confirmation${o.email ? ' to ' + o.email : ''}.`;
+    document.getElementById('ocNumber').textContent = o.number;
+
+    // Next steps follow the order: a file still to upload, a designer link, a payment link
+    const steps = [
+      needsFile && { t: 'Upload your file', d: 'Use the link in your email or your account. No rush: we start when it’s in.', cta: ['Upload your file', '#upload-file'] },
+      designer && { t: 'Your designer sends the file', d: 'We’ve emailed you the link to forward to your designer.' },
+      later && { t: 'Pay with the link', d: 'Forward it to whoever pays, like your finance team.' },
+      { t: 'Free file check', d: 'We check your file and show you a proof before we print.' },
+      { t: 'Printing', d: 'Your cards go into production as soon as everything is approved.' },
+      { t: later ? 'Delivery' : `Arrives ${o.arrives}`, d: later ? '1 working day after payment.' : 'If your file is approved in time. You get track & trace by email.' },
+    ].filter(Boolean);
+    document.getElementById('ocSteps').innerHTML = steps.map((s, i) => `
+      <li><span class="n">${i + 1}</span><div><b>${s.t}</b><p>${s.d}</p>${s.cta ? `<a class="btn primary" href="${s.cta[1]}">${s.cta[0]}</a>` : ''}</div></li>`).join('');
+
+    document.getElementById('ocSummary').innerHTML = `
+      ${o.items.map(it => `
+        <div class="line-item">
+          <span class="img" style="background:${it.bg}"><img src="${it.img}" alt=""></span>
+          <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small>Design: ${it.design}</small></div>
+          <span class="p">${eur(it.price)}</span>
+        </div>`).join('')}
+      <div class="totals">
+        <div><span>${o.check.line}</span><span>${o.check.price ? eur(o.check.price) : 'Free'}</span></div>
+        ${o.addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+        <div><span>Subtotal excl. VAT</span><span>${eur(o.subtotal)}</span></div>
+        <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(o.vat)}</span></div>
+        <div class="grand"><span>Total incl. VAT</span><span>${eur(o.total)}</span></div>
+      </div>`;
+  }
+</script>
+</body>
+</html>

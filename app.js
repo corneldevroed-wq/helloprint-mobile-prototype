@@ -131,6 +131,7 @@ const ROUTES = {
   'cart': 'cart.html',
   'details-shipping': 'details.html',
   'payment': 'payment.html',
+  'order-confirmed': 'confirmed.html',
 };
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="#"]');

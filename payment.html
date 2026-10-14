@@ -194,8 +194,16 @@
         return;
       }
     }
-    // No confirmation screen in Figma yet: confirm in place
-    showToast(when === 'later' ? 'Order placed – payment link sent' : `Order placed with ${method}`);
+    // Keep what was ordered for the confirmation page, then empty the cart (add-ons back to their defaults)
+    let email = '';
+    try { email = (JSON.parse(localStorage.getItem('hp-checkout-details')) || {}).email || ''; } catch (e) {}
+    const order = {
+      number: 'HP' + String(Date.now()).slice(-8), items, addons, check, total, subtotal, vat,
+      when, method: when === 'later' ? 'Payment link' : method, email, arrives: items[0]?.arrives,
+    };
+    try { localStorage.setItem('hp-last-order', JSON.stringify(order)); localStorage.removeItem('hp-cart-addons'); } catch (e) {}
+    setCart([]);
+    location.href = 'confirmed.html';
   });
 </script>
 </body>

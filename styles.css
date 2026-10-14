@@ -1003,3 +1003,25 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .i-link { font-size: 13px; color: var(--dark-grey); text-align: center; }
 .i-link[hidden] { display: none; }
 .i-link button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Order confirmed */
+.oc-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0 4px; text-align: center; }
+.oc-check { display: grid; place-items: center; width: 56px; height: 56px; animation: added-pop .45s cubic-bezier(.2,1.6,.4,1) both .1s; }
+.oc-check img { width: 56px; height: 56px; }
+.oc-hero h1 { font-size: 24px; line-height: 1.2; letter-spacing: -0.48px; }
+.oc-hero p { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.oc-number { margin-top: 4px; padding: 6px 12px; border-radius: 100px; background: var(--light-grey); color: var(--black) !important; }
+.oc-next h2, .summary-box h2 { font-size: 18px; line-height: 1.3; }
+.oc-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+.oc-steps li { display: flex; gap: 12px; }
+.oc-steps .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--dark-green); color: var(--white); font-weight: 700; font-size: 12px; }
+.oc-steps b { display: block; font-weight: 600; font-size: 15px; line-height: 1.4; }
+.oc-steps p { font-size: 13px; line-height: 1.45; color: var(--dark-grey); }
+.oc-steps .btn { margin-top: 8px; height: 40px; padding: 0 20px; display: inline-flex; font-size: 14px; }
+.oc-account { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--white); }
+.oc-account b { font-size: 15px; }
+.oc-account p { font-size: 13px; line-height: 1.45; color: var(--dark-grey); }
+.oc-account .btn { margin-top: 8px; align-self: flex-start; height: 40px; padding: 0 20px; font-size: 14px; }
+.oc-home { margin-bottom: 24px; }
+@media (prefers-reduced-motion: reduce) { .oc-check { animation: none; } }
+@keyframes added-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
