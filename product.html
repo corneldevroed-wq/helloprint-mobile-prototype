@@ -47,6 +47,12 @@
             <span class="d-edit material-symbols-rounded" aria-hidden="true">edit</span>
           </button>
         </div>
+        <!-- Version F: the options as a spec list (label left, value right); each row opens its own option -->
+        <div class="spec-list">
+          <p class="sr-state" data-bind="pickTag"></p>
+          <ul class="spec-rows" id="specRows"></ul>
+          <p class="sr-incl" id="specIncl"></p>
+        </div>
         <div class="recap">
           <div class="recap-text">
             <span class="recap-label" data-bind="presetLabel"></span>
@@ -234,6 +240,7 @@
   <button data-flow="c" title="Options as a selector field; the layer only saves">C</button>
   <button data-flow="d" title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
   <button data-flow="e" title="Two selector fields (cards + design) and one button">E</button>
+  <button data-flow="f" title="Spec list: every option a row, design as the last row">F</button>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -263,18 +270,21 @@
   // ?flow=a|b|c sets it; the choice is remembered while clicking through the prototype.
   // D: the combo, C + the design options as pills, with ⓘ for an explanation per option.
   // E: two selector fields (Your cards + Your design) and one button that says what it does.
-  const FLOWS = ['a', 'b', 'c', 'd', 'e'];
+  // F: the options as a spec list (Cornel's reference); each row opens its option, design is the last row. Builds on E.
+  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = ['c', 'd', 'e'].includes(FLOW);   // D and E build on C
-  const FLOW_E = FLOW === 'e';
+  const FLOW_C = ['c', 'd', 'e', 'f'].includes(FLOW);   // D, E and F build on C
+  const FLOW_E = ['e', 'f'].includes(FLOW);            // F builds on E
+  const FLOW_F = FLOW === 'f';
   document.body.classList.add('flow-' + FLOW);
   if (FLOW === 'd' || FLOW_E) document.body.classList.add('flow-c');
   if (FLOW_E) document.body.classList.add('flow-d');
+  if (FLOW_F) document.body.classList.add('flow-e');
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -334,6 +344,7 @@
     set('pick', [...materials(c).split(' · '), ...PRODUCT.recapExtra.split(' · ')].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
     set('pickTag', fromEntry(c) ? `<img src="${P}check.svg" alt="">${entryName(c)}` : preset ? `<img src="${P + preset.icon}" alt="">${preset.name}` : 'Custom');
     set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
+    if (FLOW_F) renderSpecRows();
   }
 
   // ---------- Customise sheet ----------
@@ -419,7 +430,8 @@
     if (!before) return;
     // Flash what changed in the price box, so the customer sees the effect
     const box = document.querySelector('.price-box');
-    if (materials(before) !== materials(saved)) flash(box.querySelector(FLOW_C ? '.pick-field' : '.recap'));
+    if (FLOW_F) { KEYS.filter(k => before[k] !== saved[k]).concat(['qty', 'delivery'].filter(k => before[k] !== saved[k])).forEach(k => flash(box.querySelector(`[data-row="${k}"]`))); }
+    else if (materials(before) !== materials(saved)) flash(box.querySelector(FLOW_C ? '.pick-field' : '.recap'));
     if (before.qty !== saved.qty) flash(box.querySelector('.qty'));
     if (before.delivery !== saved.delivery) flash(box.querySelector('.check-line'));
     if (totalPrice(before) !== totalPrice(saved)) flash(box.querySelector('.row'));
@@ -579,6 +591,27 @@
   // ---------- Version E: "Your design" field; the design layer only saves ----------
   const DESIGN_SHORT = { file: 'Upload now', upload: 'Upload after checkout', canva: 'Design it in Canva', ai: 'Make it with AI', designer: 'My designer sends the file' };
   let designSaved = 'upload';
+  // Version F: one row per option + quantity, delivery and design; fixed specs as one "Included" line
+  function renderSpecRows() {
+    const c = saved;
+    const rows = [
+      ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
+      ['qty', 'Quantity', `${c.qty} pcs`],
+      ['delivery', 'Delivery', `${delivery(c).name} – arrives ${delivery(c).dayName}`],
+      ['design', 'Design', DESIGN_SHORT[designSaved]],
+    ];
+    document.getElementById('specRows').innerHTML = rows.map(([k, label, v]) => `
+      <li><button data-row="${k}"><span class="k">${label}</span><span class="v">${v}</span><img class="chev" src="assets/category/arrow.svg" alt=""></button></li>`).join('');
+    document.getElementById('specIncl').textContent = `Included: ${PRODUCT.recapExtra}`;
+  }
+  // A row opens the customise layer at that option (or the design layer)
+  document.getElementById('specRows').addEventListener('click', e => {
+    const b = e.target.closest('[data-row]'); if (!b) return;
+    if (b.dataset.row === 'design') { openSheet('design'); return; }
+    openSheet('customise');
+    const body = document.querySelector('#sheet-customise .sheet-body'), target = body.querySelector(`[data-option="${b.dataset.row}"]`);
+    body.scrollTop += target.getBoundingClientRect().top - body.getBoundingClientRect().top - 8;
+  });
   function renderDesignField() {
     const d = DESIGN.find(x => x.id === designSaved);
     document.getElementById('dpIcon').src = P + d.icon;
@@ -589,6 +622,7 @@
     // The green buttons say what they do, and do it
     document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar .flow-b-only').forEach(el => { el.textContent = d.cta; });
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar .flow-b-only').forEach(el => { el.dataset.order = designSaved; });
+    if (FLOW_F) renderSpecRows();
   }
   if (FLOW_E) {
     renderDesignField();
@@ -599,7 +633,7 @@
       designSaved = design;
       closeSheet();
       renderDesignField();
-      if (changed) { flash(document.querySelector('.design-pick .pick-field')); showToast('Your design choice is updated'); }
+      if (changed) { flash(document.querySelector(FLOW_F ? '[data-row="design"]' : '.design-pick .pick-field')); showToast('Your design choice is updated'); }
     });
   }
   sheetHooks.design = () => { if (FLOW_E) design = designSaved; renderDesign(); };
@@ -631,7 +665,7 @@
   updatePrices = () => { baseUpdate(); renderSaved(); if (openSheetEl && openSheetEl.id === 'sheet-customise') renderDraft(); renderDesign(); };
   updatePrices();
   // Material chosen on the category page: draw the eye to it once
-  if (entry) flash(document.querySelector(FLOW_C ? '.price-box .pick-field' : '.price-box .recap'));
+  if (entry) flash(document.querySelector(FLOW_F ? `[data-row="${entry.key}"]` : FLOW_C ? '.price-box .pick-field' : '.price-box .recap'));
 
   // Gallery: swipe or use the arrows (wraps around)
   const track = document.getElementById('galleryTrack');
