@@ -203,6 +203,7 @@
       // For "Thank you, John" and "Delivering to" (the details form, this browser only)
       name: [details.first, details.last].filter(Boolean).join(' '), first: details.first || '',
       address: [details.address1, details.address2, [details.town, details.eircode].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+      addressLines: [details.address1, details.address2, details.town, (details.eircode || '').toUpperCase()].filter(Boolean),
     };
     try { localStorage.setItem('hp-last-order', JSON.stringify(order)); localStorage.removeItem('hp-cart-addons'); } catch (e) {}
     setCart([]);
