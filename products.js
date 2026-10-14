@@ -51,6 +51,7 @@ const PRODUCTS = {
       { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'standard', paper: 'eco', thickness: 'firm', corners: 'straight' } },
     ],
     recapExtra: 'Single-sided',
+    fixed: [['Printing', 'Single-sided']],   // specs you can't change (spec list in version F)
     about: [
       "Create lasting connections with HelloPrint's affordable and professional business cards. Our extensive range of sizes, papers, and finishes allows you to create custom business cards that reflect your brand identity. Our classic business cards can be printed single or double-sided, with finishes such as gloss, matte, or laminated for added durability. With our high-quality printing process, you can be sure that your personalised business cards will make an impact. With the added benefit of our recycled paper choice, you can make an impact and showcase your brand responsibly. Don't miss out on potential opportunities - take your custom business cards with you wherever you go!",
       '<strong>Note:</strong> We recommend opting for a lamination finish, especially if your file contains darker colours. Without this added protection, the ink can potentially rub off.',
@@ -77,6 +78,7 @@ const PRODUCTS = {
       { id: 'natural', name: 'Natural look', icon: 'eco.svg', cfg: { size: 'standard', paper: 'kraft', printing: 'double' } },
     ],
     recapExtra: 'Straight corners',
+    fixed: [['Corners', 'Straight']],   // specs you can't change (spec list in version F)
     about: [
       "At HelloPrint, we're taking action to change the print industry together. Whether it's paper made from 100% recycled materials, chlorine-free off-white paper, or KraftFold made from recycled pulp: create lasting connections with affordable, professional business cards that are kinder to the planet.",
       'Made from eco-friendly and recycled materials, with unique papers that set you apart, and around 25% lower CO2 emissions than standard paper.',
@@ -99,6 +101,7 @@ const PRODUCTS = {
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { finish: 'glossy', corners: 'straight' } },
     ],
     recapExtra: 'Standard 85 x 55 mm · Double-sided',
+    fixed: [['Size', '85 x 55 mm'], ['Printing', 'Double-sided']],   // specs you can't change (spec list in version F)
     about: [
       'Stronger than normal paper business cards and suitable for every design, these high-quality plastic business cards are perfect for long-lasting promotion. They are even water resistant!',
       'As durable as a credit card, they work well as membership, loyalty or access cards too.',
@@ -124,6 +127,7 @@ const PRODUCTS = {
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'standard', finish: 'spotuv', lamination: 'matt' } },
     ],
     recapExtra: '400 gsm silk · Double-sided',
+    fixed: [['Paper', '400 gsm silk'], ['Printing', 'Double-sided']],   // specs you can't change (spec list in version F)
     about: [
       'Enhance your brand\'s image with business cards with foil printing! Take your promotional game up a notch with gold, silver or rose gold foil, or with spot UV that lets specific design elements shine.',
       '<strong>Note:</strong> Foil and spot UV can\'t be applied all-over, and can\'t be used for QR codes.',
@@ -150,6 +154,7 @@ const PRODUCTS = {
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'standard', material: 'yupo', printing: 'single' } },
     ],
     recapExtra: 'Straight corners',
+    fixed: [['Corners', 'Straight']],   // specs you can't change (spec list in version F)
     about: [
       'Deck out your business cards with special materials. Choose metallics in gold, silver or white with a glittery finish for a unique look, or pearl marble with very fine glitter that catches the light to reveal sparkles in all colours of the rainbow.',
       'Need cards that last? Synthetic cards are made from polyester fibres and are completely tear-resistant.',
@@ -179,6 +184,7 @@ const PRODUCTS = {
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { core: 'black', lamination: 'matt', printing: 'single' } },
     ],
     recapExtra: 'Portrait 55 x 85 mm · 810 gsm',
+    fixed: [['Size', '55 x 85 mm (portrait)'], ['Thickness', '810 gsm']],   // specs you can't change (spec list in version F)
     about: [
       'Looking to create business cards that are truly unique? Then these multilayered business cards are guaranteed to get you noticed. Three layers are combined into one thick 810 gsm card, with a coloured middle layer you choose to match your brand.',
       'A luxurious look and feel, with high-quality full colour print.',

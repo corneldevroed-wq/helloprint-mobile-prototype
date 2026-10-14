@@ -51,7 +51,6 @@
         <div class="spec-list">
           <p class="sr-state" data-bind="pickTag"></p>
           <ul class="spec-rows" id="specRows"></ul>
-          <p class="sr-incl" id="specIncl"></p>
         </div>
         <div class="recap">
           <div class="recap-text">
@@ -600,9 +599,11 @@
       ['delivery', 'Delivery', `${delivery(c).name} – arrives ${delivery(c).dayName}`],
       ['design', 'Design', DESIGN_SHORT[designSaved]],
     ];
-    document.getElementById('specRows').innerHTML = rows.map(([k, label, v]) => `
-      <li><button data-row="${k}"><span class="k">${label}</span><span class="v">${v}</span><img class="chev" src="assets/category/arrow.svg" alt=""></button></li>`).join('');
-    document.getElementById('specIncl').textContent = `Included: ${PRODUCT.recapExtra}`;
+    // Fixed specs come right after the options, as rows without an arrow (nothing to change)
+    const fixed = (PRODUCT.fixed || []).map(([label, v]) => `<li><div class="fixed"><span class="k">${label}</span><span class="v">${v}</span></div></li>`).join('');
+    const row = ([k, label, v]) => `
+      <li><button data-row="${k}"><span class="k">${label}</span><span class="v">${v}</span><img class="chev" src="assets/category/arrow.svg" alt=""></button></li>`;
+    document.getElementById('specRows').innerHTML = rows.slice(0, PRODUCT.groups.length).map(row).join('') + fixed + rows.slice(PRODUCT.groups.length).map(row).join('');
   }
   // A row opens the customise layer at that option (or the design layer)
   document.getElementById('specRows').addEventListener('click', e => {
