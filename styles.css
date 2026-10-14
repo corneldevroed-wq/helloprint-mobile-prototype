@@ -968,3 +968,35 @@ body.flow-h .next-step { display: block; }
 .ad-link { font-size: 13px; color: var(--dark-grey); text-align: center; }
 .ad-link button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
 .ad-skip { height: 48px; margin-top: 8px; border-radius: 100px; background: var(--light-grey); font-weight: 600; font-size: 15px; color: var(--dark-grey); }
+
+/* Version I (Cornel's design): header with price + Edit, compact spec list, design switch, two split buttons */
+.i-head, .i-design { display: none; }
+body.flow-i .i-head, body.flow-i .i-design { display: flex; flex-direction: column; }
+body.flow-i .price-box > div:first-child, body.flow-i .sr-state, body.flow-i #ctaStack { display: none; }
+.i-head { gap: 6px; padding-bottom: 10px; border-bottom: 1px solid #cfcfcf; }
+.i-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.i-top > b { font-weight: 700; font-size: 17px; line-height: 1.2; }
+.i-price { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--dark-grey); }
+.i-price b { font-weight: 700; font-size: 14px; color: var(--black); }
+.i-price i { width: 1px; height: 14px; background: #bdbdbd; }
+.i-state { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.i-state > span { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--dark-grey); }
+.i-state img { width: 18px; height: 18px; }
+.i-state .btn-edit { min-height: 30px; padding: 0 18px; font-size: 13px; }
+body.flow-i .spec-rows { border: 0; padding: 0; }
+body.flow-i .spec-rows button, body.flow-i .spec-rows .fixed { min-height: 26px; padding: 3px 0; font-size: 13px; }
+body.flow-i .spec-rows .fixed { padding-right: 22px; }
+body.flow-i .spec-rows .k { font-weight: 600; }
+body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity: .45; transform: rotate(-90deg); }
+.i-design { gap: 10px; }
+.i-q { display: flex; align-items: center; gap: 10px; min-height: 26px; font-weight: 600; font-size: 13px; }
+.i-q > span:first-child { flex: 1; }
+.i-yn { font-weight: 400; color: var(--dark-grey); }
+.i-q .switch { border: 0; padding: 0; cursor: pointer; }
+.i-q .switch[aria-checked="true"] { background: var(--light-green); }
+.i-q .switch[aria-checked="true"]::after { transform: translateX(16px); }
+.i-btn { justify-content: space-between; height: 48px; padding: 0 24px; }
+.i-btn b { font-weight: 600; font-size: 17px; }
+.i-btn small { font-weight: 400; font-size: 13px; opacity: .92; }
+.i-btn.outline { border-color: var(--dark-grey); color: var(--black); }
+.i-btn.outline small { color: var(--dark-grey); }

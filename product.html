@@ -48,6 +48,11 @@
           </button>
         </div>
         <!-- Version F: the options as a spec list (label left, value right); each row opens its own option -->
+        <!-- Version I (Cornel's design): header with price + Edit, spec list, design toggle, two buttons -->
+        <div class="i-head">
+          <div class="i-top"><b>Your Cards</b><span class="i-price"><b data-bind="total"></b><i></i><span data-bind="each"></span></span></div>
+          <div class="i-state"><span data-bind="iState"></span><button class="btn-edit" data-open-sheet="customise">Edit</button></div>
+        </div>
         <div class="spec-list">
           <p class="sr-state" data-bind="pickTag"></p>
           <ul class="spec-rows" id="specRows"></ul>
@@ -63,6 +68,11 @@
           <button class="btn primary" data-open-sheet="design">Add your design</button>
         </div>
         <!-- Flow B: Add to cart + the other ways to get a design, each acting directly -->
+        <div class="i-design">
+          <div class="i-q"><span>Do you have a design?</span><span class="i-yn" id="iYn">Yes</span><button class="switch" role="switch" aria-checked="true" id="iHas" aria-label="I have a design"></button></div>
+          <button class="btn primary i-btn" id="iMain"><b></b><small></small></button>
+          <button class="btn outline i-btn" id="iAlt"><b></b><small></small></button>
+        </div>
         <!-- Version G: one question first, "Do you have a design?" -->
         <div class="has-design">
           <p class="hd-q">Do you have a design?</p>
@@ -259,6 +269,7 @@
   <button data-flow="f" title="Spec list: every option a row, design as the last row">F</button>
   <button data-flow="g" title="F + one question first: do you have a design?">G</button>
   <button data-flow="h" title="Product first, then Continue to a separate design step">H</button>
+  <button data-flow="i" title="Cornel's design: spec list, design toggle, Upload later / Upload now">I</button>
 </div>
 
 <!-- Sheet (version H): add your design, a separate step after "Continue". Every button acts right away. -->
@@ -316,18 +327,22 @@
   // G: F + one question first, "Do you have a design?" (yes: add to cart / upload now / designer link; no: Canva or AI).
   // H: clear split between product and design. The spec list from F, then "Continue" opens a separate
   //    design step (Sticker Mule-like): upload from device, Canva, AI, designer link, or skip and upload later.
-  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  // I: Cornel's design. Header (Your Cards, price, Edit), spec list, "Do you have a design?" switch,
+  //    then two buttons: Upload later / Upload now (yes) or Canva / AI (no).
+  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = ['c', 'd', 'e', 'f', 'g', 'h'].includes(FLOW);   // D–H build on C
+  const FLOW_C = ['c', 'd', 'e', 'f', 'g', 'h', 'i'].includes(FLOW);   // D–I build on C
   const FLOW_E = ['e', 'f', 'g'].includes(FLOW);            // F and G build on E
-  const FLOW_F = ['f', 'g', 'h'].includes(FLOW);            // G and H use F's spec list
+  const FLOW_F = ['f', 'g', 'h', 'i'].includes(FLOW);       // G, H and I use F's spec list
   const FLOW_G = FLOW === 'g';
   const FLOW_H = FLOW === 'h';
+  const FLOW_I = FLOW === 'i';
+  if (FLOW_I) document.body.classList.add('flow-c', 'flow-e', 'flow-f');
   document.body.classList.add('flow-' + FLOW);
   if (FLOW === 'd' || FLOW_E) document.body.classList.add('flow-c');
   if (FLOW_E) document.body.classList.add('flow-d');
@@ -399,6 +414,7 @@
     set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
     set('presetLabel', presetLabel(preset, c));
     set('pick', [...materials(c).split(' · '), ...PRODUCT.recapExtra.split(' · ')].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
+    set('iState', `<img src="${P}check.svg" alt="">${fromEntry(c) ? `Starting with ${entryName(c)}` : preset ? `${preset.name} options selected` : 'Custom options selected'}`);
     set('pickTag', fromEntry(c) ? `<img src="${P}check.svg" alt="">${entryName(c)}` : preset ? `<img src="${P + preset.icon}" alt="">${preset.name}` : 'Custom');
     set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
     if (FLOW_F) renderSpecRows();
@@ -654,13 +670,13 @@
     const rows = [
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
       ['qty', 'Quantity', `${c.qty} pcs`],
-      ['delivery', 'Delivery', `${delivery(c).name} – arrives ${delivery(c).dayName}`],
-      ...(FLOW_G || FLOW_H ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
+      ['delivery', 'Delivery', `${delivery(c).name} - arrives ${delivery(c).dayName}`],
+      ...(FLOW_G || FLOW_H || FLOW_I ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];
     // Fixed specs come right after the options, as rows without an arrow (nothing to change)
     const fixed = (PRODUCT.fixed || []).map(([label, v]) => `<li><div class="fixed"><span class="k">${label}</span><span class="v">${v}</span></div></li>`).join('');
     const row = ([k, label, v]) => `
-      <li><button data-row="${k}"><span class="k">${label}</span><span class="v">${v}</span><img class="chev" src="assets/category/arrow.svg" alt=""></button></li>`;
+      <li><button data-row="${k}"><span class="k">${label}</span><span class="v">${v}</span><img class="chev" src="${FLOW_I ? 'assets/chevron-sm.svg' : 'assets/category/arrow.svg'}" alt=""></button></li>`;
     document.getElementById('specRows').innerHTML = rows.slice(0, PRODUCT.groups.length).map(row).join('') + fixed + rows.slice(PRODUCT.groups.length).map(row).join('');
   }
   // A row opens the customise layer at that option (or the design layer)
@@ -707,6 +723,29 @@
     // The green button (and sticky bar) follow: Add to cart, or Continue to Canva / Design with AI
     designSaved = hasDesign === 'yes' ? 'upload' : makeWith;
     renderDesignField();
+  }
+  // ---------- Version I: design switch + two buttons ----------
+  // Yes: Upload later (add to cart) / Upload now (file picker). No: Canva / AI. The sticky bar follows the main button.
+  const I_BTNS = {
+    yes: [['upload', 'Upload later', 'Finish order first'], ['file', 'Upload now', 'My file is ready']],
+    no: [['canva', 'Design in Canva', 'Free templates'], ['ai', 'Make it with AI', 'Made for you']],
+  };
+  let iHas = true;
+  function renderIDesign() {
+    const [main, alt] = I_BTNS[iHas ? 'yes' : 'no'];
+    document.getElementById('iHas').setAttribute('aria-checked', iHas);
+    document.getElementById('iYn').textContent = iHas ? 'Yes' : 'No';
+    [['iMain', main], ['iAlt', alt]].forEach(([id, [order, label, sub]]) => {
+      const b = document.getElementById(id);
+      b.dataset.order = order; b.querySelector('b').textContent = label; b.querySelector('small').textContent = sub;
+    });
+    const bar = document.querySelector('#buyBar button.flow-b-only');
+    bar.dataset.order = main[0]; bar.textContent = main[1];
+  }
+  if (FLOW_I) {
+    document.getElementById('iHas').addEventListener('click', () => { iHas = !iHas; renderIDesign(); });
+    ['iMain', 'iAlt'].forEach(id => document.getElementById(id).addEventListener('click', e => placeOrder(e.currentTarget.dataset.order)));
+    renderIDesign();
   }
   if (FLOW_G) {
     document.querySelector('.has-design').addEventListener('click', e => {
