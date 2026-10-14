@@ -954,3 +954,17 @@ body.flow-g .hd-yes[hidden], body.flow-g .hd-no[hidden] { display: none; }
 .hd-yes button { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; color: var(--black); }
 .hd-yes button img { width: 15px; height: 15px; }
 .hd-yes u { text-underline-offset: 2px; }
+
+/* Version H: "Continue" + next-step line, then a separate "Add your design" step */
+.next-step { display: none; font-size: 13px; line-height: 1.4; color: var(--black); text-align: center; }
+body.flow-h .next-step { display: block; }
+.ad-pad { gap: 12px; padding-bottom: 24px; }
+.ad-sub { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.ad-main { height: 52px; gap: 8px; }
+.ad-main img { width: 20px; height: 20px; filter: brightness(0) invert(1); }
+.ad-alt { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ad-btn { display: flex; align-items: center; justify-content: center; gap: 6px; height: 48px; padding: 0 8px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; }
+.ad-btn img { width: 20px; height: 20px; }
+.ad-link { font-size: 13px; color: var(--dark-grey); text-align: center; }
+.ad-link button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+.ad-skip { height: 48px; margin-top: 8px; border-radius: 100px; background: var(--light-grey); font-weight: 600; font-size: 15px; color: var(--dark-grey); }

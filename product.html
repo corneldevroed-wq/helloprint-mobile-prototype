@@ -85,6 +85,7 @@
             <button class="alt-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">AI studio<small>Made for you</small></button>
             <button class="alt-btn" data-order="designer"><img src="assets/pdp/d-designer.svg" alt="">Designer<small>Send a link</small></button>
           </div>
+          <p class="next-step">Next step: upload your design, or skip <span aria-hidden="true">→</span></p>
           <div class="hd-yes">
             <p><button data-pick="front"><img src="assets/pdp/d-upload.svg" alt=""><u>Upload now</u></button> or after checkout</p>
             <p>Your designer has it? <button data-order="designer"><u>Get a designer link</u></button></p>
@@ -257,6 +258,31 @@
   <button data-flow="e" title="Two selector fields (cards + design) and one button">E</button>
   <button data-flow="f" title="Spec list: every option a row, design as the last row">F</button>
   <button data-flow="g" title="F + one question first: do you have a design?">G</button>
+  <button data-flow="h" title="Product first, then Continue to a separate design step">H</button>
+</div>
+
+<!-- Sheet (version H): add your design, a separate step after "Continue". Every button acts right away. -->
+<div class="sheet-layer" id="sheet-adddesign" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="addDesignTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="addDesignTitle">Add your design</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad ad-pad">
+        <p class="ad-sub">Free file check · You see a proof before we print</p>
+        <button class="btn primary ad-main" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">Upload from your device</button>
+        <div class="ad-alt">
+          <button class="ad-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Design it in Canva</button>
+          <button class="ad-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">Make it with AI</button>
+        </div>
+        <p class="ad-link">Your designer has it? <button data-order="designer">Get a designer link</button></p>
+        <button class="ad-skip" data-order="upload">Skip, upload later</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
@@ -288,22 +314,34 @@
   // E: two selector fields (Your cards + Your design) and one button that says what it does.
   // F: the options as a spec list (Cornel's reference); each row opens its option, design is the last row. Builds on E.
   // G: F + one question first, "Do you have a design?" (yes: add to cart / upload now / designer link; no: Canva or AI).
-  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+  // H: clear split between product and design. The spec list from F, then "Continue" opens a separate
+  //    design step (Sticker Mule-like): upload from device, Canva, AI, designer link, or skip and upload later.
+  const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const FLOW = (() => {
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
-  const FLOW_C = ['c', 'd', 'e', 'f', 'g'].includes(FLOW);   // D–G build on C
+  const FLOW_C = ['c', 'd', 'e', 'f', 'g', 'h'].includes(FLOW);   // D–H build on C
   const FLOW_E = ['e', 'f', 'g'].includes(FLOW);            // F and G build on E
-  const FLOW_F = ['f', 'g'].includes(FLOW);                 // G builds on F
+  const FLOW_F = ['f', 'g', 'h'].includes(FLOW);            // G and H use F's spec list
   const FLOW_G = FLOW === 'g';
+  const FLOW_H = FLOW === 'h';
   document.body.classList.add('flow-' + FLOW);
   if (FLOW === 'd' || FLOW_E) document.body.classList.add('flow-c');
   if (FLOW_E) document.body.classList.add('flow-d');
   if (FLOW_F) document.body.classList.add('flow-e');
   if (FLOW_G) document.body.classList.add('flow-f');
+  if (FLOW_H) {
+    document.body.classList.add('flow-c', 'flow-d', 'flow-e', 'flow-f');
+    // The green buttons don't order here: they open the design step
+    document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(b => {
+      b.removeAttribute('data-order');
+      b.innerHTML = 'Continue';
+      b.addEventListener('click', () => openSheet('adddesign'));
+    });
+  }
   const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
@@ -557,7 +595,7 @@
     const url = ['jpg', 'jpeg', 'png', 'pdf'].includes(ext) ? URL.createObjectURL(f) : null;
     upload[pickSide] = { name: f.name, size: f.size, ext, url, progress: 0 };
     // From the design layer (A) the upload sheet takes its place
-    if (sheetStack.at(-1)?.id === 'sheet-design') closeSheet();
+    if (['sheet-design', 'sheet-adddesign'].includes(sheetStack.at(-1)?.id)) closeSheet();
     if (!sheetStack.some(el => el.id === 'sheet-upload')) openSheet('upload');
     const it = upload[pickSide];
     const timer = setInterval(() => { it.progress = Math.min(100, it.progress + 20); renderUpload(); if (it.progress === 100) clearInterval(timer); }, 180);
@@ -617,7 +655,7 @@
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
       ['qty', 'Quantity', `${c.qty} pcs`],
       ['delivery', 'Delivery', `${delivery(c).name} – arrives ${delivery(c).dayName}`],
-      ...(FLOW_G ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
+      ...(FLOW_G || FLOW_H ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];
     // Fixed specs come right after the options, as rows without an arrow (nothing to change)
     const fixed = (PRODUCT.fixed || []).map(([label, v]) => `<li><div class="fixed"><span class="k">${label}</span><span class="v">${v}</span></div></li>`).join('');
@@ -641,8 +679,8 @@
     const others = ['file', 'canva', 'ai', 'designer'].filter(id => id !== designSaved).map(id => ({ file: 'upload now', canva: 'Canva', ai: 'AI', designer: 'a designer', upload: 'upload later' })[id]);
     document.getElementById('dpHint').textContent = `or ${others.slice(0, -1).join(', ')} or ${others.at(-1)}`;
     // The green buttons say what they do, and do it
-    document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar .flow-b-only').forEach(el => { el.textContent = d.cta; });
-    document.querySelectorAll('#ctaStack .btn.primary, #buyBar .flow-b-only').forEach(el => { el.dataset.order = designSaved; });
+    document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar button.flow-b-only').forEach(el => { el.textContent = d.cta; });
+    document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(el => { el.dataset.order = designSaved; });
     if (FLOW_F) renderSpecRows();
   }
   if (FLOW_E) {
