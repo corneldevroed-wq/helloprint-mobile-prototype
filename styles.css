@@ -1046,3 +1046,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-hero h1 { color: var(--black); }
 .oc-info b { word-break: break-all; }
 .oc-h2 { color: var(--black); }
+
+/* Version H: same header as I (Your Cards, price | each, state + Edit); the rest of H unchanged */
+body.flow-h .i-head { display: flex; flex-direction: column; padding-bottom: 4px; border-bottom: 0; }   /* the spec list's top line is the divider */
+body.flow-h .price-box > div:first-child, body.flow-h .sr-state { display: none; }
