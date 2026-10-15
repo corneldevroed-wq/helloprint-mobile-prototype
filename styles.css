@@ -1216,3 +1216,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-more img { width: 16px; height: 16px; }
 .co-billcheck { margin-top: 8px; padding-top: 14px; border-top: 1px solid #ececec; }
 .co-inv[hidden], #invToggle[hidden] { display: none; }
+
+/* One outline colour for login + logged-in details (the login form's input border) */
+:root { --outline: #cfcfcf; }
+.auth-card, .auth-google, .auth-field input, .co-summary, .addr-card, .co-act, .addr-edit { border-color: var(--outline); }
+.addr-card[aria-checked="true"] { border-color: var(--light-green); }
+.addr-card.addr-add { border-color: var(--outline); }
+.co-act:hover { border-color: var(--black); }
