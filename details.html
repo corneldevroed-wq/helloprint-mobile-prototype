@@ -226,9 +226,19 @@
   }
   const addrLines = a => [`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
   // Overview of all addresses (sheet)
+  // The overview sheet is used for the delivery address and for the invoice address
+  let listMode = 'delivery', invoiceSel = 'same';
+  try { invoiceSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
+  if (invoiceSel !== 'same' && !book.some(a => a.id === invoiceSel)) invoiceSel = 'same';
   function renderList() {
-    document.getElementById('addrList').innerHTML = book.map(a => `
-      <li class="${a.id === selected ? 'on' : ''}">
+    const inv = listMode === 'invoice', current = inv ? invoiceSel : selected;
+    document.getElementById('addrListTitle').textContent = inv ? 'Your invoice address' : 'Your delivery addresses';
+    document.getElementById('addrList').innerHTML = (inv ? `
+      <li class="${invoiceSel === 'same' ? 'on' : ''}">
+        <button type="button" class="ap-pick" data-pick-addr="same"><span class="pin" aria-hidden="true"></span>
+          <span class="t"><b>Same as delivery address</b><span>Your invoice goes to the address we deliver to</span></span></button>
+      </li>` : '') + book.map(a => `
+      <li class="${a.id === current ? 'on' : ''}">
         <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="pin" aria-hidden="true"></span>
           <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</span></button>
         <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
@@ -269,13 +279,12 @@
     document.getElementById('uvBizSlot').append(biz);
     document.getElementById('uvBusiness').checked = bizCheck.checked;
     document.getElementById('uvBusiness').addEventListener('change', e => { bizCheck.checked = e.target.checked; biz.hidden = !e.target.checked; persist(); });
-    document.getElementById('uvBillSlot').append(document.getElementById('billingFields'));
   }
   document.getElementById('addrRow').addEventListener('click', e => {
-    if (e.target.closest('[data-new-addr]')) { openAddressSheet(); return; }
+    if (e.target.closest('[data-new-addr]')) { listMode = 'delivery'; openAddressSheet(); return; }
     const c = e.target.closest('[data-addr]'); if (c) selectAddress(c.dataset.addr, true);
   });
-  document.getElementById('manageAddr').addEventListener('click', () => { renderList(); openSheet('addresses'); });
+  document.getElementById('manageAddr').addEventListener('click', () => { listMode = 'delivery'; renderList(); openSheet('addresses'); });
   // Overview: tap = deliver there; ⋮ = edit / make default / delete
   document.getElementById('addrList').addEventListener('click', e => {
     const t = e.target;
@@ -296,6 +305,7 @@
       return;
     }
     const p = t.closest('[data-pick-addr]');
+    if (p && listMode === 'invoice') { setInvoice(p.dataset.pickAddr); closeSheet(); return; }
     if (p) { selectAddress(p.dataset.pickAddr); closeSheet(); document.querySelector(`[data-addr="${selected}"]`).scrollIntoView({ inline: 'center', block: 'nearest' }); }
   });
   document.getElementById('addrRow').addEventListener('keydown', e => {
@@ -336,23 +346,29 @@
     if (!book.some(a => a.isDefault)) book[0].isDefault = true;
     saveBook();
     closeSheet();
+    if (listMode === 'invoice' && sheetStack.some(el => el.id === 'sheet-addresses')) { setInvoice(id); renderBook(); renderList(); showToast(editing ? 'Address updated' : 'Address added and used for your invoice'); return; }
     selectAddress(id, !sheetStack.some(el => el.id === 'sheet-addresses'));
     showToast(editing ? 'Address updated' : 'Address added and selected');
   });
 
   // Invoice address: same as delivery, or its own fields
-  function renderInvoice() {
-    const same = document.getElementById('sameBilling').checked;
-    document.getElementById('invText').textContent = same ? 'Same as delivery address' : 'Your invoice address:';
-    document.getElementById('invToggle').textContent = same ? 'Update invoice address' : 'Use the delivery address';
-  }
-  document.getElementById('invToggle').addEventListener('click', () => {
-    const same = document.getElementById('sameBilling');
-    same.checked = !same.checked;
+  function setInvoice(id) {
+    invoiceSel = id;
+    try { localStorage.setItem('hp-invoice-sel', id); } catch (e) {}
+    const same = document.getElementById('sameBilling'), a = book.find(x => x.id === id);
+    same.checked = !a;
+    if (a) { const set = (n, v) => { form.querySelector(`[name=${n}]`).value = v || ''; }; set('billAddress', a.address1); set('billEircode', a.eircode); set('billTown', a.town); }
     same.dispatchEvent(new Event('change', { bubbles: true }));
+    document.getElementById('billingFields').hidden = true;   // in the cards view the sheet replaces the billing fields
     renderInvoice();
-  });
-  renderInvoice();
+    persist();
+  }
+  function renderInvoice() {
+    const a = book.find(x => x.id === invoiceSel);
+    document.getElementById('invText').textContent = a ? `${a.label} · ${[a.company, a.address1, `${a.eircode} ${a.town}`].filter(Boolean).join(', ')}` : 'Same as delivery address';
+  }
+  document.getElementById('invToggle').addEventListener('click', () => { listMode = 'invoice'; renderList(); openSheet('addresses'); });
+  if (known) setInvoice(invoiceSel);
   // Contact "Edit" opens the full form again
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
     document.getElementById('userView').hidden = true;
