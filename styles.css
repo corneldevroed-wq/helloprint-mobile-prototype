@@ -1149,3 +1149,19 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .ad-pad .ad-link { margin-top: -6px; font-size: 12px; }
 /* Spec list rows (F–I): the arrow_forward_ios icon from Figma, as is (#bbb) */
 .spec-rows .chev, body.flow-i .spec-rows .chev { width: 15px; height: 15px; filter: none; opacity: 1; transform: none; }
+
+/* Details & shipping, logged in: contact and address cards (as on helloprint.com) */
+.co-cards[hidden], #formView[hidden] { display: none; }
+.co-desc { margin-top: -4px; font-size: 14px; line-height: 1.45; color: var(--dark-grey); }
+.co-card { display: flex; align-items: flex-start; gap: 12px; padding: 16px; border: 1px solid #e3e3e3; border-radius: 10px; background: var(--white); }
+.co-card .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.45; color: var(--black); }
+.co-card .t b { font-weight: 700; font-size: 16px; }
+.co-card .t span { overflow-wrap: anywhere; }
+.co-edit { flex-shrink: 0; padding: 8px 14px; border: 1px solid #d6d6d6; border-radius: 8px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.25; color: var(--dark-green); text-align: center; }
+.co-addr .co-edit { max-width: 52%; }
+.co-addr .pin { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; background: no-repeat center / 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300a651' stroke-width='2'%3E%3Cpath d='M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.5'/%3E%3C/svg%3E"); }
+.co-addr .tag { align-self: flex-start; padding: 3px 6px; border-radius: 3px; background: #e6f8ee; color: var(--light-green); font-weight: 700; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+#uvAddress { display: flex; flex-direction: column; }
+.co-logout { align-self: flex-start; margin-top: 2px; font-size: 12px; color: var(--dark-grey); text-decoration: underline; text-underline-offset: 2px; }
+.co-more { display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--black) !important; text-decoration: underline; text-underline-offset: 2px; vertical-align: 2px; }
+.co-more img { width: 16px; height: 16px; }
