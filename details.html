@@ -37,7 +37,7 @@
           <div class="co-head"><h2>Delivery address</h2></div>
           <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
           <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Delivery address"></div>
-          <button type="button" class="co-link" id="addAddress">Add delivery address</button>
+          <button type="button" class="co-act addr-manage" id="manageAddr">Change delivery address</button>
           <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
           <div id="uvBizSlot"></div>
 
@@ -101,6 +101,17 @@
 </div>
 
 <!-- Sticky bar (Figma 15738:4724) -->
+<!-- Sheet: all delivery addresses (like bol.com's overview): tap one to deliver there, ⋮ for edit / default / delete -->
+<div class="sheet-layer" id="sheet-addresses" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrListTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="addrListTitle">Your delivery addresses</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><ul class="addr-list" id="addrList"></ul></div>
+    <div class="sheet-bar"><button class="btn outline addr-new" type="button" id="addAddress">New delivery address</button></div>
+  </div>
+</div>
+
 <!-- Sheet: add or edit an address in the address book -->
 <div class="sheet-layer" id="sheet-address" aria-hidden="true">
   <div class="sheet-overlay" data-close-sheet></div>
@@ -213,13 +224,28 @@
     if (form.querySelector(`[name=prefix] option[value="${prefix}"]`)) { set('prefix', prefix); set('phone', rest.join(' ')); } else set('phone', a.phone);
     persist();
   }
+  const addrLines = a => [`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
+  // Overview of all addresses (sheet)
+  function renderList() {
+    document.getElementById('addrList').innerHTML = book.map(a => `
+      <li class="${a.id === selected ? 'on' : ''}">
+        <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="pin" aria-hidden="true"></span>
+          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</span></button>
+        <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
+        <div class="menu" hidden>
+          <button type="button" data-edit-addr="${a.id}">Edit</button>
+          ${a.isDefault ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
+          ${book.length > 1 ? `<button type="button" class="del" data-del-addr="${a.id}">Delete</button>` : ''}
+        </div>
+      </li>`).join('');
+  }
   function renderBook() {
     document.getElementById('addrRow').innerHTML = book.map(a => `
       <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
         <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</div>
-        <p>${[`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean).map(escA).join('<br>')}</p>
-        <button type="button" class="addr-edit" data-edit-addr="${a.id}">Edit</button>
-      </div>`).join('');
+        <p>${addrLines(a).map(escA).join('<br>')}</p>
+      </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span>+</span>New address</button>';
+    renderList();
   }
   function selectAddress(id, scroll) {
     selected = id;
@@ -246,9 +272,31 @@
     document.getElementById('uvBillSlot').append(document.getElementById('billingFields'));
   }
   document.getElementById('addrRow').addEventListener('click', e => {
-    const ed = e.target.closest('[data-edit-addr]');
-    if (ed) { openAddressSheet(ed.dataset.editAddr); return; }
+    if (e.target.closest('[data-new-addr]')) { openAddressSheet(); return; }
     const c = e.target.closest('[data-addr]'); if (c) selectAddress(c.dataset.addr, true);
+  });
+  document.getElementById('manageAddr').addEventListener('click', () => { renderList(); openSheet('addresses'); });
+  // Overview: tap = deliver there; ⋮ = edit / make default / delete
+  document.getElementById('addrList').addEventListener('click', e => {
+    const t = e.target;
+    const menuBtn = t.closest('[data-menu]');
+    document.querySelectorAll('#addrList .menu').forEach(m => { if (!menuBtn || m !== menuBtn.nextElementSibling) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
+    if (menuBtn) { const m = menuBtn.nextElementSibling; m.hidden = !m.hidden; menuBtn.setAttribute('aria-expanded', String(!m.hidden)); return; }
+    const ed = t.closest('[data-edit-addr]'); if (ed) { openAddressSheet(ed.dataset.editAddr); return; }
+    const df = t.closest('[data-default-addr]');
+    if (df) { book.forEach(a => { a.isDefault = a.id === df.dataset.defaultAddr; }); saveBook(); renderBook(); showToast('Default address updated'); return; }
+    const del = t.closest('[data-del-addr]');
+    if (del) {
+      const i = book.findIndex(a => a.id === del.dataset.delAddr), was = book[i];
+      book.splice(i, 1);
+      if (was.isDefault) book[0].isDefault = true;
+      saveBook();
+      if (was.id === selected) selectAddress((book.find(a => a.isDefault) || book[0]).id); else renderBook();
+      showToast('Address deleted');
+      return;
+    }
+    const p = t.closest('[data-pick-addr]');
+    if (p) { selectAddress(p.dataset.pickAddr); closeSheet(); document.querySelector(`[data-addr="${selected}"]`).scrollIntoView({ inline: 'center', block: 'nearest' }); }
   });
   document.getElementById('addrRow').addEventListener('keydown', e => {
     const c = e.target.closest('[data-addr]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectAddress(c.dataset.addr, true); }
@@ -288,7 +336,7 @@
     if (!book.some(a => a.isDefault)) book[0].isDefault = true;
     saveBook();
     closeSheet();
-    selectAddress(id, true);
+    selectAddress(id, !sheetStack.some(el => el.id === 'sheet-addresses'));
     showToast(editing ? 'Address updated' : 'Address added and selected');
   });
 
