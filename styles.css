@@ -1253,3 +1253,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-logout-link { font-weight: 700; font-size: 14px; color: var(--light-green); }
 /* Payment: Apple Pay, Google Pay and PayPal side by side */
 .wallets { grid-template-columns: repeat(3, 1fr); }
+/* Payment: "When do you want to pay?" as tabs */
+.pay-opts.seg { display: grid; }
+.pay-note { margin-top: -2px; font-size: 13px; line-height: 1.45; color: var(--dark-grey); }

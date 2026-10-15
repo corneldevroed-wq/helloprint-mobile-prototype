@@ -23,16 +23,12 @@
 
     <form id="payForm" class="co-extra" novalidate autocomplete="off">
       <div class="co-head"><h2>When do you want to pay?</h2></div>
-      <div class="pay-opts" role="radiogroup" aria-label="When to pay">
-        <button type="button" class="pay-opt" role="radio" aria-checked="true" data-when="now">
-          <span class="radio"></span>
-          <span class="t"><b>Pay now</b><small>Fastest option. We start printing as soon as your files are approved.</small></span>
-        </button>
-        <button type="button" class="pay-opt" role="radio" aria-checked="false" data-when="later">
-          <span class="radio"></span>
-          <span class="t"><b>Send me a payment link</b><small>Handy if someone else pays, like your finance team. We check your files right away; printing starts once it’s paid.</small></span>
-        </button>
+      <!-- Two tabs instead of two big radio cards; the line under them explains the chosen one -->
+      <div class="pay-opts seg" role="radiogroup" aria-label="When to pay">
+        <button type="button" role="radio" aria-checked="true" data-when="now">Pay now</button>
+        <button type="button" role="radio" aria-checked="false" data-when="later">Payment link</button>
       </div>
+      <p class="pay-note" id="payNote">Fastest option. We start printing as soon as your files are approved.</p>
 
       <div class="pay-methods" id="payMethods">
         <p class="secure-line"><img src="assets/checkout/encrypted.svg" alt="">Secure payment</p>
@@ -137,6 +133,9 @@
     const b = e.target.closest('[data-when]'); if (!b) return;
     when = b.dataset.when;
     document.querySelectorAll('[data-when]').forEach(x => x.setAttribute('aria-checked', x === b));
+    document.getElementById('payNote').textContent = when === 'later'
+      ? 'Handy if someone else pays, like your finance team. We check your files right away; printing starts once it’s paid.'
+      : 'Fastest option. We start printing as soon as your files are approved.';
     document.getElementById('payMethods').hidden = when === 'later';
     renderEta(); renderButton();
   });
