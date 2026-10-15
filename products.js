@@ -191,12 +191,75 @@ const PRODUCTS = {
     ],
     specs: [['Material', '810 gsm card (3 layers)'], ['Middle layer', 'Black | Blue | Green | Orange | Pink | Purple | Red | Yellow'], ['Lamination', 'Matt | Gloss | Velvet'], ['Print technique', 'Digital'], ['Printing options', 'Single-sided | Double-sided']],
   },
+
+  // Flyers (helloprint.com/en-ie/standardflyers): live sizes, materials, thickness, printing, finishing, quantities and prices
+  'standard-flyers': {
+    name: 'Standard Flyers', cartName: 'Standard flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
+    img: 'assets/p3.png', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1000,
+    qty: [[25, 13.79], [100, 17.79], [250, 23.49], [500, 28.49], [1000, 35.99], [2500, 61.99], [5000, 105.99], [10000, 168.99]],
+    delivery: [
+      { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if your files are approved in time.' },
+      { id: 'standard', name: 'Standard', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 43, info: 'Four days sooner, on Fri 25 Sep.' },
+      { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
+    ],
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['a6', 'A6', '105 x 148 mm', 'width:21px;height:30px', .7, 'Pocket size. Handy for handing out, as a postcard or on a counter.'],
+        ['a5', 'A5', '148 x 210 mm', 'width:26px;height:37px', 1, 'Our most popular flyer size: room for a clear message, easy to hand out.'],
+        ['a4', 'A4', '210 x 297 mm', 'width:30px;height:42px', 1.6, 'Letter size. Lots of room for text and images, great for price lists or menus.'],
+        ['dl', 'DL', '210 x 99 mm', 'width:21px;height:42px', .85, 'The long, slim format that fits a standard envelope and a display rack.'],
+        ['a3', 'A3', '420 x 297 mm', 'width:42px;height:30px', 2.9, 'Poster-like size for maximum impact on a wall or notice board.'],
+        ['a7', 'A7', '74 x 105 mm', 'width:17px;height:24px', .6, 'Mini flyer, about the size of a large business card.'],
+        ['sq-s', 'Small Square', '105 x 105 mm', 'width:24px;height:24px', .75, 'A compact square that stands out from the usual formats.'],
+        ['sq-m', 'Medium Square', '148 x 148 mm', 'width:30px;height:30px', .95, 'A playful square format with a bit more room.'],
+        ['sq-l', 'Large Square', '210 x 210 mm', 'width:36px;height:36px', 1.4, 'A big square for bold, visual designs.'],
+        ['a-long', 'A-Long', '210 x 74 mm', 'width:42px;height:15px', .8, 'A slim strip, popular as a voucher or bookmark.'],
+        ['x-long', 'X-Long', '105 x 297 mm', 'width:15px;height:42px', 1.1, 'Tall and narrow, eye-catching on a rack or table.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      { key: 'paper', title: 'Material', items: [
+        { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', swatch: 'paper-glossy.svg', mult: 1, info: 'Coated paper with a shine. Colours and photos look vivid; our recommended choice for flyers.' },
+        { id: 'matte', name: 'Matte', sub: 'No glare', swatch: 'paper-matt.svg', mult: 1, info: 'Coated paper without shine. Calm and easy to read, good for lots of text.' },
+        { id: 'uncoated', name: 'Uncoated', sub: 'Writable', swatch: 'paper-uncoated.svg', lines: true, mult: 1, info: 'Untreated paper you can write on, handy for forms or coupons.' },
+        { id: 'recycled', name: 'Recycled', sub: '100% recycled', swatch: 'paper-eco.svg', mult: 1.1, info: 'Made from recycled paper, with a natural look.' },
+        { id: 'biotop', name: 'Bio Top Natural', sub: 'Chlorine-free', color: '#f3efe3', mult: 1.12, info: 'An off-white paper made without chlorine.' },
+        { id: 'seed', name: 'Seed Paper', sub: 'Plant it', color: '#e7e0cf', mult: 2.2, info: 'Paper with seeds in it: plant the flyer and flowers grow.' },
+        { id: 'paperwise', name: 'Paperwise Natural', sub: 'Bio-sourced', color: '#e4dcc4', mult: 1.15, info: 'Made from agricultural leftovers, recyclable and compostable.' },
+      ]},
+      { key: 'thickness', title: 'Paper thickness', items: [
+        { id: 'super-budget', name: 'Super Budget', sub: '90 gsm', mult: .8, info: 'Thin, like copier paper. The lowest price for large runs.' },
+        { id: 'budget', name: 'Budget', sub: '135 gsm', mult: .9, info: 'A light flyer at a sharp price.' },
+        { id: 'standard', name: 'Standard', sub: '170 gsm', mult: 1, info: 'Our recommended thickness: sturdy enough to feel like quality.' },
+        { id: 'premium', name: 'Premium', sub: '250 gsm', mult: 1.25, info: 'Thick and firm, close to a postcard.' },
+        { id: 'premium-plus', name: 'Premium Plus', sub: '350 gsm', mult: 1.5, info: 'Very thick and stiff, for a luxurious feel.' },
+      ]},
+      printingGroup(),
+      { key: 'finishing', title: 'Finishing', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', shape: 'width:26px;height:37px', mult: 1, info: 'No extra layer. Our recommended choice for most flyers.' },
+        { id: 'matt-lam', name: 'Matte lamination', sub: 'Both sides', swatch: 'paper-matt.svg', mult: 1.35, info: 'A soft, non-reflective layer that protects the print.' },
+        { id: 'gloss-lam', name: 'Gloss lamination', sub: 'Both sides', swatch: 'paper-glossy.svg', mult: 1.35, info: 'A shiny protective layer that makes colours pop.' },
+        { id: 'velvet-lam', name: 'Velvet lamination', sub: 'Both sides', color: 'linear-gradient(135deg,#d9d4cc,#bdb6aa)', mult: 1.5, info: 'A soft-touch, suede-like layer for a premium feel.' },
+        { id: 'uv', name: 'UV Glossy', sub: 'Both sides', color: 'linear-gradient(135deg,#fff,#dfe6ee 50%,#fff)', mult: 1.3, info: 'A high-gloss coating with extra shine.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a5', paper: 'glossy', thickness: 'standard', printing: 'double', finishing: 'none' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', paper: 'glossy', thickness: 'budget', printing: 'single', finishing: 'none' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a5', paper: 'recycled', thickness: 'standard', printing: 'double', finishing: 'none' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: [
+      'Use Helloprint’s customisable flyers to help your business, event or charity take flight. Flyers are weightless, durable and easy to distribute. They’re also concise and to the point, making them the perfect tool to capture attention.',
+      'Print flyers in high quality and choose from many sizes. Make your flyers online or upload your own design.',
+    ],
+    specs: [['Material', '135–400 gsm silk/gloss coated · 140–300 gsm offset (writable) · 170 gsm recycled'], ['Finishing', 'Gloss | Matte | Velvet lamination | UV Glossy'], ['Print technique', 'High-quality digital print'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
+  },
 };
 for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; }
 
 // Base price per quantity (Figma quantity list); each product scales it with priceMult
 const BASE_QTY = [[100, 9.99], [250, 14.49], [500, 18.89], [750, 28.49], [1000, 34.99], [1500, 44.99], [2000, 54.99], [3000, 69.99], [4000, 84.99], [5000, 99.99]];
-const productQty = p => BASE_QTY.map(([q, price]) => [q, Math.round(price * p.priceMult * 100) / 100]);
+const productQty = p => (p.qty || BASE_QTY).map(([q, price]) => [q, Math.round(price * p.priceMult * 100) / 100]);   // flyers have their own list
 // Price of a configuration at a quantity (delivery not included)
 function configPrice(p, cfg, qty) {
   const base = productQty(p).find(([q]) => q === qty)[1];
@@ -204,7 +267,7 @@ function configPrice(p, cfg, qty) {
   return Math.round(base * mult * 100) / 100;
 }
 // "500 pcs from" price on the category page: the cheapest preset at 500 pcs
-const fromPrice = p => Math.min(...p.presets.map(pr => configPrice(p, pr.cfg, 500)));
+const fromPrice = p => Math.min(...p.presets.map(pr => configPrice(p, pr.cfg, p.defaultQty || 500)));
 
 // Materials on the category page (text from helloprint.com/en-ie/businesscards-printing).
 // Each opens the product that offers it, with that material already chosen (product.html?p=…&group=option).

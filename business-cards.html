@@ -108,7 +108,7 @@
   // Card types
   const C = 'assets/category/';
   // Card types: the product pages (products.js); "500 pcs from" is the cheapest preset there
-  const cardTypes = Object.values(PRODUCTS).map(p => ({ img: p.thumb, bg: p.bg, name: p.name, price: fromPrice(p), badge: p.badge, href: p.href }));
+  const cardTypes = Object.values(PRODUCTS).filter(p => !p.noun).map(p => ({ img: p.thumb, bg: p.bg, name: p.name, price: fromPrice(p), badge: p.badge, href: p.href }));
   document.getElementById('types-grid').innerHTML = cardTypes.map(p => `
     <a class="product" href="${p.href}">
       <div class="thumb" style="background:${p.bg}">

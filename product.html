@@ -14,7 +14,7 @@
   <div data-shell="header"></div>
 
   <main class="pdp">
-    <p class="crumbs px"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / <a href="business-cards.html">Business Cards</a></p>
+    <p class="crumbs px"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / <a href="business-cards.html" id="pCrumb">Business Cards</a></p>
 
     <section class="gallery" aria-label="Product images">
       <span class="badge" id="pBadge" hidden></span>
@@ -37,7 +37,7 @@
         </div>
         <!-- Version C: the options as one selector field; tapping it opens the customise layer -->
         <div class="pick">
-          <p class="pick-label"><span>Your cards</span><span class="tag" data-bind="pickTag"></span></p>
+          <p class="pick-label"><span data-bind-noun="Your ">Your cards</span><span class="tag" data-bind="pickTag"></span></p>
           <button class="pick-field" data-open-sheet="customise" aria-label="Change your options"><span class="v" data-bind="pick"></span><img class="chev" src="assets/category/arrow.svg" alt=""><span class="d-edit material-symbols-rounded" aria-hidden="true">edit</span></button>
         </div>
         <!-- Version E: how the design gets to us, as a second selector field (same pattern as "Your cards") -->
@@ -158,7 +158,7 @@
   <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="customiseTitle">
     <div class="grab" data-grab><span></span></div>
     <div class="sheet-head">
-      <h2 id="customiseTitle">Customise your cards.</h2>
+      <h2 id="customiseTitle" data-bind-noun="Customise your ">Customise your cards.</h2>
       <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
     </div>
     <div class="sheet-body">
@@ -305,7 +305,7 @@
   const OPTIONS = Object.fromEntries(PRODUCT.groups.map(g => [g.key, g]));
   const KEYS = PRODUCT.groups.map(g => g.key);
   const QTY = productQty(PRODUCT);
-  const DELIVERY = [
+  const DELIVERY = PRODUCT.delivery || [
     { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if your files are approved in time.' },
     { id: 'express', name: 'Express', day: '27', dayName: 'Sun 27 Sep', month: 'September 27', extra: 9.99, info: 'Two days sooner, on Sun 27 Sep. We print your order with priority.' },
   ];
@@ -360,7 +360,7 @@
       b.addEventListener('click', () => openSheet(FLOW_H ? 'design' : 'adddesign'));
     });
   }
-  const DEFAULT = { ...PRESETS[0].cfg, qty: 500, delivery: 'saver' };
+  const DEFAULT = { ...PRESETS[0].cfg, qty: PRODUCT.defaultQty || 500, delivery: 'saver' };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
   const params = new URLSearchParams(location.search);
@@ -377,6 +377,12 @@
   const presetOf = c => PRESETS.find(p => Object.entries(p.cfg).every(([k, v]) => c[k] === v));
 
   // Product content
+  // Not a business card (e.g. flyers): own noun, breadcrumb and templates
+  const NOUN = PRODUCT.noun || 'cards';
+  document.querySelectorAll('[data-bind-noun]').forEach(el => { el.textContent = el.dataset.bindNoun + NOUN + (el.id === 'customiseTitle' ? '.' : ''); });
+  if (PRODUCT.crumb) { const cr = document.getElementById('pCrumb'); cr.textContent = PRODUCT.crumb[0]; cr.setAttribute('href', PRODUCT.crumb[1]); }
+  if (PRODUCT.noun && OPTIONS.size) document.querySelector('.tpl-list').innerHTML = OPTIONS.size.items.map(o =>
+    `<li><span>${o.name} <small>${o.sub}</small></span><a href="#template-${o.id}-pdf">PDF</a><a href="#template-${o.id}-indd">InDesign</a></li>`).join('');
   document.title = PRODUCT.name;
   document.getElementById('pName').textContent = PRODUCT.name + '.';
   document.getElementById('pImg').src = PRODUCT.img;
@@ -438,8 +444,9 @@
     const unit = q => productPrice(c, q) / q, per = q => each({ qty: q, price: productPrice(c, q) });
     // Next quantity that is really cheaper per card (the price list isn't strictly decreasing)
     const next = QTY.map(([q]) => q).find(q => q > c.qty && unit(q) < unit(c.qty) - 0.0005);
-    if (!next) return `You get our lowest price per card: ${per(c.qty)}.`;
-    return `The more you order, the less you pay per card: ${per(c.qty)} now, ${per(next)} at ${next} pcs.`;
+    const one = (PRODUCT.noun || 'cards').replace(/s$/, '');
+    if (!next) return `You get our lowest price per ${one}: ${per(c.qty)}.`;
+    return `The more you order, the less you pay per ${one}: ${per(c.qty)} now, ${per(next)} at ${next} pcs.`;
   }
   // Version J: step numbers in front of each option, and the short quantity list
   const jStep = i => FLOW_J ? `<span class="j-step">${i + 1}</span>` : '';

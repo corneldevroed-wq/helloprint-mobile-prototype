@@ -131,6 +131,7 @@ const ROUTES = {
     ['deluxe-business-cards', 'deluxe-business-cards', 'foilbusinesscards'],
     ['business-cards-special-materials', 'business-cards-special-materials', 'special-materials', 'specialpaperbusinesscards'],
     ['multilayered-business-cards', 'multilayered-business-cards', 'multilayer-business-cards', 'businesscardsmultilayer810'],
+    ['standard-flyers', 'standard-flyers', 'standardflyers', 'classic-flyers'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
@@ -159,7 +160,7 @@ function updatePrices() {
 const products = [
   { img: 'p1.png', bg: 'rgba(120,163,175,.1)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },
   { img: 'p2.png', bg: 'rgba(241,228,195,.5)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
-  { img: 'p3.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
+  { img: 'p3.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 1000, price: 35.99, href: 'product.html?p=standard-flyers' },
   { img: 'p4.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
   { img: 'p5.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
   { img: 'p6.png', bg: 'rgba(2,105,186,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
