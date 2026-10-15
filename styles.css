@@ -1176,8 +1176,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
 .addr-card .top b { font-weight: 700; font-size: 16px; }
 .addr-card .top .co-badge { margin: 0 0 0 auto; }
-.addr-card .radio { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; border: 2px solid #9a9a9a; background: var(--white); }
-.addr-card[aria-checked="true"] .radio { border-color: var(--light-green); box-shadow: inset 0 0 0 4px var(--white); background: var(--light-green); }
+/* Same radio as everywhere (quantity list): the .radio sits one level deeper here */
+.addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
+.addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .addr-card p { flex: 1; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
 .addr-edit { align-self: flex-start; min-height: 32px; padding: 0 14px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 13px; }
 .co-link { align-self: flex-start; font-weight: 600; font-size: 14px; color: var(--light-green); text-decoration: underline; text-underline-offset: 2px; }
