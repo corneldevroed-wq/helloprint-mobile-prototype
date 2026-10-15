@@ -1223,3 +1223,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-card[aria-checked="true"] { border-color: var(--light-green); }
 .addr-card.addr-add { border-color: var(--outline); }
 .co-act:hover { border-color: var(--black); }
+/* Contact card: inline edit (email + business) */
+.co-edit-contact { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.co-edit-contact[hidden] { display: none; }
+.co-edit-contact .btns { display: flex; align-items: center; gap: 8px; }
+.co-edit-contact .btns .btn { height: 40px; padding: 0 24px; }
+#uvEmail[hidden], #contactEdit[hidden] { display: none; }
+.co-edit-contact .check { padding: 0; border-top: 0; }

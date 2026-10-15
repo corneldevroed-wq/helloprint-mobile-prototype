@@ -30,12 +30,16 @@
           <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
           <div class="co-summary">
             <section>
-              <div class="h"><p><b id="uvName"></b><span id="uvEmail"></span></p><button type="button" class="co-act" data-edit="contact">Edit Details</button></div>
+              <div class="h"><p><b id="uvName"></b><span id="uvEmail"></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
+              <!-- Edit: only the email (and the business details), not the whole form -->
+              <div class="co-edit-contact" id="contactForm" hidden>
+                <label class="field" data-field="uvEmailField"><input type="email" id="uvEmailInput" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
+                <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
+                <div id="uvBizSlot"></div>
+                <div class="btns"><button type="button" class="btn primary" id="contactSave">Save</button><button type="button" class="co-act" id="contactCancel">Cancel</button></div>
+              </div>
             </section>
           </div>
-          <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
-          <div id="uvBizSlot"></div>
-          <p class="co-notyou">Not you? <button type="button" id="uvLogout">Log out</button></p>
 
           <div class="co-head"><h2>Shipping Address <a class="co-more" href="#shipping-info"><img src="assets/pdp/info.svg" alt="">More info</a></h2></div>
           <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
@@ -377,13 +381,26 @@
     if (e.target.checked) { e.target.checked = false; openInvoiceSheet(); } else setInvoice('same');
   });
   if (known) setInvoice(invoiceSel);
-  // Contact "Edit" opens the full form again
-  document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
-    document.getElementById('userView').hidden = true;
-    document.getElementById('formView').hidden = false;
-    document.querySelector('[name=email]').focus();
-  }));
-  document.getElementById('uvLogout').addEventListener('click', () => document.getElementById('logout').click());
+  // Contact "Edit": an email field (and the business option) in the card, not the whole form
+  const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
+  const toggleContact = open => {
+    cForm.hidden = !open;
+    document.getElementById('contactEdit').hidden = open;
+    document.getElementById('uvEmail').hidden = open;
+    if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
+  };
+  document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
+  document.getElementById('contactCancel').addEventListener('click', () => toggleContact(false));
+  document.getElementById('contactSave').addEventListener('click', () => {
+    const v = cInput.value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(v)) { setFieldError(cInput.closest('.field'), 'Enter a valid email address'); cInput.focus(); return; }
+    form.querySelector('[name=email]').value = v;
+    document.getElementById('uvEmail').textContent = v;
+    persist();
+    toggleContact(false);
+    showToast('Your details are updated');
+  });
+  cInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('contactSave').click(); } });
 
   const remember = () => {
     const data = {};
