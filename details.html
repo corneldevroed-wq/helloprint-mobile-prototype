@@ -90,8 +90,29 @@
         </div>
         <label class="check"><input type="checkbox" id="sameBilling" checked>Billing address is the same as shipping address</label>
         </div>
+        <!-- Billing address: the same form as the shipping address -->
         <div class="co-extra" id="billingFields" hidden>
-          <label class="field" data-field="billAddress"><input name="billAddress" placeholder=" " autocomplete="billing address-line1" aria-label="Billing address line 1"><span class="fl">Billing address line 1</span></label>
+          <div class="co-head"><h2>Billing Address</h2></div>
+          <div class="co-row">
+            <label class="field" data-field="billFirst"><input name="billFirst" placeholder=" " autocomplete="billing given-name" aria-label="Billing first name"><span class="fl">First name</span></label>
+            <label class="field" data-field="billLast"><input name="billLast" placeholder=" " autocomplete="billing family-name" aria-label="Billing last name"><span class="fl">Last name</span></label>
+          </div>
+          <div class="co-row">
+            <label class="field phone-prefix">
+              <select name="billPrefix" aria-label="Billing country code">
+                <option value="+353" selected>🇮🇪 +353</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+32">🇧🇪 +32</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+              </select>
+            </label>
+            <label class="field" data-field="billPhone"><input type="tel" name="billPhone" placeholder=" " autocomplete="billing tel-national" aria-label="Billing phone number"><span class="fl">Phone number</span></label>
+          </div>
+          <label class="field"><input name="billCountry" value="Ireland" readonly aria-label="Billing country" placeholder=" " autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore tabindex="-1"><span class="fl">Country/Region</span></label>
+          <label class="field" data-field="billAddress"><input name="billAddress" placeholder=" " autocomplete="billing address-line1" aria-label="Billing address line 1"><span class="fl">Address line 1</span></label>
+          <label class="field"><input name="billAddress2" placeholder=" " autocomplete="billing address-line2" aria-label="Billing address line 2"><span class="fl">Address line 2 (optional)</span></label>
           <div class="co-row">
             <label class="field" data-field="billEircode"><input name="billEircode" placeholder=" " autocomplete="billing postal-code" aria-label="Billing Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
             <label class="field" data-field="billTown"><input name="billTown" placeholder=" " autocomplete="billing address-level2" aria-label="Billing town or city"><span class="fl">Town / city</span></label>
@@ -362,7 +383,8 @@
     try { localStorage.setItem('hp-invoice-sel', id); } catch (e) {}
     const same = document.getElementById('sameBilling'), a = book.find(x => x.id === id);
     same.checked = !a;
-    if (a) { const set = (n, v) => { form.querySelector(`[name=${n}]`).value = v || ''; }; set('billAddress', a.address1); set('billEircode', a.eircode); set('billTown', a.town); }
+    if (a) { const set = (n, v) => { form.querySelector(`[name=${n}]`).value = v || ''; }; set('billAddress', a.address1); set('billAddress2', a.address2); set('billEircode', a.eircode); set('billTown', a.town); set('billFirst', a.first); set('billLast', a.last);
+      const [pre, ...num] = (a.phone || '').split(' '); if (form.querySelector(`[name=billPrefix] option[value="${pre}"]`)) { set('billPrefix', pre); set('billPhone', num.join(' ')); } else set('billPhone', a.phone); }
     same.dispatchEvent(new Event('change', { bubbles: true }));
     document.getElementById('billingFields').hidden = true;   // in the cards view the sheet replaces the billing fields
     renderInvoice();
@@ -442,6 +464,9 @@
     address1: [v => v.trim().length > 2, 'Enter your address'],
     eircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode'],
     town: [v => v.trim(), 'Enter your town or city'],
+    billFirst: [v => v.trim(), 'Enter the first name', () => !document.getElementById('sameBilling').checked],
+    billLast: [v => v.trim(), 'Enter the last name', () => !document.getElementById('sameBilling').checked],
+    billPhone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number', () => !document.getElementById('sameBilling').checked],
     billAddress: [v => v.trim().length > 2, 'Enter your billing address', () => !document.getElementById('sameBilling').checked],
     billEircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode', () => !document.getElementById('sameBilling').checked],
     billTown: [v => v.trim(), 'Enter your town or city', () => !document.getElementById('sameBilling').checked],
