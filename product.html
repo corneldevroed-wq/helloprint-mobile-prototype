@@ -360,7 +360,7 @@
       b.addEventListener('click', () => openSheet(FLOW_H ? 'design' : 'adddesign'));
     });
   }
-  const DEFAULT = { ...PRESETS[0].cfg, qty: PRODUCT.defaultQty || 500, delivery: 'saver' };
+  const DEFAULT = { ...PRESETS[0].cfg, qty: PRODUCT.defaultQty || 500, delivery: DELIVERY[0].id };
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
   const params = new URLSearchParams(location.search);
@@ -383,6 +383,9 @@
   if (PRODUCT.crumb) { const cr = document.getElementById('pCrumb'); cr.textContent = PRODUCT.crumb[0]; cr.setAttribute('href', PRODUCT.crumb[1]); }
   if (PRODUCT.noun && OPTIONS.size) document.querySelector('.tpl-list').innerHTML = OPTIONS.size.items.map(o =>
     `<li><span>${o.name} <small>${o.sub}</small></span><a href="#template-${o.id}-pdf">PDF</a><a href="#template-${o.id}-indd">InDesign</a></li>`).join('');
+  // No size choice (mugs, bags, t-shirts): one template for the product
+  else if (PRODUCT.noun) document.querySelector('.tpl-list').innerHTML =
+    `<li><span>${PRODUCT.name}</span><a href="#template-${PRODUCT.slug}-pdf">PDF</a><a href="#template-${PRODUCT.slug}-indd">InDesign</a></li>`;
   document.title = PRODUCT.name;
   document.getElementById('pName').textContent = PRODUCT.name + '.';
   document.getElementById('pImg').src = PRODUCT.img;

@@ -45,6 +45,21 @@ const FLYER_DELIVERY = [
   { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
 ];
 
+// One delivery option (products the live site ships with Standard only)
+const STANDARD_ONLY = (dayName, noun, lead = '') => {
+  const [, day, mon] = dayName.split(' ');
+  const month = { Sep: 'September', Oct: 'October' }[mon];
+  return { id: 'standard', name: 'Standard', day, dayName, month: `${month} ${day}`, extra: 0, info: `Included in the price${lead ? ` (${lead})` : ''}. Your ${noun} arrive on ${dayName} if your files are approved in time.` };
+};
+// Textile colours (live names), shown as colour chips
+const TEXTILE = {
+  'ecru': ['Ecru', '#efe6d2'], 'natural': ['Natural', '#efe6d2'], 'white': ['White', '#ffffff'], 'black': ['Black', '#1c1c1c'], 'deep-black': ['Deep Black', '#141414'],
+  'navy': ['Blue Navy', '#1f2a44'], 'french-navy': ['French Navy', '#1d2540'], 'dark-green': ['Green Dark', '#1f4d36'], 'bottle-green': ['Bottle Green', '#1d4a35'],
+  'red': ['Red', '#c8202f'], 'yellow': ['Yellow', '#f4c81f'], 'royal': ['Royal Blue', '#2346a8'], 'grey': ['Grey', '#9a9a9a'], 'grey-melange': ['Grey Melange', '#b5b5b5'],
+  'orange': ['Orange', '#ee7a22'], 'pink': ['Pink', '#f2a7c3'], 'sky': ['Sky Blue', '#8fc3ea'], 'sand': ['Sand', '#d8c3a0'], 'burgundy': ['Burgundy', '#6e1f2e'], 'gold': ['Gold', '#f0b323'],
+};
+const TEXTILE_COLOURS = ids => ids.map((id, i) => ({ id, name: TEXTILE[id][0], sub: '', color: TEXTILE[id][1], mult: 1, info: `Your design on a ${TEXTILE[id][0].toLowerCase()} base.` }));
+
 const PRODUCTS = {
   'classic-business-cards': {
     name: 'Classic Business Cards', cartName: 'Classic business cards', badge: 'Most Popular',
@@ -376,6 +391,194 @@ const PRODUCTS = {
       'The exclusive finish goes on selected areas, like a logo or headline, up to 50% of the flyer, and needs a special artwork set-up.',
     ],
     specs: [['Exclusive finishing', 'Spot UV | Gold Foil | Silver Foil | Rose Gold Foil'], ['Material', 'Invercote® G | Invercote® Creato | Tintoretto Touch | Kingboard'], ['Lamination', 'Matte | Velvet | None'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
+  },
+
+  // ---------- Gifts, bags, clothing and outdoor (live helloprint.com/en-ie pages; images from the live site) ----------
+  // Where the live page only showed some quantity prices, the in-between ones are estimated (marked ~)
+
+  // 330 ml Full Colour Ceramic Mug (helloprint.com/en-ie/basicwhitemug330ml)
+  'ceramic-mug-330ml': {
+    name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumb: ['Mugs', '#personalised-mugs'],
+    img: 'assets/products/mug.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 100,
+    qty: [[1, 17.77], [5, 36.01], [10, 61.43], [30, 147.36], [50, 217.90], [100, 412.32], [250, 896.18], [500, 1541.81], [1000, 2879.40], [2000, 4807.11]],
+    delivery: [STANDARD_ONLY('Tue 6 Oct', 'mugs')],
+    groups: [
+      { key: 'print', title: 'Printing option', items: [
+        { id: 'front', name: '190 x 85 mm', sub: 'Front', shape: 'width:42px;height:19px', mult: 1, info: 'A full-colour print of 190 x 85 mm, almost all the way around the mug.' },
+      ]},
+    ],
+    presets: [{ id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { print: 'front' } }],
+    recapExtra: 'Sublimation · Full colour',
+    fixed: [['Print technique', 'Sublimation'], ['Capacity', '330 ml']],
+    about: ['Full-wrap print, so unlimited design possibilities. Great for gifts or promos, and easy to customise.'],
+    specs: [['Material', 'Ceramic'], ['Capacity', '330 ml'], ['Size', '95 mm x Ø 82 mm'], ['Weight', '350 gr.'], ['Print technique', 'Sublimation'], ['Dishwasher safe', 'Certified for 2000 cycles']],
+  },
+
+  // Basic Cotton Bags (helloprint.com/en-ie/cottonbagslonghandles)
+  'basic-cotton-bags': {
+    name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumb: ['Tote Bags', '#printing-cottonbags'],
+    img: 'assets/products/cotton-bag.webp', bg: 'rgba(223,185,144,.3)', priceMult: 1, defaultQty: 100,
+    qty: [[100, 181.99], [150, 238.32], [200, 294.66], [250, 350.99], [500, 650.99], [1000, 1128.99], [2500, 2488.99], [5000, 4506.99]],
+    delivery: [STANDARD_ONLY('Mon 12 Oct', 'bags', '11–15 working days')],
+    groups: [
+      { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['ecru', 'white', 'black', 'navy', 'dark-green', 'red', 'yellow']) },
+      { key: 'area', title: 'Print area', items: [
+        { id: 'single', name: 'Single-sided', sub: 'Front only', shape: 'width:30px;height:32px', mult: 1, info: 'Your design on the front.' },
+        { id: 'double', name: 'Double-sided', sub: 'Same design', shape: 'width:30px;height:32px', mult: 1.45, info: 'The same design on the front and the back.' },
+      ]},
+      { key: 'inks', title: 'Colours in design', items: [
+        { id: '1', name: '1 colour', sub: 'Screen print', mult: 1, info: 'One ink colour. Ideal for a logo; the most affordable choice.' },
+        { id: '2', name: '2 colours', sub: 'Screen print', mult: 1.18, info: 'Two ink colours.' },
+        { id: '3', name: '3 colours', sub: 'Screen print', mult: 1.34, info: 'Three ink colours.' },
+        { id: '4', name: '4 colours', sub: 'Screen print', mult: 1.5, info: 'Four ink colours.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { colour: 'ecru', area: 'single', inks: '1' } },
+      { id: 'both', name: 'Both sides', icon: 'star.svg', cfg: { colour: 'ecru', area: 'double', inks: '1' } },
+    ],
+    recapExtra: 'Screen print',
+    fixed: [['Size', '39 x 41 cm'], ['Material', '100% cotton, 136 gsm']],
+    about: ['Make your brand unforgettable. These cotton bags are perfect for everyday use: crafted from durable cotton, with long handles and a sustainable charm.'],
+    specs: [['Material', '100% cotton'], ['Size', '39 x 41 cm'], ['g/m²', '136 gsm'], ['Print technique', 'Screen printing | 1–4 colours'], ['Print size', '290 x 290 mm'], ['Design', 'Front and back: same print design'], ['More information', 'No reinforced bottom']],
+  },
+
+  // Premium Tote Bags (helloprint.com/en-ie/cottonbagslonghandles140gm)
+  'premium-tote-bags': {
+    name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumb: ['Tote Bags', '#printing-cottonbags'],
+    img: 'assets/products/premium-tote.webp', bg: 'rgba(241,228,195,.5)', priceMult: 1, defaultQty: 100,
+    qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
+    delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 31, 48][i], info: d.info.replace('flyers', 'bags') })),
+    groups: [
+      { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['natural', 'black', 'white', 'royal', 'grey', 'navy', 'red', 'orange', 'yellow', 'pink']) },
+      { key: 'area', title: 'Print area', items: [
+        { id: '300-double', name: '300 x 215 mm', sub: 'Double sided', shape: 'width:36px;height:26px', mult: 1, info: 'A landscape print on the front and the back.' },
+        { id: '300-single', name: '300 x 215 mm', sub: 'Single sided', shape: 'width:36px;height:26px', mult: .7, info: 'A landscape print on the front.' },
+        { id: '280-double', name: '280 x 310 mm', sub: 'Double sided', shape: 'width:30px;height:33px', mult: 1.08, info: 'A large print on the front and the back.' },
+        { id: '280-single', name: '280 x 310 mm', sub: 'Single sided', shape: 'width:30px;height:33px', mult: .75, info: 'A large print on the front.' },
+      ]},
+      { key: 'technique', title: 'Print technique', items: [
+        { id: 'dtf', name: 'DTF Transfer', sub: 'Full colour', color: 'linear-gradient(135deg,#00a7e1,#e6007e 50%,#ffed00)', mult: 1, info: 'A full-colour transfer: photos and gradients are possible.' },
+        { id: 'screen', name: 'Screen print', sub: '1–3 colours', color: '#1c1c1c', mult: .8, info: 'Solid ink colours that last. Best for logos and text.' },
+        { id: 'none', name: 'No imprint', sub: 'Blank', color: '#f1ede4', mult: .35, info: 'The bag without a print.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { colour: 'natural', area: '300-double', technique: 'dtf' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { colour: 'natural', area: '300-single', technique: 'screen' } },
+    ],
+    recapExtra: '',
+    fixed: [['Size', '38 x 42 cm'], ['Material', 'Cotton, 140 g/m²']],
+    about: ['Sturdy and reliable, this bag is your perfect shopping companion. With durable cotton and strong shoulder handles it carries your essentials effortlessly, up to 5 kg. Ideal for daily errands or an outing.'],
+    specs: [['Material', 'Cotton, 140 g/m²'], ['Size', '38 x 42 cm'], ['Weight', '67 gr'], ['Handle size', '30 cm'], ['Resistance', 'Up to 5 kg']],
+  },
+
+  // Sol's Imperial T-shirt (bestseller on helloprint.com/en-ie/tshirt-printing → /tshirtbasicroundneck)
+  'sols-imperial-tshirt': {
+    name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
+    img: 'assets/products/tshirt.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 10,
+    qty: [[5, 99.99], [10, 164.83], [25, 329.99], [50, 549.99], [100, 899.99], [250, 1849.99], [500, 3249.99]],   // all but 10 ~
+    delivery: [STANDARD_ONLY('Tue 6 Oct', 't-shirts')],
+    groups: [
+      { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['deep-black', 'white', 'grey-melange', 'french-navy', 'royal', 'red', 'bottle-green', 'sky', 'sand', 'burgundy', 'orange', 'gold']) },
+      { key: 'area', title: 'Print area', items: [
+        { id: 'chest-back', name: 'Chest left + Back large', sub: '2 positions', shape: 'width:26px;height:30px', mult: 1, info: 'A small logo on the left chest and a large print on the back. Our most chosen option.' },
+        { id: 'chest', name: 'Chest left', sub: '1 position', shape: 'width:26px;height:30px', mult: .62, info: 'A small logo on the left chest.' },
+        { id: 'front', name: 'Front large', sub: '1 position', shape: 'width:26px;height:30px', mult: .7, info: 'A large print on the front.' },
+        { id: 'back', name: 'Back large', sub: '1 position', shape: 'width:26px;height:30px', mult: .7, info: 'A large print on the back.' },
+        { id: 'front-back', name: 'Front & Back large', sub: '2 positions', shape: 'width:26px;height:30px', mult: 1.1, info: 'Large prints on the front and the back.' },
+      ]},
+      { key: 'technique', title: 'Print technique', items: [
+        { id: 'full', name: 'Full colour', sub: 'Any design', color: 'linear-gradient(135deg,#00a7e1,#e6007e 50%,#ffed00)', mult: 1, info: 'Every colour, photos and gradients. Our recommended technique.' },
+        { id: 'screen', name: 'Screen print', sub: '1–4 colours', color: '#1c1c1c', mult: .85, info: 'Solid ink colours that last many washes. Best for logos and text.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { colour: 'deep-black', area: 'chest-back', technique: 'full' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { colour: 'white', area: 'chest', technique: 'screen' } },
+    ],
+    recapExtra: '',
+    fixed: [['Sizes', 'S, M, L, XL, XXL'], ['Material', '100% organic cotton, 190 gsm']],
+    about: ['Stand out from the crowd with our Sol’s Imperial T-shirt. Made from 100% cotton, these t-shirts are stylish, comfortable and don’t break the bank.'],
+    specs: [['Brand', 'Sol’s'], ['Material', '100% organic cotton'], ['Sizes', 'S–XXL'], ['Fit', 'Regular fit'], ['Weight', '190 gsm'], ['Neckline', 'Round neck'], ['Wash instructions', 'Machine wash inside out, maximum of 30°C']],
+  },
+
+  // Banners (helloprint.com/en-ie/banners)
+  'banners': {
+    name: 'Banners', cartName: 'Banners', noun: 'banners', crumb: ['Banners', '#banner-printing'],
+    img: 'assets/products/banner.webp', bg: 'rgba(2,105,186,.1)', priceMult: 1, defaultQty: 1,
+    qty: [[1, 33.36], [2, 61.99], [3, 89.99], [5, 144.99], [10, 279.99], [25, 669.99]],   // 2+ ~
+    delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 58.47, 62.47][i], info: d.info.replace('flyers', 'banners') })),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        { id: '150x100', name: '150 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:28px', mult: 1, info: 'Our most chosen banner size. On the live site any size up to 20 m wide is possible.' },
+        { id: '200x100', name: '200 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:21px', mult: 1.3, info: 'A wider banner for fences and facades.' },
+        { id: '300x100', name: '300 x 100 cm', sub: 'Wide', shape: 'width:42px;height:14px', mult: 1.85, info: 'Extra wide, readable from a distance.' },
+      ]},
+      { key: 'material', title: 'Material', items: [
+        { id: 'premium', name: 'Premium PVC', sub: 'Durable vinyl 510 gsm', color: '#f4f4f4', mult: 1, info: 'Sturdy, waterproof vinyl that lasts outdoors. Our recommended material.' },
+        { id: 'budget', name: 'Budget PVC', sub: 'Single use 450 gsm', color: '#f7f7f7', mult: .85, info: 'A lighter PVC for one event or a short campaign.' },
+        { id: 'mesh', name: 'Windproof mesh', sub: 'Perforated 270 gsm', color: 'repeating-linear-gradient(45deg,#eee 0 3px,#cfcfcf 3px 4px)', mult: 1.1, info: 'Lets the wind through, so ideal for fences and scaffolding.' },
+        { id: 'rpet', name: 'Recycled RPET', sub: '110 gsm', swatch: 'paper-eco.svg', mult: 1.15, info: 'Made from recycled bottles and PVC-free.' },
+        { id: 'blockout', name: 'Blockout PVC', sub: 'Double sided 610 gsm', color: '#e9e9e9', mult: 1.6, info: 'Printed on both sides with a light-blocking core in between.' },
+      ]},
+      { key: 'finishing', title: 'Finishing', items: [
+        { id: 'rings-30', name: 'Rings every 30 cm', sub: 'With hems', shape: 'width:42px;height:28px', mult: 1, info: 'Reinforced hems with metal rings every 30 cm. Our recommended finishing.' },
+        { id: 'rings-corners', name: 'Rings in corners', sub: 'With hems', shape: 'width:42px;height:28px', mult: .95, info: 'Reinforced hems with rings in the corners only.' },
+        { id: 'trimmed', name: 'Trimmed', sub: 'No rings', shape: 'width:42px;height:28px', mult: .85, info: 'Cut to size, without rings or hems.' },
+        { id: 'tunnel-top', name: 'Tunnel top & bottom', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.1, info: 'A 5 cm tunnel for a pole along the top and bottom.' },
+        { id: 'tunnel-sides', name: 'Tunnel both sides', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.1, info: 'A 5 cm tunnel for a pole along both sides.' },
+      ]},
+      { key: 'bands', title: 'Elastic bands', items: [
+        { id: 'without', name: 'Without', sub: 'Bands', mult: 1, info: 'No elastic bands included.' },
+        { id: 'with', name: 'Including', sub: 'Elastic bands', mult: 1.08, info: 'Elastic bands to hang your banner straight away.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: '150x100', material: 'premium', finishing: 'rings-30', bands: 'without' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: '150x100', material: 'budget', finishing: 'rings-corners', bands: 'without' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: '150x100', material: 'rpet', finishing: 'rings-30', bands: 'without' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour, UV-print']],
+    about: ['Make an impact with Helloprint’s banners: a professional, polished, eye-catching display that is guaranteed to stand out. Customisable up to 20 metres wide.'],
+    specs: [['Material', 'Standard PVC | Windproof mesh | Double-sided blockout | Eco PVC-free | Budget PVC'], ['Print', 'Full colour, single-sided or double-sided'], ['Size', 'Custom up to 20 m wide'], ['Print technique', 'UV-print'], ['Weather conditions', 'Waterproof']],
+  },
+
+  // Roller Banners (main product on helloprint.com/en-ie/rollupbanners-printing → /budgetrollupbanners)
+  'roller-banners': {
+    name: 'Roller Banners', cartName: 'Roller banners', noun: 'roller banners', crumb: ['Roller Banners', '#rollupbanners-printing'],
+    img: 'assets/products/roller-banner.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1,
+    qty: [[1, 38.99], [2, 62.99], [3, 86.99], [5, 132.99], [10, 257.99], [20, 501.99], [50, 1247.99]],
+    delivery: FLYER_DELIVERY.filter(d => d.id !== 'express').map((d, i) => ({ ...d, extra: [0, 47][i], info: d.info.replace('flyers', 'roller banners') })),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        { id: 's', name: 'Small', sub: '85 x 200 cm', shape: 'width:17px;height:40px', mult: 1, info: 'Our most chosen roller banner size. Fits in any car.' },
+        { id: 'xs', name: 'Extra Small', sub: '80 x 200 cm', shape: 'width:16px;height:40px', mult: .95, info: 'The narrowest roller banner, for tight spaces.' },
+        { id: 'm', name: 'Medium', sub: '100 x 200 cm', shape: 'width:20px;height:40px', mult: 1.25, info: 'A little wider, for more visibility.' },
+        { id: 'l', name: 'Large', sub: '120 x 200 cm', shape: 'width:24px;height:40px', mult: 1.55, info: 'The widest standard roller banner.' },
+      ]},
+      { key: 'stand', title: 'Stand', items: [
+        { id: 'silver-budget', name: 'Silver budget stand', sub: 'Basic base', color: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', mult: 1, info: 'A light aluminium stand with a free carry bag. Our recommended choice.' },
+        { id: 'black-budget', name: 'Black budget stand', sub: 'Basic base', color: '#1c1c1c', mult: 1.05, info: 'The same stand in black.' },
+        { id: 'silver-premium', name: 'Silver premium stand', sub: 'Premium base', color: 'linear-gradient(135deg,#fff,#c7cbd0 55%,#f2f3f5)', mult: 1.6, info: 'A heavier, more stable base that lasts for years of events.' },
+        { id: 'cardboard', name: 'Cardboard stand', sub: 'Eco-friendly', color: '#b58a5c', mult: 1.4, info: 'A stand made from cardboard: a sustainable, eye-catching alternative.' },
+      ]},
+      { key: 'material', title: 'Material', items: [
+        { id: 'pvc', name: 'Standard PVC', sub: '510 gsm', color: '#f4f4f4', mult: 1, info: 'Sturdy, lies flat and doesn’t curl. Our recommended material.' },
+        { id: 'polyester', name: 'Glossy Polyester', sub: '220 mu', swatch: 'paper-glossy.svg', mult: 1.1, info: 'A shiny finish with vivid colours.' },
+        { id: 'paper', name: 'Silk Coated Paper', sub: '200 gsm', swatch: 'paper-matt.svg', mult: .95, info: 'A paper print for short use indoors.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 's', stand: 'silver-budget', material: 'pvc' } },
+      { id: 'premium', name: 'Premium', icon: 'star.svg', cfg: { size: 'm', stand: 'silver-premium', material: 'pvc' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 's', stand: 'cardboard', material: 'pvc' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour, single-sided'], ['Included', 'Free carry bag']],
+    about: ['Roller banners are printed banners rolled into their base: self-standing, portable and set up in seconds. Use them to introduce your business, promote an event or a discount, or share information.'],
+    specs: [['Material', '510 gsm PVC | 220 mu polyester | 200 gsm silk paper'], ['Print', 'Single-sided'], ['Print colour', 'Full colour'], ['Print technique', 'UV-print'], ['Weight', '2.8 kg | 3.5 kg | 4.9 kg'], ['Quantity', 'Possible to order from 1 piece']],
   },
 };
 for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; }

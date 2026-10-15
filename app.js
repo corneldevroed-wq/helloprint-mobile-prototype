@@ -137,6 +137,12 @@ const ROUTES = {
     ['eco-flyers', 'eco-flyers', 'ecoflyers'],
     ['special-material-flyers', 'special-material-flyers', 'specialflyers'],
     ['special-finishing-flyers', 'special-finishing-flyers', 'flyersexclusivepaperfinish'],
+    ['ceramic-mug-330ml', 'ceramic-mug-330ml', 'basicwhitemug330ml', '330-ml-full-colour-ceramic-mug'],
+    ['basic-cotton-bags', 'basic-cotton-bags', 'cottonbagslonghandles'],
+    ['premium-tote-bags', 'premium-tote-bags', 'cottonbagslonghandles140gm'],
+    ['sols-imperial-tshirt', 'sols-imperial-tshirt', 'tshirtbasicroundneck', 'sol-s-imperial-t-shirt'],
+    ['banners', 'banners', 'custom-banners'],
+    ['roller-banners', 'roller-banners', 'budgetrollupbanners'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
@@ -349,6 +355,13 @@ const searchProducts = [
   { name: 'Special materials', img: S + 'special.png', qty: 500, price: 18.89, tags: 'business cards' },
   { name: 'Multilayer business cards', img: S + 'multilayer.png', qty: 500, price: 18.89 },
   ...products.map(p => ({ name: p.name, img: 'assets/' + p.img, bg: p.bg, qty: p.qty, price: p.price })),
+  // Products added from the live site (product.html via ROUTES on their slug)
+  { name: '330 ml Full Colour Ceramic Mug', img: 'assets/products/mug.webp', qty: 100, price: 412.32, tags: 'mugs gifts drinkware' },
+  { name: 'Basic Cotton Bags', img: 'assets/products/cotton-bag.webp', qty: 100, price: 181.99, tags: 'tote bags' },
+  { name: 'Premium Tote Bags', img: 'assets/products/premium-tote.webp', qty: 100, price: 477.99, tags: 'cotton bags' },
+  { name: 'Sol’s Imperial T-shirt', img: 'assets/products/tshirt.webp', qty: 10, price: 164.83, tags: 't-shirts tshirt clothing' },
+  { name: 'Custom Banners', img: 'assets/products/banner.webp', qty: 1, price: 33.36, tags: 'banners outdoor' },
+  { name: 'Roller Banners', img: 'assets/products/roller-banner.webp', qty: 1, price: 38.99, tags: 'rollup banners pull up' },
 ].filter((p, i, a) => a.findIndex(q => q.name.toLowerCase() === p.name.toLowerCase()) === i);
 const searchCats = (() => {
   const seen = new Map();
