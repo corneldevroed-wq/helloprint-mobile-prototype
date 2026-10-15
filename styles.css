@@ -618,7 +618,7 @@ body.buybar-on .toast { bottom: 100px; }
 .co-row { display: flex; gap: 10px; }
 .co-row > * { flex: 1; min-width: 0; }
 .field { position: relative; display: block; }
-.field input, .field select { width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--mid-grey); border-radius: 5px; background: var(--white); font: 400 16px/1.2 Inter, sans-serif; color: var(--black); outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none; appearance: none; }
+.field input, .field select { width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--outline, #cfcfcf); border-radius: 5px; background: var(--white); font: 400 16px/1.2 Inter, sans-serif; color: var(--black); outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none; appearance: none; }
 .field input::placeholder { color: var(--dark-grey); }
 .field input:focus, .field select:focus { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }
 .field input[readonly] { background: var(--light-grey); }
