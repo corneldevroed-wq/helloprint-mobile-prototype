@@ -1267,3 +1267,23 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-list li.on .radio { border: 0; background: var(--light-green); }
 .addr-list li.on .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .addr-list .menu { top: 48px; right: 8px; }
+
+/* Flyers category page (same setup as business cards) */
+.cat-lead { margin: -4px 0 12px; font-size: 13px; line-height: 1.5; color: var(--dark-grey); }
+.size-card .note { margin-top: 2px; font-size: 11px; line-height: 1.35; color: var(--dark-grey); }
+.types .product .from + .from { margin-top: 0; }
+.fold-row { gap: 9px; }
+.fold-card { flex: 0 0 200px; display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 10px; background: var(--light-grey); transition: background .15s; }
+.fold-card:hover { background: #e8e8e8; }
+.fold-card .badge { position: static; align-self: flex-start; }
+.fold-card strong { font-weight: 600; font-size: 15px; line-height: 1.25; }
+.fold-card small { font-size: 12px; line-height: 1.45; color: var(--dark-grey); }
+.fold-cta { margin-top: auto; padding-top: 6px; font-weight: 600; font-size: 13px; color: var(--light-green); }
+.fold-vis { display: flex; gap: 2px; height: 70px; align-items: center; justify-content: center; margin-bottom: 4px; }
+.fold-vis span { width: 30px; height: 64px; background: var(--white); border: 1px solid var(--dark-green); }
+.fold-vis span:nth-child(2) { transform: skewY(-8deg); }
+.chips.related { gap: 6px; margin-top: 4px; }
+.cat-about { gap: 8px; }
+.fold-vis span { width: 26px; }
+.fold-vis span:nth-child(odd) { transform: none; }
+.fold-vis span:nth-child(even) { transform: skewY(-8deg); }

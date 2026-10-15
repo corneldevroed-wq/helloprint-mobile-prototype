@@ -122,6 +122,8 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
+  // Flyers category page (home chips, menu, search, the flyer product's breadcrumb)
+  'flyers': 'flyers.html', 'flyer': 'flyers.html', 'flyers-printing': 'flyers.html', 'leaflet-printing': 'flyers.html',
   // Business card product pages (product.html renders each type from products.js);
   // slugs from the category page, search, menu and the live site
   ...Object.fromEntries([
@@ -131,8 +133,7 @@ const ROUTES = {
     ['deluxe-business-cards', 'deluxe-business-cards', 'foilbusinesscards'],
     ['business-cards-special-materials', 'business-cards-special-materials', 'special-materials', 'specialpaperbusinesscards'],
     ['multilayered-business-cards', 'multilayered-business-cards', 'multilayer-business-cards', 'businesscardsmultilayer810'],
-    // Flyers: the category links (home chips, menu, search) go to the flyer product page too, as it's the only one
-    ['standard-flyers', 'standard-flyers', 'standardflyers', 'classic-flyers', 'flyers', 'flyer', 'flyers-printing'],
+    ['standard-flyers', 'standard-flyers', 'standardflyers', 'classic-flyers'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
