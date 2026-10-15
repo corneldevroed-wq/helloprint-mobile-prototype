@@ -1234,3 +1234,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-summary .h:has(#contactEdit[hidden]) { display: none; }   /* edit mode: the row with name/email/Edit is empty */
 .co-biz { display: flex; flex-direction: column; margin-top: 4px; font-size: 13px; color: var(--dark-grey); }
 .co-biz[hidden] { display: none; }
+/* Contact card: label above each value when business details are there */
+.co-summary .row { display: flex; flex-direction: column; }
+.co-summary .row[hidden], .co-summary .lbl[hidden] { display: none; }
+.co-summary .lbl { font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
+.co-biz { gap: 6px; margin-top: 6px; font-size: 14px; color: var(--black); }
+.co-summary .h p:has(.lbl:not([hidden])) { gap: 6px; }
+.co-summary .h:has(.lbl:not([hidden])) { align-items: flex-start; }
