@@ -1232,3 +1232,5 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-edit-contact .check { padding: 0; border-top: 0; }
 #uvName[hidden] { display: none; }
 .co-summary .h:has(#contactEdit[hidden]) { display: none; }   /* edit mode: the row with name/email/Edit is empty */
+.co-biz { display: flex; flex-direction: column; margin-top: 4px; font-size: 13px; color: var(--dark-grey); }
+.co-biz[hidden] { display: none; }

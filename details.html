@@ -30,7 +30,7 @@
           <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
           <div class="co-summary">
             <section>
-              <div class="h"><p><b id="uvName"></b><span id="uvEmail"></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
+              <div class="h"><p><b id="uvName"></b><span id="uvEmail"></span><span class="co-biz" id="uvBiz" hidden></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
               <!-- Edit: only the email (and the business details), not the whole form -->
               <div class="co-edit-contact" id="contactForm" hidden>
                 <label class="field" data-field="uvEmailField"><input type="email" id="uvEmailInput" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
@@ -384,11 +384,20 @@
   // Contact "Edit": an email field (and the business option) in the card, not the whole form
   const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
   let emailChanged = false;   // after saving a new email the card shows just that email
+  // Business details stay visible in the card once filled in (they go on the invoice)
+  function renderBiz() {
+    const on = document.getElementById('isBusiness').checked, company = val('company'), vat = val('vatnr');
+    const el = document.getElementById('uvBiz');
+    el.hidden = !(on && company);
+    el.innerHTML = on && company ? `<span>${escA(company)}</span>${vat ? `<span>VAT ${escA(vat.toUpperCase())}</span>` : ''}` : '';
+  }
+  if (known) renderBiz();
   const toggleContact = open => {
     cForm.hidden = !open;
     document.getElementById('contactEdit').hidden = open;
     document.getElementById('uvEmail').hidden = open;
     document.getElementById('uvName').hidden = open || emailChanged;   // only the email is edited here
+    document.getElementById('uvBiz').hidden = open || !document.getElementById('uvBiz').innerHTML;
     if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
   };
   document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
@@ -399,6 +408,7 @@
     form.querySelector('[name=email]').value = v;
     document.getElementById('uvEmail').textContent = v;
     emailChanged = true;
+    renderBiz();
     persist();
     toggleContact(false);
     showToast('Your details are updated');
