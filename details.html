@@ -23,22 +23,24 @@
 
     <form id="coForm" novalidate>
       <div class="co-extra">
-        <!-- Logged in with a known address (as on helloprint.com/checkout/details): cards instead of the form -->
+        <!-- Logged in with a known address: one compact summary (content as on helloprint.com, made scannable) -->
         <div class="co-extra co-cards" id="userView" hidden>
-          <div class="co-head"><h2>Contact Details</h2></div>
-          <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
-          <div class="co-card">
-            <div class="t"><b id="uvName"></b><span id="uvEmail"></span><button type="button" class="co-logout" id="uvLogout">Not you? Log out</button></div>
-            <button type="button" class="co-edit" data-edit="contact">Edit Details</button>
+          <div class="co-head"><h2>Your details</h2></div>
+          <div class="co-summary">
+            <section>
+              <div class="h"><b>Contact</b><button type="button" class="co-act" data-edit="contact">Edit</button></div>
+              <p><span id="uvName"></span><span id="uvEmail"></span></p>
+              <small>We send your order confirmation, invoice and updates here.</small>
+            </section>
+            <section>
+              <div class="h"><b>Delivery address</b><button type="button" class="co-act" data-edit="address">Change</button></div>
+              <p id="uvAddress"></p>
+              <p class="tel"><span id="uvPhone"></span></p>
+              <small>Delivery updates go to this number.</small>
+            </section>
+            <label class="check"><input type="checkbox" id="otherBilling">Use a different billing address</label>
           </div>
-          <div class="co-head"><h2>Shipping Address <a class="co-more" href="#shipping-info"><img src="assets/pdp/info.svg" alt="">More info</a></h2></div>
-          <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
-          <div class="co-card co-addr">
-            <span class="pin" aria-hidden="true"></span>
-            <div class="t"><b id="uvShipName"></b><span class="tag">Default shipping</span><span id="uvAddress"></span><span id="uvPhone"></span></div>
-            <button type="button" class="co-edit" data-edit="address">Change delivery address</button>
-          </div>
-          <label class="check"><input type="checkbox" id="otherBilling">Use a different billing address</label>
+          <p class="co-notyou">Not you? <button type="button" id="uvLogout">Log out</button></p>
         </div>
 
         <div class="co-extra" id="formView">
@@ -153,10 +155,11 @@
   // Logged-in view: cards with the saved contact and address; "Edit"/"Change" opens the form again
   const val = n => (form.querySelector(`[name=${n}]`)?.value || '').trim();
   function renderUserView() {
-    document.getElementById('uvName').textContent = [val('first'), val('last')].filter(Boolean).join(' ');
+    const name = [val('first'), val('last')].filter(Boolean).join(' ');
+    document.getElementById('uvName').textContent = name;
     document.getElementById('uvEmail').textContent = val('email');
-    document.getElementById('uvShipName').textContent = [val('first'), val('last')].filter(Boolean).join(' ');
-    document.getElementById('uvAddress').innerHTML = [val('address1'), val('address2'), val('eircode').toUpperCase(), val('town'), 'Ireland']
+    // Name, street, town + Eircode, country: four short lines
+    document.getElementById('uvAddress').innerHTML = [name, val('address1'), val('address2'), `${val('town')} ${val('eircode').toUpperCase()}`, 'Ireland']
       .filter(Boolean).map(l => `<span>${l.replace(/</g, '&lt;')}</span>`).join('');
     document.getElementById('uvPhone').textContent = `${form.querySelector('[name=prefix]').value} ${val('phone')}`;
   }
