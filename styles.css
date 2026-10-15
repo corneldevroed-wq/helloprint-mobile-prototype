@@ -1041,7 +1041,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-faq { gap: 0; border-top: 1px solid var(--line); }
 .oc-faq summary { padding: 12px 0; font-size: 15px; }
 .oc-faq p { font-size: 14px; line-height: 1.5; color: var(--dark-grey); padding-bottom: 8px; }
-.oc-continue { align-self: center; margin: 4px 0 32px; font-size: 14px; color: var(--light-green); text-decoration: underline; text-underline-offset: 2px; }
+.oc-continue { margin: 4px 0 32px; }
 @keyframes added-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .oc-hero h1 { color: var(--black); }
 .oc-info b { word-break: break-all; }
