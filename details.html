@@ -32,15 +32,19 @@
               <p><span id="uvName"></span><span id="uvEmail"></span></p>
               <small>We send your order confirmation, invoice and updates here.</small>
             </section>
-            <section>
-              <div class="h"><b>Delivery address</b><button type="button" class="co-act" data-edit="address">Change</button></div>
-              <span class="badge co-badge">Default address</span>
-              <p id="uvAddress"></p>
-              <p class="tel"><span id="uvPhone"></span></p>
-              <small>Delivery updates go to this number.</small>
-            </section>
-            <label class="check"><input type="checkbox" id="otherBilling">Use a different billing address</label>
           </div>
+
+          <div class="co-head"><h2>Delivery address</h2></div>
+          <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
+          <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Delivery address"></div>
+          <button type="button" class="co-link" id="addAddress">Add delivery address</button>
+          <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
+          <div id="uvBizSlot"></div>
+
+          <div class="co-head"><h2>Invoice address</h2></div>
+          <p class="co-inv" id="invText">Same as delivery address</p>
+          <button type="button" class="co-link" id="invToggle">Update invoice address</button>
+          <div id="uvBillSlot"></div>
           <p class="co-notyou">Not you? <button type="button" id="uvLogout">Log out</button></p>
         </div>
 
@@ -97,6 +101,32 @@
 </div>
 
 <!-- Sticky bar (Figma 15738:4724) -->
+<!-- Sheet: add or edit an address in the address book -->
+<div class="sheet-layer" id="sheet-address" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="addrTitle">Add delivery address</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><form class="pad addr-form" id="addrForm" novalidate>
+      <label class="field" data-field="label"><input name="label" placeholder=" " aria-label="Name for this address"><span class="fl">Name for this address (e.g. Home, Office)</span></label>
+      <div class="co-row">
+        <label class="field" data-field="first"><input name="first" placeholder=" " autocomplete="given-name" aria-label="First name"><span class="fl">First name</span></label>
+        <label class="field" data-field="last"><input name="last" placeholder=" " autocomplete="family-name" aria-label="Last name"><span class="fl">Last name</span></label>
+      </div>
+      <label class="field"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company"><span class="fl">Company (optional)</span></label>
+      <label class="field" data-field="phone"><input type="tel" name="phone" placeholder=" " autocomplete="tel" aria-label="Phone number"><span class="fl">Phone number</span></label>
+      <label class="field" data-field="address1"><input name="address1" placeholder=" " autocomplete="address-line1" aria-label="Address line 1"><span class="fl">Address line 1</span></label>
+      <label class="field"><input name="address2" placeholder=" " autocomplete="address-line2" aria-label="Address line 2"><span class="fl">Address line 2 (optional)</span></label>
+      <div class="co-row">
+        <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+        <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
+      </div>
+      <label class="check"><input type="checkbox" name="isDefault">Make this my default address</label>
+    </form></div>
+    <div class="sheet-bar"><button class="btn primary addr-save" type="submit" form="addrForm">Save address</button></div>
+  </div>
+</div>
+
 <div class="cart-bar">
   <div class="sheet-bar">
     <div class="total"><strong id="barTotal"></strong><span class="bar-sub">Incl. VAT ·<img src="assets/pdp/check.svg" alt=""><span id="barArrives"></span></span></div>
@@ -153,36 +183,134 @@
     put('email', user.email); put('first', user.first); put('last', user.last);
     if (user.business) { document.getElementById('isBusiness').checked = true; document.getElementById('businessFields').hidden = false; }
   }
-  // Logged-in view: cards with the saved contact and address; "Edit"/"Change" opens the form again
+  // ---------- Logged in: contact card + address book (Cornel's desktop design, as swipeable cards) ----------
   const val = n => (form.querySelector(`[name=${n}]`)?.value || '').trim();
-  function renderUserView() {
-    const name = [val('first'), val('last')].filter(Boolean).join(' ');
-    document.getElementById('uvName').textContent = name;
-    document.getElementById('uvEmail').textContent = val('email');
-    // Name, street, town + Eircode, country: four short lines
-    document.getElementById('uvAddress').innerHTML = [name, val('address1'), val('address2'), `${val('town')} ${val('eircode').toUpperCase()}`, 'Ireland']
-      .filter(Boolean).map(l => `<span>${l.replace(/</g, '&lt;')}</span>`).join('');
-    document.getElementById('uvPhone').textContent = `${form.querySelector('[name=prefix]').value} ${val('phone')}`;
-  }
+  const escA = t => String(t || '').replace(/</g, '&lt;');
   const known = user && ['first', 'last', 'email', 'phone', 'address1', 'eircode', 'town'].every(n => val(n));
+  // Persist the form after a change made here (the "remember" listeners are attached further down)
+  const persist = () => setTimeout(() => form.dispatchEvent(new Event('change')));
+  // Address book (this browser only). A test account starts with its checkout address plus two examples.
+  const BOOK = 'hp-addresses';
+  let book = [];
+  try { book = JSON.parse(localStorage.getItem(BOOK)) || []; } catch (e) {}
+  if (known && !book.length) {
+    book = [
+      { id: 'a1', label: 'Home', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true },
+      { id: 'a2', label: 'Office', first: val('first'), last: val('last'), company: 'HelloPrint Ltd', phone: '+353 15550199', address1: '12 Grand Canal Square', eircode: 'D02 R590', town: 'Dublin' },
+      { id: 'a3', label: 'Grandma', first: 'Anna', last: 'Murphy', phone: '+353 215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork' },
+    ];
+  }
+  const saveBook = () => { try { localStorage.setItem(BOOK, JSON.stringify(book)); } catch (e) {} };
+  let selected = (book.find(a => a.isDefault) || book[0] || {}).id;
+  try { selected = localStorage.getItem('hp-address-sel') || selected; } catch (e) {}
+  if (!book.some(a => a.id === selected)) selected = (book[0] || {}).id;
+
+  // The chosen address fills the (hidden) form, so validation, payment and the confirmation use it
+  function useAddress(a) {
+    const [prefix, ...rest] = (a.phone || '').split(' ');
+    const set = (n, v) => { const i = form.querySelector(`[name=${n}]`); if (i) i.value = v || ''; };
+    set('first', a.first); set('last', a.last); set('address1', a.address1); set('address2', a.address2); set('eircode', a.eircode); set('town', a.town);
+    if (form.querySelector(`[name=prefix] option[value="${prefix}"]`)) { set('prefix', prefix); set('phone', rest.join(' ')); } else set('phone', a.phone);
+    persist();
+  }
+  function renderBook() {
+    document.getElementById('addrRow').innerHTML = book.map(a => `
+      <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
+        <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</div>
+        <p>${[`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean).map(escA).join('<br>')}</p>
+        <button type="button" class="addr-edit" data-edit-addr="${a.id}">Edit</button>
+      </div>`).join('');
+  }
+  function selectAddress(id, scroll) {
+    selected = id;
+    try { localStorage.setItem('hp-address-sel', id); } catch (e) {}
+    useAddress(book.find(a => a.id === id));
+    renderBook();
+    if (scroll) document.querySelector(`[data-addr="${id}"]`).scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  }
+
   if (known) {
-    renderUserView();
+    // Contact = the account; the chosen address card decides who receives it
+    document.getElementById('uvName').textContent = `${user.first || val('first')} ${user.last || val('last')}`.trim();
+    document.getElementById('uvEmail').textContent = val('email');
+    saveBook();
     document.getElementById('userView').hidden = false;
     document.getElementById('formView').hidden = true;
     document.getElementById('coUser').hidden = true;
-    document.getElementById('otherBilling').checked = !document.getElementById('sameBilling').checked;
+    selectAddress(selected);
+    // Business fields and billing fields move into the cards view
+    const biz = document.getElementById('businessFields'), bizCheck = document.getElementById('isBusiness');
+    document.getElementById('uvBizSlot').append(biz);
+    document.getElementById('uvBusiness').checked = bizCheck.checked;
+    document.getElementById('uvBusiness').addEventListener('change', e => { bizCheck.checked = e.target.checked; biz.hidden = !e.target.checked; persist(); });
+    document.getElementById('uvBillSlot').append(document.getElementById('billingFields'));
   }
+  document.getElementById('addrRow').addEventListener('click', e => {
+    const ed = e.target.closest('[data-edit-addr]');
+    if (ed) { openAddressSheet(ed.dataset.editAddr); return; }
+    const c = e.target.closest('[data-addr]'); if (c) selectAddress(c.dataset.addr, true);
+  });
+  document.getElementById('addrRow').addEventListener('keydown', e => {
+    const c = e.target.closest('[data-addr]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectAddress(c.dataset.addr, true); }
+  });
+
+  // Add / edit an address in a sheet
+  const addrForm = document.getElementById('addrForm');
+  const ADDR_FIELDS = ['label', 'first', 'last', 'company', 'phone', 'address1', 'address2', 'eircode', 'town'];
+  let editing = null;
+  function openAddressSheet(id) {
+    editing = id || null;
+    const a = book.find(x => x.id === id) || { isDefault: !book.length };
+    document.getElementById('addrTitle').textContent = id ? 'Edit address' : 'Add delivery address';
+    ADDR_FIELDS.forEach(n => { addrForm[n].value = a[n] || ''; });
+    if (!id) { addrForm.first.value = user?.first || ''; addrForm.last.value = user?.last || ''; }
+    addrForm.isDefault.checked = !!a.isDefault;
+    addrForm.querySelectorAll('.field').forEach(f => setFieldError(f, ''));
+    openSheet('address');
+  }
+  document.getElementById('addAddress').addEventListener('click', () => openAddressSheet());
+  addrForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const rules = {
+      label: [v => v.trim(), 'Give this address a name'], first: [v => v.trim(), 'Enter a first name'], last: [v => v.trim(), 'Enter a last name'],
+      phone: [v => v.replace(/[^0-9]/g, '').length >= 7, 'Enter a valid phone number'], address1: [v => v.trim().length > 2, 'Enter the address'],
+      eircode: [v => /^[A-Z][0-9][0-9W]\s?[A-Z0-9]{4}$/i.test(v.trim()), 'Enter a valid Eircode'], town: [v => v.trim(), 'Enter the town or city'],
+    };
+    const bad = Object.keys(rules).filter(n => { const ok = !!rules[n][0](addrForm[n].value); setFieldError(addrForm[n].closest('.field'), ok ? '' : rules[n][1]); return !ok; });
+    if (bad.length) { addrForm[bad[0]].focus(); return; }
+    const data = Object.fromEntries(ADDR_FIELDS.map(n => [n, addrForm[n].value.trim()]));
+    data.eircode = data.eircode.toUpperCase();
+    data.isDefault = addrForm.isDefault.checked;
+    if (data.isDefault) book.forEach(a => { a.isDefault = false; });
+    let id = editing;
+    if (editing) Object.assign(book.find(a => a.id === editing), data);
+    else { id = 'a' + Date.now(); book.push({ id, ...data }); }
+    if (!book.some(a => a.isDefault)) book[0].isDefault = true;
+    saveBook();
+    closeSheet();
+    selectAddress(id, true);
+    showToast(editing ? 'Address updated' : 'Address added and selected');
+  });
+
+  // Invoice address: same as delivery, or its own fields
+  function renderInvoice() {
+    const same = document.getElementById('sameBilling').checked;
+    document.getElementById('invText').textContent = same ? 'Same as delivery address' : 'Your invoice address:';
+    document.getElementById('invToggle').textContent = same ? 'Update invoice address' : 'Use the delivery address';
+  }
+  document.getElementById('invToggle').addEventListener('click', () => {
+    const same = document.getElementById('sameBilling');
+    same.checked = !same.checked;
+    same.dispatchEvent(new Event('change', { bubbles: true }));
+    renderInvoice();
+  });
+  renderInvoice();
+  // Contact "Edit" opens the full form again
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {
     document.getElementById('userView').hidden = true;
     document.getElementById('formView').hidden = false;
-    document.querySelector(b.dataset.edit === 'contact' ? '[name=email]' : '[name=address1]').focus();
+    document.querySelector('[name=email]').focus();
   }));
-  // "Use a different billing address" (cards) is the opposite of "Billing is the same" (form)
-  document.getElementById('otherBilling').addEventListener('change', e => {
-    const same = document.getElementById('sameBilling');
-    same.checked = !e.target.checked;
-    same.dispatchEvent(new Event('change', { bubbles: true }));
-  });
   document.getElementById('uvLogout').addEventListener('click', () => document.getElementById('logout').click());
 
   const remember = () => {
