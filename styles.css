@@ -1230,3 +1230,5 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-edit-contact .btns .btn { height: 40px; padding: 0 24px; }
 #uvEmail[hidden], #contactEdit[hidden] { display: none; }
 .co-edit-contact .check { padding: 0; border-top: 0; }
+#uvName[hidden] { display: none; }
+.co-summary .h:has(#uvName[hidden]) { display: none; }

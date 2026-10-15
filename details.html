@@ -41,7 +41,7 @@
             </section>
           </div>
 
-          <div class="co-head"><h2>Shipping Address <a class="co-more" href="#shipping-info"><img src="assets/pdp/info.svg" alt="">More info</a></h2></div>
+          <div class="co-head"><h2>Shipping Address</h2></div>
           <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
           <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
           <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Delivery address"></div>
@@ -387,6 +387,7 @@
     cForm.hidden = !open;
     document.getElementById('contactEdit').hidden = open;
     document.getElementById('uvEmail').hidden = open;
+    document.getElementById('uvName').hidden = open;   // only the email is edited here
     if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
   };
   document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
