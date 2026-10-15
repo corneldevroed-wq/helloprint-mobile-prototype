@@ -30,6 +30,23 @@
       </div>
       <p class="pay-note" id="payNote">Fastest option. We start printing as soon as your files are approved.</p>
 
+      <!-- Pay later = Pay by Link (live checkout/payment), optionally sent to someone else -->
+      <div class="pay-later" id="payLater" hidden>
+        <div class="pl-card" aria-checked="true">
+          <span class="radio" aria-hidden="true"></span>
+          <div><b>Pay by Link</b><p>Place your order now, we’ll email you a payment link. Your order starts proofing but won’t go into production until you pay.</p></div>
+        </div>
+        <div class="pl-share">
+          <label class="check"><input type="checkbox" id="shareLink">Send the payment link to someone else (e.g. a colleague)</label>
+          <div class="pl-fields" id="shareFields" hidden>
+            <label class="field" data-field="recName"><input name="recName" placeholder=" " autocomplete="off" aria-label="Recipient name"><span class="fl">Recipient name</span></label>
+            <label class="field" data-field="recEmail"><input name="recEmail" type="email" placeholder=" " autocomplete="off" aria-label="Recipient email"><span class="fl">Recipient email</span></label>
+            <label class="field" data-field="recMsg"><textarea name="recMsg" rows="3" placeholder=" " aria-label="Message (optional)"></textarea><span class="fl">Message (optional)</span></label>
+          </div>
+        </div>
+        <p class="pl-info">Pay on Invoice isn’t available for this order right now. Please choose another payment method.</p>
+      </div>
+
       <div class="pay-methods" id="payMethods">
         <p class="secure-line"><img src="assets/checkout/encrypted.svg" alt="">Secure payment</p>
         <div class="wallets" role="radiogroup" aria-label="Payment method">
@@ -133,11 +150,28 @@
     const b = e.target.closest('[data-when]'); if (!b) return;
     when = b.dataset.when;
     document.querySelectorAll('[data-when]').forEach(x => x.setAttribute('aria-checked', x === b));
-    document.getElementById('payNote').textContent = when === 'later'
-      ? 'Handy if someone else pays, like your finance team. We check your files right away; printing starts once it’s paid.'
-      : 'Fastest option. We start printing as soon as your files are approved.';
+    // Pay later explains itself in the Pay by Link card, so the note line is only for Pay now
+    document.getElementById('payNote').hidden = when === 'later';
     document.getElementById('payMethods').hidden = when === 'later';
+    document.getElementById('payLater').hidden = when !== 'later';
     renderEta(); renderButton();
+  });
+
+  // Send the payment link to someone else: name + email needed, message optional
+  const shareLink = document.getElementById('shareLink');
+  shareLink.addEventListener('change', () => {
+    document.getElementById('shareFields').hidden = !shareLink.checked;
+    if (shareLink.checked) document.querySelector('[name=recName]').focus();
+  });
+  const SHARE_RULES = {
+    recName: [v => v.trim().length > 1, 'Enter the recipient’s name'],
+    recEmail: [v => /^\S+@\S+\.\S+$/.test(v.trim()), 'Enter a valid email address'],
+  };
+  const checkShare = n => { const ok = SHARE_RULES[n][0](document.querySelector(`[name=${n}]`).value); setFieldError(document.querySelector(`[data-field="${n}"]`), ok ? '' : SHARE_RULES[n][1]); return ok; };
+  Object.keys(SHARE_RULES).forEach(n => {
+    const i = document.querySelector(`[name=${n}]`);
+    i.addEventListener('blur', () => { if (i.value) checkShare(n); });
+    i.addEventListener('input', () => { if (i.closest('.field').classList.contains('invalid')) checkShare(n); });
   });
 
   // Method: a wallet or the card form
@@ -190,12 +224,23 @@
         return;
       }
     }
+    if (when === 'later' && shareLink.checked) {
+      const bad = Object.keys(SHARE_RULES).filter(n => !checkShare(n));
+      if (bad.length) {
+        const i = document.querySelector(`[name=${bad[0]}]`);
+        i.scrollIntoView({ behavior: 'smooth', block: 'center' }); i.focus({ preventScroll: true });
+        showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+        return;
+      }
+    }
     // Keep what was ordered for the confirmation page, then empty the cart (add-ons back to their defaults)
     let details = {};
     try { details = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
     const order = {
       number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, total, subtotal, vat,
-      when, method: when === 'later' ? 'Payment link' : method, email: details.email || '', arrives: items[0]?.arrives,
+      when, method: when === 'later' ? 'Payment link' : method,
+      // Pay by Link sent to a colleague: only their name and email, for the confirmation line
+      linkTo: when === 'later' && shareLink.checked ? { name: document.querySelector('[name=recName]').value.trim(), email: document.querySelector('[name=recEmail]').value.trim() } : null, email: details.email || '', arrives: items[0]?.arrives,
       // For "Thank you, John" and "Shipping address" (the details form, this browser only)
       name: [details.first, details.last].filter(Boolean).join(' '), first: details.first || '',
       address: [details.address1, details.address2, [details.town, details.eircode].filter(Boolean).join(' ')].filter(Boolean).join(', '),

@@ -87,6 +87,7 @@
   function render(o) {
     const eur = n => '€' + n.toFixed(2);
     const later = o.when === 'later';
+    const escC = t => String(t || '').replace(/</g, '&lt;');
     const needs = it => /upload after checkout|I will upload later/i.test(it.design);
     const todo = o.items.map((it, i) => ({ ...it, i })).filter(needs);   // products still waiting for a file
     const needsFile = todo.length > 0;
@@ -120,7 +121,7 @@
 
     document.getElementById('ocInfo').innerHTML = `
       <p><img src="assets/pdp/check.svg" alt=""><span>${o.email ? `Confirmation sent to <b>${o.email}</b>` : 'Confirmation sent by email'}</span></p>
-      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? 'Nothing to pay yet. We email your payment link once your artwork is approved.' : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
+      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once your artwork is approved.` : 'Nothing to pay yet. We email your payment link once your artwork is approved.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
 
     const it = o.items[0], more = o.items.length - 1;
     // Address as a short list, one line each (older orders only have the comma version)

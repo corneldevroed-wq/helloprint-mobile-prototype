@@ -1289,3 +1289,20 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .fold-vis span:nth-child(even) { transform: skewY(-8deg); }
 .fold-img { display: block; aspect-ratio: 1; margin: -4px -4px 4px; border-radius: 8px; overflow: hidden; background: var(--white); }
 .fold-img img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Payment: Pay later = Pay by Link (live checkout), optionally sent to a colleague */
+.pay-later { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: 10px; background: #eefaf3; }
+.pl-card .radio { margin-top: 1px; }
+.pl-card b { font-size: 14px; }
+.pl-card p { margin: 2px 0 0; font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
+.pl-share { padding: 14px; border: 1px solid #cfcfcf; border-radius: 10px; }
+.pl-share .check { font-size: 14px; color: var(--black); }
+.pl-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.pl-fields[hidden] { display: none; }
+.field textarea { width: 100%; min-height: 84px; padding: 18px 12px 8px; border: 1px solid var(--outline, #cfcfcf); border-radius: 5px; background: var(--white); font: 400 16px/1.3 Inter, sans-serif; color: var(--black); outline: none; resize: vertical; -webkit-appearance: none; appearance: none; }
+.field textarea:focus { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }
+.pl-info { margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--light-grey); font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
+.field textarea { border-radius: 8px; padding-top: 24px; }
+.field textarea:focus ~ .fl, .field textarea:not(:placeholder-shown) ~ .fl { transform: translateY(-9px) scale(.75); }
+.field textarea:focus ~ .fl { color: var(--light-green); }
