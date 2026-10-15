@@ -1251,3 +1251,5 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-right a { position: relative; display: grid; place-items: center; }
 .co-right .icon { width: 24px; height: 24px; }
 .co-logout-link { font-weight: 700; font-size: 14px; color: var(--light-green); }
+/* Payment: Apple Pay, Google Pay and PayPal side by side */
+.wallets { grid-template-columns: repeat(3, 1fr); }
