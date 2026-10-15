@@ -1138,3 +1138,12 @@ body.flow-j .flow-a-only { display: none; }
 .co-user button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
 .account-link { position: relative; }
 .account-link.logged-in::after { content: ''; position: absolute; right: -2px; top: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--light-green); border: 2px solid var(--dark-green); }
+
+/* Live design options: one alternative ("Design online") instead of three */
+.alt-btns { grid-template-columns: 1fr; }
+.alt-btn { flex-direction: row; justify-content: center; gap: 8px; }
+.alt-btn small { margin-left: 2px; }
+body.flow-d .alt-btns { justify-items: center; }
+body.flow-d .alt-btn { padding: 8px 20px; }
+.ad-online { width: 100%; height: 48px; }
+.ad-pad .ad-link { margin-top: -6px; font-size: 12px; }

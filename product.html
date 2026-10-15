@@ -74,7 +74,6 @@
           <div class="i-q"><span>Do you have a design?</span><span class="i-yn" id="iYn">Yes</span><button class="switch" role="switch" aria-checked="true" id="iHas" aria-label="I have a design"></button></div>
           <button class="btn primary i-btn" id="iMain"><b></b><small></small></button>
           <button class="btn outline i-btn" id="iAlt"><b></b><small></small></button>
-          <p class="i-link" id="iLink" hidden>Your designer has it? <button data-order="designer">Get a designer link</button></p>
         </div>
         <!-- Version G: one question first, "Do you have a design?" -->
         <div class="has-design">
@@ -84,24 +83,20 @@
             <button role="radio" aria-checked="false" data-has="no">No, not yet</button>
           </div>
           <div class="hd-no" hidden>
-            <button class="hd-card" role="radio" aria-checked="true" data-make="canva"><img src="assets/pdp/d-canva.svg" alt=""><b>Design it in Canva</b><small>Free templates, the right size for you</small></button>
-            <button class="hd-card" role="radio" aria-checked="false" data-make="ai"><img src="assets/pdp/d-ai.svg" alt=""><b>Make it with AI</b><small>Tell us what it’s for, change it until you like it</small></button>
+            <button class="hd-card" role="radio" aria-checked="true" data-make="canva"><img src="assets/pdp/d-canva.svg" alt=""><b>Design online</b><small>Customise in our editor, with a live preview</small></button>
           </div>
         </div>
         <div class="cta-stack" id="ctaStack">
           <button class="btn primary" data-order="upload"><span>Add to cart</span><small class="btn-sub">Upload your file later</small></button>
-          <button class="upload-now" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">File ready? <u>Upload it now</u> ›</button>
+          <button class="upload-now" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">Have print-ready files? <u>Upload design now</u> ›</button>
           <p class="cta-hint"><img src="assets/pdp/d-upload.svg" alt="">You upload your file after checkout. No need to have it ready now.</p>
           <p class="or-row">No design yet?<button class="info-btn d-only" id="designInfo" aria-label="How do these options work?"><img src="assets/pdp/info.svg" alt=""></button></p>
           <div class="alt-btns">
-            <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Canva<small>Free templates</small></button>
-            <button class="alt-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">AI studio<small>Made for you</small></button>
-            <button class="alt-btn" data-order="designer"><img src="assets/pdp/d-designer.svg" alt="">Designer<small>Send a link</small></button>
+            <button class="alt-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Design online<small>Customise in our editor, with a live preview</small></button>
           </div>
           <p class="next-step">Next step: upload your design, or skip <span aria-hidden="true">→</span></p>
           <div class="hd-yes">
-            <p><button data-pick="front"><img src="assets/pdp/d-upload.svg" alt=""><u>Upload now</u></button> or after checkout</p>
-            <p>Your designer has it? <button data-order="designer"><u>Get a designer link</u></button></p>
+            <p><button data-pick="front"><img src="assets/pdp/d-upload.svg" alt=""><u>Upload design now</u></button> or after checkout</p>
           </div>
         </div>
       </div>
@@ -238,7 +233,7 @@
 
 <!-- Sheet: upload your file now (A: design layer option; D: link under Add to cart).
      Prototype: the file stays in the browser; only its name and size are read, nothing is sent or stored. -->
-<input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.eps" hidden>
+<input type="file" id="fileInput" accept=".pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg" hidden>
 <div class="sheet-layer" id="sheet-upload" aria-hidden="true">
   <div class="sheet-overlay" data-close-sheet></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
@@ -288,13 +283,12 @@
     <div class="sheet-body">
       <div class="pad ad-pad">
         <p class="ad-sub">Free file check · You see a proof before we print</p>
-        <button class="btn primary ad-main" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">Upload from your device</button>
-        <div class="ad-alt">
-          <button class="ad-btn" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Design it in Canva</button>
-          <button class="ad-btn" data-order="ai"><img src="assets/pdp/d-ai.svg" alt="">Make it with AI</button>
-        </div>
-        <p class="ad-link">Your designer has it? <button data-order="designer">Get a designer link</button></p>
-        <button class="ad-skip" data-order="upload">Skip, upload later</button>
+        <button class="btn primary ad-main" data-pick="front"><img src="assets/pdp/d-upload.svg" alt="">Upload design now</button>
+        <p class="ad-link">Have print-ready files, or your own designer</p>
+        <button class="ad-btn ad-online" data-order="canva"><img src="assets/pdp/d-canva.svg" alt="">Design online</button>
+        <p class="ad-link">Customise in our editor, with a live preview</p>
+        <button class="ad-skip" data-order="upload">Upload later</button>
+        <p class="ad-link">Add to cart now, send your files after checkout</p>
       </div>
     </div>
   </div>
@@ -322,15 +316,15 @@
   if (infoMode === 'line' || infoMode === 'guide') document.body.classList.add('info-' + infoMode);
   const infoBtn = key => `<button class="info-btn" data-guide="${key}" aria-label="More about ${key}"><img src="${P}info.svg" alt=""></button>`;
   // Two versions to compare (prototype). A: "Add your design" opens a separate design layer.
-  // B: "Add to cart" with the other ways to get a design (Canva, AI, designer) as buttons right under it.
+  // B: "Add to cart" with the other way to get a design (Design online) as a button right under it.
   // C: like B, but the options are one selector field (tap → layer); the layer only saves, ordering happens on the page.
   // ?flow=a|b|c sets it; the choice is remembered while clicking through the prototype.
   // D: the combo, C + the design options as pills, with ⓘ for an explanation per option.
   // E: two selector fields (Your cards + Your design) and one button that says what it does.
   // F: the options as a spec list (Cornel's reference); each row opens its option, design is the last row. Builds on E.
-  // G: F + one question first, "Do you have a design?" (yes: add to cart / upload now / designer link; no: Canva or AI).
+  // G: F + one question first, "Do you have a design?" (yes: add to cart / upload now; no: design online).
   // H: clear split between product and design. The spec list from F, then "Continue" opens a separate
-  //    design step (Sticker Mule-like): upload from device, Canva, AI, designer link, or skip and upload later.
+  //    design step (Sticker Mule-like): upload design now, design online, or upload later.
   // I: Cornel's design. Header (Your Cards, price, Edit), spec list, "Do you have a design?" switch,
   //    then two buttons: Upload later / Upload now (yes) or Canva / AI (no).
   const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -575,12 +569,12 @@
   function flash(el) { el.classList.remove('changed'); void el.offsetWidth; el.classList.add('changed'); }
 
   // ---------- Design sheet ----------
+  // The design options as on the live site (helloprint.com/en-ie/standardbusinesscards), in the live order.
+  // (AI and a separate designer link were future ideas; a designer's file goes through "Upload your design".)
   const DESIGN = [
-    { id: 'file', name: 'My file is ready – upload now', sub: 'We check it right away, for free, before you pay.', icon: 'd-upload.svg', cta: 'Upload file' },
-    { id: 'upload', name: 'I will upload later', sub: 'You upload your file after checkout. No need to have it ready now.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
-    { id: 'canva', name: 'Design it myself in Canva', sub: 'Free, easy, with thousands of ready-made designs. We set the right size for you.', icon: 'd-canva.svg', cta: 'Continue to Canva' },
-    { id: 'ai', name: 'Let us make it with AI', sub: 'Tell us what it’s for. Our AI studio makes a design you can change until you like it.', icon: 'd-ai.svg', cta: 'Design with AI' },
-    { id: 'designer', name: 'My designer will send the file', cartLabel: 'Your designer sends the file', sub: 'We give you a link for your designer, with the exact size. You see the file on your product before you order.', icon: 'd-designer.svg', cta: 'Get designer link' },
+    { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
+    { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online' },
+    { id: 'file', name: 'Upload your design', sub: 'Have print-ready files, or your own designer.', icon: 'd-upload.svg', cta: 'Upload design now' },
   ];
   let design = 'upload';
   function renderDesign() {
@@ -606,16 +600,14 @@
   });
   function placeOrder(design, label) {
     if (design === 'file' && !label) { pickFile('front'); return; }
-    // Canva and the AI studio are separate tools (no screens in the prototype yet)
-    if (design === 'canva') { showToast('Opening Canva…'); return; }
-    if (design === 'ai') { showToast('Opening AI studio…'); return; }
+    // The online editor is a separate tool (no screens in the prototype yet)
+    if (design === 'canva') { showToast('Opening the online editor…'); return; }
     const c = saved, d = delivery(c);
     setCart([...getCart(), {
       name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
       qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c),
       design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
     }]);
-    if (design === 'designer') toastOnNextPage('Added to cart. We’ll email you the link for your designer.');
     location.href = 'cart.html';
   }
 
@@ -689,7 +681,7 @@
   // Sheets: page-specific preparation before opening (mechanics live in app.js)
   sheetHooks.customise = () => { draft = { ...saved }; renderDraft(); document.querySelector('#sheet-customise .sheet-body').scrollTop = 0; };
   // ---------- Version E: "Your design" field; the design layer only saves ----------
-  const DESIGN_SHORT = { file: 'Upload now', upload: 'Upload after checkout', canva: 'Design it in Canva', ai: 'Make it with AI', designer: 'My designer sends the file' };
+  const DESIGN_SHORT = { upload: 'Upload after checkout', canva: 'Design online', file: 'Upload design now' };
   let designSaved = 'upload';
   // Version F: one row per option + quantity, delivery and design; fixed specs as one "Included" line
   function renderSpecRows() {
@@ -719,8 +711,8 @@
     document.getElementById('dpIcon').src = P + d.icon;
     document.getElementById('dpName').textContent = DESIGN_SHORT[d.id];
     // The other ways stay findable without their own buttons
-    const others = ['file', 'canva', 'ai', 'designer'].filter(id => id !== designSaved).map(id => ({ file: 'upload now', canva: 'Canva', ai: 'AI', designer: 'a designer', upload: 'upload later' })[id]);
-    document.getElementById('dpHint').textContent = `or ${others.slice(0, -1).join(', ')} or ${others.at(-1)}`;
+    const others = DESIGN.map(x => x.id).filter(id => id !== designSaved).map(id => ({ file: 'upload now', canva: 'design online', upload: 'upload later' })[id]);
+    document.getElementById('dpHint').textContent = `or ${others.join(' or ')}`;
     // The green buttons say what they do, and do it
     document.querySelectorAll('#ctaStack .btn.primary > span:first-child, #buyBar button.flow-b-only').forEach(el => { el.textContent = d.cta; });
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(el => { el.dataset.order = designSaved; });
@@ -756,15 +748,15 @@
   // Yes: Upload later (add to cart) / Upload now (file picker). No: Canva / AI. The sticky bar follows the main button.
   const I_BTNS = {
     yes: [['upload', 'Upload later', 'Finish order first'], ['file', 'Upload now', 'My file is ready']],
-    no: [['canva', 'Design in Canva', 'Free templates'], ['ai', 'Make it with AI', 'Made for you']],
+    no: [['canva', 'Design online', 'Live preview'], null],
   };
   let iHas = true;
   function renderIDesign() {
     const [main, alt] = I_BTNS[iHas ? 'yes' : 'no'];
     document.getElementById('iHas').setAttribute('aria-checked', iHas);
     document.getElementById('iYn').textContent = iHas ? 'Yes' : 'No';
-    document.getElementById('iLink').hidden = iHas;   // the designer route belongs with "No"
-    [['iMain', main], ['iAlt', alt]].forEach(([id, [order, label, sub]]) => {
+    document.getElementById('iAlt').hidden = !alt;   // "No": one way, Design online
+    [['iMain', main], ['iAlt', alt]].filter(([, x]) => x).forEach(([id, [order, label, sub]]) => {
       const b = document.getElementById(id);
       b.dataset.order = order; b.querySelector('b').textContent = label; b.querySelector('small').textContent = sub;
     });

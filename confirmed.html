@@ -30,15 +30,15 @@
     <section class="oc-upload" id="ocUpload">
       <b>Upload your design</b>
       <button class="btn primary" id="ocChoose">Choose files</button>
-      <small>PDF, AI, EPS, JPG or PNG · up to 200 MB per file</small>
-      <input type="file" id="ocFile" accept=".pdf,.ai,.eps,.jpg,.jpeg,.png" multiple hidden>
+      <small>PDF, AI, EPS, PSD, TIFF, PNG, JPG · up to 500 MB · multiple files</small>
+      <input type="file" id="ocFile" accept=".pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg" multiple hidden>
       <ul class="oc-files" id="ocFiles"></ul>
     </section>
     <!-- More than one product needs a file: one row per product, each with its own upload -->
     <section class="oc-perprod" id="ocPerProduct" hidden>
       <b>Upload your designs</b>
       <ul id="ocProducts"></ul>
-      <small>PDF, AI, EPS, JPG or PNG · up to 200 MB per file</small>
+      <small>PDF, AI, EPS, PSD, TIFF, PNG, JPG · up to 500 MB · multiple files</small>
     </section>
 
     <section>
@@ -65,7 +65,7 @@
         <details><summary>Can I change my order?<img src="assets/chevron.svg" alt=""></summary>
           <p>Yes, until we start printing. Reply to your confirmation email or chat with us and we’ll change it for you.</p></details>
         <details><summary>Which file formats can I upload?<img src="assets/chevron.svg" alt=""></summary>
-          <p>PDF (preferred), AI, EPS, JPG or PNG, up to 200 MB per file. We check every file for free before printing.</p></details>
+          <p>PDF, AI, EPS, PSD, TIFF, PNG or JPG, up to 500 MB per file, and you can upload several files at once. We check every file for free before printing.</p></details>
         <details><summary>How do I track my delivery?<img src="assets/chevron.svg" alt=""></summary>
           <p>As soon as your order ships, we email you a track &amp; trace link. You can also follow it here in your order status.</p></details>
       </div>
@@ -129,7 +129,7 @@
     document.getElementById('ocArrives').textContent = `Arrives ${o.arrives} · ${it.name}, ${it.qty} pcs${more ? ` + ${more} more` : ''}`;
 
     // Per product: own upload button; the row shows the file once chosen
-    const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.jpg,.jpeg,.png', hidden: true });
+    const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg', hidden: true });
     document.body.appendChild(perInput);
     let perIndex = null;
     function renderProducts() {
