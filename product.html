@@ -361,6 +361,10 @@
     });
   }
   const DEFAULT = { ...PRESETS[0].cfg, qty: PRODUCT.defaultQty || 500, delivery: DELIVERY[0].id };
+  // T-shirts: a size mix; the quantity is its total
+  const SIZES_MIX = PRODUCT.sizes;
+  if (SIZES_MIX) { DEFAULT.sizes = { ...PRODUCT.defaultSizes }; DEFAULT.qty = Object.values(DEFAULT.sizes).reduce((a, b) => a + b, 0); }
+  const sizeMix = c => SIZES_MIX ? SIZES_MIX.filter(z => c.sizes[z]).map(z => `${z} ${c.sizes[z]}`).join(' · ') : '';
   // Coming from a material on the category page (?paper=kraft etc.): start with that option,
   // the rest from Recommended. The price box says so until the customer changes the options.
   const params = new URLSearchParams(location.search);
@@ -428,7 +432,7 @@
     set('pick', [...materials(c).split(' · '), ...PRODUCT.recapExtra.split(' · ')].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
     set('iState', `<img src="${P}check.svg" alt="">${fromEntry(c) ? `Starting with ${entryName(c)}` : preset ? `${preset.name} options selected` : 'Custom options selected'}`);
     set('pickTag', fromEntry(c) ? `<img src="${P}check.svg" alt="">${entryName(c)}` : preset ? `<img src="${P + preset.icon}" alt="">${preset.name}` : 'Custom');
-    set('recap', `${materials(c)}<br>${PRODUCT.recapExtra}`);
+    set('recap', `${materials(c)}<br>${SIZES_MIX ? `Sizes ${sizeMix(c)}` : PRODUCT.recapExtra}`);
     if (FLOW_F) renderSpecRows();
   }
 
@@ -465,7 +469,16 @@
         <div class="opts" role="radiogroup" aria-label="${g.title}">${g.items.map(o => optCard(key, o)).join('')}</div>
         <p class="opt-info">${pick(key, c[key]).info}</p>`;
     }
-    document.querySelector('[data-option="qty"]').innerHTML = `
+    if (SIZES_MIX) document.querySelector('[data-option="qty"]').innerHTML = `
+      <p class="opt-title">${jStep(KEYS.length)}Sizes <span>${c.qty} pcs</span></p>
+      <div class="size-mix" role="group" aria-label="Pieces per size">${SIZES_MIX.map(z => `
+        <div class="sm-row"><b>${z}</b>
+          <button type="button" class="sm-step" data-size="${z}" data-step="-1" aria-label="One ${z} less"${c.sizes[z] ? '' : ' disabled'}>−</button>
+          <span class="sm-n" aria-live="polite">${c.sizes[z]}</span>
+          <button type="button" class="sm-step" data-size="${z}" data-step="1" aria-label="One ${z} more">+</button>
+        </div>`).join('')}</div>
+      <p class="opt-info">${c.qty ? qtyInfo(c) : 'Add at least one t-shirt to see the price.'}</p>`;
+    else document.querySelector('[data-option="qty"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span></p>
       <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity">${QTY.map(([q]) => {
         const p = productPrice(c, q);
@@ -478,18 +491,27 @@
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
       ${DELIVERY.map(d => `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
-        <span class="date"><b>${d.day}</b><small>SEPT</small></span><span class="t"><b>${d.name}</b><small>Arrives ${d.dayName}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
+        <span class="date"><b>${d.day}</b><small>${{ Sep: 'SEPT', Oct: 'OCT' }[d.dayName.split(' ')[2]]}</small></span><span class="t"><b>${d.name}</b><small>Arrives ${d.dayName}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
       <p class="opt-info">${delivery(c).info}</p>`;
-    document.querySelector('[data-bind="draftRecap"]').textContent = `${KEYS.map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs · ${delivery(c).name}`;
+    document.querySelector('[data-bind="draftRecap"]').textContent = `${KEYS.map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
     document.querySelector('[data-bind="draftArrives"]').textContent = `arrives ${delivery(c).dayName}`;
     // The button says what it will do: nothing changed → Done, something changed → Save
     document.getElementById('saveUpdate').textContent = hasChanges() ? 'Save' : 'Done';
+    // No t-shirts in the mix: nothing to save or order yet
+    ['saveUpdate', 'toDesign'].forEach(id => { document.getElementById(id).disabled = !c.qty; });
   }
   function onOptionClick(e) {
     const guide = e.target.closest('[data-guide]');
     if (guide) { openGuide(guide.dataset.guide); return; }
     if (e.target.closest('[data-more-qty]')) { jAllQty = true; renderDraft(); return; }
+    const step = e.target.closest('[data-step]');
+    if (step) {
+      const z = step.dataset.size, n = Math.max(0, draft.sizes[z] + +step.dataset.step);
+      draft.sizes = { ...draft.sizes, [z]: n };   // a new object, so the saved mix stays as it was
+      draft.qty = Object.values(draft.sizes).reduce((a, b) => a + b, 0);
+      renderDraft(); if (FLOW_J && draft.qty) applyNow(); return;   // J keeps the last mix with at least one t-shirt
+    }
     const opt = e.target.closest('[data-set]'), pre = e.target.closest('[data-preset]');
     if (opt) { const k = opt.dataset.set; draft[k] = k === 'qty' ? +opt.dataset.value : opt.dataset.value; renderDraft(); }
     if (pre) { Object.assign(draft, PRESETS.find(p => p.id === pre.dataset.preset).cfg); renderDraft(); }
@@ -504,7 +526,7 @@
     document.getElementById('presetsIntro').outerHTML = '<p class="opt-title">Quick start</p>';
     page.addEventListener('click', onOptionClick);
   }
-  const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]);
+  const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]) || sizeMix(draft) !== sizeMix(saved);
   // Store the draft; returns the previous selection, or null when nothing changed
   function saveDraft() {
     if (!hasChanges()) return null;
@@ -615,7 +637,7 @@
     const c = saved, d = delivery(c);
     setCart([...getCart(), {
       name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
-      qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c),
+      qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c) + (SIZES_MIX ? ` · Sizes ${sizeMix(c)}` : ''),
       design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
     }]);
     location.href = 'cart.html';
@@ -627,7 +649,7 @@
   let upload = { front: null, back: null }, pickSide = 'front';
   const doubleSided = c => `${materials(c)} ${PRODUCT.recapExtra}`.includes('Double-sided');
   // Products without a size option (PVC, Multilayered) have a fixed size in their recap line
-  const sizeOf = c => OPTIONS.size ? pick('size', c.size).sub : (PRODUCT.recapExtra.match(/\d+ x \d+ mm/) || ['85 x 55 mm'])[0];
+  const sizeOf = c => OPTIONS.size ? pick('size', c.size).sub : PRODUCT.noun ? 'the print area' : (PRODUCT.recapExtra.match(/\d+ x \d+ mm/) || ['85 x 55 mm'])[0];
   function pickFile(side) { pickSide = side; fileInput.click(); }
   document.addEventListener('click', e => { const b = e.target.closest('[data-pick]'); if (b) pickFile(b.dataset.pick); });
   fileInput.addEventListener('change', () => {
@@ -698,7 +720,7 @@
     const c = saved;
     const rows = [
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
-      ['qty', 'Quantity', `${c.qty} pcs`],
+      SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
       ['delivery', 'Delivery', `${delivery(c).name} - arrives ${delivery(c).dayName}`],
       ...(FLOW_G || FLOW_H || FLOW_I ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];

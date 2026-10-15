@@ -477,6 +477,8 @@ const PRODUCTS = {
   'sols-imperial-tshirt': {
     name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
     img: 'assets/products/tshirt.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 10,
+    // Size mix instead of a quantity list: the total is the quantity (live sizes S–XXL)
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'], defaultSizes: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 },
     qty: [[5, 99.99], [10, 164.83], [25, 329.99], [50, 549.99], [100, 899.99], [250, 1849.99], [500, 3249.99]],   // all but 10 ~
     delivery: [STANDARD_ONLY('Tue 6 Oct', 't-shirts')],
     groups: [
@@ -498,7 +500,7 @@ const PRODUCTS = {
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { colour: 'white', area: 'chest', technique: 'screen' } },
     ],
     recapExtra: '',
-    fixed: [['Sizes', 'S, M, L, XL, XXL'], ['Material', '100% organic cotton, 190 gsm']],
+    fixed: [['Material', '100% organic cotton, 190 gsm']],
     about: ['Stand out from the crowd with our Sol’s Imperial T-shirt. Made from 100% cotton, these t-shirts are stylish, comfortable and don’t break the bank.'],
     specs: [['Brand', 'Sol’s'], ['Material', '100% organic cotton'], ['Sizes', 'S–XXL'], ['Fit', 'Regular fit'], ['Weight', '190 gsm'], ['Neckline', 'Round neck'], ['Wash instructions', 'Machine wash inside out, maximum of 30°C']],
   },
@@ -588,7 +590,10 @@ const BASE_QTY = [[100, 9.99], [250, 14.49], [500, 18.89], [750, 28.49], [1000, 
 const productQty = p => (p.qty || BASE_QTY).map(([q, price]) => [q, Math.round(price * p.priceMult * 100) / 100]);   // flyers have their own list
 // Price of a configuration at a quantity (delivery not included)
 function configPrice(p, cfg, qty) {
-  const base = productQty(p).find(([q]) => q === qty)[1];
+  // A quantity between two steps (t-shirt size mix): the unit price of the highest step reached
+  const steps = productQty(p), exact = steps.find(([q]) => q === qty);
+  const step = exact || [...steps].reverse().find(([q]) => q <= qty) || steps[0];
+  const base = exact ? exact[1] : step[1] / step[0] * qty;
   const mult = p.groups.reduce((m, g) => m * (g.items.find(o => o.id === cfg[g.key])?.mult ?? 1), 1);
   return Math.round(base * mult * 100) / 100;
 }

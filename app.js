@@ -376,7 +376,8 @@ const popularCats = ['Booklets', 'Business cards', 'Flyers', 'Banners', 'Posters
 
 const searchLayer = document.getElementById('searchLayer'), searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults'), searchClear = document.getElementById('searchClear');
-const each = p => '€' + ((inclVat ? p.price * (1 + VAT_RATE) : p.price) / p.qty).toFixed(3) + ' each';
+// Cents for anything from €1 a piece (mugs, t-shirts), a tenth of a cent below that (cards, flyers)
+const each = p => { const u = (inclVat ? p.price * (1 + VAT_RATE) : p.price) / p.qty; return '€' + u.toFixed(u >= 1 ? 2 : 3) + ' each'; };
 const catRow = c => `<a class="s-cat" href="${c.href}"${c.proto ? ` data-proto="${c.proto}"` : ''} data-search-go><span>${esc(c.label)}</span><img src="${S}arrow.svg" alt=""></a>`;
 const prodRow = p => `
   <a class="s-prod" href="#${slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''} data-search-go>
