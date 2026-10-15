@@ -25,27 +25,28 @@
       <div class="co-extra">
         <!-- Logged in with a known address: one compact summary (content as on helloprint.com, made scannable) -->
         <div class="co-extra co-cards" id="userView" hidden>
-          <div class="co-head"><h2>Your details</h2></div>
+          <!-- Same order as helloprint.com/checkout/details (logged in), with the prototype's cards -->
+          <div class="co-head"><h2>Contact Details</h2></div>
+          <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
           <div class="co-summary">
             <section>
-              <div class="h"><b>Contact</b><button type="button" class="co-act" data-edit="contact">Edit</button></div>
-              <p><span id="uvName"></span><span id="uvEmail"></span></p>
-              <small>We send your order confirmation, invoice and updates here.</small>
+              <div class="h"><p><b id="uvName"></b><span id="uvEmail"></span></p><button type="button" class="co-act" data-edit="contact">Edit Details</button></div>
             </section>
           </div>
+          <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
+          <div id="uvBizSlot"></div>
+          <p class="co-notyou">Not you? <button type="button" id="uvLogout">Log out</button></p>
 
-          <div class="co-head"><h2>Delivery address</h2></div>
+          <div class="co-head"><h2>Shipping Address <a class="co-more" href="#shipping-info"><img src="assets/pdp/info.svg" alt="">More info</a></h2></div>
+          <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
           <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
           <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Delivery address"></div>
           <button type="button" class="co-act addr-manage" id="manageAddr">Change delivery address</button>
-          <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
-          <div id="uvBizSlot"></div>
 
-          <div class="co-head"><h2>Invoice address</h2></div>
-          <p class="co-inv" id="invText">Same as delivery address</p>
-          <button type="button" class="co-link" id="invToggle">Update invoice address</button>
-          <div id="uvBillSlot"></div>
-          <p class="co-notyou">Not you? <button type="button" id="uvLogout">Log out</button></p>
+          <!-- Billing: a checkbox as on the live site; checking it opens the addresses sheet to pick the invoice address -->
+          <label class="check co-billcheck"><input type="checkbox" id="otherBilling">Use a different billing address</label>
+          <p class="co-inv" id="invText" hidden></p>
+          <button type="button" class="co-link" id="invToggle" hidden>Change billing address</button>
         </div>
 
         <div class="co-extra" id="formView">
@@ -365,9 +366,16 @@
   }
   function renderInvoice() {
     const a = book.find(x => x.id === invoiceSel);
-    document.getElementById('invText').textContent = a ? `${a.label} · ${[a.company, a.address1, `${a.eircode} ${a.town}`].filter(Boolean).join(', ')}` : 'Same as delivery address';
+    document.getElementById('otherBilling').checked = !!a;
+    document.getElementById('invText').hidden = document.getElementById('invToggle').hidden = !a;
+    if (a) document.getElementById('invText').textContent = `${a.label} · ${[a.company, a.address1, `${a.eircode} ${a.town}`].filter(Boolean).join(', ')}`;
   }
-  document.getElementById('invToggle').addEventListener('click', () => { listMode = 'invoice'; renderList(); openSheet('addresses'); });
+  const openInvoiceSheet = () => { listMode = 'invoice'; renderList(); openSheet('addresses'); };
+  document.getElementById('invToggle').addEventListener('click', openInvoiceSheet);
+  // Checked → pick an invoice address in the sheet; unchecked → same as delivery again
+  document.getElementById('otherBilling').addEventListener('change', e => {
+    if (e.target.checked) { e.target.checked = false; openInvoiceSheet(); } else setInvoice('same');
+  });
   if (known) setInvoice(invoiceSel);
   // Contact "Edit" opens the full form again
   document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => {

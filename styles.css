@@ -1207,3 +1207,12 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-list .menu button:hover { background: var(--light-grey); }
 .addr-list .menu .del { color: #c62828; }
 .addr-new { flex: 1; height: 48px; border-radius: 100px; }
+
+/* Logged-in details in the live order: Contact Details, Shipping Address, billing checkbox */
+.co-desc { margin-top: -4px; font-size: 14px; line-height: 1.45; color: var(--dark-grey); }
+.co-summary .h p { display: flex; flex-direction: column; font-size: 14px; }
+.co-summary .h p b { font-weight: 700; font-size: 16px; }
+.co-more { display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--black) !important; text-decoration: underline; text-underline-offset: 2px; vertical-align: 2px; }
+.co-more img { width: 16px; height: 16px; }
+.co-billcheck { margin-top: 8px; padding-top: 14px; border-top: 1px solid #ececec; }
+.co-inv[hidden], #invToggle[hidden] { display: none; }
