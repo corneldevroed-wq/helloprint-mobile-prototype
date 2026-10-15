@@ -160,17 +160,17 @@
     document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
 
-  // Folded leaflets (live); no product pages for these in the prototype yet
+  // Folded leaflets (live, with the live images); no product pages for these in the prototype yet
   const folds = [
-    ['halffoldleaflets', 'Half-Folded Leaflet', 'Compact yet informative · Versatile presentation', true, 2],
-    ['trifoldleaflets', 'Tri-fold Leaflets', 'Smart and space-efficient · Natural unfolding sequence', true, 3],
-    ['zfoldleaflets', 'Z-Fold Leaflets', 'Folded to 6 pages · Symmetrical look', false, 3],
-    ['rollfoldleaflets8pages', 'Roll-Fold Leaflets', 'Folded to 8 pages · To show detailed information', false, 4],
-    ['frenchfoldleaflets', 'Cross-Fold Leaflets', 'Ideal for guides · Makes up 8 pages', false, 4],
+    ['halffoldleaflets', 'Half-Folded Leaflet', 'Compact yet informative · Versatile presentation', true, 'half'],
+    ['trifoldleaflets', 'Tri-fold Leaflets', 'Smart and space-efficient · Natural unfolding sequence', true, 'tri'],
+    ['zfoldleaflets', 'Z-Fold Leaflets', 'Folded to 6 pages · Symmetrical look', false, 'z'],
+    ['rollfoldleaflets8pages', 'Roll-Fold Leaflets', 'Folded to 8 pages · To show detailed information', false, 'roll'],
+    ['frenchfoldleaflets', 'Cross-Fold Leaflets', 'Ideal for guides · Makes up 8 pages', false, 'cross'],
   ];
-  document.getElementById('foldRow').innerHTML = folds.map(([slug, name, text, tpl, panels]) => `
+  document.getElementById('foldRow').innerHTML = folds.map(([slug, name, text, tpl, img]) => `
     <a class="fold-card" href="#${slug}">
-      <span class="fold-vis" aria-hidden="true">${'<span></span>'.repeat(panels)}</span>
+      <span class="fold-img"><img src="assets/flyers/fold-${img}.webp" alt="" loading="lazy"></span>
       ${tpl ? '<span class="badge">Free design templates</span>' : ''}
       <strong>${name}</strong><small>${text}</small><span class="fold-cta">Configure &amp; see price ›</span>
     </a>`).join('');
