@@ -131,7 +131,8 @@ const ROUTES = {
     ['deluxe-business-cards', 'deluxe-business-cards', 'foilbusinesscards'],
     ['business-cards-special-materials', 'business-cards-special-materials', 'special-materials', 'specialpaperbusinesscards'],
     ['multilayered-business-cards', 'multilayered-business-cards', 'multilayer-business-cards', 'businesscardsmultilayer810'],
-    ['standard-flyers', 'standard-flyers', 'standardflyers', 'classic-flyers'],
+    // Flyers: the category links (home chips, menu, search) go to the flyer product page too, as it's the only one
+    ['standard-flyers', 'standard-flyers', 'standardflyers', 'classic-flyers', 'flyers', 'flyer', 'flyers-printing'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
