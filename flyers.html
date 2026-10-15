@@ -66,7 +66,7 @@
     <section id="folded" data-tab-target>
       <h2>Folded leaflets.</h2>
       <p class="cat-lead">Our folded leaflet printing options.</p>
-      <div class="hscroll fold-row" id="foldRow"></div>
+      <div class="types" id="foldRow"></div>
     </section>
 
     <section>
@@ -168,11 +168,16 @@
     ['rollfoldleaflets8pages', 'Roll-Fold Leaflets', 'Folded to 8 pages · To show detailed information', false, 'roll'],
     ['frenchfoldleaflets', 'Cross-Fold Leaflets', 'Ideal for guides · Makes up 8 pages', false, 'cross'],
   ];
+  // Same tiles as the flyer types
   document.getElementById('foldRow').innerHTML = folds.map(([slug, name, text, tpl, img]) => `
-    <a class="fold-card" href="#${slug}">
-      <span class="fold-img"><img src="assets/flyers/fold-${img}.webp" alt="" loading="lazy"></span>
-      ${tpl ? '<span class="badge">Free design templates</span>' : ''}
-      <strong>${name}</strong><small>${text}</small><span class="fold-cta">Configure &amp; see price ›</span>
+    <a class="product" href="#${slug}">
+      <div class="thumb" style="background:var(--light-grey)">
+        <img src="assets/flyers/fold-${img}.webp" alt="" loading="lazy">
+        ${tpl ? '<span class="badge">Free design templates</span>' : ''}
+      </div>
+      <p class="name">${name}</p>
+      <p class="from">${text}</p>
+      <p class="from"><u>Configure &amp; see price</u></p>
     </a>`).join('');
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position
