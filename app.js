@@ -104,7 +104,11 @@ const SHELL_CHECKOUT_HEADER = `
   <header class="header co-header">
     <div class="nav co-nav">
       <a href="index.html" aria-label="HelloPrint home"><img class="logo" src="assets/logo.svg" alt="HelloPrint"></a>
-      <span class="co-secure"><img src="assets/checkout/encrypted.svg" alt="">Secure Checkout</span>
+      <div class="co-right">
+        <span class="co-secure"><img src="assets/checkout/encrypted.svg" alt="">Secure Checkout</span>
+        <a href="login.html?return=details" aria-label="Account" class="account-link"><img class="icon" src="assets/account.svg" alt=""></a>
+        <a href="cart.html" aria-label="Cart"><img class="icon" src="assets/bag.svg" alt=""></a>
+      </div>
     </div>
   </header>`;
 const headerSlot = document.querySelector('[data-shell="header"]');

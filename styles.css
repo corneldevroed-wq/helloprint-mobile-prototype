@@ -1244,3 +1244,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 #invText { display: flex; flex-direction: column; margin-top: 0; padding: 12px 14px; border: 1px solid var(--outline); border-radius: 8px; font-size: 14px; line-height: 1.5; color: var(--black); }
 #invText[hidden] { display: none; }
 #invText b { font-weight: 700; }
+
+/* Checkout header: account + cart next to Secure Checkout (always a way out) */
+.co-right { display: flex; align-items: center; gap: 14px; }
+.co-right .co-secure { margin-right: 2px; }
+.co-right a { position: relative; display: grid; place-items: center; }
+.co-right .icon { width: 24px; height: 24px; }
+.co-logout-link { font-weight: 700; font-size: 14px; color: var(--light-green); }

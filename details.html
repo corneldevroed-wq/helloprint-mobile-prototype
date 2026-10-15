@@ -26,7 +26,7 @@
         <!-- Logged in with a known address: one compact summary (content as on helloprint.com, made scannable) -->
         <div class="co-extra co-cards" id="userView" hidden>
           <!-- Same order as helloprint.com/checkout/details (logged in), with the prototype's cards -->
-          <div class="co-head"><h2>Contact Details</h2></div>
+          <div class="co-head"><h2>Contact Details</h2><button type="button" class="co-logout-link" id="uvLogout">Log out</button></div>
           <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
           <div class="co-summary">
             <section>
@@ -419,6 +419,8 @@
     toggleContact(false);
     showToast('Your details are updated');
   });
+  // Same place as the Login link for guests: an escape back to the guest checkout
+  document.getElementById('uvLogout').addEventListener('click', () => document.getElementById('logout').click());
   cInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('contactSave').click(); } });
 
   const remember = () => {
