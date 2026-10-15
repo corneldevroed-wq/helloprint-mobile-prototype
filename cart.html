@@ -114,7 +114,7 @@
     document.getElementById('cartBar').hidden = !items.length;
     document.body.classList.toggle('buybar-on', !!items.length); // lifts toasts above the checkout bar
     if (!items.length) {
-      box.innerHTML = `<div class="cart-empty"><p>Your cart is empty.</p><a class="btn primary" href="business-cards.html">Shop business cards</a></div>`;
+      box.innerHTML = `<div class="cart-empty"><p>Your cart is empty.</p><a class="btn primary" href="index.html">Browse products</a></div>`;
       return;
     }
     const { check, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
