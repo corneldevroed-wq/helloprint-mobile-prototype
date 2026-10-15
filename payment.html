@@ -200,7 +200,7 @@
     const order = {
       number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, total, subtotal, vat,
       when, method: when === 'later' ? 'Payment link' : method, email: details.email || '', arrives: items[0]?.arrives,
-      // For "Thank you, John" and "Delivering to" (the details form, this browser only)
+      // For "Thank you, John" and "Shipping address" (the details form, this browser only)
       name: [details.first, details.last].filter(Boolean).join(' '), first: details.first || '',
       address: [details.address1, details.address2, [details.town, details.eircode].filter(Boolean).join(' ')].filter(Boolean).join(', '),
       addressLines: [details.address1, details.address2, details.town, (details.eircode || '').toUpperCase()].filter(Boolean),
