@@ -24,6 +24,27 @@ const laminationGroup = ids => ({ key: 'lamination', title: 'Lamination', items:
   { id: 'velvet', name: 'Velvet', sub: 'Soft touch', color: 'linear-gradient(135deg,#d9d4cc,#bdb6aa)', mult: 1.12, info: 'A soft, suede-like touch for a premium feel. People notice it the moment they hold your card.' },
 ].filter(o => ids.includes(o.id)) });
 
+// Flyers: the live sizes (each flyer type offers a selection) and delivery options
+const FLYER_SIZES = [
+  ['a6', 'A6', '105 x 148 mm', 'width:21px;height:30px', .7, 'Pocket size. Handy for handing out, as a postcard or on a counter.'],
+  ['a5', 'A5', '148 x 210 mm', 'width:26px;height:37px', 1, 'Our most popular flyer size: room for a clear message, easy to hand out.'],
+  ['a4', 'A4', '210 x 297 mm', 'width:30px;height:42px', 1.6, 'Letter size. Lots of room for text and images, great for price lists or menus.'],
+  ['dl', 'DL', '210 x 99 mm', 'width:21px;height:42px', .85, 'The long, slim format that fits a standard envelope and a display rack.'],
+  ['a3', 'A3', '420 x 297 mm', 'width:42px;height:30px', 2.9, 'Poster-like size for maximum impact on a wall or notice board.'],
+  ['a7', 'A7', '74 x 105 mm', 'width:17px;height:24px', .6, 'Mini flyer, about the size of a large business card.'],
+  ['sq-s', 'Small Square', '105 x 105 mm', 'width:24px;height:24px', .75, 'A compact square that stands out from the usual formats.'],
+  ['sq-m', 'Medium Square', '148 x 148 mm', 'width:30px;height:30px', .95, 'A playful square format with a bit more room.'],
+  ['sq-l', 'Large Square', '210 x 210 mm', 'width:36px;height:36px', 1.4, 'A big square for bold, visual designs.'],
+  ['a-long', 'A-Long', '210 x 74 mm', 'width:42px;height:15px', .8, 'A slim strip, popular as a voucher or bookmark.'],
+  ['x-long', 'X-Long', '105 x 297 mm', 'width:15px;height:42px', 1.1, 'Tall and narrow, eye-catching on a rack or table.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info }));
+const flyerSizes = ids => ({ key: 'size', title: 'Size', items: ids ? ids.map(id => FLYER_SIZES.find(s => s.id === id)) : FLYER_SIZES });
+const FLYER_DELIVERY = [
+  { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if your files are approved in time.' },
+  { id: 'standard', name: 'Standard', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 43, info: 'Four days sooner, on Fri 25 Sep.' },
+  { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
+];
+
 const PRODUCTS = {
   'classic-business-cards': {
     name: 'Classic Business Cards', cartName: 'Classic business cards', badge: 'Most Popular',
@@ -195,27 +216,11 @@ const PRODUCTS = {
   // Flyers (helloprint.com/en-ie/standardflyers): live sizes, materials, thickness, printing, finishing, quantities and prices
   'standard-flyers': {
     name: 'Standard Flyers', cartName: 'Standard flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
-    img: 'assets/p3.png', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1000,
+    img: 'assets/flyers/t-classic.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1000,
     qty: [[25, 13.79], [100, 17.79], [250, 23.49], [500, 28.49], [1000, 35.99], [2500, 61.99], [5000, 105.99], [10000, 168.99]],
-    delivery: [
-      { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if your files are approved in time.' },
-      { id: 'standard', name: 'Standard', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 43, info: 'Four days sooner, on Fri 25 Sep.' },
-      { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
-    ],
+    delivery: FLYER_DELIVERY,
     groups: [
-      { key: 'size', title: 'Size', items: [
-        ['a6', 'A6', '105 x 148 mm', 'width:21px;height:30px', .7, 'Pocket size. Handy for handing out, as a postcard or on a counter.'],
-        ['a5', 'A5', '148 x 210 mm', 'width:26px;height:37px', 1, 'Our most popular flyer size: room for a clear message, easy to hand out.'],
-        ['a4', 'A4', '210 x 297 mm', 'width:30px;height:42px', 1.6, 'Letter size. Lots of room for text and images, great for price lists or menus.'],
-        ['dl', 'DL', '210 x 99 mm', 'width:21px;height:42px', .85, 'The long, slim format that fits a standard envelope and a display rack.'],
-        ['a3', 'A3', '420 x 297 mm', 'width:42px;height:30px', 2.9, 'Poster-like size for maximum impact on a wall or notice board.'],
-        ['a7', 'A7', '74 x 105 mm', 'width:17px;height:24px', .6, 'Mini flyer, about the size of a large business card.'],
-        ['sq-s', 'Small Square', '105 x 105 mm', 'width:24px;height:24px', .75, 'A compact square that stands out from the usual formats.'],
-        ['sq-m', 'Medium Square', '148 x 148 mm', 'width:30px;height:30px', .95, 'A playful square format with a bit more room.'],
-        ['sq-l', 'Large Square', '210 x 210 mm', 'width:36px;height:36px', 1.4, 'A big square for bold, visual designs.'],
-        ['a-long', 'A-Long', '210 x 74 mm', 'width:42px;height:15px', .8, 'A slim strip, popular as a voucher or bookmark.'],
-        ['x-long', 'X-Long', '105 x 297 mm', 'width:15px;height:42px', 1.1, 'Tall and narrow, eye-catching on a rack or table.'],
-      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      flyerSizes(),
       { key: 'paper', title: 'Material', items: [
         { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', swatch: 'paper-glossy.svg', mult: 1, info: 'Coated paper with a shine. Colours and photos look vivid; our recommended choice for flyers.' },
         { id: 'matte', name: 'Matte', sub: 'No glare', swatch: 'paper-matt.svg', mult: 1, info: 'Coated paper without shine. Calm and easy to read, good for lots of text.' },
@@ -253,6 +258,124 @@ const PRODUCTS = {
       'Print flyers in high quality and choose from many sizes. Make your flyers online or upload your own design.',
     ],
     specs: [['Material', '135–400 gsm silk/gloss coated · 140–300 gsm offset (writable) · 170 gsm recycled'], ['Finishing', 'Gloss | Matte | Velvet lamination | UV Glossy'], ['Print technique', 'High-quality digital print'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
+  },
+
+  // Eco Flyers (helloprint.com/en-ie/ecoflyers): live sizes, materials, thickness, printing, quantities and prices
+  'eco-flyers': {
+    name: 'Eco Flyers', cartName: 'Eco flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'], badge: 'Eco',
+    img: 'assets/flyers/t-eco.webp', bg: 'rgba(223,185,144,.3)', priceMult: 1, defaultQty: 1000,
+    qty: [[25, 16.99], [100, 22.99], [250, 34.49], [500, 42.49], [1000, 53.99], [2500, 87.99], [5000, 141.99], [10000, 262.99]],
+    delivery: FLYER_DELIVERY,
+    groups: [
+      flyerSizes(),
+      { key: 'paper', title: 'Material', items: [
+        { id: 'recycled', name: 'Recycled', sub: '100% recycled', swatch: 'paper-eco.svg', mult: 1, info: 'Made from recycled paper, with a natural look. Our recommended eco choice.' },
+        { id: 'biotop', name: 'Bio Top 3® Natural', sub: 'Chlorine-free', color: '#f3efe3', mult: 1.05, info: 'An off-white paper made without chlorine, 100% recyclable.' },
+        { id: 'seed', name: 'Seed Paper', sub: 'Plant it', color: '#e7e0cf', mult: 2, info: 'Paper with seeds in it: plant the flyer and flowers grow.' },
+        { id: 'paperwise', name: 'Paperwise Natural', sub: 'Bio-sourced', color: '#e4dcc4', mult: 1.1, info: 'Made from agricultural leftovers, recyclable and compostable.' },
+      ]},
+      { key: 'thickness', title: 'Paper thickness', items: [
+        { id: 'super-budget', name: 'Super Budget', sub: '90 gsm', mult: .8, info: 'Thin, like copier paper. The lowest price for large runs.' },
+        { id: 'standard', name: 'Standard', sub: '170 gsm', mult: 1, info: 'Our recommended thickness: sturdy enough to feel like quality.' },
+        { id: 'premium-plus', name: 'Premium Plus', sub: '300 gsm', mult: 1.45, info: 'Very thick and stiff, close to a postcard.' },
+      ]},
+      printingGroup(),
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a5', paper: 'recycled', thickness: 'standard', printing: 'double' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', paper: 'recycled', thickness: 'super-budget', printing: 'single' } },
+      { id: 'natural', name: 'Natural look', icon: 'eco.svg', cfg: { size: 'a5', paper: 'paperwise', thickness: 'standard', printing: 'double' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: [
+      'Helloprint’s flyers always make a big impact at a small price. With our Eco Flyers you make that same impact while doing your bit for the environment.',
+      'With several eco materials and over 10 sizes, you don’t have to sacrifice looks or quality to make the sustainable choice.',
+    ],
+    specs: [['Material', 'Recycled | Bio Top 3® Natural | Seed Paper | Paperwise Natural'], ['Print technique', 'High-quality digital print'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
+  },
+
+  // Special Material Flyers (helloprint.com/en-ie/specialflyers): live sizes, materials, printing, quantities and prices
+  'special-material-flyers': {
+    name: 'Special Material Flyers', cartName: 'Special material flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
+    img: 'assets/flyers/t-special-material.webp', bg: 'rgba(221,181,77,.2)', priceMult: 1, defaultQty: 1000,
+    qty: [[25, 62.99], [100, 68.99], [250, 83.99], [500, 104.99], [750, 125.99], [1000, 151.99], [2000, 259.99], [2500, 328.99]],
+    delivery: FLYER_DELIVERY,
+    groups: [
+      flyerSizes(['a6', 'a5', 'a4', 'dl', 'sq-m', 'a7']),
+      { key: 'material', title: 'Material', items: [
+        { id: 'cardboard', name: 'Sulfate Cardboard', sub: '290 gsm', color: '#f6f5f1', mult: 1, info: 'Smooth, sturdy cardboard that lasts. Our recommended special material.' },
+        { id: 'gold', name: 'Metallic Gold', sub: '300 gsm', color: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', mult: 1.15, info: 'Paper with a glittery gold shimmer all over, for elegant, original appeal. 100% chlorine-free.' },
+        { id: 'silver', name: 'Metallic Silver', sub: '300 gsm', color: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', mult: 1.15, info: 'Slightly glittery with a smooth texture, for an extravagant, professional look. 100% chlorine-free.' },
+        { id: 'white', name: 'Metallic White', sub: '300 gsm', color: 'linear-gradient(135deg,#ffffff,#e9e6f0 55%,#fbfaff)', mult: 1.15, info: 'White with a pearly shimmer. Refined, and your colours stay true.' },
+        { id: 'pearl', name: 'Pearl Marble', sub: '290 gsm', color: 'linear-gradient(135deg,#fdfbf6,#e7e0f2 40%,#d8eef0 70%,#fbf3e4)', mult: 1.2, info: 'A thin pearlescent finish that captures light beautifully.' },
+        { id: 'pvc-158', name: 'PVC paper', sub: '158 gsm', color: '#eef4fa', mult: .95, info: 'Synthetic paper: 100% tree free, tear-resistant and waterproof.' },
+        { id: 'pvc-234', name: 'PVC paper', sub: '234 gsm', color: '#eef4fa', mult: 1.05, info: 'Thicker synthetic paper: tree free, tear-resistant and waterproof.' },
+        { id: 'pvc-276', name: 'PVC paper', sub: '276 gsm', color: '#eef4fa', mult: 1.12, info: 'Our thickest synthetic paper: tree free, tear-resistant and waterproof.' },
+      ]},
+      printingGroup(),
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a5', material: 'cardboard', printing: 'double' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', material: 'pvc-158', printing: 'single' } },
+      { id: 'shine', name: 'Metallic', icon: 'star.svg', cfg: { size: 'a5', material: 'gold', printing: 'double' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: [
+      'Print to impress with Special Material Flyers. Command attention with metallic finishes in white, gold and silver, or a sophisticated pearl marble.',
+      'Something more subtle that stands the test of time? Our smooth cardboard flyers are as sturdy as they get. Not a fan of paper? Synthetic PVC flyers are tree free, tear-resistant and even waterproof.',
+    ],
+    specs: [['Material', 'Sulfate Cardboard | Metallic Gold, Silver, White | Pearl Marble | PVC paper'], ['Print technique', 'High-quality digital print'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
+  },
+
+  // Special Finishing Flyers (helloprint.com/en-ie/flyersexclusivepaperfinish): live sizes, finishes, lamination, material, quantities and prices
+  'special-finishing-flyers': {
+    name: 'Special Finishing Flyers', cartName: 'Special finishing flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
+    img: 'assets/flyers/t-special-finishing.webp', bg: 'rgba(28,28,28,.1)', priceMult: 1, defaultQty: 500,
+    qty: [[25, 27.99], [50, 39.49], [100, 62.99], [250, 128.99], [500, 214.99], [750, 298.99], [1000, 385.99], [2500, 912.99]],
+    delivery: FLYER_DELIVERY,
+    groups: [
+      flyerSizes(['a6', 'a5', 'a4', 'a7']),
+      { key: 'finish', title: 'Exclusive finishing', items: [
+        { id: 'spot-uv', name: 'Spot UV', sub: 'Glossy relief', color: 'linear-gradient(135deg,#fff,#dfe6ee 50%,#fff)', mult: 1, info: 'A glossy, slightly raised layer on parts of your design (max. 50% of the flyer). Our recommended finish.' },
+        { id: 'gold', name: 'Gold Foil', sub: 'Warm shine', color: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', mult: 1.1, info: 'Parts of your design, like a logo or text, in shiny gold foil.' },
+        { id: 'silver', name: 'Silver Foil', sub: 'Cool shine', color: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', mult: 1.1, info: 'Parts of your design in shiny silver foil.' },
+        { id: 'rosegold', name: 'Rose Gold Foil', sub: 'Soft shine', color: 'linear-gradient(135deg,#f6d3c6,#c98a78 55%,#f2c9bb)', mult: 1.12, info: 'A warm, pinkish metallic shine on parts of your design.' },
+      ]},
+      { key: 'finishSides', title: 'Finishing on', items: [
+        { id: 'one', name: 'One side', sub: 'Front only', shape: 'width:26px;height:37px', mult: 1, info: 'The exclusive finish on the front only. Our recommended choice.' },
+        { id: 'both', name: 'Both sides', sub: 'Front and back', shape: 'width:26px;height:37px', mult: 1.35, info: 'The exclusive finish on the front and the back.' },
+      ]},
+      { key: 'lamination', title: 'Lamination', items: [
+        { id: 'matt-2', name: 'Matte lamination', sub: 'Both sides', swatch: 'paper-matt.svg', mult: 1, info: 'A soft, non-reflective layer on both sides that protects the print. Recommended.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'One side', swatch: 'paper-matt.svg', mult: .95, info: 'A soft, non-reflective layer on the front only.' },
+        { id: 'velvet', name: 'Velvet lamination', sub: 'Both sides', color: 'linear-gradient(135deg,#d9d4cc,#bdb6aa)', mult: 1.1, info: 'A soft-touch, suede-like layer for a premium feel.' },
+        { id: 'none', name: 'No lamination', sub: 'As printed', shape: 'width:26px;height:37px', mult: .9, info: 'No extra protective layer.' },
+      ]},
+      { key: 'material', title: 'Material', items: [
+        { id: 'invercote-g', name: 'Invercote® G', sub: '300 gsm · One side matte', color: '#f7f7f5', mult: 1, info: 'A premium board, matte coated on one side. Our recommended material.' },
+        { id: 'creato', name: 'Invercote® Creato', sub: '300 gsm · Both sides matte', color: '#f4f4f2', mult: 1.03, info: 'A premium board, matte coated on both sides.' },
+        { id: 'tintoretto', name: 'Tintoretto Touch', sub: '300 gsm · Uncoated', color: '#f3efe6', mult: 1.08, info: 'An uncoated paper with a subtle textured feel.' },
+        { id: 'kingboard-300', name: 'Kingboard', sub: '300 gsm · Uncoated', color: '#f1eee8', mult: 1.05, info: 'A sturdy, uncoated board.' },
+        { id: 'kingboard-350', name: 'Kingboard', sub: '350 gsm · Uncoated', color: '#efece5', mult: 1.12, info: 'Our thickest uncoated board.' },
+      ]},
+      // Single-sided is the recommended (live default) here, so the price list is for single-sided
+      (g => ({ ...g, items: g.items.map(o => ({ ...o, mult: o.id === 'double' ? 1.15 : 1 })) }))(printingGroup('single')),
+      cornersGroup(),
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a5', finish: 'spot-uv', finishSides: 'one', lamination: 'matt-2', material: 'invercote-g', printing: 'single', corners: 'straight' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a6', finish: 'spot-uv', finishSides: 'one', lamination: 'none', material: 'invercote-g', printing: 'single', corners: 'straight' } },
+      { id: 'gold', name: 'Gold foil', icon: 'star.svg', cfg: { size: 'a5', finish: 'gold', finishSides: 'one', lamination: 'velvet', material: 'invercote-g', printing: 'single', corners: 'straight' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: [
+      'Turn heads with Special Finishing Flyers. A subtle, elegant touch of gold, rose gold or silver foil, or a glossy Spot UV that makes your text and logo pop.',
+      'The exclusive finish goes on selected areas, like a logo or headline, up to 50% of the flyer, and needs a special artwork set-up.',
+    ],
+    specs: [['Exclusive finishing', 'Spot UV | Gold Foil | Silver Foil | Rose Gold Foil'], ['Material', 'Invercote® G | Invercote® Creato | Tintoretto Touch | Kingboard'], ['Lamination', 'Matte | Velvet | None'], ['Printing options', 'Single-sided | Double-sided'], ['Print colour', 'Full colour']],
   },
 };
 for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; }

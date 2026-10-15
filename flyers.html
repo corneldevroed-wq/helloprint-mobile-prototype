@@ -105,17 +105,13 @@
 <script src="products.js"></script>
 <script>
   const C = 'assets/category/', F = PRODUCTS['standard-flyers'], pdp = F.href;
-  // "From" = the cheapest preset with that choice, like Classic Flyers' own "from" price
-  const price = cfg => Math.min(...F.presets.map(pr => configPrice(F, { ...pr.cfg, ...cfg }, F.defaultQty)));
-
-  // Flyer types (live, with the live tile images from helloprint.com/en-ie/flyers): Classic is our flyer product page; Eco and Special Finishing open it with that choice;
-  // Special Material flyers (cardboard, metallics) aren't in the prototype yet
+  // Flyer types (live, with the live tile images from helloprint.com/en-ie/flyers): each opens its own product page with that image, like the business card types
   const types = [
-    { name: 'Classic Flyers', img: 'assets/flyers/t-classic.webp', text: 'Cheapest option · For cost-effective campaigns', badge: 'Most Popular', bg: 'rgba(96,111,115,.1)', href: pdp, price: fromPrice(F) },
-    { name: 'Eco Flyers', img: 'assets/flyers/t-eco.webp', text: 'Sustainable & recyclable · For eco-conscious businesses', badge: 'Eco', bg: 'rgba(223,185,144,.3)', href: pdp + '&paper=recycled', price: price({ paper: 'recycled' }) },
-    { name: 'Special Material Flyers', img: 'assets/flyers/t-special-material.webp', text: 'Great for exclusive promotions · For a lasting impression', bg: 'rgba(221,181,77,.2)', href: '#specialflyers' },
-    { name: 'Special Finishing Flyers', img: 'assets/flyers/t-special-finishing.webp', text: 'Unique and luxurious option · To stand out with style', bg: 'rgba(28,28,28,.1)', href: pdp + '&finishing=velvet-lam', price: price({ finishing: 'velvet-lam' }) },
-  ];
+    { p: F, img: 'assets/flyers/t-classic.webp', name: 'Classic Flyers', text: 'Cheapest option · For cost-effective campaigns', badge: 'Most Popular' },
+    { p: PRODUCTS['eco-flyers'], img: 'assets/flyers/t-eco.webp', text: 'Sustainable & recyclable · For eco-conscious businesses', badge: 'Eco' },
+    { p: PRODUCTS['special-material-flyers'], img: 'assets/flyers/t-special-material.webp', text: 'Great for exclusive promotions · For a lasting impression' },
+    { p: PRODUCTS['special-finishing-flyers'], img: 'assets/flyers/t-special-finishing.webp', text: 'Unique and luxurious option · To stand out with style' },
+  ].map(t => ({ ...t, name: t.name || t.p.name, bg: t.p.bg, href: t.p.href, qty: t.p.defaultQty, price: fromPrice(t.p) }));
   document.getElementById('types-grid').innerHTML = types.map(p => `
     <a class="product" href="${p.href}">
       <div class="thumb" style="background:${p.bg}">
@@ -124,7 +120,7 @@
       </div>
       <p class="name">${p.name}</p>
       <p class="from">${p.text}</p>
-      ${p.price ? `<div><p class="from">${F.defaultQty} pcs from</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>` : '<p class="from"><u>Configure &amp; see price</u></p>'}
+      ${p.price ? `<div><p class="from">${p.qty} pcs from</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>` : '<p class="from"><u>Configure &amp; see price</u></p>'}
     </a>`).join('');
 
   // Popular sizes (live): open the flyer page with that size
@@ -133,18 +129,18 @@
   document.getElementById('sizeRow').innerHTML = sizes.map(([id, name, dim, text, w, h]) => `
     <a class="size-card" href="${pdp}&amp;size=${id}"><span class="shape"><span style="width:${w}px;height:${h}px"></span></span><strong>${name}</strong><small>${dim}</small><small class="note">${text}</small></a>`).join('');
 
-  // Materials (live): the ones our flyer page has open it with that material; metallics and pearl aren't in it yet
+  // Materials (live): each opens the flyer product that has it, with that material chosen
   const mats = [
     { name: 'Silk MC Leaflets', text: 'White paper, the classic choice: simple and effective, suitable for any design.', groups: ['everyday'], tint: '#f1f1f1', href: pdp + '&paper=matte', badge: 'Most Popular' },
     { name: 'Gloss Flyers', text: 'A shiny white paper that makes colours and photos stand out.', groups: ['everyday'], tint: '#ffffff', href: pdp + '&paper=glossy' },
     { name: 'Offset Paper Flyers', text: 'Uncoated paper you can write on, simple and effective.', groups: ['everyday'], tint: '#fbfbf8', href: pdp + '&paper=uncoated' },
-    { name: 'Recystar Nature Flyers', text: '100% recycled paper with a natural, off-white look.', groups: ['eco'], tint: '#e9e2cf', href: pdp + '&paper=recycled' },
+    { name: 'Recystar Nature Flyers', text: '100% recycled paper with a natural, off-white look.', groups: ['eco'], tint: '#e9e2cf', href: PRODUCTS['eco-flyers'].href + '&paper=recycled' },
     { name: 'Smooth Cardboard Flyers', text: 'Print flyers on smooth cardboard with excellent thickness. Ideal for affordable, long-lasting promotional materials.', groups: ['everyday'], tint: '#f4f4f0', href: pdp + '&thickness=premium-plus' },
-    { name: 'Biotop Flyers', text: 'A chlorine-free, off-white paper.', groups: ['eco'], tint: '#f3efe3', href: pdp + '&paper=biotop' },
-    { name: 'Paperwise Natural Leaflets', text: 'Made from agricultural leftovers: bio-sourced, recyclable and compostable.', groups: ['eco'], tint: '#e4dcc4', href: pdp + '&paper=paperwise' },
-    { name: 'Metallic Gold Leaflets', text: 'For elegant, original appeal, create custom flyers with metallic gold paper. 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', href: '#metallic-gold-leaflets' },
-    { name: 'Metallic Silver Leaflets', text: 'Give personalised flyers an extravagant, professional look. Slightly glittery, smooth texture, 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', href: '#metallic-silver-leaflets' },
-    { name: 'Pearl Marble Leaflets', text: 'A thin pearlescent finish that captures light beautifully to attract customers.', groups: ['luxury'], tint: 'linear-gradient(135deg,#fdfbf6,#e7e0f2 40%,#d8eef0 70%,#fbf3e4)', href: '#pearl-marble-leaflets' },
+    { name: 'Biotop Flyers', text: 'A chlorine-free, off-white paper.', groups: ['eco'], tint: '#f3efe3', href: PRODUCTS['eco-flyers'].href + '&paper=biotop' },
+    { name: 'Paperwise Natural Leaflets', text: 'Made from agricultural leftovers: bio-sourced, recyclable and compostable.', groups: ['eco'], tint: '#e4dcc4', href: PRODUCTS['eco-flyers'].href + '&paper=paperwise' },
+    { name: 'Metallic Gold Leaflets', text: 'For elegant, original appeal, create custom flyers with metallic gold paper. 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', href: 'product.html?p=special-material-flyers&material=gold' },
+    { name: 'Metallic Silver Leaflets', text: 'Give personalised flyers an extravagant, professional look. Slightly glittery, smooth texture, 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', href: 'product.html?p=special-material-flyers&material=silver' },
+    { name: 'Pearl Marble Leaflets', text: 'A thin pearlescent finish that captures light beautifully to attract customers.', groups: ['luxury'], tint: 'linear-gradient(135deg,#fdfbf6,#e7e0f2 40%,#d8eef0 70%,#fbf3e4)', href: 'product.html?p=special-material-flyers&material=pearl' },
   ];
   document.getElementById('mat-list').innerHTML = mats.map(m => `
     <li data-group="${m.groups.join(' ')}">
