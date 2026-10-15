@@ -455,6 +455,31 @@
     if (!next) return `You get our lowest price per ${one}: ${per(c.qty)}.`;
     return `The more you order, the less you pay per ${one}: ${per(c.qty)} now, ${per(next)} at ${next} pcs.`;
   }
+  // T-shirt size mix: one tile per size, the number is typed (numeric keypad). Typing never re-renders
+  // the tiles, so the keyboard stays open; only the total, the highlights and the price line follow.
+  function renderSizeMix(c) {
+    const host = document.querySelector('[data-option="qty"]');
+    if (!host.querySelector('.size-mix')) host.innerHTML = `
+      <p class="opt-title">${jStep(KEYS.length)}Sizes <span data-mix-total></span></p>
+      <div class="size-mix" role="group" aria-label="Pieces per size">${SIZES_MIX.map(z => `
+        <label class="sm-tile" data-size="${z}"><b>${z}</b><input inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="–" aria-label="${z}: pieces" data-size-input="${z}"></label>`).join('')}</div>
+      <p class="opt-info" data-mix-info></p>`;
+    host.querySelector('[data-mix-total]').textContent = `${c.qty} pcs`;
+    host.querySelectorAll('[data-size-input]').forEach(i => {
+      const n = c.sizes[i.dataset.sizeInput];
+      if (i !== document.activeElement) i.value = n || '';
+      i.closest('.sm-tile').classList.toggle('on', n > 0);
+    });
+    host.querySelector('[data-mix-info]').textContent = c.qty ? qtyInfo(c) : 'Type how many t-shirts you need per size.';
+  }
+  document.addEventListener('input', e => {   // the sheet, or the page itself in J
+    const i = e.target.closest('[data-size-input]'); if (!i) return;
+    i.value = i.value.replace(/\D/g, '').replace(/^0+/, '');
+    draft.sizes = { ...draft.sizes, [i.dataset.sizeInput]: +i.value || 0 };   // a new object, so the saved mix stays as it was
+    draft.qty = Object.values(draft.sizes).reduce((a, b) => a + b, 0);
+    renderDraft();
+    if (FLOW_J && draft.qty) applyNow();   // J keeps the last mix with at least one t-shirt
+  });
   // Version J: step numbers in front of each option, and the short quantity list
   const jStep = i => FLOW_J ? `<span class="j-step">${i + 1}</span>` : '';
   let jAllQty = false;
@@ -469,15 +494,7 @@
         <div class="opts" role="radiogroup" aria-label="${g.title}">${g.items.map(o => optCard(key, o)).join('')}</div>
         <p class="opt-info">${pick(key, c[key]).info}</p>`;
     }
-    if (SIZES_MIX) document.querySelector('[data-option="qty"]').innerHTML = `
-      <p class="opt-title">${jStep(KEYS.length)}Sizes <span>${c.qty} pcs</span></p>
-      <div class="size-mix" role="group" aria-label="Pieces per size">${SIZES_MIX.map(z => `
-        <div class="sm-row"><b>${z}</b>
-          <button type="button" class="sm-step" data-size="${z}" data-step="-1" aria-label="One ${z} less"${c.sizes[z] ? '' : ' disabled'}>−</button>
-          <span class="sm-n" aria-live="polite">${c.sizes[z]}</span>
-          <button type="button" class="sm-step" data-size="${z}" data-step="1" aria-label="One ${z} more">+</button>
-        </div>`).join('')}</div>
-      <p class="opt-info">${c.qty ? qtyInfo(c) : 'Add at least one t-shirt to see the price.'}</p>`;
+    if (SIZES_MIX) renderSizeMix(c);
     else document.querySelector('[data-option="qty"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span></p>
       <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity">${QTY.map(([q]) => {
@@ -505,13 +522,6 @@
     const guide = e.target.closest('[data-guide]');
     if (guide) { openGuide(guide.dataset.guide); return; }
     if (e.target.closest('[data-more-qty]')) { jAllQty = true; renderDraft(); return; }
-    const step = e.target.closest('[data-step]');
-    if (step) {
-      const z = step.dataset.size, n = Math.max(0, draft.sizes[z] + +step.dataset.step);
-      draft.sizes = { ...draft.sizes, [z]: n };   // a new object, so the saved mix stays as it was
-      draft.qty = Object.values(draft.sizes).reduce((a, b) => a + b, 0);
-      renderDraft(); if (FLOW_J && draft.qty) applyNow(); return;   // J keeps the last mix with at least one t-shirt
-    }
     const opt = e.target.closest('[data-set]'), pre = e.target.closest('[data-preset]');
     if (opt) { const k = opt.dataset.set; draft[k] = k === 'qty' ? +opt.dataset.value : opt.dataset.value; renderDraft(); }
     if (pre) { Object.assign(draft, PRESETS.find(p => p.id === pre.dataset.preset).cfg); renderDraft(); }

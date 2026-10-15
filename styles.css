@@ -1308,12 +1308,12 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .field textarea:focus ~ .fl, .field textarea:not(:placeholder-shown) ~ .fl { transform: translateY(-9px) scale(.75); }
 .field textarea:focus ~ .fl { color: var(--light-green); }
 
-/* T-shirts: pieces per size (the total is the quantity) */
-.size-mix { border: 1px solid var(--outline); border-radius: 5px; background: var(--white); }
-.sm-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; }
-.sm-row + .sm-row { border-top: 1px solid var(--line); }
-.sm-row b { flex: 1; font-size: 14px; }
-.sm-step { width: 36px; height: 36px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); font: 600 18px/1 Inter, sans-serif; color: var(--black); display: grid; place-items: center; }
-.sm-step:disabled { opacity: .35; }
-.sm-n { min-width: 24px; text-align: center; font-weight: 600; font-size: 16px; font-variant-numeric: tabular-nums; }
+/* T-shirts: pieces per size (the total is the quantity). Tiles like the option cards; a size with pieces is selected */
+.size-mix { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.sm-tile { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 9px 0 7px; border: 1px solid var(--outline); border-radius: 5px; background: var(--white); cursor: text; }
+.sm-tile b { font-size: 14px; line-height: 18px; }
+.sm-tile input { width: 100%; height: 28px; padding: 0; border: 0; background: transparent; text-align: center; font: 600 18px/1 Inter, sans-serif; color: var(--black); outline: none; font-variant-numeric: tabular-nums; }
+.sm-tile input::placeholder { color: var(--dark-grey); font-weight: 400; }
+.sm-tile.on { border: 2px solid var(--light-green); padding: 8px 0 6px; background: #eefaf3; }
+.sm-tile:focus-within { border: 2px solid var(--light-green); padding: 8px 0 6px; }
 #saveUpdate:disabled, #toDesign:disabled { opacity: .45; }
