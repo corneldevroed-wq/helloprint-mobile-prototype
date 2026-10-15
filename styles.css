@@ -1120,7 +1120,7 @@ body.flow-j .flow-a-only { display: none; }
 .auth-field .pw input { padding-right: 44px; }
 .auth-field .eye { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%; background: no-repeat center / 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='1.8'%3E%3Cpath d='M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E"); }
 .auth-field .eye.on { opacity: .5; }
-.auth-submit { height: 48px; border-radius: 6px; font-weight: 600; }
+.auth-submit { height: 48px; border-radius: 100px; font-weight: 600; }   /* round, like the green buttons elsewhere */
 .auth-link { align-self: center; font-size: 14px; color: var(--light-green); }
 .auth-switch, .auth-terms { font-size: 13px; color: var(--dark-grey); text-align: center; }
 .auth-switch button { font-weight: 600; color: var(--black); }
