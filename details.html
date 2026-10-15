@@ -47,7 +47,7 @@
           <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Shipping address"></div>
           <button type="button" class="co-act addr-manage" id="manageAddr">Change shipping address</button>
 
-          <!-- Billing: a checkbox as on the live site; checking it opens the addresses sheet to pick the invoice address -->
+          <!-- Billing: a checkbox as on the live site; checking it opens the addresses sheet to pick the billing address -->
           <label class="check co-billcheck"><input type="checkbox" id="otherBilling">Use a different billing address</label>
           <p class="co-inv" id="invText" hidden></p>
           <button type="button" class="co-link" id="invToggle" hidden>Change billing address</button>
@@ -231,17 +231,17 @@
   }
   const addrLines = a => [`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
   // Overview of all addresses (sheet)
-  // The overview sheet is used for the shipping address and for the invoice address
+  // The overview sheet is used for the shipping address and for the billing address
   let listMode = 'delivery', invoiceSel = 'same';
   try { invoiceSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
   if (invoiceSel !== 'same' && !book.some(a => a.id === invoiceSel)) invoiceSel = 'same';
   function renderList() {
     const inv = listMode === 'invoice', current = inv ? invoiceSel : selected;
-    document.getElementById('addrListTitle').textContent = inv ? 'Your invoice address' : 'Your shipping addresses';
+    document.getElementById('addrListTitle').textContent = inv ? 'Your billing address' : 'Your shipping addresses';
     document.getElementById('addrList').innerHTML = (inv ? `
       <li class="${invoiceSel === 'same' ? 'on' : ''}">
         <button type="button" class="ap-pick" data-pick-addr="same"><span class="pin" aria-hidden="true"></span>
-          <span class="t"><b>Same as shipping address</b><span>Your invoice goes to your shipping address</span></span></button>
+          <span class="t"><b>Same as shipping address</b><span>We use your shipping address for billing</span></span></button>
       </li>` : '') + book.map(a => `
       <li class="${a.id === current ? 'on' : ''}">
         <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="pin" aria-hidden="true"></span>
@@ -351,12 +351,12 @@
     if (!book.some(a => a.isDefault)) book[0].isDefault = true;
     saveBook();
     closeSheet();
-    if (listMode === 'invoice' && sheetStack.some(el => el.id === 'sheet-addresses')) { setInvoice(id); renderBook(); renderList(); showToast(editing ? 'Address updated' : 'Address added and used for your invoice'); return; }
+    if (listMode === 'invoice' && sheetStack.some(el => el.id === 'sheet-addresses')) { setInvoice(id); renderBook(); renderList(); showToast(editing ? 'Address updated' : 'Address added and used as billing address'); return; }
     selectAddress(id, !sheetStack.some(el => el.id === 'sheet-addresses'));
     showToast(editing ? 'Address updated' : 'Address added and selected');
   });
 
-  // Invoice address: same as delivery, or its own fields
+  // Billing address: same as shipping, or one from the address book
   function setInvoice(id) {
     invoiceSel = id;
     try { localStorage.setItem('hp-invoice-sel', id); } catch (e) {}
@@ -376,7 +376,7 @@
   }
   const openInvoiceSheet = () => { listMode = 'invoice'; renderList(); openSheet('addresses'); };
   document.getElementById('invToggle').addEventListener('click', openInvoiceSheet);
-  // Checked → pick an invoice address in the sheet; unchecked → same as delivery again
+  // Checked → pick a billing address in the sheet; unchecked → same as shipping again
   document.getElementById('otherBilling').addEventListener('change', e => {
     if (e.target.checked) { e.target.checked = false; openInvoiceSheet(); } else setInvoice('same');
   });
