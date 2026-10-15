@@ -372,7 +372,8 @@
     const a = book.find(x => x.id === invoiceSel);
     document.getElementById('otherBilling').checked = !!a;
     document.getElementById('invText').hidden = document.getElementById('invToggle').hidden = !a;
-    if (a) document.getElementById('invText').textContent = `${a.label} · ${[a.company, a.address1, `${a.eircode} ${a.town}`].filter(Boolean).join(', ')}`;
+    // A short list, one line each (like the shipping address cards), not one long inline line
+    if (a) document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}`;
   }
   const openInvoiceSheet = () => { listMode = 'invoice'; renderList(); openSheet('addresses'); };
   document.getElementById('invToggle').addEventListener('click', openInvoiceSheet);

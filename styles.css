@@ -1241,3 +1241,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-biz { gap: 6px; margin-top: 6px; font-size: 14px; color: var(--black); }
 .co-summary .h p:has(.lbl:not([hidden])) { gap: 6px; }
 .co-summary .h:has(.lbl:not([hidden])) { align-items: flex-start; }
+#invText { display: flex; flex-direction: column; margin-top: 0; padding: 12px 14px; border: 1px solid var(--outline); border-radius: 8px; font-size: 14px; line-height: 1.5; color: var(--black); }
+#invText[hidden] { display: none; }
+#invText b { font-weight: 700; }
