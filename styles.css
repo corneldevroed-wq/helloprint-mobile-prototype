@@ -1164,4 +1164,5 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-act:hover { border-color: var(--black); }
 .co-notyou { font-size: 13px; color: var(--dark-grey); }
 .co-notyou button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
-.co-tag { align-self: flex-start; margin: 2px 0 4px; padding: 3px 7px; border-radius: 3px; background: #e6f8ee; color: var(--light-green); font-weight: 700; font-size: 11px; line-height: 1.3; letter-spacing: .04em; text-transform: uppercase; }   /* as on helloprint.com */
+.co-tag { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 13px; color: var(--dark-grey); }   /* same style as "✓ Recommended options selected" */
+.co-tag img { width: 16px; height: 16px; }
