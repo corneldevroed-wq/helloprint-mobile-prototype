@@ -1147,3 +1147,5 @@ body.flow-d .alt-btns { justify-items: center; }
 body.flow-d .alt-btn { padding: 8px 20px; }
 .ad-online { width: 100%; height: 48px; }
 .ad-pad .ad-link { margin-top: -6px; font-size: 12px; }
+/* Spec list rows (F–I): the arrow_forward_ios icon from Figma, as is (#bbb) */
+.spec-rows .chev, body.flow-i .spec-rows .chev { width: 15px; height: 15px; filter: none; opacity: 1; transform: none; }
