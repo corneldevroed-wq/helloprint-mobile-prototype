@@ -383,11 +383,12 @@
   if (known) setInvoice(invoiceSel);
   // Contact "Edit": an email field (and the business option) in the card, not the whole form
   const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
+  let emailChanged = false;   // after saving a new email the card shows just that email
   const toggleContact = open => {
     cForm.hidden = !open;
     document.getElementById('contactEdit').hidden = open;
     document.getElementById('uvEmail').hidden = open;
-    document.getElementById('uvName').hidden = open;   // only the email is edited here
+    document.getElementById('uvName').hidden = open || emailChanged;   // only the email is edited here
     if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
   };
   document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
@@ -397,6 +398,7 @@
     if (!/^\S+@\S+\.\S+$/.test(v)) { setFieldError(cInput.closest('.field'), 'Enter a valid email address'); cInput.focus(); return; }
     form.querySelector('[name=email]').value = v;
     document.getElementById('uvEmail').textContent = v;
+    emailChanged = true;
     persist();
     toggleContact(false);
     showToast('Your details are updated');

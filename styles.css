@@ -1231,4 +1231,4 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 #uvEmail[hidden], #contactEdit[hidden] { display: none; }
 .co-edit-contact .check { padding: 0; border-top: 0; }
 #uvName[hidden] { display: none; }
-.co-summary .h:has(#uvName[hidden]) { display: none; }
+.co-summary .h:has(#contactEdit[hidden]) { display: none; }   /* edit mode: the row with name/email/Edit is empty */
