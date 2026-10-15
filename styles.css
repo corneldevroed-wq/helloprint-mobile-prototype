@@ -1256,3 +1256,14 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Payment: "When do you want to pay?" as tabs */
 .pay-opts.seg { display: grid; }
 .pay-note { margin-top: -2px; font-size: 13px; line-height: 1.45; color: var(--dark-grey); }
+
+/* Address sheet: cards like the design options (radio, green border when selected) */
+.addr-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
+.addr-list li { padding: 14px 8px 14px 14px; border: 1px solid var(--outline); border-radius: 8px; background: var(--white); }
+.addr-list li + li { border-top: 1px solid var(--outline); }
+.addr-list li.on { border: 2px solid var(--light-green); padding: 13px 7px 13px 13px; }
+.addr-list .ap-pick { align-items: flex-start; }
+.addr-list .ap-pick .radio { margin-top: 1px; }
+.addr-list li.on .radio { border: 0; background: var(--light-green); }
+.addr-list li.on .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+.addr-list .menu { top: 48px; right: 8px; }

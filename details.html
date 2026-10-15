@@ -260,12 +260,12 @@
     const inv = listMode === 'invoice', current = inv ? invoiceSel : selected;
     document.getElementById('addrListTitle').textContent = inv ? 'Your billing address' : 'Your shipping addresses';
     document.getElementById('addrList').innerHTML = (inv ? `
-      <li class="${invoiceSel === 'same' ? 'on' : ''}">
-        <button type="button" class="ap-pick" data-pick-addr="same"><span class="pin" aria-hidden="true"></span>
+      <li class="${invoiceSel === 'same' ? 'on' : ''}" aria-checked="${invoiceSel === 'same'}">
+        <button type="button" class="ap-pick" data-pick-addr="same"><span class="radio" aria-hidden="true"></span>
           <span class="t"><b>Same as shipping address</b><span>We use your shipping address for billing</span></span></button>
       </li>` : '') + book.map(a => `
-      <li class="${a.id === current ? 'on' : ''}">
-        <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="pin" aria-hidden="true"></span>
+      <li class="${a.id === current ? 'on' : ''}" aria-checked="${a.id === current}">
+        <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="radio" aria-hidden="true"></span>
           <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</span></button>
         <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
         <div class="menu" hidden>
