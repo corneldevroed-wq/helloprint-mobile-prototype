@@ -160,16 +160,16 @@
     document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
 
-  // Folded leaflets (live, with the live images); no product pages for these in the prototype yet
+  // Folded leaflets (live, with the live images and the live default qty + price excl. VAT); no product pages for these in the prototype yet
   const folds = [
-    ['halffoldleaflets', 'Half-Folded Leaflet', 'Compact yet informative · Versatile presentation', true, 'half'],
-    ['trifoldleaflets', 'Tri-fold Leaflets', 'Smart and space-efficient · Natural unfolding sequence', true, 'tri'],
-    ['zfoldleaflets', 'Z-Fold Leaflets', 'Folded to 6 pages · Symmetrical look', false, 'z'],
-    ['rollfoldleaflets8pages', 'Roll-Fold Leaflets', 'Folded to 8 pages · To show detailed information', false, 'roll'],
-    ['frenchfoldleaflets', 'Cross-Fold Leaflets', 'Ideal for guides · Makes up 8 pages', false, 'cross'],
+    ['halffoldleaflets', 'Half-Folded Leaflet', 'Compact yet informative · Versatile presentation', true, 'half', 500, 42.99],
+    ['trifoldleaflets', 'Tri-fold Leaflets', 'Smart and space-efficient · Natural unfolding sequence', true, 'tri', 1000, 181.99],
+    ['zfoldleaflets', 'Z-Fold Leaflets', 'Folded to 6 pages · Symmetrical look', false, 'z', 1000, 56.99],
+    ['rollfoldleaflets8pages', 'Roll-Fold Leaflets', 'Folded to 8 pages · To show detailed information', false, 'roll', 1000, 89.99],
+    ['frenchfoldleaflets', 'Cross-Fold Leaflets', 'Ideal for guides · Makes up 8 pages', false, 'cross', 1000, 99.99],
   ];
   // Same tiles as the flyer types
-  document.getElementById('foldRow').innerHTML = folds.map(([slug, name, text, tpl, img]) => `
+  document.getElementById('foldRow').innerHTML = folds.map(([slug, name, text, tpl, img, qty, from]) => `
     <a class="product" href="#${slug}">
       <div class="thumb" style="background:var(--light-grey)">
         <img src="assets/flyers/fold-${img}.webp" alt="" loading="lazy">
@@ -177,7 +177,7 @@
       </div>
       <p class="name">${name}</p>
       <p class="from">${text}</p>
-      <p class="from"><u>Configure &amp; see price</u></p>
+      <div><p class="from">${qty} pcs from</p><p class="prices"><span class="price" data-price="${from}"></span></p></div>
     </a>`).join('');
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position
