@@ -130,16 +130,14 @@
   // Delivery promise: files approved by 10:30 the working day before
   function renderEta() {
     if (!items[0]) return;
-    if (when === 'later') {
-      document.getElementById('etaArrives').textContent = 'Arrives 1 working day after payment';
-      document.getElementById('etaNote').textContent = 'Printing starts once your files are approved and the order is paid.';
-      return;
-    }
     const arrive = new Date(`${items[0].arrives} 2026`);
     const approve = new Date(arrive); approve.setDate(arrive.getDate() - 1);
     const day = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
     document.getElementById('etaArrives').textContent = `Arrives ${items[0].arrives}`;
-    document.getElementById('etaNote').textContent = `if your files are approved by 10:30 on ${day(approve)}.`;
+    // Same date for Pay by Link: production only starts once it's paid, so payment is part of the deadline
+    document.getElementById('etaNote').textContent = when === 'later'
+      ? `if your files are approved and the order is paid by 10:30 on ${day(approve)}.`
+      : `if your files are approved by 10:30 on ${day(approve)}.`;
   }
   const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
 
