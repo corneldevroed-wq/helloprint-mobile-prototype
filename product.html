@@ -437,6 +437,11 @@
   }
 
   // ---------- Customise sheet ----------
+  // Experiment: the Recommended preset's star after the recommended option in each group (the preset button is the legend).
+  // To remove it: set REC_STAR to false (or revert its commit).
+  const REC_STAR = true;
+  const recStar = (key, o) => REC_STAR && OPTIONS[key].items.length > 1 && PRESETS[0].cfg[key] === o.id
+    ? `<img class="rec-star" src="${P}star.svg" alt="Recommended" title="Recommended">` : '';
   function optCard(key, o) {
     const visual = o.shape ? `<span class="shape" style="${o.shape}"></span>`
       : o.img ? `<img src="${P + o.img}" alt="" style="${o.imgSize}">`
@@ -444,7 +449,7 @@
           ? `<img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:32.1px;width:15.9px;height:1.2px"><img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:24.4px;width:15.9px;height:1.2px"><img src="${P}paper-line-b.svg" alt="" style="left:4.1px;top:28.5px;width:21.2px;height:1.2px">` : ''}<img src="${P}paper-corner.svg" alt="" style="left:25.15px;top:.38px;width:12.17px;height:12.18px"></span>`
       : o.color ? `<span class="chip" style="background:${o.color}"></span>`
       : '';
-    return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>${visual}</button>`;
+    return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}${recStar(key, o)}</b><small>${o.sub}</small></span>${visual}</button>`;
   }
   // Quantity info is factual: what one card costs now, and at the next step up
   function qtyInfo(c) {

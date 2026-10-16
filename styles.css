@@ -1326,3 +1326,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .promo-seo ul { list-style: disc; }
 .promo-seo ol { list-style: decimal; }
 .promo-seo li b { color: var(--black); font-weight: 600; }
+
+/* Experiment (REC_STAR in product.html): star after the recommended option, same icon as the Recommended preset */
+.opt b .rec-star { display: inline-block; width: 12px; height: 12px; margin-left: 4px; vertical-align: -1px; }
