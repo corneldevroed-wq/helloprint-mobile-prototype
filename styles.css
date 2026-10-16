@@ -1319,3 +1319,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; background: #eefaf3; }
 .sm-tile:focus-within { border: 2px solid var(--light-green); padding: 7px 0; }
 #saveUpdate:disabled, #toDesign:disabled { opacity: .45; }
+
+/* Promotional Print hub: the folded SEO text */
+.promo-seo details > p, .promo-seo li { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.promo-seo ul, .promo-seo ol { display: flex; flex-direction: column; gap: 8px; padding: 0 0 12px 18px; }
+.promo-seo ul { list-style: disc; }
+.promo-seo ol { list-style: decimal; }
+.promo-seo li b { color: var(--black); font-weight: 600; }

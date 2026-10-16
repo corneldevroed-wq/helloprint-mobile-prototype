@@ -122,6 +122,8 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
+  // Promotional Print hub (home category card, menu, breadcrumbs)
+  'promotional-printing': 'promotional.html', 'promotional-products': 'promotional.html',
   // Flyers category page (home chips, menu, search, the flyer product's breadcrumb)
   'flyers': 'flyers.html', 'flyer': 'flyers.html', 'flyers-printing': 'flyers.html', 'leaflet-printing': 'flyers.html',
   // Business card product pages (product.html renders each type from products.js);
