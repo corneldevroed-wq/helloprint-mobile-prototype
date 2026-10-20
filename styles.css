@@ -1500,8 +1500,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-vat-switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 10px; background: #f8f8f8; transition: left .2s; }
 .d-vat-switch[aria-checked="true"] { background: var(--light-green); }
 .d-vat-switch[aria-checked="true"]::after { left: 19px; }
-.d-more { align-self: flex-end; display: inline-flex; align-items: center; gap: 4px; padding: 8px 4px; font-weight: 600; font-size: 14px; line-height: 16px; color: var(--light-green); text-decoration: none; }
-.d-more img { width: 20px; height: 20px; }
+.d-viewall { align-self: flex-end; display: inline-flex; align-items: center; gap: 4px; padding: 8px 4px; font-weight: 600; font-size: 14px; line-height: 16px; color: var(--light-green); text-decoration: none; }
+.d-viewall img { width: 20px; height: 20px; }
 .desk .deliv { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
 .desk .deliv .t b { font-size: 16px; line-height: 1.2; }
 
@@ -1547,3 +1547,65 @@ body.flow-d .alt-btn { padding: 8px 20px; }
   .dhead-nav a { padding: 0 4px; font-size: 13px; }
   .dusps li:nth-child(n+3) { display: none; }
 }
+
+/* ---------- Desktop PDP, lower part (Figma 15927:10612) ---------- */
+.d-more { display: flex; flex-direction: column; gap: 24px; padding-top: 40px; }
+.d-tabs { display: flex; border-bottom: 1px solid var(--mid-grey); }
+.d-tabs a { padding: 6px 12px; margin-bottom: -1px; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; }
+.d-tabs a[aria-current] { font-weight: 600; color: var(--black); border-bottom-color: var(--light-green); }
+.d-sec h2 { font-weight: 800; font-size: 24px; line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 16px; }
+#d-about h2 { margin-bottom: 8px; }
+#d-about p { font-size: 14px; line-height: 1.5; color: var(--black); }
+#d-about p + p { margin-top: 8px; }
+/* Specifications: zebra rows, label column 370px */
+#d-specs .spec-table { margin: 0; border: 0; border-radius: 0; }
+#d-specs .spec-table div { display: flex; gap: 16px; padding: 8px 16px; border: 0; }
+#d-specs .spec-table div:nth-child(odd) { background: var(--light-grey); }
+#d-specs .spec-table dt { width: 370px; flex-shrink: 0; padding: 0; border: 0; background: none; font-weight: 600; font-size: 14px; line-height: 1.7; color: var(--black); }
+#d-specs .spec-table dd { flex: 1; padding: 0; font-size: 14px; line-height: 1.7; color: var(--dark-grey); }
+/* Design guidelines (accordion) next to the templates table */
+.d-two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.d-two h2 { margin-bottom: 24px; }
+.d-acc { border-top: 1px solid var(--mid-grey); }
+.d-acc details { border-bottom: 1px solid var(--mid-grey); }
+.d-acc summary { list-style: none; display: flex; align-items: center; gap: 16px; justify-content: space-between; padding: 8px 0 8px 8px; font-size: 14px; line-height: 1.2; color: var(--black); cursor: pointer; }
+.d-acc summary::-webkit-details-marker { display: none; }
+.d-acc summary img { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
+.d-acc details[open] summary img { transform: rotate(180deg); }
+.d-acc details p { padding: 0 40px 12px 8px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.d-tpl { list-style: none; }
+.d-tpl li { display: grid; grid-template-columns: 1.5fr .75fr .75fr; gap: 16px; align-items: center; padding: 8px 16px; border-radius: 3px; font-size: 14px; line-height: 1.2; }
+.d-tpl li:nth-child(odd) { background: var(--light-grey); }
+.d-tpl a { display: flex; align-items: center; gap: 8px; }
+.d-tpl a:hover { text-decoration: underline; }
+.d-tpl img { width: 24px; height: 24px; }
+/* Other products: the product tile, as a card (Figma 15927:11084) */
+.d-others { display: flex; flex-wrap: wrap; gap: 16px; }
+.d-card { width: 244px; gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; }
+.d-card .thumb { width: 100%; aspect-ratio: 1; border-radius: 10px 10px 0 0; }
+.d-card .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: 12px; letter-spacing: 0; }
+.d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
+.d-card .name { font-weight: 600; font-size: 16px; line-height: 22px; }
+.d-card .from { font-size: 12px; line-height: 16px; }
+.d-card .prices .price { font-weight: 900; font-size: 14px; letter-spacing: -0.28px; }
+/* Reviews (Figma 15937:10023) */
+.d-reviews { display: flex; flex-direction: column; align-items: center; }
+.d-reviews h2 { align-self: stretch; }
+.d-rev-wrap { position: relative; width: 100%; display: flex; align-items: center; gap: 19.5px; }
+.d-rev-row { flex: 1; display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.d-rev-row::-webkit-scrollbar { display: none; }
+.d-rev { flex: 0 0 217px; min-height: 158px; display: flex; flex-direction: column; gap: 8px; padding: 16px 15px; border-radius: 10px; background: var(--light-grey); scroll-snap-align: start; }
+.d-rev-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.d-rev-top .stars { width: 99px; height: 18.6px; }
+.d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.d-rev-top span img { width: 16px; height: 16px; }
+.d-rev > b { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.d-rev > p { font-size: 12px; line-height: 1.3; }
+.d-rev small { font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.d-rev-nav { width: 35px; height: 35px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--black); }
+.d-rev-nav svg { width: 24px; height: 24px; fill: var(--white); }
+.d-rev-nav.prev svg { transform: scaleX(-1); }
+.d-rev-nav:disabled { opacity: .3; cursor: default; }
+.d-rev-note { margin-top: 11px; font-size: 14px; line-height: 1.2; color: var(--black); }
+.d-rev-note b { font-weight: 600; }
+.d-rev-note u { font-weight: 600; text-underline-offset: 2px; }

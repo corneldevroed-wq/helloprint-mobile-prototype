@@ -309,7 +309,7 @@
   const QTY = productQty(PRODUCT);
   const DELIVERY = PRODUCT.delivery || [
     { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if your files are approved in time.' },
-    { id: 'express', name: 'Express', day: '27', dayName: 'Sun 27 Sep', month: 'September 27', extra: 9.99, info: 'Two days sooner, on Sun 27 Sep. We print your order with priority.' },
+    { id: 'express', name: 'Express', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 9.99, info: 'Four days sooner, on Fri 25 Sep. We print your order with priority.' },
   ];
   const PRESETS = PRODUCT.presets;
   // Info layers (two variants to compare): ?info=line shows only the info line, ?info=guide only the ⓘ guide
@@ -513,7 +513,7 @@
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
         return `<button class="qrow${common ? '' : ' j-extra'}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
-      ${FLOW_J && !jAllQty ? (DESK ? (QTY.length > 8 ? `<button class="j-more d-more" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : '') : '<button class="j-more" data-more-qty>More quantities</button>') : ''}
+      ${FLOW_J && !jAllQty ? (DESK ? (QTY.length > 8 ? `<button class="j-more d-viewall" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : '') : '<button class="j-more" data-more-qty>More quantities</button>') : ''}
       <p class="opt-info">${qtyInfo(c)}</p>`;
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
@@ -578,6 +578,84 @@
       if (e.target.closest('#deskGo')) placeOrder(deskDesign);
     });
     renderDeskSel();
+    buildDeskMore();
+  }
+  // Under the configuration (Figma 15927:10612): tabs, About, specifications, guidelines + templates, other products, FAQ, reviews.
+  // The content is the mobile page's own (About, specs, guide, templates); only the layout is desktop.
+  function buildDeskMore() {
+    const pdp = document.querySelector('.pdp'), acc = document.querySelector('.pdp > .acc');
+    const guideIntro = acc.querySelector('.guide > p').textContent;
+    const guide = [...acc.querySelectorAll('.guide-list li')].map(li => [li.querySelector('b').textContent, li.querySelector('span').textContent]);
+    const tpls = [...acc.querySelectorAll('.tpl-list li')].map(li => {
+      const [pdf, indd] = [...li.querySelectorAll('a')].map(a => a.getAttribute('href'));
+      const sm = li.querySelector('small');
+      return [`${li.querySelector('span').firstChild.textContent.trim()}${sm ? ` (${sm.textContent})` : ''}`, pdf, indd];
+    });
+    const others = Object.values(PRODUCTS).filter(p => p !== PRODUCT && (p.noun || '') === (PRODUCT.noun || '')).slice(0, 5);
+    const spec = k => (PRODUCT.specs.find(([key]) => key.toLowerCase().includes(k)) || [])[1];
+    const fastest = [...DELIVERY].sort((a, b) => etaDate(a.dayName) - etaDate(b.dayName))[0];
+    const faqs = [
+      ['What is this product? And what can I use it for?', PRODUCT.about[0]],
+      ['What materials can I choose from?', spec('material') || spec('paper') || (OPTIONS.paper || OPTIONS.material || { items: [] }).items.map(o => o.name).join(', ')],
+      ['What is the fastest possible turnaround?', `With ${fastest.name} delivery your order arrives on ${fastest.dayName} (latest ${etaShort(etaLatest(fastest.dayName))}), if your files are approved by 10:30 on ${etaApprove(fastest.dayName)}.`],
+      ['Which production techniques do you use?', spec('technique') || 'High-quality digital print for smaller runs, offset litho for larger runs.'],
+      ['If I select the folded option, will they arrive folded?', 'Yes. Folded products are scored and folded for you, so they arrive ready to use.'],
+      ['What is cutting deviation?', 'Cutting can shift up to 1 mm. That is why we ask for 3 mm bleed and a 4 mm safety margin in your file.'],
+      ['Is there an option to add drill holes?', 'Not in the standard options. Chat with us and we will look at what is possible for your order.'],
+    ];
+    const noun = PRODUCT.noun ? PRODUCT.noun.replace(/^\w/, c => c.toUpperCase()) : 'Business Cards';
+    const tabs = [['d-about', 'About'], ['d-specs', 'Product Specifications'], ['d-guide', 'Design Guidelines'], ['d-tpl', 'Templates'], ['d-faq', 'Frequently Asked Questions']];
+    const more = document.createElement('div');
+    more.className = 'd-more';
+    more.innerHTML = `
+      <nav class="d-tabs" aria-label="Product information">${tabs.map(([id, label], i) => `<a href="#${id}"${i ? '' : ' aria-current="true"'}>${label}</a>`).join('')}</nav>
+      <section id="d-about" class="d-sec"></section>
+      <section id="d-specs" class="d-sec"><h2>Product Specifications</h2></section>
+      <div class="d-two">
+        <section id="d-guide" class="d-sec"><h2>Design Guidelines</h2><div class="d-acc">
+          <details><summary>${guideIntro}<img src="assets/chevron.svg" alt=""></summary><p>Use our templates below, export as PDF and keep the template layers out of your file.</p></details>
+          ${guide.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
+        </div></section>
+        <section id="d-tpl" class="d-sec"><h2>Templates</h2><ul class="d-tpl">
+          <li><span>General Guide</span><a href="#template-general-guide"><img src="assets/desktop/icon-pdf.svg" alt="">Guide</a><span></span></li>
+          ${tpls.map(([name, pdf, indd]) => `<li><span>${name}</span><a href="${pdf}"><img src="assets/desktop/icon-pdf.svg" alt="">PDF</a><a href="${indd}"><img src="assets/desktop/icon-indesign.svg" alt="">Indesign</a></li>`).join('')}
+        </ul></section>
+      </div>
+      ${others.length ? `<section class="d-sec"><h2>Other ${noun}</h2><div class="d-others">${others.map(o => `
+        <a class="product d-card" href="${o.href}">
+          <div class="thumb" style="background:${o.bg}"><img src="${o.thumb}" alt="" loading="lazy">${o.badge ? `<span class="badge">${o.badge}</span>` : ''}</div>
+          <div class="d-card-t"><p class="name">${o.name}</p><p class="from">${o.defaultQty || 500} pcs from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
+        </a>`).join('')}</div></section>` : ''}
+      <section id="d-faq" class="d-sec"><h2>Frequently Asked Questions</h2><div class="d-acc">
+        ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
+      </div></section>
+      <section class="d-sec d-reviews"><h2>What our Happy Customers say</h2>
+        <div class="d-rev-wrap">
+          <button class="d-rev-nav prev" data-rev="-1" aria-label="Previous reviews" disabled><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
+          <div class="d-rev-row" id="dRevRow">${[0, 1, 2, 3, 4, 5, 6].map(() => `
+            <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+              <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+          <button class="d-rev-nav next" data-rev="1" aria-label="Next reviews"><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
+        </div>
+        <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>34,760 reviews</u>. Showing our 5 star reviews.</p>
+      </section>`;
+    pdp.querySelector('.d-top').after(more);
+    // About (the mobile section, moved) and the specifications table (mobile's dl, moved)
+    more.querySelector('#d-about').append(...pdp.querySelector('.pdp > .about').childNodes);
+    pdp.querySelector('.pdp > .about')?.remove();
+    more.querySelector('#d-specs').append(document.getElementById('pSpecs'));
+    acc.remove();
+    // Tabs jump to their section; the reviews arrows move one card
+    more.querySelector('.d-tabs').addEventListener('click', e => {
+      const a = e.target.closest('a'); if (!a) return; e.preventDefault();
+      more.querySelectorAll('.d-tabs a').forEach(x => x.toggleAttribute('aria-current', x === a));
+      const el = document.querySelector(a.getAttribute('href')); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' });
+    });
+    const row = document.getElementById('dRevRow');
+    const syncRev = () => { more.querySelector('.d-rev-nav.prev').disabled = row.scrollLeft < 4; more.querySelector('.d-rev-nav.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
+    more.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
+    row.addEventListener('scroll', syncRev, { passive: true }); syncRev();
+    updatePrices();
   }
   function renderDeskSel() {
     const box = document.getElementById('deskSel'); if (!box) return;
