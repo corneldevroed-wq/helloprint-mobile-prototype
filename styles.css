@@ -1445,3 +1445,105 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk .pdp { padding: 0 0 0; gap: 0; }
 .desk .pdp > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; }
 .desk .pdp .px { padding-left: 0; padding-right: 0; }
+
+/* "Upload your design" (upload now) is hidden for now; the code stays (UPLOAD_NOW in product.html) */
+.no-upload-now .upload-now, .no-upload-now .hd-yes, .no-upload-now #sheet-adddesign .ad-main, .no-upload-now #sheet-adddesign .ad-main + .ad-link { display: none; }
+
+/* ---------- Desktop PDP (Figma 15927:9040): photos 501px | 48px | configuration 737px ---------- */
+.desk .pdp .buy-bar, .desk .buy-bar { display: none; }
+.desk .pdp > .d-top { display: grid; grid-template-columns: minmax(0, 501fr) minmax(0, 737fr); gap: 48px; align-items: start; }
+.desk .d-media { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.desk .gallery { height: auto; aspect-ratio: 1; border-radius: 10px; background: var(--light-grey) !important; }
+.desk .gallery .track img { object-fit: cover; }
+.desk .gallery .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: 12px; letter-spacing: 0; }
+.desk .gallery .prev { left: 16px; }
+.desk .gallery .next { right: 16px; }
+.d-thumbs { display: flex; gap: 8px; }
+.d-thumbs button { width: 73px; height: 73px; border: 1px solid var(--mid-grey); border-radius: 5px; overflow: hidden; flex-shrink: 0; }
+.d-thumbs button[aria-current] { border: 2px solid var(--light-green); }
+.d-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+.desk .buy { gap: 16px; }
+.desk .buy h1 { font-size: 24px; line-height: 28px; }
+.desk .buy .rating { margin-top: 0; }
+.d-intro { font-size: 14px; line-height: 24px; color: var(--dark-green); }
+.d-intro p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.d-intro.open p { display: block; }
+.d-intro button { font-weight: 600; color: var(--light-green); }
+.desk .buy .usps { gap: 4px; }
+.desk .buy .usps li { gap: 5px; line-height: 24px; }
+.desk .buy .usps img { width: 24px; height: 24px; }
+.d-line { border: 0; border-top: 1px solid var(--mid-grey); margin: 0; }
+.desk .buy .price-box { display: none; }
+
+/* The options, open on the page (J's markup); desktop sizes from Figma */
+.desk #jConfig { display: flex; flex-direction: column; gap: 16px; }
+.desk #jConfig > .opt-group:first-child { padding-bottom: 16px; border-bottom: 1px solid var(--mid-grey); }
+.desk #jConfig .opt-title { font-size: 14px; line-height: 1.2; }
+.desk #jConfig .opt-title span { color: var(--black); }
+.desk #jConfig .opt-info { display: none; }   /* the ⓘ explains; the page stays calm */
+.desk .presets { margin-right: 0; padding-right: 0; flex-wrap: wrap; }
+.desk .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.desk .opt { width: 125px; min-height: 122px; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; padding: 9px 8px; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .opt[aria-checked="true"] { padding: 8px 7px; }
+.desk .opt > :not(.t) { order: -1; }
+.desk .opt .t b { font-size: 14px; line-height: 18px; }
+.desk .opt .t small { font-size: 12px; line-height: 18px; }
+/* Quantity: separate rows, total price on the right (no price per piece), "Incl VAT" switch on the title line */
+.desk .qty-list { gap: 8px; }
+.desk .qrow { margin-top: 0; padding: 8px; border-radius: 5px !important; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .qrow[aria-checked="true"] { padding: 7px; }
+.desk .qrow .e { display: none; }
+.desk .qrow .p { font-weight: 400; }
+.d-vat { margin-left: auto; display: flex; align-items: center; gap: 8px; font-weight: 400; font-size: 14px; color: var(--black); }
+.d-vat-switch { position: relative; width: 36px; height: 20px; border-radius: 18px; background: var(--mid-grey); transition: background .2s; }
+.d-vat-switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 10px; background: #f8f8f8; transition: left .2s; }
+.d-vat-switch[aria-checked="true"] { background: var(--light-green); }
+.d-vat-switch[aria-checked="true"]::after { left: 19px; }
+.d-more { align-self: flex-end; display: inline-flex; align-items: center; gap: 4px; padding: 8px 4px; font-weight: 600; font-size: 14px; line-height: 16px; color: var(--light-green); text-decoration: none; }
+.d-more img { width: 20px; height: 20px; }
+.desk .deliv { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .deliv .t b { font-size: 16px; line-height: 1.2; }
+
+/* Your selection (Figma 15935:7756) */
+.d-sel { display: flex; flex-direction: column; padding: 16px; border: 1px solid var(--outline); border-radius: 10px; background: var(--light-grey); }
+.d-sel-head b { display: block; font-weight: 600; font-size: 16px; line-height: 1.2; }
+.d-sel-head p { display: flex; align-items: center; gap: 4px; padding: 4px 0 8px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.d-sel-head p img { width: 20px; height: 20px; }
+.d-sel-rows { list-style: none; border-top: 1px solid var(--mid-grey); padding: 8px 0 4px; }
+.d-sel-rows button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 14px; line-height: 1.5; text-align: left; }
+.d-sel-rows span { flex: 1; color: var(--black); }
+.d-sel-rows u { color: var(--dark-grey); text-underline-offset: 2px; }
+.d-sel-rows img { width: 14.3px; height: 14.4px; }
+.d-eta { padding: 8px 0 12px; border-radius: 0; background: none; border-top: 1px solid var(--mid-grey); gap: 2px; }
+.d-eta small { margin-top: 8px; padding: 8px 16px; background: var(--white); border-left: 3px solid var(--light-green); font-size: 14px; line-height: 20px; }
+.d-eta small img { display: none; }
+.d-sel-sum { list-style: none; border-top: 1px solid var(--mid-grey); padding-top: 8px; }
+.d-sel-sum li { display: flex; justify-content: space-between; padding: 2px 0; font-size: 14px; line-height: 1.5; }
+.d-sel-sum li b { font-weight: 700; }
+.d-sel-sum .grand { margin-top: 6px; padding: 8px 0; border-top: 1px solid var(--mid-grey); }
+.d-sel-sum .grand span { font-weight: 600; font-size: 16px; line-height: 1.2; }
+.d-sel-sum .grand b { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px; }
+.d-designs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 0 16px; }
+.d-design { display: flex; align-items: flex-start; gap: 10px; padding: 16px; border: 1px solid var(--outline); border-radius: 5px; background: var(--white); text-align: left; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.d-design[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
+.d-design .ico { width: 50px; height: 50px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid var(--outline); border-radius: 5px; background: var(--white); }
+.d-design .ico img { width: 28px; height: 28px; }
+.d-design .t { display: flex; flex-direction: column; gap: 4px; }
+.d-design .t b { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.d-design ul { padding-left: 18px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+.d-go { width: 100%; height: 40px; gap: 8px; font-size: 16px; }
+.d-go img { width: 24px; height: 24px; }
+
+/* Sheets (ⓘ guide, upload…) on desktop: a centred dialog instead of a bottom sheet */
+.desk .sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: 560px; max-height: calc(100% - 96px); border-radius: 16px; transform: translate(-50%, calc(-50% + 40px)); opacity: 0; transition: transform .25s, opacity .25s; }
+.desk .sheet-layer.open .sheet { transform: translate(-50%, -50%); opacity: 1; }
+.desk .sheet .grab { display: none; }
+.desk .sheet-head { padding-top: 16px; }
+/* Narrower desktops (1024–1279px): the header gets a little tighter, same content */
+@media (max-width: 1279px) {
+  .dsearch { width: auto; flex: 1; max-width: 600px; }
+  .dhead-nav .dwrap { gap: 2px; }
+  .dhead-nav a { padding: 0 4px; font-size: 13px; }
+  .dusps li:nth-child(n+3) { display: none; }
+}

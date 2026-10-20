@@ -331,6 +331,7 @@
   //    then two buttons: Upload later / Upload now (yes) or Canva / AI (no).
   const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
   const FLOW = (() => {
+    if (DESK) return 'j';   // desktop: every option on the page, like J (the version switch is mobile-only)
     const q = new URLSearchParams(location.search).get('flow');
     try { if (FLOWS.includes(q)) localStorage.setItem('hp-flow', q); const v = localStorage.getItem('hp-flow'); return FLOWS.includes(v) ? v : 'a'; }
     catch (e) { return FLOWS.includes(q) ? q : 'a'; }
@@ -409,6 +410,8 @@
   document.getElementById('optGroups').innerHTML = KEYS.map(k => `<div class="opt-group" data-option="${k}"></div>`).join('');
   const titles = PRODUCT.groups.map(g => g.title.toLowerCase());
   document.getElementById('presetsIntro').textContent = `Sets ${titles.length > 1 ? titles.slice(0, -1).join(', ') + ' and ' + titles.at(-1) : titles[0]}. Quantity and delivery stay as you choose them.`;
+  // More product photos (PRODUCT.gallery): the same swipeable track on mobile, with thumbnails on desktop
+  if (PRODUCT.gallery) document.getElementById('galleryTrack').innerHTML = PRODUCT.gallery.map((src, i) => `<img src="${src}" alt="${i ? '' : PRODUCT.name}"${i ? ' loading="lazy"' : ' id="pImg"'}>`).join('');
   // One image: no gallery arrows
   document.querySelectorAll('.gallery .nav-btn').forEach(b => { b.hidden = document.getElementById('galleryTrack').children.length < 2; });
 
@@ -424,6 +427,7 @@
 
   // Everything bound to the saved configuration (PDP + design sheet)
   function renderSaved() {
+    if (DESK) renderDeskSel();
     const c = saved, preset = presetOf(c), t = totalPrice(c);
     const set = (k, html) => document.querySelectorAll(`[data-bind="${k}"]`).forEach(el => { el.innerHTML = html; });
     set('qty', `${c.qty} pcs`);
@@ -487,7 +491,7 @@
     if (FLOW_J && draft.qty) applyNow();   // J keeps the last mix with at least one t-shirt
   });
   // Version J: step numbers in front of each option, and the short quantity list
-  const jStep = i => FLOW_J ? `<span class="j-step">${i + 1}</span>` : '';
+  const jStep = i => FLOW_J && !DESK ? `<span class="j-step">${i + 1}</span>` : '';
   let jAllQty = false;
   function renderDraft() {
     const c = draft, preset = presetOf(c);
@@ -502,14 +506,14 @@
     }
     if (SIZES_MIX) renderSizeMix(c);
     else document.querySelector('[data-option="qty"]').innerHTML = `
-      <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span></p>
-      <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity">${QTY.map(([q]) => {
+      <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span>${DESK ? `<label class="d-vat">Incl VAT<button class="d-vat-switch" role="switch" aria-checked="${inclVat}" data-vat-switch aria-label="Show prices including VAT"></button></label>` : ''}</p>
+      <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity">${QTY.map(([q], qi) => {
         const p = productPrice(c, q);
         // J shows the common amounts (+ the chosen one) until "More quantities"
-        const common = [100, 250, 500, 1000, 2000].includes(q) || c.qty === q;
+        const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
         return `<button class="qrow${common ? '' : ' j-extra'}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
-      ${FLOW_J && !jAllQty ? '<button class="j-more" data-more-qty>More quantities</button>' : ''}
+      ${FLOW_J && !jAllQty ? (DESK ? (QTY.length > 8 ? `<button class="j-more d-more" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : '') : '<button class="j-more" data-more-qty>More quantities</button>') : ''}
       <p class="opt-info">${qtyInfo(c)}</p>`;
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
@@ -539,8 +543,66 @@
   if (FLOW_J) {
     const page = document.getElementById('jConfig');
     page.append(...document.querySelector('#sheet-customise .sheet-body .pad').children);
-    document.getElementById('presetsIntro').outerHTML = '<p class="opt-title">Quick start</p>';
+    document.getElementById('presetsIntro').outerHTML = `<p class="opt-title">${DESK ? 'Pick a combination to start quickly' : 'Quick start'}</p>`;
     page.addEventListener('click', onOptionClick);
+  }
+  // ---------- Desktop (≥1024px, Figma 15927:9040): photos left, the configuration open on the right ----------
+  // Same markup and logic as mobile (J puts the options on the page); only the order and the "Your selection" box are new.
+  var deskDesign = 'upload';   // var: renderSaved can run before this line
+  const euro = n => '€' + n.toFixed(2);
+  if (DESK) {
+    const pdp = document.querySelector('.pdp'), gallery = document.querySelector('.gallery'), buy = document.querySelector('.buy');
+    const top = document.createElement('div'); top.className = 'd-top';
+    const left = document.createElement('div'); left.className = 'd-media';
+    gallery.before(top); top.append(left, buy); left.append(gallery);
+    // Thumbnails under the photo
+    const imgs = [...document.getElementById('galleryTrack').children];
+    if (imgs.length > 1) {
+      left.insertAdjacentHTML('beforeend', `<div class="d-thumbs">${imgs.map((im, i) => `<button aria-label="Photo ${i + 1}" data-thumb="${i}"${i ? '' : ' aria-current="true"'}><img src="${im.getAttribute('src')}" alt=""></button>`).join('')}</div>`);
+      const track = document.getElementById('galleryTrack');
+      left.querySelector('.d-thumbs').addEventListener('click', e => { const b = e.target.closest('[data-thumb]'); if (b) track.scrollTo({ left: +b.dataset.thumb * track.clientWidth, behavior: 'smooth' }); });
+      track.addEventListener('scroll', () => { const i = Math.round(track.scrollLeft / track.clientWidth); left.querySelectorAll('[data-thumb]').forEach(b => b.toggleAttribute('aria-current', +b.dataset.thumb === i)); }, { passive: true });
+    }
+    // Under the title: the product intro ("Show more" opens all of it) and the USPs
+    buy.querySelector('.rating').insertAdjacentHTML('afterend', `<div class="d-intro"><p>${PRODUCT.about.join(' ')}</p><button type="button">Show more</button></div>`);
+    buy.querySelector('.d-intro button').addEventListener('click', e => { e.target.parentElement.classList.add('open'); e.target.remove(); });
+    buy.querySelector('.d-intro').after(buy.querySelector('.usps'));
+    buy.querySelector('.usps').insertAdjacentHTML('afterend', '<hr class="d-line">');
+    // "Your selection": the choices as rows, delivery, totals, how the design comes in, one button
+    buy.insertAdjacentHTML('beforeend', '<section class="d-sel" id="deskSel" aria-label="Your selection"></section>');
+    document.getElementById('deskSel').addEventListener('click', e => {
+      const go = e.target.closest('[data-goto]');
+      if (go) { const el = document.querySelector(`#jConfig [data-option="${go.dataset.goto}"]`); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' }); return; }
+      const d = e.target.closest('[data-ddesign]');
+      if (d) { deskDesign = d.dataset.ddesign; renderDeskSel(); return; }
+      if (e.target.closest('#deskGo')) placeOrder(deskDesign);
+    });
+    renderDeskSel();
+  }
+  function renderDeskSel() {
+    const box = document.getElementById('deskSel'); if (!box) return;
+    const c = saved, t = totalPrice(c), d = delivery(c).dayName;
+    const rows = [
+      ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
+      SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
+    ];
+    const cards = [
+      ['upload', 'd-upload.svg', 'Upload later, add to cart', ['Finish your order first.', 'Simply upload your design after checkout', 'Review the print proof, and start production.']],
+      ['canva', 'd-canva.svg', 'Design online with Canva', ['Choose from 10.000+ templates', 'Get a print ready file fast', 'Finish your order']],
+    ];
+    box.innerHTML = `
+      <div class="d-sel-head"><b>Your selection</b><p>${presetLabel(presetOf(c), c)}</p></div>
+      <ul class="d-sel-rows">${rows.map(([k, label, v]) => `<li><button data-goto="${k}"><span>${label}</span><u>${v}</u><img src="assets/pdp/arrow-forward-ios.svg" alt=""></button></li>`).join('')}</ul>
+      <div class="eta d-eta">${etaHtml(d, `Prevent delay: upload and approve your files by 10:30 on ${etaApprove(d)}`)}</div>
+      <ul class="d-sel-sum">
+        <li><span>Subtotal</span><b>${euro(t)}</b></li>
+        <li><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><b>${euro(t * VAT_RATE)}</b></li>
+        <li class="grand"><span>Total incl. VAT</span><b>${euro(t * (1 + VAT_RATE))}</b></li>
+      </ul>
+      <div class="d-designs" role="radiogroup" aria-label="How will you add your design?">${cards.map(([id, icon, title, pts]) => `
+        <button class="d-design" role="radio" aria-checked="${deskDesign === id}" data-ddesign="${id}"><span class="ico"><img src="${P + icon}" alt=""></span>
+          <span class="t"><b>${title}</b><ul>${pts.map(x => `<li>${x}</li>`).join('')}</ul></span></button>`).join('')}</div>
+      <button class="btn primary d-go" id="deskGo"><img src="assets/bag.svg" alt="">Add to cart and continue</button>`;
   }
   const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]) || sizeMix(draft) !== sizeMix(saved);
   // Store the draft; returns the previous selection, or null when nothing changed
@@ -619,11 +681,14 @@
   // ---------- Design sheet ----------
   // The design options as on the live site (helloprint.com/en-ie/standardbusinesscards), in the live order.
   // (AI and a separate designer link were future ideas; a designer's file goes through "Upload your design".)
+  // "Upload your design" (upload now) is hidden for now (Cornel, 2026-10-20); set UPLOAD_NOW to true to bring it back
+  const UPLOAD_NOW = false;
+  if (!UPLOAD_NOW) document.body.classList.add('no-upload-now');
   const DESIGN = [
     { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
     { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online' },
     { id: 'file', name: 'Upload your design', sub: 'Have print-ready files, or your own designer.', icon: 'd-upload.svg', cta: 'Upload design now' },
-  ];
+  ].filter(d => UPLOAD_NOW || d.id !== 'file');
   let design = 'upload';
   function renderDesign() {
     document.getElementById('designList').innerHTML = DESIGN.map(d => `
@@ -830,8 +895,9 @@
   // Visible whenever the price box's buttons are out of view, all the way down the page.
   const buyBar = document.getElementById('buyBar');
   const ctaRow = document.querySelector(FLOW_B ? '#ctaStack .btn' : '.price-box .cta-row');
-  const headerH = () => document.querySelector('.header').offsetHeight;
+  const headerH = () => document.querySelector('.header')?.offsetHeight || 0;
   function syncBuyBar() {
+    if (DESK) return;   // desktop has no sticky buy bar: the order button is always in the Your selection box
     const cta = ctaRow.getBoundingClientRect();
     const ctaVisible = cta.bottom > headerH() && cta.top < innerHeight;
     const show = !ctaVisible;

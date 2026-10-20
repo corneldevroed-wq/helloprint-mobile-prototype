@@ -63,6 +63,7 @@ const TEXTILE_COLOURS = ids => ids.map((id, i) => ({ id, name: TEXTILE[id][0], s
 const PRODUCTS = {
   'classic-business-cards': {
     name: 'Classic Business Cards', cartName: 'Classic business cards', badge: 'Most Popular',
+    gallery: ['assets/products/bc-1.png', 'assets/products/bc-2.jpg', 'assets/products/bc-3.jpg', 'assets/products/bc-4.jpg', 'assets/products/bc-5.jpg'],   // Figma 15927:9209
     img: 'assets/pdp/classic.png', thumb: 'assets/category/t-classic.png', bg: 'rgba(224,252,180,.5)', priceMult: 1,
     groups: [
       sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape', 'squared', 'american']),
