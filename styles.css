@@ -1354,3 +1354,94 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .buy-bar .bar-edit { flex: 0 0 auto; padding: 0 20px; }
 .buy-bar .bar-edit[hidden] { display: none; }
 .buy-bar .sheet-bar:has(.bar-edit:not([hidden])) .total { padding: 8px 0 8px 4px; }
+
+/* ================= Desktop (≥1024px, Figma 15927:9040) =================
+   Only pages with <body data-desktop> get html.desk (set in app.js); everything else stays the mobile prototype.
+   Content width 1286px (Figma: 113px margins on a 1512px frame). */
+.desk { --app-w: 100%; }
+.desk, .desk body { background: var(--white); }
+.desk .phone { max-width: none; }
+.desk .flow-switch { display: none; }
+.dwrap { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
+
+/* Header: top bar 60px + category bar 40px (dark green), USP bar 40px (white) */
+.dhead-top, .dhead-nav { background: var(--dark-green); }
+.dhead-top .dwrap { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.dlogo { width: 117px; height: 26px; }
+.dsearch { position: relative; width: 600px; height: 38px; display: flex; align-items: center; background: var(--white); border-radius: 100px; padding: 0 5px 0 9px; }
+.dsearch > img { width: 19.2px; height: 19.2px; flex-shrink: 0; }
+.dsearch input { flex: 1; min-width: 0; height: 100%; border: 0; outline: none; background: none; padding: 0 8px 0 3px; font: 400 14px/24px Inter, sans-serif; color: var(--black); }
+.dsearch input::placeholder { color: #9f9f9f; }
+.dbtn { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border-radius: 20px; background: var(--light-green); font-weight: 600; font-size: 14px; line-height: 24px; color: var(--white); white-space: nowrap; }
+.dsearch .dbtn { padding: 2px 14px; }
+.dhead-right { display: flex; align-items: center; gap: 8px; }
+.dpill { display: inline-flex; align-items: center; gap: 4px; height: 31px; padding: 0 4px 0 8px; border-radius: 37px; background: rgba(255, 255, 255, .2); font-weight: 600; font-size: 14px; line-height: 22px; color: var(--white); }
+.dpill:first-child { padding-left: 5px; }
+.dflag { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px; }
+.dchev { width: 20px; height: 20px; }
+.dcart { width: 24px; height: 24px; }
+.dhead-nav .dwrap { height: 40px; display: flex; align-items: center; gap: 8px; }
+.dhead-nav a { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px 0 8px; border-radius: 3px; font-weight: 600; font-size: 14px; line-height: 22px; color: var(--white); white-space: nowrap; }
+.dhead-nav a[aria-current="page"], .dhead-nav a:hover { background: rgba(255, 255, 255, .1); }
+.dhead-nav .dnav-all img { width: 18px; height: 18px; }
+.dhead-nav .dnav-help { margin-left: auto; }
+.dusps { background: var(--white); }
+.dusps .dwrap { height: 40px; display: flex; align-items: center; justify-content: space-between; }
+.dusps ul { list-style: none; display: flex; gap: 16px; }
+.dusps li { display: flex; align-items: center; gap: 6px; font-size: 14px; line-height: 24px; color: var(--dark-grey); white-space: nowrap; }
+.dusps li b { font-weight: 600; }
+.dusps li img { width: 24px; height: 24px; }
+/* Trustpilot "Excellent" strip (one image from Figma, cropped as in the design) */
+.dtrust { position: relative; display: block; width: 429px; height: 25px; overflow: hidden; mix-blend-mode: darken; flex-shrink: 0; }
+.dtrust img { position: absolute; left: -0.91%; top: -48%; width: 101.82%; height: 196%; max-width: none; }
+
+/* Footer: newsletter band (green), help + Trustpilot, 4 columns, certificates / payments / VAT, legal */
+.dfoot { margin-top: 48px; background: var(--white); }
+.dnews { background: var(--light-green); }
+.dnews .dwrap { height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.dnews p { font-weight: 600; font-size: 16px; line-height: 1.2; color: var(--white); }
+.dnews-form { width: 367px; height: 38px; display: flex; align-items: center; padding: 0 8px 0 18px; border-radius: 100px; background: var(--white); }
+.dnews-form input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: 400 14px/1.5 Inter, sans-serif; color: var(--black); }
+.dnews-form input::placeholder { color: var(--black); opacity: .6; }
+.dnews-form button { width: 22px; height: 22px; display: grid; place-items: center; }
+.dnews-form button img { width: 18px; height: 18px; }
+.dfoot-help { display: flex; align-items: center; justify-content: space-between; padding: 27px 0 25px; border-bottom: 1px solid var(--mid-grey); }
+.dhelp { display: flex; align-items: center; gap: 8px; }
+.dfaces { display: flex; }
+.dfaces img { width: 34px; height: 34px; border-radius: 50%; }
+.dfaces img + img { margin-left: -8px; }
+.dhelp p { display: flex; flex-direction: column; font-size: 14px; }
+.dhelp b { font-weight: 600; line-height: 1.2; }
+.dhelp a { line-height: 1.5; color: var(--light-green); text-decoration: underline; }
+.dfoot-cols { display: grid; grid-template-columns: 1fr 1fr 1.12fr .78fr; gap: 24px; padding: 40px 0 0 2px; }
+.dfoot-cols h3 { font-weight: 600; font-size: 16px; line-height: 1.2; margin-bottom: 17px; color: var(--black); }
+.dfoot-cols ul { list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.dfoot-cols a:hover { color: var(--black); text-decoration: underline; }
+.dsocial { gap: 6px !important; }
+.dsocial a { display: flex; align-items: center; gap: 10px; height: 26px; padding-left: 13px; }
+.dsocial img { width: 17px; height: 17px; }
+.dfoot-row { display: flex; align-items: center; justify-content: space-between; padding: 40px 0 0 2px; }
+.dcerts { display: flex; align-items: center; gap: 10px; width: 260px; }
+.dcerts img:first-child { width: 47px; height: 67px; object-fit: cover; mix-blend-mode: darken; }
+.dcerts img:last-child { width: 56px; height: 67px; }
+.dfoot-row .payments { margin: 0; }
+.dvat { width: 260px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; font-weight: 600; font-size: 16px; line-height: 1.2; color: var(--dark-grey); }
+.dvat-switch { position: relative; width: 66px; height: 26px; border-radius: 18px; background: var(--black); }
+.dvat-switch::before { content: ''; position: absolute; left: 4px; top: 4px; width: 18px; height: 18px; border-radius: 10px; background: var(--white); transition: left .2s; }
+.dvat-switch::after { content: ''; position: absolute; left: 7px; top: 7px; width: 12px; height: 12px; border-radius: 6px; background: var(--light-green); transition: left .2s; }
+.dvat-switch span { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-weight: 700; font-size: 10px; line-height: 1; color: var(--white); text-transform: uppercase; }
+.dvat-switch[aria-checked="true"]::before { left: 44px; }
+.dvat-switch[aria-checked="true"]::after { left: 47px; }
+.dvat-switch[aria-checked="true"] span { left: 10px; }
+.dlegal { display: flex; align-items: center; justify-content: center; gap: 24px; padding: 32px 0 30px; font-size: 14px; line-height: 1.5; color: var(--black); }
+.dlegal img { width: 126px; height: 28px; margin-right: 14px; }
+.dlegal a:hover { text-decoration: underline; }
+
+/* Breadcrumb (Figma 15927:9189) */
+.desk .crumbs { padding: 15.5px 0 25.5px; font-size: 14px; line-height: 24px; letter-spacing: -0.28px; color: var(--black); }
+.desk .crumbs a { color: #008539; text-decoration: underline; }
+
+/* PDP on desktop: content in the 1286px column, the footer full width */
+.desk .pdp { padding: 0 0 0; gap: 0; }
+.desk .pdp > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; }
+.desk .pdp .px { padding-left: 0; padding-right: 0; }

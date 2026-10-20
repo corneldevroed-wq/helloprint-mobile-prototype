@@ -9,12 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
   <main class="pdp">
-    <p class="crumbs px"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / <a href="business-cards.html" id="pCrumb">Business Cards</a></p>
+    <p class="crumbs px" id="pCrumbs"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / <a href="business-cards.html">Business Cards</a></p>
 
     <section class="gallery" aria-label="Product images">
       <span class="badge" id="pBadge" hidden></span>
@@ -386,7 +386,11 @@
   // Not a business card (e.g. flyers): own noun, breadcrumb and templates
   const NOUN = PRODUCT.noun || 'cards';
   document.querySelectorAll('[data-bind-noun]').forEach(el => { el.textContent = el.dataset.bindNoun + NOUN + (el.id === 'customiseTitle' ? '.' : ''); });
-  if (PRODUCT.crumb) { const cr = document.getElementById('pCrumb'); cr.textContent = PRODUCT.crumb[0]; cr.setAttribute('href', PRODUCT.crumb[1]); }
+  // Breadcrumb: Home / main category / category / this product (the category is left out when it has the product's name)
+  const crumbTop = PRODUCT.crumbTop || ['Promotional Products', '#promotional-printing'];
+  const crumbCat = PRODUCT.crumb || ['Business Cards', 'business-cards.html'];
+  document.getElementById('pCrumbs').innerHTML = [['Home', 'index.html'], crumbTop, crumbCat[0] === PRODUCT.name ? null : crumbCat].filter(Boolean)
+    .map(([label, href]) => `<a href="${href}">${label}</a>`).join(' / ') + ` / <span aria-current="page">${PRODUCT.name}</span>`;
   if (PRODUCT.noun && OPTIONS.size) document.querySelector('.tpl-list').innerHTML = OPTIONS.size.items.map(o =>
     `<li><span>${o.name} <small>${o.sub}</small></span><a href="#template-${o.id}-pdf">PDF</a><a href="#template-${o.id}-indd">InDesign</a></li>`).join('');
   // No size choice (mugs, bags, t-shirts): one template for the product

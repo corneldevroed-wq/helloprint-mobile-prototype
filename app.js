@@ -111,12 +111,102 @@ const SHELL_CHECKOUT_HEADER = `
       </div>
     </div>
   </header>`;
+// ---------- Desktop (≥1024px, Figma 15927:9040) for pages that opt in with <body data-desktop> ----------
+// Below 1024px those pages stay the mobile prototype. Crossing the breakpoint reloads, so layout and script agree.
+const DESK_MQ = matchMedia('(min-width: 1024px)');
+const DESK = document.body.hasAttribute('data-desktop') && DESK_MQ.matches;
+if (DESK) document.documentElement.classList.add('desk');
+if (document.body.hasAttribute('data-desktop')) DESK_MQ.addEventListener('change', () => location.reload());
+const DESK_NAV = [['Promotional Print', 'promotional-printing'], ['Books', 'brochure-and-booklet-printing'], ['Cards', 'cards-and-invites'], ['Stationary', 'stationery-and-office-supplies'],
+  ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs', 'panels-and-signs'], ['Stickers', 'all-stickers'], ['Gifts', 'corporate-gifts'], ['Bags', 'promotional-bags'], ['Clothing', 'clothing-printing']];
+const deskUser = (() => { try { return JSON.parse(localStorage.getItem('hp-user')) || null; } catch (e) { return null; } })();
+const SHELL_HEADER_DESK = `
+  <header class="dhead">
+    <div class="dhead-top"><div class="dwrap">
+      <a href="index.html" aria-label="HelloPrint home"><img class="dlogo" src="assets/logo.svg" alt="HelloPrint"></a>
+      <form class="dsearch" role="search" data-proto="search" onsubmit="return false">
+        <img src="assets/search/search.svg" alt="">
+        <input type="search" placeholder="Search for promo and printed products" aria-label="Search" style="cursor:pointer">
+        <button type="submit" class="dbtn">Search</button>
+      </form>
+      <div class="dhead-right">
+        <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
+        <a class="dbtn" href="login.html">${deskUser ? (deskUser.first || 'My account') : 'Log in'}</a>
+        <a class="dpill" href="#cs">Help<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></a>
+        <a href="cart.html" aria-label="Cart"><img class="dcart" src="assets/bag.svg" alt=""></a>
+      </div>
+    </div></div>
+    <nav class="dhead-nav" aria-label="Categories"><div class="dwrap">
+      <a href="#menu" data-proto="menu" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
+      ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
+      <a href="#cs" class="dnav-help">Help Centre</a>
+    </div></nav>
+    <div class="dusps"><div class="dwrap">
+      <ul>
+        <li><img src="assets/check.svg" alt="">Best <b>price</b> guaranteed</li>
+        <li><img src="assets/check.svg" alt=""><b>All inclusive</b> prices</li>
+        <li><img src="assets/check.svg" alt="">Always a <b>perfect</b> design</li>
+        <li><img src="assets/check.svg" alt="">100% <b>satisfaction</b> guarantee</li>
+      </ul>
+      <span class="dtrust" role="img" aria-label="Excellent, 31,116 reviews on Trustpilot"><img src="assets/desktop/trustpilot-excellent.png" alt=""></span>
+    </div></div>
+  </header>`;
+const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
+const SHELL_FOOTER_DESK = `
+  <footer class="dfoot">
+    <div class="dnews"><div class="dwrap">
+      <p>Sign up for our newsletter and get a 10% discount on your first order!</p>
+      <form class="dnews-form" onsubmit="event.preventDefault(); showToast('Thanks! Check your inbox for your 10% code')">
+        <input type="email" placeholder="Enter your email address" aria-label="Email address" required>
+        <button aria-label="Sign up"><img src="assets/desktop/arrow-forward-green.svg" alt=""></button>
+      </form>
+    </div></div>
+    <div class="dwrap">
+      <div class="dfoot-help">
+        <div class="dhelp"><span class="dfaces"><img src="assets/desktop/help-3.png" alt=""><img src="assets/desktop/help-2.png" alt=""><img src="assets/desktop/help-1.png" alt=""></span>
+          <p><b>Need help?</b><a href="#chat">Ask our print experts</a></p></div>
+        <span class="dtrust" role="img" aria-label="Excellent, 31,116 reviews on Trustpilot"><img src="assets/desktop/trustpilot-excellent.png" alt=""></span>
+      </div>
+      <div class="dfoot-cols">
+        ${deskCol('Our Company', [['About us', 'about-us'], ['Culture', 'our-culture'], ['Sustainability', 'sustainability'], ['Newsroom', 'newsroom'], ['Jobs', 'jobs'], ['Talent &amp; Culture', 'talent'], ['Blog', 'blog'], ['Culture Book', 'culture-book'], ['Contact', 'new2contactform']])}
+        ${deskCol('Our Solutions', [['Business Solutions', 'business-solutions'], ['Reseller Solutions', 'reseller-solutions'], ['HelloPrint Connect', 'connect'], ['VIP Loyalty Programme', 'vip'], ['Become a Supplier', 'become-a-supplier'], ['Partnerships', 'become-a-partner'], ['Non-Profit', 'nonprofits']])}
+        ${deskCol('Our Services', [['All print and merch products', 'all-products'], ['100% Satisfaction Guarantee', 'our-promises'], ['Lowest Price Guarantee', 'lowest-price'], ['Customer Satisfaction', 'customer-satisfaction'], ['Fast Shipping', 'shipping'], ['Design &amp; Artwork', 'always-a-perfect-design'], ['Paper Sizes', 'paper-sizes'], ['Industries', 'industries'], ['Cities', 'cities'], ['FAQ', 'cs']])}
+        <div><h3>Social media</h3><ul class="dsocial">
+          <li><a href="#facebook"><img src="assets/s1.svg" alt="">Facebook</a></li>
+          <li><a href="#twitter"><img src="assets/s2.svg" alt="">Twitter</a></li>
+          <li><a href="#youtube"><img src="assets/s3.svg" alt="">Youtube</a></li>
+          <li><a href="#linkedin"><img src="assets/s4.svg" alt="">LinkedIn</a></li>
+          <li><a href="#instagram"><img src="assets/s5.svg" alt="">Instagram</a></li>
+          <li><a href="#whatsapp"><img src="assets/whatsapp.svg" alt="">Whatsapp</a></li>
+        </ul></div>
+      </div>
+      <div class="dfoot-row">
+        <div class="dcerts"><img src="assets/desktop/b-corp.png" alt="Certified B Corporation"><img src="assets/desktop/fsc.svg" alt="FSC"></div>
+        <div class="payments" aria-label="Payment methods">
+          <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
+          <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
+          <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
+          <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
+          <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
+          <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
+          <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
+          <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
+        </div>
+        <label class="dvat">Show VAT <button class="dvat-switch" role="switch" aria-checked="false" data-vat-switch aria-label="Show prices including VAT"><span>OFF</span></button></label>
+      </div>
+      <div class="dlegal">
+        <img src="assets/logo-dark.svg" alt="HelloPrint">
+        <a href="#terms-and-conditions">Terms &amp; Conditions</a><a href="#privacy-policy">Privacy Policy</a><a href="#cookie-statement">Cookie Statement</a><a href="#disclaimer">Disclaimer</a>
+      </div>
+    </div>
+  </footer>`;
 const headerSlot = document.querySelector('[data-shell="header"]');
-if (headerSlot) headerSlot.outerHTML = SHELL_HEADER;
+if (headerSlot) headerSlot.outerHTML = DESK ? SHELL_HEADER_DESK : SHELL_HEADER;
 const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
 if (checkoutSlot) checkoutSlot.outerHTML = SHELL_CHECKOUT_HEADER;
 const footerSlot = document.querySelector('[data-shell="footer"]');
-if (footerSlot) footerSlot.innerHTML = SHELL_FOOTER;
+if (footerSlot && DESK) footerSlot.outerHTML = SHELL_FOOTER_DESK;
+else if (footerSlot) footerSlot.innerHTML = SHELL_FOOTER;
 document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
@@ -231,6 +321,8 @@ function setVat(incl) {
     vatMenu.querySelectorAll('button').forEach(x => x.setAttribute('aria-checked', (x.dataset.vat === '1') === incl));
     document.getElementById('vatLabel').textContent = incl ? 'Incl VAT' : 'Excl VAT';
   }
+  // Desktop: the VAT switches (footer, quantity list) follow the same setting
+  document.querySelectorAll('[data-vat-switch]').forEach(b => { b.setAttribute('aria-checked', incl); const t = b.querySelector('span'); if (t) t.textContent = incl ? 'ON' : 'OFF'; });
   updatePrices();
 }
 vatBtn?.addEventListener('click', e => {
@@ -242,6 +334,7 @@ vatMenu?.addEventListener('click', e => {
   const b = e.target.closest('button'); if (b) setVat(b.dataset.vat === '1');
 });
 document.addEventListener('click', () => { vatMenu?.classList.remove('open'); vatBtn?.setAttribute('aria-expanded', false); });
+document.addEventListener('click', e => { if (e.target.closest('[data-vat-switch]')) { e.preventDefault(); setVat(!inclVat); } });
 setVat(inclVat);
 
 // Drill-down menu. Level 1 and "All products" come from Figma; the other sub-levels use the

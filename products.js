@@ -398,7 +398,7 @@ const PRODUCTS = {
 
   // 330 ml Full Colour Ceramic Mug (helloprint.com/en-ie/basicwhitemug330ml)
   'ceramic-mug-330ml': {
-    name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumb: ['Mugs', '#personalised-mugs'],
+    name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumbTop: ['Gifts', '#corporate-gifts'], crumb: ['Mugs', '#personalised-mugs'],
     img: 'assets/products/mug.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 100,
     qty: [[1, 17.77], [5, 36.01], [10, 61.43], [30, 147.36], [50, 217.90], [100, 412.32], [250, 896.18], [500, 1541.81], [1000, 2879.40], [2000, 4807.11]],
     delivery: [STANDARD_ONLY('Tue 6 Oct', 'mugs')],
@@ -416,7 +416,7 @@ const PRODUCTS = {
 
   // Basic Cotton Bags (helloprint.com/en-ie/cottonbagslonghandles)
   'basic-cotton-bags': {
-    name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumb: ['Tote Bags', '#printing-cottonbags'],
+    name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/cotton-bag.webp', bg: 'rgba(223,185,144,.3)', priceMult: 1, defaultQty: 100,
     qty: [[100, 181.99], [150, 238.32], [200, 294.66], [250, 350.99], [500, 650.99], [1000, 1128.99], [2500, 2488.99], [5000, 4506.99]],
     delivery: [STANDARD_ONLY('Mon 12 Oct', 'bags', '11–15 working days')],
@@ -445,7 +445,7 @@ const PRODUCTS = {
 
   // Premium Tote Bags (helloprint.com/en-ie/cottonbagslonghandles140gm)
   'premium-tote-bags': {
-    name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumb: ['Tote Bags', '#printing-cottonbags'],
+    name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/premium-tote.webp', bg: 'rgba(241,228,195,.5)', priceMult: 1, defaultQty: 100,
     qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 31, 48][i], info: d.info.replace('flyers', 'bags') })),
@@ -475,7 +475,7 @@ const PRODUCTS = {
 
   // Sol's Imperial T-shirt (bestseller on helloprint.com/en-ie/tshirt-printing → /tshirtbasicroundneck)
   'sols-imperial-tshirt': {
-    name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
+    name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumbTop: ['Clothing', '#clothing-printing'], crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
     img: 'assets/products/tshirt.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 10,
     // Size mix instead of a quantity list: the total is the quantity (live sizes S–XXL)
     sizes: ['S', 'M', 'L', 'XL', 'XXL'], defaultSizes: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 },
@@ -507,7 +507,7 @@ const PRODUCTS = {
 
   // Banners (helloprint.com/en-ie/banners)
   'banners': {
-    name: 'Banners', cartName: 'Banners', noun: 'banners', crumb: ['Banners', '#banner-printing'],
+    name: 'Banners', cartName: 'Banners', noun: 'banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Banners', '#banner-printing'],
     img: 'assets/products/banner.webp', bg: 'rgba(2,105,186,.1)', priceMult: 1, defaultQty: 1,
     qty: [[1, 33.36], [2, 61.99], [3, 89.99], [5, 144.99], [10, 279.99], [25, 669.99]],   // 2+ ~
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 58.47, 62.47][i], info: d.info.replace('flyers', 'banners') })),
@@ -549,7 +549,7 @@ const PRODUCTS = {
 
   // Roller Banners (main product on helloprint.com/en-ie/rollupbanners-printing → /budgetrollupbanners)
   'roller-banners': {
-    name: 'Roller Banners', cartName: 'Roller banners', noun: 'roller banners', crumb: ['Roller Banners', '#rollupbanners-printing'],
+    name: 'Roller Banners', cartName: 'Roller banners', noun: 'roller banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Roller Banners', '#rollupbanners-printing'],
     img: 'assets/products/roller-banner.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1,
     qty: [[1, 38.99], [2, 62.99], [3, 86.99], [5, 132.99], [10, 257.99], [20, 501.99], [50, 1247.99]],
     delivery: FLYER_DELIVERY.filter(d => d.id !== 'express').map((d, i) => ({ ...d, extra: [0, 47][i], info: d.info.replace('flyers', 'roller banners') })),
