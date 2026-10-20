@@ -1341,8 +1341,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .trusted p { font-size: 13px; line-height: 1.4; color: var(--dark-grey); }
 .trusted p b { color: var(--black); font-weight: 700; }
 .logo-strip { overflow: hidden; margin-right: calc(-1 * var(--gutter-r, 13px)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.logo-track { display: flex; align-items: center; gap: 0; width: max-content; animation: logo-glide 40s linear infinite; }
-.logo-copy { display: flex; align-items: center; gap: 0; }
-.logo-track img { height: 36px; width: auto; flex-shrink: 0; margin: 0 -6px; }   /* the live SVGs have empty space around the logo */
-@keyframes logo-glide { to { transform: translateX(-50%); } }
+.logo-track { display: flex; align-items: center; gap: 24px; width: max-content; animation: logo-glide 40s linear infinite; }
+.logo-copy { display: flex; align-items: center; gap: 24px; }
+.logo-track img { flex-shrink: 0; }   /* each logo at its own size (Cornel's colour set) */
+@keyframes logo-glide { to { transform: translateX(calc(-50% - 12px)); } }
 @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } .logo-strip { overflow-x: auto; } }
