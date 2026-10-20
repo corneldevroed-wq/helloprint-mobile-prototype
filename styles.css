@@ -1349,3 +1349,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .logo-track img { flex-shrink: 0; }   /* each logo at its own size (Cornel's colour set) */
 @keyframes logo-glide { to { transform: translateX(calc(-50% - 12px)); } }
 @media (prefers-reduced-motion: reduce) { .logo-track { animation: none; } .logo-strip { overflow-x: auto; } }
+
+/* Version H: Edit next to Continue in the sticky bar */
+.buy-bar .bar-edit { flex: 0 0 auto; padding: 0 20px; }
+.buy-bar .bar-edit[hidden] { display: none; }
+.buy-bar .sheet-bar:has(.bar-edit:not([hidden])) .total { padding: 8px 0 8px 4px; }

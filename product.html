@@ -225,6 +225,8 @@
 <div class="buy-bar" id="buyBar" aria-hidden="true">
   <div class="sheet-bar">
     <div class="total"><strong data-bind="total"></strong><span class="bar-sub" data-bind="qtyVat"></span></div>
+    <!-- H: change the options without scrolling back up -->
+    <button class="btn outline bar-edit" data-open-sheet="customise" tabindex="-1" hidden>Edit</button>
     <button class="btn primary flow-a-only" data-open-sheet="design" tabindex="-1">Add your design</button>
     <button class="btn primary flow-b-only" data-order="upload" tabindex="-1">Add to cart</button>
   </div>
@@ -351,7 +353,7 @@
   if (FLOW_F) document.body.classList.add('flow-e');
   if (FLOW_G) document.body.classList.add('flow-f');
   if (FLOW_H || FLOW_J) {
-    if (FLOW_H) document.body.classList.add('flow-c', 'flow-d', 'flow-e', 'flow-f');
+    if (FLOW_H) { document.body.classList.add('flow-c', 'flow-d', 'flow-e', 'flow-f'); document.querySelector('#buyBar .bar-edit').hidden = false; }
     // The green buttons don't order here: they open the design step
     document.querySelectorAll('#ctaStack .btn.primary, #buyBar button.flow-b-only').forEach(b => {
       b.removeAttribute('data-order');
@@ -833,6 +835,7 @@
     buyBar.classList.toggle('show', show);
     buyBar.setAttribute('aria-hidden', String(!show));
     buyBar.querySelector(FLOW_B ? '.flow-b-only' : '.flow-a-only').tabIndex = show ? 0 : -1;
+    buyBar.querySelector('.bar-edit').tabIndex = show ? 0 : -1;
     document.body.classList.toggle('buybar-on', show);
   }
   addEventListener('scroll', syncBuyBar, { passive: true });
