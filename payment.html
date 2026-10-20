@@ -89,7 +89,7 @@
         <div id="paySummary"></div>
       </section>
 
-      <div class="eta"><b><img src="assets/pdp/check.svg" alt=""><span id="etaArrives"></span></b><small id="etaNote"></small></div>
+      <div class="eta" id="eta"></div>
     </form>
   </main>
 </div>
@@ -130,14 +130,11 @@
   // Delivery promise: files approved by 10:30 the working day before
   function renderEta() {
     if (!items[0]) return;
-    const arrive = new Date(`${items[0].arrives} 2026`);
-    const approve = new Date(arrive); approve.setDate(arrive.getDate() - 1);
-    const day = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
-    document.getElementById('etaArrives').textContent = `Arrives ${items[0].arrives}`;
-    // Same date for Pay by Link: production only starts once it's paid, so payment is part of the deadline
-    document.getElementById('etaNote').textContent = when === 'later'
-      ? `if your files are approved and the order is paid by 10:30 on ${day(approve)}.`
-      : `if your files are approved by 10:30 on ${day(approve)}.`;
+    const d = items[0].arrives;
+    // Pay later: production only starts once it's paid, so payment is part of the deadline
+    document.getElementById('eta').innerHTML = etaHtml(d, when === 'later'
+      ? `If your files are approved and the order is paid by 10:30 on ${etaApprove(d)}`
+      : `If your files are approved by 10:30 on ${etaApprove(d)}`);
   }
   const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
 

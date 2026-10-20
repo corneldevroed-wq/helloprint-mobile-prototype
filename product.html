@@ -423,7 +423,7 @@
     set('qty', `${c.qty} pcs`);
     set('total', fmt(t));
     set('each', each({ qty: c.qty, price: productPrice(c) }));
-    set('deliveryRich', `<b>${delivery(c).name}</b> - arrives ${delivery(c).dayName}`);
+    set('deliveryRich', `<b>${delivery(c).name}</b> · Estimated ${delivery(c).dayName}<small class="eta-latest">latest ${etaShort(etaLatest(delivery(c).dayName))}</small>`);
     set('arrives', `arrives ${delivery(c).dayName}`);
     // Bars before the cart say whether the price is excl. or incl. VAT (follows the header switch)
     set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
@@ -508,7 +508,7 @@
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
       ${DELIVERY.map(d => `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
-        <span class="date"><b>${d.day}</b><small>${{ Sep: 'SEPT', Oct: 'OCT' }[d.dayName.split(' ')[2]]}</small></span><span class="t"><b>${d.name}</b><small>Arrives ${d.dayName}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
+        <span class="date"><b>${d.day}</b><small>${{ Sep: 'SEPT', Oct: 'OCT' }[d.dayName.split(' ')[2]]}</small></span><span class="t"><b>${d.name}</b><small>${d.dayName} · latest ${etaShort(etaLatest(d.dayName)).replace(/^\w+ /, '')}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
       <p class="opt-info">${delivery(c).info}</p>`;
     document.querySelector('[data-bind="draftRecap"]').textContent = `${KEYS.map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
@@ -574,7 +574,7 @@
   });
   // ---------- Guide sheet (ⓘ): all options explained, stacked over the customise sheet ----------
   let guideKey = null;
-  const guideItems = key => key === 'delivery' ? DELIVERY.map(d => ({ ...d, sub: `Arrives ${d.dayName} · ${d.extra ? '+' + fmt(d.extra) : 'Included'}` })) : OPTIONS[key].items;
+  const guideItems = key => key === 'delivery' ? DELIVERY.map(d => ({ ...d, sub: `${d.dayName}, latest ${etaShort(etaLatest(d.dayName))} · ${d.extra ? '+' + fmt(d.extra) : 'Included'}` })) : OPTIONS[key].items;
   function renderGuide() {
     document.getElementById('guideTitle').textContent = GUIDE(guideKey);
     // Design options (version D): explanation + a button that does it right away
@@ -731,7 +731,7 @@
     const rows = [
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
       SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
-      ['delivery', 'Delivery', `${delivery(c).name} - arrives ${delivery(c).dayName}`],
+      ['delivery', 'Delivery', `${delivery(c).name} · ${delivery(c).dayName}, latest ${etaShort(etaLatest(delivery(c).dayName))}`],
       ...(FLOW_G || FLOW_H || FLOW_I ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];
     // Fixed specs come right after the options, as rows without an arrow (nothing to change)

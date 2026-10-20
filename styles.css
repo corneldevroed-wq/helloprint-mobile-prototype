@@ -678,10 +678,13 @@ body.buybar-on .toast { bottom: 100px; }
 .test-hint b { font-weight: 600; color: var(--black); }
 .pay-methods[hidden] { display: none; }
 .pay-methods { display: flex; flex-direction: column; gap: 8px; }
-.eta { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 16px; border-radius: 5px; background: var(--light-grey); text-align: center; }
-.eta b { display: flex; align-items: center; gap: 2px; font-weight: 700; font-size: 14px; line-height: 17px; }
-.eta b img { width: 20px; height: 20px; }
-.eta small { font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.eta { display: flex; flex-direction: column; gap: 2px; padding: 16px; border-radius: 5px; background: var(--light-grey); text-align: left; }
+.eta b { font-weight: 700; font-size: 16px; line-height: 1.3; color: var(--black); }
+.eta p { font-size: 14px; line-height: 1.4; color: var(--dark-grey); }
+.eta small { display: flex; align-items: flex-start; gap: 4px; margin-top: 6px; font-size: 12px; line-height: 1.35; color: var(--dark-grey); }
+.eta small img { width: 16px; height: 16px; flex-shrink: 0; }
+/* PDP price box: the latest day under the estimated one */
+.check-line .eta-latest { display: block; font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
 .co-steps li.done { color: var(--black); font-weight: 400; }
 .co-steps li a { color: inherit; }
 /* Checkout: 8px white space between the header and the step bar (Figma: header ends at 79, content starts at 87) */

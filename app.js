@@ -170,6 +170,17 @@ function updatePrices() {
   document.querySelectorAll('[data-price]').forEach(el => { el.textContent = fmt(+el.dataset.price); });
 }
 
+// Delivery window: the estimated day and the latest day (one working day later, weekends skipped).
+// Dates in the prototype are "Tue 29 Sep" style strings in 2026.
+const etaDate = d => new Date(`${d} 2026`);
+const etaLatest = d => { const x = etaDate(d); do x.setDate(x.getDate() + 1); while (x.getDay() === 0 || x.getDay() === 6); return x; };
+const etaShort = x => x.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
+const etaLong = x => x.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).replace(',', '');
+// Files approved by 10:30 the working day before the estimated day keep the date
+const etaApprove = d => { const x = etaDate(d); do x.setDate(x.getDate() - 1); while (x.getDay() === 0 || x.getDay() === 6); return etaShort(x); };
+// The block from Cornel's ref (cart, payment, order confirmed): title, estimated day — latest day, the condition
+const etaHtml = (d, condition) => `<b>Estimated delivery date</b><p>${etaLong(etaDate(d))} — latest ${etaShort(etaLatest(d))}</p>${condition ? `<small><img src="assets/pdp/check.svg" alt="">${condition}</small>` : ''}`;
+
 // Best sellers (home grid) — also used by search
 const products = [
   { img: 'p1.png', bg: 'rgba(120,163,175,.1)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },

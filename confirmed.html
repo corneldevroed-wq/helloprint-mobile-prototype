@@ -56,7 +56,7 @@
     <section class="oc-deliver">
       <b>Shipping address</b>
       <p id="ocAddress"></p>
-      <p id="ocArrives"></p>
+      <div class="eta" id="ocArrives"></div>
     </section>
 
     <section>
@@ -123,11 +123,10 @@
       <p><img src="assets/pdp/check.svg" alt=""><span>${o.email ? `Confirmation sent to <b>${o.email}</b>` : 'Confirmation sent by email'}</span></p>
       <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once your artwork is approved.` : 'Nothing to pay yet. We email your payment link once your artwork is approved.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
 
-    const it = o.items[0], more = o.items.length - 1;
     // Address as a short list, one line each (older orders only have the comma version)
     const lines = [o.name, ...(o.addressLines || (o.address || '').split(', ')), 'Ireland'].filter(Boolean);
     document.getElementById('ocAddress').innerHTML = lines.map(l => `<span>${l.replace(/</g, '&lt;')}</span>`).join('');
-    document.getElementById('ocArrives').textContent = `Arrives ${o.arrives} · ${it.name}, ${it.qty} pcs${more ? ` + ${more} more` : ''}`;
+    document.getElementById('ocArrives').innerHTML = etaHtml(o.arrives, needsFile ? `If your files are approved${later ? ' and the order is paid' : ''} by 10:30 on ${etaApprove(o.arrives)}` : (later ? `If the order is paid by 10:30 on ${etaApprove(o.arrives)}` : ''));
 
     // Per product: own upload button; the row shows the file once chosen
     const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg', hidden: true });
