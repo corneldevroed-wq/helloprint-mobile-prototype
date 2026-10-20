@@ -286,8 +286,18 @@ const sub = {
   'all-events': ['Events', [['Festival', 'event-festivals-printing'], ['Wedding', 'industry/wedding'], ['Sport Events', 'sportsproducts'], ['Exhibition & Trade Show', 'exhibitionmaterial']]],
   'all-interior': ['Interior', [['Wall Decoration', 'wall-decoration'], ['Interior Textiles', 'interior-textiles'], ['Home & Living', 'home-living']]],
 };
+// Each sub-level opens with a row to its own category page (so the main category is reachable from the drill-down)
+const subAll = {
+  promo: 'promotional-printing', booklets: 'brochure-and-booklet-printing', cards: 'cards-and-invites', stationery: 'stationery-and-office-supplies',
+  banners: 'banner-printing', flags: 'flag-printing', signs: 'panels-and-signs', stickers: 'all-stickers', gifts: 'corporate-gifts',
+  bags: 'promotional-bags', clothing: 'clothing-printing', 'all-promo': 'promotional-printing', 'all-stationery': 'stationery-and-office-supplies',
+  'all-gifts': 'corporate-gifts', 'all-stickers': 'all-stickers', 'all-outdoor': 'outdoor', 'all-packaging': 'packaging',
+  'all-hospitality': 'hospitality', 'all-events': 'events', 'all-interior': 'interior',
+};
+// Live images (helloprint.com/en-ie mega menu and category pages) in assets/menu/sub/<slug>.webp; Cafe Barriers has none live
+const NO_SUB_IMG = ['cafebarrier'];
 for (const [key, [title, links]] of Object.entries(sub)) {
-  menu[key] = { title, items: links.map(([label, slug]) => ({ label, href: '#' + slug })) };
+  menu[key] = { title, all: subAll[key], items: links.map(([label, slug]) => ({ label, href: '#' + slug, img: NO_SUB_IMG.includes(slug) ? null : `sub/${slug.replace(/\//g, '-')}.webp`, fit: 'contain' })) };
 }
 
 const drawer = document.getElementById('menuDrawer'), menuLayer = document.getElementById('menu');
@@ -303,13 +313,10 @@ function renderPanel(key) {
       ${lvl.root ? `<span class="label">${lvl.title}</span>` : `<button class="back" data-menu-back><img src="${M}back.svg" alt="">${esc(lvl.title)}</button>`}
       <button class="close" data-menu-close aria-label="Close menu"><img src="${M}close.svg" alt=""></button>
     </div>
-    <ul class="menu-list">${lvl.items.map(it => `<li>${it.to
+    <ul class="menu-list">${lvl.all ? `<li><a class="menu-item shop-all" href="#${lvl.all}" data-menu-close><span class="label">Shop all ${esc(lvl.title)}</span><img class="chev" src="${M}arrow.svg" alt=""></a></li>` : ''}${lvl.items.map(it => `<li>${it.to
       ? `<button class="menu-item" data-menu-to="${it.to}">${thumb(it)}<span class="label">${esc(it.label)}</span><img class="chev" src="${M}arrow.svg" alt=""></button>`
-      : `<a class="menu-item text" href="${it.href}" data-menu-close><span class="label">${esc(it.label)}</span></a>`}</li>`).join('')}</ul>
-    ${lvl.root ? `<div class="panel-foot">
-      <a class="btn primary" href="#login" data-menu-close>Login / Register</a>
-      <a class="btn outline" href="#country" data-menu-close><img class="flag" src="assets/flag.png" alt="">Ireland</a>
-    </div>` : ''}`;
+      : `<a class="menu-item${it.img ? '' : ' text'}" href="${it.href}" data-menu-close>${thumb(it)}<span class="label">${esc(it.label)}</span></a>`}</li>`).join('')}</ul>
+`;
   return el;
 }
 function pushPanel(key) {
@@ -324,8 +331,13 @@ function popPanel() {
   el.classList.add('next');
   el.addEventListener('transitionend', () => el.remove(), { once: true });
 }
+// Login and country stay fixed at the bottom of the drawer on every level; the list scrolls underneath
+const MENU_FOOT = `<div class="panel-foot">
+  <a class="btn primary" href="#login" data-menu-close>Login / Register</a>
+  <a class="btn outline" href="#country" data-menu-close><img class="flag" src="assets/flag.png" alt="">Ireland</a>
+</div>`;
 function openMenu() {
-  drawer.innerHTML = ''; stack.length = 0; pushPanel('root');
+  drawer.innerHTML = MENU_FOOT; stack.length = 0; pushPanel('root');
   menuLayer.classList.add('open'); menuLayer.setAttribute('aria-hidden', 'false');
   document.body.classList.add('menu-open');
 }
