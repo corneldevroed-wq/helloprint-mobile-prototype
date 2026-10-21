@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021i">
+<link rel="stylesheet" href="styles.css?v=20261021k">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261021i"></script>
-<script src="products.js?v=20261021i"></script>
+<script src="app.js?v=20261021k"></script>
+<script src="products.js?v=20261021k"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -530,8 +530,10 @@
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
         return `<button class="qrow${common ? '' : ' j-extra'}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
-      ${FLOW_J && !jAllQty ? (DESK ? (QTY.length > 8 ? `<button class="j-more d-viewall" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : '') : '<button class="j-more" data-more-qty>More quantities</button>') : ''}
-      <p class="opt-info">${qtyInfo(c)}</p>`;
+      ${DESK
+        // Desktop: the price explanation and "View all" on one line (no gap between list and text)
+        ? `<div class="qty-foot"><p class="opt-info">${qtyInfo(c)}</p>${FLOW_J && !jAllQty && QTY.length > 8 ? `<button class="j-more d-viewall" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : ''}</div>`
+        : `${FLOW_J && !jAllQty ? '<button class="j-more" data-more-qty>More quantities</button>' : ''}<p class="opt-info">${qtyInfo(c)}</p>`}`;
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
       ${DELIVERY.map(d => `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
