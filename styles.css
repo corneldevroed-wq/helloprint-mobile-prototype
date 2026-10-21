@@ -1458,7 +1458,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk .gallery .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: 12px; letter-spacing: 0; }
 .desk .gallery .prev { left: 16px; }
 .desk .gallery .next { right: 16px; }
-.d-thumbs { display: flex; gap: 8px; }
+.d-thumbs { position: relative; display: flex; gap: 8px; }
 .d-thumbs button { width: 73px; height: 73px; border: 1px solid var(--mid-grey); border-radius: 5px; overflow: hidden; flex-shrink: 0; }
 .d-thumbs button[aria-current] { border: 2px solid var(--light-green); }
 .d-thumbs img { width: 100%; height: 100%; object-fit: cover; }
@@ -1641,3 +1641,16 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Option cards fill the 737px column exactly: as many columns as fit at ≥112px (6 at 1512px, each ±116px), no gap on the right */
 .desk .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
 .desk .opt { width: auto; min-width: 0; }
+.d-thumbs { overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; } .d-thumbs::-webkit-scrollbar { display: none; } .d-thumbs button { scroll-snap-align: start; }   /* more than 6 photos: the thumbnails scroll sideways */
+
+/* Desktop variant B (prototype switch): the option cards as on mobile, text left and image right, 3 per row */
+.desk.dv-b .opts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.desk.dv-b .opt { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; min-height: 55px; padding: 8px; }
+.desk.dv-b .opt[aria-checked="true"] { padding: 7px; }
+.desk.dv-b .opt > :not(.t) { order: 0; flex-shrink: 0; }
+.desk.dv-b .opt .t { flex: 1; min-width: 0; }
+/* The A|B switch, on the left edge like the mobile version switch */
+.desk-switch { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 0 8px 8px 0; background: var(--dark-green); color: var(--white); font-size: 10px; }
+.desk-switch span { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; letter-spacing: .5px; text-transform: uppercase; opacity: .8; }
+.desk-switch button { width: 24px; height: 24px; border-radius: 4px; font-weight: 700; font-size: 12px; color: var(--white); }
+.desk-switch button[aria-pressed="true"] { background: var(--light-green); }

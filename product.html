@@ -572,7 +572,7 @@
       left.insertAdjacentHTML('beforeend', `<div class="d-thumbs">${imgs.map((im, i) => `<button aria-label="Photo ${i + 1}" data-thumb="${i}"${i ? '' : ' aria-current="true"'} style="background:${PRODUCT.bg}"><img src="${im.getAttribute('src')}" alt=""></button>`).join('')}</div>`);
       const track = document.getElementById('galleryTrack');
       left.querySelector('.d-thumbs').addEventListener('click', e => { const b = e.target.closest('[data-thumb]'); if (b) track.scrollTo({ left: +b.dataset.thumb * track.clientWidth, behavior: 'smooth' }); });
-      track.addEventListener('scroll', () => { const i = Math.round(track.scrollLeft / track.clientWidth); left.querySelectorAll('[data-thumb]').forEach(b => b.toggleAttribute('aria-current', +b.dataset.thumb === i)); }, { passive: true });
+      track.addEventListener('scroll', () => { const i = Math.round(track.scrollLeft / track.clientWidth); left.querySelectorAll('[data-thumb]').forEach(b => { const on = +b.dataset.thumb === i; b.toggleAttribute('aria-current', on); if (on) { const row = b.parentElement; if (b.offsetLeft < row.scrollLeft || b.offsetLeft + b.offsetWidth > row.scrollLeft + row.clientWidth) row.scrollTo({ left: b.offsetLeft - 8, behavior: 'smooth' }); } }); }, { passive: true });   // keep the active thumbnail in view, without moving the page
     }
     // Under the title: the product intro ("Show more" opens all of it) and the USPs
     // At most 4 lines; when there is more, the text is cut at a word and "… Show more" follows it on the same line
@@ -606,6 +606,16 @@
     });
     renderDeskSel();
     buildDeskMore();
+    // Prototype: two ways to show the option cards on desktop. A = Figma (image on top, 6 per row);
+    // B = the mobile card (text left, image right, 3 per row). ?desk=a|b, remembered in this browser.
+    const dq = new URLSearchParams(location.search).get('desk');
+    let dv = 'a';
+    try { if (['a', 'b'].includes(dq)) localStorage.setItem('hp-desk-variant', dq); dv = localStorage.getItem('hp-desk-variant') || 'a'; } catch (e) { dv = dq || 'a'; }
+    const setDv = v => { document.documentElement.classList.toggle('dv-b', v === 'b'); document.querySelectorAll('[data-dv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.dv === v)); try { localStorage.setItem('hp-desk-variant', v); } catch (e) {} };
+    document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype: option cards"><span>Cards</span>
+      <button data-dv="a" title="A: image on top, 6 per row (Figma)">A</button><button data-dv="b" title="B: as on mobile, text left and image right, 3 per row">B</button></div>`);
+    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) setDv(b.dataset.dv); });
+    setDv(dv);
   }
   // Under the configuration (Figma 15927:10612): tabs, About, specifications, guidelines + templates, other products, FAQ, reviews.
   // The content is the mobile page's own (About, specs, guide, templates); only the layout is desktop.

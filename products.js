@@ -584,6 +584,10 @@ const PRODUCTS = {
     specs: [['Material', '510 gsm PVC | 220 mu polyester | 200 gsm silk paper'], ['Print', 'Single-sided'], ['Print colour', 'Full colour'], ['Print technique', 'UV-print'], ['Weight', '2.8 kg | 3.5 kg | 4.9 kg'], ['Quantity', 'Possible to order from 1 piece']],
   },
 };
+// More product photos from the live product pages (helloprint.com/en-ie), after the image our category tiles use.
+// Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.
+const LIVE_GALLERY = { 'eco-friendly-business-cards': 7, 'pvc-cards-white': 5, 'deluxe-business-cards': 6, 'business-cards-special-materials': 6, 'standard-flyers': 5, 'eco-flyers': 4, 'special-material-flyers': 5, 'special-finishing-flyers': 5, 'ceramic-mug-330ml': 4, 'basic-cotton-bags': 2, 'premium-tote-bags': 3, 'sols-imperial-tshirt': 7, 'banners': 7, 'roller-banners': 6 };
+for (const [slug, n] of Object.entries(LIVE_GALLERY)) PRODUCTS[slug].gallery = [PRODUCTS[slug].img, ...Array.from({ length: n }, (_, i) => `assets/gallery/${slug}-${i + 2}.webp`)];
 for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; }
 
 // Base price per quantity (Figma quantity list); each product scales it with priceMult
