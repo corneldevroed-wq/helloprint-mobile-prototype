@@ -1658,3 +1658,4 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Thickness icon: a diagonal line, thicker per step */
 .opt .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
 .opt .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
+html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrows (heatmaps: taps there instead of on the CTA); swipe still works */
