@@ -1673,3 +1673,9 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* ⓘ guide: the option's picture on the left of each item (same visual as the option card) */
 .gi-head .gi-vis { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; }
 .guide-item:has(.gi-vis) > p { padding-left: 52px; }
+
+/* Desktop: thumbnails in a column to the left of the photo (Cornel, better orientation) */
+.desk .d-media { display: grid; grid-template-columns: 73px minmax(0, 1fr); gap: 8px; align-items: stretch; }
+.desk .d-media .gallery { grid-column: 2; grid-row: 1; }
+.desk .d-media .d-thumbs { grid-column: 1; grid-row: 1; flex-direction: column; height: 0; min-height: 100%; overflow-x: hidden; overflow-y: auto; scroll-snap-type: y proximity; }
+.desk .d-media:not(:has(.d-thumbs)) .gallery { grid-column: 1 / -1; }
