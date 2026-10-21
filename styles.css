@@ -1679,3 +1679,4 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .desk .d-media .gallery { grid-column: 2; grid-row: 1; }
 .desk .d-media .d-thumbs { grid-column: 1; grid-row: 1; flex-direction: column; height: 0; min-height: 100%; overflow-x: hidden; overflow-y: auto; scroll-snap-type: y proximity; }
 .desk .d-media:not(:has(.d-thumbs)) .gallery { grid-column: 1 / -1; }
+.eta small b { display: inline; font-weight: 600; font-size: inherit; line-height: inherit; color: var(--black); }   /* the deadline in the condition line */

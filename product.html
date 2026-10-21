@@ -743,7 +743,7 @@
     box.innerHTML = `
       <div class="d-sel-head"><b>Your selection</b><p>${presetLabel(presetOf(c), c)}</p></div>
       <ul class="d-sel-rows">${rows.map(([k, label, v]) => `<li><button data-goto="${k}"><span>${label}</span><u>${v}</u><img src="assets/pdp/arrow-forward-ios.svg" alt=""></button></li>`).join('')}</ul>
-      <div class="eta d-eta">${etaHtml(d, `Prevent delay: upload and approve your files by 10:30 on ${etaApprove(d)}`)}</div>
+      <div class="eta d-eta">${etaHtml(d, `Prevent delay: upload and approve your files by <b>10:30 on ${etaApprove(d)}</b>`)}</div>
       <ul class="d-sel-sum">
         <li><span>Subtotal</span><b>${euro(t)}</b></li>
         <li><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><b>${euro(t * VAT_RATE)}</b></li>
