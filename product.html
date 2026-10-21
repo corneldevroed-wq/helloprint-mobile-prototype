@@ -464,6 +464,8 @@
       : o.swatch ? `<span class="swatch"><img src="${P + o.swatch}" alt="" style="left:0;top:0;width:37.5px;height:37.5px">${o.lines
           ? `<img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:32.1px;width:15.9px;height:1.2px"><img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:24.4px;width:15.9px;height:1.2px"><img src="${P}paper-line-b.svg" alt="" style="left:4.1px;top:28.5px;width:21.2px;height:1.2px">` : ''}<img src="${P}paper-corner.svg" alt="" style="left:25.15px;top:.38px;width:12.17px;height:12.18px"></span>`
       : o.color ? `<span class="chip" style="background:${o.color}"></span>`
+      // Thickness: a diagonal line that gets thicker per step (Cornel's reference)
+      : key === 'thickness' ? `<span class="thick" style="--w:${1.5 + OPTIONS[key].items.indexOf(o) * 1.25}px"></span>`
       : '';
     return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>${visual}</button>`;
   }

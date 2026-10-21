@@ -1654,3 +1654,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk-switch span { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; letter-spacing: .5px; text-transform: uppercase; opacity: .8; }
 .desk-switch button { width: 24px; height: 24px; border-radius: 4px; font-weight: 700; font-size: 12px; color: var(--white); }
 .desk-switch button[aria-pressed="true"] { background: var(--light-green); }
+
+/* Thickness icon: a diagonal line, thicker per step */
+.opt .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
+.opt .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
