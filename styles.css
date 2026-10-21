@@ -1725,3 +1725,4 @@ html:not(.desk) .tpl-list li:nth-child(odd) { background: var(--light-grey); }
 html:not(.desk) .tpl-list a { gap: 6px; font-size: 14px; font-weight: 400; color: var(--black); text-decoration: none; }
 html:not(.desk) .tpl-list a:hover { text-decoration: underline; }
 html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
+.m-others, .m-revs { margin-right: 0; padding-right: 16px; }   /* full-width swipe rows: stay inside the canvas, 16px at the end */
