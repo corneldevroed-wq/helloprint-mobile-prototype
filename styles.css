@@ -1726,3 +1726,4 @@ html:not(.desk) .tpl-list a { gap: 6px; font-size: 14px; font-weight: 400; color
 html:not(.desk) .tpl-list a:hover { text-decoration: underline; }
 html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
 .m-others, .m-revs { margin-right: 0; padding-right: 16px; }   /* full-width swipe rows: stay inside the canvas, 16px at the end */
+.desk.dv-b #jConfig .opt-info { display: block; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }   /* cards B: the explanation of the chosen option under each group, as on mobile */
