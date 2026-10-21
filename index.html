@@ -6,7 +6,7 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021w">
+<link rel="stylesheet" href="styles.css?v=20261022b">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -15,9 +15,9 @@
   <main class="content home">
     <!-- Desktop only (Figma 15885:10950): three photo tiles above the banners -->
     <section class="d-hero desk-only" aria-label="Highlights">
-      <a class="d-tile" href="#calendars"><img src="assets/home/hero-advent.webp" alt=""><h2>Save 15% advent calendars</h2><span class="pill">Shop</span></a>
-      <a class="d-tile" href="#brochure-and-booklet-printing"><img src="assets/home/hero-catalog.webp" alt=""><h2>Catalog Season Starts Now!</h2><span class="pill">Shop</span></a>
-      <a class="d-tile" href="#labels"><img src="assets/home/hero-labels.webp" alt=""><h2>Roll out your brand on every package</h2><span class="pill">Shop</span></a>
+      <a class="d-tile" href="#calendars"><img src="assets/home/hero-advent.webp" alt=""><h2>Save 15% advent calendars</h2><span class="overlay-card"><span><strong>Advent calendars, 15% off.</strong><span>Your logo on every day of December.</span></span><span class="pill">Shop</span></span></a>
+      <a class="d-tile" href="#brochure-and-booklet-printing"><img src="assets/home/hero-catalog.webp" alt=""><h2>Catalog Season Starts Now!</h2><span class="overlay-card"><span><strong>Catalog Season starts now.</strong><span>Autumn campaigns, printed properly</span></span><span class="pill">Shop</span></span></a>
+      <a class="d-tile" href="#labels"><img src="assets/home/hero-labels.webp" alt=""><h2>Roll out your brand on every package</h2><span class="overlay-card"><span><strong>Labels on a roll.</strong><span>Your brand on every package.</span></span><span class="pill">Shop</span></span></a>
     </section>
     <section>
       <h1>What do you want to print?</h1>
@@ -188,7 +188,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261021w"></script>
+<script src="app.js?v=20261022b"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
