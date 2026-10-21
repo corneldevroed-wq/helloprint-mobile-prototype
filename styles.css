@@ -1685,3 +1685,4 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .d-acc summary { padding: 14px 0 14px 8px; line-height: 1.4; }
 .d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
 #d-faq details p { max-width: 760px; }   /* readable line length for the answers */
+.eta > b { font-weight: 600; }   /* "Estimated delivery date": semibold, as the other block titles */
