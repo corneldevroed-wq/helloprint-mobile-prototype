@@ -1719,3 +1719,9 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .d-rev > b { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .d-rev > p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.3em); }
 .d-rev small { margin-top: auto; }
+/* Mobile templates list as on desktop: black links with the icon, no underline (underline on hover), grey/white rows */
+html:not(.desk) .tpl-list li { padding: 8px 12px; border-bottom: 0; border-radius: 3px; }
+html:not(.desk) .tpl-list li:nth-child(odd) { background: var(--light-grey); }
+html:not(.desk) .tpl-list a { gap: 6px; font-size: 14px; font-weight: 400; color: var(--black); text-decoration: none; }
+html:not(.desk) .tpl-list a:hover { text-decoration: underline; }
+html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
