@@ -1566,7 +1566,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-two h2 { margin-bottom: 24px; }
 .d-acc { border-top: 1px solid var(--mid-grey); }
 .d-acc details { border-bottom: 1px solid var(--mid-grey); }
-.d-acc summary { list-style: none; display: flex; align-items: center; gap: 16px; justify-content: space-between; padding: 8px 0 8px 8px; font-size: 14px; line-height: 1.2; color: var(--black); cursor: pointer; }
+.d-acc summary { font-weight: 600; list-style: none; display: flex; align-items: center; gap: 16px; justify-content: space-between; padding: 8px 0 8px 8px; font-size: 14px; line-height: 1.2; color: var(--black); cursor: pointer; }
 .d-acc summary::-webkit-details-marker { display: none; }
 .d-acc summary img { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
 .d-acc details[open] summary img { transform: rotate(180deg); }
@@ -1660,11 +1660,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .opt .thick::after, .gi-vis .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
 html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrows (heatmaps: taps there instead of on the CTA); swipe still works */
 
-/* Desktop accordions (Design Guidelines, FAQ): one row open at a time; the open row reads as one block —
-   semibold title and a light grey background behind title and text */
+/* Desktop accordions (Design Guidelines, FAQ): several rows can be open; titles always semibold,
+   the open row has a light grey background behind title and text */
 .d-acc details { position: relative; }
 .d-acc details[open] { background: var(--light-grey); }
-.d-acc details[open] summary { font-weight: 600; padding-left: 16px; }
+.d-acc details[open] summary { padding-left: 16px; }
 .d-acc details[open] p { padding-left: 16px; }
 /* Hover on a closed row: a very light grey (lighter than the open row) and the title in dark green */
 .d-acc details:not([open]) summary:hover { background: #f8f8f8; color: var(--dark-green); }
