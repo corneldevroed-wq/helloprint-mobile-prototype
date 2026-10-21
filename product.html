@@ -406,7 +406,18 @@
   if (PRODUCT.badge) { badge.textContent = PRODUCT.badge; badge.hidden = false; }
   document.getElementById('pAboutTitle').textContent = 'About ' + PRODUCT.name;
   document.getElementById('pAbout').innerHTML = PRODUCT.about.map(t => `<p>${t}</p>`).join('');
-  document.getElementById('pSpecs').innerHTML = PRODUCT.specs.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  // Specifications: every option from the configuration, then quantity, delivery and the fixed specs,
+  // then the product's own spec rows that the options don't already cover (e.g. print technique)
+  const specRows = [
+    ...PRODUCT.groups.map(g => [g.title, g.items.map(o => g.key === 'size' ? `${o.name} (${o.sub})` : o.sub && /gsm|mm|μ|mu/.test(o.sub) && !o.name.includes(o.sub) ? `${o.name} ${o.sub}` : o.name).join(', ')]),
+    SIZES_MIX ? ['Sizes', SIZES_MIX.join(', ') + ' (any mix)'] : ['Quantity', `${QTY[0][0].toLocaleString('en-GB')} – ${QTY.at(-1)[0].toLocaleString('en-GB')} pcs`],
+    ['Delivery', DELIVERY.map(d => `${d.name} (${d.extra ? '+€' + d.extra.toFixed(2) : 'included'})`).join(', ')],
+    ...(PRODUCT.fixed || []),
+  ];
+  const covered = { material: ['paper', 'material'], paper: ['paper', 'material'], cutting: ['corners'], 'printing options': ['printing'], finishing: ['finishing', 'lamination', 'finish'], size: ['size'], print: ['printing', 'technique'], 'exclusive finishing': ['finish'], lamination: ['lamination'], colours: ['colour'] };
+  const has = k => specRows.some(([label]) => label.toLowerCase() === k.toLowerCase()) || (covered[k.toLowerCase()] || []).some(c => KEYS.includes(c) || PRODUCT.groups.some(g => g.title.toLowerCase().includes(c)));
+  specRows.push(...PRODUCT.specs.filter(([k]) => !has(k) && !specRows.some(([label]) => k.toLowerCase() === label.toLowerCase() + ' options')));   // 'Printing options' is covered by 'Printing'
+  document.getElementById('pSpecs').innerHTML = specRows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
   document.getElementById('optGroups').innerHTML = KEYS.map(k => `<div class="opt-group" data-option="${k}"></div>`).join('');
   const titles = PRODUCT.groups.map(g => g.title.toLowerCase());
   document.getElementById('presetsIntro').textContent = `Sets ${titles.length > 1 ? titles.slice(0, -1).join(', ') + ' and ' + titles.at(-1) : titles[0]}. Quantity and delivery stay as you choose them.`;
@@ -673,8 +684,33 @@
     row.addEventListener('scroll', syncRev, { passive: true }); syncRev();
     updatePrices();
   }
+  // Fixed order bar at the bottom of the desktop page (like the mobile buy bar): shown while the Your selection button is out of view
+  var DESK_BAR = DESK;   // var: renderDeskSel runs before this line
+  // The green button says what happens with the chosen design option (as the mobile design sheet's button)
+  function deskCta() {   // a function declaration: renderDeskSel can run before this line
+    return deskDesign === 'canva' ? `<img src="${P}d-canva.svg" alt="" class="d-go-ico">Design online` : '<img src="assets/bag.svg" alt="">Add to cart and continue';
+  }
+  function renderDeskBar() {
+    if (!DESK_BAR) return;
+    let bar = document.getElementById('dBar');
+    if (!bar) {
+      document.body.insertAdjacentHTML('beforeend', '<div class="d-bar" id="dBar" aria-hidden="true"><div class="dwrap"></div></div>');
+      bar = document.getElementById('dBar');
+      bar.addEventListener('click', e => { if (e.target.closest('#dBarGo')) placeOrder(deskDesign); if (e.target.closest('#dBarSel')) document.getElementById('deskSel').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+      const sync = () => { const r = document.getElementById('deskGo').getBoundingClientRect(); const show = r.bottom < 0 || r.top > innerHeight; bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', String(!show)); };
+      addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); setTimeout(sync);
+    }
+    const c = saved, t = totalPrice(c);
+    bar.querySelector('.dwrap').innerHTML = `
+      <button class="d-bar-prod" id="dBarSel" aria-label="Show your selection"><span class="thumb" style="background:${PRODUCT.bg}"><img src="${(PRODUCT.gallery || [PRODUCT.img])[0]}" alt=""></span>
+        <span class="t"><b>${PRODUCT.name}</b><small>${materials(c)} · ${c.qty} pcs</small></span></button>
+      <span class="d-bar-eta"><img src="${P}check.svg" alt="">${delivery(c).name} · arrives ${delivery(c).dayName}</span>
+      <span class="d-bar-total"><b>${euro(t * (1 + VAT_RATE))}</b><small>incl. VAT · ${euro(t)} excl.</small></span>
+      <button class="btn primary d-go" id="dBarGo">${deskCta()}</button>`;
+  }
   function renderDeskSel() {
     const box = document.getElementById('deskSel'); if (!box) return;
+    renderDeskBar();
     const c = saved, t = totalPrice(c), d = delivery(c).dayName;
     const rows = [
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
@@ -696,7 +732,7 @@
       <div class="d-designs" role="radiogroup" aria-label="How will you add your design?">${cards.map(([id, icon, title, pts]) => `
         <button class="d-design" role="radio" aria-checked="${deskDesign === id}" data-ddesign="${id}"><span class="ico"><img src="${P + icon}" alt=""></span>
           <span class="t"><b>${title}</b><ul>${pts.map(x => `<li>${x}</li>`).join('')}</ul></span></button>`).join('')}</div>
-      <button class="btn primary d-go" id="deskGo"><img src="assets/bag.svg" alt="">Add to cart and continue</button>`;
+      <button class="btn primary d-go" id="deskGo">${deskCta()}</button>`;
   }
   const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]) || sizeMix(draft) !== sizeMix(saved);
   // Store the draft; returns the previous selection, or null when nothing changed

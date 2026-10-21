@@ -1618,3 +1618,22 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dlegal { padding: 46px 0 21px; }
 .d-card { gap: 11px; }
 .d-card .prices { margin-top: 0; }
+
+/* Desktop: fixed order bar (product, choices, delivery, total, the green button) */
+.d-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--white); box-shadow: 0 -4px 16px rgba(0, 0, 0, .1); transform: translateY(100%); transition: transform .25s; }
+.d-bar.show { transform: none; }
+.d-bar .dwrap { height: 76px; display: flex; align-items: center; gap: 24px; }
+.d-bar-prod { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; text-align: left; }
+.d-bar-prod .thumb { width: 52px; height: 52px; flex-shrink: 0; border-radius: 5px; overflow: hidden; }
+.d-bar-prod .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.d-bar-prod .t { min-width: 0; display: flex; flex-direction: column; }
+.d-bar-prod b { font-weight: 600; font-size: 16px; line-height: 1.2; }
+.d-bar-prod small { font-size: 12px; line-height: 18px; color: var(--dark-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: underline; text-underline-offset: 2px; }
+.d-bar-eta { display: flex; align-items: center; gap: 4px; font-size: 14px; white-space: nowrap; }
+.d-bar-eta img { width: 20px; height: 20px; }
+.d-bar-total { display: flex; flex-direction: column; align-items: flex-end; }
+.d-bar-total b { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px; }
+.d-bar-total small { font-size: 12px; line-height: 18px; color: var(--dark-grey); white-space: nowrap; }
+.d-bar .d-go { width: auto; padding: 0 24px; flex-shrink: 0; }
+.d-go .d-go-ico { filter: brightness(0) invert(1); }   /* the Design online icon in white on the green button */
+.desk body:has(.d-bar) { padding-bottom: 76px; }   /* the footer stays readable above the fixed bar */
