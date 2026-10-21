@@ -690,6 +690,10 @@
       more.querySelectorAll('.d-tabs a').forEach(x => x.toggleAttribute('aria-current', x === a));
       const el = document.querySelector(a.getAttribute('href')); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' });
     });
+    // Accordions: one row open at a time per list
+    more.querySelectorAll('.d-acc').forEach(acc => acc.addEventListener('toggle', e => {
+      if (e.target.open) acc.querySelectorAll('details[open]').forEach(d => { if (d !== e.target) d.open = false; });
+    }, true));
     const row = document.getElementById('dRevRow');
     const syncRev = () => { more.querySelector('.d-rev-nav.prev').disabled = row.scrollLeft < 4; more.querySelector('.d-rev-nav.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
     more.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
