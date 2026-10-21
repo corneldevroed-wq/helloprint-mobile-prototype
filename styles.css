@@ -1509,7 +1509,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-sel-head p { display: flex; align-items: center; gap: 4px; padding: 4px 0 8px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
 .d-sel-head p img { width: 20px; height: 20px; }
 .d-sel-rows { list-style: none; border-top: 1px solid var(--mid-grey); padding: 8px 0 4px; }
-.d-sel-rows button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 14px; line-height: 1.5; text-align: left; }
+.d-sel-rows button { display: flex; align-items: center; gap: 8px; padding: 2px 8px; margin: 0 -8px; width: calc(100% + 16px); border-radius: 6px; transition: background .15s; font-size: 14px; line-height: 1.5; text-align: left; }
+.d-sel-rows button:hover { background: rgba(0,0,0,.04); }
 .d-sel-rows span { flex: 1; color: var(--black); }
 .d-sel-rows u { color: var(--dark-grey); text-underline-offset: 2px; }
 .d-sel-rows img { width: 14.3px; height: 14.4px; }
