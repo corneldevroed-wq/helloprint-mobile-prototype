@@ -1699,3 +1699,4 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .desk .d-design:not([aria-checked="true"]):hover,
 .desk .preset:not([aria-pressed="true"]):hover { border-color: var(--black); }
 .desk .qrow:not([aria-checked="true"]):hover { z-index: 2; }
+.d-tabs { padding-top: 6px; } .d-tabs a { padding: 12px 12px 12px; }   /* more breathing room in the anchor bar */
