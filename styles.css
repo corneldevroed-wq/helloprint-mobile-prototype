@@ -1733,3 +1733,8 @@ html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
 .qty-foot .d-viewall { flex-shrink: 0; padding-top: 2px; }
 .desk:not(.dv-b) .qty-foot .opt-info { display: none; }
 .desk:not(.dv-b) .qty-foot { justify-content: flex-end; }
+/* More air between the sections under the configuration, on the 8px grid */
+.d-more { gap: 48px; padding-top: 48px; }
+.d-more .d-tabs { margin-bottom: -16px; }   /* the tabs stay a little closer to the first section (32px) */
+html:not(.desk) .pdp > .about, html:not(.desk) .pdp > .acc, html:not(.desk) .m-sec { margin-top: 20px; }   /* 12px page gap + 20px = 32px */
+html:not(.desk) .m-sec { gap: 16px; }
