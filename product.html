@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021o">
+<link rel="stylesheet" href="styles.css?v=20261021u">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261021o"></script>
-<script src="products.js?v=20261021o"></script>
+<script src="app.js?v=20261021u"></script>
+<script src="products.js?v=20261021u"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -688,14 +688,7 @@
         ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
       </div></section>
       <section class="d-sec d-reviews"><h2>What our Happy Customers say</h2>
-        <div class="d-rev-wrap">
-          <button class="d-rev-nav prev" data-rev="-1" aria-label="Previous reviews" disabled><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
-          <div class="d-rev-row" id="dRevRow">${[0, 1, 2, 3, 4, 5, 6].map(() => `
-            <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
-              <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
-          <button class="d-rev-nav next" data-rev="1" aria-label="Next reviews"><svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg></button>
-        </div>
-        <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>34,760 reviews</u>. Showing our 5 star reviews.</p>
+        ${deskReviews()}
       </section>`;
     pdp.querySelector('.d-top').after(more);
     // About (the mobile section, moved) and the specifications table (mobile's dl, moved)
@@ -719,10 +712,7 @@
       tabsBar.classList.toggle('stuck', tabsBar.getBoundingClientRect().top <= DESK_HEAD + 1);
     };
     addEventListener('scroll', syncTabs, { passive: true }); syncTabs();
-    const row = document.getElementById('dRevRow');
-    const syncRev = () => { more.querySelector('.d-rev-nav.prev').disabled = row.scrollLeft < 4; more.querySelector('.d-rev-nav.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
-    more.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
-    row.addEventListener('scroll', syncRev, { passive: true }); syncRev();
+    wireDeskReviews(more.querySelector('.d-reviews'));
     updatePrices();
   }
   // Fixed order bar at the bottom of the desktop page (like the mobile buy bar): shown while the Your selection button is out of view

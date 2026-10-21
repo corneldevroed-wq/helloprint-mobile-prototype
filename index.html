@@ -3,16 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HelloPrint Mobile Home</title>
+<title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021o">
+<link rel="stylesheet" href="styles.css?v=20261021u">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
-  <main class="content">
+  <main class="content home">
+    <!-- Desktop only (Figma 15885:10950): three photo tiles above the banners -->
+    <section class="d-hero desk-only" aria-label="Highlights">
+      <a class="d-tile" href="#calendars"><img src="assets/home/hero-advent.webp" alt=""><h2>Save 15% advent calendars</h2><span class="pill">Shop</span></a>
+      <a class="d-tile" href="#brochure-and-booklet-printing"><img src="assets/home/hero-catalog.webp" alt=""><h2>Catalog Season Starts Now!</h2><span class="pill">Shop</span></a>
+      <a class="d-tile" href="#labels"><img src="assets/home/hero-labels.webp" alt=""><h2>Roll out your brand on every package</h2><span class="pill">Shop</span></a>
+    </section>
     <section>
       <h1>What do you want to print?</h1>
       <div class="hscroll chips">
@@ -53,6 +59,10 @@
           </div>
           <p class="title">Stationary</p>
         </a>
+        <a class="cat desk-only" href="#corporate-gifts">
+          <div class="collage"><img src="assets/home/cat-gifts.webp" alt=""></div>
+          <p class="title">Corporate Gifts</p>
+        </a>
         <a class="cat" href="#all-stickers">
           <div class="collage">
             <div style="left:27.15px;top:10px;width:58.08px;height:58.08px"><img src="assets/c3-canva.png" alt=""></div>
@@ -73,18 +83,51 @@
           </div>
           <p class="title">Outdoor</p>
         </a>
+        <a class="cat desk-only" href="#packaging">
+          <div class="collage"><img src="assets/home/cat-packaging.webp" alt=""></div>
+          <p class="title">Packaging</p>
+        </a>
+        <a class="cat desk-only" href="#hospitality">
+          <div class="collage"><img src="assets/home/cat-hospitality.webp" alt=""></div>
+          <p class="title">Hospitality</p>
+        </a>
+        <a class="cat desk-only" href="#clothing-printing">
+          <div class="collage"><img src="assets/home/cat-clothing.webp" alt=""></div>
+          <p class="title">Clothing &amp; Textiles</p>
+        </a>
       </div>
     </section>
 
-    <section class="banner">
-      <p class="title">Flash Sale!</p>
-      <p class="off">20% OFF</p>
-      <img class="img" src="assets/flash-sale.png" alt="">
-      <div class="overlay-card">
-        <div><strong>Side-wide 20% OFF.</strong><span>Only for 70 hours, be quick.</span></div>
-        <a class="pill" href="#flash-sale">Shop</a>
-      </div>
-    </section>
+    <!-- On mobile only the Flash Sale banner shows; desktop shows the row of three (Figma 15848:4699) -->
+    <div class="d-banners">
+      <section class="banner">
+        <p class="title">Flash Sale!</p>
+        <p class="off">20% OFF</p>
+        <img class="img" src="assets/flash-sale.png" alt="">
+        <div class="overlay-card">
+          <div><strong>Side-wide 20% OFF.</strong><span>Only for 70 hours, be quick.</span></div>
+          <a class="pill" href="#flash-sale">Shop</a>
+        </div>
+      </section>
+      <section class="banner b-catalogs desk-only">
+        <p class="title">Catalogs!</p>
+        <img class="img" src="assets/home/banner-catalogs.webp" alt="">
+        <div class="overlay-card">
+          <div><strong>Catalog Season starts now.</strong><span>Autumn campaigns, printed properly</span></div>
+          <a class="pill" href="#brochure-and-booklet-printing">Shop</a>
+        </div>
+      </section>
+      <section class="banner b-expert desk-only">
+        <p class="eyebrow">Expert help</p>
+        <p class="title">Questions?</p>
+        <p class="sub">Thom is ready to help you out.</p>
+        <img class="img" src="assets/home/banner-expert.webp" alt="">
+        <div class="overlay-card">
+          <div><strong>Online now.</strong><span>Speaks Dutch and English</span></div>
+          <a class="pill" href="#chat">Start Chat</a>
+        </div>
+      </section>
+    </div>
 
     <aside class="trust">
       <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
@@ -122,6 +165,10 @@
       </article>
     </section>
 
+    <section class="d-reviews desk-only">
+      <h2>What our Happy Customers say</h2>
+    </section>
+
     <section class="acc-wrap">
       <h2>Browse all we offer</h2>
       <div class="acc" data-acc="browse"></div>
@@ -129,19 +176,23 @@
 
     <section class="seo">
       <h2>Online Printing Services Made Easy with HelloPrint</h2>
-      <p>With each passing year, we've found new ways to improve our services; making our platform faster and more efficient when you use it. With a large network of UK facilities, we want to be your 'one-stop' online printing service for personalised products! We know a lot goes into running a business, so we want to support you with effective solutions.</p>
-      <p><a class="link" href="#about-us">Read more</a></p>
+      <p>With each passing year, we've found new ways to improve our services; making our platform faster and more efficient when you use it. With a large network of Irish facilities, we want to be your 'one-stop' online printing service for personalised products! We know a lot goes into running a business, so we want to support you with effective solutions.</p>
+      <!-- Desktop shows the whole text (Figma); mobile keeps the first paragraph + Read more -->
+      <p class="desk-only">Whatever you are looking for, you can expect us to have it available for you. Not only that, but we take pride in providing our customers with high-quality products at the best price. Cheap online printing, only at HelloPrint.</p>
+      <p class="desk-only">Once you've found the product you're looking for and have your design ready, simply upload your artwork after placing an order and submit it to us. Our team of print experts will handle the rest while you relax in the comfort of your own home. After all, our motto is "simply arranged without hassle". That is why HelloPrint is your number one printing company in Ireland.<br>In the rare event that you did not find exactly what you are looking for on our website, you can always <a href="#new2contactform?type=inquiry">request a quote</a> and we will find a way to work things out for you! Lastly, you can have the peace of mind knowing that we will ensure to deliver your orders at the soonest possible time. Get in touch with us today and we will be more than happy to help!</p>
+      <p class="desk-only">Join over 500,000 satisfied customers who have benefited from our products and services. Order your own e-commerce print products right now.</p>
+      <p class="seo-more"><a class="link" href="#about-us">Read more</a></p>
     </section>
 
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261021o"></script>
+<script src="app.js?v=20261021u"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
-    <a class="product" href="${p.href || '#' + slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
+    <a class="product${p.desk ? ' desk-only' : ''}" href="${p.href || '#' + slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
       <div class="thumb" style="background:${p.bg}">
         <img src="assets/${p.img}" alt="" loading="lazy">
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
@@ -153,6 +204,12 @@
       </div>
     </a>`).join('');
   updatePrices();
+  // Desktop: reviews row (shared with the PDP) and "Browse all we offer" as open columns
+  if (DESK) {
+    const revs = document.querySelector('.home .d-reviews');
+    revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs);
+    document.querySelectorAll('[data-acc="browse"] details').forEach(d => { d.open = true; d.querySelector('summary').addEventListener('click', e => e.preventDefault()); });
+  }
 </script>
 </body>
 </html>

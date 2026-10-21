@@ -277,11 +277,33 @@ const products = [
   { img: 'p2.png', bg: 'rgba(241,228,195,.5)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
   { img: 'p3.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 1000, price: 35.99, href: 'product.html?p=standard-flyers' },
   { img: 'p4.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
-  { img: 'p5.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
-  { img: 'p6.png', bg: 'rgba(2,105,186,.1)', name: 'Standard Flyers', qty: 500, price: 18.89 },
+  { img: 'p5.png', bg: 'rgba(96,111,115,.1)', name: 'Posters', qty: 500, price: 18.89 },
+  { img: 'p6.png', bg: 'rgba(2,105,186,.1)', name: 'Basic Cotton Bags', qty: 100, price: 181.99, href: 'product.html?p=basic-cotton-bags' },
   { img: 'p7.png', bg: 'rgba(206,5,1,.1)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
   { img: 'p8.png', bg: 'rgba(28,162,89,.1)', name: 'Stickers on Roll', qty: 500, price: 54.59 },
+  // Desktop only: completes the second row of five (Figma 15848:4851)
+  { img: 'products/mug.webp', bg: 'var(--light-grey)', name: '330 ml Full Colour Ceramic Mug', qty: 100, price: 412.32, href: 'product.html?p=ceramic-mug-330ml', desk: true },
+  { img: 'products/roller-banner.webp', bg: 'var(--light-grey)', name: 'Roller Banners', qty: 1, price: 38.99, href: 'product.html?p=roller-banners', desk: true },
 ];
+
+// Desktop Trustpilot review row (PDP + home): seven cards between two round arrows, each arrow scrolls one card
+const REV_ARROW = '<svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg>';
+function deskReviews() {
+  return `<div class="d-rev-wrap">
+          <button class="d-rev-nav prev" data-rev="-1" aria-label="Previous reviews" disabled>${REV_ARROW}</button>
+          <div class="d-rev-row">${[0, 1, 2, 3, 4, 5, 6].map(() => `
+            <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+              <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+          <button class="d-rev-nav next" data-rev="1" aria-label="Next reviews">${REV_ARROW}</button>
+        </div>
+        <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>34,760 reviews</u>. Showing our 5 star reviews.</p>`;
+}
+function wireDeskReviews(root) {
+  const row = root.querySelector('.d-rev-row'), prev = root.querySelector('.d-rev-nav.prev'), next = root.querySelector('.d-rev-nav.next');
+  const sync = () => { prev.disabled = row.scrollLeft < 4; next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
+  root.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
+  row.addEventListener('scroll', sync, { passive: true }); sync();
+}
 
 // Accordions: product categories in "Browse all we offer", site links in the footer.
 // Content taken from the helloprint.com/en-gb mega menu and footer. Links stay local
@@ -473,7 +495,7 @@ const searchProducts = [
   { name: 'Deluxe business cards', img: S + 'deluxe.png', qty: 500, price: 18.89 },
   { name: 'Special materials', img: S + 'special.png', qty: 500, price: 18.89, tags: 'business cards' },
   { name: 'Multilayer business cards', img: S + 'multilayer.png', qty: 500, price: 18.89 },
-  ...products.map(p => ({ name: p.name, img: 'assets/' + p.img, bg: p.bg, qty: p.qty, price: p.price })),
+  ...products.filter(p => !p.desk).map(p => ({ name: p.name, img: 'assets/' + p.img, bg: p.bg, qty: p.qty, price: p.price })),
   // Products added from the live site (product.html via ROUTES on their slug)
   { name: '330 ml Full Colour Ceramic Mug', img: 'assets/products/mug.webp', qty: 100, price: 412.32, tags: 'mugs gifts drinkware' },
   { name: 'Basic Cotton Bags', img: 'assets/products/cotton-bag.webp', qty: 100, price: 181.99, tags: 'tote bags' },

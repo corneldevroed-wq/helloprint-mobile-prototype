@@ -1717,7 +1717,7 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* Review cards: same height in a row, title max 1 line, text max 3 lines, the name always at the bottom */
 .d-rev-row, .m-revs { align-items: stretch; }
 .d-rev > b { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-.d-rev > p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.3em); }
+.d-rev > p:not(.d-rev-top) { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.3em); }
 .d-rev small { margin-top: auto; }
 /* Mobile templates list as on desktop: black links with the icon, no underline (underline on hover), grey/white rows */
 html:not(.desk) .tpl-list li { padding: 8px 12px; border-bottom: 0; border-radius: 3px; }
@@ -1738,3 +1738,116 @@ html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
 .d-more .d-tabs { margin-bottom: -16px; }   /* the tabs stay a little closer to the first section (32px) */
 html:not(.desk) .pdp > .about, html:not(.desk) .pdp > .acc, html:not(.desk) .m-sec { margin-top: 20px; }   /* 12px page gap + 20px = 32px */
 html:not(.desk) .m-sec { gap: 16px; }
+
+/* ================= Desktop home (Figma 15848:4159) =================
+   index.html opts in with <body data-desktop>. Mobile keeps its own order and sections;
+   desktop-only blocks carry .desk-only, the banner row wrapper is transparent on mobile. */
+html:not(.desk) .desk-only { display: none; }
+html:not(.desk) .d-banners { display: contents; }
+.desk body { overflow-x: clip; }   /* full-bleed divider lines may use 100vw */
+.desk .home { padding: 16px 0 0; gap: 16px; }
+.desk .home > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; }
+.desk .home > * { order: 10; }
+.desk .home > .d-hero { order: 1; }
+.desk .home > .d-banners { order: 2; }
+.desk .home > .trusted { order: 3; }
+.desk .home > section:has(> .cats) { order: 4; }
+.desk .home > section:has(> .grid) { order: 5; }
+.desk .home > .dfoot { order: 99; }
+.desk .home > section:has(> .chips), .desk .home > .trust { display: none; }   /* not in the desktop design */
+
+/* Hero: one wide photo tile and two narrow ones, 345px high */
+.desk .d-hero { display: grid; grid-template-columns: minmax(0, 639fr) minmax(0, 308fr) minmax(0, 308fr); gap: 16px; }
+.d-tile { position: relative; height: 345px; border-radius: 10px; overflow: hidden; background: var(--light-green); color: var(--white); }
+.d-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.d-tile:nth-child(1) img { object-position: 50% 42%; }
+.d-tile:nth-child(3) img { object-position: 59% 100%; }
+.d-tile:hover img { transform: scale(1.03); }
+.d-tile h2 { position: relative; margin: 16px 0 0 16px; max-width: 192px; font-weight: 800; font-size: 24px; line-height: 1.16; letter-spacing: -0.48px; color: var(--white); }
+.d-tile:first-child h2 { max-width: 353px; }
+.d-tile .pill { position: absolute; left: 16px; bottom: 16px; border-color: var(--white); }
+
+/* Banner row: the mobile Flash Sale banner at 418 × 280, plus Catalogs and Expert help */
+.desk .d-banners { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.desk .banner { height: 280px; container-type: inline-size; }   /* the big titles scale down with the banner below 1512px */
+.desk .banner .title { left: 21.4px; top: 10.3px; font-size: min(74px, 17.7cqi); letter-spacing: -0.03em; }
+.desk .banner .off { left: 23.6px; top: calc(10.3px + min(66px, 15.8cqi)); font-size: 18.6px; }
+.desk .banner .img { left: 9px; top: 7.4px; width: calc(100% - 18px); height: 273px; }
+.desk .banner .overlay-card { left: 10px; right: 10px; top: auto; bottom: 10px; height: auto; gap: 8px; padding: 16px; }   /* grows upwards when the text wraps (narrow screens) */
+.desk .banner .overlay-card span { font-size: 14px; line-height: 1.5; }
+.desk .b-catalogs .title { left: 50%; top: 17.8px; transform: translateX(-50%); }
+.desk .b-catalogs .img { left: calc(50% - 9.5px); top: 34px; width: 339px; height: 226px; transform: translateX(-50%); }
+.desk .b-expert { box-shadow: 0 5px 20px rgba(0, 0, 0, .05); }
+.desk .b-expert .img { left: auto; right: 0; top: auto; bottom: 0; width: min(275px, 66cqi); height: auto; aspect-ratio: 1; object-fit: contain; }
+.b-expert .eyebrow, .b-expert .title, .b-expert .sub { position: absolute; left: 21.4px; z-index: 1; }
+.desk .b-expert .eyebrow { top: 14.7px; font-weight: 500; font-size: 11px; line-height: .96; letter-spacing: 1.1px; text-transform: uppercase; }
+.desk .b-expert .title { left: 21.4px; top: 33px; font-size: 23.7px; line-height: 1.16; letter-spacing: -0.47px; }
+.desk .b-expert .sub { top: 66px; width: min(163px, 36cqi); font-size: 14px; line-height: 1.2; }
+.desk .b-expert .overlay-card { background: rgba(255, 255, 255, .3); border: 1px solid rgba(255, 255, 255, .3); -webkit-backdrop-filter: blur(50px); backdrop-filter: blur(50px); color: var(--white); }
+.desk .b-expert .overlay-card span { color: var(--white); }
+.desk .b-expert .overlay-card .pill { border-color: var(--white); }
+
+/* Trusted by: all logos fit on one row, so they stand still; full-width line underneath */
+.desk .trusted { position: relative; flex-direction: row; align-items: center; gap: 24px; height: 94px; }   /* logos sit 24px above the line */
+.desk .trusted::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 100vw; height: 1px; background: var(--line); transform: translateX(-50%); }
+.desk .trusted p { flex: 0 0 auto; width: 160px; font-size: 14px; line-height: 1.4; }
+.desk .logo-strip { flex: 1; margin-right: 0; -webkit-mask-image: none; mask-image: none; }
+.desk .logo-track { width: 100%; justify-content: space-between; animation: none; }
+.desk .logo-copy { display: none; }
+
+/* Section heads: 24px titles, green "View all"-style link with arrow */
+.desk .home h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
+.desk .home .section-head { align-items: center; }
+.desk .home .section-head .link { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; font-weight: 600; font-size: 14px; line-height: 16px; color: var(--light-green); text-decoration: none; }
+.desk .home .section-head .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
+
+/* Our Top Categories: all eight on one row, same card as mobile */
+.desk .cats { overflow: visible; margin: 16px 0 0; padding: 0; gap: 16px; }
+.desk .cats .cat { flex: 1 1 0; min-width: 0; }
+
+/* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
+.desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.desk .home .product { gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+.desk .home .product:hover { border-color: var(--outline); }
+.desk .home .product .thumb { border-radius: 0; }
+.desk .home .product .badge { padding: 4px 8px; letter-spacing: 0; }
+.desk .home .product > :not(.thumb) { padding: 0 16px; }
+.desk .home .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
+.desk .home .product .name { font-size: 16px; line-height: 22px; }
+.desk .home .product .prices { gap: 7px; align-items: center; line-height: 20px; }
+.desk .home .product .was { font-size: 14px; }
+.desk .home .product .price { font-weight: 900; letter-spacing: -0.28px; }
+
+/* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
+.desk .home > .promos { order: 6; }
+.desk .home > .d-reviews { order: 7; }
+.desk .home > .acc-wrap { order: 8; }
+.desk .home > .seo { order: 9; }
+.desk .promos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
+.desk .promo h3 { width: 353px; }
+.desk .promo.team .person { left: auto; right: 6px; top: 2.4px; width: 331px; height: 343px; }
+.desk .promo.team .badge-logo { display: none; }
+.desk .promo .overlay-card { left: 10px; right: 10px; top: auto; bottom: 10px; width: auto; height: auto; gap: 8px; padding: 16px; }   /* full width, like the banner cards */
+.desk .promo .overlay-card span { font-size: 14px; line-height: 1.5; }
+
+/* Reviews: the PDP review row (deskReviews() in app.js) */
+.desk .home > .d-reviews { gap: 16px; }
+
+/* Browse all we offer: the eight groups as open columns, 4 per row */
+.desk .acc-wrap .acc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; }
+.desk .acc-wrap .acc details { border: 0; padding: 0; }
+.desk .acc-wrap .acc summary { padding: 0 0 12px; font-size: 16px; color: var(--black); cursor: default; }
+.desk .acc-wrap .acc summary img { display: none; }
+.desk .acc-wrap .acc ul { padding: 0; gap: 6px; }
+.desk .acc-wrap .acc ul a { line-height: 1.3; }
+
+/* SEO text: open on desktop */
+.desk .seo { gap: 16px; }
+.desk .seo p { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+.desk .seo p a { color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+.desk .seo .seo-more { display: none; }
+
+/* Rhythm: 16px between the top blocks (as in Figma); every titled section and the promos get 48px above */
+.desk .home > section:has(> .cats) { margin-top: 8px; }   /* 24px under the logo line, as above it */
+.desk .home > section:has(> .grid), .desk .home > .promos,
+.desk .home > .d-reviews, .desk .home > .acc-wrap, .desk .home > .seo { margin-top: 32px; }
