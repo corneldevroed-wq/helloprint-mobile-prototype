@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021b">
+<link rel="stylesheet" href="styles.css?v=20261021d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261021b"></script>
-<script src="products.js?v=20261021b"></script>
+<script src="app.js?v=20261021d"></script>
+<script src="products.js?v=20261021d"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -631,17 +631,8 @@
     document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) setDv(b.dataset.dv); const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); });
     setDv(dv); setPv(pv);
   }
-  // Under the configuration (Figma 15927:10612): tabs, About, specifications, guidelines + templates, other products, FAQ, reviews.
-  // The content is the mobile page's own (About, specs, guide, templates); only the layout is desktop.
-  function buildDeskMore() {
-    const pdp = document.querySelector('.pdp'), acc = document.querySelector('.pdp > .acc');
-    const guideIntro = acc.querySelector('.guide > p').textContent;
-    const guide = [...acc.querySelectorAll('.guide-list li')].map(li => [li.querySelector('b').textContent, li.querySelector('span').textContent]);
-    const tpls = [...acc.querySelectorAll('.tpl-list li')].map(li => {
-      const [pdf, indd] = [...li.querySelectorAll('a')].map(a => a.getAttribute('href'));
-      const sm = li.querySelector('small');
-      return [`${li.querySelector('span').firstChild.textContent.trim()}${sm ? ` (${sm.textContent})` : ''}`, pdf, indd];
-    });
+  // Content for the lower page, the same on mobile and desktop: other products of this kind, FAQ, section noun
+  function pdpExtras() {
     const others = Object.values(PRODUCTS).filter(p => p !== PRODUCT && (p.noun || '') === (PRODUCT.noun || '')).slice(0, 5);
     const spec = k => (PRODUCT.specs.find(([key]) => key.toLowerCase().includes(k)) || [])[1];
     const fastest = [...DELIVERY].sort((a, b) => etaDate(a.dayName) - etaDate(b.dayName))[0];
@@ -655,6 +646,20 @@
       ['Is there an option to add drill holes?', 'Not in the standard options. Chat with us and we will look at what is possible for your order.'],
     ];
     const noun = PRODUCT.noun ? PRODUCT.noun.replace(/^\w/, c => c.toUpperCase()) : 'Business Cards';
+    return { others, faqs, noun };
+  }
+  // Under the configuration (Figma 15927:10612): tabs, About, specifications, guidelines + templates, other products, FAQ, reviews.
+  // The content is the mobile page's own (About, specs, guide, templates); only the layout is desktop.
+  function buildDeskMore() {
+    const pdp = document.querySelector('.pdp'), acc = document.querySelector('.pdp > .acc');
+    const guideIntro = acc.querySelector('.guide > p').textContent;
+    const guide = [...acc.querySelectorAll('.guide-list li')].map(li => [li.querySelector('b').textContent, li.querySelector('span').textContent]);
+    const tpls = [...acc.querySelectorAll('.tpl-list li')].map(li => {
+      const [pdf, indd] = [...li.querySelectorAll('a')].map(a => a.getAttribute('href'));
+      const sm = li.querySelector('small');
+      return [`${li.querySelector('span').firstChild.textContent.trim()}${sm ? ` (${sm.textContent})` : ''}`, pdf, indd];
+    });
+    const { others, faqs, noun } = pdpExtras();
     const tabs = [['d-about', 'About'], ['d-specs', 'Product Specifications'], ['d-guide', 'Design Guidelines'], ['d-tpl', 'Templates'], ['d-faq', 'Frequently Asked Questions']];
     const more = document.createElement('div');
     more.className = 'd-more';
@@ -1093,6 +1098,35 @@
     const i = (Math.round(track.scrollLeft / w) + +b.dataset.gallery + n) % n;
     track.scrollTo({ left: i * w, behavior: 'smooth' });
   }));
+  // ---------- Mobile: the lower page in line with desktop ----------
+  // Templates: "General Guide" first and the PDF / InDesign icons; guidelines intro as on desktop.
+  // Then Other <products> (swipe row), Frequently Asked Questions and reviews (swipe row, no arrows).
+  function buildMobileMore() {
+    const acc = document.querySelector('.pdp > .acc');
+    const intro = acc.querySelector('.guide > p');
+    if (intro && !intro.dataset.done) { intro.textContent += ' Use our templates below, export as PDF and keep the template layers out of your file.'; intro.dataset.done = 1; }
+    const tpl = acc.querySelector('.tpl-list');
+    tpl.insertAdjacentHTML('afterbegin', '<li><span>General Guide</span><a href="#template-general-guide">Guide</a></li>');
+    tpl.querySelectorAll('a').forEach(a => a.insertAdjacentHTML('afterbegin', `<img src="assets/desktop/${a.textContent.trim() === 'InDesign' ? 'icon-indesign' : 'icon-pdf'}.svg" alt="">`));
+    const { others, faqs, noun } = pdpExtras();
+    acc.insertAdjacentHTML('afterend', `
+      ${others.length ? `<section class="m-sec"><h2 class="px">Other ${noun}</h2><div class="hscroll m-others">${others.map(o => `
+        <a class="product m-card" href="${o.href}">
+          <div class="thumb" style="background:${o.bg}"><img src="${o.thumb}" alt="" loading="lazy">${o.badge ? `<span class="badge">${o.badge}</span>` : ''}</div>
+          <p class="name">${o.name}</p><div><p class="from">${o.defaultQty || 500} pcs from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
+        </a>`).join('')}</div></section>` : ''}
+      <section class="m-sec px"><h2>Frequently Asked Questions</h2><div class="acc oc-faq">
+        ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
+      </div></section>
+      <section class="m-sec"><h2 class="px">What our Happy Customers say</h2>
+        <div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+          <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+            <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+        <p class="d-rev-note px">Rated <b>4.5</b> / 5 based on <u>34,760 reviews</u>.</p>
+      </section>`);
+    updatePrices();
+  }
+  if (!DESK) buildMobileMore();
 </script>
 </body>
 </html>

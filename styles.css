@@ -1700,3 +1700,14 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .desk .preset:not([aria-pressed="true"]):hover { border-color: var(--black); }
 .desk .qrow:not([aria-checked="true"]):hover { z-index: 2; }
 .d-tabs { padding-top: 6px; } .d-tabs a { padding: 12px 12px 12px; }   /* more breathing room in the anchor bar */
+
+/* Mobile PDP lower page (in line with desktop): other products, FAQ, reviews; template icons */
+.m-sec { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.m-sec h2 { margin: 0; }
+.m-others, .m-revs { gap: 8px; padding-left: 16px; padding-bottom: 4px; }
+.m-card { flex: 0 0 150px; }
+.m-revs .d-rev { flex: 0 0 240px; }
+.m-sec .oc-faq { padding: 0; }
+.tpl-list a { display: inline-flex; align-items: center; gap: 4px; }
+.tpl-list a img { width: 18px; height: 18px; }
+.m-sec .px { padding: 0 16px; }   /* titles and the note inside the full-width swipe sections */
