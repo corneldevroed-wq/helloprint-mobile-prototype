@@ -1675,13 +1675,13 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .guide-item:has(.gi-vis) > p { padding-left: 52px; }
 
 /* Desktop photos B (prototype switch): thumbnails in a column left of the photo; the photo keeps 501px,
-   so the media column grows to 582px (73 + 8 + 501) and the configuration narrows to 656px */
-.desk.ph-b .pdp > .d-top { grid-template-columns: minmax(0, 582fr) minmax(0, 656fr); }
-.desk.ph-b .d-media { display: grid; grid-template-columns: 73px minmax(0, 1fr); gap: 8px; align-items: stretch; }
+   so the media column grows to 590px (73 + 16 + 501) and the configuration narrows to 648px */
+.desk.ph-b .pdp > .d-top { grid-template-columns: minmax(0, 590fr) minmax(0, 648fr); }
+.desk.ph-b .d-media { display: grid; grid-template-columns: 73px minmax(0, 1fr); gap: 16px; align-items: stretch; }
 .desk.ph-b .d-media .gallery { grid-column: 2; grid-row: 1; }
 .desk.ph-b .d-media .d-thumbs { grid-column: 1; grid-row: 1; flex-direction: column; height: 0; min-height: 100%; overflow-x: hidden; overflow-y: auto; scroll-snap-type: y proximity; }
 .desk.ph-b .d-media:not(:has(.d-thumbs)) { grid-template-columns: minmax(0, 1fr); }
-.desk.ph-b .d-media:not(:has(.d-thumbs)) .gallery { grid-column: 1; width: calc(100% - 81px); margin-left: 81px; }   /* one photo: same 501px spot as with thumbnails */
+.desk.ph-b .d-media:not(:has(.d-thumbs)) .gallery { grid-column: 1; width: calc(100% - 89px); margin-left: 89px; }   /* one photo: same 501px spot as with thumbnails */
 .eta small b { display: inline; font-weight: 600; font-size: inherit; line-height: inherit; color: var(--black); }   /* the deadline in the condition line */
 .desk-switch span + button { margin-top: 0; } .desk-switch button + span { margin-top: 8px; }
 .desk.ph-b .gallery .nav-btn { display: none; }   /* photos B: the thumbnail column is the navigation, no arrows on the photo */
