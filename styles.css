@@ -1609,3 +1609,18 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev-note { margin-top: 11px; font-size: 14px; line-height: 1.2; color: var(--black); }
 .d-rev-note b { font-weight: 600; }
 .d-rev-note u { font-weight: 600; text-underline-offset: 2px; }
+
+/* Phase 4: spacing matched to Figma 15927:9040 (measured at 1512px) */
+.desk #jConfig { margin-top: 0; }
+.d-line { margin: 4px 0; }                                                     /* 20px above and below the line */
+.desk #jConfig > .opt-group:first-child { padding-bottom: 20px; margin-bottom: 4px; }
+.d-intro { position: relative; max-height: 96px; overflow: hidden; }          /* 4 lines, "… Show more" at the end of the last one */
+.d-intro.open { max-height: none; }
+.d-intro button { position: absolute; right: 0; bottom: 0; padding-left: 28px; line-height: 24px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--white) 24px); }
+.d-intro button::before { content: '… '; color: var(--dark-green); font-weight: 400; }
+.dfoot { margin-top: 70px; }
+.dfoot-help { padding: 27px 0 36px; }
+.dfoot-row { padding-top: 60px; }
+.dlegal { padding: 46px 0 21px; }
+.d-card { gap: 11px; }
+.d-card .prices { margin-top: 0; }
