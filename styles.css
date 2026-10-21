@@ -1482,7 +1482,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk #jConfig .opt-info { display: none; }   /* the ⓘ explains; the page stays calm */
 .desk .presets { margin-right: 0; padding-right: 0; flex-wrap: wrap; }
 .desk .opts { display: flex; flex-wrap: wrap; gap: 8px; }
-.desk .opt { width: 125px; min-height: 122px; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; padding: 9px 8px; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .opt { width: 125px; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; padding: 9px 8px; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
 .desk .opt[aria-checked="true"] { padding: 8px 7px; }
 .desk .opt > :not(.t) { order: -1; }
 .desk .opt .t b { font-size: 14px; line-height: 18px; }
@@ -1637,3 +1637,4 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-bar .d-go { width: auto; padding: 0 24px; flex-shrink: 0; }
 .d-go .d-go-ico { filter: brightness(0) invert(1); }   /* the Design online icon in white on the green button */
 .desk body:has(.d-bar) { padding-bottom: 76px; }   /* the footer stays readable above the fixed bar */
+.desk .opts { align-items: stretch; }   /* height follows the content; cards in one row stay equally tall */
