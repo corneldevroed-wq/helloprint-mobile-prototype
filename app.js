@@ -141,7 +141,8 @@ const SHELL_HEADER_DESK = `
       ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
       <a href="#cs" class="dnav-help">Help Centre</a>
     </div></nav>
-    <div class="dusps"><div class="dwrap">
+  </header>
+  <div class="dusps"><div class="dwrap">
       <ul>
         <li><img src="assets/check.svg" alt="">Best <b>price</b> guaranteed</li>
         <li><img src="assets/check.svg" alt=""><b>All inclusive</b> prices</li>
@@ -149,8 +150,7 @@ const SHELL_HEADER_DESK = `
         <li><img src="assets/check.svg" alt="">100% <b>satisfaction</b> guarantee</li>
       </ul>
       <span class="dtrust" role="img" aria-label="Excellent, 31,116 reviews on Trustpilot"><img src="assets/desktop/trustpilot-excellent.png" alt=""></span>
-    </div></div>
-  </header>`;
+    </div></div>`;
 const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
 const SHELL_FOOTER_DESK = `
   <footer class="dfoot">

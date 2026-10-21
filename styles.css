@@ -1686,3 +1686,16 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
 #d-faq details p { max-width: 760px; }   /* readable line length for the answers */
 .eta > b { font-weight: 600; }   /* "Estimated delivery date": semibold, as the other block titles */
+
+/* Desktop: logo bar + category bar fixed at the top (the USP bar scrolls away); the section tabs stick right under it */
+.desk .dhead { position: sticky; top: 0; z-index: 30; }
+.desk .d-media { top: 116px; }
+.d-tabs { position: sticky; top: 100px; z-index: 20; background: var(--white); }
+.d-tabs.stuck { box-shadow: 0 8px 12px -10px rgba(0, 0, 0, .15); }
+/* Desktop hover on every configuration option: a black outline (the selected one keeps its green border) */
+.desk .opt:not([aria-checked="true"]):hover,
+.desk .qrow:not([aria-checked="true"]):hover,
+.desk .deliv:not([aria-checked="true"]):hover,
+.desk .d-design:not([aria-checked="true"]):hover,
+.desk .preset:not([aria-pressed="true"]):hover { border-color: var(--black); }
+.desk .qrow:not([aria-checked="true"]):hover { z-index: 2; }

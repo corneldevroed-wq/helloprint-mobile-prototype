@@ -566,6 +566,7 @@
   // ---------- Desktop (≥1024px, Figma 15927:9040): photos left, the configuration open on the right ----------
   // Same markup and logic as mobile (J puts the options on the page); only the order and the "Your selection" box are new.
   var deskDesign = 'upload';   // var: renderSaved can run before this line
+  var DESK_HEAD = 100;           // the fixed desktop header (logo bar 60 + category bar 40)
   const euro = n => '€' + n.toFixed(2);
   if (DESK) {
     const pdp = document.querySelector('.pdp'), gallery = document.querySelector('.gallery'), buy = document.querySelector('.buy');
@@ -605,7 +606,7 @@
     buy.insertAdjacentHTML('beforeend', '<section class="d-sel" id="deskSel" aria-label="Your selection"></section>');
     document.getElementById('deskSel').addEventListener('click', e => {
       const go = e.target.closest('[data-goto]');
-      if (go) { const el = document.querySelector(`#jConfig [data-option="${go.dataset.goto}"]`); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' }); return; }
+      if (go) { const el = document.querySelector(`#jConfig [data-option="${go.dataset.goto}"]`); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - DESK_HEAD - 16, behavior: 'smooth' }); return; }
       const d = e.target.closest('[data-ddesign]');
       if (d) { deskDesign = d.dataset.ddesign; renderDeskSel(); return; }
       if (e.target.closest('#deskGo')) placeOrder(deskDesign);
@@ -699,8 +700,18 @@
     more.querySelector('.d-tabs').addEventListener('click', e => {
       const a = e.target.closest('a'); if (!a) return; e.preventDefault();
       more.querySelectorAll('.d-tabs a').forEach(x => x.toggleAttribute('aria-current', x === a));
-      const el = document.querySelector(a.getAttribute('href')); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' });
+      const el = document.querySelector(a.getAttribute('href')); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - DESK_HEAD - tabsBar.offsetHeight - 16, behavior: 'smooth' });
     });
+    // The tabs stick under the fixed header; the active tab follows the section in view
+    const tabsBar = more.querySelector('.d-tabs');
+    const syncTabs = () => {
+      const line = DESK_HEAD + tabsBar.offsetHeight + 24;
+      let cur = null;
+      tabsBar.querySelectorAll('a').forEach(a => { const el = document.querySelector(a.getAttribute('href')); if (el && el.getBoundingClientRect().top <= line) cur = a; });
+      tabsBar.querySelectorAll('a').forEach((a, i) => a.toggleAttribute('aria-current', cur ? a === cur : i === 0));
+      tabsBar.classList.toggle('stuck', tabsBar.getBoundingClientRect().top <= DESK_HEAD + 1);
+    };
+    addEventListener('scroll', syncTabs, { passive: true }); syncTabs();
     const row = document.getElementById('dRevRow');
     const syncRev = () => { more.querySelector('.d-rev-nav.prev').disabled = row.scrollLeft < 4; more.querySelector('.d-rev-nav.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
     more.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
