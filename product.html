@@ -569,7 +569,7 @@
     // Thumbnails under the photo
     const imgs = [...document.getElementById('galleryTrack').children];
     if (imgs.length > 1) {
-      left.insertAdjacentHTML('beforeend', `<div class="d-thumbs">${imgs.map((im, i) => `<button aria-label="Photo ${i + 1}" data-thumb="${i}"${i ? '' : ' aria-current="true"'}><img src="${im.getAttribute('src')}" alt=""></button>`).join('')}</div>`);
+      left.insertAdjacentHTML('beforeend', `<div class="d-thumbs">${imgs.map((im, i) => `<button aria-label="Photo ${i + 1}" data-thumb="${i}"${i ? '' : ' aria-current="true"'} style="background:${PRODUCT.bg}"><img src="${im.getAttribute('src')}" alt=""></button>`).join('')}</div>`);
       const track = document.getElementById('galleryTrack');
       left.querySelector('.d-thumbs').addEventListener('click', e => { const b = e.target.closest('[data-thumb]'); if (b) track.scrollTo({ left: +b.dataset.thumb * track.clientWidth, behavior: 'smooth' }); });
       track.addEventListener('scroll', () => { const i = Math.round(track.scrollLeft / track.clientWidth); left.querySelectorAll('[data-thumb]').forEach(b => b.toggleAttribute('aria-current', +b.dataset.thumb === i)); }, { passive: true });

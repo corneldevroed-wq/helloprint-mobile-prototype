@@ -1453,7 +1453,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk .pdp .buy-bar, .desk .buy-bar { display: none; }
 .desk .pdp > .d-top { display: grid; grid-template-columns: minmax(0, 501fr) minmax(0, 737fr); gap: 48px; align-items: start; }
 .desk .d-media { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 8px; }
-.desk .gallery { height: auto; aspect-ratio: 1; border-radius: 10px; background: var(--light-grey) !important; }
+.desk .gallery { height: auto; aspect-ratio: 1; border-radius: 10px; }   /* the product's own background colour (PRODUCT.bg), as on mobile */
 .desk .gallery .track img { object-fit: cover; }
 .desk .gallery .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: 12px; letter-spacing: 0; }
 .desk .gallery .prev { left: 16px; }
