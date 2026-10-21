@@ -1681,3 +1681,6 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .eta small b { display: inline; font-weight: 600; font-size: inherit; line-height: inherit; color: var(--black); }   /* the deadline in the condition line */
 .desk-switch span + button { margin-top: 0; } .desk-switch button + span { margin-top: 8px; }
 .desk.ph-b .gallery .nav-btn { display: none; }   /* photos B: the thumbnail column is the navigation, no arrows on the photo */
+/* Calmer accordions: more air in the rows and between title and text */
+.d-acc summary { padding: 14px 0 14px 8px; line-height: 1.4; }
+.d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
