@@ -309,15 +309,16 @@ function wireDeskReviews(root) {
 // Content taken from the helloprint.com/en-gb mega menu and footer. Links stay local
 // to the prototype: each becomes #<slug>, ready to point at a local screen later.
 const accItems = {
+  // Same groups and links as "Discover our categories" on helloprint.com/en-ie (checked 2026-10-22)
   browse: {
-    'Promotional print': [['Booklets', 'brochure-and-booklet-printing'], ['Flyers', 'flyers'], ['Folded Leaflets', 'foldedleaflets'], ['Business Cards', 'businesscards-printing'], ['Cards & Vouchers', 'cards-and-invites'], ['Large Format', 'outdoor'], ['Promotional Gifts', 'goodies']],
-    'Stationary': [['Business Cards', 'businesscards-printing'], ['Notes', 'notepad-printing'], ['Envelopes', 'envelopes'], ['Document Organisers', 'printed-folders'], ['Writing Instruments', 'printed-pens'], ['Office Accessories', 'stationery-and-office-supplies'], ['Calendars', 'calendars-printing']],
-    'Stickers': [['Stickers on Roll', 'labels'], ['Labels On Roll', 'labels-on-roll'], ['Custom Size', 'customsizestickers'], ['Large Format', 'large-sticker-printing']],
-    'Packaging': [['Food Packaging', 'food-packaging']],
-    'Outdoor': [['Banners', 'banner-printing'], ['Cafe Barriers', 'cafebarrier'], ['Signs and Panels', 'panels-and-signs'], ['Flags', 'flag-printing'], ['Roller Banner', 'rollupbanners-printing'], ['Beach Flags', 'beachflag-printing'], ['Large Stickers', 'large-sticker-printing'], ['Pavement Signs', 'pavementsigns'], ['Outdoor Furniture', 'outdoor-furniture']],
-    'Clothing': [['T-Shirts', 'tshirt-printing'], ['Sweatshirts', 'personalised-sweatshirts'], ['Polos', 'personalised-polo-shirts'], ['Jackets', 'printed-jackets'], ['Headwear', 'headwear-printing'], ['Workwear', 'workwear-printing'], ['Sportswear', 'sportswear'], ['Interior Textiles', 'interior-textiles']],
-    'Corporate Gifts': [['Writing Instruments', 'printed-pens'], ['Office Supplies', 'office-supplies'], ['Drinkware', 'drinkware-printing'], ['Tech & Gadgets', 'personalised-gadgets'], ['Giveaways', 'goodies'], ['Outdoor & Leisure', 'promotional-outdoor-products'], ['Home & Living', 'home-living'], ['Food', 'promotional-food-drink']],
-    'Hospitality & Events': [['Bar & Restaurant', 'industry/hospitality/restaurant'], ['Event & Festival', 'event-festivals-printing'], ['Exhibition & Trade Show', 'exhibitionmaterial'], ['Wedding', 'industry/wedding'], ['Sport Events', 'sportsproducts']],
+    'Promotional Products': [['Flyers', 'flyers'], ['Posters', 'posters'], ['Business Cards', 'businesscards-printing'], ['Folded Leaflets', 'halffoldleaflets'], ['Booklets & Brochures', 'booklets'], ['Roller Banners', 'rollupbanners-printing'], ['Cards & Invites', 'greetingcards']],
+    'Stationery': [['Envelopes', 'envelopes'], ['Letterheads', 'letterheads'], ['Notepads', 'notepad-printing'], ['Folders', 'printed-folders'], ['NCR Pads', 'ncr-pad-printing'], ['Pens', 'ballpoint-pens'], ['Bookmarks', 'bookmark-printing']],
+    'Labels & Stickers': [['Standard Stickers', 'stickers'], ['Sticker Sheets', 'stickersonsheet'], ['Labels on Roll', 'labels'], ['Custom Size Stickers', 'customsizestickers'], ['Large Vinyl Stickers', 'vinylstickers'], ['Custom Size Labels on Roll', 'labelsonrollstandardownsize'], ['Custom Window Stickers', 'windowstickers']],
+    'Packaging': [['Paper Bags', 'printing-paperbags'], ['Shipping Boxes', 'boxwithopeningflap'], ['Packaging Accessories', 'packaging-accessories'], ['Shipping and Product Envelopes', 'shipping-envelope'], ['Gift Boxes', 'pillowbox'], ['Beverage Packaging', 'wineboxes']],
+    'Outdoor Advertising': [['Banners', 'banners'], ['Construction Banners', 'constructionfencebanners'], ['Flags', 'flag-printing'], ['Beach Flags', 'featherflags'], ['Signage & Panels', 'panels-and-signs'], ['Foamex', 'foamexsigns'], ['Pavement Signs', 'aboards']],
+    'Clothing & Textiles': [['T-shirts', 'tshirt-printing'], ['Hoodies', 'personalised-hoodies'], ['Sweatshirts', 'personalised-jumpers'], ['Polo Shirts', 'solspolos'], ['Jackets', 'solsshift'], ['Shirts', 'personalised-blouse'], ['Sportswear', 'sportswear']],
+    'Corporate Gifts': [['Writing Materials', 'printed-pens'], ['Office Supplies', 'a5blacknotebook'], ['Drinkware', 'siriusgrsrpetwaterbottle650ml'], ['Bags', 'printed-bags'], ['Gadgets & Technology', 'personalised-gadgets'], ['Promotional Food', 'clicclactin'], ['Personal Care', 'personal-care']],
+    'Hospitality': [['Menu Cards', 'trifoldmenucards'], ['Coasters', 'coasters'], ['Greaseproof Paper', 'greaseproofpaper'], ['Reusable Cups', 'ecoplasticcups'], ['Entrance Tickets', 'entrancetickets'], ['Breakable Coins', 'breakcoins']],
   },
   footer: {
     'Who we are': [['About Us', 'about-us'], ['Our culture', 'our-culture'], ['Jobs', 'jobs'], ['Our Promises', 'our-promises'], ['Sustainability', 'sustainability'], ['Newsroom', 'blog/category/company'], ['Blog', 'blog']],
