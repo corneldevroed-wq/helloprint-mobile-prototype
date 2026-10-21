@@ -1659,3 +1659,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .opt .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
 .opt .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
 html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrows (heatmaps: taps there instead of on the CTA); swipe still works */
+
+/* Desktop accordions (Design Guidelines, FAQ): the open row reads as one block — semibold title,
+   3px green line on the left and a light grey background behind title and text */
+.d-acc details { position: relative; }
+.d-acc details[open] { background: var(--light-grey); box-shadow: inset 3px 0 0 var(--light-green); }
+.d-acc details[open] summary { font-weight: 600; padding-left: 16px; }
+.d-acc details[open] p { padding-left: 16px; }
