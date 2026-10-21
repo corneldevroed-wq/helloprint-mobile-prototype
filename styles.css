@@ -384,9 +384,9 @@ body.menu-open { overflow: hidden; }
 .opt .t { flex: 1; min-width: 0; }
 .opt b { display: block; font-weight: 600; font-size: 14px; line-height: 18px; }
 .opt small { display: block; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
-.opt .shape { flex-shrink: 0; background: var(--white); border: 1px solid var(--dark-green); }
-.opt .swatch { position: relative; width: 37.5px; height: 37.5px; flex-shrink: 0; align-self: flex-start; }
-.opt .swatch img { position: absolute; }
+.opt .shape, .gi-vis .shape { flex-shrink: 0; background: var(--white); border: 1px solid var(--dark-green); }
+.opt .swatch, .gi-vis .swatch { position: relative; width: 37.5px; height: 37.5px; flex-shrink: 0; align-self: flex-start; }
+.opt .swatch img, .gi-vis .swatch img { position: absolute; }
 .qty-list { display: flex; flex-direction: column; }
 .qrow { display: flex; align-items: center; gap: 10px; padding: 12px 8px; margin-top: -1px; border: 1px solid var(--outline); background: var(--white); text-align: left; font-size: 14px; line-height: 18px; position: relative; }
 .qrow:first-child { margin-top: 0; border-radius: 5px 5px 0 0; }
@@ -807,7 +807,7 @@ body.info-guide .opt-info { display: none; }
 .btn-edit.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }
 
 /* Option colour chips (foils, metallics, middle layers) */
-.opt .chip { flex-shrink: 0; align-self: flex-start; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); box-shadow: inset 0 1px 2px rgba(255,255,255,.5); }
+.opt .chip, .gi-vis .chip { flex-shrink: 0; align-self: flex-start; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); box-shadow: inset 0 1px 2px rgba(255,255,255,.5); }
 .gallery .nav-btn[hidden] { display: none; }
 
 /* USP ticker under the search bar */
@@ -1656,8 +1656,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk-switch button[aria-pressed="true"] { background: var(--light-green); }
 
 /* Thickness icon: a diagonal line, thicker per step */
-.opt .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
-.opt .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
+.opt .thick, .gi-vis .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
+.opt .thick::after, .gi-vis .thick::after { content: ''; position: absolute; left: 50%; top: 50%; width: 22px; height: var(--w); border-radius: var(--w); background: var(--black); transform: translate(-50%, -50%) rotate(-45deg); }
 html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrows (heatmaps: taps there instead of on the CTA); swipe still works */
 
 /* Desktop accordions (Design Guidelines, FAQ): one row open at a time; the open row reads as one block —
@@ -1669,3 +1669,7 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* Hover on a closed row: a very light grey (lighter than the open row) and the title in dark green */
 .d-acc details:not([open]) summary:hover { background: #f8f8f8; color: var(--dark-green); }
 .d-acc summary { transition: background .15s, color .15s; }
+
+/* ⓘ guide: the option's picture on the left of each item (same visual as the option card) */
+.gi-head .gi-vis { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; }
+.guide-item:has(.gi-vis) > p { padding-left: 52px; }

@@ -458,8 +458,9 @@
   }
 
   // ---------- Customise sheet ----------
-  function optCard(key, o) {
-    const visual = o.shape ? `<span class="shape" style="${o.shape}"></span>`
+  // The option's picture (shape, paper swatch, colour chip, thickness line…), also used in the ⓘ guide
+  function optVisual(key, o) {
+    return o.shape ? `<span class="shape" style="${o.shape}"></span>`
       : o.img ? `<img src="${P + o.img}" alt="" style="${o.imgSize}">`
       : o.swatch ? `<span class="swatch"><img src="${P + o.swatch}" alt="" style="left:0;top:0;width:37.5px;height:37.5px">${o.lines
           ? `<img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:32.1px;width:15.9px;height:1.2px"><img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:24.4px;width:15.9px;height:1.2px"><img src="${P}paper-line-b.svg" alt="" style="left:4.1px;top:28.5px;width:21.2px;height:1.2px">` : ''}<img src="${P}paper-corner.svg" alt="" style="left:25.15px;top:.38px;width:12.17px;height:12.18px"></span>`
@@ -467,6 +468,9 @@
       // Thickness: a diagonal line that gets thicker per step (Cornel's reference)
       : key === 'thickness' ? `<span class="thick" style="--w:${1.5 + OPTIONS[key].items.indexOf(o) * 1.25}px"></span>`
       : '';
+  }
+  function optCard(key, o) {
+    const visual = optVisual(key, o);
     return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>${visual}</button>`;
   }
   // Quantity info is factual: what one card costs now, and at the next step up
@@ -802,7 +806,7 @@
     document.getElementById('guideList').innerHTML = guideItems(guideKey).map(o => {
       const on = draft[guideKey] === o.id;
       return `<div class="guide-item${on ? ' on' : ''}">
-        <div class="gi-head"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>
+        <div class="gi-head">${(v => v ? `<span class="gi-vis">${v}</span>` : '')(optVisual(guideKey, o))}<span class="t"><b>${o.name}</b><small>${o.sub}</small></span>
           ${on ? `<span class="gi-selected"><img src="${P}check.svg" alt="">Selected</span>` : `<button class="btn-edit" data-choose="${o.id}">Choose</button>`}</div>
         <p>${o.info}</p></div>`;
     }).join('');
