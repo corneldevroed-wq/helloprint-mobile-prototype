@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021u">
+<link rel="stylesheet" href="styles.css?v=20261021v">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261021u"></script>
-<script src="products.js?v=20261021u"></script>
+<script src="app.js?v=20261021v"></script>
+<script src="products.js?v=20261021v"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -763,7 +763,16 @@
       <div class="d-designs" role="radiogroup" aria-label="How will you add your design?">${cards.map(([id, icon, title, pts]) => `
         <button class="d-design" role="radio" aria-checked="${deskDesign === id}" data-ddesign="${id}"><span class="ico"><img src="${P + icon}" alt=""></span>
           <span class="t"><b>${title}</b><ul>${pts.map(x => `<li>${x}</li>`).join('')}</ul></span></button>`).join('')}</div>
-      <button class="btn primary d-go" id="deskGo">${deskCta()}</button>`;
+      <button class="btn primary d-go" id="deskGo">${deskCta()}</button>
+      ${deskDesign === 'upload' ? deskTemplate(c) : ''}`;
+  }
+  // Upload later: the template that fits the selection (same files as the Templates section), right under the button
+  function deskTemplate(c) {
+    const size = OPTIONS.size && pick('size', c.size), round = c.corners === 'rounded';
+    const id = !size ? PRODUCT.slug : round && ['standard', 'portrait'].includes(size.id) ? (size.id === 'standard' ? 'round' : 'round-portrait') : size.id;
+    const what = !size ? PRODUCT.name : size.sub.replace(' x ', ' × ') + (round ? ', rounded corners' : '');
+    return `<p class="d-tpl-dl">Download the design template for ${what}
+      <a href="#template-${id}-pdf" aria-label="PDF template"><img src="assets/desktop/icon-pdf.svg" alt=""></a><a href="#template-${id}-indd" aria-label="InDesign template"><img src="assets/desktop/icon-indesign.svg" alt=""></a></p>`;
   }
   const hasChanges = () => [...KEYS, 'qty', 'delivery'].some(k => draft[k] !== saved[k]) || sizeMix(draft) !== sizeMix(saved);
   // Store the draft; returns the previous selection, or null when nothing changed

@@ -1528,6 +1528,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-design[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
 .d-design .ico { width: 50px; height: 50px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid var(--outline); border-radius: 5px; background: var(--white); }
 .d-design .ico img { width: 28px; height: 28px; }
+/* Upload later: download line for the template that fits the selection, under the green button */
+.d-tpl-dl { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: 14px; line-height: 1.4; color: var(--dark-grey); text-align: center; }
+.d-tpl-dl a { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 4px; transition: background .15s; }
+.d-tpl-dl a:hover { background: rgba(0, 0, 0, .06); }
+.d-tpl-dl img { width: 22px; height: 22px; }
 .d-design .t { display: flex; flex-direction: column; gap: 4px; }
 .d-design .t b { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .d-design ul { padding-left: 18px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
