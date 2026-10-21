@@ -1711,3 +1711,6 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .tpl-list a { display: inline-flex; align-items: center; gap: 4px; }
 .tpl-list a img { width: 18px; height: 18px; }
 .m-sec .px { padding: 0 16px; }   /* titles and the note inside the full-width swipe sections */
+/* Swipe row cards: room for a two-line name, so "pcs from" and the price line up in every card */
+.m-card .name, .d-card .name { min-height: calc(2 * 1.2em); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.d-card .name { min-height: 44px; }
