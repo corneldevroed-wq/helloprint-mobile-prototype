@@ -133,8 +133,8 @@
     const d = items[0].arrives;
     // Pay later: production only starts once it's paid, so payment is part of the deadline
     document.getElementById('eta').innerHTML = etaHtml(d, when === 'later'
-      ? `If your files are approved and the order is paid by 10:30 on ${etaApprove(d)}`
-      : `If your files are approved by 10:30 on ${etaApprove(d)}`);
+      ? `If your files are approved and the order is paid by <b>10:30 on ${etaApprove(d)}</b>`
+      : `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`);
   }
   const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
 

@@ -126,7 +126,7 @@
     // Address as a short list, one line each (older orders only have the comma version)
     const lines = [o.name, ...(o.addressLines || (o.address || '').split(', ')), 'Ireland'].filter(Boolean);
     document.getElementById('ocAddress').innerHTML = lines.map(l => `<span>${l.replace(/</g, '&lt;')}</span>`).join('');
-    document.getElementById('ocArrives').innerHTML = etaHtml(o.arrives, needsFile ? `If your files are approved${later ? ' and the order is paid' : ''} by 10:30 on ${etaApprove(o.arrives)}` : (later ? `If the order is paid by 10:30 on ${etaApprove(o.arrives)}` : ''));
+    document.getElementById('ocArrives').innerHTML = etaHtml(o.arrives, needsFile ? `If your files are approved${later ? ' and the order is paid' : ''} by <b>10:30 on ${etaApprove(o.arrives)}</b>` : (later ? `If the order is paid by <b>10:30 on ${etaApprove(o.arrives)}</b>` : ''));
 
     // Per product: own upload button; the row shows the file once chosen
     const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg', hidden: true });

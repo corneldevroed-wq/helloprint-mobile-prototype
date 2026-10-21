@@ -161,7 +161,7 @@
           <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
         </div>
       </section>
-      <div class="eta">${(d => etaHtml(d, `If your files are approved by 10:30 on ${etaApprove(d)}`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>
+      <div class="eta">${(d => etaHtml(d, `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>
       <a class="btn outline continue-shopping" href="index.html">Continue shopping</a>`;
     document.getElementById('barTotal').textContent = eur(total);
   }
