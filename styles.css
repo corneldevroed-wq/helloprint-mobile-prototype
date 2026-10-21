@@ -1666,3 +1666,6 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .d-acc details[open] { background: var(--light-grey); }
 .d-acc details[open] summary { font-weight: 600; padding-left: 16px; }
 .d-acc details[open] p { padding-left: 16px; }
+/* Hover on a closed row: a very light grey (lighter than the open row) and the title in dark green */
+.d-acc details:not([open]) summary:hover { background: #f8f8f8; color: var(--dark-green); }
+.d-acc summary { transition: background .15s, color .15s; }
