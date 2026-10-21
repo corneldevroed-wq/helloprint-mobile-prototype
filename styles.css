@@ -1714,3 +1714,8 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* Swipe row cards: room for a two-line name, so "pcs from" and the price line up in every card */
 .m-card .name, .d-card .name { min-height: calc(2 * 1.2em); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .d-card .name { min-height: 44px; }
+/* Review cards: same height in a row, title max 1 line, text max 3 lines, the name always at the bottom */
+.d-rev-row, .m-revs { align-items: stretch; }
+.d-rev > b { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.d-rev > p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.3em); }
+.d-rev small { margin-top: auto; }
