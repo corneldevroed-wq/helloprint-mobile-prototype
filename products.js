@@ -64,7 +64,7 @@ const PRODUCTS = {
   'classic-business-cards': {
     name: 'Classic Business Cards', cartName: 'Classic business cards', badge: 'Most Popular',
     gallery: ['assets/products/bc-1.png', 'assets/products/bc-2.jpg', 'assets/products/bc-3.jpg', 'assets/products/bc-4.jpg', 'assets/products/bc-5.jpg'],   // Figma 15927:9209
-    img: 'assets/pdp/classic.png', thumb: 'assets/category/t-classic.png', bg: 'rgba(224,252,180,.5)', priceMult: 1,
+    img: 'assets/pdp/classic.png', thumb: 'assets/category/t-classic.png', priceMult: 1,
     groups: [
       sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape', 'squared', 'american']),
       { key: 'paper', title: 'Paper', items: [
@@ -98,7 +98,7 @@ const PRODUCTS = {
 
   'eco-friendly-business-cards': {
     name: 'Eco Friendly Business Cards', cartName: 'Eco friendly business cards', badge: 'Eco',
-    img: 'assets/category/t-eco.png', bg: 'rgba(223,185,144,.3)', priceMult: 1.12,
+    img: 'assets/category/t-eco.png', priceMult: 1.12,
     groups: [
       sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape', 'squared', 'american']),
       { key: 'paper', title: 'Paper', items: [
@@ -125,7 +125,7 @@ const PRODUCTS = {
 
   'pvc-cards-white': {
     name: 'PVC Cards White', cartName: 'PVC cards white',
-    img: 'assets/category/t-pvc.png', bg: 'rgba(48,89,100,.15)', priceMult: 3.1,
+    img: 'assets/category/t-pvc.png', priceMult: 3.1,
     groups: [
       { key: 'finish', title: 'Finish', items: [
         { id: 'glossy', name: 'Glossy white', sub: '760 μ PVC', swatch: 'paper-glossy.svg', mult: 1, info: 'A shiny, white plastic card as sturdy as a credit card. Colours look bright and crisp.' },
@@ -148,7 +148,7 @@ const PRODUCTS = {
 
   'deluxe-business-cards': {
     name: 'Deluxe Business Cards', cartName: 'Deluxe business cards',
-    img: 'assets/category/t-deluxe.png', bg: 'rgba(28,28,28,.1)', priceMult: 2.35,
+    img: 'assets/category/t-deluxe.png', priceMult: 2.35,
     groups: [
       sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape']),
       { key: 'finish', title: 'Exclusive finish', items: [
@@ -174,7 +174,7 @@ const PRODUCTS = {
 
   'business-cards-special-materials': {
     name: 'Business Cards Special Materials', cartName: 'Business cards special materials',
-    img: 'assets/category/t-special.png', bg: 'rgba(221,181,77,.2)', priceMult: 1.85,
+    img: 'assets/category/t-special.png', priceMult: 1.85,
     groups: [
       sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape']),
       { key: 'material', title: 'Material', items: [
@@ -201,7 +201,7 @@ const PRODUCTS = {
 
   'multilayered-business-cards': {
     name: 'Multilayered Business Cards', cartName: 'Multilayered business cards',
-    img: 'assets/category/t-multilayer.png', bg: 'rgba(229,111,36,.2)', priceMult: 1.6,
+    img: 'assets/category/t-multilayer.png', priceMult: 1.6,
     groups: [
       { key: 'core', title: 'Middle layer colour', items: [
         ['black', 'Black', '#1c1c1c', 'Timeless and bold. A sharp black line around your card.'],
@@ -232,7 +232,7 @@ const PRODUCTS = {
   // Flyers (helloprint.com/en-ie/standardflyers): live sizes, materials, thickness, printing, finishing, quantities and prices
   'standard-flyers': {
     name: 'Standard Flyers', cartName: 'Standard flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
-    img: 'assets/flyers/t-classic.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1000,
+    img: 'assets/flyers/t-classic.webp', priceMult: 1, defaultQty: 1000,
     qty: [[25, 13.79], [100, 17.79], [250, 23.49], [500, 28.49], [1000, 35.99], [2500, 61.99], [5000, 105.99], [10000, 168.99]],
     delivery: FLYER_DELIVERY,
     groups: [
@@ -279,7 +279,7 @@ const PRODUCTS = {
   // Eco Flyers (helloprint.com/en-ie/ecoflyers): live sizes, materials, thickness, printing, quantities and prices
   'eco-flyers': {
     name: 'Eco Flyers', cartName: 'Eco flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'], badge: 'Eco',
-    img: 'assets/flyers/t-eco.webp', bg: 'rgba(223,185,144,.3)', priceMult: 1, defaultQty: 1000,
+    img: 'assets/flyers/t-eco.webp', priceMult: 1, defaultQty: 1000,
     qty: [[25, 16.99], [100, 22.99], [250, 34.49], [500, 42.49], [1000, 53.99], [2500, 87.99], [5000, 141.99], [10000, 262.99]],
     delivery: FLYER_DELIVERY,
     groups: [
@@ -314,7 +314,7 @@ const PRODUCTS = {
   // Special Material Flyers (helloprint.com/en-ie/specialflyers): live sizes, materials, printing, quantities and prices
   'special-material-flyers': {
     name: 'Special Material Flyers', cartName: 'Special material flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
-    img: 'assets/flyers/t-special-material.webp', bg: 'rgba(221,181,77,.2)', priceMult: 1, defaultQty: 1000,
+    img: 'assets/flyers/t-special-material.webp', priceMult: 1, defaultQty: 1000,
     qty: [[25, 62.99], [100, 68.99], [250, 83.99], [500, 104.99], [750, 125.99], [1000, 151.99], [2000, 259.99], [2500, 328.99]],
     delivery: FLYER_DELIVERY,
     groups: [
@@ -348,7 +348,7 @@ const PRODUCTS = {
   // Special Finishing Flyers (helloprint.com/en-ie/flyersexclusivepaperfinish): live sizes, finishes, lamination, material, quantities and prices
   'special-finishing-flyers': {
     name: 'Special Finishing Flyers', cartName: 'Special finishing flyers', noun: 'flyers', crumb: ['Flyers', '#flyers'],
-    img: 'assets/flyers/t-special-finishing.webp', bg: 'rgba(28,28,28,.1)', priceMult: 1, defaultQty: 500,
+    img: 'assets/flyers/t-special-finishing.webp', priceMult: 1, defaultQty: 500,
     qty: [[25, 27.99], [50, 39.49], [100, 62.99], [250, 128.99], [500, 214.99], [750, 298.99], [1000, 385.99], [2500, 912.99]],
     delivery: FLYER_DELIVERY,
     groups: [
@@ -400,7 +400,7 @@ const PRODUCTS = {
   // 330 ml Full Colour Ceramic Mug (helloprint.com/en-ie/basicwhitemug330ml)
   'ceramic-mug-330ml': {
     name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumbTop: ['Gifts', '#corporate-gifts'], crumb: ['Mugs', '#personalised-mugs'],
-    img: 'assets/products/mug.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 100,
+    img: 'assets/products/mug.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 17.77], [5, 36.01], [10, 61.43], [30, 147.36], [50, 217.90], [100, 412.32], [250, 896.18], [500, 1541.81], [1000, 2879.40], [2000, 4807.11]],
     delivery: [STANDARD_ONLY('Tue 6 Oct', 'mugs')],
     groups: [
@@ -418,7 +418,7 @@ const PRODUCTS = {
   // Basic Cotton Bags (helloprint.com/en-ie/cottonbagslonghandles)
   'basic-cotton-bags': {
     name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
-    img: 'assets/products/cotton-bag.webp', bg: 'rgba(223,185,144,.3)', priceMult: 1, defaultQty: 100,
+    img: 'assets/products/cotton-bag.webp', priceMult: 1, defaultQty: 100,
     qty: [[100, 181.99], [150, 238.32], [200, 294.66], [250, 350.99], [500, 650.99], [1000, 1128.99], [2500, 2488.99], [5000, 4506.99]],
     delivery: [STANDARD_ONLY('Mon 12 Oct', 'bags', '11–15 working days')],
     groups: [
@@ -447,7 +447,7 @@ const PRODUCTS = {
   // Premium Tote Bags (helloprint.com/en-ie/cottonbagslonghandles140gm)
   'premium-tote-bags': {
     name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
-    img: 'assets/products/premium-tote.webp', bg: 'rgba(241,228,195,.5)', priceMult: 1, defaultQty: 100,
+    img: 'assets/products/premium-tote.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 31, 48][i], info: d.info.replace('flyers', 'bags') })),
     groups: [
@@ -477,7 +477,7 @@ const PRODUCTS = {
   // Sol's Imperial T-shirt (bestseller on helloprint.com/en-ie/tshirt-printing → /tshirtbasicroundneck)
   'sols-imperial-tshirt': {
     name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumbTop: ['Clothing', '#clothing-printing'], crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
-    img: 'assets/products/tshirt.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 10,
+    img: 'assets/products/tshirt.webp', priceMult: 1, defaultQty: 10,
     // Size mix instead of a quantity list: the total is the quantity (live sizes S–XXL)
     sizes: ['S', 'M', 'L', 'XL', 'XXL'], defaultSizes: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 },
     qty: [[5, 99.99], [10, 164.83], [25, 329.99], [50, 549.99], [100, 899.99], [250, 1849.99], [500, 3249.99]],   // all but 10 ~
@@ -509,7 +509,7 @@ const PRODUCTS = {
   // Banners (helloprint.com/en-ie/banners)
   'banners': {
     name: 'Banners', cartName: 'Banners', noun: 'banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Banners', '#banner-printing'],
-    img: 'assets/products/banner.webp', bg: 'rgba(2,105,186,.1)', priceMult: 1, defaultQty: 1,
+    img: 'assets/products/banner.webp', priceMult: 1, defaultQty: 1,
     qty: [[1, 33.36], [2, 61.99], [3, 89.99], [5, 144.99], [10, 279.99], [25, 669.99]],   // 2+ ~
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 58.47, 62.47][i], info: d.info.replace('flyers', 'banners') })),
     groups: [
@@ -551,7 +551,7 @@ const PRODUCTS = {
   // Roller Banners (main product on helloprint.com/en-ie/rollupbanners-printing → /budgetrollupbanners)
   'roller-banners': {
     name: 'Roller Banners', cartName: 'Roller banners', noun: 'roller banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Roller Banners', '#rollupbanners-printing'],
-    img: 'assets/products/roller-banner.webp', bg: 'rgba(96,111,115,.1)', priceMult: 1, defaultQty: 1,
+    img: 'assets/products/roller-banner.webp', priceMult: 1, defaultQty: 1,
     qty: [[1, 38.99], [2, 62.99], [3, 86.99], [5, 132.99], [10, 257.99], [20, 501.99], [50, 1247.99]],
     delivery: FLYER_DELIVERY.filter(d => d.id !== 'express').map((d, i) => ({ ...d, extra: [0, 47][i], info: d.info.replace('flyers', 'roller banners') })),
     groups: [
@@ -588,7 +588,8 @@ const PRODUCTS = {
 // Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.
 const LIVE_GALLERY = { 'eco-friendly-business-cards': 7, 'pvc-cards-white': 5, 'deluxe-business-cards': 6, 'business-cards-special-materials': 6, 'standard-flyers': 5, 'eco-flyers': 4, 'special-material-flyers': 5, 'special-finishing-flyers': 5, 'ceramic-mug-330ml': 4, 'basic-cotton-bags': 2, 'premium-tote-bags': 3, 'sols-imperial-tshirt': 7, 'banners': 7, 'roller-banners': 6 };
 for (const [slug, n] of Object.entries(LIVE_GALLERY)) PRODUCTS[slug].gallery = [PRODUCTS[slug].img, ...Array.from({ length: n }, (_, i) => `assets/gallery/${slug}-${i + 2}.webp`)];
-for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; }
+// One neutral photo background for every product (Cornel, 2026-10-21: no coloured backgrounds per product)
+for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; p.bg = 'var(--light-grey)'; }
 
 // Base price per quantity (Figma quantity list); each product scales it with priceMult
 const BASE_QTY = [[100, 9.99], [250, 14.49], [500, 18.89], [750, 28.49], [1000, 34.99], [1500, 44.99], [2000, 54.99], [3000, 69.99], [4000, 84.99], [5000, 99.99]];

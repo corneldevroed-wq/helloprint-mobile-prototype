@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261021v">
+<link rel="stylesheet" href="styles.css?v=20261021w">
 </head>
 <body>
 <div class="phone">
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261021v"></script>
+<script src="app.js?v=20261021w"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -114,7 +114,7 @@
   document.getElementById('paySummary').innerHTML = `
     ${items.map(it => `
       <div class="line-item">
-        <span class="img" style="background:${it.bg}"><img src="${it.img}" alt=""></span>
+        <span class="img" style="background:var(--light-grey)"><img src="${it.img}" alt=""></span>
         <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small></div>
         <span class="p">${eur(it.price)}</span>
       </div>`).join('')}

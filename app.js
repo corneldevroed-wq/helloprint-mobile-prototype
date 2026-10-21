@@ -273,14 +273,14 @@ const etaHtml = (d, condition) => `<b>Estimated delivery date</b><p>${etaLong(et
 
 // Best sellers (home grid) — also used by search
 const products = [
-  { img: 'p1.png', bg: 'rgba(120,163,175,.1)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },
-  { img: 'p2.png', bg: 'rgba(241,228,195,.5)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
-  { img: 'p3.png', bg: 'rgba(96,111,115,.1)', name: 'Standard Flyers', qty: 1000, price: 35.99, href: 'product.html?p=standard-flyers' },
-  { img: 'p4.png', bg: 'rgba(224,252,180,.5)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
-  { img: 'p5.png', bg: 'rgba(96,111,115,.1)', name: 'Posters', qty: 500, price: 18.89 },
-  { img: 'p6.png', bg: 'rgba(2,105,186,.1)', name: 'Basic Cotton Bags', qty: 100, price: 181.99, href: 'product.html?p=basic-cotton-bags' },
-  { img: 'p7.png', bg: 'rgba(206,5,1,.1)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
-  { img: 'p8.png', bg: 'rgba(28,162,89,.1)', name: 'Stickers on Roll', qty: 500, price: 54.59 },
+  { img: 'p1.png', bg: 'var(--light-grey)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },
+  { img: 'p2.png', bg: 'var(--light-grey)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
+  { img: 'p3.png', bg: 'var(--light-grey)', name: 'Standard Flyers', qty: 1000, price: 35.99, href: 'product.html?p=standard-flyers' },
+  { img: 'p4.png', bg: 'var(--light-grey)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
+  { img: 'p5.png', bg: 'var(--light-grey)', name: 'Posters', qty: 500, price: 18.89 },
+  { img: 'p6.png', bg: 'var(--light-grey)', name: 'Basic Cotton Bags', qty: 100, price: 181.99, href: 'product.html?p=basic-cotton-bags' },
+  { img: 'p7.png', bg: 'var(--light-grey)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
+  { img: 'p8.png', bg: 'var(--light-grey)', name: 'Stickers on Roll', qty: 500, price: 54.59 },
   // Desktop only: completes the second row of five (Figma 15848:4851)
   { img: 'products/mug.webp', bg: 'var(--light-grey)', name: '330 ml Full Colour Ceramic Mug', qty: 100, price: 412.32, href: 'product.html?p=ceramic-mug-330ml', desk: true },
   { img: 'products/roller-banner.webp', bg: 'var(--light-grey)', name: 'Roller Banners', qty: 1, price: 38.99, href: 'product.html?p=roller-banners', desk: true },
@@ -489,7 +489,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuLayer.
 const slug = t => t.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const S = 'assets/search/';
 const searchProducts = [
-  { name: 'Classic business cards', img: S + 'classic.png', bg: 'rgba(224,252,180,.5)', qty: 500, price: 18.89, proto: 'pdp' },
+  { name: 'Classic business cards', img: S + 'classic.png', bg: 'var(--light-grey)', qty: 500, price: 18.89, proto: 'pdp' },
   { name: 'Eco business cards', img: S + 'eco.png', qty: 500, price: 18.89 },
   { name: 'Plastic business cards', img: S + 'plastic.png', qty: 500, price: 18.89 },
   { name: 'Deluxe business cards', img: S + 'deluxe.png', qty: 500, price: 18.89 },
