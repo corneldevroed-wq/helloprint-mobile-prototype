@@ -1638,3 +1638,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-go .d-go-ico { filter: brightness(0) invert(1); }   /* the Design online icon in white on the green button */
 .desk body:has(.d-bar) { padding-bottom: 76px; }   /* the footer stays readable above the fixed bar */
 .desk .opts { align-items: stretch; }   /* height follows the content; cards in one row stay equally tall */
+/* Option cards fill the 737px column exactly: as many columns as fit at ≥112px (6 at 1512px, each ±116px), no gap on the right */
+.desk .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+.desk .opt { width: auto; min-width: 0; }
