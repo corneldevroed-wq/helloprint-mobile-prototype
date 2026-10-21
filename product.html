@@ -421,8 +421,8 @@
   document.getElementById('optGroups').innerHTML = KEYS.map(k => `<div class="opt-group" data-option="${k}"></div>`).join('');
   const titles = PRODUCT.groups.map(g => g.title.toLowerCase());
   document.getElementById('presetsIntro').textContent = `Sets ${titles.length > 1 ? titles.slice(0, -1).join(', ') + ' and ' + titles.at(-1) : titles[0]}. Quantity and delivery stay as you choose them.`;
-  // More product photos (PRODUCT.gallery): the same swipeable track on mobile, with thumbnails on desktop
-  if (PRODUCT.gallery) document.getElementById('galleryTrack').innerHTML = PRODUCT.gallery.map((src, i) => `<img src="${src}" alt="${i ? '' : PRODUCT.name}"${i ? ' loading="lazy"' : ' id="pImg"'}>`).join('');
+  // More product photos (PRODUCT.gallery): desktop only, with thumbnails. Mobile shows just the main photo (Cornel, heatmaps)
+  if (PRODUCT.gallery && DESK) document.getElementById('galleryTrack').innerHTML = PRODUCT.gallery.map((src, i) => `<img src="${src}" alt="${i ? '' : PRODUCT.name}"${i ? ' loading="lazy"' : ' id="pImg"'}>`).join('');
   // One image: no gallery arrows
   document.querySelectorAll('.gallery .nav-btn').forEach(b => { b.hidden = document.getElementById('galleryTrack').children.length < 2; });
 
