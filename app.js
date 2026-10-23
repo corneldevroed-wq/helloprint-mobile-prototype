@@ -120,6 +120,11 @@ if (document.body.hasAttribute('data-desktop')) DESK_MQ.addEventListener('change
 const DESK_NAV = [['Promotional Print', 'promotional-printing'], ['Books', 'brochure-and-booklet-printing'], ['Cards', 'cards-and-invites'], ['Stationary', 'stationery-and-office-supplies'],
   ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs', 'panels-and-signs'], ['Stickers', 'all-stickers'], ['Gifts', 'corporate-gifts'], ['Bags', 'promotional-bags'], ['Clothing', 'clothing-printing']];
 const deskUser = (() => { try { return JSON.parse(localStorage.getItem('hp-user')) || null; } catch (e) { return null; } })();
+// Trustpilot service score (header + footer), built in HTML instead of a picture: "Excellent", 4.5 stars, review count, logo
+const TP_STAR = '<svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="Excellent, rated 4.5 out of 5, 34,760 reviews on Trustpilot"><b>Excellent</b>
+  <span class="dtrust-stars" aria-hidden="true">${[100, 100, 100, 100, 50].map(f => `<span class="tp-star" style="--f:${f}%">${TP_STAR}</span>`).join('')}</span>
+  <u>34,760 reviews</u><span class="dtrust-on">on</span><span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;
 const SHELL_HEADER_DESK = `
   <header class="dhead">
     <div class="dhead-top"><div class="dwrap">
@@ -149,7 +154,7 @@ const SHELL_HEADER_DESK = `
         <li><img src="assets/check.svg" alt="">Always a <b>perfect</b> design</li>
         <li><img src="assets/check.svg" alt="">100% <b>satisfaction</b> guarantee</li>
       </ul>
-      <span class="dtrust" role="img" aria-label="Excellent, 31,116 reviews on Trustpilot"><img src="assets/desktop/trustpilot-excellent.png" alt=""></span>
+      ${DTRUST}
     </div></div>`;
 const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
 const SHELL_FOOTER_DESK = `
@@ -165,7 +170,7 @@ const SHELL_FOOTER_DESK = `
       <div class="dfoot-help">
         <div class="dhelp"><span class="dfaces"><img src="assets/desktop/help-3.png" alt=""><img src="assets/desktop/help-2.png" alt=""><img src="assets/desktop/help-1.png" alt=""></span>
           <p><b>Need help?</b><a href="#chat">Ask our print experts</a></p></div>
-        <span class="dtrust" role="img" aria-label="Excellent, 31,116 reviews on Trustpilot"><img src="assets/desktop/trustpilot-excellent.png" alt=""></span>
+        ${DTRUST}
       </div>
       <div class="dfoot-cols">
         ${deskCol('Our Company', [['About us', 'about-us'], ['Culture', 'our-culture'], ['Sustainability', 'sustainability'], ['Newsroom', 'newsroom'], ['Jobs', 'jobs'], ['Talent &amp; Culture', 'talent'], ['Blog', 'blog'], ['Culture Book', 'culture-book'], ['Contact', 'new2contactform']])}
