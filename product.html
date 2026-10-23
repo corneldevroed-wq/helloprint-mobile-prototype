@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261022c">
+<link rel="stylesheet" href="styles.css?v=20261023m">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261022c"></script>
-<script src="products.js?v=20261022c"></script>
+<script src="app.js?v=20261023m"></script>
+<script src="products.js?v=20261023m"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -398,6 +398,27 @@
   else if (PRODUCT.noun) document.querySelector('.tpl-list').innerHTML =
     `<li><span>${PRODUCT.name}</span><a href="#template-${PRODUCT.slug}-pdf">PDF</a><a href="#template-${PRODUCT.slug}-indd">InDesign</a></li>`;
   document.title = PRODUCT.name;
+  // Desktop: under the title the Trustpilot product-reviews mini widget (stars + "N reviews" with a breakdown dropdown).
+  // Placeholder numbers until there are real product reviews; the Trustpilot service score stays in the header.
+  if (DESK) {
+    const h = [...PRODUCT.slug].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 9973, 7);
+    const count = 5 + h % 140, split = [.62, .24, .08, .04, .02].map(x => Math.round(x * count));   // 5★ … 1★
+    split[0] += count - split.reduce((a, b) => a + b, 0);
+    const score = split.reduce((a, n, i) => a + n * (5 - i), 0) / count, shown = Math.round(score * 2) / 2;
+    // Trustpilot's star colours: the filled squares take the colour of the rounded score
+    const colour = shown >= 4.5 ? '#00b67a' : shown >= 4 ? '#73cf11' : shown >= 3 ? '#ffce00' : shown >= 2 ? '#ff8622' : '#ff3722';
+    const star = i => `<span class="tp-star" style="--f:${i <= shown ? 100 : i - .5 === shown ? 50 : 0}%"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>`;
+    document.querySelector('.buy .rating').outerHTML = `<div class="tp-mini" style="--tp:${colour}">
+      <button class="tp-toggle" aria-expanded="false" aria-label="${score.toFixed(1)} out of 5, ${count} product reviews on Trustpilot">
+        <span class="p-stars">${[1, 2, 3, 4, 5].map(star).join('')}</span><span class="tp-count">${count} reviews</span><svg class="tp-chev" viewBox="0 0 24 24"><path d="M12 15.4 6 9.4 7.4 8l4.6 4.6L16.6 8 18 9.4z"/></svg></button>
+      <div class="tp-pop" hidden>
+        <p class="tp-title">Rated ${score.toFixed(1)} out of 5 stars</p>
+        ${split.map((n, i) => `<div class="tp-bar" style="--bar:${['#00b67a', '#73cf11', '#ffce00', '#ff8622', '#ff3722'][i]}"><span>${5 - i} star${i < 4 ? 's' : ''}</span><i><s style="width:${Math.round(n / count * 100)}%"></s></i><b>(${n})</b></div>`).join('')}
+      </div></div>`;
+    const mini = document.querySelector('.tp-mini'), tog = mini.querySelector('.tp-toggle'), pop = mini.querySelector('.tp-pop');
+    tog.addEventListener('click', () => { pop.hidden = !pop.hidden; tog.setAttribute('aria-expanded', !pop.hidden); });
+    document.addEventListener('click', e => { if (!mini.contains(e.target)) { pop.hidden = true; tog.setAttribute('aria-expanded', false); } });
+  }
   document.getElementById('pName').textContent = PRODUCT.name + '.';
   document.getElementById('pImg').src = PRODUCT.img;
   document.getElementById('pImg').alt = PRODUCT.name;
@@ -510,6 +531,15 @@
   // Version J: step numbers in front of each option, and the short quantity list
   const jStep = i => FLOW_J && !DESK ? `<span class="j-step">${i + 1}</span>` : '';
   let jAllQty = false;
+  // Desktop delivery cards (delivery sketch, variant D): a calendar tile with the arrival day, then the option,
+  // how many days sooner than the slowest option, and the price. Only the chosen tile has a green band.
+  function deskDeliv(d, c) {
+    const x = etaDate(d.dayName), slow = Math.max(...DELIVERY.map(o => +etaDate(o.dayName))), sooner = Math.round((slow - x) / 864e5);
+    const gain = DELIVERY.length > 1 && sooner ? `<span class="fast">${sooner} day${sooner > 1 ? 's' : ''} sooner</span>` : DELIVERY.length > 1 ? 'Our best value' : `Latest ${etaShort(etaLatest(d.dayName))}`;
+    return `<button class="deliv d-cal-card" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}" aria-label="${d.name}, ${etaLong(x)}, ${d.extra ? '+' + fmt(d.extra) : 'included'}">
+      <span class="cal" aria-hidden="true"><i>${x.toLocaleDateString('en-GB', { month: 'short' }).replace('Sept', 'Sep')}</i><b>${x.getDate()}</b><small>${x.toLocaleDateString('en-GB', { weekday: 'short' })}</small></span>
+      <span class="tx"><b>${d.name}</b><span class="gain">${gain}</span><span class="pr">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></span></button>`;
+  }
   function renderDraft() {
     const c = draft, preset = presetOf(c);
     document.getElementById('presets').innerHTML = PRESETS.map(p => `
@@ -524,7 +554,7 @@
     if (SIZES_MIX) renderSizeMix(c);
     else document.querySelector('[data-option="qty"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span>${DESK ? `<label class="d-vat">Incl VAT<button class="d-vat-switch" role="switch" aria-checked="${inclVat}" data-vat-switch aria-label="Show prices including VAT"></button></label>` : ''}</p>
-      <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity">${QTY.map(([q], qi) => {
+      <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity" style="--qrows:${Math.ceil((FLOW_J && !jAllQty ? QTY.filter(([q], qi) => qi < 8 || c.qty === q).length : QTY.length) / 2)}">${QTY.map(([q], qi) => {
         const p = productPrice(c, q);
         // J shows the common amounts (+ the chosen one) until "More quantities"
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
@@ -534,11 +564,12 @@
         // Desktop: the price explanation and "View all" on one line (no gap between list and text)
         ? `<div class="qty-foot"><p class="opt-info">${qtyInfo(c)}</p>${FLOW_J && !jAllQty && QTY.length > 8 ? `<button class="j-more d-viewall" data-more-qty>View all<img src="assets/desktop/arrow-forward-green.svg" alt=""></button>` : ''}</div>`
         : `${FLOW_J && !jAllQty ? '<button class="j-more" data-more-qty>More quantities</button>' : ''}<p class="opt-info">${qtyInfo(c)}</p>`}`;
+    document.querySelector('[data-option="delivery"]').style.setProperty('--dn', DELIVERY.length);   // desktop: one column per option
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
-      ${DELIVERY.map(d => `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
+      ${DELIVERY.map(d => DESK ? deskDeliv(d, c) : `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
         <span class="date"><b>${d.day}</b><small>${{ Sep: 'SEPT', Oct: 'OCT' }[d.dayName.split(' ')[2]]}</small></span><span class="t"><b>${d.name}</b><small>${d.dayName} · latest ${etaShort(etaLatest(d.dayName)).replace(/^\w+ /, '')}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
-      <p class="opt-info">${delivery(c).info}</p>`;
+      ${DESK ? '' : `<p class="opt-info">${delivery(c).info}</p>`}`;   // desktop: the approval deadline is in Your selection
     document.querySelector('[data-bind="draftRecap"]').textContent = `${KEYS.map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
     document.querySelector('[data-bind="draftArrives"]').textContent = `arrives ${delivery(c).dayName}`;
@@ -586,7 +617,7 @@
     // Under the title: the product intro ("Show more" opens all of it) and the USPs
     // At most 4 lines; when there is more, the text is cut at a word and "… Show more" follows it on the same line
     const full = PRODUCT.about.join(' ');
-    buy.querySelector('.rating').insertAdjacentHTML('afterend', '<div class="d-intro"><p></p></div>');
+    buy.querySelector('.tp-mini, .rating').insertAdjacentHTML('afterend', '<div class="d-intro"><p></p></div>');
     const intro = buy.querySelector('.d-intro'), ip = intro.querySelector('p');
     const fits = html => { ip.innerHTML = html; return ip.offsetHeight <= 4 * 24 + 1; };
     const more = ' … <button type="button">Show more</button>';
@@ -626,12 +657,19 @@
     let pv = 'a';
     try { if (['a', 'b'].includes(pq)) localStorage.setItem('hp-desk-photos', pq); pv = localStorage.getItem('hp-desk-photos') || 'a'; } catch (e) { pv = pq || 'a'; }
     const setPv = v => { document.documentElement.classList.toggle('ph-b', v === 'b'); document.querySelectorAll('[data-pv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pv === v)); try { localStorage.setItem('hp-desk-photos', v); } catch (e) {} };
+    // Delivery D = calendar tile left of the text; E = calendar tile on top, centred (delivery-sketch.html). ?deliv=d|e
+    const lq = new URLSearchParams(location.search).get('deliv');
+    let lv = 'd';
+    try { if (['d', 'e'].includes(lq)) localStorage.setItem('hp-desk-deliv', lq); lv = localStorage.getItem('hp-desk-deliv') || 'd'; } catch (e) { lv = lq || 'd'; }
+    const setLv = v => { document.documentElement.classList.toggle('dl-e', v === 'e'); document.querySelectorAll('[data-lv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lv === v)); try { localStorage.setItem('hp-desk-deliv', v); } catch (e) {} };
     document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Cards</span>
       <button data-dv="a" title="A: image on top, 6 per row (Figma)">A</button><button data-dv="b" title="B: as on mobile, text left and image right, 3 per row">B</button>
       <span>Photos</span>
-      <button data-pv="a" title="A: thumbnails under the photo (Figma)">A</button><button data-pv="b" title="B: thumbnails left of the photo, configuration narrower">B</button></div>`);
-    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) setDv(b.dataset.dv); const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); });
-    setDv(dv); setPv(pv);
+      <button data-pv="a" title="A: thumbnails under the photo (Figma)">A</button><button data-pv="b" title="B: thumbnails left of the photo, configuration narrower">B</button>
+      <span>Delivery</span>
+      <button data-lv="d" title="D: calendar tile left of the text">D</button><button data-lv="e" title="E: calendar tile on top, centred">E</button></div>`);
+    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) setDv(b.dataset.dv); const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); });
+    setDv(dv); setPv(pv); setLv(lv);
   }
   // Content for the lower page, the same on mobile and desktop: other products of this kind, FAQ, section noun
   function pdpExtras() {

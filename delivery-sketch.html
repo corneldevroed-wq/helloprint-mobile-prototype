@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delivery Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch (not linked): three ways to show the delivery options on the desktop PDP.
+     A = timeline, B = date as headline + benefit, C = segmented control + one detail line, D / E = calendar tile (left / on top).
+     Data as in the prototype: flyers (3 options), business cards (2), mug (1). -->
+<style>
+  :root { --dark-green: #022b07; --light-green: #00a651; --tint: #e6f6ee; --orange: #f36d13; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #f0f0f0; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/1.5 Inter, sans-serif; color: var(--black); background: var(--white); }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
+  .wrap { width: calc(100% - 48px); max-width: 737px; margin: 0 auto; padding: 32px 0 96px; }   /* the PDP's configuration column */
+  .note { margin-bottom: 20px; padding: 12px 16px; border-radius: 10px; background: #fff7e6; font-size: 13px; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .bar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 32px; }
+  .seg-sw { display: inline-flex; gap: 4px; align-items: center; font-size: 13px; color: var(--dark-grey); }
+  .seg-sw button { padding: 4px 12px; border: 1px solid var(--mid-grey); border-radius: 100px; font-weight: 600; font-size: 13px; color: var(--black); }
+  .seg-sw button[aria-pressed="true"] { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+
+  .opt-title { margin-bottom: 8px; font-size: 14px; line-height: 1.4; }
+  .opt-title b { font-weight: 600; }
+  .opt-title span { color: var(--dark-grey); }
+  .card { border: 1px solid var(--outline); border-radius: 5px; background: var(--white); box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); transition: border-color .15s; }
+  .card:hover { border-color: var(--black); }
+  .card[aria-checked="true"] { border: 2px solid var(--light-green); }
+  .row { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 8px; }
+  .muted { color: var(--dark-grey); }
+  .deadline { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; padding: 10px 12px; border-left: 3px solid var(--light-green); background: #f7f7f7; font-size: 14px; line-height: 1.4; }
+  .deadline b { font-weight: 600; }
+
+  /* A · timeline */
+  .tl { position: relative; display: grid; grid-template-columns: repeat(var(--days), minmax(0, 1fr)); margin-bottom: 12px; border: 1px solid var(--outline); border-radius: 5px; overflow: hidden; }
+  .day { position: relative; padding: 8px 4px 34px; text-align: center; border-right: 1px solid var(--line); font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+  .day:last-child { border-right: 0; }
+  .day b { display: block; font-size: 16px; color: var(--black); }
+  .day.we { background: repeating-linear-gradient(135deg, #fafafa 0 6px, #f3f3f3 6px 12px); }
+  .day.in { background: var(--tint); }   /* from today up to the chosen arrival */
+  .mark { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); padding: 2px 8px; border-radius: 100px; border: 1px solid var(--outline); background: var(--white); font-weight: 600; font-size: 11px; color: var(--black); white-space: nowrap; }
+  .mark.on { border-color: var(--light-green); background: var(--light-green); color: var(--white); }
+  .a-card { padding: 12px 14px; }
+  .a-card[aria-checked="true"] { padding: 11px 13px; }
+  .a-card b { display: block; font-weight: 600; font-size: 16px; line-height: 1.2; }
+  .a-card .p { margin-top: 4px; font-weight: 600; }
+
+  /* B · date as headline + benefit */
+  .b-card { padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+  .b-card[aria-checked="true"] { padding: 13px 15px; }
+  .b-card .nm { font-weight: 600; font-size: 13px; color: var(--dark-grey); }
+  .b-card .dt { font-weight: 700; font-size: 18px; line-height: 1.25; }
+  .b-card .gain { margin-top: 6px; font-weight: 600; font-size: 14px; }
+  .b-card .gain .fast { color: var(--light-green); }
+  .b-card .lt { font-size: 12px; color: var(--dark-grey); }
+
+  /* C · segmented control */
+  .seg { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); border: 1px solid var(--outline); border-radius: 8px; padding: 4px; gap: 4px; background: #f7f7f7; }
+  .seg button { padding: 10px 12px; border-radius: 5px; text-align: center; border: 1px solid transparent; transition: background .15s; }
+  .seg button:hover { background: var(--white); }
+  .seg button[aria-checked="true"] { background: var(--white); border-color: var(--light-green); box-shadow: 0 1px 2px rgba(0, 0, 0, .12); }
+  .seg b { display: block; font-weight: 600; font-size: 15px; }
+  .seg small { display: block; font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
+  .seg .p { font-weight: 600; color: var(--black); }
+  .c-detail { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+  .c-detail .big { font-weight: 700; font-size: 18px; }
+
+  /* D / E · calendar tile: a tear-off calendar page (green band with the month, big day, weekday) */
+  .cal { flex-shrink: 0; width: 60px; border: 1px solid var(--outline); border-radius: 6px; overflow: hidden; background: var(--white); text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
+  .cal i { display: block; padding: 2px 0; background: var(--light-green); font-style: normal; font-weight: 700; font-size: 11px; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; color: var(--white); }
+  .cal b { display: block; padding-top: 4px; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.5px; }
+  .cal small { display: block; padding: 2px 0 5px; font-size: 11px; line-height: 1.2; color: var(--dark-grey); }
+  .card:not([aria-checked="true"]) .cal i { background: var(--dark-grey); }   /* only the chosen date is green */
+  .d-card { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .d-card[aria-checked="true"] { padding: 11px; }
+  .d-card .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .d-card .nm { font-weight: 600; font-size: 15px; line-height: 1.2; }
+  .d-card .gain, .e-card .gain { font-size: 13px; line-height: 1.3; }
+  .gain .fast { color: var(--light-green); font-weight: 600; }
+  .d-card .p, .e-card .p { font-weight: 600; font-size: 14px; }
+  .e-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 12px; text-align: center; }
+  .e-card[aria-checked="true"] { padding: 13px 11px; }
+  .e-card .cal { width: 68px; margin-bottom: 4px; }
+  .e-card .cal b { font-size: 30px; }
+  .e-card .nm { font-weight: 600; font-size: 15px; line-height: 1.2; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="note"><b>Sketch, not linked.</b> Delivery on the desktop PDP, in the configuration column (737 px). Switch the variant and the number of options; click the options to choose.</p>
+  <div class="bar">
+    <span class="seg-sw" role="group" aria-label="Variant">Variant <button data-v="a">A · Timeline</button><button data-v="b">B · Date + benefit</button><button data-v="c">C · Segmented</button><button data-v="d" aria-pressed="true">D · Calendar left</button><button data-v="e">E · Calendar top</button></span>
+    <span class="seg-sw" role="group" aria-label="Options">Options <button data-n="3" aria-pressed="true">3 · flyers</button><button data-n="2">2 · business cards</button><button data-n="1">1 · mug</button></span>
+  </div>
+  <section id="out"></section>
+</main>
+
+<script>
+  // Dates as in the prototype (September 2026). latest = next working day, approve = working day before, 10:30
+  const SETS = {
+    3: [{ id: 'saver', name: 'Saver', d: '2026-09-29', extra: 0 }, { id: 'standard', name: 'Standard', d: '2026-09-25', extra: 43 }, { id: 'express', name: 'Express', d: '2026-09-24', extra: 79 }],
+    2: [{ id: 'saver', name: 'Saver', d: '2026-09-29', extra: 0 }, { id: 'express', name: 'Express', d: '2026-09-25', extra: 9.99 }],
+    1: [{ id: 'standard', name: 'Standard', d: '2026-10-06', extra: 0 }],
+  };
+  const TODAY = new Date('2026-09-22T12:00');
+  const D = s => new Date(s + 'T12:00');
+  const add = (d, n) => new Date(d.getTime() + n * 864e5);
+  const work = (d, step) => { let x = add(d, step); while ([0, 6].includes(x.getDay())) x = add(x, step); return x; };
+  const fmt = (d, o) => d.toLocaleDateString('en-GB', o).replace('Sept', 'Sep');
+  const long = d => fmt(d, { weekday: 'long', day: 'numeric', month: 'short' });
+  const short = d => fmt(d, { weekday: 'short', day: 'numeric', month: 'short' });
+  const euro = n => '€' + n.toFixed(2);
+  const daysBetween = (a, b) => Math.round((b - a) / 864e5);
+  let V = 'd', N = 3, sel = 'saver';
+
+  const opts = () => SETS[N].map(o => ({ ...o, date: D(o.d) }));
+  const slowest = () => opts().reduce((a, o) => (o.date > a ? o.date : a), opts()[0].date);
+  const chosen = () => opts().find(o => o.id === sel) || opts()[0];
+  const priceText = o => o.extra ? '+' + euro(o.extra) : 'Included';
+  const deadline = o => `<p class="deadline"><span>⏱</span><span>Approve your files by <b>10:30 on ${short(work(o.date, -1))}</b> to receive them on ${long(o.date)}.</span></p>`;
+  const title = () => `<p class="opt-title"><b>Delivery</b> <span>${long(chosen().date)}</span></p>`;
+
+  function renderA() {
+    const os = opts(), first = add(TODAY, 1), last = work(slowest(), 1), days = [];
+    for (let d = first; d <= last; d = add(d, 1)) days.push(d);
+    const c = chosen();
+    return title() + `
+      <div class="tl" style="--days:${days.length}">${days.map(d => {
+        const o = os.find(x => +x.date === +d), we = [0, 6].includes(d.getDay());
+        return `<div class="day${we ? ' we' : ''}${!we && d <= c.date ? ' in' : ''}">${fmt(d, { weekday: 'short' })}<b>${d.getDate()}</b>${o ? `<span class="mark${o.id === c.id ? ' on' : ''}">${o.name}</span>` : ''}</div>`;
+      }).join('')}</div>
+      <div class="row" style="--n:${os.length}">${os.map(o => `
+        <button class="card a-card" role="radio" aria-checked="${o.id === c.id}" data-id="${o.id}"><b>${o.name}</b><span class="muted">${short(o.date)}</span><p class="p">${priceText(o)}</p></button>`).join('')}</div>
+      ${deadline(c)}`;
+  }
+  function renderB() {
+    const os = opts(), slow = slowest(), c = chosen();
+    return title() + `
+      <div class="row" style="--n:${os.length}">${os.map(o => {
+        const sooner = daysBetween(o.date, slow);
+        const gain = os.length === 1 ? 'Included in the price' : sooner ? `<span class="fast">${sooner} day${sooner > 1 ? 's' : ''} sooner</span> · ${priceText(o)}` : 'Included in the price';
+        return `<button class="card b-card" role="radio" aria-checked="${o.id === c.id}" data-id="${o.id}">
+          <span class="nm">${o.name}</span><span class="dt">${long(o.date)}</span><span class="gain">${gain}</span><span class="lt">Latest ${short(work(o.date, 1))}</span></button>`;
+      }).join('')}</div>
+      ${deadline(c)}`;
+  }
+  function renderC() {
+    const os = opts(), c = chosen();
+    return `<p class="opt-title"><b>Delivery</b></p>
+      <div class="seg" role="radiogroup" style="--n:${os.length}">${os.map(o => `
+        <button role="radio" aria-checked="${o.id === c.id}" data-id="${o.id}"><b>${o.name}</b><small>${short(o.date)}</small><small class="p">${priceText(o)}</small></button>`).join('')}</div>
+      <p class="c-detail">Arrives <span class="big">${long(c.date)}</span> <span class="muted">· latest ${short(work(c.date, 1))}</span></p>
+      ${deadline(c)}`;
+  }
+  // D / E: the calendar tile, with B's benefit line (how many days sooner, for how much)
+  const cal = d => `<span class="cal" aria-hidden="true"><i>${fmt(d, { month: 'short' })}</i><b>${d.getDate()}</b><small>${fmt(d, { weekday: 'short' })}</small></span>`;
+  const gainOf = (o, os, slow) => { const n = daysBetween(o.date, slow); return os.length > 1 && n ? `<span class="fast">${n} day${n > 1 ? 's' : ''} sooner</span>` : 'Our best value'; };
+  function renderD() {
+    const os = opts(), slow = slowest(), c = chosen();
+    return title() + `<div class="row" style="--n:${os.length}">${os.map(o => `
+      <button class="card d-card" role="radio" aria-checked="${o.id === c.id}" data-id="${o.id}" aria-label="${o.name}, ${long(o.date)}">${cal(o.date)}
+        <span class="tx"><span class="nm">${o.name}</span><span class="gain">${gainOf(o, os, slow)}</span><span class="p">${priceText(o)}</span></span></button>`).join('')}</div>
+      ${deadline(c)}`;
+  }
+  function renderE() {
+    const os = opts(), slow = slowest(), c = chosen();
+    return title() + `<div class="row" style="--n:${os.length}">${os.map(o => `
+      <button class="card e-card" role="radio" aria-checked="${o.id === c.id}" data-id="${o.id}" aria-label="${o.name}, ${long(o.date)}">${cal(o.date)}
+        <span class="nm">${o.name}</span><span class="gain">${gainOf(o, os, slow)}</span><span class="p">${priceText(o)}</span></button>`).join('')}</div>
+      ${deadline(c)}`;
+  }
+  function render() {
+    if (!opts().some(o => o.id === sel)) sel = opts()[0].id;
+    document.getElementById('out').innerHTML = { a: renderA, b: renderB, c: renderC, d: renderD, e: renderE }[V]();
+  }
+  document.getElementById('out').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) { sel = b.dataset.id; render(); } });
+  document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => { V = b.dataset.v; document.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+  document.querySelectorAll('[data-n]').forEach(b => b.addEventListener('click', () => { N = +b.dataset.n; document.querySelectorAll('[data-n]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+  render();
+</script>
+</body>
+</html>

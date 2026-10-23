@@ -1865,3 +1865,51 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .home > section:has(> .cats) { margin-top: 8px; }   /* 24px under the logo line, as above it */
 .desk .home > section:has(> .grid), .desk .home > .promos,
 .desk .home > .d-reviews, .desk .home > .acc-wrap, .desk .home > .seo { margin-top: 32px; }
+
+/* Desktop PDP: product review score under the title (placeholder numbers), in Trustpilot's style:
+   green squares with a white star, the last square partly green */
+.tp-mini { position: relative; display: inline-block; }
+.tp-toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; line-height: 20px; color: var(--black); }
+.p-stars { display: inline-flex; gap: 2px; }
+.tp-star { width: 20px; height: 20px; display: grid; place-items: center; background: linear-gradient(90deg, var(--tp) var(--f), #dcdce6 var(--f)); }
+.tp-star svg { width: 14px; height: 14px; fill: var(--white); }
+.tp-count { display: inline-flex; align-items: center; }
+.tp-chev { width: 18px; height: 18px; margin-left: -6px; fill: var(--black); transition: transform .2s; }
+.tp-toggle[aria-expanded="true"] .tp-chev { transform: rotate(180deg); }
+.tp-toggle:hover .tp-count { text-decoration: underline; text-underline-offset: 2px; }
+/* Breakdown dropdown, as Trustpilot's mini widget: title, one bar per star level in that level's colour, counts */
+.tp-pop { position: absolute; left: 0; top: calc(100% + 10px); z-index: 30; width: 300px; padding: 18px 20px 22px; border: 1px solid #e5e5dd; border-radius: 2px; background: var(--white); box-shadow: 0 2px 12px rgba(0, 0, 0, .12); font-size: 13px; line-height: 1.4; color: var(--black); }
+.tp-title { margin-bottom: 10px; font-weight: 700; font-size: 17px; }
+.tp-bar { display: grid; grid-template-columns: 56px 1fr 26px; align-items: center; gap: 10px; margin-top: 6px; }
+.tp-bar i { height: 4px; background: #dcdce6; }
+.tp-bar s { display: block; height: 100%; background: var(--bar); }
+.tp-bar b { font-weight: 700; text-align: right; }
+
+/* Desktop PDP: quantities in two columns, filled top to bottom (as on the live site) */
+.desk .qty-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(var(--qrows, 4), auto); grid-auto-flow: column; gap: 8px; }
+
+/* Desktop PDP: delivery options side by side (Niels: one overview of the delivery speeds) */
+.desk [data-option="delivery"] { display: grid; grid-template-columns: repeat(var(--dn, 3), minmax(0, 1fr)); gap: 8px; align-items: stretch; }
+.desk [data-option="delivery"] > p { grid-column: 1 / -1; grid-row: auto; }
+.desk [data-option="delivery"] > .opt-title { grid-row: 1; }
+.desk [data-option="delivery"] > .deliv { grid-row: 2; }
+.desk [data-option="delivery"] > .opt-info { grid-row: 3; }
+.desk .deliv.d-cal-card { flex-direction: row; align-items: center; gap: 12px; padding: 12px; }
+.desk .deliv.d-cal-card[aria-checked="true"] { padding: 11px; }
+.d-cal-card .cal { flex-shrink: 0; width: 60px; border: 1px solid var(--outline); border-radius: 6px; overflow: hidden; background: var(--white); text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
+.d-cal-card .cal i { display: block; padding: 3px 0 0; background: var(--white); font-style: normal; font-weight: 700; font-size: 11px; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; color: var(--light-green); }   /* not chosen: white header, green month */
+.d-cal-card[aria-checked="true"] .cal { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* the chosen date: green outline */
+.d-cal-card[aria-checked="true"] .cal i { padding: 2px 0; background: var(--light-green); color: var(--white); }   /* chosen: solid green header */
+.d-cal-card .cal b { display: block; padding-top: 4px; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.5px; }
+.d-cal-card .cal small { display: block; padding: 2px 0 5px; font-size: 11px; line-height: 1.2; color: var(--dark-grey); }
+.d-cal-card .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.d-cal-card .tx b { font-weight: 600; font-size: 15px; line-height: 1.2; }
+.d-cal-card .gain { font-size: 13px; line-height: 1.3; color: var(--dark-grey); }
+.d-cal-card .gain .fast { font-weight: 600; color: var(--light-green); }
+.d-cal-card .pr { font-weight: 600; font-size: 14px; }
+/* Delivery E (prototype switch): the calendar tile on top, everything centred */
+.desk.dl-e .deliv.d-cal-card { flex-direction: column; justify-content: flex-start; gap: 8px; padding: 14px 12px; text-align: center; }
+.desk.dl-e .deliv.d-cal-card[aria-checked="true"] { padding: 13px 11px; }
+.desk.dl-e .d-cal-card .tx { align-items: center; }
+.desk.dl-e .d-cal-card .cal { width: 68px; }
+.desk.dl-e .d-cal-card .cal b { font-size: 30px; }
