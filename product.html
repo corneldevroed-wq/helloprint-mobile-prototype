@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261023z">
+<link rel="stylesheet" href="styles.css?v=20261024o">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261023z"></script>
-<script src="products.js?v=20261023z"></script>
+<script src="app.js?v=20261024o"></script>
+<script src="products.js?v=20261024o"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -398,6 +398,7 @@
   else if (PRODUCT.noun) document.querySelector('.tpl-list').innerHTML =
     `<li><span>${PRODUCT.name}</span><a href="#template-${PRODUCT.slug}-pdf">PDF</a><a href="#template-${PRODUCT.slug}-indd">InDesign</a></li>`;
   document.title = PRODUCT.name;
+  var prodRev = null;   // product review numbers (placeholder), set below on desktop
   // Desktop: under the title the Trustpilot product-reviews mini widget (stars + "N reviews" with a breakdown dropdown).
   // Placeholder numbers until there are real product reviews; the Trustpilot service score stays in the header.
   if (DESK) {
@@ -407,6 +408,7 @@
     const score = split.reduce((a, n, i) => a + n * (5 - i), 0) / count, shown = Math.round(score * 2) / 2;
     // Trustpilot's star colours: the filled squares take the colour of the rounded score
     const colour = shown >= 4.5 ? '#00b67a' : shown >= 4 ? '#73cf11' : shown >= 3 ? '#ffce00' : shown >= 2 ? '#ff8622' : '#ff3722';
+    prodRev = { count, split, score, shown, colour };   // also used by the reviews section at the bottom
     const star = i => `<span class="tp-star" style="--f:${i <= shown ? 100 : i - .5 === shown ? 50 : 0}%"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>`;
     document.querySelector('.buy .rating').outerHTML = `<div class="tp-mini" style="--tp:${colour}">
       <button class="tp-toggle" aria-expanded="false" aria-label="${score.toFixed(1)} out of 5, ${count} product reviews on Trustpilot">
@@ -414,9 +416,12 @@
       <div class="tp-pop" hidden>
         <p class="tp-title">Rated ${score.toFixed(1)} out of 5 stars</p>
         ${split.map((n, i) => `<div class="tp-bar" style="--bar:${['#00b67a', '#73cf11', '#ffce00', '#ff8622', '#ff3722'][i]}"><span>${5 - i} star${i < 4 ? 's' : ''}</span><i><s style="width:${Math.round(n / count * 100)}%"></s></i><b>(${n})</b></div>`).join('')}
+        <a class="tp-all" href="#d-revs" data-to-revs>See all reviews</a>
       </div></div>`;
     const mini = document.querySelector('.tp-mini'), tog = mini.querySelector('.tp-toggle'), pop = mini.querySelector('.tp-pop');
     tog.addEventListener('click', () => { pop.hidden = !pop.hidden; tog.setAttribute('aria-expanded', !pop.hidden); });
+    pop.addEventListener('click', e => { if (!e.target.closest('[data-to-revs]')) return; e.preventDefault(); pop.hidden = true; tog.setAttribute('aria-expanded', false);
+      const el = document.getElementById('d-revs'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - DESK_HEAD - 60, behavior: 'smooth' }); });
     document.addEventListener('click', e => { if (!mini.contains(e.target)) { pop.hidden = true; tog.setAttribute('aria-expanded', false); } });
   }
   document.getElementById('pName').textContent = PRODUCT.name + '.';
@@ -492,7 +497,10 @@
   }
   function optCard(key, o) {
     const visual = optVisual(key, o);
-    return `<button class="opt" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small></span>${visual}</button>`;
+    // Desktop: the option of the Recommended preset gets a label (prototype switch Rec 0|A|B|C)
+    const rec = DESK && (PRESETS.find(p => p.id === 'recommended') || {}).cfg?.[key] === o.id
+      ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';
+    return `<button class="opt${rec ? ' is-rec' : ''}" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small>${rec}</span>${visual}</button>`;
   }
   // Quantity info is factual: what one card costs now, and at the next step up
   function qtyInfo(c) {
@@ -577,7 +585,8 @@
         const p = productPrice(c, q);
         // J shows the common amounts (+ the chosen one) until "More quantities"
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
-        return `<button class="qrow${common ? '' : ' j-extra'}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
+        const recQ = DESK && q === DEFAULT.qty ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';   // desktop: the default quantity is our recommendation
+        return `<button class="qrow${common ? '' : ' j-extra'}${recQ ? ' is-rec' : ''}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs${recQ}</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
       ${DESK
         // Desktop: the price explanation and "View all" on one line (no gap between list and text)
@@ -620,9 +629,6 @@
   // ---------- Desktop (≥1024px, Figma 15927:9040): photos left, the configuration open on the right ----------
   // Same markup and logic as mobile (J puts the options on the page); only the order and the "Your selection" box are new.
   var deskDesign = 'upload';   // var: renderSaved can run before this line
-  // Design A = choose a card, one green button below; B = two direct choices, each card with its own button (Cornel's earlier design);
-  // C = B's two cards under the selection box; D = the choice as the last configuration step, one button in the box. ?design=a|b|c|d
-  var DESIGN_V = (() => { const q = new URLSearchParams(location.search).get('design'); try { if (['a', 'b', 'c', 'd'].includes(q)) localStorage.setItem('hp-desk-design', q); return localStorage.getItem('hp-desk-design') || 'd'; } catch (e) { return q || 'd'; } })();
   var DESK_HEAD = 100;           // the fixed desktop header (logo bar 60 + category bar 40)
   const euro = n => '€' + n.toFixed(2);
   if (DESK) {
@@ -660,19 +666,15 @@
     buy.querySelector('.d-intro').after(buy.querySelector('.usps'));
     buy.querySelector('.usps').insertAdjacentHTML('afterend', '<hr class="d-line">');
     // "Your selection": the choices as rows, delivery, totals, how the design comes in, one button
-    buy.insertAdjacentHTML('beforeend', '<section class="d-sel" id="deskSel" aria-label="Your selection"></section><section class="d-design-out" id="deskDesignOut" aria-label="Your design" hidden></section>');
-    // Design D: the design choice as the last step of the configuration, after Delivery
-    document.querySelector('#jConfig [data-option="delivery"]').insertAdjacentHTML('afterend', '<div class="opt-group d-design-step" data-option="design" id="deskDesignStep" hidden></div>');
+    buy.insertAdjacentHTML('beforeend', '<section class="d-sel" id="deskSel" aria-label="Your selection"></section>');
     const deskClick = e => {
       const go = e.target.closest('[data-goto]');
       if (go) { const el = document.querySelector(`#jConfig [data-option="${go.dataset.goto}"]`); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - DESK_HEAD - 16, behavior: 'smooth' }); return; }
       const d = e.target.closest('[data-ddesign]');
       if (d) { deskDesign = d.dataset.ddesign; renderDeskSel(); return; }
-      const direct = e.target.closest('[data-go]');   // Design B / C: each card has its own button
-      if (direct) { placeOrder(direct.dataset.go); return; }
       if (e.target.closest('#deskGo')) placeOrder(deskDesign);
     };
-    ['deskSel', 'deskDesignOut', 'deskDesignStep'].forEach(id => document.getElementById(id).addEventListener('click', deskClick));
+    document.getElementById('deskSel').addEventListener('click', deskClick);
     // The VAT switch (quantity list, footer) also changes which total leads in Your selection and the bottom bar
     document.addEventListener('hp-vat', () => { renderDraft(); renderDeskSel(); });
     renderDeskSel();
@@ -699,11 +701,15 @@
       <button data-pv="a" title="A: thumbnails under the photo (Figma)">A</button><button data-pv="b" title="B: thumbnails left of the photo, configuration narrower">B</button>
       <span>Delivery</span>
       <button data-lv="d" title="D: calendar tile left of the text">D</button><button data-lv="e" title="E: calendar tile on top, centred">E</button>
-      <span>Design</span>
-      <button data-gv="a" title="A: choose a card, one button below">A</button><button data-gv="b" title="B: two direct choices, each with its own button">B</button><button data-gv="c" title="C: the two direct choices under the selection box">C</button><button data-gv="d" title="D: the design choice as the last configuration step">D</button></div>`);
-    const setGv = v => { DESIGN_V = v; if (v === 'b' || v === 'c') deskDesign = 'upload'; document.querySelectorAll('[data-gv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.gv === v)); try { localStorage.setItem('hp-desk-design', v); } catch (e) {} renderDeskSel(); };
-    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) { setDv(b.dataset.dv); renderDraft(); } const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const g = e.target.closest('[data-gv]'); if (g) setGv(g.dataset.gv); });
-    setDv(dv); setPv(pv); setLv(lv); setGv(DESIGN_V);
+      <span>Rec</span>
+      ${['0', 'a', 'c', 'd'].map(v => `<button data-rec="${v}" title="${{ 0: '0: no label', a: 'A: green label on the bottom edge (as live)', c: 'C: a green corner with a star', d: 'D: a green bar inside the card, under the text (Cornel)' }[v]}">${v.toUpperCase()}</button>`).join('')}</div>`);
+    // Recommended label: 0 = none, A = label on the bottom edge (live), C = corner, D = green bar in the card. ?rec=0|a|c|d
+    const rq = new URLSearchParams(location.search).get('rec');
+    let rv = 'd';
+    try { if (['0', 'a', 'c', 'd'].includes(rq)) localStorage.setItem('hp-desk-rec', rq); rv = localStorage.getItem('hp-desk-rec') || 'd'; if (rv === 'b') rv = 'd'; } catch (e) { rv = rq || 'd'; }
+    const setRv = v => { ['a', 'c', 'd'].forEach(x => document.documentElement.classList.toggle('rec-' + x, x === v)); document.querySelectorAll('[data-rec]').forEach(b => b.setAttribute('aria-pressed', b.dataset.rec === v)); try { localStorage.setItem('hp-desk-rec', v); } catch (e) {} };
+    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) { setDv(b.dataset.dv); renderDraft(); } const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const r = e.target.closest('[data-rec]'); if (r) setRv(r.dataset.rec); });
+    setDv(dv); setPv(pv); setLv(lv); setRv(rv);
   }
   // Content for the lower page, the same on mobile and desktop: other products of this kind, FAQ, section noun
   function pdpExtras() {
@@ -722,6 +728,44 @@
     const noun = PRODUCT.noun ? PRODUCT.noun.replace(/^\w/, c => c.toUpperCase()) : 'Business Cards';
     return { others, faqs, noun };
   }
+  // Product reviews (Trustpilot product reviews, made-up content for the prototype): summary with the breakdown, then review cards.
+  // The numbers match the mini widget under the title.
+  function prodReviews() {
+    const r = prodRev; if (!r) return '';
+    const noun = NOUN, one = noun.replace(/s$/, '');
+    const qtyOf = i => (QTY[Math.min(QTY.length - 1, 2 + i % 3)] || [500])[0];
+    const opt = i => PRODUCT.groups.map(g => g.items[i % g.items.length].name).slice(0, 2).join(' · ');
+    const list = [
+      [5, 'Better than expected', `Ordered ${noun} for a trade fair and they look great. Colours are sharp and the paper feels sturdy.`, 'Aoife M.', '2 days ago'],
+      [5, 'Quick and easy', `Uploaded my file after checkout, approved the proof the same day and the ${noun} arrived on the date promised.`, 'Ciarán O.', '5 days ago'],
+      [4, 'Good quality, small remark', `Really happy with the print. I would have liked one more option for the finish, but the result is very good.`, 'Sinéad K.', '1 week ago'],
+      [5, 'Our go-to now', `Third time ordering ${noun} here. Consistent quality every time and the file check saved me from a mistake.`, 'Declan R.', '2 weeks ago'],
+      [5, 'Spot on', `Exactly what I designed. The free file check caught a missing bleed and the team fixed it quickly.`, 'Niamh B.', '3 weeks ago'],
+      [3, 'Fine, but slower than hoped', `Print quality is good. Delivery took the latest date, not the estimated one, so plan a bit ahead.`, 'Patrick D.', '1 month ago'],
+      [5, 'Great value', `Good price for this quality. Customers comment on our ${noun} all the time.`, 'Gráinne F.', '1 month ago'],
+      [4, 'Nice result', `Colours came out a little darker than on screen, but overall a nice ${one} and good service.`, 'Eoin S.', '2 months ago'],
+    ];
+    const tpStar = (n, size) => [1, 2, 3, 4, 5].map(i => `<span class="tp-star" style="--f:${i <= n ? 100 : i - .5 === n ? 50 : 0}%;--tp:${['', '#ff3722', '#ff8622', '#ffce00', '#73cf11', '#00b67a'][Math.ceil(n)]}${size ? ';width:' + size + 'px;height:' + size + 'px' : ''}"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>`).join('');
+    return `<section id="d-revs" class="d-sec pr"><h2>Reviews of ${PRODUCT.name}</h2>
+      <div class="pr-wrap">
+        <aside class="pr-sum">
+          <p class="pr-score"><b>${r.score.toFixed(1)}</b><span>out of 5</span></p>
+          <p class="p-stars pr-stars">${tpStar(r.shown, 28)}</p>
+          <p class="pr-count">Based on ${r.count} product reviews</p>
+          ${r.split.map((n, i) => `<div class="tp-bar" style="--bar:${['#00b67a', '#73cf11', '#ffce00', '#ff8622', '#ff3722'][i]}"><span>${5 - i} star${i < 4 ? 's' : ''}</span><i><s style="width:${Math.round(n / r.count * 100)}%"></s></i><b>(${n})</b></div>`).join('')}
+          <p class="tp-src"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</p>
+        </aside>
+        <div class="pr-list">${list.map(([stars, title, text, name, when], i) => `
+          <article class="pr-card"${i >= 4 ? ' hidden' : ''}>
+            <p class="pr-top"><span class="p-stars">${tpStar(stars)}</span><span class="pr-ver"><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+            <b>${title}</b><p>${text}</p>
+            <p class="pr-meta"><b>${name}</b> · ${when}</p>
+            <p class="pr-bought">Ordered: ${qtyOf(i).toLocaleString('en-GB')} pcs · ${opt(i)}</p>
+          </article>`).join('')}
+          <button class="btn pr-more" data-more-revs>Show more reviews</button>
+        </div>
+      </div></section>`;
+  }
   // Under the configuration (Figma 15927:10612): tabs, About, specifications, guidelines + templates, other products, FAQ, reviews.
   // The content is the mobile page's own (About, specs, guide, templates); only the layout is desktop.
   function buildDeskMore() {
@@ -734,7 +778,7 @@
       return [`${li.querySelector('span').firstChild.textContent.trim()}${sm ? ` (${sm.textContent})` : ''}`, pdf, indd];
     });
     const { others, faqs, noun } = pdpExtras();
-    const tabs = [['d-about', 'About'], ['d-specs', 'Product Specifications'], ['d-guide', 'Design Guidelines'], ['d-tpl', 'Templates'], ['d-faq', 'Frequently Asked Questions']];
+    const tabs = [['d-about', 'About'], ['d-specs', 'Product Specifications'], ['d-guide', 'Design Guidelines'], ['d-tpl', 'Templates'], ['d-faq', 'Frequently Asked Questions'], ['d-revs', 'Reviews']];
     const more = document.createElement('div');
     more.className = 'd-more';
     more.innerHTML = `
@@ -759,9 +803,7 @@
       <section id="d-faq" class="d-sec"><h2>Frequently Asked Questions</h2><div class="d-acc">
         ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
       </div></section>
-      <section class="d-sec d-reviews"><h2>What our Happy Customers say</h2>
-        ${deskReviews()}
-      </section>`;
+      ${prodReviews()}`;
     pdp.querySelector('.d-top').after(more);
     // About (the mobile section, moved) and the specifications table (mobile's dl, moved)
     more.querySelector('#d-about').append(...pdp.querySelector('.pdp > .about').childNodes);
@@ -784,7 +826,7 @@
       tabsBar.classList.toggle('stuck', tabsBar.getBoundingClientRect().top <= DESK_HEAD + 1);
     };
     addEventListener('scroll', syncTabs, { passive: true }); syncTabs();
-    wireDeskReviews(more.querySelector('.d-reviews'));
+    more.querySelector('[data-more-revs]')?.addEventListener('click', e => { more.querySelectorAll('.pr-card[hidden]').forEach(x => { x.hidden = false; }); e.currentTarget.remove(); });
     updatePrices();
   }
   // Fixed order bar at the bottom of the desktop page (like the mobile buy bar): shown while the Your selection button is out of view
@@ -819,38 +861,15 @@
       ...PRODUCT.groups.map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
       SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
     ];
-    const cards = [
-      ['upload', 'd-upload.svg', 'Upload later, add to cart', ['Finish your order first.', 'Simply upload your design after checkout', 'Review the print proof, and start production.']],
-      ['canva', 'd-canva.svg', 'Design online with Canva', ['Choose from 10.000+ templates', 'Get a print ready file fast', 'Finish your order']],
-    ];
-    // How the design comes in (prototype switch Design A–D, see the desk-switch)
-    const directHtml = `
-      <div class="d-direct">
-        <div class="d-dcard primary"><span class="ico"><img src="assets/desktop/upload-cloud.svg" alt=""></span>
-          <b>I want to upload my design later</b>
-          <ul><li>Finish your order first.</li><li>Simply upload your design after checkout</li><li>Review the print proof, and approve.</li></ul>
-          <button class="btn primary d-go" id="deskGo" data-go="upload">Add to cart and continue<img src="assets/arrow-right-white.svg" alt="" class="d-go-arrow"></button>
-          ${deskTemplate(c, true)}</div>
-        <div class="d-dcard"><span class="ico"><img src="assets/desktop/canva-logo.svg" alt=""></span>
-          <b>Design online with Canva</b>
-          <ul><li>Choose from 10.000+ templates</li><li>Get a print ready file fast</li><li>Finish your order</li></ul>
-          <button class="btn d-start" data-go="canva">Start designing</button></div>
-      </div>`;
-    const chooseCards = `<div class="d-designs" role="radiogroup" aria-label="How will you add your design?">${cards.map(([id, icon, title, pts]) => `
-        <button class="d-design" role="radio" aria-checked="${deskDesign === id}" data-ddesign="${id}"><span class="ico"><img src="${P + icon}" alt=""></span>
-          <span class="t"><b>${title}</b><ul>${pts.map(x => `<li>${x}</li>`).join('')}</ul></span></button>`).join('')}</div>`;
-    const oneButton = `<button class="btn primary d-go" id="deskGo">${deskCta()}</button>${deskDesign === 'upload' ? deskTemplate(c) : ''}`;
-    // D: the choice as a configuration step, in B's card style (icon, title, bullets); the button stays in the box
+    // How the design comes in: two cards to choose from (icon, title, bullets), one button below (Cornel: A's structure, B's design)
     const pickCards = `<div class="d-direct" role="radiogroup" aria-label="How will you add your design?">
         <button class="d-dcard d-dpick" role="radio" aria-checked="${deskDesign === 'upload'}" data-ddesign="upload"><span class="ico"><img src="assets/desktop/upload-cloud.svg" alt=""></span>
           <b>I want to upload my design later</b>
           <ul><li>Finish your order first.</li><li>Simply upload your design after checkout</li><li>Review the print proof, and approve.</li></ul></button>
-        <button class="d-dcard d-dpick" role="radio" aria-checked="${deskDesign === 'canva'}" data-ddesign="canva"><span class="ico"><img src="assets/desktop/canva-logo.svg" alt=""></span>
+        <button class="d-dcard d-dpick" role="radio" aria-checked="${deskDesign === 'canva'}" data-ddesign="canva"><span class="ico"><img src="assets/desktop/canva-logo.png" alt=""></span>
           <b>Design online with Canva</b>
           <ul><li>Choose from 10.000+ templates</li><li>Get a print ready file fast</li><li>Finish your order</li></ul></button>
       </div>`;
-    const designInBox = { a: chooseCards + oneButton, b: directHtml, c: '', d: oneButton }[DESIGN_V] || '';
-    if (DESIGN_V === 'd') rows.push(['design', 'Design', deskDesign === 'canva' ? 'Canva' : 'Upload later']);
     box.innerHTML = `
       <div class="d-sel-head"><b>Your selection</b><p>${presetLabel(presetOf(c), c)}</p></div>
       <ul class="d-sel-rows">${rows.map(([k, label, v]) => `<li><button data-goto="${k}"><span>${label}</span><u>${v}</u><img src="assets/pdp/arrow-forward-ios.svg" alt=""></button></li>`).join('')}</ul>
@@ -864,11 +883,9 @@
         <li><span>Total incl. VAT</span><b>${euro(t * (1 + VAT_RATE))}</b></li>
         <li class="grand"><span>Total excl. VAT</span><b>${euro(t)}</b></li>`}
       </ul>
-      ${designInBox}`;
-    // Design C: the two direct choices under the grey box; D: the choice as a configuration step
-    const out = document.getElementById('deskDesignOut'), step = document.getElementById('deskDesignStep');
-    if (out) { out.hidden = DESIGN_V !== 'c'; out.innerHTML = DESIGN_V === 'c' ? `<h2 class="d-out-title">How do you want to add your design?</h2>${directHtml}` : ''; }
-    if (step) { step.hidden = DESIGN_V !== 'd'; step.innerHTML = DESIGN_V === 'd' ? `<p class="opt-title">Design <span>${deskDesign === 'canva' ? 'Canva' : 'Upload later'}</span></p>${pickCards}` : ''; }
+      ${pickCards}
+      <button class="btn primary d-go" id="deskGo">${deskCta()}</button>
+      ${deskDesign === 'upload' ? deskTemplate(c, true) : ''}`;
   }
   // Upload later: the template that fits the selection (same files as the Templates section), right under the button
   function deskTemplate(c, short) {
