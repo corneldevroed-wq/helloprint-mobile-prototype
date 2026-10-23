@@ -352,6 +352,7 @@ function setVat(incl) {
   // Desktop: the VAT switches (footer, quantity list) follow the same setting
   document.querySelectorAll('[data-vat-switch]').forEach(b => { b.setAttribute('aria-checked', incl); const t = b.querySelector('span'); if (t) t.textContent = incl ? 'ON' : 'OFF'; });
   updatePrices();
+  document.dispatchEvent(new Event('hp-vat'));   // pages that render prices themselves (desktop PDP) re-render
 }
 vatBtn?.addEventListener('click', e => {
   e.stopPropagation();

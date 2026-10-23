@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261023v">
+<link rel="stylesheet" href="styles.css?v=20261023z">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261023v"></script>
-<script src="products.js?v=20261023v"></script>
+<script src="app.js?v=20261023z"></script>
+<script src="products.js?v=20261023z"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -540,6 +540,24 @@
       <span class="cal" aria-hidden="true"><i>${x.toLocaleDateString('en-GB', { month: 'short' }).replace('Sept', 'Sep')}</i><b>${x.getDate()}</b><small>${x.toLocaleDateString('en-GB', { weekday: 'short' })}</small></span>
       <span class="tx"><b>${d.name}</b><span class="gain">${gain}</span><span class="pr">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></span></button>`;
   }
+  // Desktop: options that don't fit on one row get a "+N" tile in the last place (as the live site), so you see how many
+  // there are; the tile opens the whole group. The chosen option always stays visible.
+  var ovOpen = new Set();   // option groups opened with "+N"
+  var ovT; addEventListener('resize', () => { if (!DESK) return; clearTimeout(ovT); ovT = setTimeout(renderDraft, 150); });
+  function deskOverflow() {
+    for (const key of KEYS) {
+      const row = document.querySelector(`#jConfig [data-option="${key}"] .opts`);
+      if (!row || ovOpen.has(key)) continue;
+      const items = [...row.querySelectorAll('.opt')], cols = getComputedStyle(row).gridTemplateColumns.split(' ').length || 3;
+      if (items.length <= cols) continue;
+      let visible = items.slice(0, cols - 1);
+      const chosen = items.find(b => b.getAttribute('aria-checked') === 'true');
+      if (chosen && !visible.includes(chosen)) visible = [...visible.slice(0, cols - 2), chosen];
+      items.forEach(b => b.classList.toggle('ov-hide', !visible.includes(b)));
+      const more = items.length - visible.length;
+      row.insertAdjacentHTML('beforeend', `<button class="opt ov-tile" data-ov-more="${key}" aria-label="Show ${more} more"><b>+${more}</b><small>more ${OPTIONS[key].title.toLowerCase()} options</small></button>`);
+    }
+  }
   function renderDraft() {
     const c = draft, preset = presetOf(c);
     document.getElementById('presets').innerHTML = PRESETS.map(p => `
@@ -551,6 +569,7 @@
         <div class="opts" role="radiogroup" aria-label="${g.title}">${g.items.map(o => optCard(key, o)).join('')}</div>
         <p class="opt-info">${pick(key, c[key]).info}</p>`;
     }
+    if (DESK) deskOverflow();
     if (SIZES_MIX) renderSizeMix(c);
     else document.querySelector('[data-option="qty"]').innerHTML = `
       <p class="opt-title">${jStep(KEYS.length)}Quantity <span>${c.qty}</span>${DESK ? `<label class="d-vat">Incl VAT<button class="d-vat-switch" role="switch" aria-checked="${inclVat}" data-vat-switch aria-label="Show prices including VAT"></button></label>` : ''}</p>
@@ -582,6 +601,8 @@
     const guide = e.target.closest('[data-guide]');
     if (guide) { openGuide(guide.dataset.guide); return; }
     if (e.target.closest('[data-more-qty]')) { jAllQty = true; renderDraft(); return; }
+    const ovMore = e.target.closest('[data-ov-more]');
+    if (ovMore) { ovOpen.add(ovMore.dataset.ovMore); renderDraft(); return; }
     const opt = e.target.closest('[data-set]'), pre = e.target.closest('[data-preset]');
     if (opt) { const k = opt.dataset.set; draft[k] = k === 'qty' ? +opt.dataset.value : opt.dataset.value; renderDraft(); }
     if (pre) { Object.assign(draft, PRESETS.find(p => p.id === pre.dataset.preset).cfg); renderDraft(); }
@@ -652,6 +673,8 @@
       if (e.target.closest('#deskGo')) placeOrder(deskDesign);
     };
     ['deskSel', 'deskDesignOut', 'deskDesignStep'].forEach(id => document.getElementById(id).addEventListener('click', deskClick));
+    // The VAT switch (quantity list, footer) also changes which total leads in Your selection and the bottom bar
+    document.addEventListener('hp-vat', () => { renderDraft(); renderDeskSel(); });
     renderDeskSel();
     buildDeskMore();
     // Prototype: two ways to show the option cards on desktop. A = Figma (image on top, 6 per row);
@@ -679,7 +702,7 @@
       <span>Design</span>
       <button data-gv="a" title="A: choose a card, one button below">A</button><button data-gv="b" title="B: two direct choices, each with its own button">B</button><button data-gv="c" title="C: the two direct choices under the selection box">C</button><button data-gv="d" title="D: the design choice as the last configuration step">D</button></div>`);
     const setGv = v => { DESIGN_V = v; if (v === 'b' || v === 'c') deskDesign = 'upload'; document.querySelectorAll('[data-gv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.gv === v)); try { localStorage.setItem('hp-desk-design', v); } catch (e) {} renderDeskSel(); };
-    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) setDv(b.dataset.dv); const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const g = e.target.closest('[data-gv]'); if (g) setGv(g.dataset.gv); });
+    document.querySelector('.desk-switch').addEventListener('click', e => { const b = e.target.closest('[data-dv]'); if (b) { setDv(b.dataset.dv); renderDraft(); } const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const g = e.target.closest('[data-gv]'); if (g) setGv(g.dataset.gv); });
     setDv(dv); setPv(pv); setLv(lv); setGv(DESIGN_V);
   }
   // Content for the lower page, the same on mobile and desktop: other products of this kind, FAQ, section noun
@@ -785,7 +808,7 @@
       <button class="d-bar-prod" id="dBarSel" aria-label="Show your selection"><span class="thumb" style="background:${PRODUCT.bg}"><img src="${(PRODUCT.gallery || [PRODUCT.img])[0]}" alt=""></span>
         <span class="t"><b>${PRODUCT.name}</b><small>${materials(c)} · ${c.qty} pcs</small></span></button>
       <span class="d-bar-eta"><img src="${P}check.svg" alt="">${delivery(c).name} · arrives ${delivery(c).dayName}</span>
-      <span class="d-bar-total"><b>${euro(t * (1 + VAT_RATE))}</b><small>incl. VAT · ${euro(t)} excl.</small></span>
+      <span class="d-bar-total">${inclVat ? `<b>${euro(t * (1 + VAT_RATE))}</b><small>incl. VAT · ${euro(t)} excl.</small>` : `<b>${euro(t)}</b><small>excl. VAT · ${euro(t * (1 + VAT_RATE))} incl.</small>`}</span>
       <button class="btn primary d-go" id="dBarGo">${deskCta()}</button>`;
   }
   function renderDeskSel() {
@@ -833,9 +856,13 @@
       <ul class="d-sel-rows">${rows.map(([k, label, v]) => `<li><button data-goto="${k}"><span>${label}</span><u>${v}</u><img src="assets/pdp/arrow-forward-ios.svg" alt=""></button></li>`).join('')}</ul>
       <div class="eta d-eta">${etaHtml(d, `Prevent delay: upload and approve your files by <b>10:30 on ${etaApprove(d)}</b>`)}</div>
       <ul class="d-sel-sum">
+        ${inclVat ? `
         <li><span>Subtotal</span><b>${euro(t)}</b></li>
         <li><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><b>${euro(t * VAT_RATE)}</b></li>
-        <li class="grand"><span>Total incl. VAT</span><b>${euro(t * (1 + VAT_RATE))}</b></li>
+        <li class="grand"><span>Total incl. VAT</span><b>${euro(t * (1 + VAT_RATE))}</b></li>` : `
+        <li><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><b>${euro(t * VAT_RATE)}</b></li>
+        <li><span>Total incl. VAT</span><b>${euro(t * (1 + VAT_RATE))}</b></li>
+        <li class="grand"><span>Total excl. VAT</span><b>${euro(t)}</b></li>`}
       </ul>
       ${designInBox}`;
     // Design C: the two direct choices under the grey box; D: the choice as a configuration step
