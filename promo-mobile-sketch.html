@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promo Cards Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch (not linked): the homepage promo cards on mobile, with the live content and images (helloprint.com/en-ie, Contentful).
+     1 = hero promo carousel (4 promos), 2 = Dedicated team + Our promises. Live today rebuilt at 390 px, then proposals. -->
+<style>
+  :root { --dark-green: #022b07; --green: #3a8a3f; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/1.5 Inter, sans-serif; color: var(--black); background: #e9e9e9; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-weight: 800; font-size: 24px; color: var(--dark-green); }
+  .note { max-width: 960px; margin: 8px 0 8px; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .part { margin-top: 48px; font-size: 20px; font-weight: 800; color: var(--dark-green); }
+  .part + .note { margin-bottom: 24px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .col { width: 390px; }
+  .col h2 { font-size: 16px; font-weight: 700; }
+  .col h2 em { font-style: normal; color: var(--light-green); }
+  .col > p { min-height: 84px; margin: 4px 0 12px; font-size: 13px; line-height: 1.45; color: var(--dark-grey); }
+  .col > p b { color: #c0392b; font-weight: 600; }
+
+  .phone { width: 390px; padding: 24px 0 32px; border-radius: 24px; background: var(--white); overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .phone h3 { margin: 0 16px 12px; font-weight: 800; font-size: 22px; letter-spacing: -.3px; color: var(--dark-green); }
+  .row { display: flex; gap: 8px; padding: 0 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .row::-webkit-scrollbar { display: none; }
+  .row > * { flex: 0 0 300px; scroll-snap-align: start; }
+  .stack { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
+  .card { position: relative; display: block; border-radius: 10px; overflow: hidden; background: var(--light-grey); }
+  .card > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; color: var(--black); }
+  .dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; } .dots i { width: 8px; height: 8px; border-radius: 50%; background: #ccc; } .dots i:first-child { background: var(--green); }
+
+  /* Live today: one card per screen, 372 × 298, title on the image + white button */
+  .live .row { padding: 0 9px; gap: 14px; } .live .row > * { flex-basis: 372px; }
+  .live .card { height: 298px; }
+  .live .card::after { content: ''; position: absolute; inset: 40% 0 0; background: linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,0)); }
+  .live .over { position: absolute; left: 20px; right: 20px; bottom: 20px; z-index: 1; }
+  .live .over strong { display: block; margin-bottom: 14px; font-weight: 700; font-size: 20px; line-height: 1.2; color: var(--white); }
+
+  /* A · lean bar: image stays clean, one white line at the bottom */
+  .a .card { height: 345px; }
+  .bar { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 5px; background: var(--white); font-weight: 600; font-size: 15px; line-height: 1.3; }
+  .bar i, .txt i { font-style: normal; font-size: 18px; }
+
+  /* B · text below the image */
+  .b .card { height: 260px; }
+  .txt { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 8px 2px 0; }
+  .txt strong { font-weight: 600; font-size: 16px; line-height: 1.3; }
+  .txt span { display: block; font-size: 13px; color: var(--dark-grey); }
+
+  /* Part 2 · live today: tall green card, long text, the person small in the corner */
+  .l2 .team { height: 520px; background: var(--green) radial-gradient(rgba(255,255,255,.18) 1px, transparent 1.5px) 0 0 / 22px 22px; color: var(--white); }
+  .l2 .team img { position: absolute; right: 0; bottom: 0; width: 120px; height: auto; }
+  .l2 .team .in { position: absolute; left: 24px; top: 24px; width: 190px; }
+  .l2 .team h4, .l2 .prom h4 { font-weight: 700; font-size: 28px; line-height: 1.2; }
+  .l2 .team p { margin-top: 16px; font-size: 13.5px; line-height: 1.55; }
+  .l2 .team .btn, .l2 .prom .btn { position: absolute; left: 24px; bottom: 24px; }
+  .l2 .prom { height: 520px; color: var(--white); }
+  .l2 .prom::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.15); }
+  .l2 .prom .in { position: absolute; left: 24px; top: 24px; right: 24px; }
+  .l2 .prom ul { list-style: none; margin-top: 16px; font-size: 17px; line-height: 1.4; }
+  .l2 .prom li { display: flex; gap: 12px; margin-bottom: 12px; }
+  .ck { flex-shrink: 0; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--light-green); font-size: 12px; color: var(--white); }
+
+  /* Part 2 · proposal: same card everywhere: photo on top, text block below in white, CTA on its own */
+  .e .card { border: 1px solid var(--outline); background: var(--white); }
+  .e .ph { position: relative; height: 200px; background: var(--light-grey); overflow: hidden; }
+  .e .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .e .ph.green { background: var(--green) radial-gradient(rgba(255,255,255,.18) 1px, transparent 1.5px) 0 0 / 22px 22px; }
+  .e .ph.green img { width: auto; height: 100%; margin: 0 auto; display: block; object-fit: contain; }
+  .e .body { padding: 16px; }
+  .e h4 { font-weight: 700; font-size: 18px; line-height: 1.25; }
+  .e .body > p { margin-top: 6px; font-size: 14px; line-height: 1.45; color: var(--dark-grey); }
+  .e ul { list-style: none; margin-top: 8px; font-size: 14px; }
+  .e li { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .e .ck { width: 18px; height: 18px; font-size: 10px; }
+  .e .cta { display: inline-block; margin-top: 14px; padding: 8px 16px; border: 1px solid var(--mid-grey); border-radius: 100px; font-weight: 600; font-size: 14px; }
+
+  .rules { margin-top: 56px; max-width: 960px; }
+  .rules h2 { font-size: 18px; }
+  .rules ol { margin: 12px 0 0 20px; color: var(--dark-grey); }
+  .rules li { margin-bottom: 8px; }
+  .rules li b { color: var(--black); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Promo cards on mobile · with the live content</h1>
+  <p class="note"><b>Sketch, not linked.</b> Live images and texts from helloprint.com/en-ie (Contentful). Each column is a 390 px phone. Red notes = what goes wrong live today.</p>
+
+  <p class="part">1 · Promo carousel (top of the home)</p>
+  <p class="note">Live: desktop shows 1 wide + 3 portrait tiles (304 × 518), mobile shows one landscape crop per screen (372 × 298) with arrows over the text. Same image, three different crops.</p>
+  <div class="grid" id="p1"></div>
+
+  <p class="part">2 · Dedicated team + Our promises (Block BG)</p>
+  <p class="note">Live: two tall cards (520 px) with the text on the image.</p>
+  <div class="grid" id="p2"></div>
+
+  <section class="rules">
+    <h2>What this needs from the content (Contentful)</h2>
+    <ol>
+      <li><b>No text in the images.</b> Live, the booklet image has "10% OFF with code BOOKLETS10" in it, and the promises image repeats the three promises. On another crop that text gets cut or clashes with the HTML title. Offers and codes go in the title field, so they are crawlable and never cut.</li>
+      <li><b>One image + focal point.</b> The editor sets the focal point on the product; desktop (portrait tile) and mobile (300 × 345) crop around it. An optional mobile image only for exceptions.</li>
+      <li><b>Short title (± 35 characters), subtext desktop only.</b> On mobile the bar shows the title; the whole card is the link.</li>
+      <li><b>Block BG: subtext and CTA separate.</b> Text block under the photo, CTA as its own button, so the subtext (important for these blocks) is never cut.</li>
+    </ol>
+  </section>
+</div>
+<script>
+  const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  const P = [
+    { img: CF + '4dZfdVorisc9HUoTDYtQW3/05a37d6d78e6addb40db5b3d666713f5/UK.webp?w=800&fm=webp&q=80', t: 'Professional Booklets. Unbeatable Prices!', s: 'Shop Booklets', pos: '50% 40%' },
+    { img: CF + '7nh1ufwvkgsVi1UCLhf3n6/f9bb0ed97ee977dfe5b1f33f7bd28c72/exhibition.webp?w=800&fm=webp&q=80', t: 'Don’t Be a Wallflower: Steal the Show', s: 'Shop Exhibition Products', pos: '45% 45%' },
+    { img: CF + '27Nem6cgxkM5dRv7NUKGJM/18049a8cbaf8a1dcf1329dbd5acb736c/labels_on_roll_1__1_.webp?w=800&fm=webp&q=80', t: 'Roll Out Your Brand on Every Package', s: 'Shop Labels On Roll', pos: '55% 50%' },
+    { img: CF + '589OSX08uUbcR2c85DyEUF/2a49be540a0dbe06d91ffdef0c3702af/cotton_bags.webp?w=800&fm=webp&q=80', t: 'Cotton Tote Bags for Every Occasion', s: 'Shop Cotton Bags', pos: '50% 50%' },
+  ];
+  const TEAM = CF + '3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=680&fm=webp&q=80';
+  const PROM = CF + '6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=680&fm=webp&q=80';
+  const img = p => `<img src="${p.img}" alt="" style="object-position:${p.pos}">`;
+  const col = (cls, h, d, inner) => `<div class="col ${cls}"><h2>${h}</h2><p>${d}</p><div class="phone">${inner}</div></div>`;
+  document.getElementById('p1').innerHTML = [
+    col('live', 'Live today', 'One card per screen, title + button on the photo. <b>The title runs over the text in the booklet image</b>, the arrows sit on the text, and the other three promos are hidden behind dots.',
+      `<div class="row">${P.map(p => `<a class="card" href="#">${img(p)}<div class="over"><strong>${p.t}</strong><span class="btn">${p.s}</span></div></a>`).join('')}</div><div class="dots"><i></i><i></i><i></i><i></i></div>`),
+    col('a', 'A · Lean bar <em>· my pick</em>', 'Swipe row of 300 px cards (the next one peeks, no arrows or dots). The photo stays free; one white line with the title + arrow, the whole card is the link. Same look as our desktop tiles.',
+      `<div class="row">${P.map(p => `<a class="card" href="#">${img(p)}<div class="bar"><span>${p.t}</span><i>→</i></div></a>`).join('')}</div>`),
+    col('b', 'B · Text below', 'Photo fully free, title + CTA text under it, like the product cards. Safest with any image (also with text in it), but less campaign feel.',
+      `<div class="row">${P.map(p => `<a href="#"><span class="card" style="height:260px">${img(p)}</span><span class="txt"><span><strong>${p.t}</strong><span>${p.s}</span></span><i>→</i></span></a>`).join('')}</div>`),
+  ].join('');
+  document.getElementById('p2').innerHTML = [
+    col('l2', 'Live today', '520 px per card. <b>The expert is a small cut-out in the corner while the text takes the card</b>; in the promises the photo shows the same three promises again.',
+      `<div class="stack"><div class="card team"><img src="${TEAM}" alt=""><div class="in"><h4>Dedicated Team of Print Experts</h4><p>Our team of Print Experts is here to help you with the most specialised and high-volume print requirements, on time, on brand, and on budget.</p></div><span class="btn">Request a quote</span></div>
+       <div class="card prom"><img src="${PROM}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><div class="in"><h4>Our Promises</h4><ul><li><span class="ck">✓</span>Best Price Guarantee</li><li><span class="ck">✓</span>100% Satisfaction Guarantee</li><li><span class="ck">✓</span>Dedicated Help</li></ul></div><span class="btn">See more</span></div></div>`),
+    col('e', 'C · Photo + text block <em>· my pick</em>', 'Photo on top (the expert big, on his green), text block below: title, subtext in full, CTA as its own button. Half the height, nothing on the photo, and as a swipe row the two sit side by side.',
+      `<div class="row"><div class="card"><div class="ph green"><img src="${TEAM}" alt=""></div><div class="body"><h4>Dedicated Team of Print Experts</h4><p>Help with specialised and high-volume print, on time, on brand and on budget.</p><a class="cta" href="#">Request a quote</a></div></div>
+       <div class="card"><div class="ph"><img src="${PROM}" alt="" style="object-position:70% 60%"></div><div class="body"><h4>Our Promises</h4><ul><li><span class="ck">✓</span>Best Price Guarantee</li><li><span class="ck">✓</span>100% Satisfaction Guarantee</li><li><span class="ck">✓</span>Dedicated Help</li></ul><a class="cta" href="#">See more</a></div></div></div>`),
+  ].join('');
+</script>
+</body>
+</html>
