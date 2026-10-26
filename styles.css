@@ -1682,8 +1682,11 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 .d-acc summary { transition: background .15s, color .15s; }
 
 /* ⓘ guide: the option's picture on the left of each item (same visual as the option card) */
+.gi-head:has(.gi-vis) { gap: 16px; }   /* 8px grid: 16px between the picture and the text */
 .gi-head .gi-vis { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; }
-.guide-item:has(.gi-vis) > p { padding-left: 52px; }
+.guide-item:has(.gi-vis) > p { padding-left: 56px; }   /* 40 + 16 */
+.desk .gi-head .gi-vis { width: 50px; height: 50px; }   /* desktop: the 50px icons, so the space to the text is exactly 16px */
+.desk .guide-item:has(.gi-vis) > p { padding-left: 66px; }   /* 50 + 16: the description lines up with the title */
 
 /* Desktop photos B (prototype switch): thumbnails in a column left of the photo; the photo keeps 501px,
    so the media column grows to 590px (73 + 16 + 501) and the configuration narrows to 648px */
