@@ -514,8 +514,8 @@ const PRODUCTS = {
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 58.47, 62.47][i], info: d.info.replace('flyers', 'banners') })),
     groups: [
       { key: 'size', title: 'Size', items: [
-        { id: '150x100', name: '150 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:28px', mult: 1, info: 'Our most chosen banner size. On the live site any size up to 20 m wide is possible.' },
-        { id: '200x100', name: '200 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:21px', mult: 1.3, info: 'A wider banner for fences and facades.' },
+        { id: '150x100', name: '150 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:28px', mult: 1, info: 'A compact banner for shop windows, stands and events. On the live site any size up to 20 m wide is possible.' },
+        { id: '200x100', name: '200 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:21px', mult: 1.3, info: 'Our recommended banner size: wide enough for fences and facades. On the live site any size up to 20 m wide is possible.' },
         { id: '300x100', name: '300 x 100 cm', sub: 'Wide', shape: 'width:42px;height:14px', mult: 1.85, info: 'Extra wide, readable from a distance.' },
       ]},
       { key: 'material', title: 'Material', items: [
@@ -528,9 +528,12 @@ const PRODUCTS = {
       { key: 'finishing', title: 'Finishing', items: [
         { id: 'rings-30', name: 'Rings every 30 cm', sub: 'With hems', shape: 'width:42px;height:28px', mult: 1, info: 'Reinforced hems with metal rings every 30 cm. Our recommended finishing.' },
         { id: 'rings-corners', name: 'Rings in corners', sub: 'With hems', shape: 'width:42px;height:28px', mult: .95, info: 'Reinforced hems with rings in the corners only.' },
+        { id: 'rings-30-plain', name: 'Rings every 30 cm', sub: 'No reinforcement', shape: 'width:42px;height:28px', mult: .95, info: 'Metal rings every 30 cm, without reinforced hems. Fine for short use.' },
+        { id: 'rings-corners-plain', name: 'Rings in corners', sub: 'No reinforcement', shape: 'width:42px;height:28px', mult: .9, info: 'Rings in the corners only, without reinforced hems.' },
         { id: 'trimmed', name: 'Trimmed', sub: 'No rings', shape: 'width:42px;height:28px', mult: .85, info: 'Cut to size, without rings or hems.' },
-        { id: 'tunnel-top', name: 'Tunnel top & bottom', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.1, info: 'A 5 cm tunnel for a pole along the top and bottom.' },
+        { id: 'tunnel-left', name: 'Tunnel left side', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.05, info: 'A 5 cm tunnel for a pole along the left side, like a flag.' },
         { id: 'tunnel-sides', name: 'Tunnel both sides', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.1, info: 'A 5 cm tunnel for a pole along both sides.' },
+        { id: 'tunnel-top', name: 'Tunnel top & bottom', sub: '5 cm', shape: 'width:42px;height:28px', mult: 1.1, info: 'A 5 cm tunnel for a pole along the top and bottom.' },
       ]},
       { key: 'bands', title: 'Elastic bands', items: [
         { id: 'without', name: 'Without', sub: 'Bands', mult: 1, info: 'No elastic bands included.' },
@@ -538,7 +541,7 @@ const PRODUCTS = {
       ]},
     ],
     presets: [
-      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: '150x100', material: 'premium', finishing: 'rings-30', bands: 'without' } },
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: '200x100', material: 'premium', finishing: 'rings-30', bands: 'without' } },
       { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: '150x100', material: 'budget', finishing: 'rings-corners', bands: 'without' } },
       { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: '150x100', material: 'rpet', finishing: 'rings-30', bands: 'without' } },
     ],

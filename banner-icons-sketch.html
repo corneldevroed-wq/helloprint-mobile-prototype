@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banner Icons</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<!-- Sketch (not linked): an icon set for Banners in the material-icon style, assets/icons/banners. Generator: banner_icons.py (scratchpad) -->
+<style>
+ *{box-sizing:border-box;margin:0;padding:0} body{font:400 14px/1.5 Inter,sans-serif;color:#191919;background:#fff}
+ .wrap{width:calc(100% - 32px);max-width:1286px;margin:0 auto;padding:32px 0 96px}
+ h1{font-weight:800;font-size:24px;color:#022b07} .note{margin:8px 0 8px;color:#555}
+ h2{margin:40px 0 4px;font-weight:700;font-size:16px} h3{margin:16px 0 8px;font-weight:600;font-size:12px;color:#555;text-transform:uppercase;letter-spacing:.04em}
+ .row{display:flex;flex-wrap:wrap;gap:8px}
+ .opt{display:grid;grid-template-rows:50px auto;align-content:start;justify-items:start;width:124px;padding:12px;border:1px solid #cfcfcf;border-radius:5px;box-shadow:0 1px 1.5px rgba(0,0,0,.1);font-size:13px;line-height:1.35}
+ .opt>:first-child{align-self:end} .opt b{display:block;margin-top:8px;font-weight:600} .opt small{color:#555;font-size:12px}
+ .opt img{display:block;width:50px;height:50px} .shape{display:block;border:1px solid #888;background:#fff}
+ .big{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px} .big img{width:100px;height:100px;background:#f7f7f7;border-radius:6px}
+</style></head><body><main class="wrap">
+<h1>Banner icons</h1>
+<p class="note">Sketch, not linked. One banner (landscape, light grey, 1px outline) in the style of the material icons, with metal rings as the recurring detail. Per step: today, then the proposal, then the proposal at 100 px.</p>
+<div id="out"></div>
+</main>
+<script>
+const G = [
+  ['Size', [['150 x 100 cm','Landscape','size-150x100','width:42px;height:28px'],['200 x 100 cm','Landscape','size-200x100','width:42px;height:21px'],['300 x 100 cm','Wide','size-300x100','width:42px;height:14px']]],
+  ['Material', [['Premium PVC','Durable vinyl 510 gsm','mat-premium','m:pvc'],['Budget PVC','Single use 450 gsm','mat-budget','m:pvc'],['Windproof mesh','Perforated 270 gsm','mat-mesh','m:mesh'],['Recycled RPET','110 gsm','mat-rpet','m:rpet'],['Blockout PVC','Double sided 610 gsm','mat-blockout','m:blockout-pvc']]],
+  ['Finishing', [['Rings every 30 cm','With hems','fin-rings-30','width:42px;height:28px'],['Rings in corners','With hems','fin-rings-corners','width:42px;height:28px'],['Trimmed','No rings','fin-trimmed','width:42px;height:28px'],['Tunnel top & bottom','5 cm','fin-tunnel-top','width:42px;height:28px'],['Tunnel both sides','5 cm','fin-tunnel-sides','width:42px;height:28px']]],
+  ['Finishing: extra on live (not in the prototype yet)', [['Rings every 30 cm','No reinforcement','fin-rings-30-plain',''],['Rings in corners','No reinforcement','fin-rings-corners-plain',''],['Tunnel left side','5 cm','fin-tunnel-left','']], true],
+  ['Elastic bands', [['Without','Bands','bands-without',''],['Including','Elastic bands','bands-with','']]],
+];
+const now = o => o[3].startsWith('m:') ? `<img src="assets/icons/materials/${o[3].slice(2)}.svg" alt="">` : o[3] ? `<span class="shape" style="${o[3]}"></span>` : '<span></span>';
+const card = (o, vis) => `<div class="opt">${vis}<span><b>${o[0]}</b><small>${o[1]}</small></span></div>`;
+document.getElementById('out').innerHTML = G.map(([t, os, extra]) => `<h2>${t}</h2>
+  ${extra ? '<p class="note">The live configurator has 8 finishings; these 3 are missing in the prototype. The dashed line is the hem (reinforcement), so without it = no reinforcement.</p>' : `<h3>Today</h3><div class="row">${os.map(o => card(o, now(o))).join('')}</div>`}
+  <h3>Proposal</h3><div class="row">${os.map(o => card(o, `<img src="assets/icons/banners/${o[2]}.svg" alt="">`)).join('')}</div>
+  <div class="big">${os.map(o => `<img src="assets/icons/banners/${o[2]}.svg" alt="${o[0]}">`).join('')}</div>`).join('');
+</script>
+</body></html>

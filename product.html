@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027p">
+<link rel="stylesheet" href="styles.css?v=20261027r">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261027p"></script>
-<script src="products.js?v=20261027p"></script>
+<script src="app.js?v=20261027r"></script>
+<script src="products.js?v=20261027r"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -589,7 +589,10 @@
       'pvc-158': 'pvc-paper', 'pvc-234': 'pvc-paper', 'pvc-276': 'pvc-paper', 'invercote-g': 'invercote-g', creato: 'invercote-creato', tintoretto: 'tintoretto',
       'kingboard-300': 'kingboard', 'kingboard-350': 'kingboard', premium: 'pvc', budget: 'pvc', mesh: 'mesh', rpet: 'rpet', blockout: 'blockout-pvc', pvc: 'pvc', polyester: 'polyester', paper: 'silk-matte' },
   };
+  // Banners: their own set (assets/icons/banners, overview in material-icons.html): a landscape banner with rings
+  const BANNER_ICONS = { size: o => 'size-' + o.id, material: o => 'mat-' + o.id, finishing: o => 'fin-' + o.id, bands: o => 'bands-' + o.id };
   function optVisual(key, o) {
+    if (ICONS_V === 'new' && PRODUCT_BASE.slug === 'banners' && BANNER_ICONS[key]) return `<span class="mi"><img src="assets/icons/banners/${BANNER_ICONS[key](o)}.svg" alt=""></span>`;
     // Paper types that are about thickness (live funnel: Matt/Glossy 300–450 gsm, Offset): the thickness line, thicker per step
     if (o.thick != null) return `<span class="thick" style="--w:${1.5 + o.thick * 1.25}px"></span>`;
     const mi = ICONS_V === 'new' && !o.photo && (MAT_ICONS[key] || {})[o.id];
