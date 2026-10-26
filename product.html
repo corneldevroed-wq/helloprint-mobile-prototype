@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027h">
+<link rel="stylesheet" href="styles.css?v=20261027p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261027h"></script>
-<script src="products.js?v=20261027h"></script>
+<script src="app.js?v=20261027p"></script>
+<script src="products.js?v=20261027p"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -480,16 +480,18 @@
   // Cross-linking in the specifications (prototype switch Specs O|N, ?specs=old|new): every option is a link that chooses it
   // in the configuration and scrolls there; per step a "See also" link to the product that has more of it
   var SPECS_V = (() => { const q = new URLSearchParams(location.search).get('specs'); try { if (['old', 'new'].includes(q)) localStorage.setItem('hp-specs', q); return localStorage.getItem('hp-specs') || 'new'; } catch (e) { return q || 'new'; } })();
+  // Only Size and Material appearance get a See also (Cornel: elsewhere it is a link fest); 'paper' is the appearance step in the old funnel
   const XLINKS = {
-    'classic-business-cards': { appearance: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']], ptype: [['PVC Cards', 'pvc-cards-white']],
-      finishing: [['Deluxe Business Cards (foil, Spot UV)', 'deluxe-business-cards']], paper: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']] },
-    'standard-flyers': { appearance: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']], paper: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']],
-      finishing: [['Special Finishing Flyers', 'special-finishing-flyers']], size: [['All flyers & folded leaflets', 'flyers.html']] },
+    'classic-business-cards': { appearance: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']],
+      paper: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']] },
+    'standard-flyers': { appearance: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']], paper: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']], size: [['All flyers & folded leaflets', 'flyers.html']] },
   };
   const specLabel = (g, o) => g.items.some(x => x !== o && x.name === o.name && !/gsm/.test(o.sub || '')) ? `${o.name} (${o.sub.toLowerCase()})` : g.key === 'size' ? `${o.name} (${o.sub})` : o.sub && /gsm|mm|μ|mu/.test(o.sub) && !o.name.includes(o.sub) ? `${o.name} ${o.sub.split(' · ')[0]}` : o.name;
   // Thicknesses are no links (Cornel: a link fest, and not what people choose on); materials, finishes and sizes are
   const isThickOpt = (g, o) => g.key === 'thickness' || o.thick != null;
-  const specLink = (g, o) => isThickOpt(g, o) ? specLabel(g, o) : `<button class="spec-link" data-spec-pick="${g.key}|${o.id}">${specLabel(g, o)}</button>`;
+  // Only Size and Material appearance are links (Cornel); the other steps are plain text
+  const SPEC_LINK_KEYS = ['size', 'appearance', 'paper'];
+  const specLink = (g, o) => isThickOpt(g, o) || !SPEC_LINK_KEYS.includes(g.key) ? specLabel(g, o) : `<button class="spec-link" data-spec-pick="${g.key}|${o.id}">${specLabel(g, o)}</button>`;
   function specValue(g) {
     const app = OPTIONS.appearance, byApp = app && g.key !== 'appearance' && g.items.some(o => o.when);
     let html;
@@ -503,7 +505,9 @@
       html = parts.length > 1 ? parts.map(([n, list]) => `${n}: ${list.map(o => specLink(g, o)).join(', ')}`).join(' · ') : g.items.map(o => specLink(g, o)).join(', ');
     } else html = g.items.map(o => specLink(g, o)).join(', ');
     const rel = (XLINKS[PRODUCT_BASE.slug] || {})[g.key];
-    return html + (rel ? `<span class="spec-rel">See also: ${rel.map(([l, slug]) => `<a href="${/\.html/.test(slug) ? slug : 'product.html?p=' + slug}">${l} →</a>`).join(', ')}</span>` : '');
+    // See also as chips with a round photo of that product (Cornel's pick B in seealso-sketch.html)
+    const relImg = slug => (PRODUCTS[slug] || {}).img || 'assets/flyers/fold-tri.webp';
+    return html + (rel ? `<span class="spec-rel"><span>See also</span>${rel.map(([l, slug]) => `<a href="${/\.html/.test(slug) ? slug : 'product.html?p=' + slug}"><img src="${relImg(slug)}" alt="">${l}</a>`).join('')}</span>` : '');
   }
   function renderSpecs() {
     document.getElementById('pSpecs').innerHTML = specRows.map(([k, v]) => {
@@ -589,6 +593,8 @@
     // Paper types that are about thickness (live funnel: Matt/Glossy 300–450 gsm, Offset): the thickness line, thicker per step
     if (o.thick != null) return `<span class="thick" style="--w:${1.5 + o.thick * 1.25}px"></span>`;
     const mi = ICONS_V === 'new' && !o.photo && (MAT_ICONS[key] || {})[o.id];
+    // Special: three overlapping sheets (silver, pearl, gold in front), so it reads as several materials
+    if (ICONS_V === 'new' && !o.photo && key === 'appearance' && o.id === 'special') return `<span class="mi three">${['metallic-silver', 'pearl-marble', 'special'].map(n => `<img src="assets/icons/materials/${n}.svg" alt="">`).join('')}</span>`;
     // Finishing on both sides: two stacked sheets of that finish, like Double-sided printing
     if (mi && ['finishing', 'lamination'].includes(key) && o.sub === 'Both sides') return `<span class="mi two"><img src="assets/icons/materials/${mi}.svg" alt=""><img src="assets/icons/materials/${mi}.svg" alt=""></span>`;
     if (mi) return `<span class="mi"><img src="assets/icons/materials/${mi}.svg" alt=""></span>`;

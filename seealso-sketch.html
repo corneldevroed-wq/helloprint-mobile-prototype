@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>See Also Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Sketch (not linked): four ways to make "See also" in the desktop specifications table more visual.
+     Only Size and Material appearance have a See also. Data as on Standard Flyers. -->
+<style>
+  :root { --dark-green: #022b07; --light-green: #00a651; --tint: #e6f6ee; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/1.7 Inter, sans-serif; color: var(--black); background: var(--white); }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: calc(100% - 32px); max-width: 1286px; margin: 0 auto; padding: 32px 0 96px; }
+  .note { margin-bottom: 32px; padding: 12px 16px; border-radius: 10px; background: #fff7e6; font-size: 13px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  h2 { margin: 48px 0 4px; font-size: 18px; }
+  h2 + p { margin-bottom: 16px; font-size: 13px; color: var(--dark-grey); }
+
+  /* the specifications table as on the PDP */
+  dl > div { display: flex; gap: 16px; padding: 8px 16px; }
+  dl > div:nth-child(odd) { background: var(--light-grey); }
+  dt { width: 370px; flex-shrink: 0; font-weight: 600; }
+  dd { flex: 1; min-width: 0; color: var(--dark-grey); }
+  .lk { color: var(--black); text-decoration: underline; text-decoration-color: var(--mid-grey); text-underline-offset: 3px; }
+  .thumb { display: block; flex-shrink: 0; object-fit: cover; background: var(--white); }
+
+  /* A · mini product cards */
+  .a-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+  .a-card { display: flex; align-items: center; gap: 12px; width: 320px; padding: 8px 12px 8px 8px; border: 1px solid var(--outline); border-radius: 5px; background: var(--white); line-height: 1.35; transition: border-color .15s; }
+  .a-card:hover { border-color: var(--black); }
+  .a-card .thumb { width: 48px; height: 48px; border-radius: 4px; }
+  .a-card b { display: block; font-weight: 600; color: var(--black); }
+  .a-card small { display: block; font-size: 12px; color: var(--dark-grey); }
+  .a-card .arr { margin-left: auto; color: var(--black); }
+
+  /* B · chips with a round thumbnail */
+  .b-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; }
+  .b-chip { display: inline-flex; align-items: center; gap: 8px; padding: 3px 12px 3px 3px; border: 1px solid var(--outline); border-radius: 100px; background: var(--white); font-weight: 600; color: var(--black); line-height: 1.4; transition: border-color .15s; }
+  .b-chip:hover { border-color: var(--black); }
+  .b-chip .thumb { width: 28px; height: 28px; border-radius: 50%; }
+
+  /* C · as now, with a small thumbnail per link */
+  .c-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 6px; font-size: 13px; }
+  .c-row a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--light-green); }
+  .c-row a:hover span { text-decoration: underline; }
+  .c-row .thumb { width: 24px; height: 24px; border-radius: 3px; }
+
+  /* D · the reason first: what you get there */
+  .d-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; margin-top: 8px; max-width: 616px; }
+  .d-card { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 5px; background: var(--white); line-height: 1.35; transition: box-shadow .15s; }
+  .d-card:hover { box-shadow: inset 0 0 0 1px var(--black); }
+  .d-card .thumb { width: 40px; height: 40px; border-radius: 4px; }
+  .d-card small { display: block; font-size: 12px; color: var(--dark-grey); }
+  .d-card b { display: block; font-weight: 600; color: var(--light-green); }
+  dl > div:nth-child(even) .d-card { background: var(--light-grey); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="note"><b>Sketch: See also in the specifications.</b> Only Size and Material appearance link to another product. Four proposals, from the most visual (A) to closest to today (C). D leads with the reason to go there. The other rows stay as they are.</p>
+  <div id="out"></div>
+</div>
+<script>
+  const LINKS = {
+    size: [{ name: 'All flyers & folded leaflets', img: 'assets/flyers/fold-tri.webp', sub: 'Folded, square and long sizes', why: 'Need a fold or another format?', from: '' }],
+    app: [
+      { name: 'Eco Flyers', img: 'assets/flyers/t-eco.webp', sub: 'Recycled, Bio Top, seed paper', why: 'Recycled or plantable paper?', from: 'From €16.99' },
+      { name: 'Special Material Flyers', img: 'assets/flyers/t-special-material.webp', sub: 'Metallic, pearl, cardboard, PVC', why: 'Metallic, pearl or PVC?', from: 'From €62.99' },
+    ],
+  };
+  const sizes = ['A6 (105 × 148 mm)', 'A5 (148 × 210 mm)', 'A4 (210 × 297 mm)', 'DL (210 × 99 mm)', 'A3 (420 × 297 mm)', 'A7 (74 × 105 mm)', 'Small Square (105 × 105 mm)', 'Medium Square (148 × 148 mm)', 'Large Square (210 × 210 mm)', 'A-Long (210 × 74 mm)', 'X-Long (105 × 297 mm)'];
+  const apps = ['Glossy', 'Matte', 'Uncoated', 'Recycled', 'Bio Top 3 Natural', 'Seed Paper', 'Paperwise Natural'];
+  const list = a => a.map(x => `<span class="lk">${x}</span>`).join(', ');
+  const img = (l, cls = 'thumb') => `<img class="${cls}" src="${l.img}" alt="">`;
+  const V = {
+    A: ls => `<div class="a-row">${ls.map(l => `<a class="a-card" href="#">${img(l)}<span><b>${l.name}</b><small>${l.sub}</small>${l.from ? `<small>${l.from}</small>` : ''}</span><span class="arr">→</span></a>`).join('')}</div>`,
+    B: ls => `<div class="b-row"><span>See also</span>${ls.map(l => `<a class="b-chip" href="#">${img(l)}${l.name} →</a>`).join('')}</div>`,
+    C: ls => `<div class="c-row"><span>See also:</span>${ls.map(l => `<a href="#">${img(l)}<span>${l.name} →</span></a>`).join('')}</div>`,
+    D: ls => `<div class="d-row">${ls.map(l => `<a class="d-card" href="#">${img(l)}<span><small>${l.why}</small><b>${l.name} →</b></span></a>`).join('')}</div>`,
+  };
+  const TITLES = { A: 'A · Mini product cards', B: 'B · Chips with a round photo', C: 'C · As now, with a small photo', D: 'D · Reason first' };
+  const DESC = { A: 'Photo, name, what you find there and the from price. Most visual, takes the most room.', B: 'Compact pills, like a filter. Calm, but less information.', C: 'The smallest step: today\'s green links with a 24px photo.', D: 'Answers why you would go there ("Metallic, pearl or PVC?"). Tile in the opposite row colour.' };
+  document.getElementById('out').innerHTML = Object.keys(V).map(k => `
+    <h2>${TITLES[k]}</h2><p>${DESC[k]}</p>
+    <dl>
+      <div><dt>Size</dt><dd>${list(sizes)}${V[k](LINKS.size)}</dd></div>
+      <div><dt>Material appearance</dt><dd>${list(apps)}${V[k](LINKS.app)}</dd></div>
+      <div><dt>Paper thickness</dt><dd>Glossy / Matte: 90, 115, 135, 170, 250, 300, 350 or 400 gsm · Uncoated: 90, 120, 150, 170, 250 or 300 gsm · Recycled: 170 or 300 gsm</dd></div>
+      <div><dt>Printing</dt><dd>${list(['Double-sided', 'Single-sided'])}</dd></div>
+    </dl>`).join('');
+</script>
+</body>
+</html>

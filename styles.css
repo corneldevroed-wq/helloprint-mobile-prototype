@@ -1575,7 +1575,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 #d-specs .spec-table div { display: flex; gap: 16px; padding: 8px 16px; border: 0; }
 #d-specs .spec-table div:nth-child(odd) { background: var(--light-grey); }
 #d-specs .spec-table dt { width: 370px; flex-shrink: 0; padding: 0; border: 0; background: none; font-weight: 600; font-size: 14px; line-height: 1.7; color: var(--black); }
-#d-specs .spec-table dd { flex: 1; padding: 0; font-size: 14px; line-height: 1.7; color: var(--dark-grey); }
+#d-specs .spec-table dd { flex: 1; padding: 0; font-size: 14px; line-height: 1.7; color: var(--black); }
 /* Design guidelines (accordion) next to the templates table */
 .d-two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
 .d-two h2 { margin-bottom: 24px; }
@@ -2033,14 +2033,20 @@ html:not(.desk) .d-banners { display: contents; }
 .opt .mi.two img, .gi-vis .mi.two img { position: absolute; width: 80%; height: 80%; }
 .opt .mi.two img:first-child, .gi-vis .mi.two img:first-child { top: 0; left: 0; }
 .opt .mi.two img:last-child, .gi-vis .mi.two img:last-child { right: 0; bottom: 0; }
+.opt .mi.three, .gi-vis .mi.three { position: relative; }   /* Special: three overlapping sheets, several materials */
+.opt .mi.three img, .gi-vis .mi.three img { position: absolute; width: 72%; height: 72%; }
+.opt .mi.three img:nth-child(1), .gi-vis .mi.three img:nth-child(1) { top: 0; left: 0; }
+.opt .mi.three img:nth-child(2), .gi-vis .mi.three img:nth-child(2) { top: 14%; left: 14%; }
+.opt .mi.three img:nth-child(3), .gi-vis .mi.three img:nth-child(3) { top: 28%; left: 28%; }
 #jConfig .opt-group[hidden] { display: none !important; }   /* hidden steps (live funnel) take no room; .opt-group sets display, which would beat [hidden] */
 
 /* Specifications with links (switch Specs O|N): options choose themselves, See also goes to another product */
-.spec-link { display: inline; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-decoration-color: var(--mid-grey); text-underline-offset: 3px; cursor: pointer; }
+.spec-link { display: inline; padding: 0; font: inherit; color: var(--black); text-decoration: underline; text-decoration-color: var(--mid-grey); text-underline-offset: 3px; cursor: pointer; }
 .spec-link:hover { text-decoration-color: var(--black); }
-.spec-rel { display: block; margin-top: 4px; font-weight: 400; font-size: 13px; color: var(--dark-grey); }
-.spec-rel a { color: var(--light-green); font-weight: 600; text-decoration: none; }
-.spec-rel a:hover { text-decoration: underline; }
+.spec-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 4px; font-weight: 400; font-size: 13px; color: var(--black); }
+.spec-rel a { display: inline-flex; align-items: center; gap: 4px; padding: 4px 16px 4px 8px; border: 1px solid var(--outline); border-radius: 100px; background: var(--white); font-weight: 600; line-height: 1.4; color: var(--black); text-decoration: none; transition: border-color .15s; }
+.spec-rel a:hover { border-color: var(--black); }
+.spec-rel img { display: block; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 /* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
 .desk:not(.dv-b) #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
 .desk:not(.dv-b) #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
