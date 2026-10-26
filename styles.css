@@ -2029,6 +2029,10 @@ html:not(.desk) .d-banners { display: contents; }
 .opt .mi img, .gi-vis .mi img { display: block; width: 100%; height: 100%; }
 .desk .opt .mi { width: 50px; height: 50px; }
 .desk .gi-vis .mi { width: 50px; height: 50px; }   /* desktop: the material icons are 50px everywhere, also in the ⓘ explanation */
+.opt .mi.two, .gi-vis .mi.two { position: relative; }   /* finishing on both sides: two stacked sheets, like Double-sided printing */
+.opt .mi.two img, .gi-vis .mi.two img { position: absolute; width: 80%; height: 80%; }
+.opt .mi.two img:first-child, .gi-vis .mi.two img:first-child { top: 0; left: 0; }
+.opt .mi.two img:last-child, .gi-vis .mi.two img:last-child { right: 0; bottom: 0; }
 #jConfig .opt-group[hidden] { display: none !important; }   /* hidden steps (live funnel) take no room; .opt-group sets display, which would beat [hidden] */
 
 /* Specifications with links (switch Specs O|N): options choose themselves, See also goes to another product */
@@ -2037,3 +2041,6 @@ html:not(.desk) .d-banners { display: contents; }
 .spec-rel { display: block; margin-top: 4px; font-weight: 400; font-size: 13px; color: var(--dark-grey); }
 .spec-rel a { color: var(--light-green); font-weight: 600; text-decoration: none; }
 .spec-rel a:hover { text-decoration: underline; }
+/* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
+.desk:not(.dv-b) #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
+.desk:not(.dv-b) #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
