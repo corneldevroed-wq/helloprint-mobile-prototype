@@ -2013,3 +2013,20 @@ html:not(.desk) .d-banners { display: contents; }
 .desk.rec-d .rec { padding: 4px 6px; font-size: 12px; line-height: 1; letter-spacing: normal; text-transform: none; }
 .desk.dv-b .opt .rec { display: none; }   /* Cards B: no recommended label on the option cards for now (Cornel) */
 .d-design-step .d-direct { padding: 0; }
+
+/* Option photos (copy of Standard Flyers with the live site's images): mobile = a small square next to the text; desktop = the photo on top of the card */
+.opt .ph, .gi-vis .ph { flex-shrink: 0; width: 44px; height: 44px; border-radius: 4px; overflow: hidden; background: var(--white); }
+.opt .ph img, .gi-vis .ph img { width: 100%; height: 100%; object-fit: contain; }
+.desk:not(.dv-b) .opt .ph { width: 100%; height: auto; aspect-ratio: 1; border-radius: 4px; }
+.desk.dv-b .opt .ph { width: 56px; height: 56px; }
+/* Desktop: material icons 50px (paper swatches drawn at 37.5px, scaled up; colour chips 50px) */
+.desk #jConfig [data-option="paper"] .opt .swatch { zoom: 1.3333; }
+.desk #jConfig [data-option="paper"] .opt .chip { width: 50px; height: 50px; }
+.desk #jConfig .opt-group:not(.d-design-step) > .opt-info { display: block; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }   /* cards A too: the explanation of the chosen option under each group (Cornel) */
+
+/* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
+.opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }
+.opt .mi img, .gi-vis .mi img { display: block; width: 100%; height: 100%; }
+.desk .opt .mi { width: 50px; height: 50px; }
+.desk .gi-vis .mi { width: 50px; height: 50px; }   /* desktop: the material icons are 50px everywhere, also in the ⓘ explanation */
+#jConfig .opt-group[hidden] { display: none !important; }   /* hidden steps (live funnel) take no room; .opt-group sets display, which would beat [hidden] */

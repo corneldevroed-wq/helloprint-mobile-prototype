@@ -600,7 +600,7 @@ function configPrice(p, cfg, qty) {
   const steps = productQty(p), exact = steps.find(([q]) => q === qty);
   const step = exact || [...steps].reverse().find(([q]) => q <= qty) || steps[0];
   const base = exact ? exact[1] : step[1] / step[0] * qty;
-  const mult = p.groups.reduce((m, g) => m * (g.items.find(o => o.id === cfg[g.key])?.mult ?? 1), 1);
+  const mult = p.groups.reduce((m, g) => g.when && !g.when(cfg) ? m : m * (g.items.find(o => o.id === cfg[g.key])?.mult ?? 1), 1);   // steps that don't apply (live funnel) don't count
   return Math.round(base * mult * 100) / 100;
 }
 // "500 pcs from" price on the category page: the cheapest preset at 500 pcs
@@ -622,3 +622,79 @@ const MATERIALS = [
   { name: 'Wood - Recycled', points: ['Recycled wood', 'Unique appearance', 'Rounded corners'], groups: ['eco', 'durable'], href: '#businesscardswood', tint: '#c49a6c' },
 ];
 for (const m of MATERIALS) if (m.p) m.href = PRODUCTS[m.p].href + Object.entries(m.set).map(([k, v]) => `&${k}=${v}`).join('');
+
+// Copy of Standard Flyers with the live site's option photos (helloprint.com/en-ie/standardflyers), so the icon version stays as it is.
+// Same options, prices and presets; every option gets photo: assets/live-opts/flyers/<group>-<option>.webp
+{
+  const sf = PRODUCTS['standard-flyers'];
+  PRODUCTS['standard-flyers-photos'] = { ...sf, slug: 'standard-flyers-photos', href: 'product.html?p=standard-flyers-photos', copyOf: 'standard-flyers',
+    groups: sf.groups.map(g => ({ ...g, items: g.items.map(o => ({ ...o, photo: `assets/live-opts/flyers/${g.key}-${o.id}.webp` })) })) };
+}
+
+// Classic Business Cards as on the live site (helloprint.com/en-ie/standardbusinesscards, checked 2026-10-26):
+// Size → Material appearance → Paper type (its list depends on the appearance) → Finishing (Matt/Glossy only) → Corners → Printing.
+// Steps that don't apply are hidden (group.when), options that don't apply too (item.when). Prices are made up, roughly as live.
+// product.html uses it for ?p=classic-business-cards unless the prototype switch Funnel is on Old.
+{
+  const folded = c => /^folded/.test(c.size);
+  const T = { standard: ['Standard', 'Flexible, everyday feel'], firm: ['Firm', 'Holds its shape'], thick: ['Thick', 'Solid, quality feel'], xthick: ['Extra thick', 'Stiff and substantial'] };
+  // thick = the step on the thickness scale (0–3): these paper types are about thickness, so they show the thickness line icon
+  const coated = (app, gsm, t, mult, info, extra = {}) => ({ id: `${app}-${gsm}`, name: T[t][0], sub: `${gsm} gsm · ${T[t][1]}`, thick: Object.keys(T).indexOf(t), mult, info, when: c => c.appearance === app, ...extra });
+  const paper = (app, id, name, sub, mult, info, extra = {}) => ({ id, name, sub, mult, info, when: c => c.appearance === app, ...extra });
+  const base = PRODUCTS['classic-business-cards'];
+  base.live = { ...base, slug: 'classic-business-cards', live: undefined, liveFunnel: true,
+    groups: [
+      { ...sizeGroup(['standard', 'portrait', 'folded-portrait', 'folded-landscape', 'squared', 'american']) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'matt', name: 'Matt', sub: 'No glare', swatch: 'paper-matt.svg', mult: 1, info: 'Coated paper with a dull, non-reflective finish. Easy to read; our most chosen paper.' },
+        { id: 'glossy', name: 'Glossy', sub: 'Shiny', swatch: 'paper-glossy.svg', mult: 1, info: 'Coated paper with a shine. Colours and photos look vivid.' },
+        { id: 'eco', name: 'Eco', sub: 'Sustainable', swatch: 'paper-eco.svg', mult: 1, info: 'Recycled and natural papers, made with the environment in mind.' },
+        { id: 'uncoated', name: 'Uncoated', sub: 'Writable', swatch: 'paper-uncoated.svg', lines: true, mult: 1, info: 'Untreated paper you can write on with any pen.' },
+        { id: 'special', name: 'Special', sub: 'Gold, silver and more', swatch: 'paper-special.svg', mult: 1, info: 'Metallic, pearl and plastic papers that catch the eye.' },
+        { id: 'seed', name: 'Seed Paper', sub: 'Plant it', color: '#ebe3d0', mult: 2, info: 'Paper with seeds in it: plant the card and wildflowers grow. Single-sided, no finishing or rounded corners.', when: c => !folded(c) },
+      ]},
+      { key: 'ptype', title: 'Paper type', when: c => c.appearance !== 'seed',
+        specText: 'Matt: 300, 350, 400 or 450 gsm · Glossy: 300, 350 or 400 gsm · Eco: RecyStar Nature, Paperwise Natural, Kraft, Bio Top · Uncoated: Offset 300 or 340 gsm, Sulfate Cardboard · Special: PVC paper, Pearl Marble, Metallic Gold, Silver or White',
+        prefer: c => ({ matt: 'matt-400', glossy: 'glossy-350', eco: 'recystar', uncoated: 'offset-300', special: 'gold' })[c.appearance],
+        items: [
+          coated('matt', 300, 'standard', .9, 'The lightest option, with an everyday feel and the best price.'),
+          coated('matt', 350, 'firm', .95, 'Holds its shape in a wallet or card holder.'),
+          coated('matt', 400, 'thick', 1, 'Our recommended thickness: noticeably sturdier, a quality feel.'),
+          coated('matt', 450, 'xthick', 1.1, 'Stiff and substantial. Makes a lasting first impression.', { when: c => c.appearance === 'matt' && !folded(c) }),
+          coated('glossy', 300, 'standard', .9, 'The lightest option, with an everyday feel and the best price.'),
+          coated('glossy', 350, 'firm', .95, 'Holds its shape in a wallet or card holder.'),
+          coated('glossy', 400, 'thick', 1, 'Noticeably sturdier, a quality feel.'),
+          paper('eco', 'recystar', 'RecyStar Nature', '300 gsm · Recycled', 1.1, '100% recycled paper with a natural, slightly grey look.'),
+          paper('eco', 'paperwise', 'Paperwise Natural', '295 gsm · From plant waste', 1.15, 'Made from agricultural waste. A warm, natural tone.'),
+          paper('eco', 'kraft', 'Kraft', '283 gsm · Brown', 1.1, 'Brown kraft board with visible fibres. Rustic and honest.'),
+          paper('eco', 'biotop', 'Bio Top', '300 gsm · Chlorine-free', 1.12, 'Chlorine-free paper with a soft, natural white.'),
+          paper('uncoated', 'offset-300', 'Offset', '300 gsm · Writable', .95, 'Uncoated paper you can write on with any pen.', { thick: 0 }),
+          paper('uncoated', 'offset-340', 'Offset thick', '340 gsm · Writable', 1, 'A thicker uncoated card, still easy to write on.', { thick: 1 }),
+          paper('uncoated', 'cardboard', 'Sulfate Cardboard', '290 gsm · Bright white', 1.05, 'A bright white, firm card with a matt surface.'),
+          paper('special', 'pvc', 'PVC paper', '276 gsm · Water-resistant', 2.4, 'Plastic paper: water-resistant and hard to tear.'),
+          paper('special', 'pearl', 'Pearl Marble', '290 gsm · Iridescent', 2.3, 'A soft, pearly shine that changes with the light.'),
+          paper('special', 'gold', 'Metallic Gold', '300 gsm', 2.4, 'A shimmering gold card. Adds a touch of luxury.'),
+          paper('special', 'silver', 'Metallic Silver', '300 gsm', 2.4, 'A cool, shimmering silver card.'),
+          paper('special', 'white', 'Metallic White', '300 gsm', 2.3, 'White with a subtle metallic glow.'),
+        ]},
+      { key: 'finishing', title: 'Finishing', when: c => ['matt', 'glossy'].includes(c.appearance), prefer: () => 'matt-lam', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', shape: 'width:39px;height:25px', mult: .9, info: 'No extra layer. Fine for light designs.' },
+        { id: 'matt-lam', name: 'Matte lamination', sub: 'Both sides', swatch: 'paper-matt.svg', mult: 1, info: 'A non-reflective layer on both sides that protects the print. Our recommended choice.' },
+        { id: 'gloss-lam', name: 'Gloss lamination', sub: 'Both sides', swatch: 'paper-glossy.svg', mult: 1, info: 'A glossy layer on both sides that deepens colours.' },
+        { id: 'uv', name: 'UV Glossy', sub: 'Both sides', color: 'linear-gradient(135deg,#fff,#dfe6ee 50%,#fff)', mult: 1.05, info: 'A high-gloss varnish for a striking shine.' },
+        { id: 'velvet-lam', name: 'Velvet lamination', sub: 'Both sides', color: 'linear-gradient(135deg,#d9d4cc,#bdb6aa)', mult: 1.15, info: 'A soft, suede-like touch for a premium feel.', when: c => !folded(c) },
+      ]},
+      { ...cornersGroup(), when: c => !folded(c) && c.appearance !== 'seed' },
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'double', name: 'Double-sided', sub: 'Front and back', img: 'size-folded-landscape.svg', imgSize: 'width:39px;height:31px', mult: 1, info: 'Both sides printed. Room for your logo on one side and your details on the other; our recommended choice.', when: c => c.appearance !== 'seed' },
+        { id: 'single', name: 'Single-sided', sub: 'Front only', shape: 'width:39px;height:25px', mult: .9, info: 'Only the front is printed; the back stays blank for notes.', when: c => !folded(c) },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'standard', appearance: 'matt', ptype: 'matt-400', finishing: 'matt-lam', corners: 'straight', printing: 'double' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'standard', appearance: 'matt', ptype: 'matt-300', finishing: 'none', corners: 'straight', printing: 'single' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'standard', appearance: 'eco', ptype: 'recystar', corners: 'straight', printing: 'double' } },
+    ],
+    fixed: [],
+  };
+}
