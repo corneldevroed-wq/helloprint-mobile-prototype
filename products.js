@@ -698,3 +698,71 @@ for (const m of MATERIALS) if (m.p) m.href = PRODUCTS[m.p].href + Object.entries
     fixed: [],
   };
 }
+
+// Standard Flyers as on the live site (helloprint.com/en-ie/standardflyers, checked 2026-10-26):
+// Size → Material appearance → Paper thickness (its list depends on the appearance) → Printing → Finishing (Glossy/Matte from 250 gsm) → Bundling.
+// Same mechanics as Classic Business Cards .live (group.when / item.when, hidden steps; a step with one option is hidden). Prices made up.
+{
+  const sf = PRODUCTS['standard-flyers'];
+  const LVL = { 80: 0, 90: 0, 115: 1, 120: 1, 135: 1, 150: 2, 160: 2, 170: 2, 200: 3, 250: 3, 295: 4, 300: 4, 350: 5, 400: 6 };
+  const MULT = { 80: .8, 90: .8, 115: .88, 120: .9, 135: .92, 150: .97, 160: .98, 170: 1, 200: 1.2, 250: 1.25, 295: 1.4, 300: 1.4, 350: 1.55, 400: 1.7 };
+  const INFO = { 'Super Budget': 'Thin and light, like a letter. The lowest price for large runs.', Budget: 'Light paper with a little more body. Good for big handouts.',
+    Standard: 'Our recommended thickness: sturdy enough to feel like quality.', Premium: 'Card-like paper with a premium feel.', 'Premium Plus': 'Thick and stiff, close to a postcard.',
+    Light: 'Thin seed paper, easy to post.', Thick: 'Firm seed paper that feels like a card.' };
+  const th = (app, name, gsm) => ({ id: `${app}-${gsm}`, name, sub: `${gsm} gsm`, thick: Math.min(LVL[gsm], 6) * .8, mult: MULT[gsm], info: INFO[name], when: c => c.appearance === app });
+  const T = (app, list) => list.map(([n, g]) => th(app, n, g));
+  const heavy = c => ['glossy', 'matte'].includes(c.appearance) && +String(c.thickness).split('-').pop() >= 250;
+  sf.live = { ...sf, slug: 'standard-flyers', live: undefined, liveFunnel: true,
+    groups: [
+      sf.groups.find(g => g.key === 'size'),
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', mult: 1, info: 'Coated paper with a shine. Colours and photos look vivid; our recommended choice for flyers.' },
+        { id: 'matte', name: 'Matte', sub: 'No glare', mult: 1, info: 'Coated paper without shine. Calm and easy to read.' },
+        { id: 'uncoated', name: 'Uncoated', sub: 'Writable', mult: 1.02, info: 'Untreated paper you can write on, like a letter.' },
+        { id: 'recycled', name: 'Recycled', sub: '100% recycled', mult: 1.1, info: 'Made from recycled paper, with a natural look.' },
+        { id: 'biotop', name: 'Bio Top 3 Natural', sub: 'Chlorine-free', mult: 1.15, info: 'Chlorine-free paper with a soft, natural white.' },
+        { id: 'seed', name: 'Seed Paper', sub: 'Plant it', mult: 2.2, info: 'Paper with seeds in it: plant the flyer and wildflowers grow.' },
+        { id: 'paperwise', name: 'Paperwise Natural', sub: 'From plant waste', mult: 1.15, info: 'Made from agricultural waste. A warm, natural tone.' },
+      ]},
+      { key: 'thickness', title: 'Paper thickness', prefer: c => ({ glossy: 'glossy-170', matte: 'matte-170', uncoated: 'uncoated-170', recycled: 'recycled-170', biotop: 'biotop-160', seed: 'seed-80', paperwise: 'paperwise-150' })[c.appearance],
+        specText: 'Glossy / Matte: 90, 115, 135, 170, 250, 300, 350 or 400 gsm · Uncoated: 90, 120, 150, 170, 250 or 300 gsm · Recycled: 170 or 300 gsm · Bio Top: 90, 160 or 300 gsm · Seed Paper: 80 or 200 gsm · Paperwise: 90, 150 or 295 gsm',
+        items: [
+          ...T('glossy', [['Super Budget', 90], ['Budget', 115], ['Budget', 135], ['Standard', 170], ['Premium', 250], ['Premium Plus', 300], ['Premium Plus', 350], ['Premium Plus', 400]]),
+          ...T('matte', [['Super Budget', 90], ['Budget', 115], ['Budget', 135], ['Standard', 170], ['Premium', 250], ['Premium Plus', 300], ['Premium Plus', 350], ['Premium Plus', 400]]),
+          ...T('uncoated', [['Super Budget', 90], ['Budget', 120], ['Standard', 150], ['Standard', 170], ['Premium', 250], ['Premium Plus', 300]]),
+          ...T('recycled', [['Standard', 170], ['Premium Plus', 300]]),
+          ...T('biotop', [['Super Budget', 90], ['Standard', 160], ['Premium Plus', 300]]),
+          ...T('seed', [['Light', 80], ['Thick', 200]]),
+          ...T('paperwise', [['Super Budget', 90], ['Standard', 150], ['Premium Plus', 295]]),
+        ]},
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'double', name: 'Double-sided', sub: 'Front and back', img: 'size-folded-landscape.svg', imgSize: 'width:39px;height:31px', mult: 1, info: 'Both sides printed: more room for your message; our most chosen option.' },
+        { id: 'single', name: 'Single-sided', sub: 'Front only', shape: 'width:26px;height:37px', mult: .85, info: 'Only the front is printed. The most affordable choice.' },
+      ]},
+      { key: 'finishing', title: 'Finishing', when: heavy, prefer: () => 'none', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', shape: 'width:26px;height:37px', mult: 1, info: 'No extra layer. Our recommended choice for most flyers.' },
+        { id: 'matt-2', name: 'Matte lamination', sub: 'Both sides', mult: 1.3, info: 'A non-reflective layer on both sides that protects the print.' },
+        { id: 'gloss-2', name: 'Gloss lamination', sub: 'Both sides', mult: 1.3, info: 'A glossy layer on both sides that deepens colours.' },
+        { id: 'velvet-2', name: 'Velvet lamination', sub: 'Both sides', mult: 1.45, info: 'A soft, suede-like touch on both sides.' },
+        { id: 'uv-2', name: 'UV Glossy', sub: 'Both sides', mult: 1.35, info: 'A high-gloss varnish on both sides for a striking shine.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Front only', mult: 1.18, info: 'A non-reflective layer on the front.' },
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Front only', mult: 1.18, info: 'A glossy layer on the front.' },
+        { id: 'velvet-1', name: 'Velvet lamination', sub: 'Front only', mult: 1.28, info: 'A soft, suede-like touch on the front.' },
+        { id: 'uv-1', name: 'UV Glossy', sub: 'Front only', mult: 1.22, info: 'A high-gloss varnish on the front.' },
+      ]},
+      { key: 'bundling', title: 'Bundling', items: [
+        { id: 'none', name: 'Not bundled', sub: 'Loose in the box', mult: 1, info: 'Your flyers arrive loose in the box.' },
+        { id: '250', name: 'Per 250', sub: 'Bundled with a band', mult: 1.02, info: 'Bundled per 250: easy to hand out in batches.', when: c => !['seed', 'paperwise'].includes(c.appearance) },
+        { id: '100', name: 'Per 100', sub: 'Bundled with a band', mult: 1.03, info: 'Bundled per 100.', when: c => !['seed', 'paperwise'].includes(c.appearance) },
+        { id: '50', name: 'Per 50', sub: 'Bundled with a band', mult: 1.05, info: 'Bundled per 50.', when: c => !['seed', 'paperwise'].includes(c.appearance) },
+        { id: '25', name: 'Per 25', sub: 'Bundled with a band', mult: 1.08, info: 'Bundled per 25: handy for small handouts.', when: c => !['seed', 'paperwise'].includes(c.appearance) },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a5', appearance: 'glossy', thickness: 'glossy-170', printing: 'double', bundling: 'none' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', appearance: 'glossy', thickness: 'glossy-135', printing: 'single', bundling: 'none' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a5', appearance: 'recycled', thickness: 'recycled-170', printing: 'double', bundling: 'none' } },
+    ],
+    fixed: [],
+  };
+}

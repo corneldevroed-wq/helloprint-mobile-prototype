@@ -1927,7 +1927,7 @@ html:not(.desk) .d-banners { display: contents; }
 .d-direct { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px 0 0; }
 .d-dcard { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px; border: 1px solid var(--outline); border-radius: 8px; background: var(--white); transition: border-color .15s; }
 .d-dcard:not(.primary):hover { border-color: var(--black); }
-.d-dcard.primary { border: 2px solid var(--light-green); padding: 15px; background: #f4f7f4; }
+.d-dcard.primary { border: 2px solid var(--light-green); padding: 15px; background: var(--white); }
 .d-dcard .ico { width: 50px; height: 50px; margin-bottom: 8px; display: grid; place-items: center; border: 1px solid var(--outline); border-radius: 6px; background: var(--white); }
 .d-dcard .ico img { width: 30px; height: 30px; }
 .d-dcard > b { font-weight: 600; font-size: 15px; line-height: 1.3; }
@@ -1943,7 +1943,7 @@ html:not(.desk) .d-banners { display: contents; }
 .desk #jConfig .opt-title span { padding: 2px 10px; border-radius: 100px; background: var(--light-grey); font-weight: 600; font-size: 13px; line-height: 1.4; color: var(--black); }
 /* Selectable: the chosen card green */
 .d-dpick { text-align: left; cursor: pointer; }
-.d-dpick[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; background: #f4f7f4; }
+.d-dpick[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; background: var(--white); }
 .d-dpick[aria-checked="false"]:hover { border-color: var(--black); }
 
 /* Desktop PDP: options that don't fit on one row: a "+N" tile in the last place (as live), light so it doesn't read as unavailable */
@@ -2030,3 +2030,10 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .opt .mi { width: 50px; height: 50px; }
 .desk .gi-vis .mi { width: 50px; height: 50px; }   /* desktop: the material icons are 50px everywhere, also in the ⓘ explanation */
 #jConfig .opt-group[hidden] { display: none !important; }   /* hidden steps (live funnel) take no room; .opt-group sets display, which would beat [hidden] */
+
+/* Specifications with links (switch Specs O|N): options choose themselves, See also goes to another product */
+.spec-link { display: inline; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-decoration-color: var(--mid-grey); text-underline-offset: 3px; cursor: pointer; }
+.spec-link:hover { text-decoration-color: var(--black); }
+.spec-rel { display: block; margin-top: 4px; font-weight: 400; font-size: 13px; color: var(--dark-grey); }
+.spec-rel a { color: var(--light-green); font-weight: 600; text-decoration: none; }
+.spec-rel a:hover { text-decoration: underline; }

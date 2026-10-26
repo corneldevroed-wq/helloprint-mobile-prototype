@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261026q">
+<link rel="stylesheet" href="styles.css?v=20261026w">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261026q"></script>
-<script src="products.js?v=20261026q"></script>
+<script src="app.js?v=20261026w"></script>
+<script src="products.js?v=20261026w"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -310,6 +310,19 @@
   const PRODUCT = FUNNEL_V === 'new' && PRODUCT_BASE.live ? PRODUCT_BASE.live : PRODUCT_BASE;
   const OPTIONS = Object.fromEntries(PRODUCT.groups.map(g => [g.key, g]));
   const KEYS = PRODUCT.groups.map(g => g.key);
+  // One thickness scale for every paper product (Cornel, 2026-10-26): the name always follows the gsm, shown as "Name · 300 gsm".
+  // Prototype switch Names O|N (?names=old|new; the page reloads). Only options that are about thickness, not paper materials.
+  const NAMES_V = (() => { const q = new URLSearchParams(location.search).get('names'); try { if (['old', 'new'].includes(q)) localStorage.setItem('hp-names', q); return localStorage.getItem('hp-names') || 'new'; } catch (e) { return q || 'new'; } })();
+  const THICK_SCALE = [[100, 'Super Budget'], [135, 'Budget'], [170, 'Standard'], [250, 'Premium'], [300, 'Premium Plus'], [350, 'Luxury'], [Infinity, 'Luxury Plus']];
+  const OLD_BC_GSM = { standard: 300, firm: 350, thick: 400, 'extra-thick': 450 };   // the prototype's old business-card thicknesses had no gsm
+  const thickLevel = gsm => THICK_SCALE.findIndex(([max]) => gsm <= max);
+  if (NAMES_V === 'new') for (const g of PRODUCT.groups) for (const o of g.items) {
+    const isThick = g.key === 'thickness' || (o.thick != null && !/^Offset/.test(o.name));
+    if (!isThick) continue;
+    const gsm = +((o.sub || '').match(/(\d+)\s*gsm/) || [])[1] || OLD_BC_GSM[o.id];
+    if (!gsm) continue;
+    o.name = THICK_SCALE[thickLevel(gsm)][1]; o.sub = `${gsm} gsm`; o.thick = thickLevel(gsm) * .85;   // the line icon follows the same scale
+  }
   // Steps and options that depend on earlier choices (live funnel): hidden when they don't apply
   const groupWhen = (key, c) => !OPTIONS[key].when || OPTIONS[key].when(c);   // the step applies (it counts in price, summary, recap)
   const itemsFor = (key, c) => OPTIONS[key].items.filter(o => !o.when || o.when(c));
@@ -464,7 +477,54 @@
   const covered = { material: ['paper', 'material'], paper: ['paper', 'material'], cutting: ['corners'], 'printing options': ['printing'], finishing: ['finishing', 'lamination', 'finish'], size: ['size'], print: ['printing', 'technique'], 'exclusive finishing': ['finish'], lamination: ['lamination'], colours: ['colour'] };
   const has = k => specRows.some(([label]) => label.toLowerCase() === k.toLowerCase()) || (covered[k.toLowerCase()] || []).some(c => KEYS.includes(c) || PRODUCT.groups.some(g => g.title.toLowerCase().includes(c)));
   specRows.push(...PRODUCT.specs.filter(([k]) => !has(k) && !specRows.some(([label]) => k.toLowerCase() === label.toLowerCase() + ' options')));   // 'Printing options' is covered by 'Printing'
-  document.getElementById('pSpecs').innerHTML = specRows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+  // Cross-linking in the specifications (prototype switch Specs O|N, ?specs=old|new): every option is a link that chooses it
+  // in the configuration and scrolls there; per step a "See also" link to the product that has more of it
+  var SPECS_V = (() => { const q = new URLSearchParams(location.search).get('specs'); try { if (['old', 'new'].includes(q)) localStorage.setItem('hp-specs', q); return localStorage.getItem('hp-specs') || 'new'; } catch (e) { return q || 'new'; } })();
+  const XLINKS = {
+    'classic-business-cards': { appearance: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']], ptype: [['PVC Cards', 'pvc-cards-white']],
+      finishing: [['Deluxe Business Cards (foil, Spot UV)', 'deluxe-business-cards']], paper: [['Eco Business Cards', 'eco-friendly-business-cards'], ['Special Materials', 'business-cards-special-materials']] },
+    'standard-flyers': { appearance: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']], paper: [['Eco Flyers', 'eco-flyers'], ['Special Material Flyers', 'special-material-flyers']],
+      finishing: [['Special Finishing Flyers', 'special-finishing-flyers']], size: [['All flyers & folded leaflets', 'flyers.html']] },
+  };
+  const specLabel = (g, o) => g.items.some(x => x !== o && x.name === o.name && !/gsm/.test(o.sub || '')) ? `${o.name} (${o.sub.toLowerCase()})` : g.key === 'size' ? `${o.name} (${o.sub})` : o.sub && /gsm|mm|μ|mu/.test(o.sub) && !o.name.includes(o.sub) ? `${o.name} ${o.sub.split(' · ')[0]}` : o.name;
+  const specLink = (g, o) => `<button class="spec-link" data-spec-pick="${g.key}|${o.id}">${specLabel(g, o)}</button>`;
+  function specValue(g) {
+    const app = OPTIONS.appearance, byApp = app && g.key !== 'appearance' && g.items.some(o => o.when);
+    let html;
+    if (byApp) {   // live funnel: the options per material appearance ("Matt: Standard, Firm … · Glossy: …")
+      const seen = new Set();
+      const parts = app.items.map(a => {
+        const list = g.items.filter(o => !seen.has(o.id) && (!o.when || o.when({ ...DEFAULT, appearance: a.id }))); list.forEach(o => seen.add(o.id));
+        return list.length ? [a.name, list] : null;
+      }).filter(Boolean);
+      // Only one group (the options don't really depend on the appearance, e.g. Printing): a plain list
+      html = parts.length > 1 ? parts.map(([n, list]) => `${n}: ${list.map(o => specLink(g, o)).join(', ')}`).join(' · ') : g.items.map(o => specLink(g, o)).join(', ');
+    } else html = g.items.map(o => specLink(g, o)).join(', ');
+    const rel = (XLINKS[PRODUCT_BASE.slug] || {})[g.key];
+    return html + (rel ? `<span class="spec-rel">See also: ${rel.map(([l, slug]) => `<a href="${/\.html/.test(slug) ? slug : 'product.html?p=' + slug}">${l} →</a>`).join(', ')}</span>` : '');
+  }
+  function renderSpecs() {
+    document.getElementById('pSpecs').innerHTML = specRows.map(([k, v]) => {
+      const g = SPECS_V === 'new' && PRODUCT.groups.find(x => x.title === k);
+      return `<div><dt>${k}</dt><dd>${g ? specValue(g) : v}</dd></div>`;
+    }).join('');
+  }
+  renderSpecs();
+  // A spec link: choose that option (and the appearance it belongs to), then show it in the configuration
+  document.getElementById('pSpecs').addEventListener('click', e => {
+    const b = e.target.closest('[data-spec-pick]'); if (!b) return;
+    const [key, id] = b.dataset.specPick.split('|'), o = pick(key, id);
+    if (o.when && !o.when(draft) && OPTIONS.appearance) { const a = OPTIONS.appearance.items.find(x => o.when({ ...draft, appearance: x.id })); if (a) draft.appearance = a.id; }
+    if (o.when && !o.when(draft) && OPTIONS.size) draft.size = OPTIONS.size.items[0].id;
+    // The step itself doesn't apply yet (flyers: Finishing from 250 gsm): change one earlier choice so it does
+    if (!groupWhen(key, draft)) {
+      outer: for (const k of KEYS) for (const x of itemsFor(k, draft)) { const t = fixCfg({ ...draft, [k]: x.id }); if (groupWhen(key, t)) { Object.assign(draft, t); break outer; } }
+    }
+    draft[key] = id; fixCfg(draft); renderDraft();
+    if (FLOW_J) applyNow();
+    const el = document.querySelector(`#jConfig [data-option="${key}"] [data-value="${id}"]`) || document.querySelector(`#jConfig [data-option="${key}"]`);
+    if (el) { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); flash(el); }
+  });
   document.getElementById('optGroups').innerHTML = KEYS.map(k => `<div class="opt-group" data-option="${k}"></div>`).join('');
   const titles = PRODUCT.groups.map(g => g.title.toLowerCase());
   document.getElementById('presetsIntro').textContent = `Sets ${titles.length > 1 ? titles.slice(0, -1).join(', ') + ' and ' + titles.at(-1) : titles[0]}. Quantity and delivery stay as you choose them.`;
@@ -510,14 +570,15 @@
   // Prototype switch Icons Old|New (?icons=old|new); Old = the swatches and colour chips as they were.
   var ICONS_V = (() => { const q = new URLSearchParams(location.search).get('icons'); try { if (['old', 'new'].includes(q)) localStorage.setItem('hp-icons', q); return localStorage.getItem('hp-icons') || 'new'; } catch (e) { return q || 'new'; } })();
   const MAT_ICONS = {
-    appearance: { matt: 'silk-matte', glossy: 'glossy', eco: 'eco', uncoated: 'uncoated', special: 'special', seed: 'seed-paper' },
+    appearance: { matt: 'silk-matte', matte: 'silk-matte', glossy: 'glossy', eco: 'eco', uncoated: 'uncoated', special: 'special', seed: 'seed-paper', recycled: 'recycled', biotop: 'bio-top', paperwise: 'paperwise' },
     ptype: { 'matt-300': 'silk-matte', 'matt-350': 'silk-matte', 'matt-400': 'silk-matte', 'matt-450': 'silk-matte', 'glossy-300': 'glossy', 'glossy-350': 'glossy', 'glossy-400': 'glossy',
       recystar: 'recycled', paperwise: 'paperwise', kraft: 'kraft', biotop: 'bio-top', 'offset-300': 'uncoated', 'offset-340': 'uncoated', cardboard: 'sulfate-cardboard',
       pvc: 'pvc-paper', pearl: 'pearl-marble', gold: 'metallic-gold', silver: 'metallic-silver', white: 'metallic-white' },
     paper: { matt: 'silk-matte', matte: 'silk-matte', glossy: 'glossy', eco: 'eco', uncoated: 'uncoated', special: 'special', recystar: 'recycled', recycled: 'recycled', paperwise: 'paperwise', biotop: 'bio-top', kraft: 'kraft', seed: 'seed-paper' },
     finish: { glossy: 'glossy', matte: 'silk-matte', gold: 'gold-foil', silver: 'silver-foil', rosegold: 'rose-gold-foil', spotuv: 'spot-uv', 'spot-uv': 'spot-uv' },
     lamination: { matt: 'matt-lamination', 'matt-1': 'matt-lamination', 'matt-2': 'matt-lamination', gloss: 'gloss-lamination', velvet: 'velvet' },
-    finishing: { 'matt-lam': 'matt-lamination', 'gloss-lam': 'gloss-lamination', 'velvet-lam': 'velvet', uv: 'uv-glossy' },
+    finishing: { 'matt-lam': 'matt-lamination', 'gloss-lam': 'gloss-lamination', 'velvet-lam': 'velvet', uv: 'uv-glossy',
+      'matt-2': 'matt-lamination', 'gloss-2': 'gloss-lamination', 'velvet-2': 'velvet', 'uv-2': 'uv-glossy', 'matt-1': 'matt-lamination', 'gloss-1': 'gloss-lamination', 'velvet-1': 'velvet', 'uv-1': 'uv-glossy' },
     material: { gold: 'metallic-gold', silver: 'metallic-silver', white: 'metallic-white', pearl: 'pearl-marble', yupo: 'synthetic', cardboard: 'sulfate-cardboard',
       'pvc-158': 'pvc-paper', 'pvc-234': 'pvc-paper', 'pvc-276': 'pvc-paper', 'invercote-g': 'invercote-g', creato: 'invercote-creato', tintoretto: 'tintoretto',
       'kingboard-300': 'kingboard', 'kingboard-350': 'kingboard', premium: 'pvc', budget: 'pvc', mesh: 'mesh', rpet: 'rpet', blockout: 'blockout-pvc', pvc: 'pvc', polyester: 'polyester', paper: 'silk-matte' },
@@ -534,7 +595,7 @@
           ? `<img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:32.1px;width:15.9px;height:1.2px"><img src="${P}paper-line-a.svg" alt="" style="left:4.65px;top:24.4px;width:15.9px;height:1.2px"><img src="${P}paper-line-b.svg" alt="" style="left:4.1px;top:28.5px;width:21.2px;height:1.2px">` : ''}<img src="${P}paper-corner.svg" alt="" style="left:25.15px;top:.38px;width:12.17px;height:12.18px"></span>`
       : o.color ? `<span class="chip" style="background:${o.color}"></span>`
       // Thickness: a diagonal line that gets thicker per step (Cornel's reference)
-      : key === 'thickness' ? `<span class="thick" style="--w:${1.5 + OPTIONS[key].items.indexOf(o) * 1.25}px"></span>`
+      : key === 'thickness' ? `<span class="thick" style="--w:${1.5 + (o.thick ?? OPTIONS[key].items.indexOf(o)) * 1.25}px"></span>`
       : '';
   }
   function optCard(key, o) {
@@ -753,6 +814,10 @@
       <button data-lv="d" title="D: calendar tile left of the text">D</button><button data-lv="e" title="E: calendar tile on top, centred">E</button>
       ${PRODUCT_BASE.live ? `<span>Funnel</span>
       <button data-fv="old" title="Old: the prototype's own steps">O</button><button data-fv="new" title="New: the live site's steps (material appearance → paper type …)">N</button>` : ''}
+      <span>Names</span>
+      <button data-nv="old" title="Old: each product's own thickness names">O</button><button data-nv="new" title="New: one thickness scale for all paper products (Super Budget … Luxury Plus, with gsm)">N</button>
+      <span>Specs</span>
+      <button data-sv="old" title="Old: the specifications as plain text">O</button><button data-sv="new" title="New: options are links (choose it here), plus See also links to other products">N</button>
       <span>Icons</span>
       <button data-iv="old" title="Old: the swatches and colour chips as they were">O</button><button data-iv="new" title="New: one style for all materials (sheet with a folded corner)">N</button>
       <span>Design</span>
@@ -765,9 +830,10 @@
     try { if (['0', 'c', 'd'].includes(rq)) localStorage.setItem('hp-desk-rec', rq); rv = localStorage.getItem('hp-desk-rec') || 'd'; if (rv === 'a' || rv === 'b') rv = 'd'; } catch (e) { rv = rq || 'd'; }
     const setRv = v => { ['c', 'd'].forEach(x => document.documentElement.classList.toggle('rec-' + x, x === v)); document.querySelectorAll('[data-rec]').forEach(b => b.setAttribute('aria-pressed', b.dataset.rec === v)); try { localStorage.setItem('hp-desk-rec', v); } catch (e) {}  urlSet('rec', v); };
     const setIv = (v, first) => { ICONS_V = v; document.querySelectorAll('[data-iv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.iv === v)); try { localStorage.setItem('hp-icons', v); } catch (e) {} urlSet('icons', v); if (!first) renderDraft(); };
+    const setSv = v => { SPECS_V = v; document.querySelectorAll('[data-sv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.sv === v)); try { localStorage.setItem('hp-specs', v); } catch (e) {} urlSet('specs', v); renderSpecs(); };
     const setGv = (v, first) => { DESIGN_V = v; document.querySelectorAll('[data-gv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.gv === v)); try { localStorage.setItem('hp-desk-design2', v); } catch (e) {} urlSet('design', v); if (!first) renderDeskSel(); };
-    document.querySelector('.desk-switch').addEventListener('click', e => { const iv = e.target.closest('[data-iv]'); if (iv) setIv(iv.dataset.iv); const fv = e.target.closest('[data-fv]'); if (fv && fv.dataset.fv !== FUNNEL_V) { try { localStorage.setItem('hp-funnel', fv.dataset.fv); } catch (err) {} urlSet('funnel', fv.dataset.fv); location.reload(); } const g = e.target.closest('[data-gv]'); if (g) setGv(g.dataset.gv); const b = e.target.closest('[data-dv]'); if (b) { setDv(b.dataset.dv); renderDraft(); } const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const r = e.target.closest('[data-rec]'); if (r) setRv(r.dataset.rec); });
-    setDv(dv); setPv(pv); setLv(lv); setRv(rv); setGv(DESIGN_V, true); setIv(ICONS_V, true); document.querySelectorAll('[data-fv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.fv === FUNNEL_V)); if (PRODUCT_BASE.live) urlSet('funnel', FUNNEL_V); renderDeskSel();
+    document.querySelector('.desk-switch').addEventListener('click', e => { const iv = e.target.closest('[data-iv]'); if (iv) setIv(iv.dataset.iv); const sv = e.target.closest('[data-sv]'); if (sv) setSv(sv.dataset.sv); const nv = e.target.closest('[data-nv]'); if (nv && nv.dataset.nv !== NAMES_V) { try { localStorage.setItem('hp-names', nv.dataset.nv); } catch (err) {} urlSet('names', nv.dataset.nv); location.reload(); } const fv = e.target.closest('[data-fv]'); if (fv && fv.dataset.fv !== FUNNEL_V) { try { localStorage.setItem('hp-funnel', fv.dataset.fv); } catch (err) {} urlSet('funnel', fv.dataset.fv); location.reload(); } const g = e.target.closest('[data-gv]'); if (g) setGv(g.dataset.gv); const b = e.target.closest('[data-dv]'); if (b) { setDv(b.dataset.dv); renderDraft(); } const p = e.target.closest('[data-pv]'); if (p) setPv(p.dataset.pv); const l = e.target.closest('[data-lv]'); if (l) setLv(l.dataset.lv); const r = e.target.closest('[data-rec]'); if (r) setRv(r.dataset.rec); });
+    setDv(dv); setPv(pv); setLv(lv); setRv(rv); setGv(DESIGN_V, true); setIv(ICONS_V, true); setSv(SPECS_V); document.querySelectorAll('[data-nv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.nv === NAMES_V)); urlSet('names', NAMES_V); document.querySelectorAll('[data-fv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.fv === FUNNEL_V)); if (PRODUCT_BASE.live) urlSet('funnel', FUNNEL_V); renderDeskSel();
   }
   // Content for the lower page, the same on mobile and desktop: other products of this kind, FAQ, section noun
   function pdpExtras() {
