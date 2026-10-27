@@ -6,7 +6,7 @@
 <title>HelloPrint Home · Promo test</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028d">
+<link rel="stylesheet" href="styles.css?v=20261028l">
 <style>
   /* Promo test (home-promos.html): one promo card for every banner on the home, mobile and desktop.
      Variants via the Promo switch (?promo=a…f): A = white bar + arrow button, B = text below the photo,
@@ -77,6 +77,7 @@
   .desk .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 32px) / 4.25 * 2 + 8px); }
   /* Desktop: the hero promos 4 in a row, the two blocks side by side */
   .desk .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
+  .desk .pb-hero { margin-right: 0; }
   .desk .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .desk .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .desk .home > .pb-duo { order: 6; }   /* after the best sellers; the SEO text stays last */
@@ -231,7 +232,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261028d"></script>
+<script src="app.js?v=20261028l"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `

@@ -25,15 +25,8 @@ const SHELL_HEADER = `
         <span>Best price guaranteed</span><span>100% satisfaction</span><span>Always a perfect design</span><span>Always here to help</span><span>Best price guaranteed</span>
       </span></span>
     </div>
-    <button class="vat" id="vatBtn" aria-haspopup="menu" aria-expanded="false">
-      <img class="flag" src="assets/flag.png" alt="">
-      <span id="vatLabel">Excl VAT</span>
-      <img class="chev" src="assets/chevron-sm.svg" alt="">
-    </button>
-    <div class="vat-menu" id="vatMenu" role="menu">
-      <button role="menuitemradio" aria-checked="true" data-vat="0">Excl VAT</button>
-      <button role="menuitemradio" aria-checked="false" data-vat="1">Incl VAT</button>
-    </div>
+    <!-- Trustpilot score instead of the VAT switch (USP bar variant A, Cornel 2026-10-28; sketch usp-bar-sketch.html). Plain HTML, readable for crawlers -->
+    <a class="tp-mini" href="index.html#reviews" aria-label="Rated 4.5 out of 5 on Trustpilot"><img class="tp-stars" src="assets/trustpilot.svg" alt=""><b>4.5</b></a>
   </div>
 `;
 const SHELL_FOOTER = `

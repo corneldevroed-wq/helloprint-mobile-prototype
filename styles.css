@@ -2078,7 +2078,7 @@ html:not(.desk) .d-banners { display: contents; }
 .promo-e .pc-txt { min-width: 0; }
 .promo-e .pc-t { display: block; font-weight: 800; font-size: 24px; line-height: 1.16; letter-spacing: -.48px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
 .promo-e .pc-s { display: block; margin-top: 8px; font-size: 13px; line-height: 1.45; text-shadow: 0 1px 6px rgba(0,0,0,.3); }
-.promo-e .pc-cta { display: inline-flex; padding: 10px 16px; border-color: var(--white); }
+.promo-e .pc-cta { display: inline-flex; padding: 6px 16px; border-color: var(--white); }
 .promo-e .pc:hover .pc-cta { border-color: var(--black); }
 .promo-e .pb-wrap { position: relative; }
 .promo-e .pb-nav { display: none; }
@@ -2088,6 +2088,7 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .home.promo-e > .pb-wrap { order: 1; }
 .desk .home.promo-e > .pb-duo { order: 6; }   /* Team + Promises where the old promos were: after the best sellers, before the reviews; the SEO text stays last */
 .desk .promo-e .pb { display: grid; overflow: visible; gap: 16px; padding: 0; scroll-snap-type: none; }
+.desk .promo-e .pb-hero { margin-right: 0; }   /* no mobile gutter (.hscroll), so the row ends exactly at the content edge and the arrow sits centred on it (the duo row is centred by the page rule) */
 .desk .promo-e .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .desk .promo-e .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .desk .promo-e .pc-img { height: 400px; }
@@ -2112,3 +2113,9 @@ html:not(.desk) .d-banners { display: contents; }
 .dc-img { position: absolute; right: 16px; top: 50%; width: 112px; height: 112px; margin-top: -56px; display: grid; place-items: center; }   /* the image stands free, no circle */
 .dc-img img { width: 100%; height: 100%; object-fit: contain; }
 .dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */
+
+/* Mobile USP bar: the Trustpilot score on the right, instead of the VAT switch (variant A, Cornel 2026-10-28) */
+.usp .tp-stars { display: block; width: 80px; height: 15px; flex-shrink: 0; }
+.tp-mini { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 20px; color: var(--black); white-space: nowrap; }
+.tp-mini b { font-weight: 600; }
+.usp .usp-left { min-width: 0; }
