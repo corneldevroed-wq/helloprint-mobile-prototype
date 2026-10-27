@@ -289,6 +289,9 @@ const products = [
   // Desktop only: completes the second row of five (Figma 15848:4851)
   { img: 'products/mug.webp', bg: 'var(--light-grey)', name: '330 ml Full Colour Ceramic Mug', qty: 100, price: 412.32, href: 'product.html?p=ceramic-mug-330ml', desk: true },
   { img: 'products/roller-banner.webp', bg: 'var(--light-grey)', name: 'Roller Banners', qty: 1, price: 38.99, href: 'product.html?p=roller-banners', desk: true },
+  // Desktop shows 6 per row (2 full rows of 6), so two more desktop-only items
+  { img: 'products/premium-tote.webp', bg: 'var(--light-grey)', name: 'Premium Tote Bags', qty: 100, price: 477.99, href: 'product.html?p=premium-tote-bags', desk: true },
+  { img: 'products/banner.webp', bg: 'var(--light-grey)', name: 'Banners', qty: 1, price: 33.36, href: 'product.html?p=banners', desk: true },
 ];
 
 // Desktop Trustpilot review row (PDP + home): seven cards between two round arrows, each arrow scrolls one card

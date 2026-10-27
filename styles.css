@@ -1832,7 +1832,7 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .cats .cat { flex: 1 1 0; min-width: 0; }
 
 /* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
-.desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.desk .home .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }   /* 6 per row (Cornel, 2026-10-27), 2 full rows */
 .desk .home .product { gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
 .desk .home .product:hover { border-color: var(--outline); }
 .desk .home .product .thumb { border-radius: 0; }
@@ -2053,3 +2053,55 @@ html:not(.desk) .d-banners { display: contents; }
 /* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
 .desk:not(.dv-b) #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
 .desk:not(.dv-b) #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
+
+/* Home promo cards (style E, chosen 2026-10-27 from home-promos.html): one card for every banner on the home,
+   live content (Contentful images), title top left on the photo, only the live "Shop X" button, no white bar.
+   Scoped to .promo-e (index.html), so the variant test page keeps its own styles.
+   Mobile: swipe row of 300px cards under the quick links. Desktop: on top under the welcome heading, 4 per row,
+   the first card 2 columns, round arrow buttons (Shop-pill style) when there are more than 4. Gaps 8px. */
+.promo-e .pb { gap: 8px; scroll-snap-type: x mandatory; }
+.promo-e .pc { position: relative; flex: 0 0 300px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; scroll-snap-align: start; background: var(--light-grey); color: var(--white); }
+.promo-e .pc-img { position: relative; display: block; height: 345px; overflow: hidden; }
+.promo-e .pc-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.promo-e .pc:hover .pc-img img { transform: scale(1.04); }   /* hover: the photo grows a little inside the card (the card itself stays put) */
+.promo-e .pc-img::after { content: ''; position: absolute; inset: 0 0 55%; background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0)); }   /* keeps the white title readable on light photos */
+.promo-e .pc.team .pc-img { background: #3a8a3f radial-gradient(rgba(255,255,255,.18) 1px, transparent 1.5px) 0 0 / 22px 22px; }
+.promo-e .pc.team .pc-img img { object-fit: contain; object-position: 50% 100%; }
+.promo-e .pc-body { position: absolute; inset: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; }
+.promo-e .pc-txt { min-width: 0; }
+.promo-e .pc-t { display: block; font-weight: 800; font-size: 24px; line-height: 1.16; letter-spacing: -.48px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
+.promo-e .pc-s { display: block; margin-top: 8px; font-size: 13px; line-height: 1.45; text-shadow: 0 1px 6px rgba(0,0,0,.3); }
+.promo-e .pc-cta { display: inline-flex; padding: 10px 16px; border-color: var(--white); }
+.promo-e .pc:hover .pc-cta { border-color: var(--black); }
+.promo-e .pb-wrap { position: relative; }
+.promo-e .pb-nav { display: none; }
+/* Desktop */
+.desk .home.promo-e > section:has(> .chips) { display: block; order: 0; }   /* the welcome heading above the promos (as live) */
+.desk .home.promo-e > section:has(> .chips) > .chips { display: none; }   /* the quick links stay mobile only */
+.desk .home.promo-e > .pb-wrap { order: 1; }
+.desk .home.promo-e > .pb-duo { order: 6; }   /* Team + Promises where the old promos were: after the best sellers, before the reviews; the SEO text stays last */
+.desk .promo-e .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
+.desk .promo-e .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.desk .promo-e .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.desk .promo-e .pc-img { height: 400px; }
+.desk .promo-e .pb-hero > .pc.wide { grid-column: span 2; }
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5))::-webkit-scrollbar { display: none; }
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc { flex: 0 0 calc((100% - 32px) / 4.25); }   /* 4 cards + a peek of the next */
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 32px) / 4.25 * 2 + 8px); }
+.desk .promo-e .pb-wrap:has(.pc:nth-child(5)) .pb-nav { position: absolute; top: 50%; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px; margin-top: -20px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: border-color .15s, opacity .15s; }
+.desk .promo-e .pb-nav:hover { border-color: var(--black); }
+.desk .promo-e .pb-nav.prev { left: -20px; } .desk .pb-nav.prev svg { transform: scaleX(-1); }
+.desk .promo-e .pb-nav.next { right: -20px; }
+.desk .promo-e .pb-nav[disabled] { opacity: 0; pointer-events: none; }
+
+/* Desktop home: alternative category block (Figma second category variant, live "Discover our categories"), right under
+   "Our Top Categories" so Cornel can choose. 4 per row, grey card, title top left, round image right, arrow bottom left. */
+.desk .home > .d-cats2 { order: 4; }
+.d-cats2 .dc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: 10px; background: var(--light-grey); color: var(--black); transition: background .15s; }
+.dc-card:hover { background: #e8e8e8; }
+.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: 15px; line-height: 1.45; color: #333; }
+.dc-img { position: absolute; right: 16px; top: 50%; width: 112px; height: 112px; margin-top: -56px; display: grid; place-items: center; }   /* the image stands free, no circle */
+.dc-img img { width: 100%; height: 100%; object-fit: contain; }
+.dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */

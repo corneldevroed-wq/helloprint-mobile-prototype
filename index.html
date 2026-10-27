@@ -6,19 +6,13 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027t">
+<link rel="stylesheet" href="styles.css?v=20261028b">
 </head>
 <body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
-  <main class="content home">
-    <!-- Desktop only (Figma 15885:10950): three photo tiles above the banners -->
-    <section class="d-hero desk-only" aria-label="Highlights">
-      <a class="d-tile" href="#calendars"><img src="assets/home/hero-advent.webp" alt=""><h2>Save 15% advent calendars</h2><span class="overlay-card"><span><strong>Advent calendars, 15% off.</strong><span>Your logo on every day of December.</span></span><span class="pill">Shop</span></span></a>
-      <a class="d-tile" href="#brochure-and-booklet-printing"><img src="assets/home/hero-catalog.webp" alt=""><h2>Catalog Season Starts Now!</h2><span class="overlay-card"><span><strong>Catalog Season starts now.</strong><span>Autumn campaigns, printed properly</span></span><span class="pill">Shop</span></span></a>
-      <a class="d-tile" href="#labels"><img src="assets/home/hero-labels.webp" alt=""><h2>Roll out your brand on every package</h2><span class="overlay-card"><span><strong>Labels on a roll.</strong><span>Your brand on every package.</span></span><span class="pill">Shop</span></span></a>
-    </section>
+  <main class="content home promo-e">
     <section>
       <h1>Welcome to Ireland's Leading Online Printing Service</h1>
       <div class="hscroll chips">
@@ -32,6 +26,20 @@
         <a class="pill" href="#printed-bags">Bags</a>
       </div>
     </section>
+
+    <div class="pb-wrap">
+    <!-- Promo cards (style E, chosen 2026-10-27 in home-promos.html): live content, title top left, only the live "Shop X" button.
+         Mobile: swipe row under the quick links; desktop: on top, first card 2 columns, arrows when there are more than 4 -->
+    <section class="hscroll pb pb-hero" aria-label="Highlights">
+      <a class="pc wide" href="#brochure-and-booklet-printing"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4dZfdVorisc9HUoTDYtQW3/05a37d6d78e6addb40db5b3d666713f5/UK.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 40%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Professional Booklets. Unbeatable Prices!</strong></span><span class="pc-cta pill">Shop Booklets</span></span></a>
+      <a class="pc" href="#exhibition-products"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7nh1ufwvkgsVi1UCLhf3n6/f9bb0ed97ee977dfe5b1f33f7bd28c72/exhibition.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:45% 45%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Don’t Be a Wallflower: Steal the Show</strong></span><span class="pc-cta pill">Shop Exhibition Products</span></span></a>
+      <a class="pc" href="#labels"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/27Nem6cgxkM5dRv7NUKGJM/18049a8cbaf8a1dcf1329dbd5acb736c/labels_on_roll_1__1_.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:55% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Roll Out Your Brand on Every Package</strong></span><span class="pc-cta pill">Shop Labels On Roll</span></span></a>
+      <a class="pc" href="#printed-bags"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/589OSX08uUbcR2c85DyEUF/2a49be540a0dbe06d91ffdef0c3702af/cotton_bags.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Cotton Tote Bags for Every Occasion</strong></span><span class="pc-cta pill">Shop Cotton Bags</span></span></a>
+      <a class="pc" href="#corporate-gifts"><span class="pc-img"><img src="https://contentful.helloprint.com/wm1n7oady8a5/D9OWKjs8M6OtgX1LNXvcY/a449df8cafb97d4c13ca5a00220fc7e9/UK_-_W43_-_Homepage_v3.png?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Standout Gifts Your Clients Will Love</strong></span><span class="pc-cta pill">See All Gifts</span></span></a>
+      <a class="pc" href="#merch"><span class="pc-img"><img src="https://contentful.helloprint.com/wm1n7oady8a5/3gzBTeSv2nWefpjrTVaNiW/97dfb113afe2fda17540ab64dccae562/merch_banner_.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Discover Merch by Helloprint</strong></span><span class="pc-cta pill">Discover Merch by Helloprint</span></span></a>
+    </section>
+      <button class="pb-nav prev" data-pb="-1" aria-label="Previous promos"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pb-nav next" data-pb="1" aria-label="More promos"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
 
     <section>
       <div class="section-head">
@@ -98,36 +106,24 @@
       </div>
     </section>
 
-    <!-- On mobile only the Flash Sale banner shows; desktop shows the row of three (Figma 15848:4699) -->
-    <div class="d-banners">
-      <section class="banner">
-        <p class="title">Flash Sale!</p>
-        <p class="off">20% OFF</p>
-        <img class="img" src="assets/flash-sale.png" alt="">
-        <div class="overlay-card">
-          <div><strong>Side-wide 20% OFF.</strong><span>Only for 70 hours, be quick.</span></div>
-          <a class="pill" href="#flash-sale">Shop</a>
-        </div>
-      </section>
-      <section class="banner b-catalogs desk-only">
-        <p class="title">Catalogs!</p>
-        <img class="img" src="assets/home/banner-catalogs.webp" alt="">
-        <div class="overlay-card">
-          <div><strong>Catalog Season starts now.</strong><span>Autumn campaigns, printed properly</span></div>
-          <a class="pill" href="#brochure-and-booklet-printing">Shop</a>
-        </div>
-      </section>
-      <section class="banner b-expert desk-only">
-        <p class="eyebrow">Expert help</p>
-        <p class="title">Questions?</p>
-        <p class="sub">Thom is ready to help you out.</p>
-        <img class="img" src="assets/home/banner-expert.webp" alt="">
-        <div class="overlay-card">
-          <div><strong>Online now.</strong><span>Speaks Dutch and English</span></div>
-          <a class="pill" href="#chat">Start Chat</a>
-        </div>
-      </section>
-    </div>
+    <!-- Desktop only, alternative to "Our Top Categories" (Figma desktop home, second category variant; live "Discover our categories"):
+         grey cards, title top left, round image right, arrow bottom left. Content and images from helloprint.com/en-ie -->
+    <section class="d-cats2 desk-only">
+      <div class="section-head">
+        <h2>Discover our categories</h2>
+        <a class="link" href="#all-products" data-open-menu="all">All categories</a>
+      </div>
+      <div class="dc-grid">
+        <a class="dc-card" href="#promotional-printing"><span class="dc-t">Promotional Products</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7DZ0ZLbO7JyRW5MsH8uo4i/780d9f3a35a39a4df38420ede303fe33/flyers-product.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#stationery-and-office-supplies"><span class="dc-t">Stationery</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/1abWjWqbj1lXu99Q6XCXEd/302d9c9c57d212d1cfce29c26ef24f43/Notepads-Stationery-menu-image.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#cards-and-invites"><span class="dc-t">Cards &amp; Invitations</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6OsG9z6x2gmcAYyYokAaau/d675ab5252ea5400fe4829ef583a0b27/Greeting-card-product-image.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#outdoor"><span class="dc-t">Outdoor Advertising</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/2X4K7h0G9vHoh3bgzjWYBU/f1211f037bf0d03c479873b6e3c14445/Outdoor.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#all-stickers"><span class="dc-t">Labels &amp; Stickers</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/1h5mTyaRRCf5LIrWyLjTZi/d815c3d04675bd0b1d1d58e9d93c16c8/Stickers-Custom-Size-Product-Image-1.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#corporate-gifts"><span class="dc-t">Corporate Gifts</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4m2NP53VJxokc6X4tYi0MF/9a348790de0f53a8a5e3d6c00e695603/CorporateGifts_SearchImage.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#clothing-printing"><span class="dc-t">Clothing &amp; Textiles</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6N1q5RQrdacdmUCtQy8NJL/4d084d9e4acdf1fce6722394adc61500/5.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+        <a class="dc-card" href="#hospitality"><span class="dc-t">Hospitality</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/2OHMOCVXxtSWM4HNAxPez1/d141b9589b5ffdf574085b8a3ac1e3d1/2.png?w=240&amp;fm=webp&amp;q=80" alt="" loading="lazy"></span></a>
+      </div>
+    </section>
 
     <aside class="trust">
       <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
@@ -145,24 +141,9 @@
       <div class="grid" id="grid"></div>
     </section>
 
-    <section class="hscroll promos">
-      <article class="promo team">
-        <h3>Dedicated team of experts</h3>
-        <div class="person"><img src="assets/team.png" alt=""></div>
-        <div class="badge-logo"><img src="assets/logo-badge.png" alt=""><span>Logo</span></div>
-        <div class="overlay-card">
-          <div><strong>Here to help!</strong><span>Ask us anything.</span></div>
-          <a class="pill" href="#chat">Chat</a>
-        </div>
-      </article>
-      <article class="promo why">
-        <img class="bg" src="assets/thats-why.jpg" alt="">
-        <h3>That’s why.</h3>
-        <div class="overlay-card">
-          <div><strong>100% satisfaction</strong><span>Every time</span></div>
-          <a class="pill" href="#our-promises">More</a>
-        </div>
-      </article>
+    <section class="hscroll pb pb-duo">
+      <a class="pc team" href="#new2contactform?type=inquiry"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 100%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Dedicated Team of Print Experts</strong><span class=pc-s>Our team of Print Experts is here to help you with the most specialised and high-volume print requirements, on time, on brand, and on budget.</span></span><span class="pc-cta pill">Request a quote</span></span></a>
+      <a class="pc" href="#our-promises"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:70% 60%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Our Promises</strong><span class=pc-s>Best Price Guarantee · 100% Satisfaction Guarantee · Dedicated Help</span></span><span class="pc-cta pill">See more</span></span></a>
     </section>
 
     <section class="d-reviews desk-only">
@@ -188,7 +169,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261027t"></script>
+<script src="app.js?v=20261028b"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -210,6 +191,13 @@
     revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs);
     document.querySelectorAll('[data-acc="browse"] details').forEach(d => { d.open = true; d.querySelector('summary').addEventListener('click', e => e.preventDefault()); });
   }
+  // Promo row arrows (desktop, more than 4 promos): one card per click, hidden at the start / end
+  (() => {
+    const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');
+    const sync = () => { wrap.querySelector('.prev').disabled = row.scrollLeft < 4; wrap.querySelector('.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
+    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc:not(.wide)'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + 8) }); }));
+    row.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); sync();
+  })();
 </script>
 </body>
 </html>

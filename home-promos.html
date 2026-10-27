@@ -6,7 +6,7 @@
 <title>HelloPrint Home · Promo test</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027t">
+<link rel="stylesheet" href="styles.css?v=20261028b">
 <style>
   /* Promo test (home-promos.html): one promo card for every banner on the home, mobile and desktop.
      Variants via the Promo switch (?promo=a…f): A = white bar + arrow button, B = text below the photo,
@@ -75,12 +75,11 @@
   /* The first promo spans 2 columns on desktop (as live en-gb): 1 wide + 2 + a peek; on mobile it stays a normal card */
   .desk .pb-hero > .pc.wide { grid-column: span 2; }
   .desk .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 32px) / 4.25 * 2 + 8px); }
-  /* Best sellers: 6 per row on desktop (was 5) */
-  .desk .home .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   /* Desktop: the hero promos 4 in a row, the two blocks side by side */
   .desk .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
   .desk .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .desk .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .desk .home > .pb-duo { order: 6; }   /* after the best sellers; the SEO text stays last */
   .desk .pc-img { height: 400px; }
   .desk.pv-b .pc-img { height: 340px; }
   .desk .pc-t { font-size: 18px; }
@@ -232,13 +231,9 @@
   </main>
 </div>
 
-<script src="app.js?v=20261027t"></script>
+<script src="app.js?v=20261028b"></script>
 <script>
   // Home: best sellers grid (data in app.js)
-  // Promo test page: best sellers 6 per row on desktop, so two extra desktop items make two full rows (12)
-  products.push(
-    { img: 'products/premium-tote.webp', bg: 'var(--light-grey)', name: 'Premium Tote Bags', qty: 100, price: 477.99, href: 'product.html?p=premium-tote-bags', desk: true },
-    { img: 'products/banner.webp', bg: 'var(--light-grey)', name: 'Banners', qty: 1, price: 33.36, href: 'product.html?p=banners', desk: true });
   document.getElementById('grid').innerHTML = products.map(p => `
     <a class="product${p.desk ? ' desk-only' : ''}" href="${p.href || '#' + slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
       <div class="thumb" style="background:${p.bg}">
@@ -264,7 +259,7 @@
   (() => {
     const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');
     const sync = () => { wrap.querySelector('.prev').disabled = row.scrollLeft < 4; wrap.querySelector('.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
-    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + 8) }); }));
+    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc:not(.wide)'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + 8) }); }));
     row.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); sync();
   })();
   // Promo switch: A | B | C | D, remembered and written into the address bar (?promo=)
