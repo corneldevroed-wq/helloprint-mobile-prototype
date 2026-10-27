@@ -3,6 +3,11 @@
 Clickable HTML prototype of the HelloPrint mobile redesign, built from the Figma file
 "HelloPrint – Redesign Center" (mobile frames). Work in progress.
 
+## Project knowledge
+
+`CLAUDE.md` (working rules) and `docs/` (design principles, decision log, components & switches, backlog) hold the
+thinking behind this prototype. Start there.
+
 ## Flow
 
 Home → Business cards (category) → product page (6 business card types) → Cart → Details & shipping → Payment → Order confirmed
