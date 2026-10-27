@@ -25,8 +25,8 @@ const SHELL_HEADER = `
         <span>Best price guaranteed</span><span>100% satisfaction</span><span>Always a perfect design</span><span>Always here to help</span><span>Best price guaranteed</span>
       </span></span>
     </div>
-    <!-- Trustpilot score instead of the VAT switch (USP bar variant A, Cornel 2026-10-28; sketch usp-bar-sketch.html). Plain HTML, readable for crawlers -->
-    <a class="tp-mini" href="index.html#reviews" aria-label="Rated 4.5 out of 5 on Trustpilot"><img class="tp-stars" src="assets/trustpilot.svg" alt=""><b>4.5</b></a>
+    <!-- Trustpilot instead of the VAT switch (Cornel 2026-10-28): the review count directly visible, as the desktop widget. Plain HTML, readable for crawlers -->
+    <a class="tp-mini" href="index.html#reviews" aria-label="See our 35,364 reviews on Trustpilot"><u><b>35,364</b> reviews</u> on <span class="tp-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>
   </div>
 `;
 const SHELL_FOOTER = `
@@ -113,11 +113,9 @@ if (document.body.hasAttribute('data-desktop')) DESK_MQ.addEventListener('change
 const DESK_NAV = [['Promotional Print', 'promotional-printing'], ['Books', 'brochure-and-booklet-printing'], ['Cards', 'cards-and-invites'], ['Stationary', 'stationery-and-office-supplies'],
   ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs', 'panels-and-signs'], ['Stickers', 'all-stickers'], ['Gifts', 'corporate-gifts'], ['Bags', 'promotional-bags'], ['Clothing', 'clothing-printing']];
 const deskUser = (() => { try { return JSON.parse(localStorage.getItem('hp-user')) || null; } catch (e) { return null; } })();
-// Trustpilot service score (header + footer), built in HTML instead of a picture: "Excellent", 4.5 stars, review count, logo
+// Trustpilot service score (header + footer), built in HTML instead of a picture, like the live widget: "See our 35,364 reviews on ★ Trustpilot"
 const TP_STAR = '<svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
-const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="Excellent, rated 4.5 out of 5, 34,760 reviews on Trustpilot"><b>Excellent</b>
-  <span class="dtrust-stars" aria-hidden="true">${[100, 100, 100, 100, 50].map(f => `<span class="tp-star" style="--f:${f}%">${TP_STAR}</span>`).join('')}</span>
-  <u>34,760 reviews</u><span class="dtrust-on">on</span><span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;
+const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 const SHELL_HEADER_DESK = `
   <header class="dhead">
     <div class="dhead-top"><div class="dwrap">

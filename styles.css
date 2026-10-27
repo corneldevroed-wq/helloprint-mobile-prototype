@@ -1393,16 +1393,12 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dusps li b { font-weight: 600; }
 .dusps li img { width: 24px; height: 24px; }
 /* Trustpilot "Excellent" strip (one image from Figma, cropped as in the design) */
-.dtrust { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; font-size: 14px; line-height: 20px; color: var(--black); }
-.dtrust b { font-weight: 600; font-size: 16px; }
-.dtrust-stars { display: inline-flex; gap: 2px; --tp: #00b67a; }
-.dtrust .tp-star { width: 20px; height: 20px; display: grid; place-items: center; background: linear-gradient(90deg, var(--tp) var(--f), #dcdce6 var(--f)); }
-.dtrust .tp-star svg { width: 14px; height: 14px; fill: var(--white); }
+.dtrust { display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; font-size: 14px; line-height: 20px; color: var(--black); white-space: nowrap; }   /* as the live widget */
 .dtrust u { text-underline-offset: 2px; }
+.dtrust u b { font-weight: 700; }
 .dtrust:hover u { text-decoration-thickness: 2px; }
-.dtrust-on { margin-left: -4px; }
-.dtrust-logo { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; }
-.dtrust-logo img { width: 18px; height: 18px; }
+.dtrust-logo { display: inline-flex; align-items: center; gap: 2px; margin-left: 3px; font-weight: 600; font-size: 17px; letter-spacing: -.3px; }
+.dtrust-logo img { width: 20px; height: 20px; margin-top: -3px; }
 
 /* Footer: newsletter band (green), help + Trustpilot, 4 columns, certificates / payments / VAT, legal */
 .dfoot { margin-top: 48px; background: var(--white); }
@@ -1414,7 +1410,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dnews-form input::placeholder { color: var(--black); opacity: .6; }
 .dnews-form button { width: 22px; height: 22px; display: grid; place-items: center; }
 .dnews-form button img { width: 18px; height: 18px; }
-.dfoot-help { display: flex; align-items: center; justify-content: space-between; padding: 27px 0 25px; border-bottom: 1px solid var(--mid-grey); }
+.dfoot-help { display: flex; align-items: center; justify-content: space-between; padding: 27px 0 25px; border-bottom: 1px solid var(--line); }   /* subtle, as the line under the logos */
 .dhelp { display: flex; align-items: center; gap: 8px; }
 .dfaces { display: flex; }
 .dfaces img { width: 34px; height: 34px; border-radius: 50%; }
@@ -1628,7 +1624,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-line { margin: 4px 0; }                                                     /* 20px above and below the line */
 .desk #jConfig > .opt-group:first-child { padding-bottom: 20px; margin-bottom: 4px; }
 .dfoot { margin-top: 70px; }
-.dfoot-help { padding: 27px 0 36px; }
+.dfoot-help { padding: 32px 0; }   /* equal space above and below (Cornel, 2026-10-28) */
 .dfoot-row { padding-top: 60px; }
 .dlegal { padding: 46px 0 21px; }
 .d-card { gap: 11px; }
@@ -1817,9 +1813,10 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .trusted { position: relative; flex-direction: row; align-items: center; gap: 24px; height: 94px; }   /* logos sit 24px above the line */
 .desk .trusted::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 100vw; height: 1px; background: var(--line); transform: translateX(-50%); }
 .desk .trusted p { flex: 0 0 auto; width: 160px; font-size: 14px; line-height: 1.4; }
-.desk .logo-strip { flex: 1; margin-right: 0; -webkit-mask-image: none; mask-image: none; }
-.desk .logo-track { width: 100%; justify-content: space-between; animation: none; }
-.desk .logo-copy { display: none; }
+.desk .logo-strip { flex: 1; margin-right: 0; }   /* the logos glide by, as on mobile (Cornel, 2026-10-28); soft fade at both ends */
+.desk .logo-track, .desk .logo-copy { gap: 64px; }
+.desk .logo-track { animation-name: logo-glide-desk; animation-duration: 45s; }
+@keyframes logo-glide-desk { to { transform: translateX(calc(-50% - 32px)); } }
 
 /* Section heads: 24px titles, green "View all"-style link with arrow */
 .desk .home h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
@@ -2106,6 +2103,7 @@ html:not(.desk) .d-banners { display: contents; }
 /* Desktop home: alternative category block (Figma second category variant, live "Discover our categories"), right under
    "Our Top Categories" so Cornel can choose. 4 per row, grey card, title top left, round image right, arrow bottom left. */
 .desk .home > .d-cats2 { order: 4; }
+.desk .home > .d-cats2 { display: none; }   /* hidden for now (Cornel, 2026-10-28); markup and styles stay, remove this line to show it again */
 .d-cats2 .dc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: 10px; background: var(--light-grey); color: var(--black); transition: background .15s; }
 .dc-card:hover { background: #e8e8e8; }
@@ -2119,3 +2117,13 @@ html:not(.desk) .d-banners { display: contents; }
 .tp-mini { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 20px; color: var(--black); white-space: nowrap; }
 .tp-mini b { font-weight: 600; }
 .usp .usp-left { min-width: 0; }
+.tp-mini u { text-underline-offset: 2px; } .tp-mini u b { font-weight: 700; }
+.tp-mini .tp-logo { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; font-size: 13px; letter-spacing: -.2px; }
+.tp-mini .tp-logo img { width: 14px; height: 14px; margin-top: -2px; }
+/* Home, mobile: the Trustpilot card under Our Top Categories is hidden (the score is in the USP bar now) */
+html:not(.desk) .home > .trust { display: none; }
+
+/* Home, mobile: "What our Happy Customers say" as a swipe row, as on the mobile PDP (Cornel, 2026-10-28) */
+html:not(.desk) .home > .d-reviews { align-items: stretch; gap: 8px; }
+html:not(.desk) .home .m-revs { padding-left: 0; padding-right: var(--gutter-r, 13px); margin-right: calc(-1 * var(--gutter-r, 13px)); }
+html:not(.desk) .home .d-rev-note { margin-top: 4px; }

@@ -6,7 +6,7 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028l">
+<link rel="stylesheet" href="styles.css?v=20261028q">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -146,7 +146,7 @@
       <a class="pc" href="#our-promises"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:70% 60%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Our Promises</strong><span class=pc-s>Best Price Guarantee · 100% Satisfaction Guarantee · Dedicated Help</span></span><span class="pc-cta pill">See more</span></span></a>
     </section>
 
-    <section class="d-reviews desk-only">
+    <section class="d-reviews">
       <h2>What our Happy Customers say</h2>
     </section>
 
@@ -169,7 +169,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261028l"></script>
+<script src="app.js?v=20261028q"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -186,6 +186,12 @@
     </a>`).join('');
   updatePrices();
   // Desktop: reviews row (shared with the PDP) and "Browse all we offer" as open columns
+  // Mobile: the reviews as a swipe row, the same as on the mobile PDP (no arrows)
+  if (!DESK) document.querySelector('.home .d-reviews').insertAdjacentHTML('beforeend', `
+      <div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+        <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+          <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+      <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
   if (DESK) {
     const revs = document.querySelector('.home .d-reviews');
     revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs);
