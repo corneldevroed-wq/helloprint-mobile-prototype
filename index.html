@@ -6,7 +6,7 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028q">
+<link rel="stylesheet" href="styles.css?v=20261029d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -125,20 +125,39 @@
       </div>
     </section>
 
-    <aside class="trust">
-      <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
-      <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
-    </aside>
-
     <!-- Trusted by (colour logos from Cornel, at their own size): the logos glide by slowly; the second copy makes the loop seamless -->
     <section class="trusted" aria-label="Trusted by 50,000+ companies">
       <p>Trusted by <b>50.000+</b> companies of all sizes</p>
       <div class="logo-strip"><div class="logo-track"><img src="assets/logos/anytime-fitness.png" width="96" height="23" alt="Anytime Fitness"><img src="assets/logos/cda.png" width="38" height="38" alt="CDA"><img src="assets/logos/avifauna.png" width="46" height="38" alt="Avifauna"><img src="assets/logos/university-twente.png" width="79" height="36" alt="University of Twente"><img src="assets/logos/war-child.png" width="39" height="40" alt="War Child"><img src="assets/logos/boothstock.png" width="40" height="38" alt="Boothstock Festival"><img src="assets/logos/earth.png" width="65" height="17" alt="Earth"><img src="assets/logos/ronald-mcdonald.png" width="26" height="40" alt="Ronald McDonald House"><img src="assets/logos/canva.png" width="61" height="35" alt="Canva"><img src="assets/logos/ai-nl.png" width="51" height="24" alt="ai.nl"><span aria-hidden="true" class="logo-copy"><img src="assets/logos/anytime-fitness.png" width="96" height="23" alt="" data-alt="Anytime Fitness"><img src="assets/logos/cda.png" width="38" height="38" alt="" data-alt="CDA"><img src="assets/logos/avifauna.png" width="46" height="38" alt="" data-alt="Avifauna"><img src="assets/logos/university-twente.png" width="79" height="36" alt="" data-alt="University of Twente"><img src="assets/logos/war-child.png" width="39" height="40" alt="" data-alt="War Child"><img src="assets/logos/boothstock.png" width="40" height="38" alt="" data-alt="Boothstock Festival"><img src="assets/logos/earth.png" width="65" height="17" alt="" data-alt="Earth"><img src="assets/logos/ronald-mcdonald.png" width="26" height="40" alt="" data-alt="Ronald McDonald House"><img src="assets/logos/canva.png" width="61" height="35" alt="" data-alt="Canva"><img src="assets/logos/ai-nl.png" width="51" height="24" alt="" data-alt="ai.nl"></span></div></div>
     </section>
 
+    <aside class="trust">
+      <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
+      <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
+    </aside>
+
+
     <section>
       <h2>Best Sellers</h2>
       <div class="grid" id="grid"></div>
+    </section>
+
+    <!-- Desktop, Team + Promises as in Figma (desktop home, under Popular products): setup 1 = text panel + photo inset,
+         setup 2 = full photo with the text on it. Switch Blocks 0|1|2 (?tb=), 0 = the promo cards (style E) -->
+    <section class="tb" aria-label="Our team and promises">
+      <div class="tb-card tb-team">
+        <span class="tb-bg"><img src="assets/home/team-experts.jpg" alt=""></span>
+        <div class="tb-txt"><h3>Dedicated Team of Experts here to help.</h3>
+          <p>Our team of Print Experts is here to help you with the most specialised and high-volume print requirements, on time, on brand, and on budget.</p>
+          <div class="tb-btns"><a class="pill" href="#chat">Chat</a><a class="pill" href="#new2contactform?type=inquiry">Request a quote</a></div></div>
+        <span class="tb-img"><img src="assets/home/team-experts.webp" alt="Two of our print experts" data-cut="assets/home/team-experts.webp" data-photo="assets/home/team-experts.jpg"></span>
+      </div>
+      <div class="tb-card tb-prom">
+        <div class="tb-txt"><h3>That’s why you choose for HelloPrint.</h3>
+          <ul><li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M5.8 10.2l2.7 2.7 5.7-5.8" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Best Price Guarantee</li><li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M5.8 10.2l2.7 2.7 5.7-5.8" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100% Satisfaction Guarantee</li><li><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="M5.8 10.2l2.7 2.7 5.7-5.8" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated Help</li></ul>
+          <div class="tb-btns"><a class="pill" href="#our-promises">Read more</a></div></div>
+        <span class="tb-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=1200&amp;fm=webp&amp;q=80" alt=""></span>
+      </div>
     </section>
 
     <section class="hscroll pb pb-duo">
@@ -169,7 +188,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261028q"></script>
+<script src="app.js?v=20261029d"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -197,6 +216,8 @@
     revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs);
     document.querySelectorAll('[data-acc="browse"] details').forEach(d => { d.open = true; d.querySelector('summary').addEventListener('click', e => e.preventDefault()); });
   }
+  // Team + Promises: Cornel's latest Figma (v3) only; the other setups (1, 2) stay in styles.css as .tb-1 / .tb-2
+  if (DESK) document.documentElement.classList.add('tb-3');
   // Promo row arrows (desktop, more than 4 promos): one card per click, hidden at the start / end
   (() => {
     const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');

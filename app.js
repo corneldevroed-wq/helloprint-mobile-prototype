@@ -20,13 +20,13 @@ const SHELL_HEADER = `
     </div>
   </header>
   <div class="usp">
-    <div class="usp-left"><img src="assets/check.svg" alt="">
-      <span class="usp-ticker" aria-label="Best price guaranteed, 100% satisfaction, always a perfect design, always here to help"><span class="usp-track" aria-hidden="true">
-        <span>Best price guaranteed</span><span>100% satisfaction</span><span>Always a perfect design</span><span>Always here to help</span><span>Best price guaranteed</span>
+    <!-- One ticker over the full width (Cornel 2026-10-28): the Trustpilot review count is one of the lines, between the USPs.
+         Plain HTML, readable for crawlers; the first line repeats at the end for a seamless loop -->
+    <a class="usp-left" href="index.html#reviews">
+      <span class="usp-ticker" aria-label="See our 35,364 reviews on Trustpilot. Best price guaranteed, 100% satisfaction, always a perfect design, always here to help"><span class="usp-track" aria-hidden="true">
+        <span class="usp-tp">See our <u><b>35,364</b> reviews</u> on <span class="tp-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></span><span><img src="assets/check.svg" alt="">Best price guaranteed</span><span><img src="assets/check.svg" alt="">100% satisfaction</span><span><img src="assets/check.svg" alt="">Always a perfect design</span><span><img src="assets/check.svg" alt="">Always here to help</span><span class="usp-tp">See our <u><b>35,364</b> reviews</u> on <span class="tp-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></span>
       </span></span>
-    </div>
-    <!-- Trustpilot instead of the VAT switch (Cornel 2026-10-28): the review count directly visible, as the desktop widget. Plain HTML, readable for crawlers -->
-    <a class="tp-mini" href="index.html#reviews" aria-label="See our 35,364 reviews on Trustpilot"><u><b>35,364</b> reviews</u> on <span class="tp-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>
+    </a>
   </div>
 `;
 const SHELL_FOOTER = `
