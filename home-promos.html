@@ -9,8 +9,9 @@
 <link rel="stylesheet" href="styles.css?v=20261027t">
 <style>
   /* Promo test (home-promos.html): one promo card for every banner on the home, mobile and desktop.
-     Variants via the Promo switch (?promo=a|b|c|d): A = white bar + arrow button, B = text below the photo,
-     C = text on a gradient, D = white bar + text button (like today's Shop pill) */
+     Variants via the Promo switch (?promo=a…f): A = white bar + arrow button, B = text below the photo,
+     C = text on a gradient, D = white bar + text button, E = title top left + only the live 'Shop X' button (as live),
+     F = as the current prototype tiles: title top left + white bar with a short line, subtext and Shop */
   .pb { gap: 8px; scroll-snap-type: x mandatory; }
   .pc { position: relative; flex: 0 0 300px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; scroll-snap-align: start; background: var(--light-grey); color: var(--black); }
   .pc-img { position: relative; display: block; height: 345px; overflow: hidden; }
@@ -41,15 +42,49 @@
   .pv-c .pc-body { position: absolute; left: 16px; right: 16px; bottom: 16px; align-items: flex-end; color: var(--white); }
   .pv-c .pc-t { font-weight: 700; font-size: 20px; line-height: 1.2; }
   .pv-c .pc-s { color: rgba(255,255,255,.88); }
+  .pc-bar { display: none; }
+  /* E · title top left on the photo, only the live "Shop X" button at the bottom (no white bar) */
+  .pv-e .pc-img::after, .pv-f .pc-img::after { content: ''; position: absolute; inset: 0 0 55%; background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0)); }
+  .pv-e .pc-body { position: absolute; inset: 16px; flex-direction: column; align-items: flex-start; justify-content: space-between; color: var(--white); }
+  .pv-e .pc-t, .pv-f .pc-t { font-weight: 800; font-size: 24px; line-height: 1.16; letter-spacing: -.48px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
+  .pv-e .pc-s { margin-top: 8px; color: var(--white); text-shadow: 0 1px 6px rgba(0,0,0,.3); }
+  .pv-e .pc-cta { display: inline-flex; padding: 10px 16px; border-color: var(--white); }
+  .pv-e .pc-go { display: none; }
+  /* F · the reference (current prototype tiles): title top left + white bar (short line, subtext, Shop) */
+  .pv-f .pc-body { position: absolute; left: 16px; top: 14px; right: 16px; color: var(--white); }
+  .pv-f .pc-s, .pv-f .pc-go { display: none; }
+  .pv-f .pc-bar { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 10px 12px 14px; border-radius: 5px; background: var(--white); }
+  .pv-f .pc-bar strong { display: block; font-weight: 600; font-size: 16px; line-height: 1.25; }
+  .pv-f .pc-bar strong + span { display: block; font-size: 13px; line-height: 1.45; color: var(--dark-grey); }
+  .pc:hover .pc-bar .pill { border-color: var(--black); }
+  /* Desktop: the welcome heading above the promos (as live), the quick links stay hidden there */
+  .desk .home > section:has(> .chips) { display: block; order: 0; }
+  .desk .home > section:has(> .chips) > .chips { display: none; }
+  /* More than 4 promos (desktop): 4 visible + a peek of the next one, scroll with round arrow buttons in the Shop-pill style */
+  .pb-wrap { position: relative; }
+  .pb-nav { display: none; }
+  .desk .home > .pb-wrap { order: 1; }
+  .desk .pb-hero:has(> .pc:nth-child(5)) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+  .desk .pb-hero:has(> .pc:nth-child(5)) > .pc { flex: 0 0 calc((100% - 32px) / 4.25); }
+  .desk .pb-wrap:has(.pc:nth-child(5)) .pb-nav { position: absolute; top: 50%; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px; margin-top: -20px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: border-color .15s, opacity .15s; }
+  .desk .pb-nav:hover { border-color: var(--black); }
+  .desk .pb-nav.prev { left: -20px; } .desk .pb-nav.prev svg { transform: scaleX(-1); }
+  .desk .pb-nav.next { right: -20px; }
+  .desk .pb-nav[disabled] { opacity: 0; pointer-events: none; }
+  .desk.pv-b .pb-nav { top: 170px; }   /* B: centred on the photo, not on the whole card */
+  /* The first promo spans 2 columns on desktop (as live en-gb): 1 wide + 2 + a peek; on mobile it stays a normal card */
+  .desk .pb-hero > .pc.wide { grid-column: span 2; }
+  .desk .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 32px) / 4.25 * 2 + 8px); }
+  /* Best sellers: 6 per row on desktop (was 5) */
+  .desk .home .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   /* Desktop: the hero promos 4 in a row, the two blocks side by side */
-  .desk .home > .pb-hero { order: 1; }
-  .desk .pb { display: grid; overflow: visible; gap: 16px; padding: 0; scroll-snap-type: none; }
+  .desk .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
   .desk .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .desk .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .desk .pc-img { height: 400px; }
   .desk.pv-b .pc-img { height: 340px; }
   .desk .pc-t { font-size: 18px; }
-  .desk.pv-c .pc-t { font-size: 24px; }
+  .desk.pv-c .pc-t, .desk.pv-e .pc-t, .desk.pv-f .pc-t { font-size: 24px; }
   /* Promo switch (left edge, mobile and desktop) */
   .pv-switch { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 0 8px 8px 0; background: var(--dark-green); color: var(--white); font-size: 10px; }
   .pv-switch span { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; letter-spacing: .5px; text-transform: uppercase; opacity: .8; }
@@ -62,15 +97,8 @@
   <div data-shell="header"></div>
 
   <main class="content home">
-    <!-- Promo test page: one promo card component for every banner, live content (Contentful images), variant via the Promo switch -->
-    <section class="hscroll pb pb-hero" aria-label="Highlights">
-      <a class="pc" href="#brochure-and-booklet-printing"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4dZfdVorisc9HUoTDYtQW3/05a37d6d78e6addb40db5b3d666713f5/UK.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 40%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Professional Booklets. Unbeatable Prices!</strong></span><span class="pc-cta pill">Shop Booklets</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
-      <a class="pc" href="#exhibition-products"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7nh1ufwvkgsVi1UCLhf3n6/f9bb0ed97ee977dfe5b1f33f7bd28c72/exhibition.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:45% 45%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Don’t Be a Wallflower: Steal the Show</strong></span><span class="pc-cta pill">Shop Exhibition Products</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
-      <a class="pc" href="#labels"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/27Nem6cgxkM5dRv7NUKGJM/18049a8cbaf8a1dcf1329dbd5acb736c/labels_on_roll_1__1_.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:55% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Roll Out Your Brand on Every Package</strong></span><span class="pc-cta pill">Shop Labels On Roll</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
-      <a class="pc" href="#printed-bags"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/589OSX08uUbcR2c85DyEUF/2a49be540a0dbe06d91ffdef0c3702af/cotton_bags.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Cotton Tote Bags for Every Occasion</strong></span><span class="pc-cta pill">Shop Cotton Bags</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
-    </section>
     <section>
-      <h1>What do you want to print?</h1>
+      <h1>Welcome to Ireland's Leading Online Printing Service</h1>
       <div class="hscroll chips">
         <a class="pill" href="#brochure-and-booklet-printing">Booklets</a>
         <a class="pill" href="#businesscards-printing">Business Cards</a>
@@ -83,6 +111,18 @@
       </div>
     </section>
 
+    <!-- Mobile: under the quick links; desktop: on top (order 1). Promo test page: one promo card component for every banner, live content (Contentful images), variant via the Promo switch -->
+    <div class="pb-wrap">
+    <section class="hscroll pb pb-hero" aria-label="Highlights">
+      <a class="pc wide" href="#brochure-and-booklet-printing"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4dZfdVorisc9HUoTDYtQW3/05a37d6d78e6addb40db5b3d666713f5/UK.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 40%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Professional Booklets. Unbeatable Prices!</strong></span><span class="pc-cta pill">Shop Booklets</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Booklets, 10% off.</strong><span>With code BOOKLETS10.</span></span><span class="pill">Shop</span></span></a>
+      <a class="pc" href="#exhibition-products"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7nh1ufwvkgsVi1UCLhf3n6/f9bb0ed97ee977dfe5b1f33f7bd28c72/exhibition.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:45% 45%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Don’t Be a Wallflower: Steal the Show</strong></span><span class="pc-cta pill">Shop Exhibition Products</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Exhibition products.</strong><span>Stand out at your next event.</span></span><span class="pill">Shop</span></span></a>
+      <a class="pc" href="#labels"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/27Nem6cgxkM5dRv7NUKGJM/18049a8cbaf8a1dcf1329dbd5acb736c/labels_on_roll_1__1_.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:55% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Roll Out Your Brand on Every Package</strong></span><span class="pc-cta pill">Shop Labels On Roll</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Labels on a roll.</strong><span>Your brand on every package.</span></span><span class="pill">Shop</span></span></a>
+      <a class="pc" href="#printed-bags"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/589OSX08uUbcR2c85DyEUF/2a49be540a0dbe06d91ffdef0c3702af/cotton_bags.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Cotton Tote Bags for Every Occasion</strong></span><span class="pc-cta pill">Shop Cotton Bags</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Cotton tote bags.</strong><span>For every occasion.</span></span><span class="pill">Shop</span></span></a>
+      <a class="pc" href="#corporate-gifts"><span class="pc-img"><img src="https://contentful.helloprint.com/wm1n7oady8a5/D9OWKjs8M6OtgX1LNXvcY/a449df8cafb97d4c13ca5a00220fc7e9/UK_-_W43_-_Homepage_v3.png?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Standout Gifts Your Clients Will Love</strong></span><span class="pc-cta pill">See All Gifts</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Gifts &amp; Clothing 10% off.</strong><span>With code GIFTPEAK, until 30 October.</span></span><span class="pill">Shop</span></span></a>
+      <a class="pc" href="#merch"><span class="pc-img"><img src="https://contentful.helloprint.com/wm1n7oady8a5/3gzBTeSv2nWefpjrTVaNiW/97dfb113afe2fda17540ab64dccae562/merch_banner_.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Discover Merch by Helloprint</strong></span><span class="pc-cta pill">Discover Merch by Helloprint</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Merch by Helloprint.</strong><span>Premium merchandise, tailored to your brand.</span></span><span class="pill">Shop</span></span></a>
+    </section>
+      <button class="pb-nav prev" data-pb="-1" aria-label="Previous promos"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pb-nav next" data-pb="1" aria-label="More promos"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
     <section>
       <div class="section-head">
         <h2>Our Top Categories</h2>
@@ -165,8 +205,8 @@
     </section>
 
     <section class="hscroll pb pb-duo">
-      <a class="pc team" href="#new2contactform?type=inquiry"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 100%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Dedicated Team of Print Experts</strong><span class=pc-s>Our team of Print Experts is here to help you with the most specialised and high-volume print requirements, on time, on brand, and on budget.</span></span><span class="pc-cta pill">Request a quote</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
-      <a class="pc" href="#our-promises"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:70% 60%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Our Promises</strong><span class=pc-s>Best Price Guarantee · 100% Satisfaction Guarantee · Dedicated Help</span></span><span class="pc-cta pill">See more</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>
+      <a class="pc team" href="#new2contactform?type=inquiry"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 100%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Dedicated Team of Print Experts</strong><span class=pc-s>Our team of Print Experts is here to help you with the most specialised and high-volume print requirements, on time, on brand, and on budget.</span></span><span class="pc-cta pill">Request a quote</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>Here to help.</strong><span>Specialised and high-volume print.</span></span><span class="pill">Request a quote</span></span></a>
+      <a class="pc" href="#our-promises"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/6XiEvgjgpHjkMPxdB3R27P/5b5a44bbdb267e83b2b43a2933563685/promises.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:70% 60%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Our Promises</strong><span class=pc-s>Best Price Guarantee · 100% Satisfaction Guarantee · Dedicated Help</span></span><span class="pc-cta pill">See more</span><span class="pc-go" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span><span class="pc-bar"><span><strong>100% satisfaction.</strong><span>Best price and dedicated help.</span></span><span class="pill">See more</span></span></a>
     </section>
 
     <section class="d-reviews desk-only">
@@ -195,6 +235,10 @@
 <script src="app.js?v=20261027t"></script>
 <script>
   // Home: best sellers grid (data in app.js)
+  // Promo test page: best sellers 6 per row on desktop, so two extra desktop items make two full rows (12)
+  products.push(
+    { img: 'products/premium-tote.webp', bg: 'var(--light-grey)', name: 'Premium Tote Bags', qty: 100, price: 477.99, href: 'product.html?p=premium-tote-bags', desk: true },
+    { img: 'products/banner.webp', bg: 'var(--light-grey)', name: 'Banners', qty: 1, price: 33.36, href: 'product.html?p=banners', desk: true });
   document.getElementById('grid').innerHTML = products.map(p => `
     <a class="product${p.desk ? ' desk-only' : ''}" href="${p.href || '#' + slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
       <div class="thumb" style="background:${p.bg}">
@@ -216,14 +260,21 @@
   }
 </script>
 <script>
+  // Promo row arrows (desktop, more than 4 promos): one card per click, hidden at the start / end
+  (() => {
+    const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');
+    const sync = () => { wrap.querySelector('.prev').disabled = row.scrollLeft < 4; wrap.querySelector('.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
+    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + 8) }); }));
+    row.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); sync();
+  })();
   // Promo switch: A | B | C | D, remembered and written into the address bar (?promo=)
   (() => {
     const q = new URLSearchParams(location.search).get('promo');
     let v = 'a';
-    try { if (['a', 'b', 'c', 'd'].includes(q)) localStorage.setItem('hp-promo', q); v = localStorage.getItem('hp-promo') || 'a'; } catch (e) { v = q || 'a'; }
-    const tips = { a: 'A: white bar on the photo + arrow button', b: 'B: text below the photo + arrow button', c: 'C: text on the photo over a gradient + arrow button', d: 'D: white bar on the photo + text button' };
+    try { if (['a', 'b', 'c', 'd', 'e', 'f'].includes(q)) localStorage.setItem('hp-promo', q); v = localStorage.getItem('hp-promo') || 'a'; } catch (e) { v = q || 'a'; }
+    const tips = { a: 'A: white bar on the photo + arrow button', b: 'B: text below the photo + arrow button', c: 'C: text on the photo over a gradient + arrow button', d: 'D: white bar on the photo + text button', e: 'E: title top left + only the Shop X button (as live)', f: 'F: title top left + white bar with Shop (current prototype tiles)' };
     document.body.insertAdjacentHTML('beforeend', `<div class="pv-switch" role="group" aria-label="Promo versions"><span>Promo</span>${Object.keys(tips).map(k => `<button data-pv="${k}" title="${tips[k]}">${k.toUpperCase()}</button>`).join('')}</div>`);
-    const set = k => { document.documentElement.classList.remove('pv-a', 'pv-b', 'pv-c', 'pv-d'); document.documentElement.classList.add('pv-' + k); document.querySelectorAll('[data-pv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pv === k)); try { localStorage.setItem('hp-promo', k); const u = new URL(location.href); u.searchParams.set('promo', k); history.replaceState(null, '', u); } catch (e) {} };
+    const set = k => { document.documentElement.classList.remove('pv-a', 'pv-b', 'pv-c', 'pv-d', 'pv-e', 'pv-f'); document.documentElement.classList.add('pv-' + k); document.querySelectorAll('[data-pv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pv === k)); try { localStorage.setItem('hp-promo', k); const u = new URL(location.href); u.searchParams.set('promo', k); history.replaceState(null, '', u); } catch (e) {} };
     document.querySelector('.pv-switch').addEventListener('click', e => { const b = e.target.closest('[data-pv]'); if (b) set(b.dataset.pv); });
     set(v);
   })();
