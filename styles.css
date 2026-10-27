@@ -1858,6 +1858,13 @@ html:not(.desk) .d-banners { display: contents; }
 
 /* Reviews: the PDP review row (deskReviews() in app.js) */
 .desk .home > .d-reviews { gap: 16px; }
+/* Home reviews on the 16px grid (Cornel, 2026-10-28): 16px between arrows, cards and texts, 5 cards fill the row, 40px arrows */
+.desk .home .d-rev-wrap { gap: 16px; }
+.desk .home .d-rev-row { gap: 16px; }
+.desk .home .d-rev { flex: 0 0 calc((100% - 64px) / 5); padding: 16px; gap: 8px; }
+.desk .home .d-rev-top { margin-bottom: 0; }
+.desk .home .d-rev-nav { width: 40px; height: 40px; }
+.desk .home .d-rev-note { margin-top: 0; }
 
 /* Browse all we offer: the eight groups as open columns, 4 per row */
 .desk .acc-wrap .acc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 32px 24px; }   /* filled column by column, as on the live site */
@@ -2080,15 +2087,15 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .home.promo-e > section:has(> .chips) > .chips { display: none; }   /* the quick links stay mobile only */
 .desk .home.promo-e > .pb-wrap { order: 1; }
 .desk .home.promo-e > .pb-duo { order: 6; }   /* Team + Promises where the old promos were: after the best sellers, before the reviews; the SEO text stays last */
-.desk .promo-e .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
+.desk .promo-e .pb { display: grid; overflow: visible; gap: 16px; padding: 0; scroll-snap-type: none; }
 .desk .promo-e .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .desk .promo-e .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .desk .promo-e .pc-img { height: 400px; }
 .desk .promo-e .pb-hero > .pc.wide { grid-column: span 2; }
 .desk .promo-e .pb-hero:has(> .pc:nth-child(5)) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
 .desk .promo-e .pb-hero:has(> .pc:nth-child(5))::-webkit-scrollbar { display: none; }
-.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc { flex: 0 0 calc((100% - 32px) / 4.25); }   /* 4 cards + a peek of the next */
-.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 32px) / 4.25 * 2 + 8px); }
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc { flex: 0 0 calc((100% - 64px) / 4.25); }   /* 4 cards + a peek of the next */
+.desk .promo-e .pb-hero:has(> .pc:nth-child(5)) > .pc.wide { flex-basis: calc((100% - 64px) / 4.25 * 2 + 16px); }
 .desk .promo-e .pb-wrap:has(.pc:nth-child(5)) .pb-nav { position: absolute; top: 50%; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px; margin-top: -20px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: border-color .15s, opacity .15s; }
 .desk .promo-e .pb-nav:hover { border-color: var(--black); }
 .desk .promo-e .pb-nav.prev { left: -20px; } .desk .pb-nav.prev svg { transform: scaleX(-1); }

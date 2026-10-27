@@ -309,7 +309,7 @@ function deskReviews() {
 function wireDeskReviews(root) {
   const row = root.querySelector('.d-rev-row'), prev = root.querySelector('.d-rev-nav.prev'), next = root.querySelector('.d-rev-nav.next');
   const sync = () => { prev.disabled = row.scrollLeft < 4; next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
-  root.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * 239, behavior: 'smooth' })));
+  root.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * (row.querySelector('.d-rev').getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0)), behavior: 'smooth' })   /* one card + the gap */));
   row.addEventListener('scroll', sync, { passive: true }); sync();
 }
 

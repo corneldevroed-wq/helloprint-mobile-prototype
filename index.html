@@ -6,7 +6,7 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028b">
+<link rel="stylesheet" href="styles.css?v=20261028d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -169,7 +169,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261028b"></script>
+<script src="app.js?v=20261028d"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -195,7 +195,7 @@
   (() => {
     const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');
     const sync = () => { wrap.querySelector('.prev').disabled = row.scrollLeft < 4; wrap.querySelector('.next').disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
-    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc:not(.wide)'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + 8) }); }));
+    wrap.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', () => { const c = row.querySelector('.pc:not(.wide)'); row.scrollBy({ left: +b.dataset.pb * (c.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0)) }); }));
     row.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); sync();
   })();
 </script>
