@@ -68,8 +68,9 @@ h2 { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px
 
 /* Top categories */
 .cats { gap: 9px; margin-top: 8px; }
-.cat { flex: 0 0 149px; background: var(--light-grey); border-radius: 10px; padding: 16px 15px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
+.cat { flex: 0 0 152px; background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
 .cat:hover { background: #e8e8e8; }
+html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category cards stay square (8px grid: 16px padding, 152 × 152) */
 .cat .title { min-height: 34px; display: flex; align-items: center; text-align: center; font-weight: 600; font-size: 14px; line-height: 1.2; }
 .collage { position: relative; width: 120px; height: 75.25px; border-radius: 3.96px; overflow: hidden; flex-shrink: 0; }
 .collage > * { position: absolute; }
@@ -256,7 +257,7 @@ body.menu-open { overflow: hidden; }
 
 .types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; }
 .size-row, .beyond-row { gap: 9px; }
-.size-card { flex: 0 0 149px; background: var(--light-grey); border-radius: 10px; padding: 16px 15px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; transition: background .15s, box-shadow .15s; }
+.size-card { flex: 0 0 152px; background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; transition: background .15s, box-shadow .15s; }
 .size-card:hover { background: #e8e8e8; }
 .size-card .shape { height: 55px; display: grid; place-items: center; }
 .size-card .shape span { display: block; background: var(--white); border: 1px solid var(--dark-green); }
@@ -289,7 +290,7 @@ body.menu-open { overflow: hidden; }
 .so-card strong { font-weight: 600; font-size: 16px; line-height: 1.2; }
 .so-card small { font-size: 12px; line-height: 1.6; color: var(--dark-grey); }
 
-.beyond { flex: 0 0 149px; background: var(--light-grey); border-radius: 10px; padding: 16px 15px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
+.beyond { flex: 0 0 152px; background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
 .beyond:hover { background: #e8e8e8; }
 .beyond .ph { width: 120px; height: 120px; border-radius: 50%; background: var(--mid-grey); }
 .beyond span { min-height: 34px; display: flex; align-items: center; text-align: center; font-weight: 600; font-size: 14px; line-height: 1.2; }
@@ -1443,7 +1444,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dlegal a:hover { text-decoration: underline; }
 
 /* Breadcrumb (Figma 15927:9189) */
-.desk .crumbs { padding: 15.5px 0 25.5px; font-size: 14px; line-height: 24px; letter-spacing: -0.28px; color: var(--black); }
+.desk .crumbs { padding: 16px 0 24px; font-size: 14px; line-height: 24px; letter-spacing: -0.28px; color: var(--black); }
 .desk .crumbs a { color: #008539; text-decoration: underline; }
 
 /* PDP on desktop: content in the 1286px column, the footer full width */
@@ -1590,7 +1591,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-tpl img { width: 24px; height: 24px; }
 /* Other products: the product tile, as a card (Figma 15927:11084) */
 .d-others { display: flex; flex-wrap: wrap; gap: 16px; }
-.d-card { width: 244px; gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; }
+.d-card { width: 244px; gap: 8px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; }
 .d-card .thumb { width: 100%; aspect-ratio: 1; border-radius: 10px 10px 0 0; }
 .d-card .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: 12px; letter-spacing: 0; }
 .d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
@@ -1600,10 +1601,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Reviews (Figma 15937:10023) */
 .d-reviews { display: flex; flex-direction: column; align-items: center; }
 .d-reviews h2 { align-self: stretch; }
-.d-rev-wrap { position: relative; width: 100%; display: flex; align-items: center; gap: 19.5px; }
-.d-rev-row { flex: 1; display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.d-rev-wrap { position: relative; width: 100%; display: flex; align-items: center; gap: 16px; }
+.d-rev-row { flex: 1; display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .d-rev-row::-webkit-scrollbar { display: none; }
-.d-rev { flex: 0 0 217px; min-height: 158px; display: flex; flex-direction: column; gap: 8px; padding: 16px 15px; border-radius: 10px; background: var(--light-grey); scroll-snap-align: start; }
+.d-rev { flex: 0 0 217px; min-height: 158px; display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 10px; background: var(--light-grey); scroll-snap-align: start; }
 .d-rev-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
 .d-rev-top .stars { width: 99px; height: 18.6px; }
 .d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
@@ -1615,7 +1616,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev-nav svg { width: 24px; height: 24px; fill: var(--white); }
 .d-rev-nav.prev svg { transform: scaleX(-1); }
 .d-rev-nav:disabled { opacity: .3; cursor: default; }
-.d-rev-note { margin-top: 11px; font-size: 14px; line-height: 1.2; color: var(--black); }
+.d-rev-note { margin-top: 16px; font-size: 14px; line-height: 1.2; color: var(--black); }
 .d-rev-note b { font-weight: 600; }
 .d-rev-note u { font-weight: 600; text-underline-offset: 2px; }
 
@@ -1627,7 +1628,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dfoot-help { padding: 32px 0; }   /* equal space above and below (Cornel, 2026-10-28) */
 .dfoot-row { padding-top: 60px; }
 .dlegal { padding: 46px 0 21px; }
-.d-card { gap: 11px; }
+.d-card { gap: 8px; }
 .d-card .prices { margin-top: 0; }
 
 /* Desktop: fixed order bar (product, choices, delivery, total, the green button) */
@@ -1830,7 +1831,7 @@ html:not(.desk) .d-banners { display: contents; }
 
 /* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
 .desk .home .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }   /* 6 per row (Cornel, 2026-10-27), 2 full rows */
-.desk .home .product { gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+.desk .home .product { gap: 8px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
 .desk .home .product:hover { border-color: var(--outline); }
 .desk .home .product .thumb { border-radius: 0; }
 .desk .home .product .badge { padding: 4px 8px; letter-spacing: 0; }
@@ -1854,14 +1855,14 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .promo .overlay-card span { font-size: 14px; line-height: 1.5; }
 
 /* Reviews: the PDP review row (deskReviews() in app.js) */
-.desk .home > .d-reviews { gap: 16px; }
+.desk .home > .d-reviews, .desk .plp > .d-reviews { gap: 16px; }   /* same reviews row on the home and the category pages */
 /* Home reviews on the 16px grid (Cornel, 2026-10-28): 16px between arrows, cards and texts, 5 cards fill the row, 40px arrows */
-.desk .home .d-rev-wrap { gap: 16px; }
-.desk .home .d-rev-row { gap: 16px; }
-.desk .home .d-rev { flex: 0 0 calc((100% - 64px) / 5); padding: 16px; gap: 8px; }
-.desk .home .d-rev-top { margin-bottom: 0; }
-.desk .home .d-rev-nav { width: 40px; height: 40px; }
-.desk .home .d-rev-note { margin-top: 0; }
+.desk .home .d-rev-wrap, .desk .plp .d-rev-wrap { gap: 16px; }
+.desk .home .d-rev-row, .desk .plp .d-rev-row { gap: 16px; }
+.desk .home .d-rev, .desk .plp .d-rev { flex: 0 0 calc((100% - 64px) / 5); padding: 16px; gap: 8px; }
+.desk .home .d-rev-top, .desk .plp .d-rev-top { margin-bottom: 0; }
+.desk .home .d-rev-nav, .desk .plp .d-rev-nav { width: 40px; height: 40px; }
+.desk .home .d-rev-note, .desk .plp .d-rev-note { margin-top: 0; }
 
 /* Browse all we offer: the eight groups as open columns, 4 per row */
 .desk .acc-wrap .acc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 32px 24px; }   /* filled column by column, as on the live site */
@@ -2206,7 +2207,9 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -8px; padding: 0; overflow: visible; }
 .desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; font-weight: 400; }
 .desk .plp > .tabs a.active { font-weight: 600; }
-.desk .plp h2 { margin-bottom: 16px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
+.desk .plp h2 { margin-bottom: 8px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
+.desk .plp .materials { gap: 8px; }
+.desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
 .desk .plp [data-tab-target] { scroll-margin-top: 164px; }
 .desk .plp .plp-feature { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .desk .plp .plp-feature .pc-img { flex: 1; height: auto; }   /* the card takes the height of the 3 category rows (464px) */
@@ -2216,7 +2219,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .plp-cats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .desk .plp .dc-card { height: 144px; }
 .desk .plp .types { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
-.desk .plp .product { gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+.desk .plp .product { gap: 8px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
 .desk .plp .product:hover { border-color: var(--outline); }
 .desk .plp .product .thumb { border-radius: 0; }
 .desk .plp .product .badge { padding: 4px 8px; letter-spacing: 0; }
@@ -2247,10 +2250,13 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp.bc .standout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
 .desk .plp.bc .so-card { flex: none; height: 400px; }
 .desk .plp.bc .so-card .bg { top: 0 !important; left: 0 !important; width: 100% !important; object-fit: cover; }   /* the mobile crop offsets don't fit the wider card */
-.desk .plp.bc #finishes h2 { margin-bottom: 16px !important; }
+.desk .plp.bc #finishes h2 { margin-bottom: 8px !important; }
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
 .product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: -2px; }
 .product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }   /* the green of the USP check circles */
 .desk .plp .product .usp-list li { font-size: 13px; line-height: 18px; }
 .types .product:has(.usp-list) > :last-child { margin-top: auto; }   /* prices line up in a row when the lists differ in length */
+.desk .plp > .d-reviews { gap: 8px; }   /* title to row 8px like the other blocks */
+.desk .plp > .d-reviews h2 { margin-bottom: 0; }
+.desk .plp .d-rev-note { margin-top: 8px; }   /* row to the "Rated 4.5" line stays 16px */
