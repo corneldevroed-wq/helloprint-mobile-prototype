@@ -10,7 +10,7 @@ something.
 | `home-promos.html` | Home copy with promo variants A–F | Switch `?promo=a…f`; test page, not the real home |
 | `business-cards.html` | Category: business cards | Materials/sizes deep-link into the PDP |
 | `flyers.html` | Category: flyers | 4 flyer types with own PDP, folded leaflets as tiles |
-| `promotional.html` | Hub: Promotional Printing | Products 2-col grid, categories as rows of the home card |
+| `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
 | `cart.html`, `details.html`, `payment.html`, `confirmed.html` | Checkout | Guest + logged-in states |
 | `login.html` | Log in / create account | Prototype: name + email only |
@@ -23,7 +23,7 @@ premium-tote-bags, sols-imperial-tshirt, banners, roller-banners.
 ## Sketches (not linked, kept for reference)
 `delivery-sketch.html` (delivery A–E), `seealso-sketch.html` (See also A–D), `promo-mobile-sketch.html` (promo cards
 with live content), `usp-bar-sketch.html` (mobile USP bar A–D), `banner-icons-sketch.html`, `flyers-list-sketch.html`
-(products as a list), `material-icons.html` (the one clean icon overview — keep it clean, no proposals).
+(products as a list), `promotional-desk-sketch.html` (old desktop A–C, rejected), `material-icons.html` (the one clean icon overview — keep it clean, no proposals).
 
 ## Prototype switches
 All switches write their value into the URL and localStorage, so a copied link opens the same version.

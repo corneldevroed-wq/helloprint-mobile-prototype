@@ -1559,7 +1559,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* ---------- Desktop PDP, lower part (Figma 15927:10612) ---------- */
 .d-more { display: flex; flex-direction: column; gap: 24px; padding-top: 40px; }
-.d-tabs { display: flex; border-bottom: 1px solid var(--mid-grey); }
+.d-tabs { display: flex; border-bottom: 1px solid var(--line); }   /* same light line as the mobile tabs (Cornel, 2026-10-28) */
 .d-tabs a { padding: 6px 12px; margin-bottom: -1px; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; }
 .d-tabs a[aria-current] { font-weight: 600; color: var(--black); border-bottom-color: var(--light-green); }
 .d-sec h2 { font-weight: 800; font-size: 24px; line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 16px; }
@@ -2188,3 +2188,52 @@ html:not(.desk) .tb-team .tb-img img { position: absolute; right: 0; bottom: 0; 
 html:not(.desk) .tb-prom::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.1) 60%, rgba(0,0,0,.25)); }
 html:not(.desk) .tb-prom .tb-img img { object-position: 65% 50%; }
 html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(.desk) .tb-prom .tb-txt li svg path { stroke: #022b07; }
+
+/* Promotional Print (PLP, promotional.html): structure and block order as live (Cornel, 2026-10-28), layout from the
+   Figma wireframes (desktop 15997:9636, mobile 16001:11845). Reuses the promo card E, the home category card (mobile),
+   the "Discover our categories" card .dc-card (desktop), the product card and the material icon set. */
+.plp .plp-feature { display: flex; flex-direction: column; gap: 8px; }
+.plp .pc { flex: none; }   /* full width on mobile, not the 300px swipe card */
+.plp .cats { gap: 8px; margin-top: 0; }
+.plp-mats .mat-icon { width: 50px; height: 50px; flex-shrink: 0; }
+.plp-mats .chev { width: 20px; height: 20px; }
+/* Desktop */
+.desk .plp { padding: 0; gap: 32px; }
+.desk .plp > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+.desk .plp > .hero { gap: 0; }
+.desk .plp > .hero .crumbs { padding-bottom: 16px; }
+.desk .plp .hero .intro p { font-size: 14px; line-height: 1.5; }
+.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -8px; padding: 0; overflow: visible; }
+.desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; font-weight: 400; }
+.desk .plp > .tabs a.active { font-weight: 600; }
+.desk .plp h2 { margin-bottom: 16px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
+.desk .plp [data-tab-target] { scroll-margin-top: 164px; }
+.desk .plp .plp-feature { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.desk .plp .plp-feature .pc-img { flex: 1; height: auto; }   /* the card takes the height of the 3 category rows (464px) */
+.desk .plp .plp-feature .pc-img img { position: absolute; inset: 0; }
+.desk .plp .pc-t { max-width: 360px; }
+.desk .plp .plp-cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.desk .plp .plp-cats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.desk .plp .dc-card { height: 144px; }
+.desk .plp .types { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.desk .plp .product { gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+.desk .plp .product:hover { border-color: var(--outline); }
+.desk .plp .product .thumb { border-radius: 0; }
+.desk .plp .product .badge { padding: 4px 8px; letter-spacing: 0; }
+.desk .plp .product > :not(.thumb) { padding: 0 16px; }
+.desk .plp .product > :last-child { padding-bottom: 16px; margin-top: auto; }
+.desk .plp .product .name { font-size: 16px; line-height: 22px; }
+.desk .plp .product .price { font-weight: 900; letter-spacing: -0.28px; }
+.desk .plp .materials .filter { display: none; }   /* the wireframe shows all 15 materials as tiles, no filter */
+.desk .plp .plp-mats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; border: 0; padding: 0; }
+.desk .plp .plp-mats li { border: 0; padding: 0; }
+.desk .plp .plp-mats .mat { height: 100%; flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px; border: 1px solid var(--light-grey); border-radius: 10px; transition: border-color .15s; }
+.desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
+.desk .plp .plp-mats .mat-icon { width: 50px; height: 50px; }   /* icons stay 50px on desktop (decision 10-29) */
+.desk .plp .plp-mats .text { gap: 4px; }
+.desk .plp .plp-mats .text .badge { position: absolute; top: 16px; right: 16px; left: auto; margin: 0; }
+.desk .plp .plp-mats .mat { position: relative; }
+.desk .plp .plp-mats strong { font-size: 16px; line-height: 22px; }
+.desk .plp .plp-mats small { font-size: 14px; line-height: 20px; }
+.desk .plp .plp-mats .chev { display: none; }
+.desk .plp .cat-about { padding-top: 0; }

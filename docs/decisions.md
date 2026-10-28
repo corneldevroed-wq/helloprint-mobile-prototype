@@ -3,6 +3,19 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — Category cards stay square everywhere** (the home "Our Top Categories" card, 149×149 on mobile). Never stretch
+  them taller for a bigger image; reuse the card as is.
+- **10-28 — Follow the live structure and block order 1:1, mobile and desktop**
+  (https://www.helloprint.com/en-ie/promotional-printing): title + intro + 7 chips (Bestsellers, Outdoor, Stationery,
+  Cards & Vouchers, Hospitality, Promotion Materials, Paper Materials) → hero (promo card + 6 categories: Booklets,
+  Leaflet Printing & Flyers, Folded Leaflets, Business Cards, Posters, Cards & Invitations) → Our most popular
+  promotional products (8) → Promote your Business Outdoors (4) → Everyday Print Items for Your Brand (promo card +
+  6) → Cards & Vouchers (5 products) → Print Ideas Made for Hospitality (promo card + 6) → Find the Perfect Paper for
+  Your Project (15 materials) → Other Promotion Materials (5) → SEO text.
+  Cornel designs the layout for mobile + desktop in Figma; wait for his setup before building.
+  Rejected: desktop sketch A/B/C in `promotional-desk-sketch.html` (built on the old, non-live structure).
+
 ## Homepage (Oct 21–29, 2026)
 - **10-29 — Team + Promises (bottom promo row) = Figma v3 only.** Team: Cornel's export (`assets/home/team-experts.webp`,
   1278×798, the full card incl. green, Jolien & Benji with handwritten names), only "Request a quote".

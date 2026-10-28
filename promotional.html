@@ -6,91 +6,86 @@
 <title>Promotional Print</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261029e">
+<link rel="stylesheet" href="styles.css?v=20261029k">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
-  <!-- Promotional Print hub (content from helloprint.com/en-ie/promotional-printing): products as a grid with price,
-       categories as sideways rows of the home page's category card -->
-  <main class="cat-page">
+  <!-- Promotional Print (PLP): structure and block order 1:1 as live helloprint.com/en-ie/promotional-printing
+       (Cornel, 2026-10-28), layout from Figma wireframes desktop 15997:9636 / mobile 16001:11845.
+       Promo card + categories → Bestsellers → Outdoors → Stationery promo + categories → Cards & Vouchers →
+       Hospitality promo + categories → Paper materials → Other promotion materials → SEO. -->
+  <main class="cat-page plp promo-e">
     <section class="hero">
-      <p class="crumbs"><a href="index.html">Home</a> / Promotional Products</p>
+      <p class="crumbs"><a href="index.html">Home</a> / Promotional Print</p>
       <div class="intro">
         <h1>Promotional Print.</h1>
         <p>Maximise the reach of your brand with the help of our paper print promotional products, made to help you stand out.</p>
       </div>
-      <a class="rating" href="#reviews" data-tab-link="reviews">
-        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
-        <span>4.5 <i>|</i> 34,760 reviews</span>
-      </a>
     </section>
 
     <nav class="tabs" id="tabs" aria-label="Sections">
-      <a href="#popular" data-tab-link="popular" class="active">Popular</a>
-      <a href="#print" data-tab-link="print">Print</a>
+      <a href="#categories" data-tab-link="categories" class="active">Categories</a>
+      <a href="#bestsellers" data-tab-link="bestsellers">Bestsellers</a>
       <a href="#outdoor" data-tab-link="outdoor">Outdoor</a>
-      <a href="#cards" data-tab-link="cards">Cards</a>
-      <a href="#office" data-tab-link="office">Office</a>
+      <a href="#stationery" data-tab-link="stationery">Stationery</a>
+      <a href="#cards" data-tab-link="cards">Cards &amp; Vouchers</a>
       <a href="#hospitality" data-tab-link="hospitality">Hospitality</a>
+      <a href="#paper" data-tab-link="paper">Paper Materials</a>
+      <a href="#more" data-tab-link="more">Promotion Materials</a>
     </nav>
 
-    <section id="popular" data-tab-target>
-      <h2>Popular promotional products.</h2>
+    <section id="categories" class="plp-feature" data-tab-target>
+      <a class="pc" href="#corporate-gifts"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/644jkE0EFWWZITnJfevHsM/58458b07aaa3a855ca8a376cc5df4960/promotional_printing.png?w=900&amp;fm=webp&amp;q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Promotional Printing for all your projects and campaigns!</strong></span><span class="pc-cta pill">Shop top gifts</span></span></a>
+      <div class="plp-cats" id="printCats"></div>
+    </section>
+
+    <section id="bestsellers" data-tab-target>
+      <h2>Bestsellers</h2>
       <div class="types" id="popGrid"></div>
     </section>
 
-    <section id="print" data-tab-target>
-      <h2>Print.</h2>
-      <p class="cat-lead">Promotional printing for all your projects and campaigns.</p>
-      <div class="hscroll cats" id="printRow"></div>
-    </section>
-
     <section id="outdoor" data-tab-target>
-      <h2>Outdoor.</h2>
-      <p class="cat-lead">Be seen from a distance, rain or shine.</p>
-      <div class="hscroll cats" id="outdoorRow"></div>
+      <h2>Promote your Business Outdoors</h2>
+      <div class="plp-cats four" id="outdoorCats"></div>
     </section>
 
-    <section id="reviews">
-      <aside class="trust">
-        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
-        <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
-      </aside>
+    <section id="stationery" class="plp-feature" data-tab-target>
+      <a class="pc" href="#stationery-and-office-supplies"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/TKjPYHf3KOX8U2VQqYx2T/2e6128e97c188772e57b250bf393ed02/stationery.webp?w=900&amp;fm=webp&amp;q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Everyday Print Items for Your Brand</strong></span><span class="pc-cta pill">Shop stationery</span></span></a>
+      <div class="plp-cats" id="officeCats"></div>
     </section>
 
     <section id="cards" data-tab-target>
-      <h2>Cards &amp; vouchers.</h2>
+      <h2>Cards &amp; Vouchers</h2>
       <div class="types" id="cardGrid"></div>
     </section>
 
-    <section id="office" data-tab-target>
-      <h2>Office &amp; stationery.</h2>
-      <p class="cat-lead">Everyday print items for your brand.</p>
-      <div class="hscroll cats" id="officeRow"></div>
+    <section id="hospitality" class="plp-feature" data-tab-target>
+      <a class="pc" href="#hospitality-products"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/ps8d4MG1i8AL1bVjwchch/c9dcb8a4ee8d8758bb0feec880ec8ce5/Block_BH_promo_card_dimension__2_.png?w=900&amp;fm=webp&amp;q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Print Ideas Made for Hospitality</strong></span><span class="pc-cta pill">Shop hospitality products</span></span></a>
+      <div class="plp-cats" id="hospCats"></div>
     </section>
 
-    <section id="hospitality" data-tab-target>
-      <h2>Hospitality.</h2>
-      <p class="cat-lead">Print ideas made for cafés, bars and restaurants.</p>
-      <div class="hscroll cats" id="hospRow"></div>
-    </section>
-
-    <section>
-      <h2>More promotional items.</h2>
-      <div class="hscroll chips related">
-        <a class="pill" href="#lanyards-printing">Lanyards</a>
-        <a class="pill" href="#balloons-and-accesoires">Balloons</a>
-        <a class="pill" href="product.html?p=basic-cotton-bags">Canvas Tote Bags</a>
-        <a class="pill" href="#personalised-buttons">Buttons</a>
-        <a class="pill" href="#goodies">Giveaways</a>
+    <section id="paper" class="materials" data-tab-target>
+      <h2>Find the Perfect Paper for Your Project</h2>
+      <div class="hscroll filter" id="mat-filter">
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="everyday">Everyday</button>
+        <button class="pill" data-filter="eco">Eco</button>
+        <button class="pill" data-filter="luxury">Luxury</button>
+        <button class="pill" data-filter="durable">Durable</button>
       </div>
+      <ul class="mat-list plp-mats" id="mat-list"></ul>
+    </section>
+
+    <section id="more" data-tab-target>
+      <h2>Other Promotion Materials</h2>
+      <div class="plp-cats four" id="moreCats"></div>
     </section>
 
     <!-- SEO text (live): the intro open, the rest folded -->
     <section class="about cat-about">
-      <h2>Why printed promotions still matter.</h2>
+      <h2>The Power of Marketing Materials: Why Printed Promotions Still Matter for Businesses</h2>
       <p>In today’s digital world, many businesses focus heavily on online marketing. However, marketing materials remain a crucial element in building brand awareness, engaging customers, and driving conversions.</p>
       <p>From flyers and leaflets to business cards and banners, print marketing materials offer a tangible, credible way to connect with your audience. If you want to make a lasting impression and strengthen your brand presence, investing in custom marketing materials is a smart move.</p>
       <div class="acc oc-faq promo-seo">
@@ -134,73 +129,117 @@
   </main>
 </div>
 
-<script src="app.js?v=20261029e"></script>
-<script src="products.js?v=20261029e"></script>
+<script src="app.js?v=20261029k"></script>
+<script src="products.js?v=20261029k"></script>
 <script>
   // Live names, quantities, prices, links and images. Products we have a page for open it, with its price;
   // the rest stay anchors like everywhere in the prototype.
-  const A = 'assets/promo/';
+  const A = 'assets/promo/', CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
   const ours = slug => { const p = PRODUCTS[slug]; return { href: p.href, qty: p.defaultQty, price: fromPrice(p) }; };
   const productTile = ({ name, img, href, qty, price, badge }) => `
     <a class="product" href="${href}">
       <div class="thumb" style="background:var(--light-grey)">
-        <img src="${A + img}.webp" alt="" loading="lazy">
+        <img src="${img}" alt="" loading="lazy">
         ${badge ? `<span class="badge">${badge}</span>` : ''}
       </div>
       <p class="name">${name}</p>
       <div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
     </a>`;
-  // Same card as "Our Top Categories" on the home page
-  const catCard = ([name, img, href]) => `
-    <a class="cat" href="${href}">
-      <div class="collage"><img src="${A + img}.webp" alt="" loading="lazy" style="inset:0;object-fit:contain"></div>
-      <p class="title">${name}</p>
-    </a>`;
+  // Category tile. Desktop: the grey "Discover our categories" card (title top left, image right, grey arrow bottom left, Figma 15997:9636);
+  // mobile: the home category card, image on top and the name under it (Figma 16001:11845), as a swipe row.
+  const src = img => img.startsWith('http') ? img + '?w=240&fm=webp&q=80' : A + img + '.webp';   // local promo image, or a live Contentful one
+  const catTile = ([name, img, href]) => DESK
+    ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${src(img)}" alt="" loading="lazy"></span></a>`
+    : `<a class="cat" href="${href}"><div class="collage"><img src="${src(img)}" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`;
+  const fill = (id, list) => { const el = document.getElementById(id); el.innerHTML = list.map(catTile).join(''); if (!DESK) el.classList.add('hscroll', 'cats'); };
 
-  document.getElementById('popGrid').innerHTML = [
-    { name: 'Classic Flyers', img: 'p-flyers', ...ours('standard-flyers') },
-    { name: 'Stapled Booklets', img: 'p-booklets', href: '#booklets', qty: 500, price: 218.99, badge: 'Great Value' },
-    { name: 'Glued Softcover Books', img: 'p-softcover', href: '#perfectboundbrochures', qty: 100, price: 144.89 },
-    { name: 'Standard Posters', img: 'p-posters', href: '#posters', qty: 50, price: 28.49, badge: 'Free design templates' },
-    { name: 'Half-Fold Leaflets', img: 'p-halffold', href: 'flyers.html#folded', qty: 500, price: 42.99 },
-    { name: 'Roller Banners', img: 'c-banners', ...ours('roller-banners') },
-    { name: 'Stickers on Roll', img: 'p-labels', href: '#labels', qty: 1000, price: 51.99 },
-    { name: 'Greeting Cards', img: 'p-greeting', href: '#greetingcards', qty: 1, price: 22.99 },
-  ].map(productTile).join('');
-
-  document.getElementById('cardGrid').innerHTML = [
-    { name: 'Classic Business Cards', img: 'p-businesscards', ...ours('classic-business-cards') },
-    { name: 'Greeting Cards', img: 'p-greeting', href: '#greetingcards', qty: 1, price: 22.99 },
-    { name: 'Vouchers', img: 'p-vouchers', href: '#vouchers', qty: 100, price: 16.79 },
-    { name: 'Compliment Slips', img: 'p-compliment', href: '#complimentcards', qty: 100, price: 27.99 },
-    { name: 'Loyalty Cards', img: 'p-loyalty', href: '#loyaltycards', qty: 1000, price: 22.99 },
-  ].map(productTile).join('');
-
-  document.getElementById('printRow').innerHTML = [
+  fill('printCats', [
     ['Booklets', 'c-booklets', '#brochure-and-booklet-printing'],
-    ['Leaflets &amp; Flyers', 'c-flyers', 'flyers.html'],
+    ['Leaflet Printing &amp; Flyers', 'c-flyers', 'flyers.html'],
     ['Folded Leaflets', 'c-folded', 'flyers.html#folded'],
     ['Business Cards', 'c-businesscards', 'business-cards.html'],
     ['Posters', 'c-posters', '#poster-printing'],
     ['Cards &amp; Invitations', 'c-cards', '#cards-and-invites'],
-  ].map(catCard).join('');
+  ]);
 
-  document.getElementById('outdoorRow').innerHTML = [
+  // Bestsellers: the live 8, plus Eco and Special Finishing Flyers (own PDP) so desktop has two full rows of 5
+  document.getElementById('popGrid').innerHTML = [
+    { name: 'Classic Flyers', img: A + 'p-flyers.webp', ...ours('standard-flyers') },
+    { name: 'Stapled Booklets', img: A + 'p-booklets.webp', href: '#booklets', qty: 500, price: 218.99, badge: 'Great Value' },
+    { name: 'Glued Softcover Books', img: A + 'p-softcover.webp', href: '#perfectboundbrochures', qty: 100, price: 144.89 },
+    { name: 'Standard Posters', img: A + 'p-posters.webp', href: '#posters', qty: 50, price: 28.49, badge: 'Free design templates' },
+    { name: 'Half-Fold Leaflets', img: A + 'p-halffold.webp', href: 'flyers.html#folded', qty: 500, price: 42.99 },
+    { name: 'Roller Banners', img: A + 'c-banners.webp', ...ours('roller-banners') },
+    { name: 'Stickers on Roll', img: A + 'p-labels.webp', href: '#labels', qty: 1000, price: 52.99 },
+    { name: 'Greeting Cards', img: A + 'p-greeting.webp', href: '#greetingcards', qty: 1, price: 22.99 },
+    { name: 'Eco Flyers', img: 'assets/flyers/t-eco.webp', ...ours('eco-flyers'), badge: 'Eco' },
+    { name: 'Special Finishing Flyers', img: 'assets/flyers/t-special-finishing.webp', ...ours('special-finishing-flyers') },
+  ].map(productTile).join('');
+
+  fill('outdoorCats', [
     ['Banners', 'c-banners', 'product.html?p=banners'],
     ['Flag Printing', 'c-flags', '#flag-printing'],
     ['Signage &amp; Panels', 'c-signs', '#panels-and-signs'],
     ['Custom Vinyl Stickers', 'c-vinyl', '#vinylstickers'],
-  ].map(catCard).join('');
+  ]);
 
-  document.getElementById('officeRow').innerHTML = [
+  fill('officeCats', [
     ['Envelopes', 'c-envelopes', '#envelopes'], ['Presentation Folders', 'c-folders', '#folders'], ['Notepads', 'c-notepads', '#notepads'],
     ['Calendars', 'c-calendars', '#calendars-printing'], ['Notebooks', 'c-notebooks', '#notebook-printing'], ['Pens', 'c-pens', '#ballpoint-pens'],
-  ].map(catCard).join('');
+  ]);
 
-  document.getElementById('hospRow').innerHTML = [
+  document.getElementById('cardGrid').innerHTML = [
+    { name: 'Classic Business Cards', img: A + 'p-businesscards.webp', ...ours('classic-business-cards') },
+    { name: 'Greeting Cards', img: A + 'p-greeting.webp', href: '#greetingcards', qty: 1, price: 22.99 },
+    { name: 'Vouchers', img: A + 'p-vouchers.webp', href: '#vouchers', qty: 100, price: 16.79 },
+    { name: 'Compliment Slips', img: A + 'p-compliment.webp', href: '#complimentcards', qty: 100, price: 27.99 },
+    { name: 'Loyalty Cards', img: A + 'p-loyalty.webp', href: '#loyaltycards', qty: 1000, price: 22.99 },
+  ].map(productTile).join('');
+
+  fill('hospCats', [
     ['Placemats', 'c-placemats', '#placemats'], ['Coasters', 'c-coasters', '#coasters'], ['Menu Cards', 'c-menus', '#menucards'],
     ['Table Talkers', 'c-tabletalkers', '#tabletalkers'], ['A-boards', 'c-aboards', '#aboards'], ['Napkins', 'c-napkins', '#napkins'],
-  ].map(catCard).join('');
+  ]);
+
+  // Paper materials (the live 15), with the material icon set; each opens the flyer product that has it where we have one
+  const FL = PRODUCTS['standard-flyers'].href, ECO = PRODUCTS['eco-flyers'].href, SPM = 'product.html?p=special-material-flyers';
+  const mats = [
+    ['Silk MC', 'silk-matte', 'Classic, budget-friendly choice · Suits every design', 'everyday', FL + '&paper=matte', 'Most Popular'],
+    ['Gloss', 'glossy', 'Shiny white paper · Makes colours and photos stand out', 'everyday', FL + '&paper=glossy'],
+    ['Offset', 'uncoated', 'Uncoated paper · Easy to write on', 'everyday', FL + '&paper=uncoated'],
+    ['Recystar Nature', 'recycled', '100% recycled paper · Natural off-white look', 'eco', ECO + '&paper=recycled'],
+    ['Smooth Cardboard', 'sulfate-cardboard', 'Excellent thickness · Long-lasting and affordable', 'everyday durable', FL + '&thickness=premium-plus'],
+    ['Biotop', 'bio-top', 'Chlorine-free paper · Off-white look', 'eco', ECO + '&paper=biotop'],
+    ['Paperwise Natural', 'paperwise', 'Made from agricultural leftovers · Recyclable and compostable', 'eco', ECO + '&paper=paperwise'],
+    ['Metallic Gold', 'metallic-gold', 'Elegant and original · 100% chlorine-free', 'luxury', SPM + '&material=gold'],
+    ['Metallic Silver', 'metallic-silver', 'Slightly glittery, smooth to the touch · 100% chlorine-free', 'luxury', SPM + '&material=silver'],
+    ['Pearl Marble', 'pearl-marble', 'Thin pearlescent finish · Captures the light beautifully', 'luxury', SPM + '&material=pearl'],
+    ['Growing Paper', 'seed-paper', 'Seed-infused eco paper · Plant it for a second life', 'eco', '#growing-paper'],
+    ['Kraft', 'kraft', 'Natural brown look · Strong, durable fibres', 'eco durable', '#kraft'],
+    ['White PVC - Glossy or Matte', 'pvc-paper', 'Durable material · Cost-effective PVC option', 'durable', '#white-pvc'],
+    ['Blueback', 'blueback', 'Non-transparent paper · Ideal for poster walls', 'everyday', '#blueback'],
+    ['Neon', 'neon', 'Ultra-bright colours · Maximum visibility', 'everyday', '#neon'],
+  ];
+  document.getElementById('mat-list').innerHTML = mats.map(([name, icon, text, groups, href, badge]) => `
+    <li data-group="${groups}">
+      <a class="mat" href="${href}">
+        <img class="mat-icon" src="assets/icons/materials/${icon}.svg" alt="">
+        <span class="text">${badge ? `<span class="badge">${badge}</span>` : ''}<strong>${name}</strong><small>${text}</small></span>
+        <img class="chev" src="assets/category/arrow.svg" alt="">
+      </a>
+    </li>`).join('');
+  document.getElementById('mat-filter').addEventListener('click', e => {
+    const b = e.target.closest('[data-filter]'); if (!b) return;
+    document.querySelectorAll('#mat-filter .pill').forEach(x => x.classList.toggle('active', x === b));
+    document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
+  });
+
+  fill('moreCats', [
+    ['Lanyards', CF + '32KcF1TuPGiabBTGHJq5Sl/8e03b6c6b16df51bca85219f893d855e/5.png', '#lanyards-printing'],
+    ['Balloons', CF + '3J9jHg1ABCiwMncAE8QMCG/0f43ce33f3c486bf4ef7e3b55d97a988/Balloon-new-product-image-transparent.png', '#balloons-and-accesoires'],
+    ['Tote Bags', CF + '6UKJKFkRifue7levJ4bLhI/72c8570fb645b32a013eacff0278f331/10.png', 'product.html?p=basic-cotton-bags'],
+    ['Buttons', CF + '4KVlib2HEIa26ccWyycmks/b54d581731da1e4862ed68f87f47fec2/product-image-evenementen-buttons.png', '#personalised-buttons'],
+  ]);
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position
   const tabLinks = [...document.querySelectorAll('#tabs a')];
@@ -211,8 +250,9 @@
     document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
   });
   function syncTabs() {
+    const line = DESK ? 200 : 150;
     let current = targets[0];
-    for (const t of targets) if (t.getBoundingClientRect().top <= 150) current = t;
+    for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);
     tabLinks.forEach(a => {
       const on = a.dataset.tabLink === current.id;

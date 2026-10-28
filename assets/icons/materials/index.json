@@ -33,5 +33,7 @@
  "blockout-pvc": "Blockout PVC",
  "mesh": "Windproof mesh",
  "rpet": "Recycled RPET",
- "polyester": "Glossy polyester"
+ "polyester": "Glossy polyester",
+ "blueback": "Blueback (poster paper)",
+ "neon": "Neon (fluorescent)"
 }

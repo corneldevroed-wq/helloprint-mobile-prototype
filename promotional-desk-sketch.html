@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promotional desktop sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype: three desktop layouts for promotional.html (the Promotional Print PLP).
+     Real content and images from the mobile page; header/footer are placeholders. -->
+<style>
+  :root { --dark-green: #022b07; --green: #008539; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --light-grey: #f0f0f0; --line: #f0f0f0; --outline: #cfcfcf; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: #e9e9e9; font-size: 14px; line-height: 1.4; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .sk-top { position: sticky; top: 0; z-index: 10; background: var(--black); color: #fff; display: flex; gap: 24px; align-items: center; padding: 12px 24px; }
+  .sk-top b { font-size: 14px; }
+  .sk-top a { padding: 6px 14px; border: 1px solid #555; border-radius: 99px; font-weight: 600; }
+  .sk-top a:hover { border-color: #fff; }
+  .sk-note { max-width: 1286px; margin: 32px auto 0; padding: 24px; background: #fff; border-radius: 10px; }
+  .sk-note h1 { font-size: 20px; margin-bottom: 8px; }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { max-width: 1512px; margin: 48px auto 8px; padding: 0 24px; font-size: 20px; font-weight: 800; }
+  .sk-label small { display: block; font-size: 14px; font-weight: 400; color: var(--dark-grey); margin-top: 4px; max-width: 900px; }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 10px; border-radius: 99px; background: var(--light-green); color: #fff; font-size: 12px; vertical-align: middle; }
+
+  /* one frame = one desktop page at 1512 */
+  .frame { max-width: 1512px; margin: 0 auto; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .fhead { background: var(--dark-green); height: 104px; display: flex; flex-direction: column; justify-content: center; padding: 0 113px; gap: 12px; color: #fff; }
+  .fhead .bar { height: 36px; border-radius: 99px; background: rgba(255,255,255,.12); width: 520px; }
+  .fhead .nav { font-size: 13px; opacity: .8; }
+  .usp { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 113px; font-size: 13px; color: var(--dark-grey); }
+  .wrap { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
+  .crumbs { padding: 16px 0 24px; font-size: 14px; }
+  .crumbs a { color: var(--green); text-decoration: underline; }
+  h1.t { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; font-weight: 800; }
+  .lead { margin-top: 8px; font-size: 16px; line-height: 24px; color: var(--dark-grey); max-width: 720px; }
+  .rating { display: inline-flex; gap: 8px; align-items: center; margin-top: 16px; font-size: 14px; }
+  .rating img { height: 18px; }
+  .rating i { font-style: normal; color: var(--mid-grey); }
+  h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.48px; font-weight: 800; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; }
+  .sh .link { color: var(--light-green); font-weight: 600; }
+  .sub { margin-top: 4px; color: var(--dark-grey); font-size: 16px; }
+  section.s { margin-top: 48px; }
+
+  .tabs { position: sticky; top: 48px; background: #fff; display: flex; gap: 32px; border-bottom: 1px solid var(--line); margin-top: 32px; z-index: 2; }
+  .tabs a { padding: 16px 0 14px; font-weight: 600; color: var(--dark-grey); border-bottom: 2px solid transparent; }
+  .tabs a.on { color: var(--black); border-color: var(--black); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+  .pill { display: inline-flex; align-items: center; padding: 8px 16px; border: 1px solid var(--mid-grey); border-radius: 99px; font-weight: 600; background: #fff; }
+  .pill:hover { border-color: var(--black); }
+  .pill.on { background: var(--black); color: #fff; border-color: var(--black); }
+
+  .grid { display: grid; gap: 16px; margin-top: 16px; }
+  .g4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .g5 { grid-template-columns: repeat(5, minmax(0,1fr)); }
+  .g6 { grid-template-columns: repeat(6, minmax(0,1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .product { display: flex; flex-direction: column; gap: 11px; border: 1px solid var(--light-grey); border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+  .product:hover { border-color: var(--outline); }
+  .product .thumb { position: relative; aspect-ratio: 1; background: var(--light-grey); }
+  .product .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .product .badge { position: absolute; left: 8px; top: 8px; background: #ff8a00; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
+  .product > :not(.thumb) { padding: 0 16px; }
+  .product .name { font-weight: 600; font-size: 16px; line-height: 22px; }
+  .product .from { font-size: 13px; color: var(--dark-grey); }
+  .product .price { font-weight: 900; font-size: 16px; }
+  .product > :last-child { padding-bottom: 16px; margin-top: auto; }
+
+  .cat { background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
+  .cat:hover { background: #e6e6e6; }
+  .cat img { width: 120px; height: 75px; object-fit: contain; }
+  .cat p { font-weight: 600; text-align: center; min-height: 34px; display: flex; align-items: center; }
+
+  .seo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; padding: 32px 0; border-top: 1px solid var(--line); color: var(--dark-grey); font-size: 15px; line-height: 24px; }
+  .seo h2 { color: var(--black); margin-bottom: 8px; }
+  .seo p + p { margin-top: 8px; }
+  .acc div { padding: 16px 0; border-bottom: 1px solid var(--line); color: var(--black); font-weight: 600; display: flex; justify-content: space-between; }
+  .acc div::after { content: "⌄"; color: var(--dark-grey); }
+  .ffoot { margin-top: 48px; background: var(--dark-green); height: 160px; }
+
+  /* B: hero split as live */
+  .hero-b { display: grid; grid-template-columns: 5fr 7fr; gap: 16px; margin-top: 24px; }
+  .hero-b .promo { border-radius: 10px; background: var(--dark-green); color: #fff; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; min-height: 100%; position: relative; overflow: hidden; }
+  .hero-b .promo h3 { font-size: 28px; line-height: 34px; font-weight: 800; max-width: 340px; }
+  .hero-b .promo ul { list-style: none; margin-top: 16px; display: grid; gap: 8px; font-size: 15px; }
+  .hero-b .promo li::before { content: "✓"; margin-right: 8px; color: var(--light-green); font-weight: 800; }
+  .hero-b .promo .cta { align-self: flex-start; margin-top: 24px; background: #fff; color: var(--black); padding: 8px 16px; border-radius: 99px; font-weight: 600; }
+  .hero-b .promo img { position: absolute; right: -40px; bottom: -20px; width: 260px; opacity: .95; }
+  .hero-b .grid { margin-top: 0; }
+
+  /* C: sidebar */
+  .c-layout { display: grid; grid-template-columns: 240px minmax(0,1fr); gap: 48px; margin-top: 32px; align-items: start; }
+  .side { position: sticky; top: 64px; display: flex; flex-direction: column; gap: 4px; }
+  .side p { font-weight: 800; font-size: 16px; margin-bottom: 8px; }
+  .side a { padding: 8px 12px; border-radius: 8px; font-weight: 600; color: var(--dark-grey); }
+  .side a.on { background: var(--light-grey); color: var(--black); }
+  .side a:hover { color: var(--black); }
+  .side hr { border: 0; border-top: 1px solid var(--line); margin: 12px 0; }
+  .c-layout section.s:first-child { margin-top: 0; }
+  .catrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .catrow .chip { display: inline-flex; align-items: center; gap: 8px; padding: 4px 16px 4px 4px; border: 1px solid var(--outline); border-radius: 99px; font-weight: 600; }
+  .catrow .chip img { width: 32px; height: 32px; border-radius: 99px; background: var(--light-grey); object-fit: contain; }
+  .catrow .chip:hover { border-color: var(--black); }
+</style>
+</head>
+<body>
+
+<nav class="sk-top"><b>Promotional Print — desktop sketch</b><a href="#a">A · Stacked sections</a><a href="#b">B · Live hero split</a><a href="#c">C · Sidebar</a></nav>
+
+<div class="sk-note">
+  <h1>Desktop for promotional.html — three directions</h1>
+  <p>Same content and order as the mobile page (Popular → Print → Outdoor → Cards → Office → Hospitality → more items → SEO). Only the layout changes. Header, USP bar and footer stand in for the real desktop shell (<code>SHELL_HEADER_DESK</code>).</p>
+  <p><b>My pick: A.</b> It's the mobile page 1:1, built from components we already have on desktop: home best-seller cards, home category cards, and the PDP's sticky anchor tabs. It's calm, crawlable and cheap to keep in sync. B copies the live hero, but that dark promo card only repeats USPs that are already in the header, so it's "kermis". C (sidebar) only pays off once there are real filters (a PLP for 60+ products). Here the sections already are the filter.</p>
+</div>
+
+<!-- ============ A ============ -->
+<p class="sk-label" id="a">A · Stacked sections, sticky anchor tabs <span class="pick">my pick</span>
+  <small>Title block left-aligned as on the PDP. Sticky tabs as on the desktop PDP. Products 4 per row with the home best-seller card. Category rows become one row of 6 home category cards, with no side-scrolling. SEO text in two columns: intro left, FAQ accordion right.</small></p>
+<div class="frame">
+  <div class="fhead"><div class="bar"></div><div class="nav">All products · Promotional Print · Books · Cards · Stationery · Banners · Flags · Signs · Stickers · Gifts · Bags · Clothing</div></div>
+  <div class="usp">Best price guaranteed · All-inclusive prices · Always a perfect design · 100% satisfaction guarantee</div>
+  <div class="wrap">
+    <p class="crumbs"><a href="#">Home</a> / Promotional Products</p>
+    <h1 class="t">Promotional Print.</h1>
+    <p class="lead">Maximise the reach of your brand with the help of our paper print promotional products, made to help you stand out.</p>
+    <a class="rating" href="#"><img src="assets/trustpilot.svg" alt=""><span>4.5 <i>|</i> 35,364 reviews</span></a>
+
+    <nav class="tabs"><a class="on">Popular</a><a>Print</a><a>Outdoor</a><a>Cards</a><a>Office</a><a>Hospitality</a></nav>
+
+    <section class="s"><h2>Popular promotional products.</h2><div class="grid g4" data-pop></div></section>
+    <section class="s"><h2>Print.</h2><p class="sub">Promotional printing for all your projects and campaigns.</p><div class="grid g6" data-cats="print"></div></section>
+    <section class="s"><h2>Outdoor.</h2><p class="sub">Be seen from a distance, rain or shine.</p><div class="grid g6" data-cats="outdoor"></div></section>
+    <section class="s"><h2>Cards &amp; vouchers.</h2><div class="grid g5" data-cards></div></section>
+    <section class="s"><h2>Office &amp; stationery.</h2><p class="sub">Everyday print items for your brand.</p><div class="grid g6" data-cats="office"></div></section>
+    <section class="s"><h2>Hospitality.</h2><p class="sub">Print ideas made for cafés, bars and restaurants.</p><div class="grid g6" data-cats="hosp"></div></section>
+    <section class="s"><h2>More promotional items.</h2><div class="chips"><a class="pill">Lanyards</a><a class="pill">Balloons</a><a class="pill">Canvas Tote Bags</a><a class="pill">Buttons</a><a class="pill">Giveaways</a></div></section>
+    <div class="seo">
+      <div><h2>Why printed promotions still matter.</h2><p>In today’s digital world, many businesses focus heavily on online marketing. However, marketing materials remain a crucial element in building brand awareness, engaging customers, and driving conversions.</p><p>From flyers and leaflets to business cards and banners, print marketing materials offer a tangible, credible way to connect with your audience.</p></div>
+      <div class="acc"><div>What are marketing materials?</div><div>Benefits of marketing materials</div><div>How to get the most out of your print</div></div>
+    </div>
+  </div>
+  <div class="ffoot"></div>
+</div>
+
+<!-- ============ B ============ -->
+<p class="sk-label" id="b">B · Live hero split + chip nav
+  <small>As on the live en-ie page: title, chip row as navigation, then a dark promo card left with the 6 Print categories next to it. After that, the same sections as A. Gives a strong first screen but the promo card has no real offer.</small></p>
+<div class="frame">
+  <div class="fhead"><div class="bar"></div><div class="nav">All products · Promotional Print · Books · Cards · Stationery · Banners · Flags · Signs · Stickers · Gifts · Bags · Clothing</div></div>
+  <div class="usp">Best price guaranteed · All-inclusive prices · Always a perfect design · 100% satisfaction guarantee</div>
+  <div class="wrap">
+    <p class="crumbs"><a href="#">Home</a> / Promotional Products</p>
+    <h1 class="t">Promotional Print.</h1>
+    <p class="lead">Maximise the reach of your brand with the help of our paper print promotional products, made to help you stand out.</p>
+    <div class="chips"><a class="pill on">Popular</a><a class="pill">Print</a><a class="pill">Outdoor</a><a class="pill">Cards &amp; vouchers</a><a class="pill">Office</a><a class="pill">Hospitality</a></div>
+    <div class="hero-b">
+      <div class="promo"><div><h3>Promotional Printing for all your projects and campaigns.</h3><ul><li>Best price for corporate gifts</li><li>Delivered fast, from next day</li><li>Design your perfect gift in minutes</li></ul></div><a class="cta">Shop bestsellers</a><img src="assets/promo/p-booklets.webp" alt=""></div>
+      <div class="grid g3" data-cats="print"></div>
+    </div>
+    <section class="s"><h2>Popular promotional products.</h2><div class="grid g4" data-pop></div></section>
+    <section class="s"><h2>Outdoor.</h2><p class="sub">Be seen from a distance, rain or shine.</p><div class="grid g6" data-cats="outdoor"></div></section>
+    <section class="s"><h2>Cards &amp; vouchers.</h2><div class="grid g5" data-cards></div></section>
+    <p class="sub" style="margin-top:32px">… Office, Hospitality, More items, SEO as in A</p>
+  </div>
+  <div class="ffoot"></div>
+</div>
+
+<!-- ============ C ============ -->
+<p class="sk-label" id="c">C · Sidebar navigation (classic PLP)
+  <small>Section list as a sticky sidebar on the left (it marks the section you're in), content on the right. Categories as compact chips with a round photo (the "See also" style from the PDP) instead of cards. Works best later, when the sidebar gets real filters.</small></p>
+<div class="frame">
+  <div class="fhead"><div class="bar"></div><div class="nav">All products · Promotional Print · Books · Cards · Stationery · Banners · Flags · Signs · Stickers · Gifts · Bags · Clothing</div></div>
+  <div class="usp">Best price guaranteed · All-inclusive prices · Always a perfect design · 100% satisfaction guarantee</div>
+  <div class="wrap">
+    <p class="crumbs"><a href="#">Home</a> / Promotional Products</p>
+    <h1 class="t">Promotional Print.</h1>
+    <p class="lead">Maximise the reach of your brand with the help of our paper print promotional products, made to help you stand out.</p>
+    <a class="rating" href="#"><img src="assets/trustpilot.svg" alt=""><span>4.5 <i>|</i> 35,364 reviews</span></a>
+    <div class="c-layout">
+      <aside class="side"><p>Promotional Print</p><a class="on">Popular</a><a>Print</a><a>Outdoor</a><a>Cards &amp; vouchers</a><a>Office &amp; stationery</a><a>Hospitality</a><hr><a>More promotional items</a></aside>
+      <div>
+        <section class="s"><h2>Popular promotional products.</h2><div class="grid g4" data-pop></div></section>
+        <section class="s"><h2>Print.</h2><div class="catrow" data-chips="print"></div></section>
+        <section class="s"><h2>Outdoor.</h2><div class="catrow" data-chips="outdoor"></div></section>
+        <section class="s"><h2>Cards &amp; vouchers.</h2><div class="grid g4" data-cards></div></section>
+        <section class="s"><h2>Office &amp; stationery.</h2><div class="catrow" data-chips="office"></div></section>
+        <section class="s"><h2>Hospitality.</h2><div class="catrow" data-chips="hosp"></div></section>
+      </div>
+    </div>
+  </div>
+  <div class="ffoot"></div>
+</div>
+<div style="height:64px"></div>
+
+<script>
+  const A = 'assets/promo/';
+  const pop = [
+    ['Classic Flyers', 'p-flyers', 250, '19.99', 'Most Popular'], ['Stapled Booklets', 'p-booklets', 500, '218.99', 'Great Value'],
+    ['Glued Softcover Books', 'p-softcover', 100, '144.89'], ['Standard Posters', 'p-posters', 50, '28.49', 'Free design templates'],
+    ['Half-Fold Leaflets', 'p-halffold', 500, '42.99'], ['Roller Banners', 'c-banners', 1, '59.99'],
+    ['Stickers on Roll', 'p-labels', 1000, '51.99'], ['Greeting Cards', 'p-greeting', 1, '22.99'],
+  ];
+  const cards = [
+    ['Classic Business Cards', 'p-businesscards', 100, '14.99'], ['Greeting Cards', 'p-greeting', 1, '22.99'], ['Vouchers', 'p-vouchers', 100, '16.79'],
+    ['Compliment Slips', 'p-compliment', 100, '27.99'], ['Loyalty Cards', 'p-loyalty', 1000, '22.99'],
+  ];
+  const cats = {
+    print: [['Booklets', 'c-booklets'], ['Leaflets &amp; Flyers', 'c-flyers'], ['Folded Leaflets', 'c-folded'], ['Business Cards', 'c-businesscards'], ['Posters', 'c-posters'], ['Cards &amp; Invitations', 'c-cards']],
+    outdoor: [['Banners', 'c-banners'], ['Flag Printing', 'c-flags'], ['Signage &amp; Panels', 'c-signs'], ['Custom Vinyl Stickers', 'c-vinyl']],
+    office: [['Envelopes', 'c-envelopes'], ['Presentation Folders', 'c-folders'], ['Notepads', 'c-notepads'], ['Calendars', 'c-calendars'], ['Notebooks', 'c-notebooks'], ['Pens', 'c-pens']],
+    hosp: [['Placemats', 'c-placemats'], ['Coasters', 'c-coasters'], ['Menu Cards', 'c-menus'], ['Table Talkers', 'c-tabletalkers'], ['A-boards', 'c-aboards'], ['Napkins', 'c-napkins']],
+  };
+  const tile = ([name, img, qty, price, badge]) => `<a class="product" href="#"><div class="thumb"><img src="${A + img}.webp" alt="">${badge ? `<span class="badge">${badge}</span>` : ''}</div><p class="name">${name}</p><div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="price">€${price}</p></div></a>`;
+  const cat = ([name, img]) => `<a class="cat" href="#"><img src="${A + img}.webp" alt=""><p>${name}</p></a>`;
+  const chip = ([name, img]) => `<a class="chip" href="#"><img src="${A + img}.webp" alt="">${name}</a>`;
+  document.querySelectorAll('[data-pop]').forEach(el => el.innerHTML = pop.slice(0, el.closest('.c-layout') ? 8 : 8).map(tile).join(''));
+  document.querySelectorAll('[data-cards]').forEach(el => el.innerHTML = cards.slice(0, el.classList.contains('g4') ? 4 : 5).map(tile).join(''));
+  document.querySelectorAll('[data-cats]').forEach(el => el.innerHTML = cats[el.dataset.cats].map(cat).join(''));
+  document.querySelectorAll('[data-chips]').forEach(el => el.innerHTML = cats[el.dataset.chips].map(chip).join(''));
+</script>
+</body>
+</html>
