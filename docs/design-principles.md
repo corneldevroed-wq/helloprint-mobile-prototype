@@ -73,3 +73,27 @@ for prices/reviews in the prototype but should look plausible and be consistent 
 - He iterates fast with tiny follow-ups ("iets lichter", "4px ipv 8px"); each one is a real request.
 - He wants the honest senior UX/UI opinion ("zet je ux bril op"), including pushback.
 - Shareable state: a copied URL must open the same version (switch values in the URL).
+
+## 12. The system for category pages (CLP/PLP), Oct 28 2026 — apply to every new page
+Built on promotional.html (PLP), business-cards.html and flyers.html (CLP). Shared CSS: `.plp` (+ `.clp` for CLPs).
+- **Structure and order follow the live page** (en-ie). Content comes from live; check the live page section by section
+  before building. Products are shown as product cards, categories as category cards — never mix them up.
+- **No Trustpilot rating line under the intro** (it's in the header). A reviews row (home component) after the products.
+- **SEO text is always last** (on pages that have one). A content block (photo + text) is not SEO text: keep it where
+  live has it, in the "Make it stand out" row style (`.so-row`), photo on the 50% grid column.
+- **Spacing (desktop):** 32px between blocks, 8px from a section title (or lead line) to its block, 8px from the intro to
+  the tab bar, 16px inside grids. **Mobile:** 16px between blocks, 32px around a promo-card block.
+- **Rows never leave an orphan:** 4 or 5 items stay one row on desktop; 6 → 3×2. Edges line up with the content edge
+  and with the columns of the blocks above/below.
+- **Text scale (one line height per size):** body 12/18 mobile, 14/22 desktop (intro, selling points, materials,
+  content text, SEO text, lead lines); labels 12/17; card titles 16/22 desktop, 14 mobile (semibold, black); section
+  titles 24/32 desktop, 20/24 mobile; titles on a photo card on mobile = section title size (20/24).
+- **Colours:** sub text under a title dark grey; titles black; inline links green underlined (as breadcrumbs).
+- **Cards:** category cards always square (152 home / 184 category pages on mobile; desktop fills the row, image fills
+  the card above the title, title 16/22). Grey tiles (`.dc-card`: title top left, image right, grey arrow) for
+  "related"/bottom category rows and next to promo cards. Product cards: green ticks (#00ad4c, 2.2 stroke) for the
+  selling points, "N pieces for" + a real price (never "Configure & see price"). Ticks only for selling points,
+  never for product facts: size cards keep their small centred card, the size as plain text, the use as a tick.
+- **Shared UI:** tabs semibold everywhere, light tab line (#f0f0f0); review/promo arrows = round white 40px button with
+  grey outline, floating on the row edge; USP bar light grey; material icons everywhere instead of swatches.
+- **Rejected, don't retry:** tinted tiles next to promo cards (fixed or photo colour).

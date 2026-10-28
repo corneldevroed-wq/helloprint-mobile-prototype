@@ -1387,7 +1387,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dhead-nav a[aria-current="page"], .dhead-nav a:hover { background: rgba(255, 255, 255, .1); }
 .dhead-nav .dnav-all img { width: 18px; height: 18px; }
 .dhead-nav .dnav-help { margin-left: auto; }
-.dusps { background: var(--white); }
+.dusps { background: var(--light-grey); }   /* light grey like the mobile USP bar (Cornel, 2026-10-28) */
 .dusps .dwrap { height: 40px; display: flex; align-items: center; justify-content: space-between; }
 .dusps ul { list-style: none; display: flex; gap: 16px; }
 .dusps li { display: flex; align-items: center; gap: 6px; font-size: 14px; line-height: 24px; color: var(--dark-grey); white-space: nowrap; }
@@ -2182,7 +2182,7 @@ html:not(.desk) .home > .tb { display: flex; gap: 8px; overflow-x: auto; scroll-
 html:not(.desk) .home > .tb::-webkit-scrollbar { display: none; }
 html:not(.desk) .tb-card { flex: 0 0 300px; scroll-snap-align: start; }
 html:not(.desk) .tb-txt { width: 100%; }
-html:not(.desk) .tb-txt h3 { font-size: 22px; line-height: 26px; }
+html:not(.desk) .tb-txt h3 { font-size: 20px; line-height: 24px; letter-spacing: -.4px; }   /* = section title size on mobile, as the promo card titles */
 html:not(.desk) .tb-txt p, html:not(.desk) .tb-txt ul { margin-top: 8px; font-size: 13px; line-height: 1.45; }   /* description and promises list in one size */
 html:not(.desk) .tb-txt li { gap: 8px; } html:not(.desk) .tb-txt li svg { width: 18px; height: 18px; }
 html:not(.desk) .tb-btns .pill[href="#chat"] { display: none; }
@@ -2248,7 +2248,6 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp.clp .types.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }   /* 4 items: one full row, no orphan */
 .desk .plp.clp .types.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .desk .plp.clp .size-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
-.desk .plp.clp .size-card { flex: none; padding: 24px 16px; }
 .desk .plp > .hero .rating { margin-top: 16px; }
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
 .product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: -2px; }
@@ -2298,3 +2297,18 @@ html:not(.desk) .plp.clp .cats .cat .collage { flex: 1; width: 100%; height: aut
 .desk .d-rev-nav.next { right: -20px; }
 
 .desk .plp .cats .cat .title { font-size: 16px; line-height: 22px; }   /* the card title size, as the grey category tiles (16/22) */
+/* Mobile: a promo card + its categories is its own block, 32px from the blocks around it (other sections stay 16px) */
+html:not(.desk) .plp > section + .plp-feature, html:not(.desk) .plp > .plp-feature + section { margin-top: 16px; }
+html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important; letter-spacing: -0.4px !important; }   /* promo card titles on mobile = the section title size (20/24), on every page (Cornel, 2026-10-28) */
+.plp .so-txt h2 { margin-bottom: 0; font-weight: 600; font-size: 14px; line-height: 1.2; letter-spacing: 0; color: var(--black); }   /* the title of a content row = the material title, as "Make it stand out" (Cornel) */
+.desk .plp .so-txt h2 { font-size: 16px; line-height: 22px; }
+.so-txt p a { color: #008539; text-decoration: underline; }   /* inline links as the breadcrumb links */
+
+/* Size cards: the size as plain text, its use as the green tick (a selling point), everything centred (Cornel) */
+.size-card .usp-list { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.size-card .usp-list li { display: flex; align-items: flex-start; justify-content: center; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.size-card .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }
+.desk .plp.clp .size-card { flex: none; padding: 24px 16px; }
+/* Size cards: the size as body text (12/18 mobile, 14/22 desktop); the use with the tick stays 12/18 (Cornel) */
+.size-card small { font-size: 12px; line-height: 18px; }
+.desk .plp .size-card small { font-size: 14px; line-height: 22px; }

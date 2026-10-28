@@ -6,13 +6,15 @@
 <title>Leaflet Printing &amp; Flyers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261031c">
+<link rel="stylesheet" href="styles.css?v=20261031p">
 </head>
 <body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
   <!-- Flyers category page: content from helloprint.com/en-ie/flyers, in the setup of the business cards page.
+       Order as live (2026-10-28): types, folded leaflets, reviews (ours, after the products), sizes, materials, ideas,
+       the creative-folds content block, related; section titles as live. No SEO text on this page (as live).
        Desktop (2026-10-28) = the business cards page: .plp blocks, product cards with ticks, reviews row, sizes in one row,
        materials as icon tiles, ideas as a row of square category cards -->
   <main class="cat-page plp clp">
@@ -26,10 +28,10 @@
 
     <nav class="tabs" id="tabs" aria-label="Sections">
       <a href="#types" data-tab-link="types" class="active">Types</a>
-      <a href="#sizes" data-tab-link="sizes">Sizes</a>
-      <a href="#materials" data-tab-link="materials">Materials</a>
       <a href="#folded" data-tab-link="folded">Folded</a>
       <a href="#reviews" data-tab-link="reviews">Reviews</a>
+      <a href="#sizes" data-tab-link="sizes">Sizes</a>
+      <a href="#materials" data-tab-link="materials">Materials</a>
     </nav>
 
     <section id="types" data-tab-target>
@@ -37,18 +39,24 @@
       <div class="types cols-4" id="types-grid"></div>
     </section>
 
+
+    <section id="folded" data-tab-target>
+      <h2>Our Folded Leaflet Printing Options</h2>
+      <div class="types cols-5" id="foldRow"></div>
+    </section>
+
     <section id="reviews" class="d-reviews" data-tab-target>
       <h2>What our Happy Customers say</h2>
     </section>
 
     <section id="sizes" data-tab-target>
-      <h2>Our most popular sizes.</h2>
-      <p class="cat-lead">Flyers and leaflets come in various shapes and sizes. Here are the most popular ones:</p>
+      <h2>Our most popular sizes for Flyer Printing</h2>
+      <p class="cat-lead">Flyers and Leaflet printing comes in various shapes and sizes. Here are the most popular ones:</p>
       <div class="hscroll size-row" id="sizeRow"></div>
     </section>
 
     <section id="materials" class="materials" data-tab-target>
-      <h2>Materials.</h2>
+      <h2>Our selection of leaflet printing materials</h2>
       <div class="hscroll filter" id="mat-filter">
         <button class="pill active" data-filter="all">All</button>
         <button class="pill" data-filter="everyday">Everyday</button>
@@ -58,18 +66,28 @@
       <ul class="mat-list plp-mats" id="mat-list"></ul>
     </section>
 
-    <section id="folded" data-tab-target>
-      <h2>Folded leaflets.</h2>
-      <p class="cat-lead">Our folded leaflet printing options.</p>
-      <div class="types cols-5" id="foldRow"></div>
-    </section>
 
-    <!-- Flyer printing ideas: title + one row of the small square category cards (as on the business cards page) -->
+    <!-- Flyer printing ideas: these are products, so the product card (as live), one row of 5 on desktop -->
     <section id="ideas">
-      <h2>Flyer printing ideas.</h2>
-      <div class="hscroll cats" id="ideaCats"></div>
+      <h2>Flyer Printing Ideas for Every Design Need</h2>
+      <div class="types cols-5" id="ideaCats"></div>
     </section>
 
+
+    <!-- Content block (live): photo + text, between the ideas and "You might also be interested in", as on live.
+         Not an SEO text; this page has none. Same row as "Make it stand out" on the business cards page. -->
+    <section id="folds-info">
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/1oIkOP1IZ2n1xyCz3KfUQH/b4f1a7373aac0cf2c08f4ca31ef5d3b2/Leaflet.webp?w=1300&amp;fm=webp&amp;q=80" alt=""></div>
+          <div class="so-txt">
+            <h2>Leaflet Printing Made Better with Creative Folds</h2>
+            <p>Folded leaflet printing is an excellent way to present information in a structured and visually appealing manner. Perfect for businesses, events, or promotional campaigns, folded leaflets are versatile tools for sharing key details like product information, menus, or event schedules.</p>
+            <p>With various folding options available, you can tailor your leaflets to fit your message. Choose a <a href="#halffoldleaflets">Half-fold</a> for a simple brochure-style design, ideal for presenting a focused message. Opt for a <a href="#trifoldleaflets">Tri-fold</a> to create six panels, offering plenty of space for organised content. The <a href="#zfoldleaflets">Z-fold</a> adds a dynamic touch, making it easy to guide readers through step-by-step instructions or storytelling. For even more impact, consider a <a href="#rollfoldleaflets8pages">Roll-fold</a>, which adds extra panels for detailed layouts.</p>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <!-- You might also be interested in: the small square category cards (as the ideas row), not pills -->
     <section id="related">
@@ -77,18 +95,13 @@
       <div class="hscroll cats" id="relatedCats"></div>
     </section>
 
-    <section class="about cat-about">
-      <h2>Leaflet printing made better with creative folds</h2>
-      <p>Folded leaflet printing is an excellent way to present information in a structured and visually appealing manner. Perfect for businesses, events, or promotional campaigns, folded leaflets are versatile tools for sharing key details like product information, menus, or event schedules.</p>
-      <p>With various folding options available, you can tailor your leaflets to fit your message. Choose a Half-fold for a simple brochure-style design, ideal for presenting a focused message. Opt for a Tri-fold to create six panels, offering plenty of space for organised content. The Z-fold adds a dynamic touch, making it easy to guide readers through step-by-step instructions or storytelling. For even more impact, consider a Roll-fold, which adds extra panels for detailed layouts.</p>
-    </section>
 
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261031c"></script>
-<script src="products.js?v=20261031c"></script>
+<script src="app.js?v=20261031p"></script>
+<script src="products.js?v=20261031p"></script>
 <script>
   const C = 'assets/category/', F = PRODUCTS['standard-flyers'], pdp = F.href;
   const TICK = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -112,11 +125,11 @@
       ${p.price ? `<div><p class="from">${p.qty} pieces for</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>` : '<p class="from"><u>Configure &amp; see price</u></p>'}
     </a>`).join('');
 
-  // Popular sizes (live): open the flyer page with that size
+  // Popular sizes (live): open the flyer page with that size; the size as plain text (it's the product), the use as a tick
   const sizes = [['a4', 'A4 Flyers', '210 x 297 mm', 'Perfect for displaying lots of information', 42, 59], ['a5', 'A5 Flyers', '148 x 210 mm', 'Standard size for promotions', 36, 51],
     ['a6', 'A6 Flyers', '105 x 148 mm', 'Easy to distribute', 30, 42], ['dl', 'DL Flyers', '99 x 210 mm', 'Fits in envelopes perfectly', 26, 55]];
   document.getElementById('sizeRow').innerHTML = sizes.map(([id, name, dim, text, w, h]) => `
-    <a class="size-card" href="${pdp}&amp;size=${id}"><span class="shape"><span style="width:${w}px;height:${h}px"></span></span><strong>${name}</strong><small>${dim}</small><small class="note">${text}</small></a>`).join('');
+    <a class="size-card" href="${pdp}&amp;size=${id}"><span class="shape"><span style="width:${w}px;height:${h}px"></span></span><strong>${name}</strong><small>${dim.replace(' x ', ' × ')}</small>${ticks(text)}</a>`).join('');
 
   // Materials (live): each opens the flyer product that has it, with that material chosen; the material icon set (as everywhere)
   const mats = [
@@ -173,10 +186,23 @@
     : squareTile(name, src, href);
   if (DESK) document.getElementById('relatedCats').className = 'plp-cats five';
 
-  // Flyer printing ideas
-  document.getElementById('ideaCats').innerHTML = [['Standard Posters', 'posters', '#posters'], ['Letterheads', 'letterheads', '#letterheads'], ['Greeting Cards', 'greetingcards', '#greetingcards'],
-    ['Unfolded Menus', 'menucardsunfolded', '#menucardsunfolded'], ['Certificates', 'certificates', '#certificates']]
-    .map(([name, img, href]) => squareTile(name, `assets/menu/sub/${img}.webp`, href)).join('');
+  // Flyer printing ideas: products (live), as the product card, with the live price of the smallest print run (2026-10-28)
+  const ideas = [
+    ['Standard Posters', 'assets/promo/p-posters.webp', '#posters', 50, 28.49, true],
+    ['Letterheads', 'assets/menu/sub/letterheads.webp', '#letterheads', 25, 15.79, true],
+    ['Greeting Cards', 'assets/promo/p-greeting.webp', '#greetingcards', 1, 22.99, true],
+    ['Unfolded Menus', 'assets/menu/sub/menucardsunfolded.webp', '#menucardsunfolded', 25, 18.29, false],
+    ['Certificates', 'assets/menu/sub/certificates.webp', '#certificates', 25, 11.79, false],
+  ];
+  document.getElementById('ideaCats').innerHTML = ideas.map(([name, img, href, qty, price, tpl]) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)">
+        <img src="${img}" alt="" loading="lazy">
+        ${tpl ? '<span class="badge">Free design templates</span>' : ''}
+      </div>
+      <p class="name">${name}</p>
+      <div><p class="from">${qty > 1 ? qty + ' pieces for' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
+    </a>`).join('');
 
   // You might also be interested in: the same small square category cards
   document.getElementById('relatedCats').innerHTML = [['Folded Leaflets', 'c-folded', '#foldedleaflets'], ['Business Cards', 'c-businesscards', 'business-cards.html'],

@@ -4,9 +4,15 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — Titles on a photo card on mobile = the section title size (20/24)**, on every page: promo cards (home,
+  promotional) and Team + Promises. Desktop stays 24px. A promo block on mobile sits 32px from the blocks around it.
 - **10-28 — Rejected: tinted category tiles next to a promo card** (fixed accent per block, and the colour most visible in
   the photo via script). Tiles stay our grey.
-- **10-28 — SEO text is always the last block** before the footer, on every page (mobile + desktop).
+- **10-28 — SEO text is always the last block** before the footer, on pages that have one (mobile + desktop). A content
+  block (photo + text) is not SEO text and stays where live has it.
+- **10-28 — Flyers order as live:** types → folded leaflets → reviews (ours, after the products) → sizes → materials →
+  ideas (products, as product cards) → "Creative Folds" content block (photo + text, as live) → related; no SEO text on
+  this page (as live); section titles as live. Material texts and prices on the types stay ours.
 - **10-28 — Flyers page = the business cards setup** (desktop + mobile): ticks on product cards, reviews row, icon materials,
   ideas as square category cards. Rows with 4 or 5 items stay one row on desktop (no orphans).
 - **10-28 — One body text size on category pages:** 14/22 desktop, 12/18 mobile, dark grey (intro, selling points,

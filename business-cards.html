@@ -6,7 +6,7 @@
 <title>Business Card Printing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261031c">
+<link rel="stylesheet" href="styles.css?v=20261031p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -43,13 +43,7 @@
 
     <section id="sizes" data-tab-target>
       <h2>Sizes</h2>
-      <div class="hscroll size-row">
-        <a class="size-card" href="product.html?p=classic-business-cards&amp;size=standard"><span class="shape"><span style="width:85px;height:55px"></span></span><strong>Standard</strong><small>85 x 55 mm</small></a>
-        <a class="size-card" href="product.html?p=classic-business-cards&amp;size=standard&amp;corners=rounded"><span class="shape"><span style="width:85px;height:55px;border-radius:7px"></span></span><strong>Rounded</strong><small>85 x 55 mm</small></a>
-        <a class="size-card" href="product.html?p=classic-business-cards&amp;size=squared"><span class="shape"><span style="width:55px;height:55px"></span></span><strong>Square</strong><small>55 x 55 mm</small></a>
-        <a class="size-card" href="product.html?p=classic-business-cards&amp;size=american"><span class="shape"><span style="width:90px;height:50px"></span></span><strong>American</strong><small>90 x 50 mm</small></a>
-        <a class="size-card" href="product.html?p=classic-business-cards&amp;size=folded-portrait"><span class="shape"><span class="fold" style="width:64.7px;height:50px"></span></span><strong>Folded</strong><small>110 x 85 mm</small></a>
-      </div>
+      <div class="hscroll size-row" id="sizeRow"></div>
     </section>
 
     <section id="materials" class="materials" data-tab-target>
@@ -82,8 +76,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261031c"></script>
-<script src="products.js?v=20261031c"></script>
+<script src="app.js?v=20261031p"></script>
+<script src="products.js?v=20261031p"></script>
 <script>
   // Card types
   const C = 'assets/category/';
@@ -131,6 +125,16 @@
     document.querySelectorAll('#mat-filter .pill').forEach(x => x.classList.toggle('active', x === b));
     document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
+
+  // Sizes (live): the size card; the size is plain text (part of the product, not a selling point)
+  const BC = 'product.html?p=classic-business-cards';
+  document.getElementById('sizeRow').innerHTML = [
+    ['Standard', '&amp;size=standard', '85 × 55 mm', 'width:85px;height:55px', ''],
+    ['Rounded', '&amp;size=standard&amp;corners=rounded', '85 × 55 mm', 'width:85px;height:55px;border-radius:7px', ''],
+    ['Square', '&amp;size=squared', '55 × 55 mm', 'width:55px;height:55px', ''],
+    ['American', '&amp;size=american', '90 × 50 mm', 'width:90px;height:50px', ''],
+    ['Folded', '&amp;size=folded-portrait', '110 × 85 mm', 'width:64.7px;height:50px', 'fold'],
+  ].map(([name, q, dim, style, cls]) => `<a class="size-card" href="${BC}${q}"><span class="shape"><span class="${cls}" style="${style}"></span></span><strong>${name}</strong><small>${dim}</small></a>`).join('');
 
   // Make it stand out: live content (helloprint.com/en-ie/businesscards-printing), in the live order
   const STANDOUT = [
