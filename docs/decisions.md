@@ -5,7 +5,7 @@ Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
 - **10-28 — Spacing on desktop category pages:** 32px between blocks, 8px from a section title to its block, 16px inside
-  grids. 8px-grid pass on shared components (product card 8px, crumbs 16/24, reviews row 16px, category card 152×152 with
+  grids, 8px from the intro to the tab bar. 8px-grid pass on shared components (product card 8px, crumbs 16/24, reviews row 16px, category card 152×152 with
   16px padding).
 - **10-28 — No Trustpilot rating line under the intro on category pages** (promotional, business cards, flyers):
   the review count is already in the header (desktop widget / mobile USP ticker).

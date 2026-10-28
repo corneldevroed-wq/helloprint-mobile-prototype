@@ -2204,7 +2204,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > .hero { gap: 0; }
 .desk .plp > .hero .crumbs { padding-bottom: 16px; }
 .desk .plp .hero .intro p { font-size: 14px; line-height: 1.5; }
-.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -8px; padding: 0; overflow: visible; }
+.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; overflow: visible; }
 .desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; font-weight: 400; }
 .desk .plp > .tabs a.active { font-weight: 600; }
 .desk .plp h2 { margin-bottom: 8px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
