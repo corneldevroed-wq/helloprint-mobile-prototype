@@ -52,12 +52,12 @@ p { overflow-wrap: break-word; }
 .vat-menu button[aria-checked="true"] { font-weight: 600; }
 
 /* Content */
-.content { padding: 16px 13px 24px 15px; display: flex; flex-direction: column; gap: 24px; }
+.content { padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 24px; }
 h1 { font-weight: 800; font-size: 24px; line-height: 1.16; letter-spacing: -0.48px; color: var(--dark-green); }
 h2 { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px; color: var(--dark-green); }
-.hscroll { display: flex; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--gutter-r, 13px)); padding-right: var(--gutter-r, 13px); }
+.hscroll { display: flex; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--gutter-r, 16px)); padding-right: var(--gutter-r, 16px); }
 .hscroll::-webkit-scrollbar { display: none; }
-.chips { gap: 4px; margin-top: 9px; }
+.chips { gap: 4px; margin-top: 8px; }
 .pill { flex-shrink: 0; display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
 .pill:hover { border-color: var(--black); }
 .pill.active { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
@@ -67,7 +67,7 @@ h2 { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px
 .link { font-size: 14px; line-height: 16px; color: var(--light-green); text-decoration: underline; }
 
 /* Top categories */
-.cats { gap: 9px; margin-top: 8px; }
+.cats { gap: 8px; margin-top: 8px; }
 .cat { flex: 0 0 152px; background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
 .cat:hover { background: #e8e8e8; }
 html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category cards stay square (8px grid: 16px padding, 152 × 152) */
@@ -96,7 +96,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .trust span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
 
 /* Best sellers */
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; margin-top: 9px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; margin-top: 8px; }
 .product { display: flex; flex-direction: column; gap: 8px; }
 .product .thumb { position: relative; width: 100%; aspect-ratio: 1; border-radius: 10px; overflow: hidden; }
 .product .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
@@ -104,7 +104,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: 3px; padding: 4px; font-weight: 700; font-size: 12px; line-height: 1; letter-spacing: -0.36px; }
 .product .name { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .product .from { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
-.product .prices { display: flex; align-items: baseline; gap: 2px; margin-top: 2px; font-weight: 700; line-height: 17px; }
+.product .prices { display: flex; align-items: baseline; gap: 4px; margin-top: 0; font-weight: 700; line-height: 17px; }
 .product .was { font-size: 12px; color: var(--light-green); text-decoration: line-through; }
 .product .price { font-size: 14px; }
 
@@ -128,7 +128,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary img { width: 24px; height: 24px; transition: transform .2s; }
 .acc details[open] summary img { transform: rotate(180deg); }
-.acc ul { list-style: none; padding: 4px 0 8px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.2; color: var(--dark-grey); }
+.acc ul { list-style: none; padding: 4px 0 8px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.2; color: var(--dark-grey); }
 .acc ul a:hover { color: var(--black); text-decoration: underline; }
 .acc-wrap { display: flex; flex-direction: column; gap: 16px; }
 
@@ -256,7 +256,7 @@ body.menu-open { overflow: hidden; }
 [data-tab-target] { scroll-margin-top: 140px; }
 
 .types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; }
-.size-row, .beyond-row { gap: 9px; }
+.size-row, .beyond-row { gap: 8px; }
 .size-card { flex: 0 0 152px; background: var(--light-grey); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; transition: background .15s, box-shadow .15s; }
 .size-card:hover { background: #e8e8e8; }
 .size-card .shape { height: 55px; display: grid; place-items: center; }
@@ -276,8 +276,8 @@ body.menu-open { overflow: hidden; }
 .mat .swatch { position: relative; width: 75px; height: 75px; flex-shrink: 0; overflow: hidden; }
 .mat .swatch img:first-child { width: 75px; height: 75px; }
 .mat .swatch .corner { position: absolute; left: 50.29px; top: .75px; width: 24.35px; height: 24.37px; }
-.mat .text { display: flex; flex-direction: column; gap: 2px; width: 207px; }
-.mat .text .badge { position: static; align-self: flex-start; margin-bottom: 2px; }
+.mat .text { display: flex; flex-direction: column; gap: 4px; width: 207px; }
+.mat .text .badge { position: static; align-self: flex-start; margin-bottom: 4px; }
 .mat strong { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .mat small { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .mat .chev { margin-left: auto; width: 20.32px; height: 20.5px; }
@@ -1330,7 +1330,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* Promotional Print hub: the folded SEO text */
 .promo-seo details > p, .promo-seo li { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
-.promo-seo ul, .promo-seo ol { display: flex; flex-direction: column; gap: 8px; padding: 0 0 12px 18px; }
+.promo-seo ul, .promo-seo ol { display: flex; flex-direction: column; gap: 8px; padding: 0 0 12px 16px; }
 .promo-seo ul { list-style: disc; }
 .promo-seo ol { list-style: decimal; }
 .promo-seo li b { color: var(--black); font-weight: 600; }
@@ -1341,10 +1341,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .beyond .ph img { width: 82%; height: 82%; object-fit: contain; }
 
 /* Home: trusted-by logo strip (slow marquee, still for reduced motion) */
-.trusted { display: flex; flex-direction: column; gap: 10px; }
+.trusted { display: flex; flex-direction: column; gap: 8px; }
 .trusted p { font-size: 13px; line-height: 1.4; color: var(--dark-grey); }
 .trusted p b { color: var(--black); font-weight: 700; }
-.logo-strip { overflow: hidden; margin-right: calc(-1 * var(--gutter-r, 13px)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.logo-strip { overflow: hidden; margin-right: calc(-1 * var(--gutter-r, 16px)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .logo-track { display: flex; align-items: center; gap: 24px; width: max-content; animation: logo-glide 40s linear infinite; }
 .logo-copy { display: flex; align-items: center; gap: 24px; }
 .logo-track img { flex-shrink: 0; }   /* each logo at its own size (Cornel's colour set) */
@@ -1605,9 +1605,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev-row { flex: 1; display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .d-rev-row::-webkit-scrollbar { display: none; }
 .d-rev { flex: 0 0 217px; min-height: 158px; display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 10px; background: var(--light-grey); scroll-snap-align: start; }
-.d-rev-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.d-rev-top { display: flex; align-items: center; gap: 8px; margin-bottom: 0; }
 .d-rev-top .stars { width: 99px; height: 18.6px; }
-.d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+.d-rev-top span { display: flex; align-items: center; gap: 4px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .d-rev-top span img { width: 16px; height: 16px; }
 .d-rev > b { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .d-rev > p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }   /* body text 12/18, grey so it reads apart from the black title (Cornel, 2026-10-28) */
@@ -1839,7 +1839,7 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .home .product > :not(.thumb) { padding: 0 16px; }
 .desk .home .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
 .desk .home .product .name { font-size: 16px; line-height: 22px; }
-.desk .home .product .prices { gap: 7px; align-items: center; line-height: 20px; }
+.desk .home .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: 14px; }
 .desk .home .product .price { font-weight: 900; letter-spacing: -0.28px; }
 
@@ -1870,7 +1870,7 @@ html:not(.desk) .d-banners { display: contents; }
 .desk .acc-wrap .acc details { border: 0; padding: 0; }
 .desk .acc-wrap .acc summary { padding: 0 0 12px; font-size: 16px; color: var(--black); cursor: default; }
 .desk .acc-wrap .acc summary img { display: none; }
-.desk .acc-wrap .acc ul { padding: 0; gap: 6px; }
+.desk .acc-wrap .acc ul { padding: 0; gap: 8px; }
 .desk .acc-wrap .acc ul a { line-height: 1.3; }
 
 /* SEO text: open on desktop */
@@ -2130,7 +2130,7 @@ html:not(.desk) .home > .trust { display: none; }
 
 /* Home, mobile: "What our Happy Customers say" as a swipe row, as on the mobile PDP (Cornel, 2026-10-28) */
 html:not(.desk) .home > .d-reviews, html:not(.desk) .plp > .d-reviews { align-items: stretch; gap: 8px; }
-html:not(.desk) .home .m-revs, html:not(.desk) .plp .m-revs { padding-left: 0; padding-right: var(--gutter-r, 13px); margin-right: calc(-1 * var(--gutter-r, 13px)); }
+html:not(.desk) .home .m-revs, html:not(.desk) .plp .m-revs { padding-left: 0; padding-right: var(--gutter-r, 16px); margin-right: calc(-1 * var(--gutter-r, 16px)); }
 html:not(.desk) .home .d-rev-note, html:not(.desk) .plp .d-rev-note { margin-top: 4px; }
 html:not(.desk) .plp > .d-reviews h2 { margin-bottom: 0; }   /* title to row 8px, as on the home */
 
@@ -2178,7 +2178,7 @@ html:not(.desk) .plp > .d-reviews h2 { margin-bottom: 0; }   /* title to row 8px
 /* Home, mobile: Team + Promises in style 3 too (Cornel, 2026-10-28), as a swipe row of 300 x 400 cards instead of the promo cards.
    Team: text on top, the photo (green included) at the bottom right; Promises: the full photo with the text on it. */
 html:not(.desk) .home > .pb-duo { display: none; }
-html:not(.desk) .home > .tb { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-right: calc(-1 * var(--gutter-r, 13px)); padding-right: var(--gutter-r, 13px); }
+html:not(.desk) .home > .tb { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-right: calc(-1 * var(--gutter-r, 16px)); padding-right: var(--gutter-r, 16px); }
 html:not(.desk) .home > .tb::-webkit-scrollbar { display: none; }
 html:not(.desk) .tb-card { flex: 0 0 300px; scroll-snap-align: start; }
 html:not(.desk) .tb-txt { width: 100%; }
@@ -2250,7 +2250,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp.clp .size-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
 .desk .plp > .hero .rating { margin-top: 16px; }
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
-.product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: -2px; }
+.product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-top: 0; }
 .product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }   /* the green of the USP check circles */
 .desk .plp .product .usp-list li { font-size: 14px; line-height: 22px; }
@@ -2305,7 +2305,7 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .so-txt p a { color: #008539; text-decoration: underline; }   /* inline links as the breadcrumb links */
 
 /* Size cards: the size as plain text, its use as the green tick (a selling point), everything centred (Cornel) */
-.size-card .usp-list { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.size-card .usp-list { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
 .size-card .usp-list li { display: flex; align-items: flex-start; justify-content: center; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .size-card .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }
 .desk .plp.clp .size-card { flex: none; padding: 24px 16px; }
@@ -2323,3 +2323,10 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2), .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child { grid-column: span 2; }
 .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2) .thumb, .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child .thumb { aspect-ratio: 636 / 310; }
 .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2) .thumb img, .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child .thumb img { object-fit: contain; }
+/* Grey category tiles on desktop: one height everywhere (120px, also in rows of their own). A promo card + categories
+   block: the card stops in the middle (the 50/50 grid, same edge as the 4-column rows), 3 tile rows = 392px, close to
+   the home promo card (400) and on the 8px grid (Cornel, 2026-10-28) */
+.desk .plp .dc-card, .desk .plp.clp .dc-card { height: 120px; }
+.desk .plp .plp-feature { height: 392px; }
+.desk .plp .plp-feature .plp-cats { grid-template-rows: repeat(3, 120px); }
+.desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */

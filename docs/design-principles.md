@@ -83,6 +83,8 @@ Built on promotional.html (PLP), business-cards.html and flyers.html (CLP). Shar
   live has it, in the "Make it stand out" row style (`.so-row`), photo on the 50% grid column.
 - **Spacing (desktop):** 32px between blocks, 8px from a section title (or lead line) to its block, 8px from the intro to
   the tab bar, 16px inside grids. **Mobile:** 16px between blocks, 32px around a promo-card block.
+- **Grey category tiles are 120px tall everywhere** (also in rows of their own). A promo card + categories block: the
+  card stops in the middle (50/50, same edge as the 4-column rows), 3 tile rows = 392px.
 - **Rows never leave an orphan:** 4 or 5 items stay one row on desktop; 6 → 3×2. Edges line up with the content edge
   and with the columns of the blocks above/below.
 - **Text scale (one line height per size):** body 12/18 mobile, 14/22 desktop (intro, selling points, materials,
