@@ -2312,3 +2312,8 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 /* Size cards: the size as body text (12/18 mobile, 14/22 desktop); the use with the tick stays 12/18 (Cornel) */
 .size-card small { font-size: 12px; line-height: 18px; }
 .desk .plp .size-card small { font-size: 14px; line-height: 22px; }
+/* Size cards: the tick is part of the sentence (inline), so a wrapped, centred line keeps the tick at its start */
+.size-card .usp-list li { display: block; }
+.size-card .usp-list svg { display: inline-block; vertical-align: -3px; margin: 0 4px 0 0; }
+/* Size cards: the shapes stand on one base line (easier to compare sizes); room for the tallest (A4, 59px) */
+.size-card .shape { height: 60px; place-items: end center; }
