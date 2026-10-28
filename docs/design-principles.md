@@ -88,6 +88,7 @@ Built on promotional.html (PLP), business-cards.html and flyers.html (CLP). Shar
 - **Text scale (one line height per size):** body 12/18 mobile, 14/22 desktop (intro, selling points, materials,
   content text, SEO text, lead lines); labels 12/17; card titles 16/22 desktop, 14 mobile (semibold, black); section
   titles 24/32 desktop, 20/24 mobile; titles on a photo card on mobile = section title size (20/24).
+- **Headings never end with a full stop.**
 - **Colours:** sub text under a title dark grey; titles black; inline links green underlined (as breadcrumbs).
 - **Cards:** category cards always square (152 home / 184 category pages on mobile; desktop fills the row, image fills
   the card above the title, title 16/22). Grey tiles (`.dc-card`: title top left, image right, grey arrow) for

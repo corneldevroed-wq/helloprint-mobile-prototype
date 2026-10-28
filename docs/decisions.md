@@ -4,6 +4,8 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — No full stop after headings, anywhere** (h1/h2/h3, also the Team + Promises titles and the PDP
+  "Customise your …" title).
 - **10-28 — Titles on a photo card on mobile = the section title size (20/24)**, on every page: promo cards (home,
   promotional) and Team + Promises. Desktop stays 24px. A promo block on mobile sits 32px from the blocks around it.
 - **10-28 — Rejected: tinted category tiles next to a promo card** (fixed accent per block, and the colour most visible in
@@ -25,7 +27,8 @@ Add new decisions here when Cornel makes a final call.
   16px padding).
 - **10-28 — No Trustpilot rating line under the intro on category pages** (promotional, business cards, flyers):
   the review count is already in the header (desktop widget / mobile USP ticker).
-- **10-28 — Business cards page desktop = the Promotional Print blocks.** Card types 3 per row (6 in a row and 4 per row tried); materials use the icon
+- **10-28 — Business cards page desktop = the Promotional Print blocks.** Card types 4 per row, the last 2 each over 2 columns (full width, photo at the height of the row above);
+  3 per row made the cards too big; materials use the icon
   set on mobile and desktop (new icons Multilayer, Wood); reviews row as on the home instead of the grey Trustpilot card (desktop arrows, mobile swipe row);
   "Ideas beyond business cards" = title + one row of the small square category cards (desktop 6 across, mobile swipe row).
 - **10-28 — Category cards stay square everywhere** (the home "Our Top Categories" card, 149×149 on mobile). Never stretch

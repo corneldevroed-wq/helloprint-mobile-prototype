@@ -2244,7 +2244,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .cat-about p { line-height: 22px; }   /* body text 14/22 */
 
 /* Category pages on desktop (.plp.clp: business cards, flyers; 2026-10-28): the Promotional Print blocks (.plp) plus their own rows */
-.desk .plp.clp .types { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* 3 per row, 2 rows (Cornel, 2026-10-28; 6 in a row and 4 per row tried) */
+.desk .plp.clp .types { grid-template-columns: repeat(4, minmax(0, 1fr)); }   /* 4 per row: 4 + 2 for the 6 card types (Cornel, 2026-10-28; 3 per row made the cards too big) */
 .desk .plp.clp .types.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }   /* 4 items: one full row, no orphan */
 .desk .plp.clp .types.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .desk .plp.clp .size-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
@@ -2318,3 +2318,8 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 /* Size cards: the shapes stand on one base line (easier to compare sizes); room for the tallest (A4, 59px) */
 .size-card .shape { height: 60px; place-items: end center; }
 .cat-about p a { color: #008539; text-decoration: underline; }   /* inline links in SEO text, as the breadcrumb links */
+/* Try-out (Cornel, 2026-10-28): the last 2 of 6 card types take the full width, each over 2 columns; the photo keeps the
+   height of the cards above (aspect 636/310) and shows the whole product on its own background colour */
+.desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2), .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child { grid-column: span 2; }
+.desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2) .thumb, .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child .thumb { aspect-ratio: 636 / 310; }
+.desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2) .thumb img, .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child .thumb img { object-fit: contain; }
