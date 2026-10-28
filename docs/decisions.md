@@ -69,7 +69,8 @@ Add new decisions here when Cornel makes a final call.
   2 columns, 4 visible + a peek, round arrow buttons in Shop-pill style when there are more than 4; gap 16px
   desktop / 8px mobile. Live content (en-ie promos + en-gb Gifts/Merch). Variants A–F remain on `home-promos.html`.
   Rejected: white bar (A/D/F), text below (B), gradient bottom (C), Gifts as the wide card.
-- **10-27 — Best sellers 6 per row on desktop** (2 full rows; Premium Tote Bags + Banners added as desktop items).
+- **10-28 — Best sellers 5 per row on desktop, 10 in total** (2 full rows). Was 6 per row with Premium Tote Bags + Banners
+  as extra desktop items (10-27), removed.
 - **10-28 — Mobile home:** reviews as a swipe row (as on the mobile PDP); grey Trustpilot card hidden.
 - **10-28 — Desktop logo bar animated** like mobile. Footer "Need help" line subtle (#f0f0f0), 32px above/below.
 - **10-21 — Desktop home from Figma 15848:4159:** 3 hero tiles with white overlay bar (later replaced by promo E),
