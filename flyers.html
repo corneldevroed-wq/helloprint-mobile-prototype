@@ -6,14 +6,16 @@
 <title>Leaflet Printing &amp; Flyers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261030r">
+<link rel="stylesheet" href="styles.css?v=20261031c">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
-  <!-- Flyers category page: content from helloprint.com/en-ie/flyers, in the setup of the business cards page -->
-  <main class="cat-page">
+  <!-- Flyers category page: content from helloprint.com/en-ie/flyers, in the setup of the business cards page.
+       Desktop (2026-10-28) = the business cards page: .plp blocks, product cards with ticks, reviews row, sizes in one row,
+       materials as icon tiles, ideas as a row of square category cards -->
+  <main class="cat-page plp clp">
     <section class="hero">
       <p class="crumbs"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / Flyers</p>
       <div class="intro">
@@ -32,14 +34,11 @@
 
     <section id="types" data-tab-target>
       <h2>Flyer types.</h2>
-      <div class="types" id="types-grid"></div>
+      <div class="types cols-4" id="types-grid"></div>
     </section>
 
-    <section id="reviews" data-tab-target>
-      <aside class="trust">
-        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
-        <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
-      </aside>
+    <section id="reviews" class="d-reviews" data-tab-target>
+      <h2>What our Happy Customers say</h2>
     </section>
 
     <section id="sizes" data-tab-target>
@@ -56,24 +55,26 @@
         <button class="pill" data-filter="eco">Eco</button>
         <button class="pill" data-filter="luxury">Luxury</button>
       </div>
-      <ul class="mat-list" id="mat-list"></ul>
+      <ul class="mat-list plp-mats" id="mat-list"></ul>
     </section>
 
     <section id="folded" data-tab-target>
       <h2>Folded leaflets.</h2>
       <p class="cat-lead">Our folded leaflet printing options.</p>
-      <div class="types" id="foldRow"></div>
+      <div class="types cols-5" id="foldRow"></div>
     </section>
 
-    <section>
+    <!-- Flyer printing ideas: title + one row of the small square category cards (as on the business cards page) -->
+    <section id="ideas">
       <h2>Flyer printing ideas.</h2>
-      <div class="hscroll beyond-row">
-        <a class="beyond" href="#posters"><span class="ph"><img src="assets/menu/sub/posters.webp" alt="" loading="lazy"></span><span>Standard Posters</span></a>
-        <a class="beyond" href="#letterheads"><span class="ph"><img src="assets/menu/sub/letterheads.webp" alt="" loading="lazy"></span><span>Letterheads</span></a>
-        <a class="beyond" href="#greetingcards"><span class="ph"><img src="assets/menu/sub/greetingcards.webp" alt="" loading="lazy"></span><span>Greeting Cards</span></a>
-        <a class="beyond" href="#menucardsunfolded"><span class="ph"><img src="assets/menu/sub/menucardsunfolded.webp" alt="" loading="lazy"></span><span>Unfolded Menus</span></a>
-        <a class="beyond" href="#certificates"><span class="ph"><img src="assets/menu/sub/certificates.webp" alt="" loading="lazy"></span><span>Certificates</span></a>
-      </div>
+      <div class="hscroll cats" id="ideaCats"></div>
+    </section>
+
+
+    <!-- You might also be interested in: the small square category cards (as the ideas row), not pills -->
+    <section id="related">
+      <h2>You might also be interested in</h2>
+      <div class="hscroll cats" id="relatedCats"></div>
     </section>
 
     <section class="about cat-about">
@@ -82,25 +83,17 @@
       <p>With various folding options available, you can tailor your leaflets to fit your message. Choose a Half-fold for a simple brochure-style design, ideal for presenting a focused message. Opt for a Tri-fold to create six panels, offering plenty of space for organised content. The Z-fold adds a dynamic touch, making it easy to guide readers through step-by-step instructions or storytelling. For even more impact, consider a Roll-fold, which adds extra panels for detailed layouts.</p>
     </section>
 
-    <section>
-      <h2>You might also be interested in</h2>
-      <div class="hscroll chips related">
-        <a class="pill" href="#foldedleaflets">Folded Leaflets</a>
-        <a class="pill" href="business-cards.html">Business Cards</a>
-        <a class="pill" href="#brochure-and-booklet-printing">Booklets</a>
-        <a class="pill" href="#poster-printing">Posters</a>
-        <a class="pill" href="#cards-and-invites">Cards &amp; Invitations</a>
-      </div>
-    </section>
-
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261030r"></script>
-<script src="products.js?v=20261030r"></script>
+<script src="app.js?v=20261031c"></script>
+<script src="products.js?v=20261031c"></script>
 <script>
   const C = 'assets/category/', F = PRODUCTS['standard-flyers'], pdp = F.href;
+  const TICK = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // The selling points as the green check list (as on the business cards page)
+  const ticks = text => `<ul class="usp-list">${text.split(' · ').map(u => `<li>${TICK}${u}</li>`).join('')}</ul>`;
   // Flyer types (live, with the live tile images from helloprint.com/en-ie/flyers): each opens its own product page with that image, like the business card types
   const types = [
     { p: F, img: 'assets/flyers/t-classic.webp', name: 'Classic Flyers', text: 'Cheapest option · For cost-effective campaigns', badge: 'Most Popular' },
@@ -115,8 +108,8 @@
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
       </div>
       <p class="name">${p.name}</p>
-      <p class="from">${p.text}</p>
-      ${p.price ? `<div><p class="from">${p.qty} pcs from</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>` : '<p class="from"><u>Configure &amp; see price</u></p>'}
+      ${ticks(p.text)}
+      ${p.price ? `<div><p class="from">${p.qty} pieces for</p><p class="prices"><span class="price" data-price="${p.price}"></span></p></div>` : '<p class="from"><u>Configure &amp; see price</u></p>'}
     </a>`).join('');
 
   // Popular sizes (live): open the flyer page with that size
@@ -125,23 +118,23 @@
   document.getElementById('sizeRow').innerHTML = sizes.map(([id, name, dim, text, w, h]) => `
     <a class="size-card" href="${pdp}&amp;size=${id}"><span class="shape"><span style="width:${w}px;height:${h}px"></span></span><strong>${name}</strong><small>${dim}</small><small class="note">${text}</small></a>`).join('');
 
-  // Materials (live): each opens the flyer product that has it, with that material chosen
+  // Materials (live): each opens the flyer product that has it, with that material chosen; the material icon set (as everywhere)
   const mats = [
-    { name: 'Silk MC Leaflets', text: 'White paper, the classic choice: simple and effective, suitable for any design.', groups: ['everyday'], tint: '#f1f1f1', href: pdp + '&paper=matte', badge: 'Most Popular' },
-    { name: 'Gloss Flyers', text: 'A shiny white paper that makes colours and photos stand out.', groups: ['everyday'], tint: '#ffffff', href: pdp + '&paper=glossy' },
-    { name: 'Offset Paper Flyers', text: 'Uncoated paper you can write on, simple and effective.', groups: ['everyday'], tint: '#fbfbf8', href: pdp + '&paper=uncoated' },
-    { name: 'Recystar Nature Flyers', text: '100% recycled paper with a natural, off-white look.', groups: ['eco'], tint: '#e9e2cf', href: PRODUCTS['eco-flyers'].href + '&paper=recycled' },
-    { name: 'Smooth Cardboard Flyers', text: 'Print flyers on smooth cardboard with excellent thickness. Ideal for affordable, long-lasting promotional materials.', groups: ['everyday'], tint: '#f4f4f0', href: pdp + '&thickness=premium-plus' },
-    { name: 'Biotop Flyers', text: 'A chlorine-free, off-white paper.', groups: ['eco'], tint: '#f3efe3', href: PRODUCTS['eco-flyers'].href + '&paper=biotop' },
-    { name: 'Paperwise Natural Leaflets', text: 'Made from agricultural leftovers: bio-sourced, recyclable and compostable.', groups: ['eco'], tint: '#e4dcc4', href: PRODUCTS['eco-flyers'].href + '&paper=paperwise' },
-    { name: 'Metallic Gold Leaflets', text: 'For elegant, original appeal, create custom flyers with metallic gold paper. 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', href: 'product.html?p=special-material-flyers&material=gold' },
-    { name: 'Metallic Silver Leaflets', text: 'Give personalised flyers an extravagant, professional look. Slightly glittery, smooth texture, 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', href: 'product.html?p=special-material-flyers&material=silver' },
-    { name: 'Pearl Marble Leaflets', text: 'A thin pearlescent finish that captures light beautifully to attract customers.', groups: ['luxury'], tint: 'linear-gradient(135deg,#fdfbf6,#e7e0f2 40%,#d8eef0 70%,#fbf3e4)', href: 'product.html?p=special-material-flyers&material=pearl' },
+    { icon: 'silk-matte', name: 'Silk MC Leaflets', text: 'White paper, the classic choice: simple and effective, suitable for any design.', groups: ['everyday'], tint: '#f1f1f1', href: pdp + '&paper=matte', badge: 'Most Popular' },
+    { icon: 'glossy', name: 'Gloss Flyers', text: 'A shiny white paper that makes colours and photos stand out.', groups: ['everyday'], tint: '#ffffff', href: pdp + '&paper=glossy' },
+    { icon: 'uncoated', name: 'Offset Paper Flyers', text: 'Uncoated paper you can write on, simple and effective.', groups: ['everyday'], tint: '#fbfbf8', href: pdp + '&paper=uncoated' },
+    { icon: 'recycled', name: 'Recystar Nature Flyers', text: '100% recycled paper with a natural, off-white look.', groups: ['eco'], tint: '#e9e2cf', href: PRODUCTS['eco-flyers'].href + '&paper=recycled' },
+    { icon: 'sulfate-cardboard', name: 'Smooth Cardboard Flyers', text: 'Print flyers on smooth cardboard with excellent thickness. Ideal for affordable, long-lasting promotional materials.', groups: ['everyday'], tint: '#f4f4f0', href: pdp + '&thickness=premium-plus' },
+    { icon: 'bio-top', name: 'Biotop Flyers', text: 'A chlorine-free, off-white paper.', groups: ['eco'], tint: '#f3efe3', href: PRODUCTS['eco-flyers'].href + '&paper=biotop' },
+    { icon: 'paperwise', name: 'Paperwise Natural Leaflets', text: 'Made from agricultural leftovers: bio-sourced, recyclable and compostable.', groups: ['eco'], tint: '#e4dcc4', href: PRODUCTS['eco-flyers'].href + '&paper=paperwise' },
+    { icon: 'metallic-gold', name: 'Metallic Gold Leaflets', text: 'For elegant, original appeal, create custom flyers with metallic gold paper. 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f6e27a,#c9a227 55%,#f3dc8a)', href: 'product.html?p=special-material-flyers&material=gold' },
+    { icon: 'metallic-silver', name: 'Metallic Silver Leaflets', text: 'Give personalised flyers an extravagant, professional look. Slightly glittery, smooth texture, 100% chlorine-free.', groups: ['luxury'], tint: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', href: 'product.html?p=special-material-flyers&material=silver' },
+    { icon: 'pearl-marble', name: 'Pearl Marble Leaflets', text: 'A thin pearlescent finish that captures light beautifully to attract customers.', groups: ['luxury'], tint: 'linear-gradient(135deg,#fdfbf6,#e7e0f2 40%,#d8eef0 70%,#fbf3e4)', href: 'product.html?p=special-material-flyers&material=pearl' },
   ];
   document.getElementById('mat-list').innerHTML = mats.map(m => `
     <li data-group="${m.groups.join(' ')}">
       <a class="mat" href="${m.href}">
-        <span class="swatch"><img src="${C}swatch.svg" alt=""><span class="tint" style="background:${m.tint}"></span><img class="corner" src="${C}swatch-fold.svg" alt=""></span>
+        <img class="mat-icon" src="assets/icons/materials/${m.icon}.svg" alt="">
         <span class="text">${m.badge ? `<span class="badge">${m.badge}</span>` : ''}<strong>${m.name}</strong><small>${m.text}</small></span>
         <img class="chev" src="${C}arrow.svg" alt="">
       </a>
@@ -168,9 +161,36 @@
         ${tpl ? '<span class="badge">Free design templates</span>' : ''}
       </div>
       <p class="name">${name}</p>
-      <p class="from">${text}</p>
-      <div><p class="from">${qty} pcs from</p><p class="prices"><span class="price" data-price="${from}"></span></p></div>
+      ${ticks(text)}
+      <div><p class="from">${qty} pieces for</p><p class="prices"><span class="price" data-price="${from}"></span></p></div>
     </a>`).join('');
+
+  // Category cards: the small square card (ideas row, and mobile everywhere); "You might also be interested in" on desktop
+  // uses the grey tile of the Promotional Print page (title top left, image right, grey arrow), 5 in a row (Cornel)
+  const squareTile = (name, src, href) => `<a class="cat" href="${href}"><div class="collage"><img src="${src}" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`;
+  const catTile = (name, src, href) => DESK
+    ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${src}" alt="" loading="lazy"></span></a>`
+    : squareTile(name, src, href);
+  if (DESK) document.getElementById('relatedCats').className = 'plp-cats five';
+
+  // Flyer printing ideas
+  document.getElementById('ideaCats').innerHTML = [['Standard Posters', 'posters', '#posters'], ['Letterheads', 'letterheads', '#letterheads'], ['Greeting Cards', 'greetingcards', '#greetingcards'],
+    ['Unfolded Menus', 'menucardsunfolded', '#menucardsunfolded'], ['Certificates', 'certificates', '#certificates']]
+    .map(([name, img, href]) => squareTile(name, `assets/menu/sub/${img}.webp`, href)).join('');
+
+  // You might also be interested in: the same small square category cards
+  document.getElementById('relatedCats').innerHTML = [['Folded Leaflets', 'c-folded', '#foldedleaflets'], ['Business Cards', 'c-businesscards', 'business-cards.html'],
+    ['Booklets', 'c-booklets', '#brochure-and-booklet-printing'], ['Posters', 'c-posters', '#poster-printing'], ['Cards &amp; Invitations', 'c-cards', '#cards-and-invites']]
+    .map(([name, img, href]) => catTile(name, `assets/promo/${img}.webp`, href)).join('');
+
+  // Reviews: desktop the reviews row with arrows, mobile the swipe row (both as on the home)
+  const revs = document.getElementById('reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `
+      <div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+        <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+          <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+      <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position
   const tabLinks = [...document.querySelectorAll('#tabs a')];
@@ -181,7 +201,7 @@
     document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
   });
   function syncTabs() {
-    const line = 150;
+    const line = DESK ? 200 : 150;
     let current = targets[0];
     for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);

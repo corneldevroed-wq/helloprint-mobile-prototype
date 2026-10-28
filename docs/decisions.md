@@ -4,6 +4,11 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — Rejected: tinted category tiles next to a promo card** (fixed accent per block, and the colour most visible in
+  the photo via script). Tiles stay our grey.
+- **10-28 — SEO text is always the last block** before the footer, on every page (mobile + desktop).
+- **10-28 — Flyers page = the business cards setup** (desktop + mobile): ticks on product cards, reviews row, icon materials,
+  ideas as square category cards. Rows with 4 or 5 items stay one row on desktop (no orphans).
 - **10-28 — One body text size on category pages:** 14/22 desktop, 12/18 mobile, dark grey (intro, selling points,
   materials, "Make it stand out"). Titles in cards = the material title (16/22 desktop, 14 mobile, semibold).
 - **10-28 — Business cards "Make it stand out" = concept A** (`standout-sketch.html`): the full live text per finish

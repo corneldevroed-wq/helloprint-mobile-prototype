@@ -1277,7 +1277,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-list .menu { top: 48px; right: 8px; }
 
 /* Flyers category page (same setup as business cards) */
-.cat-lead { margin: -4px 0 12px; font-size: 13px; line-height: 1.5; color: var(--dark-grey); }
+.cat-lead { margin: -4px 0 12px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }   /* body text 12/18 */
 .size-card .note { margin-top: 2px; font-size: 11px; line-height: 1.35; color: var(--dark-grey); }
 .types .product .from + .from { margin-top: 0; }
 .fold-row { gap: 9px; }
@@ -1612,10 +1612,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev > b { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .d-rev > p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }   /* body text 12/18, grey so it reads apart from the black title (Cornel, 2026-10-28) */
 .d-rev small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
-.d-rev-nav { width: 35px; height: 35px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--black); }
-.d-rev-nav svg { width: 24px; height: 24px; fill: var(--white); }
+.d-rev-nav { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: border-color .15s, opacity .15s; }   /* the same round button as the promo row (Cornel, 2026-10-28) */
+.d-rev-nav:hover { border-color: var(--black); }
+.d-rev-nav svg { width: 16px; height: 16px; }
 .d-rev-nav.prev svg { transform: scaleX(-1); }
-.d-rev-nav:disabled { opacity: .3; cursor: default; }
+.d-rev-nav:disabled { opacity: 0; pointer-events: none; }   /* hidden at the start/end, as the promo arrows */
 .d-rev-note { margin-top: 16px; font-size: 14px; line-height: 20px; color: var(--black); }
 .d-rev-note b { font-weight: 600; }
 .d-rev-note u { font-weight: 600; text-underline-offset: 2px; }
@@ -2240,11 +2241,14 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .plp-mats small { font-size: 14px; line-height: 22px; }
 .desk .plp .plp-mats .chev { display: none; }
 .desk .plp .cat-about { padding-top: 0; }
+.desk .plp .cat-about p { line-height: 22px; }   /* body text 14/22 */
 
-/* Business cards category page on desktop (2026-10-28): the Promotional Print blocks (.plp) plus its own rows */
-.desk .plp.bc .types { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* 3 per row, 2 rows (Cornel, 2026-10-28; 6 in a row and 4 per row tried) */
-.desk .plp.bc .size-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
-.desk .plp.bc .size-card { flex: none; padding: 24px 16px; }
+/* Category pages on desktop (.plp.clp: business cards, flyers; 2026-10-28): the Promotional Print blocks (.plp) plus their own rows */
+.desk .plp.clp .types { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* 3 per row, 2 rows (Cornel, 2026-10-28; 6 in a row and 4 per row tried) */
+.desk .plp.clp .types.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }   /* 4 items: one full row, no orphan */
+.desk .plp.clp .types.cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.desk .plp.clp .size-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
+.desk .plp.clp .size-card { flex: none; padding: 24px 16px; }
 .desk .plp > .hero .rating { margin-top: 16px; }
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
 .product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: -2px; }
@@ -2278,3 +2282,19 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .cats { margin-top: 0; gap: 16px; }
 .desk .plp .cats .cat { aspect-ratio: 1; justify-content: center; }
 .desk .plp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }   /* the image fills the card above the title (less grey) */
+.desk .plp .cat-lead { margin: 0 0 8px; font-size: 14px; line-height: 22px; }   /* body text 14/22; title, lead and block 8px apart */
+.desk .plp .plp-cats.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }   /* 5 grey tiles in a row */
+.desk .plp.clp .dc-card { height: 144px; }
+/* Category rows on the category pages (mobile): bigger square cards, the image fills the space above the title */
+html:not(.desk) .plp.clp .cats .cat { flex-basis: 184px; }
+html:not(.desk) .plp.clp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }
+/* SEO text on the category pages follows the body text: 12/18 mobile, 14/22 desktop (Cornel, 2026-10-28) */
+.plp .cat-about p, .plp .promo-seo details > p, .plp .promo-seo li { font-size: 12px; line-height: 18px; }
+.desk .plp .cat-about p, .desk .plp .promo-seo details > p, .desk .plp .promo-seo li { font-size: 14px; line-height: 22px; }
+/* Reviews row on desktop: the arrows float on the row edges like the promo arrows, so the cards line up with the content edge */
+.desk .d-rev-wrap { gap: 0 !important; }
+.desk .d-rev-nav { position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
+.desk .d-rev-nav.prev { left: -20px; }
+.desk .d-rev-nav.next { right: -20px; }
+
+.desk .plp .cats .cat .title { font-size: 16px; line-height: 22px; }   /* the card title size, as the grey category tiles (16/22) */

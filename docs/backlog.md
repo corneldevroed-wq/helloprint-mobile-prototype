@@ -13,8 +13,8 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
 ## Open questions / next steps
 - **VAT switch on mobile**: removed from the USP bar; only on PDP/cart now. Proposal: add it to the menu drawer next to
   Ireland (bottom). Waiting for Cornel.
-- **Review count**: 35,364 in the Trustpilot widgets, still 34,760 in some places (home trust card, reviews notes on
-  PDP, category pages). Align when asked.
+- **Review count**: 35,364 in the widgets and the reviews rows now; 34,760 may still be in the home trust card and PDP
+  review notes. Align when asked.
 - **Premium Tote Bags** best-seller uses the same image as Basic Cotton Bags (no own photo yet).
 - **Category pages** (business cards, flyers, promotional) still show the grey Trustpilot card on mobile — hide too?
 - **Promo cards with text in the image** (booklets "BOOKLETS10", gifts "10% OFF") clash with HTML titles → content rule

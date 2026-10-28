@@ -9,7 +9,7 @@ something.
 | `index.html` | Home (mobile + desktop) | Promo cards style E, Team + Promises v3, best sellers 6/row desktop |
 | `home-promos.html` | Home copy with promo variants A–F | Switch `?promo=a…f`; test page, not the real home |
 | `business-cards.html` | Category: business cards (mobile + desktop) | Materials/sizes deep-link into the PDP. Desktop reuses the `.plp` blocks: card types 3/row, materials as icon tiles, reviews row as on the home (desktop with arrows, mobile swipe row), sizes in one row, "Make it stand out" as alternating photo/text rows (`.so-rows`), "Ideas beyond business cards" as title + a row of `.cat` cards |
-| `flyers.html` | Category: flyers | 4 flyer types with own PDP, folded leaflets as tiles |
+| `flyers.html` | Category: flyers (mobile + desktop) | Same setup as business cards (`.plp.clp`): 4 flyer types and 5 folded leaflets with ticks (one row each on desktop, `.cols-4/.cols-5`), reviews row, sizes in one row, materials as icon tiles, "Flyer printing ideas" as a row of `.cat` cards |
 | `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
 | `cart.html`, `details.html`, `payment.html`, `confirmed.html` | Checkout | Guest + logged-in states |

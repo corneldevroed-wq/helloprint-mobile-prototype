@@ -286,7 +286,7 @@ const products = [
 ];
 
 // Desktop Trustpilot review row (PDP + home): seven cards between two round arrows, each arrow scrolls one card
-const REV_ARROW = '<svg viewBox="0 0 24 24"><path d="M16.17 13H5q-.42 0-.71-.29T4 12t.29-.71T5 11h11.17l-4.9-4.9q-.3-.3-.29-.7t.31-.7q.3-.28.7-.29t.7.29l6.6 6.6q.15.15.21.33t.06.37-.06.38-.21.32l-6.6 6.6q-.28.28-.69.28t-.71-.28q-.3-.3-.3-.71t.3-.71z"/></svg>';
+const REV_ARROW = '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';   // the same arrow as the promo row buttons
 function deskReviews() {
   return `<div class="d-rev-wrap">
           <button class="d-rev-nav prev" data-rev="-1" aria-label="Previous reviews" disabled>${REV_ARROW}</button>
@@ -295,7 +295,7 @@ function deskReviews() {
               <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
           <button class="d-rev-nav next" data-rev="1" aria-label="Next reviews">${REV_ARROW}</button>
         </div>
-        <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>34,760 reviews</u>. Showing our 5 star reviews.</p>`;
+        <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>. Showing our 5 star reviews.</p>`;
 }
 function wireDeskReviews(root) {
   const row = root.querySelector('.d-rev-row'), prev = root.querySelector('.d-rev-nav.prev'), next = root.querySelector('.d-rev-nav.next');
