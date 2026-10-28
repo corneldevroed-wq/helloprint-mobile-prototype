@@ -4,6 +4,11 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — Business cards: FAQ from en-gb** (7 questions, live answers) after the blogs, before the SEO text, in the PDP
+  accordion (desktop `.d-acc`, mobile `.acc.oc-faq`); answers as body text.
+- **10-28 — Business cards: blogs block from en-gb** ("Get inspired by our blogs…", not on en-ie) after "Ideas beyond",
+  before the SEO text: heading + "Get inspired" link + intro, the 3 articles as cards (photo, title, text, Read more):
+  3 in a row on desktop, a swipe row on mobile (concept C of standout-sketch.html without the fold).
 - **10-28 — No full stop after headings, anywhere** (h1/h2/h3, also the Team + Promises titles and the PDP
   "Customise your …" title).
 - **10-28 — Titles on a photo card on mobile = the section title size (20/24)**, on every page: promo cards (home,

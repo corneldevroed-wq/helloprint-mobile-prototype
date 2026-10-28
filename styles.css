@@ -1576,8 +1576,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Design guidelines (accordion) next to the templates table */
 .d-two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
 .d-two h2 { margin-bottom: 24px; }
-.d-acc { border-top: 1px solid var(--mid-grey); }
-.d-acc details { border-bottom: 1px solid var(--mid-grey); }
+.d-acc { border-top: 1px solid var(--line); }   /* light lines as everywhere (Cornel, 2026-10-28) */
+.d-acc details { border-bottom: 1px solid var(--line); }
 .d-acc summary { font-weight: 600; list-style: none; display: flex; align-items: center; gap: 16px; justify-content: space-between; padding: 8px 0 8px 8px; font-size: 14px; line-height: 1.2; color: var(--black); cursor: pointer; }
 .d-acc summary::-webkit-details-marker { display: none; }
 .d-acc summary img { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
@@ -2330,3 +2330,35 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .desk .plp .plp-feature { height: 392px; }
 .desk .plp .plp-feature .plp-cats { grid-template-rows: repeat(3, 120px); }
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
+/* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
+.plp .section-head { align-items: baseline; gap: 16px; }
+.plp .section-head h2 { margin-bottom: 0; }
+.plp .section-head .link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 20px; color: var(--light-green); }
+.plp .section-head .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head + .cat-lead { margin-top: 8px; }
+.cat-lead b { font-weight: 600; color: var(--black); }
+.cat-lead a { color: #008539; text-decoration: underline; }
+
+/* Blog cards (business cards page; concept C of standout-sketch.html): photo on top, title, text, "Read more" button.
+   Mobile: swipe row of 300px cards; desktop: 3 in a row. Title = material title, text = body text (Cornel, 2026-10-28) */
+.blog-row { gap: 8px; scroll-snap-type: x mandatory; }
+.blog-card { flex: 0 0 300px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: var(--light-grey); scroll-snap-align: start; }
+.blog-img { aspect-ratio: 16 / 9; overflow: hidden; }
+.blog-img img { width: 100%; height: 100%; object-fit: cover; }
+.blog-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+.blog-txt h3 { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.blog-txt p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.blog-txt .pill { margin-top: auto; padding: 6px 16px; }
+.desk .plp .blog-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
+.desk .blog-txt h3 { font-size: 16px; line-height: 22px; }
+.desk .blog-txt p { font-size: 14px; line-height: 22px; }
+.desk .blog-txt .pill { margin-top: auto; }
+.blog-txt p + .pill { margin-top: auto; }
+.blog-card { background: var(--white); border: 1px solid var(--light-grey); transition: border-color .15s; }   /* white with the thin grey line of the product cards */
+.blog-card:hover { border-color: var(--outline); }
+#blogs .cat-lead { margin-bottom: 16px; }   /* intro paragraph to the blog cards: 16px (Cornel) */
+.plp .section-head .link { text-decoration: none; }
+/* FAQ on category pages: the PDP accordion; answers as body text (12/18 mobile, 14/22 desktop), links green */
+.plp .oc-faq p { font-size: 12px; line-height: 18px; }
+.desk .plp .d-acc details p { font-size: 14px; line-height: 22px; }
+.plp #faqList p a { color: #008539; text-decoration: underline; }

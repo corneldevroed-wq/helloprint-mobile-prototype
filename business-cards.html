@@ -6,7 +6,7 @@
 <title>Business Card Printing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261101a">
+<link rel="stylesheet" href="styles.css?v=20261101h">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -74,6 +74,23 @@
     </section>
 
 
+    <!-- Blogs (content from helloprint.com/en-gb/businesscards-printing; not on en-ie): heading + intro, then the three
+         articles in the "Make it stand out" row style (photo + title + text + Read more), after the ideas row as on en-gb -->
+    <section id="blogs">
+      <div class="section-head">
+        <h2>Get inspired by our blogs about Business Card printing</h2>
+        <a class="link" href="#blog">Get inspired</a>
+      </div>
+      <p class="cat-lead">HelloPrint was launched with one big mission: making ordering print easy for everyone everywhere. From our own personal experiences, we've discovered that ordering print is not that easy. So, we've created a blog full of helpful, inspirational articles &amp; a <a href="#youtube">YouTube channel</a> filled with videos to make your next print order super easy!</p>
+      <div class="hscroll blog-row" id="blogRows"></div>
+    </section>
+
+    <!-- Frequently Asked Questions (live, helloprint.com/en-gb/businesscards-printing): the FAQ accordion of the PDP -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <div id="faqList"></div>
+    </section>
+
     <!-- SEO text (made up for the prototype), always the last block -->
     <section class="about cat-about">
       <h2>Business Card Printing in Ireland: Make Every Introduction Count</h2>
@@ -87,8 +104,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261101a"></script>
-<script src="products.js?v=20261101a"></script>
+<script src="app.js?v=20261101h"></script>
+<script src="products.js?v=20261101h"></script>
 <script>
   // Card types
   const C = 'assets/category/';
@@ -165,6 +182,36 @@
       <div class="so-img"><img src="${it.img}" alt="" loading="lazy"></div>
       <div class="so-txt"><h3>${it.title}</h3>${it.p.map(t => `<p>${t}</p>`).join('')}<a class="pill" href="${it.href}">${it.cta}</a></div>
     </article>`).join('');
+
+  // Blogs (en-gb): cards in a row (concept C of standout-sketch.html, without the Read more fold): photo, title, text,
+  // a "Read more" button. Desktop 3 in a row, mobile a swipe row. The photos are the live ones (406 × 230 on Contentful)
+  const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  document.getElementById('blogRows').innerHTML = [
+    { title: 'Basic Information that Should be on Every Business Card', img: CFI + '2JnFHyxqwp7nZgvvxLNNB7/dd708ed4f5e7fb6d441b2b256c00ecc8/blog1.png', href: '#what-to-put-on-a-personal-business-card',
+      text: 'Business cards are simple but effective marketing tools that grab attention, introduce your brand, and leave a lasting impression. They are also what links you and your potential customer long after the networking event is over.' },
+    { title: '9 Examples of Good Business Cards', img: CFI + '37Iy5Qr9amY3CUJGT6AFp6/85eae349f60cac236fcf023fce0038dc/examples-good-business-cards-blog.png', href: '#9-examples-of-good-business-cards',
+      text: 'Nothing says professional like having well-designed eye-catching business cards. Good business cards can bring you good opportunities. You just need to have the right design, material and finish. Here are some awesome business card design examples…' },
+    { title: 'How to Make a Memorable Business Card', img: CFI + '5OGY9ARxIasaAcUwxiWHiD/83460d8ce576a976eb1514c4e75ae8a4/blog2.png', href: '#how-to-make-a-memorable-business-card',
+      text: "In order for you to be able to make your own creative and memorable business card, you might need some inspiration. That's why we've decided to list five great examples of business cards that are both informative and clever." },
+  ].map(b => `
+    <article class="blog-card">
+      <div class="blog-img"><img src="${b.img}?fm=webp&q=85" alt=""></div>
+      <div class="blog-txt"><h3>${b.title}</h3><p>${b.text}</p><a class="pill" href="${b.href}">Read more</a></div>
+    </article>`).join('');
+
+  // FAQ (live, en-gb): the PDP accordion; desktop .d-acc, mobile .acc.oc-faq
+  const FAQS = [
+    ['What are the different sizes for business cards printing?', 'We have various sizes for business card printing:<br>– Standard business cards: 85 × 55 mm<br>– American business cards: 90 × 50 mm<br>– Square business cards: 55 × 55 mm<br>– Plastic business cards: 86.60 × 54 mm<br>– Folded business cards: vertical 55 × 170 mm; horizontal 85 × 170 mm'],
+    ['How can I design effective business cards?', 'Creating a business card is all about ensuring smooth and effective communication. A thoughtfully designed card encompasses vital information like your logo, name, title, and contact details. At HelloPrint, we provide you with free templates on Canva so that you can easily design your business cards. Dive into our templates <a href="#design-templates">here</a>!'],
+    ['Why should I choose HelloPrint for business card printing?', 'Simply, because you aren’t going to get a better product or offer anywhere else:<br>– We have the tools to let you design the custom business card that perfectly encapsulates you and your brand. Curious about which types of business cards you can design? Get inspired by the different <a href="#design-templates">templates and examples</a>.<br>– Then the variety of materials and techniques to make your design pop off the card, which is of course printed in full colour.<br>– Are you in a hurry? We also offer business cards with next day delivery.<br>– And last but not least, our dedicated customer service staff will be there for you every step of the way if you should need it.'],
+    ['Can I print QR codes on business cards?', 'Yes, you can easily print QR codes on business cards. QR code business cards take interactive experiences to the next level and provide quick access to information. QR codes most commonly lead to various online platforms such as websites, menus, social media profiles and review sites. When designing, make sure that your QR code measures minimum 1.5 cm × 1.5 cm, so it can be scanned with ease.'],
+    ['What quantity should I choose for business card printing?', "Whether you're looking for 100 business cards, 500 business cards, or you want to print 1000 business cards, you're in the right place at HelloPrint! Printing 500 business cards quickly and affordably is a breeze, giving you plenty to go around. At the end of the product page, simply select your desired quantity and instantly see the corresponding price. Order your business cards from HelloPrint to ensure you're getting the best deal, no matter the quantity you choose!"],
+    ['Can I order business cards with next day delivery?', "Yes! It's possible to get our standard business cards delivered to your doorstep within just one working day. However, as with many of our products, the delivery time depends on the finishing you choose. Ordering business cards with a special effect or unique material may entail a longer delivery time. This is due to the additional drying time required during production for these finishes. You'll always find the quickest delivery time for your selected card at the end of the product selection page."],
+    ['Why should I print double-sided business cards?', 'Printing double-sided business cards offers a multitude of benefits that can make a lasting impression on your clients and prospects. Double-sided business card printing provides twice the space for crucial contact details, services, and social media handles. It also allows you to add your logo or a photo which gives a professional appearance to the business card. Double-sided business cards come at a similar price point to single-sided business cards, making them still a cheap choice. Opt for double-sided business cards now!'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
 
   // Ideas beyond business cards: the small category card (as "Our Top Categories" on the home)
   const SUB = 'assets/menu/sub/';
