@@ -73,4 +73,4 @@ the leading ones). Remembered in `hp-flow`.
 
 ## Design tokens (styles.css `:root`)
 `--dark-green` #022b07, `--light-green` #00a651, `--black` #191919, `--dark-grey` #555, `--mid-grey` #bbb,
-`--light-grey` #f0f0f0, `--line` #f0f0f0, `--outline` #cfcfcf. Font Inter.
+`--light-grey` #f0f0f0 (backgrounds), `--line` #e4e4e4 (every line and card outline), `--outline` #cfcfcf. Font Inter.

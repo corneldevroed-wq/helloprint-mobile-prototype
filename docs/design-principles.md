@@ -65,7 +65,8 @@ for prices/reviews in the prototype but should look plausible and be consistent 
 - Titles semibold (600), dates bold, labels in black when they carry info.
 - Sub text under a title is dark grey (`--dark-grey`), never black, so title and sub read apart (review cards, card texts).
 - Equal spacing above and below; things aligned to the content edge ("in het lood").
-- Lines subtle (`--line` #f0f0f0), not hard.
+- Lines: one colour everywhere, `--line` #e4e4e4 (dividers, tab lines, accordions, footer, card outlines). Control
+  outlines (pills, buttons, option cards) keep their own outline colour.
 - Buttons: rounded pills; white pill with grey outline for secondary; arrow buttons in the same pill style.
 
 ## 11. How he likes to work with Claude
@@ -91,12 +92,14 @@ Built on promotional.html (PLP), business-cards.html and flyers.html (CLP). Shar
   content text, SEO text, lead lines); labels 12/17; card titles 16/22 desktop, 14 mobile (semibold, black); section
   titles 24/32 desktop, 20/24 mobile; titles on a photo card on mobile = section title size (20/24).
 - **Headings never end with a full stop.**
+- **Cards on desktop:** outline `--line`, soft shadow only on hover (0 2px 8px, 8%). FAQ questions = card titles on
+  category pages (16/22), 14px on the PDP (in line with its specs/templates).
 - **Colours:** sub text under a title dark grey; titles black; inline links green underlined (as breadcrumbs).
 - **Cards:** category cards always square (152 home / 184 category pages on mobile; desktop fills the row, image fills
   the card above the title, title 16/22). Grey tiles (`.dc-card`: title top left, image right, grey arrow) for
   "related"/bottom category rows and next to promo cards. Product cards: green ticks (#00ad4c, 2.2 stroke) for the
   selling points, "N pieces for" + a real price (never "Configure & see price"). Ticks only for selling points,
   never for product facts: size cards keep their small centred card, the size as plain text, the use as a tick.
-- **Shared UI:** tabs semibold everywhere, light tab line (#f0f0f0); review/promo arrows = round white 40px button with
+- **Shared UI:** tabs semibold everywhere, light tab line (`--line` #e4e4e4); review/promo arrows = round white 40px button with
   grey outline, floating on the row edge; USP bar light grey; material icons everywhere instead of swatches.
 - **Rejected, don't retry:** tinted tiles next to promo cards (fixed or photo colour).
