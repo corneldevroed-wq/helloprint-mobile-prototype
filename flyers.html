@@ -6,7 +6,7 @@
 <title>Leaflet Printing &amp; Flyers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261031r">
+<link rel="stylesheet" href="styles.css?v=20261031s">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -14,7 +14,7 @@
 
   <!-- Flyers category page: content from helloprint.com/en-ie/flyers, in the setup of the business cards page.
        Order as live (2026-10-28): types, folded leaflets, reviews (ours, after the products), sizes, materials, ideas,
-       the creative-folds content block, related; section titles as live. No SEO text on this page (as live).
+       the creative-folds content block, related, SEO text (made up) last; section titles as live.
        Desktop (2026-10-28) = the business cards page: .plp blocks, product cards with ticks, reviews row, sizes in one row,
        materials as icon tiles, ideas as a row of square category cards -->
   <main class="cat-page plp clp">
@@ -96,12 +96,22 @@
     </section>
 
 
+
+    <!-- SEO text (made up for the prototype; live has none on this page), always the last block -->
+    <section class="about cat-about">
+      <h2>Flyer Printing in Ireland: Fast, Affordable and Made to Stand Out</h2>
+      <p>Flyers are one of the quickest ways to put your message into people's hands. Whether you're announcing a shop opening in Cork, promoting a gig in Galway or handing out offers at a Dublin market, a well-printed flyer is seen, kept and shared. With HelloPrint you design, order and print flyers online in a few minutes, at prices that suit every budget.</p>
+      <p>Choose the size that fits your message: A5 flyers are the all-round favourite for promotions, A6 is easy to hand out, DL fits neatly in an envelope and A4 gives you room for menus, price lists and detailed information. Then pick your paper: silk or gloss for vivid photos, uncoated paper you can write on, recycled and chlorine-free papers for a greener campaign, or metallic and pearl papers when you want to impress.</p>
+      <p>Need more space? <a href="#folded">Folded leaflets</a> turn one sheet into a small brochure, perfect for menus, event programmes and product overviews. Combine your flyers with matching <a href="business-cards.html">business cards</a> or posters to keep your branding consistent everywhere your customers see you.</p>
+      <p>Not a designer? Start from one of our free templates or design online, and our team checks your file before it goes to print. You always get the best price, a 100% satisfaction guarantee and fast delivery across Ireland.</p>
+    </section>
+
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261031r"></script>
-<script src="products.js?v=20261031r"></script>
+<script src="app.js?v=20261031s"></script>
+<script src="products.js?v=20261031s"></script>
 <script>
   const C = 'assets/category/', F = PRODUCTS['standard-flyers'], pdp = F.href;
   const TICK = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';

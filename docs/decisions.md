@@ -11,8 +11,8 @@ Add new decisions here when Cornel makes a final call.
 - **10-28 — SEO text is always the last block** before the footer, on pages that have one (mobile + desktop). A content
   block (photo + text) is not SEO text and stays where live has it.
 - **10-28 — Flyers order as live:** types → folded leaflets → reviews (ours, after the products) → sizes → materials →
-  ideas (products, as product cards) → "Creative Folds" content block (photo + text, as live) → related; no SEO text on
-  this page (as live); section titles as live. Material texts and prices on the types stay ours.
+  ideas (products, as product cards) → "Creative Folds" content block (photo + text, as live) → related → SEO text (made up for the
+  prototype; live has none); section titles as live. Material texts and prices on the types stay ours.
 - **10-28 — Flyers page = the business cards setup** (desktop + mobile): ticks on product cards, reviews row, icon materials,
   ideas as square category cards. Rows with 4 or 5 items stay one row on desktop (no orphans).
 - **10-28 — One body text size on category pages:** 14/22 desktop, 12/18 mobile, dark grey (intro, selling points,
