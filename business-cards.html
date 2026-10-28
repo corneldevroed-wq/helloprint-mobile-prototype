@@ -42,12 +42,13 @@
     </section>
 
     <section id="sizes" data-tab-target>
-      <h2>Sizes</h2>
+      <h2>Sizes for Business Card Printing</h2>
+      <p class="cat-lead">We offer a wide array of Business Cards sizes. Choose from standard, square, rounded or American sizes. Opt for folded cards to make an extra impact. Perfectly sized to make a memorable impression during networking.</p>
       <div class="hscroll size-row" id="sizeRow"></div>
     </section>
 
     <section id="materials" class="materials" data-tab-target>
-      <h2>Materials.</h2>
+      <h2>Our Unique materials for Business Cards printing</h2>
       <div class="hscroll filter" id="mat-filter">
         <button class="pill active" data-filter="all">All</button>
         <button class="pill" data-filter="everyday">Everyday</button>
@@ -136,15 +137,16 @@
     document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
 
-  // Sizes (live): the size card; the size is plain text (part of the product, not a selling point)
+  // Sizes (live): the size card as on the flyers page: the size as plain text, the use as a tick (use lines made up for
+  // the prototype; live only shows the size)
   const BC = 'product.html?p=classic-business-cards';
   document.getElementById('sizeRow').innerHTML = [
-    ['Standard', '&amp;size=standard', '85 × 55 mm', 'width:85px;height:55px', ''],
-    ['Rounded', '&amp;size=standard&amp;corners=rounded', '85 × 55 mm', 'width:85px;height:55px;border-radius:7px', ''],
-    ['Square', '&amp;size=squared', '55 × 55 mm', 'width:55px;height:55px', ''],
-    ['American', '&amp;size=american', '90 × 50 mm', 'width:90px;height:50px', ''],
-    ['Folded', '&amp;size=folded-portrait', '110 × 85 mm', 'width:64.7px;height:50px', 'fold'],
-  ].map(([name, q, dim, style, cls]) => `<a class="size-card" href="${BC}${q}"><span class="shape"><span class="${cls}" style="${style}"></span></span><strong>${name}</strong><small>${dim}</small></a>`).join('');
+    ['Standard', '&amp;size=standard', '85 × 55 mm', 'width:85px;height:55px', '', 'The classic size, fits every wallet'],
+    ['Rounded', '&amp;size=standard&amp;corners=rounded', '85 × 55 mm', 'width:85px;height:55px;border-radius:7px', '', 'Soft corners for a friendly look'],
+    ['Square', '&amp;size=squared', '55 × 55 mm', 'width:55px;height:55px', '', 'Stands out in every stack'],
+    ['American', '&amp;size=american', '90 × 50 mm', 'width:90px;height:50px', '', 'The standard size in the US and Canada'],
+    ['Folded', '&amp;size=folded-portrait', '110 × 85 mm', 'width:64.7px;height:50px', 'fold', 'Room for extra information'],
+  ].map(([name, q, dim, style, cls, use]) => `<a class="size-card" href="${BC}${q}"><span class="shape"><span class="${cls}" style="${style}"></span></span><strong>${name}</strong><small>${dim}</small><ul class="usp-list"><li>${TICK}${use}</li></ul></a>`).join('');
 
   // Make it stand out: live content (helloprint.com/en-ie/businesscards-printing), in the live order
   const STANDOUT = [
