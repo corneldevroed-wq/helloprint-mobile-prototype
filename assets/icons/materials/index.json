@@ -35,5 +35,7 @@
  "rpet": "Recycled RPET",
  "polyester": "Glossy polyester",
  "blueback": "Blueback (poster paper)",
- "neon": "Neon (fluorescent)"
+ "neon": "Neon (fluorescent)",
+ "multilayer": "Multilayer (coloured core)",
+ "wood": "Wood"
 }

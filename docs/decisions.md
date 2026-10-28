@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — Business cards page desktop = the Promotional Print blocks.** Card types 3 per row (6 in a row and 4 per row tried); materials use the icon
+  set on mobile and desktop (new icons Multilayer, Wood); desktop reviews row instead of the grey Trustpilot card;
+  "Ideas Beyond Business Cards" = the promo-card + categories block of the Promotional Print page (live photo, mobile + desktop).
 - **10-28 — Category cards stay square everywhere** (the home "Our Top Categories" card, 149×149 on mobile). Never stretch
   them taller for a bigger image; reuse the card as is.
 - **10-28 — Follow the live structure and block order 1:1, mobile and desktop**

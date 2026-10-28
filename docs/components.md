@@ -8,7 +8,7 @@ something.
 |---|---|---|
 | `index.html` | Home (mobile + desktop) | Promo cards style E, Team + Promises v3, best sellers 6/row desktop |
 | `home-promos.html` | Home copy with promo variants A–F | Switch `?promo=a…f`; test page, not the real home |
-| `business-cards.html` | Category: business cards | Materials/sizes deep-link into the PDP |
+| `business-cards.html` | Category: business cards (mobile + desktop) | Materials/sizes deep-link into the PDP. Desktop reuses the `.plp` blocks: card types 3/row, materials as icon tiles, desktop reviews row (mobile keeps the grey card), sizes/standout in one row, "Ideas Beyond Business Cards" as the `.plp-feature` block (promo card + 6 categories) |
 | `flyers.html` | Category: flyers | 4 flyer types with own PDP, folded leaflets as tiles |
 | `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
