@@ -4,14 +4,19 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
+- **10-28 — One body text size on category pages:** 14/22 desktop, 12/18 mobile, dark grey (intro, selling points,
+  materials, "Make it stand out"). Titles in cards = the material title (16/22 desktop, 14 mobile, semibold).
+- **10-28 — Business cards "Make it stand out" = concept A** (`standout-sketch.html`): the full live text per finish
+  (Multi-Layer, Eco, Spot-UV, title + 2 paragraphs), photo and text side by side on desktop switching sides, stacked on
+  mobile. Rejected: A2 (mobile "Read more"), B (tabs), C (cards + Read more).
 - **10-28 — Spacing on desktop category pages:** 32px between blocks, 8px from a section title to its block, 16px inside
   grids, 8px from the intro to the tab bar. 8px-grid pass on shared components (product card 8px, crumbs 16/24, reviews row 16px, category card 152×152 with
   16px padding).
 - **10-28 — No Trustpilot rating line under the intro on category pages** (promotional, business cards, flyers):
   the review count is already in the header (desktop widget / mobile USP ticker).
 - **10-28 — Business cards page desktop = the Promotional Print blocks.** Card types 3 per row (6 in a row and 4 per row tried); materials use the icon
-  set on mobile and desktop (new icons Multilayer, Wood); desktop reviews row instead of the grey Trustpilot card;
-  "Ideas Beyond Business Cards" = the promo-card + categories block of the Promotional Print page (live photo, mobile + desktop).
+  set on mobile and desktop (new icons Multilayer, Wood); reviews row as on the home instead of the grey Trustpilot card (desktop arrows, mobile swipe row);
+  "Ideas beyond business cards" = title + one row of the small square category cards (desktop 6 across, mobile swipe row).
 - **10-28 — Category cards stay square everywhere** (the home "Our Top Categories" card, 149×149 on mobile). Never stretch
   them taller for a bigger image; reuse the card as is.
 - **10-28 — Follow the live structure and block order 1:1, mobile and desktop**

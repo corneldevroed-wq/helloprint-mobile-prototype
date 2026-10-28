@@ -6,7 +6,7 @@
 <title>Business Card Printing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261030a">
+<link rel="stylesheet" href="styles.css?v=20261030n">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -15,7 +15,7 @@
   <!-- Business cards category page. Desktop (2026-10-28) reuses the Promotional Print blocks (.plp): hero + tabs,
        product cards (3 per row), materials as tiles with the icon set, the desktop reviews row; sizes, "Make it stand out"
        and "Beyond business cards" in one row each. -->
-  <main class="cat-page plp bc promo-e">
+  <main class="cat-page plp bc">
     <section class="hero">
       <p class="crumbs"><a href="index.html">Home</a> / <a href="#promotional-printing">Promotional Products</a> / Business Cards</p>
       <div class="intro">
@@ -37,12 +37,8 @@
       <div class="types" id="types-grid"></div>
     </section>
 
-    <section id="reviews" data-tab-target>
-      <h2 class="desk-only">What our Happy Customers say</h2>
-      <aside class="trust">
-        <img class="stars" src="assets/trustpilot.svg" alt="4.5 stars">
-        <div><strong>4.5 out of 5 on Trustpilot</strong><span>34,760 reviews · live feed</span></div>
-      </aside>
+    <section id="reviews" class="d-reviews" data-tab-target>
+      <h2>What our Happy Customers say</h2>
     </section>
 
     <section id="sizes" data-tab-target>
@@ -68,36 +64,26 @@
       <ul class="mat-list plp-mats" id="mat-list"></ul>
     </section>
 
+    <!-- Make it stand out (concept A, standout-sketch.html, Cornel 2026-10-28): the full live text per finish, photo and text
+         side by side on desktop (switching sides per row), stacked on mobile -->
     <section id="finishes" data-tab-target>
-      <h2 style="margin-bottom:16px">Make it stand out.</h2>
-      <div class="hscroll standout">
-        <article class="so-card">
-          <img class="bg" src="assets/category/so-spotuv.jpg" alt="" style="top:-21.65%">
-          <div class="info"><div><strong>Spot-UV Business Cards</strong><small>A clear, glossy layer on selected parts of your design. Shine you can see and feel.</small></div><a class="pill" href="product.html?p=deluxe-business-cards&amp;finish=spotuv">Shop</a></div>
-        </article>
-        <article class="so-card">
-          <img class="bg" src="assets/category/so-multilayer.png" alt="" style="left:-9.09%;top:-15.39%;width:151.17%">
-          <div class="info"><div><strong>Multilayer cards</strong><small>Three layers with a coloured core that shows on every edge.</small></div><a class="pill" href="#multilayer-business-cards">Shop</a></div>
-        </article>
-        <article class="so-card">
-          <img class="bg" src="assets/category/so-eco.png" alt="" style="top:-21.99%">
-          <div class="info"><div><strong>Eco Friendly Business Cards</strong><small>Recycled and chlorine-free papers, with around 25% lower CO2 than standard paper.</small></div><a class="pill" href="#recycledbusinesscards">Shop</a></div>
-        </article>
-      </div>
+      <h2>Make it stand out.</h2>
+      <div class="so-rows" id="soRows"></div>
     </section>
 
-    <!-- Ideas beyond business cards: promo card + 6 categories, the same block as on the Promotional Print page (live content) -->
-    <section id="beyond" class="plp-feature">
-      <a class="pc" href="#cards-and-invites"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/1JXxiMziHKgxHSZ5yDyXd3/fc4fb8afa2bc03780a40bfbec7998c3d/cards_promocard.png?w=900&amp;fm=webp&amp;q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Ideas Beyond Business Cards</strong></span><span class="pc-cta pill">Discover other cards</span></span></a>
-      <div class="plp-cats" id="beyondCats"></div>
+    <!-- Ideas beyond business cards: title + one row of the small category cards (the home "Our Top Categories" card),
+         desktop all 6 in a row, mobile a swipe row (Cornel, 2026-10-28) -->
+    <section id="beyond">
+      <h2>Ideas beyond business cards</h2>
+      <div class="hscroll cats" id="beyondCats"></div>
     </section>
 
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261030a"></script>
-<script src="products.js?v=20261030a"></script>
+<script src="app.js?v=20261030n"></script>
+<script src="products.js?v=20261030n"></script>
 <script>
   // Card types
   const C = 'assets/category/';
@@ -146,19 +132,38 @@
     document.querySelectorAll('#mat-list li').forEach(li => { li.hidden = b.dataset.filter !== 'all' && !li.dataset.group.split(' ').includes(b.dataset.filter); });
   });
 
-  // Ideas beyond business cards. Desktop: the grey category tile (title top left, image right, grey arrow);
-  // mobile: the home category card as a swipe row. Same as the Promotional Print page.
-  const SUB = 'assets/menu/sub/';
-  const beyond = [['Loyalty Cards', 'loyalty-cards', '#loyalty-cards'], ['Appointment Cards', 'appointment-cards', '#appointment-cards'], ['Postcards', 'postcards', '#postcards'],
-    ['Compliment Cards', 'compliment-cards', '#compliment-cards'], ['Vouchers', 'vouchers', '#vouchers'], ['Invitations', 'invitations', '#invitations']];
-  const beyondEl = document.getElementById('beyondCats');
-  beyondEl.innerHTML = beyond.map(([name, img, href]) => DESK
-    ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${SUB + img}.webp" alt="" loading="lazy"></span></a>`
-    : `<a class="cat" href="${href}"><div class="collage"><img src="${SUB + img}.webp" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`).join('');
-  if (!DESK) beyondEl.classList.add('hscroll', 'cats');
+  // Make it stand out: live content (helloprint.com/en-ie/businesscards-printing), in the live order
+  const STANDOUT = [
+    { title: 'Exclusive Multi-Layer Business Cards', img: 'assets/category/so-multilayer.png', href: 'product.html?p=multilayered-business-cards', cta: 'Shop multilayer cards',
+      p: ["Transform your first impression into a lasting one with HelloPrint's Luxury Multi-Layer Business Cards. Designed to stand out, these cards feature an innovative three-layer technique with 810 gsm thickness for an exclusive feel.",
+          'Customize your Business Cards with a selection of coloured layers to create a unique color-block effect that truly represents your brand. Ideal for professionals seeking to stand out, our Multi-Layer Business Cards are your key to memorable encounters and elevated brand perception.'] },
+    { title: 'Eco Friendly Business Cards That Care for the Planet', img: 'assets/category/so-eco.png', href: 'product.html?p=eco-friendly-business-cards', cta: 'Shop eco cards',
+      p: ["Embrace sustainability and make your mark with Eco-Friendly Business Card printing. Crafted from 100% recycled materials and chlorine-free paper, our Business Cards reduce environmental impact while highlighting your brand's unique shine.",
+          'Featuring the distinctive appeal of KraftFold and off-white paper, they are a testament to your commitment to the planet. Choose to make a difference today and opt for Business Cards that reflect your eco-conscious values.'] },
+    { title: 'Stand out of the crowd with Spot-UV Business Cards', img: 'assets/category/so-spotuv.jpg', href: 'product.html?p=deluxe-business-cards&finish=spotuv', cta: 'Shop Spot-UV cards',
+      p: ['Stand out of the crowd with our Spot UV Business Cards - where luxury meets quality in Business Card printing. Spot UV coating adds a unique, glossy highlight to selected areas, creating a stunning visual that feels as impressive as it looks. Ideal for making a memorable impact at networking events or trade shows.',
+          'Order now and discover how our Spot UV Business Cards can enhance your professional image and networking success!'] },
+  ];
+  document.getElementById('soRows').innerHTML = STANDOUT.map(it => `
+    <article class="so-row">
+      <div class="so-img"><img src="${it.img}" alt="" loading="lazy"></div>
+      <div class="so-txt"><h3>${it.title}</h3>${it.p.map(t => `<p>${t}</p>`).join('')}<a class="pill" href="${it.href}">${it.cta}</a></div>
+    </article>`).join('');
 
-  // Desktop: the reviews row (shared with the home and the PDP) instead of the grey Trustpilot card
-  if (DESK) { const revs = document.getElementById('reviews'); revs.classList.add('d-reviews'); revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  // Ideas beyond business cards: the small category card (as "Our Top Categories" on the home)
+  const SUB = 'assets/menu/sub/';
+  document.getElementById('beyondCats').innerHTML = [['Loyalty Cards', 'loyalty-cards', '#loyalty-cards'], ['Appointment Cards', 'appointment-cards', '#appointment-cards'],
+    ['Postcards', 'postcards', '#postcards'], ['Compliment Cards', 'compliment-cards', '#compliment-cards'], ['Vouchers', 'vouchers', '#vouchers'], ['Invitations', 'invitations', '#invitations']]
+    .map(([name, img, href]) => `<a class="cat" href="${href}"><div class="collage"><img src="${SUB + img}.webp" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`).join('');
+
+  // Reviews: desktop the reviews row with arrows, mobile the swipe row (both as on the home) instead of the grey Trustpilot card
+  const revs = document.getElementById('reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `
+      <div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+        <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+          <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+      <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
 
   // Section tabs: click scrolls to the section, the active tab follows the scroll position
   const tabLinks = [...document.querySelectorAll('#tabs a')];

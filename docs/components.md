@@ -8,7 +8,7 @@ something.
 |---|---|---|
 | `index.html` | Home (mobile + desktop) | Promo cards style E, Team + Promises v3, best sellers 6/row desktop |
 | `home-promos.html` | Home copy with promo variants A–F | Switch `?promo=a…f`; test page, not the real home |
-| `business-cards.html` | Category: business cards (mobile + desktop) | Materials/sizes deep-link into the PDP. Desktop reuses the `.plp` blocks: card types 3/row, materials as icon tiles, desktop reviews row (mobile keeps the grey card), sizes/standout in one row, "Ideas Beyond Business Cards" as the `.plp-feature` block (promo card + 6 categories) |
+| `business-cards.html` | Category: business cards (mobile + desktop) | Materials/sizes deep-link into the PDP. Desktop reuses the `.plp` blocks: card types 3/row, materials as icon tiles, reviews row as on the home (desktop with arrows, mobile swipe row), sizes in one row, "Make it stand out" as alternating photo/text rows (`.so-rows`), "Ideas beyond business cards" as title + a row of `.cat` cards |
 | `flyers.html` | Category: flyers | 4 flyer types with own PDP, folded leaflets as tiles |
 | `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
@@ -23,7 +23,7 @@ premium-tote-bags, sols-imperial-tshirt, banners, roller-banners.
 ## Sketches (not linked, kept for reference)
 `delivery-sketch.html` (delivery A–E), `seealso-sketch.html` (See also A–D), `promo-mobile-sketch.html` (promo cards
 with live content), `usp-bar-sketch.html` (mobile USP bar A–D), `banner-icons-sketch.html`, `flyers-list-sketch.html`
-(products as a list), `promotional-desk-sketch.html` (old desktop A–C, rejected), `material-icons.html` (the one clean icon overview — keep it clean, no proposals).
+(products as a list), `standout-sketch.html` ("Make it stand out" A/A2/B/C, A chosen), `promotional-desk-sketch.html` (old desktop A–C, rejected), `material-icons.html` (the one clean icon overview — keep it clean, no proposals).
 
 ## Prototype switches
 All switches write their value into the URL and localStorage, so a copied link opens the same version.

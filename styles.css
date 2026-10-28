@@ -239,12 +239,12 @@ body.menu-open { overflow: hidden; }
 .cat-page > section, .cat-page > .px { padding: 0 16px; }
 .cat-page > .footer { padding: 0 14px; }
 .cat-page h2 { margin-bottom: 8px; }
-.crumbs { font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.crumbs { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .crumbs a { color: var(--light-green); text-decoration: underline; }
 .hero { display: flex; flex-direction: column; gap: 16px; }
 .hero h1 { color: var(--dark-green); }
 .hero .intro { display: flex; flex-direction: column; gap: 8px; }
-.hero .intro p { font-size: 12px; line-height: 1.6; color: var(--dark-grey); }
+.hero .intro p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .hero .rating { display: flex; align-items: center; gap: 10px; font-size: 12px; line-height: 1.3; }
 .hero .rating i { font-style: normal; color: var(--mid-grey); }
 
@@ -279,7 +279,7 @@ body.menu-open { overflow: hidden; }
 .mat .text { display: flex; flex-direction: column; gap: 2px; width: 207px; }
 .mat .text .badge { position: static; align-self: flex-start; margin-bottom: 2px; }
 .mat strong { font-weight: 600; font-size: 14px; line-height: 1.2; }
-.mat small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+.mat small { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .mat .chev { margin-left: auto; width: 20.32px; height: 20.5px; }
 
 .standout { gap: 8px; scroll-snap-type: x mandatory; }
@@ -1607,16 +1607,16 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev { flex: 0 0 217px; min-height: 158px; display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 10px; background: var(--light-grey); scroll-snap-align: start; }
 .d-rev-top { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
 .d-rev-top .stars { width: 99px; height: 18.6px; }
-.d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .d-rev-top span img { width: 16px; height: 16px; }
 .d-rev > b { font-weight: 600; font-size: 14px; line-height: 1.2; }
-.d-rev > p { font-size: 12px; line-height: 1.3; }
-.d-rev small { font-size: 12px; line-height: 1.3; color: var(--dark-grey); }
+.d-rev > p { font-size: 12px; line-height: 18px; }   /* body text: 12/18 mobile, 14/22 desktop (Cornel, 2026-10-28) */
+.d-rev small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .d-rev-nav { width: 35px; height: 35px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--black); }
 .d-rev-nav svg { width: 24px; height: 24px; fill: var(--white); }
 .d-rev-nav.prev svg { transform: scaleX(-1); }
 .d-rev-nav:disabled { opacity: .3; cursor: default; }
-.d-rev-note { margin-top: 16px; font-size: 14px; line-height: 1.2; color: var(--black); }
+.d-rev-note { margin-top: 16px; font-size: 14px; line-height: 20px; color: var(--black); }
 .d-rev-note b { font-weight: 600; }
 .d-rev-note u { font-weight: 600; text-underline-offset: 2px; }
 
@@ -1731,7 +1731,7 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* Review cards: same height in a row, title max 1 line, text max 3 lines, the name always at the bottom */
 .d-rev-row, .m-revs { align-items: stretch; }
 .d-rev > b { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-.d-rev > p:not(.d-rev-top) { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.3em); }
+.d-rev > p:not(.d-rev-top) { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 54px; }   /* 3 lines of 18px */
 .d-rev small { margin-top: auto; }
 /* Mobile templates list as on desktop: black links with the icon, no underline (underline on hover), grey/white rows */
 html:not(.desk) .tpl-list li { padding: 8px 12px; border-bottom: 0; border-radius: 3px; }
@@ -2110,7 +2110,7 @@ html:not(.desk) .d-banners { display: contents; }
 .d-cats2 .dc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: 10px; background: var(--light-grey); color: var(--black); transition: background .15s; }
 .dc-card:hover { background: #e8e8e8; }
-.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: 15px; line-height: 1.45; color: #333; }
+.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: 16px; line-height: 22px; color: #333; }   /* the card title size (16/22) */
 .dc-img { position: absolute; right: 16px; top: 50%; width: 112px; height: 112px; margin-top: -56px; display: grid; place-items: center; }   /* the image stands free, no circle */
 .dc-img img { width: 100%; height: 100%; object-fit: contain; }
 .dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */
@@ -2128,9 +2128,10 @@ html:not(.desk) .d-banners { display: contents; }
 html:not(.desk) .home > .trust { display: none; }
 
 /* Home, mobile: "What our Happy Customers say" as a swipe row, as on the mobile PDP (Cornel, 2026-10-28) */
-html:not(.desk) .home > .d-reviews { align-items: stretch; gap: 8px; }
-html:not(.desk) .home .m-revs { padding-left: 0; padding-right: var(--gutter-r, 13px); margin-right: calc(-1 * var(--gutter-r, 13px)); }
-html:not(.desk) .home .d-rev-note { margin-top: 4px; }
+html:not(.desk) .home > .d-reviews, html:not(.desk) .plp > .d-reviews { align-items: stretch; gap: 8px; }
+html:not(.desk) .home .m-revs, html:not(.desk) .plp .m-revs { padding-left: 0; padding-right: var(--gutter-r, 13px); margin-right: calc(-1 * var(--gutter-r, 13px)); }
+html:not(.desk) .home .d-rev-note, html:not(.desk) .plp .d-rev-note { margin-top: 4px; }
+html:not(.desk) .plp > .d-reviews h2 { margin-bottom: 0; }   /* title to row 8px, as on the home */
 
 /* Desktop home: Team + Promises as in Figma (desktop home, under Popular products), 400px high, switch Blocks 0|1|2.
    1 = coloured text panel left + photo inset right (8px, rounded); 2 = the photo over the whole card, text on it. */
@@ -2203,7 +2204,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
 .desk .plp > .hero { gap: 0; }
 .desk .plp > .hero .crumbs { padding-bottom: 16px; }
-.desk .plp .hero .intro p { font-size: 14px; line-height: 1.5; }
+.desk .plp .hero .intro p { font-size: 14px; line-height: 22px; }
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; overflow: visible; }
 .desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; font-weight: 400; }
 .desk .plp > .tabs a.active { font-weight: 600; }
@@ -2237,26 +2238,44 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .plp-mats .text .badge { position: absolute; top: 16px; right: 16px; left: auto; margin: 0; }
 .desk .plp .plp-mats .mat { position: relative; }
 .desk .plp .plp-mats strong { font-size: 16px; line-height: 22px; }
-.desk .plp .plp-mats small { font-size: 14px; line-height: 20px; }
+.desk .plp .plp-mats small { font-size: 14px; line-height: 22px; }
 .desk .plp .plp-mats .chev { display: none; }
 .desk .plp .cat-about { padding-top: 0; }
 
 /* Business cards category page on desktop (2026-10-28): the Promotional Print blocks (.plp) plus its own rows */
 .desk .plp.bc .types { grid-template-columns: repeat(3, minmax(0, 1fr)); }   /* 3 per row, 2 rows (Cornel, 2026-10-28; 6 in a row and 4 per row tried) */
-.desk .plp.bc .trust { display: none; }   /* the reviews row replaces the grey Trustpilot card on desktop */
 .desk .plp.bc .size-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
 .desk .plp.bc .size-card { flex: none; padding: 24px 16px; }
 .desk .plp > .hero .rating { margin-top: 16px; }
-.desk .plp.bc .standout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
-.desk .plp.bc .so-card { flex: none; height: 400px; }
-.desk .plp.bc .so-card .bg { top: 0 !important; left: 0 !important; width: 100% !important; object-fit: cover; }   /* the mobile crop offsets don't fit the wider card */
-.desk .plp.bc #finishes h2 { margin-bottom: 8px !important; }
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
 .product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-top: -2px; }
-.product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+.product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }   /* the green of the USP check circles */
-.desk .plp .product .usp-list li { font-size: 13px; line-height: 18px; }
+.desk .plp .product .usp-list li { font-size: 14px; line-height: 22px; }
+.desk .plp .product .usp-list svg { margin-top: 3px; }   /* centred on the 22px line */
 .types .product:has(.usp-list) > :last-child { margin-top: auto; }   /* prices line up in a row when the lists differ in length */
 .desk .plp > .d-reviews { gap: 8px; }   /* title to row 8px like the other blocks */
 .desk .plp > .d-reviews h2 { margin-bottom: 0; }
 .desk .plp .d-rev-note { margin-top: 8px; }   /* row to the "Rated 4.5" line stays 16px */
+
+/* Make it stand out (business cards, concept A from standout-sketch.html, 2026-10-28): the full live text per finish.
+   Mobile: photo (4:3) on top, title, two paragraphs, Shop pill. Desktop: photo and text side by side, switching sides. */
+.so-rows { display: flex; flex-direction: column; gap: 24px; }
+.so-row { display: flex; flex-direction: column; gap: 16px; }
+.so-img { aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--light-grey); }
+.so-img img { width: 100%; height: 100%; object-fit: cover; }
+.so-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.so-txt h3 { font-weight: 600; font-size: 14px; line-height: 1.2; }   /* same as the material titles */
+.so-txt p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }   /* body text: 12/18 mobile, 14/22 desktop, as the materials */
+.so-txt .pill { margin-top: 8px; padding: 6px 16px; }
+.desk .so-rows { gap: 32px; }
+.desk .so-row { flex-direction: row; align-items: center; gap: 48px; }
+.desk .so-row:nth-child(even) { flex-direction: row-reverse; }
+.desk .so-img { flex: 0 0 calc(50% - 8px); aspect-ratio: 16 / 10; }   /* same column as the promo card and tiles below (16px grid gap), so the photo edges line up */
+.desk .so-txt { flex: 1; }
+.desk .so-txt h3 { font-size: 16px; line-height: 22px; }   /* same as the material tile titles */
+.desk .so-txt p { font-size: 14px; line-height: 22px; }
+/* Ideas beyond business cards: one row of small category cards; desktop all 6 across the content width, square */
+.desk .plp .cats { margin-top: 0; gap: 16px; }
+.desk .plp .cats .cat { aspect-ratio: 1; justify-content: center; }
+.desk .plp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }   /* the image fills the card above the title (less grey) */

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make it stand out sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype: three concepts for "Make it stand out" on business-cards.html that hold
+     the full live text (helloprint.com/en-ie/businesscards-printing: Multi-Layer, Eco Friendly, Spot-UV, each a title and
+     two paragraphs). Responsive: mobile under 1024px, desktop from 1024px, same content and wording. -->
+<style>
+  :root { --dark-green: #022b07; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #f0f0f0; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: var(--white); font-size: 14px; line-height: 1.5; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  h2 { font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.4px; color: var(--dark-green); }
+  .pill { flex-shrink: 0; display: inline-flex; align-items: center; padding: 6px 16px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); white-space: nowrap; transition: border-color .15s, background .15s, color .15s; cursor: pointer; }
+  .pill:hover { border-color: var(--black); }
+  .pill.active { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+
+  /* sketch chrome */
+  .sk-top { position: sticky; top: 0; z-index: 10; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid #555; border-radius: 100px; font-weight: 600; white-space: nowrap; }
+  .wrap { width: 100%; padding: 0 16px; margin: 0 auto; }
+  .sk-note { margin: 24px auto 0; padding: 16px; border-radius: 10px; background: #f7f7f7; font-size: 14px; }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin: 48px auto 16px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: 13px; color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 16px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 100px; background: var(--light-green); color: var(--white); font-size: 12px; vertical-align: middle; }
+  section > h2 { margin-bottom: 8px; }
+
+  /* shared text */
+  .so-t { font-weight: 600; font-size: 16px; line-height: 1.3; }
+  .so-p { font-size: 14px; line-height: 1.6; color: var(--dark-grey); }
+  .so-p + .so-p { margin-top: 8px; }
+
+  /* A: alternating rows, photo and full text side by side (mobile: photo on top) */
+  .a-list { display: flex; flex-direction: column; gap: 24px; }
+  .a-row { display: flex; flex-direction: column; gap: 16px; }
+  .a-img { aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--light-grey); }
+  .a-img img { width: 100%; height: 100%; object-fit: cover; }
+  .a-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .a-txt .pill { margin-top: 8px; }
+
+  /* B: one block, three tabs; the chosen one shows photo + full text */
+  .b-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 16px; padding: 0 16px; }
+  .b-tabs::-webkit-scrollbar { display: none; }
+  .b-panel { display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: var(--light-grey); }
+  .b-panel[hidden] { display: none; }
+  .b-img { aspect-ratio: 4 / 3; }
+  .b-img img { width: 100%; height: 100%; object-fit: cover; }
+  .b-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+  .b-txt .pill { margin-top: 8px; }
+
+  /* C: the current cards, with the first paragraph and "Read more" for the second */
+  .c-row { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+  .c-row::-webkit-scrollbar { display: none; }
+  .c-card { flex: 0 0 300px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: var(--light-grey); scroll-snap-align: start; }
+  .c-img { height: 200px; }
+  .c-img img { width: 100%; height: 100%; object-fit: cover; }
+  .c-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+  .c-txt details { margin-top: -4px; }
+  .c-txt summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+  .c-txt summary::-webkit-details-marker { display: none; }
+  .c-txt details[open] summary { display: none; }
+  .c-txt .pill { margin-top: auto; }
+  .c-txt .so-p:first-of-type { margin-bottom: 0; }
+
+  /* A2: A with the mobile tweaks: a lower 16:9 photo and the second paragraph folded behind "Read more" (mobile only) */
+  .a2 .a-img { aspect-ratio: 16 / 9; }
+  .a2 details summary { list-style: none; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+  .a2 details summary::-webkit-details-marker { display: none; }
+  .a2 details[open] summary { display: none; }
+
+  /* Mobile views: each concept in a 390 × 844 phone frame (the same page, ?only=…) */
+  .phones { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 16px; }
+  .phone-v { flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px; }
+  .phone-v b { font-size: 14px; }
+  .phone-v iframe { width: 392px; height: 846px; border: 1px solid var(--outline); border-radius: 24px; background: var(--white); }
+  body.only .sk-top, body.only .sk-note, body.only .sk-label, body.only [data-sec], body.only .phones-sec { display: none; }
+  body.only [data-sec].show { display: block; padding-top: 16px; }
+
+  /* Desktop (from 1024px): content width 1286 like the prototype, 24px headings, 8px title to block */
+  @media (min-width: 1024px) {
+    .wrap { width: calc(100% - 48px); max-width: 1286px; padding: 0; }
+    h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
+    .so-t { font-size: 20px; }
+    .so-p { font-size: 15px; }
+    .a-list { gap: 32px; }
+    .a-row { flex-direction: row; align-items: center; gap: 48px; }
+    .a-row:nth-child(even) { flex-direction: row-reverse; }
+    .a-img, .a2 .a-img { flex: 0 0 calc(50% - 24px); aspect-ratio: 16 / 10; }
+    .a2 details summary { display: none; }
+    .a-txt { flex: 1; }
+    .b-tabs { margin: 0 0 16px; padding: 0; }
+    .b-panel { flex-direction: row; }
+    .b-img { flex: 0 0 50%; aspect-ratio: auto; min-height: 400px; }
+    .b-txt { flex: 1; justify-content: center; padding: 48px; }
+    .c-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-right: 0; padding-right: 0; overflow: visible; }
+    .c-img { height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sk-top"><b>Make it stand out: concepts</b><a href="#a">A · Alternating rows</a><a href="#a2">A2 · Rows, mobile tweak</a><a href="#b">B · Tabs</a><a href="#c">C · Cards + Read more</a><a href="#mobile">Mobile views</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p>Jump to <a href="#mobile"><u>Mobile views</u></a> to see all four side by side in phone frames.</p>
+    <p>Live has three long texts here, each a title and two paragraphs. Our current cards only fit one short line each, so most of the story (and the SEO text) is gone. All three concepts use the full live text, the same photos and our own styles (pills, 10px corners, grey cards, 8px grid). Resize the window to see mobile (under 1024px) and desktop.</p>
+    <p><b>My pick: A.</b> All the text stays visible and crawlable, and the photo and text side by side read like a story. It's calm, and on mobile it simply stacks. B is the most compact, but two of the three stories sit behind a tab. C is closest to what we have now, but "Read more" hides half the text and the cards get uneven heights.</p>
+  </div>
+
+  <!-- ============ A ============ -->
+  <p class="sk-label" id="a"><b>A · Alternating rows <span class="pick">my pick</span></b>Desktop: photo and text side by side, switching sides per row. Mobile: photo on top, full text under it, Shop pill.</p>
+  <section data-sec="a">
+    <h2>Make it stand out</h2>
+    <div class="a-list" data-concept="a"></div>
+  </section>
+
+  <!-- ============ A2 ============ -->
+  <p class="sk-label" id="a2"><b>A2 · Alternating rows, with the mobile tweak</b>Desktop exactly as A. Mobile: a lower 16:9 photo and the second paragraph folded behind "Read more" (still in the HTML for SEO).</p>
+  <section data-sec="a2">
+    <h2>Make it stand out</h2>
+    <div class="a-list a2" data-concept="a2"></div>
+  </section>
+
+  <!-- ============ B ============ -->
+  <p class="sk-label" id="b"><b>B · One block with tabs</b>The three finishes as pills; the chosen one shows its photo and full text. Desktop: photo left, text right. Mobile: pills swipe, photo on top.</p>
+  <section data-sec="b">
+    <h2>Make it stand out</h2>
+    <div class="b-tabs" role="tablist" data-tabs></div>
+    <div data-concept="b"></div>
+  </section>
+
+  <!-- ============ C ============ -->
+  <p class="sk-label" id="c"><b>C · The current cards, with "Read more"</b>Photo on top, title, the first paragraph, "Read more" opens the second. Desktop: 3 in a row. Mobile: swipe row.</p>
+  <section data-sec="c">
+    <h2>Make it stand out</h2>
+    <div class="c-row" data-concept="c"></div>
+  </section>
+  <!-- ============ Mobile views ============ -->
+  <section class="phones-sec">
+    <p class="sk-label" id="mobile"><b>Mobile views (390 × 844)</b>Each concept as it renders on a phone; scroll inside a frame.</p>
+    <div class="phones">
+      <div class="phone-v"><b>A · Rows</b><iframe src="standout-sketch.html?only=a" title="Concept A on mobile"></iframe></div>
+      <div class="phone-v"><b>A2 · Rows, mobile tweak</b><iframe src="standout-sketch.html?only=a2" title="Concept A2 on mobile"></iframe></div>
+      <div class="phone-v"><b>B · Tabs</b><iframe src="standout-sketch.html?only=b" title="Concept B on mobile"></iframe></div>
+      <div class="phone-v"><b>C · Cards + Read more</b><iframe src="standout-sketch.html?only=c" title="Concept C on mobile"></iframe></div>
+    </div>
+  </section>
+  <div style="height:64px"></div>
+</div>
+
+<script>
+  // Live content (helloprint.com/en-ie/businesscards-printing, order as live), our photos and links
+  const ITEMS = [
+    { key: 'multilayer', title: 'Exclusive Multi-Layer Business Cards', img: 'assets/category/so-multilayer.png', href: 'product.html?p=multilayered-business-cards', cta: 'Shop multilayer cards',
+      p: ["Transform your first impression into a lasting one with HelloPrint's Luxury Multi-Layer Business Cards. Designed to stand out, these cards feature an innovative three-layer technique with 810 gsm thickness for an exclusive feel.",
+          'Customize your Business Cards with a selection of coloured layers to create a unique color-block effect that truly represents your brand. Ideal for professionals seeking to stand out, our Multi-Layer Business Cards are your key to memorable encounters and elevated brand perception.'] },
+    { key: 'eco', title: 'Eco Friendly Business Cards That Care for the Planet', img: 'assets/category/so-eco.png', href: 'product.html?p=eco-friendly-business-cards', cta: 'Shop eco cards',
+      p: ["Embrace sustainability and make your mark with Eco-Friendly Business Card printing. Crafted from 100% recycled materials and chlorine-free paper, our Business Cards reduce environmental impact while highlighting your brand's unique shine.",
+          'Featuring the distinctive appeal of KraftFold and off-white paper, they are a testament to your commitment to the planet. Choose to make a difference today and opt for Business Cards that reflect your eco-conscious values.'] },
+    { key: 'spotuv', title: 'Stand out of the crowd with Spot-UV Business Cards', img: 'assets/category/so-spotuv.jpg', href: 'product.html?p=deluxe-business-cards&finish=spotuv', cta: 'Shop Spot-UV cards',
+      p: ['Stand out of the crowd with our Spot UV Business Cards - where luxury meets quality in Business Card printing. Spot UV coating adds a unique, glossy highlight to selected areas, creating a stunning visual that feels as impressive as it looks. Ideal for making a memorable impact at networking events or trade shows.',
+          'Order now and discover how our Spot UV Business Cards can enhance your professional image and networking success!'] },
+  ];
+  const paras = it => it.p.map(t => `<p class="so-p">${t}</p>`).join('');
+
+  document.querySelector('[data-concept="a"]').innerHTML = ITEMS.map(it => `
+    <article class="a-row">
+      <div class="a-img"><img src="${it.img}" alt=""></div>
+      <div class="a-txt"><h3 class="so-t">${it.title}</h3>${paras(it)}<a class="pill" href="${it.href}">${it.cta}</a></div>
+    </article>`).join('');
+
+  // A2: the first paragraph open, the second behind "Read more" on mobile; on desktop both open (the summary is hidden)
+  const DESKTOP = matchMedia('(min-width: 1024px)').matches;
+  document.querySelector('[data-concept="a2"]').innerHTML = ITEMS.map(it => `
+    <article class="a-row">
+      <div class="a-img"><img src="${it.img}" alt=""></div>
+      <div class="a-txt"><h3 class="so-t">${it.title}</h3><p class="so-p">${it.p[0]}</p>
+        <details${DESKTOP ? ' open' : ''}><summary>Read more</summary><p class="so-p">${it.p[1]}</p></details>
+        <a class="pill" href="${it.href}">${it.cta}</a></div>
+    </article>`).join('');
+
+  // ?only=a|a2|b|c shows just that concept (used by the mobile phone frames)
+  const only = new URLSearchParams(location.search).get('only');
+  if (only) { document.body.classList.add('only'); document.querySelector(`[data-sec="${only}"]`)?.classList.add('show'); }
+
+  const short = { multilayer: 'Multi-Layer', eco: 'Eco Friendly', spotuv: 'Spot-UV' };
+  document.querySelector('[data-tabs]').innerHTML = ITEMS.map((it, i) => `<button class="pill${i ? '' : ' active'}" role="tab" data-tab="${it.key}">${short[it.key]}</button>`).join('');
+  document.querySelector('[data-concept="b"]').innerHTML = ITEMS.map((it, i) => `
+    <article class="b-panel" data-panel="${it.key}"${i ? ' hidden' : ''}>
+      <div class="b-img"><img src="${it.img}" alt=""></div>
+      <div class="b-txt"><h3 class="so-t">${it.title}</h3>${paras(it)}<a class="pill" href="${it.href}">${it.cta}</a></div>
+    </article>`).join('');
+  document.querySelector('[data-tabs]').addEventListener('click', e => {
+    const b = e.target.closest('[data-tab]'); if (!b) return;
+    document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('active', x === b));
+    document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== b.dataset.tab; });
+  });
+
+  document.querySelector('[data-concept="c"]').innerHTML = ITEMS.map(it => `
+    <article class="c-card">
+      <div class="c-img"><img src="${it.img}" alt=""></div>
+      <div class="c-txt"><h3 class="so-t">${it.title}</h3><p class="so-p">${it.p[0]}</p>
+        <details><summary>Read more</summary><p class="so-p">${it.p[1]}</p></details>
+        <a class="pill" href="${it.href}">${it.cta}</a></div>
+    </article>`).join('');
+</script>
+</body>
+</html>
