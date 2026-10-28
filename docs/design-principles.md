@@ -63,6 +63,7 @@ for prices/reviews in the prototype but should look plausible and be consistent 
 ## 10. Readability details he always checks
 - Equal text sizes in comparable blocks (left card is the base).
 - Titles semibold (600), dates bold, labels in black when they carry info.
+- Sub text under a title is dark grey (`--dark-grey`), never black, so title and sub read apart (review cards, card texts).
 - Equal spacing above and below; things aligned to the content edge ("in het lood").
 - Lines subtle (`--line` #f0f0f0), not hard.
 - Buttons: rounded pills; white pill with grey outline for secondary; arrow buttons in the same pill style.

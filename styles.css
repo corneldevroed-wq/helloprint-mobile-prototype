@@ -1561,7 +1561,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* ---------- Desktop PDP, lower part (Figma 15927:10612) ---------- */
 .d-more { display: flex; flex-direction: column; gap: 24px; padding-top: 40px; }
 .d-tabs { display: flex; border-bottom: 1px solid var(--line); }   /* same light line as the mobile tabs (Cornel, 2026-10-28) */
-.d-tabs a { padding: 6px 12px; margin-bottom: -1px; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; }
+.d-tabs a { padding: 6px 12px; margin-bottom: -1px; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; }
 .d-tabs a[aria-current] { font-weight: 600; color: var(--black); border-bottom-color: var(--light-green); }
 .d-sec h2 { font-weight: 800; font-size: 24px; line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 16px; }
 #d-about h2 { margin-bottom: 8px; }
@@ -1610,7 +1610,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-rev-top span { display: flex; align-items: center; gap: 3px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .d-rev-top span img { width: 16px; height: 16px; }
 .d-rev > b { font-weight: 600; font-size: 14px; line-height: 1.2; }
-.d-rev > p { font-size: 12px; line-height: 18px; }   /* body text: 12/18 mobile, 14/22 desktop (Cornel, 2026-10-28) */
+.d-rev > p { font-size: 12px; line-height: 18px; color: var(--dark-grey); }   /* body text 12/18, grey so it reads apart from the black title (Cornel, 2026-10-28) */
 .d-rev small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .d-rev-nav { width: 35px; height: 35px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; background: var(--black); }
 .d-rev-nav svg { width: 24px; height: 24px; fill: var(--white); }
@@ -1997,7 +1997,7 @@ html:not(.desk) .d-banners { display: contents; }
 .pr-ver { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: var(--dark-grey); }
 .pr-ver img { width: 16px; height: 16px; }
 .pr-card > b { font-weight: 600; font-size: 15px; line-height: 1.3; }
-.pr-card > p:not([class]) { font-size: 14px; line-height: 1.5; }
+.pr-card > p:not([class]) { font-size: 14px; line-height: 1.5; color: var(--dark-grey); }   /* review text grey under the black title, as the review cards */
 .pr-meta { margin-top: auto; font-size: 13px; color: var(--dark-grey); }
 .pr-meta b { font-weight: 600; color: var(--black); }
 .pr-bought { font-size: 12px; color: var(--dark-grey); }
@@ -2206,8 +2206,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > .hero .crumbs { padding-bottom: 16px; }
 .desk .plp .hero .intro p { font-size: 14px; line-height: 22px; }
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; overflow: visible; }
-.desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; font-weight: 400; }
-.desk .plp > .tabs a.active { font-weight: 600; }
+.desk .plp > .tabs a { padding: 12px; margin-bottom: -1px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
 .desk .plp h2 { margin-bottom: 8px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
 .desk .plp .materials { gap: 8px; }
 .desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
