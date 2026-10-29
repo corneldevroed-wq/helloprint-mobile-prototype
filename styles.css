@@ -2488,7 +2488,8 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .hc-alt .or { width: 100%; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .desk .hc-alt { gap: 16px; margin-top: 24px; padding-top: 24px; }
 .desk .hc-alt .or { width: auto; font-size: 14px; line-height: 22px; }
-.ha-side .hc-alt { justify-content: flex-start; max-width: none; }   /* under the topics menu: left aligned, the line on top as separator */
+.ha-side .hc-alt { display: none; }   /* mobile: the footer help (Do you need help?) follows right below (Cornel, 2026-10-29) */
+.desk .ha-side .hc-alt { display: flex; justify-content: flex-start; max-width: none; }   /* under the topics menu: left aligned, the line on top as separator */
 .desk .ha-side .hc-alt .or { width: 100%; }
 .hc-online { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .hc-online .txt { display: flex; flex-direction: column; text-align: left; }
