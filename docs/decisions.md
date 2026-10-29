@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Sub-topics in the left menu (desktop):** under the active topic, regular grey, the one you are in semibold black
+  (follows the scroll); mobile keeps the section tabs. Topic + article pages keep the 760px reading width, the hub the full column.
+  Rejected: tabs above the questions on desktop.
 - **10-29 — Detail round:** question rows 14/20 as the PDP FAQ (exception to §12, long lists); Home = the hub with Popular
   articles (6 material-style cards: icon, title, 2-line excerpt, Read more) + Common questions; menu without card frame, active =
   light grey; article page: topics menu as sidebar, green "Back to <topic>" link, body text black, white "helpful" block; topic

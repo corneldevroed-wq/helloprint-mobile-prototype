@@ -2588,9 +2588,14 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-nav a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 14px; line-height: 20px; }
 .ht-nav .material-symbols-rounded { font-size: 24px; color: var(--dark-green); }
 .ht-nav a[aria-current] { background: var(--light-grey); }
+/* the sub-topics under the active topic (desktop), text only, indented to the topic name (8 + 24 icon + 12 gap) */
+.ht-subnav { list-style: none; display: flex; flex-direction: column; padding: 4px 0 8px 44px; }
+.ht-subnav a { display: block; padding: 6px 8px; border-radius: 8px; font-weight: 400; font-size: 14px; line-height: 20px; color: var(--dark-grey); }   /* regular; only the active one semibold (Cornel, 2026-10-29) */
+.ht-subnav a:hover { color: #008539; }
+.ht-subnav a.active { font-weight: 600; color: var(--black); }   /* the sub-topic you are in (follows the scroll) */
 .ht-nav a:not([aria-current]):hover { color: #008539; }
 .hc-hubview .ha-side { order: 0; }
-.hc-hubview .ha-body, .ht-body { max-width: none; }   /* hub + topic pages use the full column (Cornel, 2026-10-29); the article keeps its reading width */
+.hc-hubview .ha-body { max-width: none; }   /* only the hub uses the full column; topic and article pages keep the reading width (760px, Cornel 2026-10-29) */
 /* hub (F): Getting started = quick links (the hub card: icon tile + title) and common questions (the FAQ) */
 .hc-quick { display: grid; gap: 8px; }   /* mobile: one card per row (title + explanation need the width) */
 .desk .hc-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -2605,6 +2610,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .ha-body > .tabs { top: 100px; z-index: 20; }
 .ht-sec { margin-top: 24px; scroll-margin-top: 140px; }   /* lands under the sticky header + tabs */
 .desk .ht-sec { margin-top: 32px; scroll-margin-top: 168px; }
+.desk.hc-submenu .ht-sec { scroll-margin-top: 124px; }   /* desktop: no tab bar above the questions */
 
 /* Mobile menu: Help Centre link and the phone number (green dot = team online) under the country button (Cornel, 2026-10-29) */
 .mf-help { display: flex; align-items: center; justify-content: space-between; padding: 8px 0 0; font-size: 14px; line-height: 20px; }
