@@ -94,6 +94,7 @@ Built on promotional.html (PLP), business-cards.html and flyers.html (CLP). Shar
 - **Headings never end with a full stop.**
 - **Cards on desktop:** outline `--line`, soft shadow only on hover (0 2px 8px, 8%). FAQ questions = card titles on
   category pages (16/22), 14px on the PDP (in line with its specs/templates).
+  Exception: the Help Centre question lists (long lists of 20–40 questions) use the PDP size, 14/20 (Cornel, 2026-10-29).
 - **Colours:** sub text under a title dark grey; titles black; inline links green underlined (as breadcrumbs).
 - **Cards:** category cards always square (152 home / 184 category pages on mobile; desktop fills the row, image fills
   the card above the title, title 16/22). Grey tiles (`.dc-card`: title top left, image right, grey arrow) for

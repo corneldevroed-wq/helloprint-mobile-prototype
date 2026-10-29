@@ -249,7 +249,8 @@ body.menu-open { overflow: hidden; }
 .hero .rating i { font-style: normal; color: var(--mid-grey); }
 
 /* Section tabs: stick under the header and follow the scroll position */
-.tabs { position: sticky; top: 89.2px; z-index: 15; background: var(--white); border-bottom: 1px solid var(--line); padding: 0 16px; display: flex; overflow-x: auto; scrollbar-width: none; }
+.tabs { position: sticky; top: 89.2px; z-index: 15; background: var(--white); box-shadow: inset 0 -1px 0 var(--line); padding: 0 16px; display: flex; overflow-x: auto; scrollbar-width: none; }   /* the grey line as an inset shadow: the active 2px line paints over it inside the bar, so the bar can scroll (2026-10-29) */
+.tabs.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); }   /* more tabs to the right: a soft fade (set by the page script) */
 .tabs::-webkit-scrollbar { display: none; }
 .tabs a { flex-shrink: 0; padding: 6px 12px; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
 .tabs a.active { color: var(--black); border-bottom-color: var(--light-green); }
@@ -1671,6 +1672,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk-switch span { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; letter-spacing: .5px; text-transform: uppercase; opacity: .8; }
 .desk-switch button { width: 24px; height: 24px; border-radius: 4px; font-weight: 700; font-size: 12px; color: var(--white); }
 .desk-switch button[aria-pressed="true"] { background: var(--light-green); }
+.desk-switch[hidden] { display: none; }
 
 /* Thickness icon: a diagonal line, thicker per step */
 .opt .thick, .gi-vis .thick { position: relative; width: 24px; height: 24px; flex-shrink: 0; }
@@ -2210,8 +2212,8 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > .hero { gap: 0; }
 .desk .plp > .hero .crumbs { padding-bottom: 16px; }
 .desk .plp .hero .intro p { font-size: 14px; line-height: 22px; }
-.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; overflow: visible; }
-.desk .plp > .tabs a, .desk .ha-body > .tabs a { padding: 12px; margin-bottom: -1px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
+.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; }
+.desk .plp > .tabs a, .desk .ha-body > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
 .desk .plp h2, .desk .help-page h2 { margin-bottom: 8px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
 .desk .plp .materials { gap: 8px; }
 .desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
@@ -2236,7 +2238,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .plp-mats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; border: 0; padding: 0; }
 .desk .plp .plp-mats li { border: 0; padding: 0; }
 .desk .plp .plp-mats .mat { height: 100%; flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; transition: border-color .15s; }
-.desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
+.desk .plp .plp-mats .mat:hover, .desk .hc-card:hover { border-color: var(--outline); }
 .desk .plp .plp-mats .mat-icon { width: 50px; height: 50px; }   /* icons stay 50px on desktop (decision 10-29) */
 .desk .plp .plp-mats .text { gap: 4px; }
 .desk .plp .plp-mats .text .badge { position: absolute; top: 16px; right: 16px; left: auto; margin: 0; }
@@ -2337,7 +2339,7 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
 .plp .section-head h2 { margin-bottom: 0; }
-.plp .section-head .link, .hc-card .link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 20px; color: var(--light-green); }
+.plp .section-head .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 20px; color: var(--light-green); }
 .plp .section-head .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
 .plp .section-head + .cat-lead { margin-top: 8px; }
 .cat-lead b { font-weight: 600; color: var(--black); }
@@ -2360,7 +2362,7 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .blog-txt p + .pill { margin-top: auto; }
 /* blog cards: light grey again, no line (Cornel, 2026-10-28; white + line tried) */
 #blogs .cat-lead { margin-bottom: 16px; }   /* intro paragraph to the blog cards: 16px (Cornel) */
-.plp .section-head .link, .hc-card .link { text-decoration: none; }
+.plp .section-head .link, .hc-card .link, .ha-back { text-decoration: none; }
 /* FAQ on category pages: the PDP accordion; answers as body text (12/18 mobile, 14/22 desktop), links green */
 .plp .oc-faq p { font-size: 12px; line-height: 18px; }
 .desk .plp .d-acc details p { font-size: 14px; line-height: 22px; }
@@ -2402,7 +2404,7 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 /* Card outline on desktop a little darker than our light line, so it stays visible with the soft shadow (Cornel) */
 :root { --card-line: var(--line); }
 .desk .plp .product, .desk .home .product, .desk .plp .plp-mats .mat, .desk .hc-card { border-color: var(--card-line); }
-.desk .plp .product:hover, .desk .home .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover { border-color: var(--outline); }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
 /* the card shadow spreads a little more (softer, wider blur), same lightness (Cornel) */
 .desk .plp .product, .desk .home .product, .desk .plp .plp-mats .mat { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
 /* the soft card shadow only on hover (Cornel, 2026-10-28) */
@@ -2433,7 +2435,7 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .hc-center .lead, .hc-team p, .hc-contact p, .ht-lead { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .desk .hc-team p, .desk .hc-contact p, .desk .ht-lead { font-size: 14px; line-height: 22px; }
 /* grey block with the card outline: T head, team strip, (hidden) contact block */
-.hc-team, .hc-contact, .hc-hero, .hc-ico, .ha-helpful { border: 1px solid var(--line); border-radius: 10px; background: var(--light-grey); }
+.hc-team, .hc-contact, .hc-hero, .hc-ico { border: 1px solid var(--line); border-radius: 10px; background: var(--light-grey); }
 /* overlapping avatars (experts online + contact block) */
 .help-page .faces { display: flex; flex-shrink: 0; }
 .help-page .faces img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--white); background: var(--light-green); }   /* team cut-outs on light green, as the team strip */
@@ -2548,17 +2550,18 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 
 /* ===== Help Centre article (help-article.html?q=…), Oct 29 2026 =====
    Desktop: the sub-topic as a sidebar card (the hub topic card) left, the full article right. Mobile: article first, card below.
-   Reuses: .hc-card (+ .hc-card-top, .hc-qlist, .link), the grey outlined block (.ha-helpful in its selector), .pill. */
+   Reuses: .hc-card (+ .hc-card-top, .hc-qlist, .link), a white outlined block (.ha-helpful), .pill. */
 .ha-grid { display: flex; flex-direction: column; gap: 32px; }
 .ha-side { order: 1; }   /* mobile: below the article */
 .desk .ha-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 64px; align-items: start; }
 .desk .ha-side { order: 0; position: sticky; top: 116px; }
-.ha-side .hc-qlist a[aria-current] { font-weight: 600; color: #008539; }   /* the question you're reading */
 .ha-body { max-width: 760px; }
+.ha-back { margin-bottom: 16px; }   /* the green "All categories" link, arrow in front pointing left */
+.ha-back::before { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 .ha-body h1 { font-size: 24px; line-height: 28px; }
 .desk .ha-body h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
 /* article text: body 12/18 mobile, 14/22 desktop; h2 = section title, h3 = card title; inline links green underlined */
-.ha-text { margin-top: 16px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.ha-text { margin-top: 16px; font-size: 12px; line-height: 18px; color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
 .desk .ha-text { margin-top: 24px; font-size: 14px; line-height: 22px; }
 .ha-text > * + * { margin-top: 16px; }
 .ha-text h2 { margin-top: 32px; font-size: 20px; line-height: 24px; }
@@ -2568,8 +2571,12 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ha-text h2 + *, .ha-text h3 + * { margin-top: 8px; }
 .ha-text ol, .ha-text ul { display: flex; flex-direction: column; gap: 8px; padding-left: 20px; }
 .ha-text a { color: #008539; text-decoration: underline; }
-/* "Was this article helpful?" on the grey outlined block, two round thumb buttons */
-.ha-helpful { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: 14px; line-height: 20px; }
+.ha-text img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }   /* screenshots in the live articles */
+.ha-text table { width: 100%; border-collapse: collapse; }
+.ha-text th, .ha-text td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.ha-text th { font-weight: 600; color: var(--black); }
+/* "Was this article helpful?" on a white outlined block (Cornel, 2026-10-29), two round thumb buttons */
+.ha-helpful { border: 1px solid var(--line); border-radius: 10px; background: var(--white); display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: 14px; line-height: 20px; }
 .ha-helpful .btns { display: flex; gap: 8px; }
 .ha-helpful .pill { justify-content: center; width: 40px; height: 40px; padding: 0; }
 .ha-helpful .material-symbols-rounded { font-size: 20px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
@@ -2577,41 +2584,41 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 /* ===== Help Centre topic page (help-topic.html?t=…), Oct 29 2026 =====
    The article page's two columns (.ha-grid/.ha-side/.ha-body); sidebar = the hub card with the 6 topics; per sub-topic the
    questions: switch F = the category-page FAQ (.d-acc / .acc.oc-faq), P = the hub question rows to the article page. */
-.ht-nav { list-style: none; display: flex; flex-direction: column; gap: 4px; align-self: stretch; margin-top: 8px; }
+.ht-nav { list-style: none; display: flex; flex-direction: column; gap: 4px; }   /* the left menu: no card, no padding, no border (Cornel, 2026-10-29) */
 .ht-nav a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 14px; line-height: 20px; }
 .ht-nav .material-symbols-rounded { font-size: 24px; color: var(--dark-green); }
 .ht-nav a[aria-current] { background: var(--light-grey); }
 .ht-nav a:not([aria-current]):hover { color: #008539; }
-.ht-head { display: flex; align-items: center; gap: 16px; }
-.ht-head > h1 { margin: 0; }
 .hc-hubview .ha-side { order: 0; }
-.hc-hubview .ha-body { max-width: none; }   /* hub: quick links and questions use the full column (Cornel, 2026-10-29) */
+.hc-hubview .ha-body, .ht-body { max-width: none; }   /* hub + topic pages use the full column (Cornel, 2026-10-29); the article keeps its reading width */
 /* hub (F): Getting started = quick links (the hub card: icon tile + title) and common questions (the FAQ) */
-.hc-quick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.hc-quick { display: grid; gap: 8px; }   /* mobile: one card per row (title + explanation need the width) */
 .desk .hc-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.hc-quick .hc-card { gap: 8px; background: var(--light-grey); }   /* quick links on light grey (Cornel, 2026-10-29) */
-.hc-quick .hc-ico { background: var(--white); }   /* the icon tile white, so it stays visible on the grey card */
-.desk .hc-quick .hc-card { flex-direction: row; align-items: center; gap: 16px; }
+.hc-quick .hc-ico { margin-bottom: 8px; }   /* popular articles = the material card: icon, title, short explanation, Read more (Cornel, 2026-10-29) */
+.hc-quick .hc-card-h { margin-bottom: 4px; }
+.hc-quick-p { flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.desk .hc-quick-p { font-size: 14px; line-height: 22px; }
 .hc-common { margin-top: 24px; }
 .desk .hc-common { margin-top: 32px; }   /* hub F: the topics list first on mobile too (it's the navigation) */
 .ht-lead { margin-top: 16px; }
 .ha-body > .tabs { margin-top: 16px; padding: 0; }   /* the Promotional Print section tabs (.tabs), reused (Cornel, 2026-10-29) */
-.desk .ha-body > .tabs { top: 100px; z-index: 20; overflow: visible; }   /* as .desk .plp > .tabs: the 2px green line may hang over the grey line */
+.desk .ha-body > .tabs { top: 100px; z-index: 20; }
 .ht-sec { margin-top: 24px; scroll-margin-top: 140px; }   /* lands under the sticky header + tabs */
 .desk .ht-sec { margin-top: 32px; scroll-margin-top: 168px; }
-.ht-sec details { scroll-margin-top: 140px; }   /* #question lands under the sticky header + tabs */
-.desk .ht-sec details { scroll-margin-top: 168px; }
-.ht-sec .hc-qlist { margin: 0; }   /* P: the hub rows without the card padding */
-.ht-sec .hc-qlist a { padding: 8px 0; }
-.desk .ht-sec .hc-qlist a { font-size: 14px; line-height: 22px; }
-.ht-long { margin-top: 0; padding: 0 0 8px; }   /* a full article inside the FAQ: its headings and lists, the FAQ padding */
-.desk .ht-long { padding: 0 40px 16px 8px; }
-.help-page .ht-long p, .help-page .ht-long li { padding: 0; }   /* beat the FAQ's own paragraph padding */
-.help-page .ht-long > :first-child { margin-top: 0; }
-.help-page .ht-long > * + * { margin-top: 16px; }
-.help-page .ht-long > h2 + *, .help-page .ht-long > h3 + * { margin-top: 8px; }
-.help-page .ht-long h2 { font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: 0; color: var(--black); }   /* inside an answer the headings step down: h2 = card title, h3 = semibold body */
-.desk .help-page .ht-long h2 { font-size: 16px; line-height: 22px; }
-.help-page .ht-long h3 { font-size: 12px; line-height: 18px; }
-.desk .help-page .ht-long h3 { font-size: 14px; line-height: 22px; }
+
+/* Mobile menu: Help Centre link and the phone number (green dot = team online) under the country button (Cornel, 2026-10-29) */
+.mf-help { display: flex; align-items: center; justify-content: space-between; padding: 8px 0 0; font-size: 14px; line-height: 20px; }
+.mf-help a { font-weight: 600; color: var(--black); }
+.mf-phone { display: inline-flex; align-items: center; gap: 8px; font-weight: 400 !important; color: var(--dark-grey) !important; }
+.mf-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--light-green); }
+.menu-drawer .panel { bottom: 150px; }
+
+/* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
+   question = card title, hover) with the grey list arrow right instead of the fold chevron */
+.hc-rows { list-style: none; border-top: 1px solid var(--line); }
+.hc-rows li { border-bottom: 1px solid var(--line); }
+.hc-rows a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); transition: background .15s, color .15s; }
+.desk .hc-rows a { padding: 14px 0 14px 8px; font-size: 14px; line-height: 20px; }   /* the PDP FAQ size (14/20): long help lists read calmer (Cornel, 2026-10-29) */
+.hc-rows a:hover { background: #f8f8f8; color: var(--dark-green); }
+.hc-rows .chev { width: 24px; height: 24px; flex-shrink: 0; }
 

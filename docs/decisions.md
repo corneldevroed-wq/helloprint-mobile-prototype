@@ -4,6 +4,17 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Detail round:** question rows 14/20 as the PDP FAQ (exception to §12, long lists); Home = the hub with Popular
+  articles (6 material-style cards: icon, title, 2-line excerpt, Read more) + Common questions; menu without card frame, active =
+  light grey; article page: topics menu as sidebar, green "Back to <topic>" link, body text black, white "helpful" block; topic
+  pages full column width; section tabs scroll with a fade when they don't fit (shared .tabs: the grey line is now an inset
+  shadow so the active 2px line sits inside the bar). Rejected: green icon / 3px left line for the active menu item.
+- **10-29 — Live content:** all topics, sub-topics, questions and article texts from helloprint.com/en-ie/help-centre in
+  `help-content.js` (146 articles, live slugs as URL). Menu = Home + the 5 live categories (Complaints is a sub-topic of Account on
+  live, so the separate Complaints topic is gone). Naming rule applied (shipping/billing address); links kept local.
+- **10-29 — Every answer has its own URL** (internal requirement): no fold-open answers on the overview pages; every question is
+  a row with the grey arrow right (the FAQ look: lines, question size, hover) to `help-article.html?q=…`. Structure stays F
+  (Getting started hub + topics sidebar, topic pages with section tabs); the switch is hidden.
 - **10-29 — Answers: switch F/P for colleagues** (Cornel prefers FAQ-style answers, no page per answer; to be decided internally).
   F = Getting started is the hub: under the head the topics sidebar + Quick links (grey cards) + Common questions (FAQ); a topic
   opens `help-topic.html` (no head, same sidebar, section tabs as Promotional Print, answers fold open, `#question` opens one).

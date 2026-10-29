@@ -6,8 +6,8 @@
 <title>Help Centre topic</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,error,local_mall,receipt,rocket_launch,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261105b">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,error,home,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261105x">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -21,22 +21,22 @@
     <section><p class="crumbs" id="ht-crumbs"></p></section>
     <section class="ha-grid">
       <aside class="ha-side" id="ht-side"></aside>
-      <div class="ha-body" id="ht-body"></div>
+      <div class="ha-body ht-body" id="ht-body"></div>
     </section>
 
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
 
-<script src="app.js?v=20261105b"></script>
-<script src="help-data.js?v=20261105b"></script>
+<script src="app.js?v=20261105x"></script>
+<script src="help-content.js?v=20261105x"></script>
+<script src="help-data.js?v=20261105x"></script>
 <script>
 { // own scope: app.js has globals like slug and sub
-  const topic = HELP_TOPICS.find(t => t.id === new URLSearchParams(location.search).get('t') && t.id !== 'start') || HELP_TOPICS[1];   // Getting started lives on the hub
+  const topic = HELP_TOPICS.find(t => t.id === new URLSearchParams(location.search).get('t') && t.id !== 'start') || HELP_TOPICS[1];   // Home lives on the hub
   document.title = topic.name + ' | Help Centre';
   document.getElementById('ht-crumbs').innerHTML = `<a href="index.html">Home</a> / <a href="help-centre.html">Help Centre</a> / ${topic.name}`;
   helpTopicView(document.getElementById('ht-side'), document.getElementById('ht-body'), topic);   // help-data.js
-  helpOpenHash(); addEventListener('hashchange', helpOpenHash);
 
   helpSwitch();
 }

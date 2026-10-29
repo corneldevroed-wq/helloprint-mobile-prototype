@@ -6,8 +6,8 @@
 <title>Help Centre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,edit,error,local_mall,local_shipping,receipt,request_quote,rocket_launch,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261105b">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,edit,error,home,local_mall,local_shipping,receipt,task_alt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261105x">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -76,8 +76,9 @@
   </main>
 </div>
 
-<script src="app.js?v=20261105b"></script>
-<script src="help-data.js?v=20261105b"></script>
+<script src="app.js?v=20261105x"></script>
+<script src="help-content.js?v=20261105x"></script>
+<script src="help-data.js?v=20261105x"></script>
 <script>
   const I = {
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
@@ -97,18 +98,17 @@
   const ico = t => `<span class="hc-ico material-symbols-rounded" aria-hidden="true">${t.ms}</span>`;
   const qlist = t => `<ul class="hc-qlist">${t.q.map(q => `<li><a href="${helpUrl(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;   // the grey arrow of the mobile lists
   const viewAll = t => `<a class="link" href="${helpTopicUrl(t.id)}">View all ${t.n} articles</a>`;   // the green "All categories →" link of the home/category pages
-  // F (Cornel, 2026-10-29): Getting started is the hub: under the head the sidebar with all topics (Getting started marked) and
+  // F (Cornel, 2026-10-29): Home (was Getting started) is the hub: under the head the sidebar with all topics (Getting started marked) and
   // quick links + common questions; another topic opens its own page. P: the 6 topic cards (6 keeps the 3×2 grid)
   const hubTopics = document.getElementById('hc-topics');
   if (HELP_MODE === 'faq') {
     hubTopics.innerHTML = `<div class="ha-grid hc-hubview"><aside class="ha-side"></aside><div class="ha-body">
-        <h2>Quick links</h2>
-        <div class="hc-quick">${HELP_QUICK.map(([ms, t, href]) => `<a class="hc-card" href="${href}"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${ms}</span><span class="hc-card-h">${t}</span></a>`).join('')}</div>
+        <h2>Popular articles</h2>
+        <div class="hc-quick">${HELP_POPULAR.map(([ms, q]) => `<a class="hc-card" href="${helpUrl(q)}"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${ms}</span><span class="hc-card-h">${q}</span><span class="hc-quick-p">${helpExcerpt(q)}</span><span class="link">Read more</span></a>`).join('')}</div>
         <h2 class="hc-common">Common questions</h2>
-        ${helpFaq(HELP_COMMON.map(q => { const f = helpFind(hslug(q)); return [q, f ? f.a : '']; }))}
+        ${helpFaq(HELP_COMMON.map(q => [q, HELP_SLUG[q]]))}
       </div></div>`;
-    helpSide(hubTopics.querySelector('.ha-side'), TOPICS[0]);   // Getting started = this page
-    helpOpenHash(); addEventListener('hashchange', helpOpenHash);
+    helpSide(hubTopics.querySelector('.ha-side'), TOPICS[0]);   // Home = this page
   } else {
     hubTopics.innerHTML =
     `<div class="hc-topics">${TOPICS.filter(t => t.id !== 'start').map(t => `<div class="hc-card"><a class="hc-card-top" href="${helpTopicUrl(t.id)}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
