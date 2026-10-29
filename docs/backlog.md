@@ -11,7 +11,8 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
 - **Team banner photo**: a real photoshoot of experts at work would be stronger long-term (current: Cornel's export).
 
 ## Open questions / next steps
-- **Next session: the Help Centre** (Cornel, 2026-10-28). Apply docs/design-principles.md §12 and the decisions.
+- **Help Centre**: hub built (concept D, 2026-10-28). Next: topic page ("View all N articles"), Report a problem form, question page; styling round with Cornel.
+- **Help Centre visuals** (Cornel, 2026-10-29): the page needs extra visuals; Cornel doesn't know how yet and will come back to it.
 - **Blog photos** on business cards are only 406 × 230 on Contentful (soft on desktop) — swap when Cornel has sharper ones.
 - **"Unique Business Card Materials"** (live block repeating 3 card types) left out on purpose; revisit only if asked.
 - **VAT switch on mobile**: removed from the USP bar; only on PDP/cart now. Proposal: add it to the menu drawer next to

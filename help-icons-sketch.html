@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help icons sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype: three icon directions for the Help Centre topic cards (Cornel isn't a fan of
+     the paper-style icons now in assets/icons/help). Each direction: desktop (3 cards per row, the material card) and mobile
+     (the accordion). Same card, text and spacing as help-centre.html; only the icon changes. -->
+<style>
+  :root { --dark-green: #022b07; --green: #008539; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #e4e4e4; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; }
+  svg.i { width: 24px; height: 24px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* sketch chrome */
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: 14px; overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid #555; border-radius: 100px; font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: 10px; background: #f7f7f7; font-size: 14px; line-height: 22px; }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 100px; background: var(--light-green); color: var(--white); font-size: 12px; vertical-align: middle; }
+  .sk-dev { margin: 16px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .4px; color: var(--mid-grey); text-transform: uppercase; }
+  .m-frame { width: 390px; max-width: 100%; padding: 0 16px; outline: 1px solid var(--line); }
+  h2 { margin-bottom: 8px; font-weight: 800; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; color: var(--dark-green); }
+  .m-frame h2 { font-size: 20px; line-height: 24px; padding-top: 16px; }
+
+  /* the topic card and accordion exactly as help-centre.html */
+  .topics { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .card { display: flex; flex-direction: column; align-items: flex-start; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); transition: border-color .15s, box-shadow .2s; }
+  .card:hover { border-color: var(--outline); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .card-h { font-weight: 600; font-size: 16px; line-height: 22px; }
+  .q { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .q a { display: block; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+  .q a:hover { color: var(--green); text-decoration: underline; }
+  .card .q { flex: 1; margin-top: 4px; }
+  .card .q a { font-size: 14px; line-height: 22px; }
+  .more { display: inline-flex; align-items: center; gap: 4px; margin-top: 16px; font-weight: 600; font-size: 14px; line-height: 22px; color: var(--green); }
+  .more svg.i { width: 16px; height: 16px; stroke-width: 2.2; }
+  .acc details { border-bottom: 1px solid var(--line); }
+  .acc details:first-child { border-top: 1px solid var(--line); }
+  .acc summary { list-style: none; display: flex; align-items: center; gap: 16px; padding: 16px 0; font-weight: 600; font-size: 14px; line-height: 20px; cursor: pointer; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc summary .chev { margin-left: auto; transition: transform .2s; }
+  .acc details[open] summary .chev { transform: rotate(180deg); }
+  .acc .q { padding: 0 0 8px var(--indent); }
+  .acc .more { margin: 0 0 16px var(--indent); }
+
+  /* A: calm line icons, dark green (the UI icon style: 1.8 stroke, round caps) */
+  .a .ico { color: var(--dark-green); }
+  .a .card .ico { width: 32px; height: 32px; margin-bottom: 16px; stroke-width: 1.6; }
+  .a .acc { --indent: 40px; }
+
+  /* B: a small product photo per topic on our grey tile (the cut-outs of the grey category tiles) */
+  .b .ph { flex-shrink: 0; display: grid; place-items: center; border-radius: 10px; background: var(--light-grey); }
+  .b .ph img { width: 80%; height: 80%; object-fit: contain; }
+  .b .card .ph { width: 72px; height: 72px; margin-bottom: 16px; }
+  .b .acc .ph { width: 48px; height: 48px; border-radius: 8px; }
+  .b .acc summary { padding: 8px 0; }
+  .b .acc { --indent: 64px; }
+
+  /* C: no icons, the title carries the card */
+  .c .acc { --indent: 0px; }
+</style>
+</head>
+<body>
+<nav class="sk-top">
+  <b>Help icons sketch</b>
+  <a href="#a">A · Line icons ★</a>
+  <a href="#b">B · Product photos</a>
+  <a href="#c">C · No icons</a>
+</nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Question (Cornel):</b> not a fan of the paper-style topic icons. Three directions on the same card (the material card) and the
+      same mobile accordion as the Help Centre; only the icon changes.</p>
+    <p><b>My pick: A.</b> Calm, clear and in the same family as the icons in the rest of the UI (search, chat, chevrons). It
+      tells you the topic in one glance without becoming an illustration. B gives the "extra visuals" you're missing, but only works
+      with real Weave mockups per topic: for Account and Complaints there is no product, so here they're placeholders that make the
+      weakness visible. C is the calmest, but six text cards in a row read heavy, and the icon helps scanning on mobile.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b>A · Calm line icons <span class="pick">my pick</span></b>Dark green line icons, 32px on the card,
+    24px in the mobile list. One style with the rest of the UI icons.</div>
+  <p class="sk-dev">Desktop</p><div class="a"><h2>Browse by topic</h2><div class="slot" data-v="a" data-d="1"></div></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame a"><h2>Browse by topic</h2><div class="slot" data-v="a"></div></div>
+
+  <div class="sk-label" id="b"><b>B · Product photos</b>A cut-out photo per topic on our grey tile (as the grey category tiles), 72px on
+    the card, 48px in the list. Placeholders from the prototype; the real ones would be Weave mockups (parcel, proof, invoice…).
+    Account and Complaints have no obvious product.</div>
+  <p class="sk-dev">Desktop</p><div class="b"><h2>Browse by topic</h2><div class="slot" data-v="b" data-d="1"></div></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame b"><h2>Browse by topic</h2><div class="slot" data-v="b"></div></div>
+
+  <div class="sk-label" id="c"><b>C · No icons</b>Title, questions and View all only. The calmest; the cards rely on the title.</div>
+  <p class="sk-dev">Desktop</p><div class="c"><h2>Browse by topic</h2><div class="slot" data-v="c" data-d="1"></div></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame c"><h2>Browse by topic</h2><div class="slot" data-v="c"></div></div>
+  <div style="height:64px"></div>
+</div>
+
+<script>
+  const P = {
+    cart: '<path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+    image: '<path d="M14 3.5H6.5a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V8z"/><path d="M14 3.5V8h4.5"/><path d="M8.5 17l2.5-3 2 2 1.5-1.5L16 17z"/>',
+    doc: '<path d="M6.5 3.5h11v17l-2-1.3-1.8 1.3-1.7-1.3-1.7 1.3-1.8-1.3-2 1.3z"/><path d="M9.5 8.5h5M9.5 12h5M9.5 15.5h3"/>',
+    truck: '<path d="M2.5 6.5h11v10h-11zM13.5 9.5h4l3 3.5v3.5h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/>',
+    user: '<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20.5c1.2-3.8 4.2-5.5 7.5-5.5s6.3 1.7 7.5 5.5"/>',
+    chat: '<path d="M4 5.5h16v10.5H10l-4.5 3.5V16H4z"/><path d="M12 8.5v3M12 13.6v.1"/>',
+    chev: '<path d="m6 9 6 6 6-6"/>',
+    right: '<path d="m9 6 6 6-6 6"/>',
+  };
+  const svg = (n, c = '') => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+  // placeholders for B from the prototype's own assets (real: Weave mockups per topic)
+  const TOPICS = [
+    { name: 'Ordering', icon: 'cart', photo: 'assets/promo/p-businesscards.webp', n: 16, q: ['Can I change my order?', 'Can I cancel my order?', 'How do I request a quote?'] },
+    { name: 'Design & upload', icon: 'image', photo: 'assets/promo/c-flyers.webp', n: 12, q: ['How do I upload my artwork?', 'How do I approve my proof?', 'What is the biggest file size I can upload?'] },
+    { name: 'Payment & invoicing', icon: 'doc', photo: 'assets/promo/c-envelopes.webp', n: 8, q: ['Where do I download my invoice?', 'What payment methods do you accept?', 'Can I pay on account?'] },
+    { name: 'Delivery & tracking', icon: 'truck', photo: 'assets/home/cat-packaging.webp', n: 7, q: ['Where can I find my order status?', 'Is my order guaranteed to be delivered on the chosen date?', 'Why did the delivery date change?'] },
+    { name: 'Account', icon: 'user', photo: 'assets/promo/c-folders.webp', n: 9, q: ['Where do I see all my orders?', 'Can I repeat a previous order?', 'How do I update my details?'] },
+    { name: 'Complaints', icon: 'chat', photo: 'assets/promo/c-notepads.webp', n: 5, q: ['How do I report a problem with my order?', 'Can I return my order?', 'What can I get if my print is wrong or damaged?'] },
+  ];
+  const visual = (v, t) => v === 'a' ? svg(t.icon, 'ico') : v === 'b' ? `<span class="ph"><img src="${t.photo}" alt=""></span>` : '';
+  const q = t => `<ul class="q">${t.q.map(x => `<li><a href="#">${x}</a></li>`).join('')}</ul>`;
+  const more = t => `<a class="more" href="#">View all ${t.n} articles${svg('right')}</a>`;
+  document.querySelectorAll('.slot').forEach(s => {
+    const v = s.dataset.v;
+    s.innerHTML = s.dataset.d
+      ? `<div class="topics">${TOPICS.map(t => `<div class="card">${visual(v, t)}<a class="card-h" href="#">${t.name}</a>${q(t)}${more(t)}</div>`).join('')}</div>`
+      : `<div class="acc">${TOPICS.map((t, i) => `<details${i === 0 ? ' open' : ''}><summary>${visual(v, t)}${t.name}${svg('chev', 'chev')}</summary>${q(t)}${more(t)}</details>`).join('')}</div>`;
+  });
+</script>
+</body>
+</html>

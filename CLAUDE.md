@@ -39,6 +39,11 @@ Before building anything, also read:
 - **Verify every change in the browser** at 390px (mobile) and 1512px (desktop, `html.desk` from 1024px)
   before reporting. Use measurements (getBoundingClientRect) when screenshots aren't possible, and say so.
 - **Reuse** existing components and styles; mobile and desktop share content and wording 1:1.
+- **Keep HTML and CSS dead simple** (Cornel, 2026-10-29, "very important"). Before writing a new rule, look for one that
+  already does it and add your selector to it (e.g. the card border/hover rules, `.desk .plp` layout, `.pill.active` for a
+  dark green pill) instead of copying it. One rule per thing: no duplicate selectors, no repeated sizes per block, one body
+  text rule. Remove dead code and unused icons/fields when a choice is final (hidden variants stay only when Cornel says
+  "hide"). After a bigger round, do a simplify pass and check before/after with measurements that nothing moved.
 
 ## Tech in 60 seconds
 

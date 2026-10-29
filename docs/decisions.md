@@ -3,6 +3,33 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Topic card top = one link row** (icon tile + title side by side, hover: title green), no arrow. Questions as
+  rows with full-width light lines and the grey list arrow; "View all N articles" = the green home link. Rejected: A (icon
+  above the title), B with a big arrow on the right.
+- **10-29 — Newsletter bar on mobile too** (was desktop only, a gap from building the footers from different Figma frames):
+  one markup `SHELL_NEWS` in app.js for both footers; on mobile a green card on top of the footer, stacked (text, email field).
+  It also splits the Help Centre team strip from the footer "Do you need help?" block.
+- **10-29 — Topic icons = Google Material Symbols Rounded, line, 24px weight 400 (the stroke of the header cart icon)**, dark green
+  on a 56px grey outlined tile (`--light-grey` + `--line`). Icons picked by Cornel: local_mall, upload, receipt,
+  delivery_truck_speed, account_circle, error. Rejected: paper-style SVG icons (removed), sketch A/B/C in `help-icons-sketch.html`.
+- **10-29 — Mobile = desktop:** no photo strip; the same grey outlined head block, and all topics written out as cards (one
+  per row, a longer scroll) instead of the accordion. Strip and accordion code removed.
+- **10-29 — Desktop head = T:** centred title, sub, search and "Can't find it?" + experts + Chat in a light grey block with the
+  card outline, content width. Mobile keeps the photo strip on top (white). Rejected and removed with the switch: G (text left +
+  photo grid), I (text left + one photo), S (full-width strip + centred), P (full-width band with a 3-2-1 photo pyramid each side).
+- **10-29 — Head: chat with the experts = concept C** of `help-head-sketch.html`: title → sub → search, then a light line,
+  "Can't find it?" + experts online (avatars 40/32, two lines) + "Chat with us". Rejected: A (pill next to the line on top),
+  B (white capsule, built and replaced). "Popular" chips hidden (CSS), not removed. Desktop head switch G/I/S/T stays.
+- **10-28 — Task tiles removed** (Track my order / Report a problem / Request a quote); the hero goes straight to the topics.
+  Hero: no grey block, the photo strip runs full width, 8px between photos.
+- **10-28 — Help Centre hub = concept D** of `help-centre-sketch.html` (start: Cornel's artifact). Centred search in a light
+  grey hero with real team photos (human, "oplossend"), task tiles first (Track my order / Report a problem / Request a
+  quote), then topics 3×2 and contact. Photos as one strip on top on mobile and desktop.
+  Rejected: photo columns on both sides on desktop (CSS kept in the sketch), the artifact's green hero with product photos,
+  "HELP CENTRE" uppercase tag, green card titles, "N articles" badges. A (1:1 artifact), B (no hero photos), C (questions
+  first) stay in the sketch. Open: is "usually reply within minutes" a promise we can make?
+
 ## Promotional Print page (`promotional.html`, Oct 28, 2026)
 - **10-28 — Business cards: FAQ from en-gb** (7 questions, live answers) after the blogs, before the SEO text, in the PDP
   accordion (desktop `.d-acc`, mobile `.acc.oc-faq`); answers as body text.

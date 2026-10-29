@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,error,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261103z">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- Help Centre hub (2026-10-28/29). Start: Cornel's artifact (search, Browse by topic, Still need a hand?), made ours.
+       Same on mobile and desktop: the head centred in a grey outlined block (title, sub, search, "Can't find it?" + experts + Chat),
+       all topics written out as cards, the team strip with Anna. Questions from the live en-ie Help Centre; counts made up. -->
+  <main class="cat-page help-page promo-e">
+    <section class="hc-top">
+      <p class="crumbs"><a href="index.html">Home</a> / Help Centre</p>
+      <div class="hc-hero">
+        <div class="hc-center">
+          <h1>How can we help?</h1>
+          <p class="lead">Real people, real answers. Search our guides, sort a problem or ask one of our print experts.</p>
+          <form class="hc-search" role="search" onsubmit="return false">
+            <input type="search" placeholder="Search help, e.g. how do I upload artwork?" aria-label="Search help" autocomplete="off">
+            <button type="submit" aria-label="Search" id="hc-search-btn"></button>
+            <div class="hc-sugg" hidden></div>
+          </form>
+          <div class="hc-pop" id="hc-pop">Popular:</div>
+          <!-- people as the fallback under the search: "Can't find it?" + experts + chat (concept C of help-head-sketch.html, Cornel 2026-10-29) -->
+          <div class="hc-alt"><span class="or">Can't find it?</span><span class="hc-online"><span class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span><span class="txt"><b><span class="dot"></span>Our print experts are online</b><span>Usually reply within minutes</span></span></span><a class="pill active" href="#chat">Chat with us</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div id="hc-topics"></div>
+    </section>
+
+    <!-- Two image cards in the promo-card size (the home .pc), below the topics (Cornel, 2026-10-29): image only, not clickable.
+         Both photos from Cornel: an expert at his desk, the team celebrating. -->
+    <section class="hscroll pb pb-duo" aria-hidden="true">
+      <div class="pc"><span class="pc-img"><img src="assets/help/promo-expert.webp" alt="" style="object-position:40% 30%"></span></div>
+      <div class="pc"><span class="pc-img"><img src="assets/help/promo-team.webp" alt="" style="object-position:50% 60%"></span></div>
+    </section>
+
+    <!-- Team strip (Cornel, 2026-10-29; inspo "Echte mensen. Ze nemen ook echt op."): help context left, Anna (our bot) first,
+         then the team. Names and roles are placeholders until Cornel sends the real Ireland team. Replaces "Still need a hand?"
+         below, which is hidden (CSS), not removed. -->
+    <section>
+      <div class="hc-team">
+        <div class="txt">
+          <h2>Real people, here to help</h2>
+          <p>Ask Anna, our assistant, any time. Our print experts take over Mon–Fri 9:00–17:00 and our designers check every file before it goes to print.</p>
+          <div class="btns" id="hc-team-btns"></div>
+        </div>
+        <ul class="people" id="hc-people"></ul>
+      </div>
+    </section>
+
+    <section class="hc-contact-wrap">
+      <div class="hc-contact">
+        <div class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></div>
+        <div class="txt"><h2>Still need a hand?</h2><p>Our print experts are here to help. Mon–Fri 9:00–17:00, chat is open any time.</p></div>
+        <div class="btns" id="hc-btns"></div>
+      </div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261103z"></script>
+<script>
+  const I = {
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+  };
+  const svg = (n, c = '') => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+  const hslug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  document.getElementById('hc-search-btn').innerHTML = svg('search');
+  document.getElementById('hc-pop').insertAdjacentHTML('beforeend',
+    ['Track my order', 'Upload artwork', 'Change my order', 'Download invoice', 'Delivery times'].map(p => `<a class="pill" href="#${hslug(p)}">${p}</a>`).join(''));
+
+  // Topics: names from Cornel's artifact, questions from helloprint.com/en-ie/help-centre where they exist
+  const TOPICS = [
+    { id: 'ordering', ms: 'local_mall', name: 'Ordering', n: 16, q: ['Can I change my order?', 'Can I cancel my order?', 'How do I request a quote?'] },
+    { id: 'design', ms: 'upload', name: 'Design & upload', n: 12, q: ['How do I upload my artwork?', 'How do I approve my proof?', 'What is the biggest file size I can upload?'] },
+    { id: 'payment', ms: 'receipt', name: 'Payment & invoicing', n: 8, q: ['Where do I download my invoice?', 'What payment methods do you accept?', 'Can I pay on account?'] },
+    { id: 'delivery', ms: 'delivery_truck_speed', name: 'Delivery & tracking', n: 7, q: ['Where can I find my order status?', 'Is my order guaranteed to be delivered on the chosen date?', 'Why did the delivery date change?'] },
+    { id: 'account', ms: 'account_circle', name: 'Account', n: 9, q: ['Where do I see all my orders?', 'Can I repeat a previous order?', 'How do I update my details?'] },
+    { id: 'complaints', ms: 'error', name: 'Complaints', n: 5, q: ['How do I report a problem with my order?', 'Can I return my order?', 'What can I get if my print is wrong or damaged?'] },
+  ];
+  // Topic icons: Google Material Symbols Rounded (line, 24px, weight 400 = the header cart icon), as the PDP edit pen, on a grey tile (Cornel, 2026-10-29)
+  const ico = t => `<span class="hc-ico material-symbols-rounded" aria-hidden="true">${t.ms}</span>`;
+  const qlist = t => `<ul class="hc-qlist">${t.q.map(q => `<li><a href="#${hslug(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;   // the grey arrow of the mobile lists
+  const viewAll = t => `<a class="link" href="#help-${t.id}">View all ${t.n} articles</a>`;   // the green "All categories →" link of the home/category pages
+  document.getElementById('hc-topics').innerHTML =
+    `<div class="hc-topics">${TOPICS.map(t => `<div class="hc-card"><a class="hc-card-top" href="#help-${t.id}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
+
+  // team cut-outs (Cornel, 2026-10-29) on the light green avatar background (CSS); names and roles are placeholders
+  const PEOPLE_TEAM = [
+    ['', 'Anna', 'AI assistant', true],   // our bot: the Material Symbols "chat" icon on light green
+    ['conor.webp', 'Conor', 'Customer care'], ['niamh.webp', 'Niamh', 'Customer care'], ['ciaran.webp', 'Ciarán', 'Customer care'],
+    ['aoife.webp', 'Aoife', 'Print expert'], ['sean.webp', 'Seán', 'Quotes'], ['sophie.webp', 'Sophie', 'Designer'], ['liam.webp', 'Liam', 'Designer'],
+  ];
+  document.getElementById('hc-people').innerHTML = PEOPLE_TEAM.map(([img, name, role, bot]) =>
+    `<li${bot ? ' class="bot"' : ''}><span class="av">${bot ? '<span class="material-symbols-rounded" aria-hidden="true">chat</span>' : `<img src="assets/help/team/${img}" alt="">`}</span><b>${name}</b><small>${role}</small></li>`).join('');
+  document.getElementById('hc-team-btns').innerHTML =
+    `<a class="pill active" href="#chat">Chat with Anna</a><a class="pill" href="#new2contactform">Email us</a>`;
+
+  document.getElementById('hc-btns').innerHTML =
+    `<a class="pill active" href="#chat">Chat with us</a><a class="pill" href="#new2contactform">Email us</a>`;
+
+  // Search: suggestions from all topic questions
+  const ALLQ = TOPICS.flatMap(t => t.q.map(q => ({ q, t: t.name })));
+  const form = document.querySelector('.hc-search'), inp = form.querySelector('input'), box = form.querySelector('.hc-sugg');
+  inp.addEventListener('input', () => {
+    const v = inp.value.trim().toLowerCase();
+    if (v.length < 2) { box.hidden = true; return; }
+    const hits = ALLQ.filter(x => x.q.toLowerCase().includes(v)).slice(0, 6);
+    box.innerHTML = hits.length ? hits.map(h => `<a href="#${hslug(h.q)}">${h.q}<small>${h.t}</small></a>`).join('')
+      : `<p>No answers yet for "${inp.value.replace(/</g, '&lt;')}". Try other words or chat with us.</p>`;
+    box.hidden = false;
+  });
+  inp.addEventListener('blur', () => setTimeout(() => (box.hidden = true), 150));
+</script>
+</body>
+</html>

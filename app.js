@@ -29,12 +29,22 @@ const SHELL_HEADER = `
     </a>
   </div>
 `;
+// Newsletter bar: one markup for both footers (desktop full width, mobile a green card on top; Cornel, 2026-10-29)
+const SHELL_NEWS = `
+    <div class="dnews"><div class="dwrap">
+      <p>Sign up for our newsletter and get a 10% discount on your first order!</p>
+      <form class="dnews-form" onsubmit="event.preventDefault(); showToast('Thanks! Check your inbox for your 10% code')">
+        <input type="email" placeholder="Enter your email address" aria-label="Email address" required>
+        <button aria-label="Sign up"><img src="assets/desktop/arrow-forward-green.svg" alt=""></button>
+      </form>
+    </div></div>`;
 const SHELL_FOOTER = `
+${SHELL_NEWS}
       <div class="help" style="width:100%">
         <div class="avatars">
-          <div class="avatar"><img src="assets/agent.png" alt=""></div>
-          <div class="avatar lg"><img src="assets/agent.png" alt=""></div>
-          <div class="avatar"><img src="assets/agent.png" alt=""></div>
+          <div class="avatar"><img src="assets/help/team/niamh.webp" alt=""></div>
+          <div class="avatar lg"><img src="assets/help/team/conor.webp" alt=""></div>
+          <div class="avatar"><img src="assets/help/team/aoife.webp" alt=""></div>
         </div>
         <h2>Do you need help?</h2>
         <div class="pills">
@@ -150,16 +160,10 @@ const SHELL_HEADER_DESK = `
 const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
 const SHELL_FOOTER_DESK = `
   <footer class="dfoot">
-    <div class="dnews"><div class="dwrap">
-      <p>Sign up for our newsletter and get a 10% discount on your first order!</p>
-      <form class="dnews-form" onsubmit="event.preventDefault(); showToast('Thanks! Check your inbox for your 10% code')">
-        <input type="email" placeholder="Enter your email address" aria-label="Email address" required>
-        <button aria-label="Sign up"><img src="assets/desktop/arrow-forward-green.svg" alt=""></button>
-      </form>
-    </div></div>
+    ${SHELL_NEWS}
     <div class="dwrap">
       <div class="dfoot-help">
-        <div class="dhelp"><span class="dfaces"><img src="assets/desktop/help-3.png" alt=""><img src="assets/desktop/help-2.png" alt=""><img src="assets/desktop/help-1.png" alt=""></span>
+        <div class="dhelp"><span class="dfaces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span>
           <p><b>Need help?</b><a href="#chat">Ask our print experts</a></p></div>
         ${DTRUST}
       </div>
@@ -238,6 +242,8 @@ const ROUTES = {
   'payment': 'payment.html',
   'order-confirmed': 'confirmed.html',
   'login': 'login.html',
+  // Help Centre hub (header Help, desktop nav, footer, mobile footer Helpdesk)
+  'cs': 'help-centre.html', 'help-centre': 'help-centre.html',
 };
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="#"]');

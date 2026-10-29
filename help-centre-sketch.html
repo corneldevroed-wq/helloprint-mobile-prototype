@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help Centre sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype: three concepts for the Help Centre hub, starting from Cornel's artifact
+     (green hero "How can we help?" + search, Browse by topic 3×2 with 3 questions each, "Still need a hand?").
+     Desktop from 1024px (html.desk), mobile below; "Mobile view" in the bar shows the 390 column on a big screen. -->
+<style>
+  :root { --dark-green: #022b07; --green: #008539; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #e4e4e4; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  svg.i { width: 24px; height: 24px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* sketch chrome */
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: 14px; overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a, .sk-top button { padding: 4px 12px; border: 1px solid #555; border-radius: 100px; font-weight: 600; white-space: nowrap; color: var(--white); }
+  .sk-top button[aria-pressed="true"] { background: var(--white); color: var(--black); }
+  .wrap { width: 100%; padding: 0 16px; margin: 0 auto; }
+  .desk .wrap { max-width: 1384px; padding: 0 32px; }
+  .mob-frame .wrap { max-width: 390px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: 10px; background: #f7f7f7; font-size: 14px; line-height: 22px; }
+  .sk-note p + p, .sk-note ul + p { margin-top: 8px; }
+  .sk-note ul { margin: 8px 0 0 20px; }
+  .sk-label { margin-top: 64px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 100px; background: var(--light-green); color: var(--white); font-size: 12px; vertical-align: middle; }
+  .page { margin-top: 24px; padding-bottom: 32px; }
+  .mob-frame .page { outline: 1px solid var(--line); }
+
+  /* ---------- shared page parts (prototype text scale: mobile 12/18 body, desktop 14/22) ---------- */
+  .crumbs { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .crumbs a { color: var(--green); text-decoration: underline; }
+  .desk .crumbs { padding: 16px 0 24px; font-size: 14px; line-height: 24px; color: var(--black); }
+  .page:not(.d) .crumbs { padding: 16px 0 8px; }
+  h1 { font-weight: 800; font-size: 24px; line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); }
+  .desk h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
+  h2 { font-weight: 800; font-size: 20px; line-height: 24px; letter-spacing: -0.4px; color: var(--dark-green); margin-bottom: 8px; }
+  .desk h2 { font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }
+  .lead { font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+  .desk .lead { font-size: 14px; line-height: 22px; }
+  .intro .lead { margin-top: 8px; max-width: 640px; }
+  .blk { margin-top: 16px; }            /* mobile: 16px between blocks */
+  .desk .blk { margin-top: 32px; }      /* desktop: 32px between blocks */
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
+  .pill:hover { border-color: var(--black); }
+  .pill.active { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+  .pill svg.i { width: 18px; height: 18px; }
+  .link { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 22px; color: var(--green); }
+  .link:hover { text-decoration: underline; }
+  .link svg.i { width: 16px; height: 16px; stroke-width: 2.2; }
+
+  /* search: the header search, bigger (one style, green round button) */
+  .hsearch { position: relative; margin-top: 16px; max-width: 640px; }
+  .hsearch input { width: 100%; height: 48px; border: 1px solid var(--outline); border-radius: 100px; padding: 0 56px 0 20px; font: 400 14px/1 Inter, sans-serif; color: var(--black); outline: none; background: var(--white); }
+  .hsearch input:focus { border-color: var(--black); }
+  .hsearch input::placeholder { color: var(--dark-grey); }
+  .hsearch > button { position: absolute; right: 6px; top: 6px; width: 36px; height: 36px; border-radius: 100px; background: var(--light-green); color: var(--white); display: grid; place-items: center; }
+  .hsearch > button svg.i { width: 20px; height: 20px; stroke-width: 2.2; }
+  .sugg { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5; padding: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .sugg[hidden] { display: none; }
+  .sugg a { display: flex; justify-content: space-between; gap: 16px; padding: 8px; border-radius: 6px; font-size: 14px; line-height: 22px; }
+  .sugg a:hover { background: var(--light-grey); }
+  .sugg small { color: var(--dark-grey); font-size: 12px; white-space: nowrap; }
+  .sugg p { padding: 8px; font-size: 14px; color: var(--dark-grey); }
+
+  /* topic card (desktop): outline --line, hover shadow, black title, questions on light lines */
+  .topics { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tcard { display: flex; flex-direction: column; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); transition: box-shadow .15s; }
+  .tcard:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .tcard-h { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .tcard-h span { font-weight: 600; font-size: 16px; line-height: 22px; }
+  .tcard-h svg.i { color: var(--dark-green); }
+  .qlist { list-style: none; flex: 1; }
+  .qlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 22px; color: var(--black); }
+  .qlist a svg.i { width: 16px; height: 16px; color: var(--mid-grey); }
+  .qlist a:hover { color: var(--green); text-decoration: underline; }
+  .qlist a:hover svg.i { color: var(--green); }
+  .tcard .link { margin-top: 16px; align-self: flex-start; }
+
+  /* topic list (mobile): the PDP accordion, icon + title, 3 questions + "View all" inside */
+  .tacc details { border-bottom: 1px solid var(--line); }
+  .tacc details:first-child { border-top: 1px solid var(--line); }
+  .tacc summary { list-style: none; display: flex; align-items: center; gap: 16px; padding: 16px 0; font-weight: 600; font-size: 14px; line-height: 20px; cursor: pointer; }
+  .tacc summary::-webkit-details-marker { display: none; }
+  .tacc summary svg.i:first-child { color: var(--dark-green); }
+  .tacc summary .chev { margin-left: auto; transition: transform .2s; }
+  .tacc details[open] summary .chev { transform: rotate(180deg); }
+  .tacc .qlist { padding-left: 40px; }
+  .tacc .qlist a { font-size: 12px; line-height: 18px; }
+  .tacc .qlist li:last-child a { border-bottom: 0; }
+  .tacc .link { margin: 0 0 16px 40px; }
+
+  /* task tiles = the grey category tile (.dc-card): title top left, icon right, grey arrow; 120px tall */
+  .tasks { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .task { position: relative; display: block; height: 120px; padding: 16px; border-radius: 10px; background: var(--light-grey); transition: background .15s; }
+  .task:hover { background: #e8e8e8; }
+  .task b { display: block; max-width: 60%; font-weight: 600; font-size: 16px; line-height: 22px; color: #333; }
+  .task small { display: block; max-width: 62%; margin-top: 4px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .task .big { position: absolute; right: 24px; top: 50%; width: 56px; height: 56px; margin-top: -28px; color: var(--dark-green); stroke-width: 1.4; }
+  .task .go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; color: var(--mid-grey); stroke-width: 2.2; }
+  .page:not(.d) .tasks { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+  .page:not(.d) .tasks::-webkit-scrollbar { display: none; }
+  .page:not(.d) .task { flex: 0 0 184px; height: 120px; }
+  .page:not(.d) .task b { font-size: 14px; line-height: 20px; max-width: 70%; }
+  .page:not(.d) .task small { display: none; }
+  .page:not(.d) .task .big { width: 40px; height: 40px; right: 16px; top: 16px; margin-top: 0; }
+
+  /* contact block: the footer help faces + two pills; replaces the footer "Need help?" line on this page */
+  .contact { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 32px 16px; border-radius: 10px; background: var(--light-grey); }
+  .contact .faces { display: flex; margin-bottom: 8px; }
+  .contact .faces img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--light-grey); }
+  .contact .faces img + img { margin-left: -12px; }
+  .contact h2 { margin: 0; }
+  .contact .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+  .contact .btns .pill:first-child { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+  .contact .hours { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .desk .contact { flex-direction: row; text-align: left; gap: 24px; padding: 24px 32px; }
+  .desk .contact .faces { margin: 0; }
+  .desk .contact .txt { flex: 1; }
+  .desk .contact .btns { margin: 0; }
+
+  /* C: chips + one question accordion (desktop .d-acc) */
+  .chips { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .desk .chips { flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
+  .qacc { margin-top: 16px; border-top: 1px solid var(--line); }
+  .qacc details { border-bottom: 1px solid var(--line); }
+  .qacc details[hidden] { display: none; }
+  .qacc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0 14px 8px; font-weight: 600; font-size: 14px; line-height: 1.4; cursor: pointer; transition: background .15s, color .15s; }
+  .desk .qacc summary { font-size: 16px; line-height: 22px; }
+  .qacc summary::-webkit-details-marker { display: none; }
+  .qacc details:not([open]) summary:hover { background: #f8f8f8; color: var(--dark-green); }
+  .qacc summary .chev { transition: transform .2s; }
+  .qacc details[open] summary .chev { transform: rotate(180deg); }
+  .qacc details p { padding: 0 40px 16px 8px; margin-top: -4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+  .desk .qacc details p { font-size: 14px; line-height: 22px; }
+  .qacc details small { display: block; padding: 0 0 16px 8px; margin-top: -8px; }
+  .c-grid { display: block; }
+  .desk .c-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .c-side { display: flex; flex-direction: column; gap: 8px; }
+  .page:not(.d) .c-side { margin-top: 16px; }
+  .c-side .task { height: auto; min-height: 88px; padding-right: 88px; }
+  .c-side .task .big { width: 40px; height: 40px; margin-top: -20px; right: 24px; }
+  .c-side .task .go { display: none; }
+  .page:not(.d) .c-side .task small { display: block; }
+  .page:not(.d) .c-side .task { flex: none; }
+
+  /* D: centred hero with search, real team photos around it (inspo: catalogue header with photo columns) */
+  .hhero { position: relative; overflow: hidden; margin-top: 8px; border-radius: 10px; background: #f7f7f7; }
+  .hcenter { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 16px 24px; }
+  .hcenter h1 { font-size: 28px; line-height: 32px; }
+  .hcenter .lead { margin-top: 8px; max-width: 520px; }
+  .hcenter .hsearch { width: 100%; margin-top: 16px; }
+  .hcenter .hsearch input { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .pop { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .pop .pill { font-size: 12px; padding: 5px 12px; }
+  .online { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .online .faces { display: flex; }
+  .online .faces img { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #f7f7f7; }
+  .online .faces img + img { margin-left: -8px; }
+  .online .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--light-green); box-shadow: 0 0 0 3px rgba(0,166,81,.18); }
+  .online b { font-weight: 600; color: var(--black); }
+  /* photo columns (desktop): 2 left, 2 right, drifting slowly up/down, fading out top and bottom */
+  .pcol { position: absolute; top: 0; bottom: 0; z-index: 1; width: 152px; -webkit-mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); }
+  .pcol .track { display: flex; flex-direction: column; gap: 16px; animation: drift 60s linear infinite; }
+  .pcol.up .track { animation-direction: reverse; }
+  .pcol img { width: 100%; aspect-ratio: 9 / 11; object-fit: cover; border-radius: 10px; }
+  @keyframes drift { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .pcol .track, .pstrip .track { animation: none; } }
+  .page.d .hcenter { max-width: 800px; margin: 0 auto; padding: 32px 0 48px; }
+  .page.d .pop { flex-wrap: nowrap; }
+  .page.d .hcenter h1 { font-size: 48px; line-height: 56px; letter-spacing: -1.2px; }
+  .page.d .hcenter .lead { font-size: 16px; line-height: 24px; }
+  .page.d .pop { font-size: 14px; } .page.d .pop .pill { font-size: 14px; padding: 6px 12px; }
+  .page.d .online { font-size: 14px; line-height: 22px; }
+  .pcol.l1 { left: 24px; } .pcol.l2 { left: 192px; top: -48px; }
+  .pcol.r1 { right: 192px; top: -48px; } .pcol.r2 { right: 24px; }
+  .pcol { display: none; }   /* side columns hidden (Cornel: strip on desktop too), CSS kept */
+  /* photo strip (mobile): one row on top, drifting sideways like the logo bar */
+  .pstrip { display: none; overflow: hidden; padding-top: 16px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .pstrip .track { display: flex; gap: 8px; width: max-content; animation: slide 50s linear infinite; }
+  .pstrip img { width: 88px; height: 108px; object-fit: cover; border-radius: 10px; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .pstrip { display: block; }
+  .page.d .pstrip { padding-top: 24px; }
+  .page.d .pstrip .track { gap: 16px; animation-duration: 80s; }
+  .page.d .pstrip img { width: 160px; height: 196px; }
+  .page:not(.d) .pop { align-self: stretch; flex-wrap: nowrap; justify-content: flex-start; gap: 4px; overflow-x: auto; scrollbar-width: none; margin: 16px -16px 0; padding: 0 16px; }   /* one swipe row, as the chips elsewhere */
+  .page:not(.d) .pop::-webkit-scrollbar { display: none; }
+  .page:not(.d) .pop .pill { flex-shrink: 0; }
+</style>
+</head>
+<body data-desktop>
+<script>
+  // same switch as the prototype: html.desk from 1024px; ?view=mobile shows the 390 column on a big screen
+  (function () {
+    var mob = new URLSearchParams(location.search).get('view') === 'mobile';
+    if (mob) document.documentElement.classList.add('mob-frame');
+    else if (innerWidth >= 1024) document.documentElement.classList.add('desk');
+  })();
+</script>
+
+<nav class="sk-top">
+  <b>Help Centre sketch</b>
+  <a href="#a">A · Calm artifact</a>
+  <a href="#b">B · Tasks first ★</a>
+  <a href="#c">C · Questions first</a>
+  <a href="#d">D · Human hero + B ★</a>
+  <button id="view" type="button" aria-pressed="false">Mobile view</button>
+</nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Starting point:</b> Cornel's artifact: a green hero with "HELP CENTRE" tag, product photos and search, then "Browse by topic"
+      (6 cards, green titles, article-count badges, 3 questions each), then "Still need a hand?" with Chat with Anna / Email us.</p>
+    <p><b>What I keep in every concept:</b> search first (it's what people come for), the 6 topics with 3 questions each, and
+      contact at the end. <b>What I take out:</b></p>
+    <ul>
+      <li>The green hero with product photos. On a help page it's decoration that pushes the answers down, and it's a style no other
+        page uses. Instead it gets the category page intro: crumbs, h1, a lead line.</li>
+      <li>The "HELP CENTRE" uppercase tag (the breadcrumb already says it), the green card titles (titles are black) and the
+        "N articles" badges ("View all 12 articles" already says it).</li>
+      <li>The footer "Need help?" line on this page, because the contact block replaces it.</li>
+    </ul>
+    <p><b>My pick: B.</b> Most people don't come to read; they come to <i>do</i> something: track an order, report a problem, get a quote.
+      The artifact already has those flows (report-a-problem form, quote form), but they're hidden behind topics. B puts them
+      first as our grey tiles, then the topics. A is the safe 1:1, C is the most compact (FAQ style).</p>
+  </div>
+
+  <!-- ================= A ================= -->
+  <div class="sk-label" id="a"><b>A · The artifact, in our system</b>Same order and content as the artifact. Intro + search,
+    6 topic cards 3×2 (outline, hover shadow), contact block. Mobile: the topics as the PDP accordion instead of 6 tall cards.</div>
+  <div class="page" data-concept="a"></div>
+
+  <!-- ================= B ================= -->
+  <div class="sk-label" id="b"><b>B · Tasks first <span class="pick">my pick</span></b>A + one row of 3 task tiles under the search
+    (the grey 120px category tile: title top left, icon right, grey arrow). They go straight to the order list / report-a-problem form /
+    quote form. Mobile: the tiles as a swipe row (184 wide, as the category cards), topics as the accordion.</div>
+  <div class="page" data-concept="b"></div>
+
+  <!-- ================= C ================= -->
+  <div class="sk-label" id="c"><b>C · Questions first</b>Intro + search, then topic chips (as on the PLP) over one list of the most-asked
+    questions, answered in place (the PDP FAQ accordion). Tasks and contact on the right on desktop, under the list on mobile.
+    Most compact, but a topic shows only its top questions until you open "View all".</div>
+  <div class="page" data-concept="c"></div>
+
+  <!-- ================= D ================= -->
+  <div class="sk-label" id="d"><b>D · Human hero + B <span class="pick">new pick</span></b>Cornel's inspo (centred catalogue
+    header with photos around it), made ours: a light grey hero with real team photos from helloprint.com (about-us + our-culture)
+    as one strip drifting sideways on top, like the logo bar, on mobile and desktop (side columns tried and dropped). Under it the
+    centred title, search, "Popular" chips and a live line with the help faces. Below it B as is (tasks → topics → contact).
+    Motion stops with "reduce motion".</div>
+  <div class="page" data-concept="d"></div>
+</div>
+
+<script>
+  const I = {
+    cart: '<path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+    image: '<rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-5 3.5 3.5L15 14l5 4.5"/>',
+    doc: '<path d="M6.5 3.5h7.5l4 4v13h-11.5z"/><path d="M14 3.5v4h4M9.5 12h5M9.5 15.5h5"/>',
+    truck: '<path d="M2.5 6.5h11v10h-11zM13.5 9.5h4l3 3.5v3.5h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/>',
+    user: '<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20.5c1.2-3.8 4.2-5.5 7.5-5.5s6.3 1.7 7.5 5.5"/>',
+    flag: '<path d="M5 21V4.5M5 4.5h11l-2 4 2 4H5"/>',
+    box: '<path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5 12 11.5l8.5-4M12 11.5v9"/>',
+    alert: '<path d="M12 3.5 21 19.5H3z"/><path d="M12 10v4.5M12 17.2v.1"/>',
+    quote: '<path d="M6.5 3.5h7.5l4 4v13h-11.5z"/><path d="M14 3.5v4h4M12 10.5v6M10 12.2c0-.9.9-1.4 2-1.4s2 .5 2 1.3c0 1.9-4 .9-4 2.9 0 .8.9 1.3 2 1.3s2-.5 2-1.4"/>',
+    chat: '<path d="M4 5.5h16v10.5H10l-4.5 3.5V16H4z"/>',
+    mail: '<rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="m4 6.5 8 6 8-6"/>',
+    chev: '<path d="m6 9 6 6 6-6"/>',
+    right: '<path d="m9 6 6 6-6 6"/>',
+    arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>',
+    search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+  };
+  const svg = (n, c = '') => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+
+  // topics: names from the artifact, questions from helloprint.com/en-ie/help-centre where they exist
+  const TOPICS = [
+    { id: 'ordering', name: 'Ordering', icon: 'cart', n: 16, q: ['Can I change my order?', 'Can I cancel my order?', 'How do I request a quote?'] },
+    { id: 'design', name: 'Design & upload', icon: 'image', n: 12, q: ['How do I upload my artwork?', 'How do I approve my proof?', 'What is the biggest file size I can upload?'] },
+    { id: 'payment', name: 'Payment & invoicing', icon: 'doc', n: 8, q: ['Where do I download my invoice?', 'What payment methods do you accept?', 'Can I pay on account?'] },
+    { id: 'delivery', name: 'Delivery & tracking', icon: 'truck', n: 7, q: ['Where can I find my order status?', 'Is my order guaranteed to be delivered on the chosen date?', 'Why did the delivery date change?'] },
+    { id: 'account', name: 'Account', icon: 'user', n: 9, q: ['Where do I see all my orders?', 'Can I repeat a previous order?', 'How do I update my details?'] },
+    { id: 'complaints', name: 'Complaints', icon: 'flag', n: 5, q: ['How do I report a problem with my order?', 'Can I return my order?', 'What can I get if my print is wrong or damaged?'] },
+  ];
+  const ANSWERS = {
+    'Can I change my order?': 'Yes, until your order goes into production. Open the order in My Account and choose Change order; after that we can no longer stop the press.',
+    'Can I cancel my order?': 'You can cancel free of charge until your artwork is approved. Go to My Account → Orders → Cancel. Once printing has started, cancelling is no longer possible.',
+    'How do I upload my artwork?': 'Upload on the product page after you choose your options, or later from My Account. We accept PDF, AI, JPG and PNG up to 1 GB.',
+    'How do I approve my proof?': 'We e-mail you when your digital proof is ready. Open it, check every page and click Approve; production starts right after.',
+    'Where do I download my invoice?': 'Every invoice is in My Account → Orders. Open the order and click Download invoice (PDF).',
+    'Where can I find my order status?': 'In My Account → Orders you see the status of every order and, once shipped, the track & trace link.',
+    'Is my order guaranteed to be delivered on the chosen date?': 'We show an estimated day and a latest date for every delivery option. If we miss the latest date, contact us and we\'ll make it right.',
+    'How do I report a problem with my order?': 'Use Report a problem: choose the order, tell us what went wrong and add a photo. We usually reply within one working day.',
+  };
+  const POPULAR = Object.keys(ANSWERS);
+  const topicOf = q => TOPICS.find(t => t.q.includes(q));
+  const ALLQ = TOPICS.flatMap(t => t.q.map(q => ({ q, t: t.name })));
+
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const qlist = t => `<ul class="qlist">${t.q.map(q => `<li><a href="#${slug(q)}">${q}${svg('right')}</a></li>`).join('')}</ul>`;
+  const viewAll = t => `<a class="link" href="#help-${t.id}">View all ${t.n} articles${svg('right')}</a>`;
+
+  const intro = () => `
+    <p class="crumbs"><a href="#">Home</a> / Help Centre</p>
+    <section class="intro">
+      <h1>How can we help?</h1>
+      <p class="lead">Search our guides, sort a problem or track an order. Most answers are one click away.</p>
+      <form class="hsearch" onsubmit="return false">
+        <input type="search" placeholder="Search help, e.g. how do I upload artwork?" aria-label="Search help" autocomplete="off">
+        <button type="submit" aria-label="Search">${svg('search')}</button>
+        <div class="sugg" hidden></div>
+      </form>
+    </section>`;
+
+  const topics = d => d
+    ? `<div class="topics">${TOPICS.map(t => `<div class="tcard"><a class="tcard-h" href="#help-${t.id}">${svg(t.icon)}<span>${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`
+    : `<div class="tacc">${TOPICS.map((t, i) => `<details${i === 0 ? ' open' : ''}><summary>${svg(t.icon)}${t.name}${svg('chev', 'chev')}</summary>${qlist(t)}${viewAll(t)}</details>`).join('')}</div>`;
+
+  const TASKS = [
+    { t: 'Track my order', s: 'Status and track & trace of every order', icon: 'box', href: '#my-account-orders' },
+    { t: 'Report a problem', s: 'Something wrong with your print or delivery', icon: 'alert', href: '#report-a-problem' },
+    { t: 'Request a quote', s: 'Big volumes, custom sizes or something not on the site', icon: 'quote', href: '#new2contactform?type=inquiry' },
+  ];
+  const tasks = () => `<div class="tasks">${TASKS.map(k => `<a class="task" href="${k.href}"><b>${k.t}</b><small>${k.s}</small>${svg(k.icon, 'big')}${svg('arrow', 'go')}</a>`).join('')}</div>`;
+
+  const contact = () => `
+    <div class="contact">
+      <div class="faces"><img src="assets/desktop/help-3.png" alt=""><img src="assets/desktop/help-2.png" alt=""><img src="assets/desktop/help-1.png" alt=""></div>
+      <div class="txt"><h2>Still need a hand?</h2><p class="lead">Our print experts are here to help. Mon–Fri 9:00–17:00, chat is open any time.</p></div>
+      <div class="btns"><a class="pill" href="#chat">${svg('chat')}Chat with us</a><a class="pill" href="#new2contactform">${svg('mail')}Email us</a></div>
+    </div>`;
+
+  const qacc = () => `<div class="qacc">${POPULAR.map((q, i) => `<details data-topic="${topicOf(q).id}"${i === 0 ? ' open' : ''}><summary>${q}${svg('chev', 'chev')}</summary><p>${ANSWERS[q]}</p></details>`).join('')}</div>`;
+  const chips = () => `<div class="chips"><button class="pill active" data-chip="all">Popular</button>${TOPICS.map(t => `<button class="pill" data-chip="${t.id}">${t.name}</button>`).join('')}</div>`;
+
+  // real HelloPrint team photos (helloprint.com/en-ie/about-us + /our-culture, face-cropped 360×440)
+  const PEOPLE = ['colleagues', 'laptop', 'office-cheer', 'smiles', 'kitchen', 'merch-team', 'team-night', 'office', 'rooftop'];
+  const pimg = n => `<img src="assets/help/${n}.webp" alt="">`;
+  const pcol = (cls, list) => `<div class="pcol ${cls}" aria-hidden="true"><div class="track">${[...list, ...list].map(pimg).join('')}</div></div>`;
+  const POP = ['Track my order', 'Upload artwork', 'Change my order', 'Download invoice', 'Delivery times'];
+  const hero = () => `
+    <p class="crumbs"><a href="#">Home</a> / Help Centre</p>
+    <section class="hhero">
+      <div class="pstrip" aria-hidden="true"><div class="track">${[...PEOPLE, ...PEOPLE].map(pimg).join('')}</div></div>
+      ${pcol('l1', ['colleagues', 'kitchen', 'office'])}${pcol('l2 up', ['laptop', 'smiles', 'rooftop'])}
+      ${pcol('r1 up', ['office-cheer', 'merch-team', 'colleagues'])}${pcol('r2', ['smiles', 'team-night', 'laptop'])}
+      <div class="hcenter">
+        <h1>How can we help?</h1>
+        <p class="lead">Real people, real answers. Search our guides, sort a problem or ask one of our print experts.</p>
+        <form class="hsearch" onsubmit="return false">
+          <input type="search" placeholder="Search help, e.g. how do I upload artwork?" aria-label="Search help" autocomplete="off">
+          <button type="submit" aria-label="Search">${svg('search')}</button>
+          <div class="sugg" hidden></div>
+        </form>
+        <div class="pop">Popular:${POP.map(p => `<a class="pill" href="#${slug(p)}">${p}</a>`).join('')}</div>
+        <p class="online"><span class="faces"><img src="assets/desktop/help-3.png" alt=""><img src="assets/desktop/help-2.png" alt=""><img src="assets/desktop/help-1.png" alt=""></span><span class="dot"></span><span><b>Our print experts are online</b> · usually reply within minutes</span></p>
+      </div>
+    </section>`;
+
+  const BUILD = {
+    d: d => `${hero()}<section class="blk">${tasks()}</section><section class="blk"><h2>Browse by topic</h2>${topics(d)}</section><section class="blk">${contact()}</section>`,
+    a: d => `${intro()}<section class="blk"><h2>Browse by topic</h2>${topics(d)}</section><section class="blk">${contact()}</section>`,
+    b: d => `${intro()}<section class="blk">${tasks()}</section><section class="blk"><h2>Browse by topic</h2>${topics(d)}</section><section class="blk">${contact()}</section>`,
+    c: d => `${intro()}<div class="blk c-grid"><section><h2>Most asked questions</h2>${chips()}${qacc()}</section><aside class="c-side">${tasks().replace('class="tasks"', 'class="c-side-tasks" style="display:contents"')}</aside></div><section class="blk">${contact()}</section>`,
+  };
+
+  function render() {
+    const d = document.documentElement.classList.contains('desk');
+    document.querySelectorAll('.page').forEach(p => {
+      p.classList.toggle('d', d);
+      p.innerHTML = BUILD[p.dataset.concept](d);
+      wire(p);
+    });
+  }
+
+  function wire(p) {
+    // search: suggestions from all topic questions
+    const f = p.querySelector('.hsearch'), inp = f.querySelector('input'), box = f.querySelector('.sugg');
+    inp.addEventListener('input', () => {
+      const v = inp.value.trim().toLowerCase();
+      if (v.length < 2) { box.hidden = true; return; }
+      const hits = ALLQ.filter(x => x.q.toLowerCase().includes(v)).slice(0, 6);
+      box.innerHTML = hits.length ? hits.map(h => `<a href="#${slug(h.q)}">${h.q}<small>${h.t}</small></a>`).join('') : `<p>No answers yet for "${inp.value}". Try other words or chat with us.</p>`;
+      box.hidden = false;
+    });
+    inp.addEventListener('blur', () => setTimeout(() => (box.hidden = true), 150));
+    // C: chips filter the question list
+    p.querySelectorAll('[data-chip]').forEach(b => b.addEventListener('click', () => {
+      p.querySelectorAll('[data-chip]').forEach(x => x.classList.toggle('active', x === b));
+      const id = b.dataset.chip, acc = p.querySelector('.qacc');
+      if (id === 'all') { acc.innerHTML = qacc().replace(/^<div class="qacc">|<\/div>$/g, ''); return; }
+      const t = TOPICS.find(x => x.id === id);
+      acc.innerHTML = t.q.map((q, i) => `<details${i === 0 ? ' open' : ''}><summary>${q}${svg('chev', 'chev')}</summary><p>${ANSWERS[q] || 'Answer from the live Help Centre.'}</p></details>`).join('') +
+        `<div style="padding:16px 0 0 8px">${viewAll(t)}</div>`;
+    }));
+  }
+
+  const vb = document.getElementById('view');
+  vb.setAttribute('aria-pressed', document.documentElement.classList.contains('mob-frame'));
+  vb.addEventListener('click', () => {
+    const u = new URL(location.href);
+    if (u.searchParams.get('view') === 'mobile') u.searchParams.delete('view'); else u.searchParams.set('view', 'mobile');
+    location.href = u.toString();
+  });
+  render();
+</script>
+</body>
+</html>
