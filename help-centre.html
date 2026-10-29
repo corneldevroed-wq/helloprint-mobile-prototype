@@ -6,8 +6,8 @@
 <title>Help Centre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,edit,error,home,local_mall,local_shipping,receipt,task_alt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,home,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -76,9 +76,9 @@
   </main>
 </div>
 
-<script src="app.js?v=20261106b"></script>
-<script src="help-content.js?v=20261106b"></script>
-<script src="help-data.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
+<script src="help-content.js?v=20261106f"></script>
+<script src="help-data.js?v=20261106f"></script>
 <script>
   const I = {
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
@@ -104,7 +104,7 @@
   if (HELP_MODE === 'faq') {
     hubTopics.innerHTML = `<div class="ha-grid hc-hubview"><aside class="ha-side"></aside><div class="ha-body">
         <h2>Popular articles</h2>
-        <div class="hc-quick">${HELP_POPULAR.map(([ms, q]) => `<a class="hc-card" href="${helpUrl(q)}"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${ms}</span><span class="hc-card-h">${q}</span><span class="hc-quick-p">${helpExcerpt(q)}</span><span class="link">Read more</span></a>`).join('')}</div>
+        <div class="hc-quick">${HELP_POPULAR.map(q => `<a class="hc-card" href="${helpUrl(q)}"><span class="badge neutral">${helpFind(HELP_SLUG[q]).topic.name}</span><span class="hc-card-h">${q}</span><span class="hc-quick-p">${helpExcerpt(q)}</span><span class="link">Read more</span></a>`).join('')}</div>
         <h2 class="hc-common">Common questions</h2>
         ${helpFaq(HELP_COMMON.map(q => [q, HELP_SLUG[q]]))}
       </div></div>`;

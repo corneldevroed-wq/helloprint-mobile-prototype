@@ -6,7 +6,7 @@
 <title>Leaflet Printing &amp; Flyers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -110,8 +110,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261106b"></script>
-<script src="products.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
+<script src="products.js?v=20261106f"></script>
 <script>
   const C = 'assets/category/', F = PRODUCTS['standard-flyers'], pdp = F.href;
   const TICK = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -128,7 +128,7 @@
     <a class="product" href="${p.href}">
       <div class="thumb" style="background:${p.bg}">
         <img src="${p.img}" alt="" loading="lazy">
-        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+        ${badgeHtml(p.badge)}
       </div>
       <p class="name">${p.name}</p>
       ${ticks(p.text)}
@@ -158,7 +158,7 @@
     <li data-group="${m.groups.join(' ')}">
       <a class="mat" href="${m.href}">
         <img class="mat-icon" src="assets/icons/materials/${m.icon}.svg" alt="">
-        <span class="text">${m.badge ? `<span class="badge">${m.badge}</span>` : ''}<strong>${m.name}</strong><small>${m.text}</small></span>
+        <span class="text">${badgeHtml(m.badge)}<strong>${m.name}</strong><small>${m.text}</small></span>
         <img class="chev" src="${C}arrow.svg" alt="">
       </a>
     </li>`).join('');
@@ -181,7 +181,7 @@
     <a class="product" href="#${slug}">
       <div class="thumb" style="background:var(--light-grey)">
         <img src="assets/flyers/fold-${img}.webp" alt="" loading="lazy">
-        ${tpl ? '<span class="badge">Free design templates</span>' : ''}
+        ${tpl ? badgeHtml('Free design templates') : ''}
       </div>
       <p class="name">${name}</p>
       ${ticks(text)}
@@ -208,7 +208,7 @@
     <a class="product" href="${href}">
       <div class="thumb" style="background:var(--light-grey)">
         <img src="${img}" alt="" loading="lazy">
-        ${tpl ? '<span class="badge">Free design templates</span>' : ''}
+        ${tpl ? badgeHtml('Free design templates') : ''}
       </div>
       <p class="name">${name}</p>
       <div><p class="from">${qty > 1 ? qty + ' pieces for' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>

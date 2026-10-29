@@ -6,7 +6,7 @@
 <title>Details &amp; Shipping</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body>
 <div class="phone">
@@ -171,7 +171,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
 <script>
   // Nothing to check out → back to the cart
   const items = getCart();
@@ -266,7 +266,7 @@
       </li>` : '') + book.map(a => `
       <li class="${a.id === current ? 'on' : ''}" aria-checked="${a.id === current}">
         <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="radio" aria-hidden="true"></span>
-          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</span></button>
+          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</span></button>
         <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
         <div class="menu" hidden>
           <button type="button" data-edit-addr="${a.id}">Edit</button>
@@ -278,7 +278,7 @@
   function renderBook() {
     document.getElementById('addrRow').innerHTML = book.map(a => `
       <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
-        <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge co-badge">Default</span>' : ''}</div>
+        <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</div>
         <p>${addrLines(a).map(escA).join('<br>')}</p>
       </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span>+</span>New address</button>';
     renderList();

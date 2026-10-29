@@ -6,7 +6,7 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -188,14 +188,14 @@
   </main>
 </div>
 
-<script src="app.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
     <a class="product${p.desk ? ' desk-only' : ''}" href="${p.href || '#' + slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''}>
       <div class="thumb" style="background:${p.bg}">
         <img src="assets/${p.img}" alt="" loading="lazy">
-        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+        ${badgeHtml(p.badge)}
       </div>
       <p class="name">${p.name}</p>
       <div>

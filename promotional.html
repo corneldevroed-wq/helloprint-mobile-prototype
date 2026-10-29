@@ -6,7 +6,7 @@
 <title>Promotional Print</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -129,8 +129,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261106b"></script>
-<script src="products.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
+<script src="products.js?v=20261106f"></script>
 <script>
   // Live names, quantities, prices, links and images. Products we have a page for open it, with its price;
   // the rest stay anchors like everywhere in the prototype.
@@ -140,7 +140,7 @@
     <a class="product" href="${href}">
       <div class="thumb" style="background:var(--light-grey)">
         <img src="${img}" alt="" loading="lazy">
-        ${badge ? `<span class="badge">${badge}</span>` : ''}
+        ${badgeHtml(badge)}
       </div>
       <p class="name">${name}</p>
       <div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
@@ -224,7 +224,7 @@
     <li data-group="${groups}">
       <a class="mat" href="${href}">
         <img class="mat-icon" src="assets/icons/materials/${icon}.svg" alt="">
-        <span class="text">${badge ? `<span class="badge">${badge}</span>` : ''}<strong>${name}</strong><small>${text}</small></span>
+        <span class="text">${badgeHtml(badge)}<strong>${name}</strong><small>${text}</small></span>
         <img class="chev" src="assets/category/arrow.svg" alt="">
       </a>
     </li>`).join('');

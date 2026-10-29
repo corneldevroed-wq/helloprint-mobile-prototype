@@ -102,6 +102,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .product .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
 .product:hover .thumb img { transform: scale(1.04); }
 .badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: 3px; padding: 4px; font-weight: 700; font-size: 12px; line-height: 1; letter-spacing: -0.36px; }
+.badge.neutral { background: var(--light-grey); color: var(--dark-grey); }   /* one label, two tones: orange = commercial highlight (Most Popular…), neutral = information (a topic…) (2026-10-29) */
 .product .name { font-weight: 600; font-size: 14px; line-height: 1.2; }
 .product .from { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .product .prices { display: flex; align-items: baseline; gap: 4px; margin-top: 0; font-weight: 700; line-height: 17px; }
@@ -565,10 +566,9 @@ body.buybar-on .toast { bottom: 100px; }
 .fc-intro { font-size: 14px; line-height: 1.5; color: var(--dark-grey); margin-top: -4px; }
 .fc-list { display: flex; flex-direction: column; gap: 12px; }
 .fc { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--outline); border-radius: 10px; background: var(--white); text-align: left; }
-.fc.rec { border-color: var(--light-green); background: rgba(0,166,81,.07); padding-top: 30px; }
+.fc.rec { border-color: var(--light-green); background: rgba(0,166,81,.07); }
 .fc[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
-.fc.rec[aria-checked="true"] { padding-top: 29px; }
-.fc-tag { position: absolute; left: -1px; top: -1px; background: var(--light-green); color: var(--white); font-weight: 700; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; padding: 4px 10px; border-radius: 10px 0 10px 0; }
+.fc .badge { position: static; align-self: flex-start; padding: 4px 8px; letter-spacing: 0; }   /* "Recommended" = the shared label (orange: a highlight), was a green uppercase corner tag (2026-10-29) */
 .fc-top { display: flex; align-items: center; gap: 10px; }
 .fc-top b { flex: 1; font-weight: 600; font-size: 16px; line-height: 1.2; }
 .fc-price { font-weight: 700; font-size: 16px; }
@@ -2599,10 +2599,11 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 /* hub (F): Getting started = quick links (the hub card: icon tile + title) and common questions (the FAQ) */
 .hc-quick { display: grid; gap: 8px; }   /* mobile: one card per row (title + explanation need the width) */
 .desk .hc-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.hc-quick .hc-ico { margin-bottom: 8px; }   /* popular articles = the material card: icon, title, short explanation, Read more (Cornel, 2026-10-29) */
+.hc-quick .badge { position: static; align-self: flex-start; margin-bottom: 8px; padding: 4px 8px; letter-spacing: 0; }   /* popular articles: the topic as a label (the shared .badge, neutral tone) */
 .hc-quick .hc-card-h { margin-bottom: 4px; }
-.hc-quick-p { flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.hc-quick-p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .desk .hc-quick-p { font-size: 14px; line-height: 22px; }
+.hc-quick .link { margin-top: auto; padding-top: 16px; }   /* Read more on the bottom line; the excerpt keeps its 2 lines */
 .hc-common { margin-top: 24px; }
 .desk .hc-common { margin-top: 32px; }   /* hub F: the topics list first on mobile too (it's the navigation) */
 .ht-lead { margin-top: 16px; }

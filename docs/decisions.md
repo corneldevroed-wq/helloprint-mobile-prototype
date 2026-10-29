@@ -3,6 +3,11 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Labels (all pages, Oct 29, 2026)
+- **10-29 — One label component, two tones:** `.badge` orange = commercial highlight (Most Popular, Best Seller, Great Value,
+  Recommended), `.badge.neutral` grey = information (Eco, Free design templates, Default, Help Centre topic). One helper in app.js
+  (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
+
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
 - **10-29 — Sub-topics in the left menu (desktop):** under the active topic, regular grey, the one you are in semibold black
   (follows the scroll); mobile keeps the section tabs. Topic + article pages keep the 760px reading width, the hub the full column.

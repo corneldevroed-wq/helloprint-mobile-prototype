@@ -33,12 +33,10 @@ const HELP_TOPICS = [
 HELP_TOPICS.forEach(t => { if (HELP_SUBS[t.id]) t.n = HELP_SUBS[t.id].reduce((n, s) => n + s.q.length, 0); });
 const HELP_SLUG = Object.fromEntries(Object.values(HELP_SUBS).flatMap(subs => subs.flatMap(sub => sub.q)));   // question → live slug
 
-// Home (id 'start') = the hub: the most-read articles as cards (icon, title, short explanation, Read more; Cornel 2026-10-29)
+// Home (id 'start') = the hub: the most-read articles as cards (topic label, title, short explanation, Read more; Cornel 2026-10-29;
+// the icons are no longer shown)
 // and other common questions as rows; all live articles from help-content.js
-const HELP_POPULAR = [
-  ['edit', 'Can I change my order?'], ['local_shipping', 'How can I track my order?'], ['task_alt', 'How do I approve my proof?'],
-  ['upload', 'What file type should I use when uploading my design?'], ['receipt', 'Downloading invoices & credit notes'], ['error', 'How do I file a complaint?'],
-];
+const HELP_POPULAR = ['Can I change my order?', 'How can I track my order?', 'How do I approve my proof?', 'What file type should I use when uploading my design?', 'Downloading invoices & credit notes', 'How do I file a complaint?'];
 const HELP_COMMON = ['Can I cancel my order?', 'Which payment methods can I use?', 'Do I need to have an account to place an order?', 'Can my order be delivered urgently?', 'What is bleed? And do I need it in my design?', 'How do I request a quote?'];
 const helpExcerpt = q => { const d = document.createElement('div'); d.innerHTML = HELP_ARTICLES[HELP_SLUG[q]] || ''; const p = d.querySelector('p'); return (p || d).textContent.trim(); };   // the first paragraph
 

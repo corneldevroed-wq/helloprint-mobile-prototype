@@ -6,7 +6,7 @@
 <title>Business Card Printing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261106b">
+<link rel="stylesheet" href="styles.css?v=20261106f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -104,8 +104,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261106b"></script>
-<script src="products.js?v=20261106b"></script>
+<script src="app.js?v=20261106f"></script>
+<script src="products.js?v=20261106f"></script>
 <script>
   // Card types
   const C = 'assets/category/';
@@ -125,7 +125,7 @@
     <a class="product" href="${p.href}">
       <div class="thumb" style="background:${p.bg}">
         <img src="${p.img}" alt="" loading="lazy">
-        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+        ${badgeHtml(p.badge)}
       </div>
       <p class="name">${p.name}</p>
       ${p.usps.length ? `<ul class="usp-list">${p.usps.map(u => `<li>${TICK}${u}</li>`).join('')}</ul>` : ''}
@@ -141,7 +141,7 @@
       <a class="mat" href="${m.href}">
         <img class="mat-icon" src="assets/icons/materials/${MAT_ICON[m.name.split(' - ')[0]] || 'silk-matte'}.svg" alt="">
         <span class="text">
-          ${m.badge ? `<span class="badge">${m.badge}</span>` : ''}
+          ${badgeHtml(m.badge)}
           <strong>${m.name}</strong>
           <small>${m.points.join(' · ')}</small>
         </span>

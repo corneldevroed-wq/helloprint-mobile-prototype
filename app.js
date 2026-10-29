@@ -258,6 +258,11 @@ try { inclVat = localStorage.getItem('hp-vat') === 'incl'; } catch (e) {}
 const VAT_RATE = 0.23;
 const fmt = n => '€' + (inclVat ? n * (1 + VAT_RATE) : n).toFixed(2);
 const esc = t => t.replace(/&/g, '&amp;');
+// Labels: one component (.badge), two tones (Cornel, 2026-10-29): orange = a commercial highlight (Most Popular, Best Seller,
+// Great Value), neutral grey = information (Eco, Free design templates, Default, a Help Centre topic)
+const BADGE_INFO = ['Eco', 'Free design templates', 'Default'];
+const badgeTone = t => BADGE_INFO.includes(t) ? ' neutral' : '';
+const badgeHtml = t => t ? `<span class="badge${badgeTone(t)}">${t}</span>` : '';
 function updatePrices() {
   document.querySelectorAll('[data-price]').forEach(el => { el.textContent = fmt(+el.dataset.price); });
 }
@@ -465,6 +470,7 @@ function popPanel() {
 const MENU_FOOT = `<div class="panel-foot">
   <a class="btn primary" href="#login" data-menu-close>Login / Register</a>
   <a class="btn outline" href="#country" data-menu-close><img class="flag" src="assets/flag.png" alt="">Ireland</a>
+  <div class="mf-help"><a href="help-centre.html">Help Centre</a><a class="mf-phone" href="tel:+353818882249"><span class="mf-dot" aria-hidden="true"></span>+353 818 882 249</a></div>
 </div>`;
 function openMenu() {
   drawer.innerHTML = MENU_FOOT; stack.length = 0; pushPanel('root');
