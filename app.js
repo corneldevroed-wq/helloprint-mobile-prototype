@@ -247,8 +247,8 @@ const ROUTES = {
 };
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="#"]');
-  const page = a && ROUTES[a.getAttribute('href').slice(1)];
-  if (page) { e.preventDefault(); location.href = page; }
+  const id = a && a.getAttribute('href').slice(1), page = ROUTES[id];
+  if (page && !document.getElementById(id)) { e.preventDefault(); location.href = page; }   // an anchor on this page wins (e.g. the Help Centre sub-topic "Payment")
 });
 
 // Prices follow the VAT toggle; the choice is remembered between pages.

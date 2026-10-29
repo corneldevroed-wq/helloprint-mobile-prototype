@@ -9,6 +9,9 @@ Add new decisions here when Cornel makes a final call.
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Sidebar round:** article count per topic in the menu (grey, right; active semibold black); no section tabs on
+  mobile (too noisy); "Can't find it?" + experts + Chat with us under the menu on topic/article pages (not in the lead text).
+  Fix: an in-page anchor wins over the prototype ROUTES (sub-topic "Payment" opened the checkout).
 - **10-29 — Sub-topics in the left menu (desktop):** under the active topic, regular grey, the one you are in semibold black
   (follows the scroll); mobile keeps the section tabs. Topic + article pages keep the 760px reading width, the hub the full column.
   Rejected: tabs above the questions on desktop.

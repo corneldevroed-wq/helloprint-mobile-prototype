@@ -251,7 +251,6 @@ body.menu-open { overflow: hidden; }
 
 /* Section tabs: stick under the header and follow the scroll position */
 .tabs { position: sticky; top: 89.2px; z-index: 15; background: var(--white); box-shadow: inset 0 -1px 0 var(--line); padding: 0 16px; display: flex; overflow-x: auto; scrollbar-width: none; }   /* the grey line as an inset shadow: the active 2px line paints over it inside the bar, so the bar can scroll (2026-10-29) */
-.tabs.more { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent); }   /* more tabs to the right: a soft fade (set by the page script) */
 .tabs::-webkit-scrollbar { display: none; }
 .tabs a { flex-shrink: 0; padding: 6px 12px; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--dark-grey); border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
 .tabs a.active { color: var(--black); border-bottom-color: var(--light-green); }
@@ -2213,7 +2212,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp > .hero .crumbs { padding-bottom: 16px; }
 .desk .plp .hero .intro p { font-size: 14px; line-height: 22px; }
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; }
-.desk .plp > .tabs a, .desk .ha-body > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
+.desk .plp > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
 .desk .plp h2, .desk .help-page h2 { margin-bottom: 8px; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
 .desk .plp .materials { gap: 8px; }
 .desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
@@ -2489,6 +2488,8 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .hc-alt .or { width: 100%; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .desk .hc-alt { gap: 16px; margin-top: 24px; padding-top: 24px; }
 .desk .hc-alt .or { width: auto; font-size: 14px; line-height: 22px; }
+.ha-side .hc-alt { justify-content: flex-start; max-width: none; }   /* under the topics menu: left aligned, the line on top as separator */
+.desk .ha-side .hc-alt .or { width: 100%; }
 .hc-online { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
 .hc-online .txt { display: flex; flex-direction: column; text-align: left; }
 .hc-online b { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--black); }
@@ -2588,6 +2589,8 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-nav a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 14px; line-height: 20px; }
 .ht-nav .material-symbols-rounded { font-size: 24px; color: var(--dark-green); }
 .ht-nav a[aria-current] { background: var(--light-grey); }
+.ht-nav .ht-n { margin-left: auto; font-weight: 400; color: var(--dark-grey); }   /* the number of articles in the topic, right (Cornel, 2026-10-29) */
+.ht-nav a[aria-current] .ht-n { font-weight: 600; color: var(--black); }   /* the active topic: number semibold black, as the active sub-topic */
 /* the sub-topics under the active topic (desktop), text only, indented to the topic name (8 + 24 icon + 12 gap) */
 .ht-subnav { list-style: none; display: flex; flex-direction: column; padding: 4px 0 8px 44px; }
 .ht-subnav a { display: block; padding: 6px 8px; border-radius: 8px; font-weight: 400; font-size: 14px; line-height: 20px; color: var(--dark-grey); }   /* regular; only the active one semibold (Cornel, 2026-10-29) */
@@ -2607,11 +2610,8 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .hc-common { margin-top: 24px; }
 .desk .hc-common { margin-top: 32px; }   /* hub F: the topics list first on mobile too (it's the navigation) */
 .ht-lead { margin-top: 16px; }
-.ha-body > .tabs { margin-top: 16px; padding: 0; }   /* the Promotional Print section tabs (.tabs), reused (Cornel, 2026-10-29) */
-.desk .ha-body > .tabs { top: 100px; z-index: 20; }
-.ht-sec { margin-top: 24px; scroll-margin-top: 140px; }   /* lands under the sticky header + tabs */
-.desk .ht-sec { margin-top: 32px; scroll-margin-top: 168px; }
-.desk.hc-submenu .ht-sec { scroll-margin-top: 124px; }   /* desktop: no tab bar above the questions */
+.ht-sec { margin-top: 24px; scroll-margin-top: 104px; }   /* lands under the sticky header (no tabs) */
+.desk .ht-sec { margin-top: 32px; scroll-margin-top: 124px; }
 
 /* Mobile menu: Help Centre link and the phone number (green dot = team online) under the country button (Cornel, 2026-10-29) */
 .mf-help { display: flex; align-items: center; justify-content: space-between; padding: 8px 0 0; font-size: 14px; line-height: 20px; }

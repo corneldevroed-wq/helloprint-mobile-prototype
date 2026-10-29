@@ -9,10 +9,9 @@ const hslug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g,
 const HELP_MODE = new URLSearchParams(location.search).get('ans') === 'page' ? 'page' : 'faq';
 const helpTopicUrl = id => id === 'start' ? 'help-centre.html' : 'help-topic.html?t=' + id;   // Getting started = the hub, every other topic its own page
 const helpUrl = q => 'help-article.html?q=' + (HELP_SLUG[q] || hslug(q));   // every answer has its own page (isolated article URLs needed, Cornel 2026-10-29)
-// Sub-topics (Cornel, 2026-10-29: M): on desktop they unfold under the active topic in the left menu; on mobile the section tabs
-// (the menu sits below the content there). Rejected: tabs above the questions on desktop.
+// Sub-topics (Cornel, 2026-10-29: M): on desktop they unfold under the active topic in the left menu; on mobile no section tabs
+// (too noisy, Cornel 2026-10-29): the sub-topic headings in the content do the job. Rejected: tabs above the questions.
 const helpSubMenu = () => DESK;
-if (helpSubMenu()) document.documentElement.classList.add('hc-submenu');   // CSS: no sticky tabs, so sections land closer under the header
 function helpSwitch() {   // the switch is hidden for now (Cornel, 2026-10-29: stick with F); remove `hidden` below to show it
   document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions" hidden><span>Answers</span>${[['faq', 'F'], ['page', 'P']].map(([v, l]) => `<button data-ans="${v}" aria-pressed="${v === HELP_MODE}" title="${v === 'faq' ? 'FAQ: answers fold open' : 'A page per answer'}"${v === 'page' ? ' hidden' : ''}>${l}</button>`).join('')}</div>`);
   document.querySelector('[data-ans]').parentNode.addEventListener('click', e => {
@@ -49,10 +48,13 @@ function helpFind(slug) {   // { q, topic, sub } for a live slug
 // The topic view (F on the hub, the topic page): sidebar = all topics (the current one marked), body = head, sub-topic chips,
 // per sub-topic the questions: F = the category-page FAQ (#<question> opens one), P = the hub rows to the article page.
 // opts.h = 'h1' (topic page) or 'h2' (hub, under "How can we help?"); opts.back = a "Help Centre" row on top of the sidebar.
-function helpSide(sideEl, current, subs, base = '', currentSub) {   // all topics, the current one marked; M: its sub-topics underneath
+// "Can't find it?" + the experts + Chat with us: the block under the hub search, reused under the menu (Cornel, 2026-10-29)
+const HELP_ALT = `<div class="hc-alt"><span class="or">Can't find it?</span><span class="hc-online"><span class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span><span class="txt"><b><span class="dot"></span>Our print experts are online</b><span>Usually reply within minutes</span></span></span><a class="pill active" href="#chat">Chat with us</a></div>`;
+function helpSide(sideEl, current, subs, base = '', currentSub) {   // all topics (+ number of articles), the current one marked; M: its sub-topics underneath
   const sub = t => t === current && subs && subs.length > 1 && helpSubMenu()
     ? `<ul class="ht-subnav">${subs.map((s, i) => `<li><a href="${base}#${hslug(s.name)}"${base ? '' : ` data-tab-link="${hslug(s.name)}"`}${(base ? s === currentSub : !i) ? ' class="active"' : ''}>${s.name}</a></li>`).join('')}</ul>` : '';
-  sideEl.innerHTML = `<nav aria-label="Help topics"><ul class="ht-nav">${HELP_TOPICS.map(t => `<li><a href="${helpTopicUrl(t.id)}"${t === current ? ' aria-current="page"' : ''}><span class="material-symbols-rounded" aria-hidden="true">${t.ms}</span>${t.name}</a>${sub(t)}</li>`).join('')}</ul></nav>`;
+  sideEl.innerHTML = `<nav aria-label="Help topics"><ul class="ht-nav">${HELP_TOPICS.map(t => `<li><a href="${helpTopicUrl(t.id)}"${t === current ? ' aria-current="page"' : ''}><span class="material-symbols-rounded" aria-hidden="true">${t.ms}</span>${t.name}${t.n ? `<span class="ht-n">${t.n}</span>` : ''}</a>${sub(t)}</li>`).join('')}</ul></nav>`
+    + (current.id === 'start' ? '' : HELP_ALT);   // topic + article pages: "Can't find it?" under the menu (the hub has it in the hero)
 }
 function helpFaq(qs) {   // [[q, slug]] as rows to the article page: the look of the FAQ (lines, question size), an arrow right instead of the fold
   return `<ul class="hc-rows">${qs.map(([q]) => `<li><a href="${helpUrl(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;
@@ -62,16 +64,15 @@ function helpTopicView(sideEl, bodyEl, topic) {   // the topic page: sidebar + h
   helpSide(sideEl, topic, subs);
   bodyEl.innerHTML = `
     <h1>${topic.name}</h1>
-    <p class="ht-lead">${topic.n} answers about ${topic.name.toLowerCase()}. Can't find yours? Chat with us.</p>
-    ${subs.length > 1 && !helpSubMenu() ? `<nav class="tabs" id="tabs" aria-label="Sub-topics">${subs.map((s, i) => `<a href="#${hslug(s.name)}" data-tab-link="${hslug(s.name)}"${i ? '' : ' class="active"'}>${s.name}</a>`).join('')}</nav>` : ''}
+    <p class="ht-lead">${topic.n} answers about ${topic.name.toLowerCase()}.</p>
     ${subs.map(s => `<section class="ht-sec" id="${hslug(s.name)}" data-tab-target><h2>${s.name}</h2>${helpFaq(s.q)}</section>`).join('')}`;
   helpTabs();
   const h = location.hash && document.getElementById(location.hash.slice(1)); if (h) h.scrollIntoView();   // #sub-topic (from the article page menu)
-  setTimeout(() => dispatchEvent(new Event('scroll')), 50);   // mark the right tab / menu sub-topic straight away
+  setTimeout(() => dispatchEvent(new Event('scroll')), 50);   // mark the right menu sub-topic straight away
 }
-// The section tabs of the category pages (promotional.html): click scrolls to the section, the active tab follows the scroll
+// The menu sub-topics (desktop, M): click scrolls to the section, the active one follows the scroll (as the promotional.html tabs)
 function helpTabs() {
-  const links = [...document.querySelectorAll('[data-tab-link]')], targets = [...document.querySelectorAll('[data-tab-target]')];   // the tabs or the menu sub-topics (M)
+  const links = [...document.querySelectorAll('[data-tab-link]')], targets = [...document.querySelectorAll('[data-tab-target]')];
   if (!links.length) return;
   document.addEventListener('click', e => {
     const a = e.target.closest('[data-tab-link]'); if (!a) return;
@@ -81,10 +82,7 @@ function helpTabs() {
     let cur = targets[0];
     for (const t of targets) if (t.getBoundingClientRect().top <= (DESK ? 200 : 150)) cur = t;
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = targets.at(-1);
-    links.forEach(a => { const on = a.dataset.tabLink === cur.id; if (on && !a.classList.contains('active') && a.closest('#tabs')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' }); a.classList.toggle('active', on); });
+    links.forEach(a => a.classList.toggle('active', a.dataset.tabLink === cur.id));
   };
   addEventListener('scroll', sync, { passive: true });
-  const bar = document.getElementById('tabs'); if (!bar) return;
-  const more = () => bar.classList.toggle('more', bar.scrollLeft + bar.clientWidth < bar.scrollWidth - 2);   // fade while tabs hide on the right
-  more(); bar.addEventListener('scroll', more, { passive: true }); addEventListener('resize', more);
 }
