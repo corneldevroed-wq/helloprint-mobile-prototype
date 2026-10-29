@@ -2626,7 +2626,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .hc-rows { list-style: none; border-top: 1px solid var(--line); }
 .hc-rows li { border-bottom: 1px solid var(--line); }
 .hc-rows a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); transition: background .15s, color .15s; }
-.desk .hc-rows a { padding: 14px 0 14px 8px; font-size: 14px; line-height: 20px; }   /* the PDP FAQ size (14/20): long help lists read calmer (Cornel, 2026-10-29) */
+.desk .hc-rows a { padding: 14px 0 14px 8px; font-size: 16px; line-height: 22px; }   /* the product card title size (16/22 desktop, 14 mobile); the PDP FAQ stays 14/20 (Cornel, 2026-10-29) */
 .hc-rows a:hover { background: #f8f8f8; color: var(--dark-green); }
 .hc-rows .chev { width: 24px; height: 24px; flex-shrink: 0; }
 .hc-rows small { display: block; margin-top: 2px; font-weight: 400; font-size: 12px; line-height: 16px; color: var(--dark-grey); }   /* "In other topics": the topic under the question */

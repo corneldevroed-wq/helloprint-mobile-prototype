@@ -39,6 +39,67 @@ const HELP_SUBS = {
    ]
   },
   {
+   "name": "After ordering",
+   "q": [
+    [
+     "Why have I not received my order confirmation?",
+     "why-have-i-not-received-my-order-confirmation"
+    ],
+    [
+     "Can I change my order?",
+     "can-i-change-my-order"
+    ],
+    [
+     "Can I repeat a previous order?",
+     "can-i-repeat-a-previous-order"
+    ],
+    [
+     "Can I cancel my order?",
+     "can-i-cancel-my-order"
+    ],
+    [
+     "Can I return my order?",
+     "can-i-return-my-order"
+    ],
+    [
+     "Where can I find my order status?",
+     "where-can-i-find-my-order-status"
+    ],
+    [
+     "Why can't I make any modifications to my order once it has gone into production?",
+     "why-can-t-i-make-any-modifications-to-my-order-once-it-has-gone-into-production"
+    ],
+    [
+     "How do I change my artwork file after uploading?",
+     "how-do-i-change-my-artwork-file-after-uploading"
+    ],
+    [
+     "Can I change the quantity of my order after I placed it?",
+     "can-i-change-the-quantity-of-my-order-after-i-placed-it"
+    ],
+    [
+     "I'm missing the accessory I ordered with my purchase. What now?",
+     "i-m-missing-the-accessory-i-ordered-with-my-purchase-what-now"
+    ],
+    [
+     "How do I cancel a specific product instead of my entire order?",
+     "how-do-i-cancel-a-specific-product-instead-of-my-entire-order"
+    ],
+    [
+     "How can I download designs from my previous orders?",
+     "how-can-i-download-designs-from-my-previous-orders"
+    ],
+    [
+     "Why did the delivery date change since I placed the order?",
+     "why-did-the-delivery-date-change-since-i-placed-the-order"
+    ],
+    [
+     "Why is my order \"On hold\"?",
+     "why-is-my-order-on-hold"
+    ]
+   ]
+  },
+  {
    "name": "Before ordering",
    "q": [
     [
@@ -104,67 +165,6 @@ const HELP_SUBS = {
     [
      "Ordering a custom size",
      "how-do-i-order-a-custom-size"
-    ]
-   ]
-  },
-  {
-   "name": "After ordering",
-   "q": [
-    [
-     "Why have I not received my order confirmation?",
-     "why-have-i-not-received-my-order-confirmation"
-    ],
-    [
-     "Can I change my order?",
-     "can-i-change-my-order"
-    ],
-    [
-     "Can I repeat a previous order?",
-     "can-i-repeat-a-previous-order"
-    ],
-    [
-     "Can I cancel my order?",
-     "can-i-cancel-my-order"
-    ],
-    [
-     "Can I return my order?",
-     "can-i-return-my-order"
-    ],
-    [
-     "Where can I find my order status?",
-     "where-can-i-find-my-order-status"
-    ],
-    [
-     "Why can't I make any modifications to my order once it has gone into production?",
-     "why-can-t-i-make-any-modifications-to-my-order-once-it-has-gone-into-production"
-    ],
-    [
-     "How do I change my artwork file after uploading?",
-     "how-do-i-change-my-artwork-file-after-uploading"
-    ],
-    [
-     "Can I change the quantity of my order after I placed it?",
-     "can-i-change-the-quantity-of-my-order-after-i-placed-it"
-    ],
-    [
-     "I'm missing the accessory I ordered with my purchase. What now?",
-     "i-m-missing-the-accessory-i-ordered-with-my-purchase-what-now"
-    ],
-    [
-     "How do I cancel a specific product instead of my entire order?",
-     "how-do-i-cancel-a-specific-product-instead-of-my-entire-order"
-    ],
-    [
-     "How can I download designs from my previous orders?",
-     "how-can-i-download-designs-from-my-previous-orders"
-    ],
-    [
-     "Why did the delivery date change since I placed the order?",
-     "why-did-the-delivery-date-change-since-i-placed-the-order"
-    ],
-    [
-     "Why is my order \"On hold\"?",
-     "why-is-my-order-on-hold"
     ]
    ]
   }
@@ -369,43 +369,6 @@ const HELP_SUBS = {
  ],
  "payment": [
   {
-   "name": "Payment",
-   "q": [
-    [
-     "Which payment methods can I use?",
-     "which-payment-options-do-i-have"
-    ],
-    [
-     "My payment has failed, what should I do?",
-     "my-payment-has-failed-what-should-i-do"
-    ],
-    [
-     "Why did I receive a payment reminder?",
-     "why-did-i-receive-a-payment-reminder"
-    ],
-    [
-     "Do I need to pay VAT?",
-     "do-i-need-to-pay-vat"
-    ],
-    [
-     "I have cancelled my order, why have I not received my refund?",
-     "i-have-cancelled-my-order-why-have-i-not-received-my-refund"
-    ],
-    [
-     "Why do I need to pay an extra charge if I choose 'Pay on Invoice'?",
-     "why-do-i-need-to-pay-an-extra-charge-if-i-choose-pay-on-invoice"
-    ],
-    [
-     "I have overpaid my order, how can this be resolved?",
-     "i-have-overpaid-my-order-how-can-this-be-resolved"
-    ],
-    [
-     "How refunds work",
-     "how-do-refunds-work"
-    ]
-   ]
-  },
-  {
    "name": "Invoice",
    "q": [
     [
@@ -447,6 +410,43 @@ const HELP_SUBS = {
     [
      "Downloading invoices & credit notes",
      "how-do-i-download-my-invoices-and-credit-notes"
+    ]
+   ]
+  },
+  {
+   "name": "Payment",
+   "q": [
+    [
+     "Which payment methods can I use?",
+     "which-payment-options-do-i-have"
+    ],
+    [
+     "My payment has failed, what should I do?",
+     "my-payment-has-failed-what-should-i-do"
+    ],
+    [
+     "Why did I receive a payment reminder?",
+     "why-did-i-receive-a-payment-reminder"
+    ],
+    [
+     "Do I need to pay VAT?",
+     "do-i-need-to-pay-vat"
+    ],
+    [
+     "I have cancelled my order, why have I not received my refund?",
+     "i-have-cancelled-my-order-why-have-i-not-received-my-refund"
+    ],
+    [
+     "Why do I need to pay an extra charge if I choose 'Pay on Invoice'?",
+     "why-do-i-need-to-pay-an-extra-charge-if-i-choose-pay-on-invoice"
+    ],
+    [
+     "I have overpaid my order, how can this be resolved?",
+     "i-have-overpaid-my-order-how-can-this-be-resolved"
+    ],
+    [
+     "How refunds work",
+     "how-do-refunds-work"
     ]
    ]
   }
@@ -558,15 +558,6 @@ const HELP_SUBS = {
    ]
   },
   {
-   "name": "Shipping information",
-   "q": [
-    [
-     "When do I get free shipping?",
-     "when-do-i-get-free-shipping"
-    ]
-   ]
-  },
-  {
    "name": "Shipping address",
    "q": [
     [
@@ -582,64 +573,18 @@ const HELP_SUBS = {
      "is-it-possible-to-choose-for-a-pick-up-delivery-option"
     ]
    ]
+  },
+  {
+   "name": "Shipping information",
+   "q": [
+    [
+     "When do I get free shipping?",
+     "when-do-i-get-free-shipping"
+    ]
+   ]
   }
  ],
  "account": [
-  {
-   "name": "Complaints",
-   "q": [
-    [
-     "How do I file a complaint?",
-     "how-do-i-file-a-complaint"
-    ],
-    [
-     "What is the status of my complaint?",
-     "what-is-the-status-of-my-complaint"
-    ],
-    [
-     "How long does a reply usually take?",
-     "how-long-does-a-reply-usually-take"
-    ],
-    [
-     "How do I attach files to my message?",
-     "how-do-i-attach-files-to-my-message"
-    ]
-   ]
-  },
-  {
-   "name": "Other",
-   "q": [
-    [
-     "How can I join the non-profit program?",
-     "how-can-i-join-the-non-profit-program"
-    ],
-    [
-     "Give us a call",
-     "give-us-a-call"
-    ]
-   ]
-  },
-  {
-   "name": "Company account",
-   "q": [
-    [
-     "What is a company account?",
-     "what-is-a-company-account"
-    ],
-    [
-     "Creating a company account",
-     "creating-a-company-account"
-    ],
-    [
-     "Managing users of company account",
-     "managing-users-of-company-account"
-    ],
-    [
-     "Updating your company & VAT details",
-     "how-do-i-update-my-company-and-vat-details"
-    ]
-   ]
-  },
   {
    "name": "Account",
    "q": [
@@ -694,6 +639,61 @@ const HELP_SUBS = {
     [
      "Managing your addresses",
      "how-do-i-manage-my-addresses"
+    ]
+   ]
+  },
+  {
+   "name": "Company account",
+   "q": [
+    [
+     "What is a company account?",
+     "what-is-a-company-account"
+    ],
+    [
+     "Creating a company account",
+     "creating-a-company-account"
+    ],
+    [
+     "Managing users of company account",
+     "managing-users-of-company-account"
+    ],
+    [
+     "Updating your company & VAT details",
+     "how-do-i-update-my-company-and-vat-details"
+    ]
+   ]
+  },
+  {
+   "name": "Complaints",
+   "q": [
+    [
+     "How do I file a complaint?",
+     "how-do-i-file-a-complaint"
+    ],
+    [
+     "What is the status of my complaint?",
+     "what-is-the-status-of-my-complaint"
+    ],
+    [
+     "How long does a reply usually take?",
+     "how-long-does-a-reply-usually-take"
+    ],
+    [
+     "How do I attach files to my message?",
+     "how-do-i-attach-files-to-my-message"
+    ]
+   ]
+  },
+  {
+   "name": "Other",
+   "q": [
+    [
+     "How can I join the non-profit program?",
+     "how-can-i-join-the-non-profit-program"
+    ],
+    [
+     "Give us a call",
+     "give-us-a-call"
     ]
    ]
   }
