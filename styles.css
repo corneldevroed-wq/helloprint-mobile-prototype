@@ -2478,11 +2478,10 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .hc-online .dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--light-green); box-shadow: 0 0 0 3px rgba(0,166,81,.18); }
 
 /* topics: Material Symbols line icon on a grey tile, title, questions without lines, View all */
-.hc-qlist { list-style: none; display: flex; flex-direction: column; }
-.hc-qlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 0; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
+.hc-qlist { list-style: none; margin: 0 -16px; }   /* rows of the PDP specs list height, no stripes (Cornel, 2026-10-29) */
+.hc-qlist a { display: flex; align-items: center; gap: 4px; padding: 8px 16px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .hc-qlist a:hover { color: #008539; text-decoration: underline; }
-.hc-qlist .chev { width: 20px; height: 20px; flex-shrink: 0; }   /* the grey arrow of the mobile lists */
-.hc-qlist .chev { display: none; }   /* arrows hidden, not removed (Cornel, 2026-10-29): delete this line to show them */
+.hc-qlist .chev { width: 20px; height: 20px; flex-shrink: 0; }   /* the grey arrow of the mobile lists, right after the text, 20px as the View all arrow (Cornel, 2026-10-29) */
 /* the topic cards = the material card (desktop border + hover from the shared card rules); 1 column mobile, 3 desktop */
 .hc-topics { display: grid; gap: 8px; }   /* mobile: all topics written out, one per row (Cornel, 2026-10-29) */
 .desk .hc-topics { gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -2493,9 +2492,9 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 /* card top = one link row: icon + title (B, Cornel 2026-10-29: no arrow, hover turns the title green) */
 .hc-card-top { display: flex; align-items: center; gap: 16px; align-self: stretch; margin: 0 -16px; padding: 0 16px 16px; border-bottom: 1px solid var(--line); }   /* one full-width line under icon + title (Cornel, 2026-10-29) */
 .hc-card-top:hover .hc-card-h { color: #008539; }
-.hc-card .hc-qlist { flex: 1; align-self: stretch; margin-top: 8px; }   /* 16px from the title to the first question (8 + the row padding); no lines, only the arrows (Cornel, 2026-10-29) */
+.hc-card .hc-qlist { flex: 1; align-self: stretch; margin-top: 8px; }   /* the zebra rows start 8px under the line */
 .desk .hc-card .hc-qlist a { font-size: 14px; line-height: 22px; }
-.hc-card .link { margin-top: 8px; }   /* 16px from the last question (8 + the row padding) */
+.hc-card .link { margin-top: 16px; }   /* 16px from the last question */
 
 /* image cards in the promo-card size (.promo-e .pc): image only, no title gradient, no hover; mobile swipe row, 32px around (§12) */
 .help-page .pc-img::after { display: none; }
@@ -2506,7 +2505,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .hc-team { display: flex; flex-direction: column; gap: 16px; padding: 24px 16px; }
 .hc-team h2 { margin: 0 0 8px; }
 .hc-team .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.hc-team .people { list-style: none; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+.hc-team .people { order: -1; list-style: none; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
 .hc-team .people::-webkit-scrollbar { display: none; }
 .hc-team .people li { flex: 0 0 80px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hc-team .av { width: 56px; height: 56px; margin-bottom: 8px; border-radius: 50%; overflow: hidden; background: var(--light-green); }   /* team cut-outs on light green (Cornel, 2026-10-29) */
@@ -2518,7 +2517,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .hc-team .bot .material-symbols-rounded { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .desk .hc-team { flex-direction: row; align-items: center; gap: 32px; padding: 24px 32px; }
 .desk .hc-team .txt { flex: 0 1 400px; }
-.desk .hc-team .people { flex: 1; justify-content: flex-end; gap: 16px; margin: 0; padding: 0; overflow: visible; }
+.desk .hc-team .people { order: 0; flex: 1; justify-content: flex-end; gap: 16px; margin: 0; padding: 0; overflow: visible; }
 .desk .hc-team .people li { flex: 0 1 88px; min-width: 0; }
 
 /* "Still need a hand?" (replaced by the team strip): hidden, not removed */

@@ -4,8 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
-- **10-29 — Topic card, final:** one full-width light line under icon + title; questions without lines and without arrows
-  (arrows hidden in CSS, not removed); 16px title → questions → "View all". Rejected: lines between/around every question.
+- **10-29 — Topic card, final:** one full-width light line under icon + title; questions as rows of the PDP specs height
+  (8px 16px), no lines, no stripes, the grey list arrow (20px, as the View all arrow) right after the text. Mobile team strip:
+  avatars first, then the text. Rejected: lines between/around every question, arrows at the far right, bullets, zebra rows.
 - **10-29 — Topic card top = one link row** (icon tile + title side by side, hover: title green), no arrow. Questions as
   rows with full-width light lines and the grey list arrow; "View all N articles" = the green home link. Rejected: A (icon
   above the title), B with a big arrow on the right.
