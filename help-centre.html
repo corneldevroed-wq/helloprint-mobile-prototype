@@ -6,8 +6,8 @@
 <title>Help Centre</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261104j">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,edit,error,local_mall,local_shipping,receipt,request_quote,rocket_launch,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261105b">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -20,7 +20,11 @@
     <section class="hc-top">
       <p class="crumbs"><a href="index.html">Home</a> / Help Centre</p>
       <div class="hc-hero">
+        <!-- desktop: two columns of team photos on each side, staggered, drifting up and down, the inner one fading into the grey
+             (Cornel's wire, 2026-10-29); built by the script below -->
+        <div class="hc-cols l" aria-hidden="true"></div><div class="hc-cols r" aria-hidden="true"></div>
         <div class="hc-center">
+          <p class="hc-eyebrow">Help Centre</p>
           <h1>How can we help?</h1>
           <p class="lead">Real people, real answers. Search our guides, sort a problem or ask one of our print experts.</p>
           <form class="hc-search" role="search" onsubmit="return false">
@@ -72,33 +76,43 @@
   </main>
 </div>
 
-<script src="app.js?v=20261104j"></script>
+<script src="app.js?v=20261105b"></script>
+<script src="help-data.js?v=20261105b"></script>
 <script>
   const I = {
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
   };
   const svg = (n, c = '') => `<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
-  const hslug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   document.getElementById('hc-search-btn').innerHTML = svg('search');
+  // hero photo columns: each column twice in a row, so the drift loops without a jump (help team photos, live about-us + our-culture)
+  const col = list => `<div class="col"><div class="track">${[...list, ...list].map(n => `<img src="assets/help/${n}.webp" alt="">`).join('')}</div></div>`;
+  document.querySelector('.hc-cols.l').innerHTML = col(['office-cheer', 'smiles', 'kitchen', 'laptop']) + col(['colleagues', 'merch-team', 'rooftop', 'team-night']);
+  document.querySelector('.hc-cols.r').innerHTML = col(['office', 'laptop', 'merch-team', 'smiles']) + col(['team-night', 'kitchen', 'colleagues', 'office-cheer']);
   document.getElementById('hc-pop').insertAdjacentHTML('beforeend',
     ['Track my order', 'Upload artwork', 'Change my order', 'Download invoice', 'Delivery times'].map(p => `<a class="pill" href="#${hslug(p)}">${p}</a>`).join(''));
 
-  // Topics: names from Cornel's artifact, questions from helloprint.com/en-ie/help-centre where they exist
-  const TOPICS = [
-    { id: 'ordering', ms: 'local_mall', name: 'Ordering', n: 16, q: ['Can I change my order?', 'Can I cancel my order?', 'How do I request a quote?'] },
-    { id: 'design', ms: 'upload', name: 'Design & upload', n: 12, q: ['How do I upload my artwork?', 'How do I approve my proof?', 'What is the biggest file size I can upload?'] },
-    { id: 'payment', ms: 'receipt', name: 'Payment & invoicing', n: 8, q: ['Where do I download my invoice?', 'What payment methods do you accept?', 'Can I pay on account?'] },
-    { id: 'delivery', ms: 'delivery_truck_speed', name: 'Delivery & tracking', n: 7, q: ['Where can I find my order status?', 'Is my order guaranteed to be delivered on the chosen date?', 'Why did the delivery date change?'] },
-    { id: 'account', ms: 'account_circle', name: 'Account', n: 9, q: ['Where do I see all my orders?', 'Can I repeat a previous order?', 'How do I update my details?'] },
-    { id: 'complaints', ms: 'error', name: 'Complaints', n: 5, q: ['How do I report a problem with my order?', 'Can I return my order?', 'What can I get if my print is wrong or damaged?'] },
-  ];
+  const TOPICS = HELP_TOPICS;   // help-data.js (shared with the topic and article pages)
   // Topic icons: Google Material Symbols Rounded (line, 24px, weight 400 = the header cart icon), as the PDP edit pen, on a grey tile (Cornel, 2026-10-29)
   const ico = t => `<span class="hc-ico material-symbols-rounded" aria-hidden="true">${t.ms}</span>`;
-  const qlist = t => `<ul class="hc-qlist">${t.q.map(q => `<li><a href="#${hslug(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;   // the grey arrow of the mobile lists
-  const viewAll = t => `<a class="link" href="#help-${t.id}">View all ${t.n} articles</a>`;   // the green "All categories →" link of the home/category pages
-  document.getElementById('hc-topics').innerHTML =
-    `<div class="hc-topics">${TOPICS.map(t => `<div class="hc-card"><a class="hc-card-top" href="#help-${t.id}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
+  const qlist = t => `<ul class="hc-qlist">${t.q.map(q => `<li><a href="${helpUrl(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;   // the grey arrow of the mobile lists
+  const viewAll = t => `<a class="link" href="${helpTopicUrl(t.id)}">View all ${t.n} articles</a>`;   // the green "All categories →" link of the home/category pages
+  // F (Cornel, 2026-10-29): Getting started is the hub: under the head the sidebar with all topics (Getting started marked) and
+  // quick links + common questions; another topic opens its own page. P: the 6 topic cards (6 keeps the 3×2 grid)
+  const hubTopics = document.getElementById('hc-topics');
+  if (HELP_MODE === 'faq') {
+    hubTopics.innerHTML = `<div class="ha-grid hc-hubview"><aside class="ha-side"></aside><div class="ha-body">
+        <h2>Quick links</h2>
+        <div class="hc-quick">${HELP_QUICK.map(([ms, t, href]) => `<a class="hc-card" href="${href}"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${ms}</span><span class="hc-card-h">${t}</span></a>`).join('')}</div>
+        <h2 class="hc-common">Common questions</h2>
+        ${helpFaq(HELP_COMMON.map(q => { const f = helpFind(hslug(q)); return [q, f ? f.a : '']; }))}
+      </div></div>`;
+    helpSide(hubTopics.querySelector('.ha-side'), TOPICS[0]);   // Getting started = this page
+    helpOpenHash(); addEventListener('hashchange', helpOpenHash);
+  } else {
+    hubTopics.innerHTML =
+    `<div class="hc-topics">${TOPICS.filter(t => t.id !== 'start').map(t => `<div class="hc-card"><a class="hc-card-top" href="${helpTopicUrl(t.id)}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
+  }
 
   // team cut-outs (Cornel, 2026-10-29) on the light green avatar background (CSS); names and roles are placeholders
   const PEOPLE_TEAM = [
@@ -114,14 +128,16 @@
   document.getElementById('hc-btns').innerHTML =
     `<a class="pill active" href="#chat">Chat with us</a><a class="pill" href="#new2contactform">Email us</a>`;
 
-  // Search: suggestions from all topic questions
-  const ALLQ = TOPICS.flatMap(t => t.q.map(q => ({ q, t: t.name })));
+  helpSwitch();
+
+  // Search: suggestions from all questions (hub + sub-topics in help-data.js)
+  const ALLQ = [...new Map(TOPICS.flatMap(t => [...t.q, ...(HELP_SUBS[t.id] || []).flatMap(sub => sub.q.map(([q]) => q))].map(q => [q, { q, t: t.name }]))).values()];   // every question we have, once
   const form = document.querySelector('.hc-search'), inp = form.querySelector('input'), box = form.querySelector('.hc-sugg');
   inp.addEventListener('input', () => {
     const v = inp.value.trim().toLowerCase();
     if (v.length < 2) { box.hidden = true; return; }
     const hits = ALLQ.filter(x => x.q.toLowerCase().includes(v)).slice(0, 6);
-    box.innerHTML = hits.length ? hits.map(h => `<a href="#${hslug(h.q)}">${h.q}<small>${h.t}</small></a>`).join('')
+    box.innerHTML = hits.length ? hits.map(h => `<a href="${helpUrl(h.q)}">${h.q}<small>${h.t}</small></a>`).join('')
       : `<p>No answers yet for "${inp.value.replace(/</g, '&lt;')}". Try other words or chat with us.</p>`;
     box.hidden = false;
   });

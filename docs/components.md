@@ -11,6 +11,8 @@ something.
 | `business-cards.html` | Category: business cards (mobile + desktop) | `.plp.clp`. Card types 4/row (last 2 over full width), ticks + real prices; reviews row; sizes (size text + use tick, shapes on one base line); materials as icon tiles; "Make it stand out" as alternating photo/text rows (`.so-rows`); "Ideas beyond business cards" as square `.cat` cards; blogs (en-gb) as `.blog-card` row; FAQ (en-gb) in the PDP accordion; made-up SEO text last |
 | `flyers.html` | Category: flyers (mobile + desktop) | `.plp.clp`, order as live: types (4) → folded (5) → reviews → sizes → materials → ideas (product cards, live prices) → "Creative Folds" content row → related (grey tiles, 5 in a row) → made-up SEO text |
 | `help-centre.html` | Help Centre hub (mobile = desktop) | Head `.hc-hero` (grey outlined block: title, sub, search with question suggestions, "Can't find it?" + experts online + Chat `.pill.active`; "Popular" chips hidden) → Browse by topic: cards `.hc-card` (material card, icons Material Symbols Rounded (line) on a grey tile, 1 col mobile / 3 desktop) → team strip `.hc-team` (Anna bot first, placeholder team in `assets/help/team/`) → hidden `.hc-contact`. Route `#cs` / `#help-centre` → this page (app.js ROUTES) |
+| `help-article.html?q=<slug>` | Help Centre article page (mobile + desktop) | Desktop: sidebar = the hub topic card (sub-topic, every question as a row, current one green, View all) left, full article right (`.ha-*`); mobile: article first. "Was this article helpful?" on the grey outlined block. Content from `help-data.js` (shared: topics, sub-topics, articles, `helpUrl`, `helpFind`); one full article so far (Can I change my order?), others show their short answer |
+| `help-topic.html?t=<topic>` | Help Centre topic page (mobile + desktop) | Sidebar = hub card with the 6 topics (current one grey), right: icon tile + h1 + count, sub-topic chips, per sub-topic the questions. Switch Answers: F = the category-page FAQ (`.d-acc` / `.acc.oc-faq`), `#<question>` opens that answer; P = hub question rows to `help-article.html`. Long answers keep their headings/lists (`.ht-long`) |
 | `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
 | `cart.html`, `details.html`, `payment.html`, `confirmed.html` | Checkout | Guest + logged-in states |
@@ -44,6 +46,12 @@ the leading ones). Remembered in `hp-flow`.
 | Icons | `icons` | old / new | new | New material icon set vs old swatches |
 | Design | `design` | a / b | a | Design cards in "Your selection" / as last config step |
 | Rec | `rec` | 0 / c / d | d | Recommended label off / variants |
+
+**Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
+sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same
+sidebar, Getting started = back). P = the 6 topic cards, topic page with rows, a page per answer (`help-article.html`).
+Shared in help-data.js: `helpSide`, `helpFaq`, `helpTopicView`, `HELP_QUICK`, `HELP_COMMON`. Shared via `help-data.js` (`HELP_MODE`, `helpUrl`, `helpSwitch`);
+remembered in `hp-hc-ans`.
 
 **Home test page**: `home-promos.html?promo=a…f`.
 

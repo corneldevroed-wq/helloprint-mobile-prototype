@@ -4,6 +4,12 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Answers: switch F/P for colleagues** (Cornel prefers FAQ-style answers, no page per answer; to be decided internally).
+  F = Getting started is the hub: under the head the topics sidebar + Quick links (grey cards) + Common questions (FAQ); a topic
+  opens `help-topic.html` (no head, same sidebar, section tabs as Promotional Print, answers fold open, `#question` opens one).
+  P = the 6 topic cards, topic page with rows, `help-article.html` per answer. Content shared in `help-data.js`.
+- **10-29 — Head:** eyebrow "Help Centre" (grey, FAQ-question size); desktop: 2 columns of team photos per side, staggered,
+  drifting slowly (80s), fading into the grey, 8px from every edge (Cornel's wire).
 - **10-29 — Topic card, final:** one full-width light line under icon + title; questions as rows of the PDP specs height
   (8px 16px), no lines, no stripes, the grey list arrow (20px, as the View all arrow) right after the text. Mobile team strip:
   avatars first, then the text. Rejected: lines between/around every question, arrows at the far right, bullets, zebra rows.

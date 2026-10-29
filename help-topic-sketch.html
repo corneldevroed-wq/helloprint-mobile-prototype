@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help topic sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,error,expand_more,local_mall,receipt,search,upload&display=block" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype: three concepts for the Help Centre topic page (behind "View all N articles").
+     Content: the live en-ie Help Centre "Ordering" page (3 sub-topics, all questions as live); answers are short placeholders.
+     Each concept: desktop (content width) and mobile (390 column), same content and wording. Uses the hub's components:
+     the grey outlined block, the topic icon tile, the green "View all"-style link, the "Can't find it?" line. -->
+<style>
+  :root { --dark-green: #022b07; --green: #008539; --light-green: #00a651; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #e4e4e4; --light-grey: #f0f0f0; --outline: #cfcfcf; --white: #fff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .ms { font-family: 'Material Symbols Rounded'; font-weight: 400; font-style: normal; font-size: 24px; line-height: 1; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+  /* sketch chrome */
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: 14px; overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid #555; border-radius: 100px; font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: 10px; background: #f7f7f7; font-size: 14px; line-height: 22px; }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 100px; background: var(--light-green); color: var(--white); font-size: 12px; vertical-align: middle; }
+  .sk-dev { margin: 16px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .4px; color: var(--mid-grey); text-transform: uppercase; }
+  .m-frame { width: 390px; max-width: 100%; padding: 16px; outline: 1px solid var(--line); }
+
+  /* shared page parts (prototype text scale: mobile 12/18, desktop 14/22) */
+  .crumbs { font-size: 14px; line-height: 24px; } .crumbs a { color: var(--green); text-decoration: underline; }
+  .m-frame .crumbs { font-size: 12px; line-height: 17px; }
+  .head { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+  .tile { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid var(--line); border-radius: 10px; background: var(--light-grey); color: var(--dark-green); }
+  h1 { font-weight: 800; font-size: 32px; line-height: 40px; letter-spacing: -0.64px; color: var(--dark-green); }
+  .m-frame h1 { font-size: 24px; line-height: 28px; letter-spacing: -0.48px; }
+  .lead { margin-top: 8px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .m-frame .lead { font-size: 12px; line-height: 18px; }
+  h2 { font-weight: 800; font-size: 24px; line-height: 32px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 8px; }
+  .m-frame h2 { font-size: 20px; line-height: 24px; }
+  .blk { margin-top: 32px; } .m-frame .blk { margin-top: 16px; }
+  .search { position: relative; max-width: 640px; margin-top: 16px; }
+  .search input { width: 100%; height: 48px; border: 1px solid var(--outline); border-radius: 100px; padding: 0 56px 0 20px; font: 400 14px/1 Inter, sans-serif; outline: none; background: var(--white); }
+  .search button { position: absolute; right: 6px; top: 6px; width: 36px; height: 36px; border-radius: 100px; background: var(--light-green); color: var(--white); display: grid; place-items: center; }
+  .search .ms { font-size: 20px; }
+  .pill { display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.2; white-space: nowrap; }
+  .pill.active { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+  .link { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 14px; line-height: 20px; color: var(--light-green); }
+  .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
+  /* question rows as on the hub: specs height, grey arrow after the text */
+  .q { list-style: none; }
+  .q a { display: flex; align-items: center; gap: 4px; padding: 8px 0; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .m-frame .q a { font-size: 12px; line-height: 18px; }
+  .q a::after { content: ""; flex-shrink: 0; width: 20px; height: 20px; background: url(assets/category/arrow.svg) center / contain no-repeat; }
+  .q a:hover { color: var(--green); text-decoration: underline; }
+  /* "Can't find it?" as on the hub */
+  .alt { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--light-grey); font-size: 14px; color: var(--dark-grey); }
+  .faces { display: flex; } .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); background: var(--light-green); } .faces img + img { margin-left: -12px; }
+  .m-frame .faces img { width: 32px; height: 32px; } .m-frame .faces img + img { margin-left: -8px; }
+  .alt b { color: var(--black); font-weight: 600; }
+  .m-frame .alt { flex-direction: column; gap: 8px; padding: 16px; text-align: center; font-size: 12px; }
+
+  /* A: live 1:1 — sub-topic tabs, a list of question links per tab */
+  .tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs button { padding: 12px 0; margin-bottom: -1px; border-bottom: 2px solid transparent; font-weight: 600; font-size: 14px; white-space: nowrap; color: var(--dark-grey); }
+  .tabs button.on { border-color: var(--dark-green); color: var(--black); }
+  .a-cols { columns: 2; column-gap: 32px; margin-top: 8px; }
+  .m-frame .a-cols { columns: 1; }
+
+  /* B: answers in place — sub-topic sections with the PDP FAQ accordion; desktop: the other topics as a sticky side nav */
+  .b-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .m-frame .b-grid { display: block; }
+  .side { position: sticky; top: 64px; display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; }
+  .side a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+  .side a .ms { color: var(--dark-green); }
+  .side a.on { background: var(--light-grey); }
+  .side a:not(.on):hover { color: var(--green); }
+  .m-frame .side { display: none; }
+  .chips { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-top: 16px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .m-frame .chips { margin-right: -16px; padding-right: 16px; }
+  .sec + .sec { margin-top: 32px; } .m-frame .sec + .sec { margin-top: 24px; }
+  .acc { border-top: 1px solid var(--line); }
+  .acc details { border-bottom: 1px solid var(--line); }
+  .acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; font-weight: 600; font-size: 16px; line-height: 22px; cursor: pointer; }
+  .m-frame .acc summary { font-size: 14px; line-height: 20px; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc summary .ms { color: var(--black); transition: transform .2s; }
+  .acc details[open] summary .ms { transform: rotate(180deg); }
+  .acc details:not([open]) summary:hover { color: var(--dark-green); }
+  .acc p { padding: 0 40px 16px 0; margin-top: -4px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .m-frame .acc p { font-size: 12px; line-height: 18px; padding-right: 0; }
+
+  /* C: help desk — all topics + sub-topics as a left menu, questions with an answer preview on the right */
+  .c-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .m-frame .c-grid { display: block; }
+  .tree { position: sticky; top: 64px; font-size: 14px; line-height: 22px; }
+  .tree > li { list-style: none; border-bottom: 1px solid var(--line); }
+  .tree > li > a { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-weight: 600; }
+  .tree > li > a .ms { color: var(--dark-green); font-size: 20px; }
+  .tree ul { list-style: none; padding: 0 0 12px 32px; }
+  .tree ul a { display: block; padding: 4px 0; color: var(--dark-grey); }
+  .tree ul a.on { color: var(--black); font-weight: 600; }
+  .m-frame .tree { display: none; }
+  .m-sel { display: none; }
+  .m-frame .m-sel { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 44px; margin-top: 16px; padding: 0 16px; border: 1px solid var(--outline); border-radius: 100px; font-size: 14px; font-weight: 600; }
+  .prev { list-style: none; }
+  .prev li { border-bottom: 1px solid var(--line); }
+  .prev a { display: block; padding: 16px 0; }
+  .prev b { display: block; font-weight: 600; font-size: 16px; line-height: 22px; }
+  .m-frame .prev b { font-size: 14px; line-height: 20px; }
+  .prev span { display: block; margin-top: 4px; font-size: 14px; line-height: 22px; color: var(--dark-grey); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .m-frame .prev span { font-size: 12px; line-height: 18px; -webkit-line-clamp: 2; }
+  .prev a:hover b { color: var(--green); }
+</style>
+</head>
+<body>
+<nav class="sk-top">
+  <b>Help topic sketch</b>
+  <a href="#a">A · Live: tabs + links</a>
+  <a href="#b">B · Answers in place ★</a>
+  <a href="#c">C · Help-desk menu</a>
+</nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>The page behind "View all 16 articles".</b> Live (en-ie, Ordering): title, 3 sub-topic tabs (Artwork check &amp; digital proof /
+      Before ordering / After ordering), every question as a link to its own page, Contact us + Request a quote at the bottom.</p>
+    <p><b>My pick: B, answers in place.</b> People come for one answer: B shows it on this page with one tap (the PDP FAQ accordion),
+      no extra page and back again, and every answer is in the HTML (SEO). All sub-topics are on one page with chips to jump, so
+      nothing hides behind a tab. On desktop the other topics stay in reach on the left. A is the live structure (3 clicks to an
+      answer: tab → question → page). C reads like a classic help desk: clear, but busier and with a second menu to learn.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b>A · Live 1:1: sub-topic tabs, question links</b>Head (icon tile + title + count), a search in this
+    topic, the live sub-topic tabs, each question as a row with the arrow (as on the hub) that opens its own question page.</div>
+  <p class="sk-dev">Desktop</p><div class="slot" data-c="a" data-d="1"></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame"><div class="slot" data-c="a"></div></div>
+
+  <div class="sk-label" id="b"><b>B · Answers in place <span class="pick">my pick</span></b>Same head and search; sub-topic chips jump
+    to a section; every section is the PDP FAQ accordion, the answer opens in place. Desktop: the 6 topics as a sticky side nav.
+    "Can't find it?" + Chat at the end, as on the hub.</div>
+  <p class="sk-dev">Desktop</p><div class="slot" data-c="b" data-d="1"></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame"><div class="slot" data-c="b"></div></div>
+
+  <div class="sk-label" id="c"><b>C · Help-desk menu</b>Left: all topics with their sub-topics as a tree; right: the questions of the
+    chosen sub-topic with the first line of the answer. Mobile: the tree becomes a select ("Before ordering ▾").</div>
+  <p class="sk-dev">Desktop</p><div class="slot" data-c="c" data-d="1"></div>
+  <p class="sk-dev">Mobile</p><div class="m-frame"><div class="slot" data-c="c"></div></div>
+  <div style="height:64px"></div>
+</div>
+
+<script>
+  // live en-ie "Ordering" (helloprint.com/en-ie/help-centre/ordering), questions as live; answers are short placeholders
+  const SUBS = [
+    { name: 'Artwork check & digital proof', q: [
+      ['What is a digital proof?', 'A digital proof is a PDF of your file as it will be printed. You check it and approve it before we start production.'],
+      ['What is and what is not included in a Premium/Deluxe Artwork Check?', 'Our designers check resolution, bleed, fonts and colours and fix small issues. Design changes are not included.'],
+      ['How long does an artwork check take?', 'Usually within one working day. You get an e-mail as soon as your proof is ready.'],
+      ['Can I make changes to my file?', 'Yes, until you approve the proof. Upload a new file from My Account → Orders.'],
+      ['I don\'t see all my designs on the print proof?', 'Each design gets its own proof. Check the other proofs in the same e-mail, or contact us.'],
+      ['How do I approve my proof?', 'Open the proof from the e-mail or My Account, check every page and click Approve.'],
+      ['What happens if I miss my proof approval deadline?', 'Your delivery date moves with the days you approve later. We send a reminder before the deadline.'] ] },
+    { name: 'Before ordering', q: [
+      ['I can\'t find the product I\'m looking for, what can I do?', 'Search the site or request a quote: our specialists can print most things that are not in the catalogue.'],
+      ['Is my order guaranteed to be delivered on the chosen date?', 'We show an estimated day and a latest date for every delivery option; if we miss the latest date, we make it right.'],
+      ['What is Secured Delivery?', 'An option that guarantees your delivery date. If it\'s late, you get the delivery costs back.'],
+      ['Can I have products packaged separately or in a special way?', 'Yes, ask for it in a quote request. Extra packaging costs depend on the product.'],
+      ['Can I request a sample?', 'For most papers you can order a free sample pack from the product page.'],
+      ['How do I order printed products with multiple designs?', 'Choose the number of designs in the configurator and upload one file per design.'],
+      ['How do I upload my multi-page or double-sided artwork?', 'Upload one PDF with the pages in order: front first, then back.'],
+      ['When do I upload my artwork?', 'Right after ordering, or later from My Account. Production starts when your file is approved.'],
+      ['How do I add a discount voucher to my order?', 'Enter the code in the cart, under the order summary, and click Apply.'],
+      ['Why is my discount voucher not working?', 'Check the end date and the minimum order value. Codes can\'t be combined.'],
+      ['Can I see a proof before paying for my order?', 'Yes, with the Premium artwork check you see a proof first, then you pay.'],
+      ['What does the status assigned to my order mean?', 'Every status is explained in My Account → Orders; tap the status to see what happens next.'],
+      ['What is the biggest file size I can upload?', 'Up to 1 GB per file. For larger files, use a download link in a quote request.'],
+      ['How do I request a quote?', 'Use Request a quote: tell us what, how many and when. You get a price within a few hours.'],
+      ['Printing something that isn\'t in our catalogue?', 'Request a quote. Our specialists find the right production partner for you.'],
+      ['Ordering a custom size', 'Choose "Custom size" in the configurator, or request a quote for very large or small formats.'] ] },
+    { name: 'After ordering', q: [
+      ['Why have I not received my order confirmation?', 'Check your spam folder. You also see every order in My Account → Orders.'],
+      ['Can I change my order?', 'Yes, until it goes into production: open the order in My Account and choose Change order.'],
+      ['Can I repeat a previous order?', 'Yes: My Account → Orders → Reorder. Your file and options are filled in.'],
+      ['Can I cancel my order?', 'Free of charge until your artwork is approved. After that, production has started.'],
+      ['Can I return my order?', 'Printed products are made for you, so we can\'t take them back. Something wrong? Report a problem.'],
+      ['Where can I find my order status?', 'In My Account → Orders, with track & trace once it ships.'],
+      ['How do I change my artwork file after uploading?', 'Upload a new file from My Account → Orders, as long as you haven\'t approved the proof.'],
+      ['Can I change the quantity of my order after I placed it?', 'Until production starts: contact us and we change it for you.'],
+      ['Why did the delivery date change since I placed the order?', 'Usually because the proof was approved later than planned. The new date is in My Account.'],
+      ['Why is my order "On hold"?', 'We need something from you: usually a file or a payment. Check your e-mail or My Account.'] ] },
+  ];
+  const TOPICS = [['local_mall', 'Ordering'], ['upload', 'Design & upload'], ['receipt', 'Payment & invoicing'], ['delivery_truck_speed', 'Delivery & tracking'], ['account_circle', 'Account'], ['error', 'Complaints']];
+  const N = SUBS.reduce((n, s) => n + s.q.length, 0);
+  const ms = n => `<span class="ms" aria-hidden="true">${n}</span>`;
+  const head = `<p class="crumbs"><a href="#">Home</a> / <a href="#">Help Centre</a> / Ordering</p>
+    <div class="head"><span class="tile">${ms('local_mall')}</span><div><h1>Ordering</h1></div></div>
+    <p class="lead">${N} answers about placing, changing and checking your order. Can't find yours? Search or chat with us.</p>
+    <form class="search" onsubmit="return false"><input type="search" placeholder="Search in Ordering" aria-label="Search in Ordering"><button aria-label="Search">${ms('search')}</button></form>`;
+  const alt = `<div class="alt blk"><span>Can't find it?</span><span class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span><span><b>Our print experts are online</b></span><a class="pill active" href="#">Chat with us</a></div>`;
+  const qrows = s => `<ul class="q">${s.q.map(([q]) => `<li><a href="#">${q}</a></li>`).join('')}</ul>`;
+  const C = {
+    a: () => `${head}<div class="blk"><div class="tabs">${SUBS.map((s, i) => `<button class="${i === 1 ? 'on' : ''}">${s.name}</button>`).join('')}</div>
+      <div class="a-cols">${qrows(SUBS[1])}</div></div>${alt}`,
+    b: () => `<div class="b-grid"><nav class="side" aria-label="Topics">${TOPICS.map(([i, n], k) => `<a href="#" class="${k === 0 ? 'on' : ''}">${ms(i)}${n}</a>`).join('')}</nav>
+      <div>${head}<div class="chips">${SUBS.map(s => `<a class="pill" href="#">${s.name}</a>`).join('')}</div>
+      <div class="blk">${SUBS.map((s, si) => `<section class="sec"><h2>${s.name}</h2><div class="acc">${s.q.map(([q, a], qi) => `<details${si === 0 && qi === 0 ? ' open' : ''}><summary>${q}${ms('expand_more')}</summary><p>${a}</p></details>`).join('')}</div></section>`).join('')}</div>${alt}</div></div>`,
+    c: () => `<div class="c-grid"><ul class="tree">${TOPICS.map(([i, n], k) => `<li><a href="#">${ms(i)}${n}</a>${k === 0 ? `<ul>${SUBS.map((s, si) => `<li><a href="#" class="${si === 1 ? 'on' : ''}">${s.name}</a></li>`).join('')}</ul>` : ''}</li>`).join('')}</ul>
+      <div>${head}<button class="m-sel">Before ordering ${ms('expand_more')}</button><div class="blk"><h2>Before ordering</h2><ul class="prev">${SUBS[1].q.map(([q, a]) => `<li><a href="#"><b>${q}</b><span>${a}</span></a></li>`).join('')}</ul></div>${alt}</div></div>`,
+  };
+  document.querySelectorAll('.slot').forEach(s => { s.innerHTML = C[s.dataset.c](); });
+  // B: tap a chip → jump to its section (sketch only)
+  document.addEventListener('click', e => { const t = e.target.closest('.tabs button'); if (!t) return; t.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === t)); });
+</script>
+</body>
+</html>
