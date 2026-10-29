@@ -2453,7 +2453,7 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
 /* hero photo columns (desktop, Cornel's wire 2026-10-29): 2 per side, staggered, drifting in opposite directions, fading into the grey */
 .hc-cols { display: none; }
-.desk .hc-hero { position: relative; overflow: hidden; }
+.desk .hc-hero { position: relative; }   /* no overflow: hidden, the search suggestions drop out of the block (the columns clip themselves) */
 .desk .hc-center { position: relative; z-index: 1; }
 .desk .hc-cols { position: absolute; top: 8px; bottom: 8px; display: flex; gap: 8px; }   /* 8px from every edge of the block (Cornel, 2026-10-29) */
 .desk .hc-cols.l { left: 8px; -webkit-mask-image: linear-gradient(90deg, #000 45%, transparent); mask-image: linear-gradient(90deg, #000 45%, transparent); }
@@ -2629,4 +2629,12 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .hc-rows a { padding: 14px 0 14px 8px; font-size: 14px; line-height: 20px; }   /* the PDP FAQ size (14/20): long help lists read calmer (Cornel, 2026-10-29) */
 .hc-rows a:hover { background: #f8f8f8; color: var(--dark-green); }
 .hc-rows .chev { width: 24px; height: 24px; flex-shrink: 0; }
+.hc-rows small { display: block; margin-top: 2px; font-weight: 400; font-size: 12px; line-height: 16px; color: var(--dark-grey); }   /* "In other topics": the topic under the question */
+.hc-rows mark { background: #e6f6ec; color: inherit; border-radius: 2px; }   /* the search match */
+.ht-search { max-width: none; margin-top: 24px; }   /* the hub search field, on the topic page (filters this topic): full column width, lines up with the rows (Cornel, 2026-10-29) */
+.ht-count { margin-top: 16px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+.ht-count b { color: var(--black); }
+.ht-empty { margin-top: 16px; padding: 16px; border-radius: 10px; background: var(--light-grey); font-size: 14px; line-height: 22px; }
+.ht-empty .pill { margin-top: 16px; }
+.help-page .ht-other h2 { font-size: 14px; line-height: 20px; letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
 

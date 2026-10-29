@@ -9,6 +9,9 @@ Add new decisions here when Cornel makes a final call.
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **10-29 — Search on the topic pages (B of help-search-sketch.html):** the hub search field under the title filters this
+  topic's questions live (match marked light green, "5 in Ordering · 1 in other topics"), up to 5 matches from other topics under
+  "In other topics", nothing anywhere = try other words + Chat with us. Not on article pages. Rejected: A (sidebar), C (band).
 - **10-29 — Sidebar round:** article count per topic in the menu (grey, right; active semibold black); no section tabs on
   mobile (too noisy); "Can't find it?" + experts + Chat with us under the menu on topic/article pages (not in the lead text).
   Fix: an in-page anchor wins over the prototype ROUTES (sub-topic "Payment" opened the checkout).

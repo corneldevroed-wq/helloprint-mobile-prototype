@@ -56,8 +56,8 @@ function helpSide(sideEl, current, subs, base = '', currentSub) {   // all topic
   sideEl.innerHTML = `<nav aria-label="Help topics"><ul class="ht-nav">${HELP_TOPICS.map(t => `<li><a href="${helpTopicUrl(t.id)}"${t === current ? ' aria-current="page"' : ''}><span class="material-symbols-rounded" aria-hidden="true">${t.ms}</span>${t.name}${t.n ? `<span class="ht-n">${t.n}</span>` : ''}</a>${sub(t)}</li>`).join('')}</ul></nav>`
     + (current.id === 'start' ? '' : HELP_ALT);   // topic + article pages: "Can't find it?" under the menu (the hub has it in the hero)
 }
-function helpFaq(qs) {   // [[q, slug]] as rows to the article page: the look of the FAQ (lines, question size), an arrow right instead of the fold
-  return `<ul class="hc-rows">${qs.map(([q]) => `<li><a href="${helpUrl(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;
+function helpFaq(qs, label) {   // [[q, slug]] as rows to the article page: the look of the FAQ (lines, question size), an arrow right instead of the fold; label(q) = a small line under it
+  return `<ul class="hc-rows">${qs.map(([q]) => `<li data-q="${q.toLowerCase().replace(/"/g, '&quot;')}"><a href="${helpUrl(q)}"><span>${q}${label ? `<small>${label(q)}</small>` : ''}</span><img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;
 }
 function helpTopicView(sideEl, bodyEl, topic) {   // the topic page: sidebar + head, sub-topic chips, per sub-topic the questions
   const subs = HELP_SUBS[topic.id];
@@ -65,11 +65,43 @@ function helpTopicView(sideEl, bodyEl, topic) {   // the topic page: sidebar + h
   bodyEl.innerHTML = `
     <h1>${topic.name}</h1>
     <p class="ht-lead">${topic.n} answers about ${topic.name.toLowerCase()}.</p>
-    ${subs.map(s => `<section class="ht-sec" id="${hslug(s.name)}" data-tab-target><h2>${s.name}</h2>${helpFaq(s.q)}</section>`).join('')}`;
+    <form class="hc-search ht-search" role="search" onsubmit="return false"><input type="search" placeholder="Search in ${topic.name}" aria-label="Search in ${topic.name}" autocomplete="off"><button type="submit" aria-label="Search"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button></form>
+    <div class="ht-res" aria-live="polite"></div>
+    ${subs.map(s => `<section class="ht-sec" id="${hslug(s.name)}" data-tab-target><h2>${s.name}</h2>${helpFaq(s.q)}</section>`).join('')}
+    <section class="ht-sec ht-other" hidden></section>`;
   helpTabs();
+  helpFilter(bodyEl, topic);
   const h = location.hash && document.getElementById(location.hash.slice(1)); if (h) h.scrollIntoView();   // #sub-topic (from the article page menu)
   setTimeout(() => dispatchEvent(new Event('scroll')), 50);   // mark the right menu sub-topic straight away
 }
+// Search on the topic page (Cornel, 2026-10-29: B of help-search-sketch.html): typing filters the questions here (match marked),
+// matches in other topics follow under "In other topics"; nothing anywhere = try other words or chat
+function helpFilter(bodyEl, topic) {
+  const inp = bodyEl.querySelector('.ht-search input'), res = bodyEl.querySelector('.ht-res'), other = bodyEl.querySelector('.ht-other');
+  const rows = [...bodyEl.querySelectorAll('.ht-sec:not(.ht-other) li')];
+  const all = Object.entries(HELP_SUBS).filter(([id]) => id !== topic.id).flatMap(([id, subs]) => subs.flatMap(sub => sub.q.map(([q, s]) => [q, s, id])));
+  const name = id => HELP_TOPICS.find(t => t.id === id).name;
+  const mark = (q, v) => { const i = q.toLowerCase().indexOf(v), h = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); return i < 0 ? h(q) : h(q.slice(0, i)) + '<mark>' + h(q.slice(i, i + v.length)) + '</mark>' + h(q.slice(i + v.length)); };
+  inp.addEventListener('input', () => {
+    const v = inp.value.trim().toLowerCase(), on = v.length > 1;
+    let here = 0;
+    rows.forEach(li => {
+      const hit = !on || li.dataset.q.includes(v); li.hidden = !hit; if (hit && on) here++;
+      const q = li.querySelector('span'); q.innerHTML = on && hit ? mark(q.textContent, v) : q.textContent;
+    });
+    bodyEl.querySelectorAll('.ht-sec:not(.ht-other)').forEach(sec => sec.hidden = !sec.querySelector('li:not([hidden])'));
+    const hits = on ? all.filter(([q]) => q.toLowerCase().includes(v)) : [];
+    other.hidden = !hits.length;
+    other.innerHTML = hits.length ? `<h2>In other topics</h2>${helpFaq(hits.slice(0, 5), q => name(hits.find(h => h[0] === q)[2]))}` : '';
+    other.querySelectorAll('li span').forEach(q => { const t = q.firstChild; t.replaceWith(document.createRange().createContextualFragment(mark(t.textContent, v))); });
+    const shown = Math.min(hits.length, 5);
+    res.innerHTML = !on ? '' : here || shown
+      ? `<p class="ht-count"><b>${here}</b> in ${topic.name}${shown ? ` · ${shown} in other topics` : ''}</p>`
+      : `<div class="ht-empty"><p>No answers for "${inp.value.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;')}" yet. Try other words, or ask one of our print experts.</p><a class="pill active" href="#chat">Chat with us</a></div>`;
+    dispatchEvent(new Event('scroll'));   // the menu sub-topic follows
+  });
+}
+
 // The menu sub-topics (desktop, M): click scrolls to the section, the active one follows the scroll (as the promotional.html tabs)
 function helpTabs() {
   const links = [...document.querySelectorAll('[data-tab-link]')], targets = [...document.querySelectorAll('[data-tab-target]')];
@@ -80,7 +112,7 @@ function helpTabs() {
   });
   const sync = () => {
     let cur = targets[0];
-    for (const t of targets) if (t.getBoundingClientRect().top <= (DESK ? 200 : 150)) cur = t;
+    for (const t of targets) if (!t.hidden && t.getBoundingClientRect().top <= (DESK ? 200 : 150)) cur = t;   // hidden = filtered out by the search
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = targets.at(-1);
     links.forEach(a => a.classList.toggle('active', a.dataset.tabLink === cur.id));
   };
