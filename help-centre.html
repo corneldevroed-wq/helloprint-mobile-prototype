@@ -88,8 +88,8 @@
   document.getElementById('hc-search-btn').innerHTML = svg('search');
   // hero photo columns: each column twice in a row, so the drift loops without a jump (help team photos, live about-us + our-culture)
   const col = list => `<div class="col"><div class="track">${[...list, ...list].map(n => `<img src="assets/help/${n}.webp" alt="">`).join('')}</div></div>`;
-  document.querySelector('.hc-cols.l').innerHTML = col(['office-cheer', 'colleagues', 'kitchen', 'rooftop', 'smiles']);   // one column a side (Cornel, 2026-10-30: two felt busy)
-  document.querySelector('.hc-cols.r').innerHTML = col(['office', 'merch-team', 'laptop', 'team-night', 'smiles']);
+  document.querySelector('.hc-cols.l').innerHTML = col(['strip-booklets', 'strip-focus', 'strip-thumbs-up']);   // one column a side (Cornel, 2026-10-30: two felt busy)
+  document.querySelector('.hc-cols.r').innerHTML = col(['strip-laptop', 'strip-magazines', 'strip-headphones']);   // Cornel's 6 square photos (2026-10-30): print and people alternate
   document.getElementById('hc-pop').insertAdjacentHTML('beforeend',
     ['Track my order', 'Upload artwork', 'Change my order', 'Download invoice', 'Delivery times'].map(p => `<a class="pill" href="#${hslug(p)}">${p}</a>`).join(''));
 
