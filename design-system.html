@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HelloPrint UI kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107d">
+<style>
+  /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
+     and every value shown is read from it when the page loads: change the prototype and the kit follows. */
+  html, body { background: var(--white); }
+  .ds-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; height: 64px; padding: 0 24px; background: var(--white); border-bottom: 1px solid var(--line); }
+  .ds-top .logo { height: 24px; }
+  .ds-top b { font-weight: 600; font-size: 14px; color: var(--dark-grey); padding-left: 16px; border-left: 1px solid var(--line); }
+  .ds-top .seg { margin-left: auto; display: flex; gap: 8px; }
+  .ds-menu-btn { display: none; }
+  .ds { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1280px; margin: 0 auto; }
+  .ds-side { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow-y: auto; padding: 32px 16px 32px 24px; }
+  .ds-side h4 { margin: 24px 0 8px 12px; font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .ds-side h4:first-child { margin-top: 0; }
+  .ds-side a { display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 22px; color: var(--black); }
+  .ds-side a:hover { color: var(--link); }
+  .ds-side a[aria-current] { background: var(--light-grey); font-weight: 600; }
+  .ds-side a.soon { color: var(--mid-grey); pointer-events: none; }
+  .ds-main { padding: 32px 48px 96px; min-width: 0; }
+  .ds-sec { max-width: 880px; padding-bottom: 64px; scroll-margin-top: 96px; }
+  .ds-sec + .ds-sec { padding-top: 64px; border-top: 1px solid var(--line); }
+  .ds-sec > h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
+  .ds-lead { margin-top: 8px; max-width: 640px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
+  .ds-sec h3 { margin: 32px 0 8px; font-weight: 600; font-size: 16px; line-height: 22px; }
+  .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fafafa; }
+  .ds-stage .w { width: 100%; }
+  .ds-stage .w > * { width: 100%; }
+  .ds-stage.left { justify-content: flex-start; }
+  code { font: 500 12px/17px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: 4px; white-space: nowrap; }
+  .ds-note { font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .ds-rules { margin-top: 16px; padding-left: 20px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .ds-rules li + li { margin-top: 4px; }
+  .ds-rules b { color: var(--black); font-weight: 600; }
+  .ds .badge:not(.thumb .badge) { position: static; display: inline-block; }
+  .ds .d-rev-nav { position: static; }
+  /* real page contexts inside a stage keep their text rules but not their page layout */
+  .ds .ds-stage .plp, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage .product { display: contents; }
+  .ds .ds-stage .plp > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
+
+  /* One row per item: example left, spec right */
+  .b-row { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .b-row:first-of-type { border-top: 1px solid var(--line); }
+  .b-row.wide { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .b-row .sw { height: 104px; }
+  .b-spec h5 { font-weight: 600; font-size: 16px; line-height: 22px; }
+  .b-spec p { margin-top: 4px; }
+  .b-spec .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .sw { width: 100%; border-radius: 8px; border: 1px solid var(--line); }
+  .sw-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; width: 100%; }
+  .sw-strip .sw { height: 56px; }
+  .sw-strip small { display: block; margin-top: 4px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+
+  /* Foundations: spacing bars, grid demo, radius and shadow tiles, icon grid */
+  .sp { display: flex; align-items: center; gap: 16px; width: 100%; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .sp i { height: 24px; background: var(--light-green); opacity: .35; border-radius: 2px; }
+  .sp span { width: 40px; text-align: right; font-weight: 600; color: var(--black); }
+  .gd { display: grid; gap: var(--g); width: 100%; }
+  .gd i { height: 56px; border-radius: 4px; background: rgba(0, 166, 81, .14); border: 1px dashed rgba(0, 133, 57, .4); }
+  .tile { display: grid; place-items: center; width: 96px; height: 72px; background: var(--white); border: 1px solid var(--line); font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 16px 8px; width: 100%; }
+  .icon-grid figure { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .icon-grid img { width: 50px; height: 50px; }
+  .icon-grid .tick { color: var(--light-green); }
+
+  /* Mobile: sidebar becomes a drawer */
+  @media (max-width: 900px) {
+    .ds { grid-template-columns: 1fr; }
+    .ds-top { gap: 8px; padding: 0 16px; }
+    .ds-top .logo { height: 18px; }
+    .ds-top b { display: none; }
+    .ds-menu-btn { display: inline-flex; }
+    .ds-side { position: fixed; top: 64px; left: 0; z-index: 25; width: 280px; background: var(--white); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .2s; }
+    .ds-side.open { transform: none; }
+    .ds-main { padding: 24px 16px 64px; }
+    .b-row { grid-template-columns: 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<header class="ds-top">
+  <button class="pill ds-menu-btn" id="dsMenu">Menu</button>
+  <img class="logo" src="assets/logo-dark.svg" alt="HelloPrint">
+  <b>UI kit</b>
+  <div class="seg" role="group" aria-label="Show examples as">
+    <button class="pill" data-view="m">Mobile</button>
+    <button class="pill" data-view="d">Desktop</button>
+  </div>
+</header>
+
+<div class="ds">
+  <nav class="ds-side" id="dsSide">
+    <h4>Foundations</h4>
+    <a href="#colours">Colours</a>
+    <a href="#typography">Typography</a>
+    <a href="#spacing">Spacing &amp; grid</a>
+    <a href="#lines">Lines, corners &amp; shadows</a>
+    <a href="#icons">Icons</a>
+    <h4>Components</h4>
+    <a href="#buttons">Buttons &amp; pills</a>
+    <a href="#forms">Form elements</a>
+    <a href="#badges">Badges</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#cards">Cards</a>
+    <a href="#accordion">Accordion / FAQ</a>
+    <a href="#options">PDP option cards</a>
+    <a href="#feedback">Toast &amp; sheet</a>
+  </nav>
+  <main class="ds-main" id="dsMain"></main>
+</div>
+
+<script>
+  // Mobile / Desktop view (URL ?view=m|d): flips html.desk, so every example shows its mobile or desktop rules
+  const q = new URLSearchParams(location.search);
+  const V = q.get('view') === 'm' ? 'm' : 'd';
+  document.documentElement.classList.toggle('desk', V === 'd');
+
+  const ARROW = '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const TICK = '<svg viewBox="0 0 16 16" width="24" height="24"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const check = ' <span class="badge neutral">Check</span>';
+
+  // One row: example (stage) left, name + meta + rule right. it.wide = example over the full width.
+  const row = it => `<div class="b-row${it.wide ? ' wide' : ''}">${it.ex}<div class="b-spec"><h5>${it.name}${it.flag ? check : ''}</h5>
+    <div class="meta">${(it.meta || []).map(m => `<code${m.live ? ` data-live="${m.live}"` : ''}>${m.t || ''}</code>`).join('')}</div>
+    <p class="ds-note">${it.use}</p></div></div>`;
+  const stage = (html, cls = '') => `<div class="ds-stage ${cls}">${html}</div>`;
+  const sec = (id, title, lead, body) => `<section class="ds-sec" id="${id}"><h1>${title}</h1><p class="ds-lead">${lead}</p>${body}</section>`;
+
+  // ---------- Colours ----------
+  const COLOURS = [
+    { group: 'Brand', items: [
+      ['Dark green', '--dark-green', 'Header, headings, active pill, secondary button text'],
+      ['Light green', '--light-green', 'Primary button, chosen option outline, search button'],
+      ['Orange', '--orange', 'Commercial badges only (Most Popular, Best Seller…)'],
+    ]},
+    { group: 'Neutrals', items: [
+      ['Black', '--black', 'Titles, body text on article pages, labels that carry info'],
+      ['Dark grey', '--dark-grey', 'Sub text under a title, body text on category pages'],
+      ['Mid grey', '--mid-grey', 'Outline of controls: pills, secondary buttons, round arrows'],
+      ['Outline', '--outline', 'Outline of option cards (PDP)'],
+      ['Line', '--line', 'Every line: dividers, tab line, accordion, footer, card outlines'],
+      ['Light grey', '--light-grey', 'Grey tiles, USP bar, active menu item, neutral badge'],
+      ['White', '--white', 'Page and card background'],
+    ]},
+    { group: 'Links & states', items: [
+      ['Link', '--link', 'Inline links (underlined), breadcrumbs, link hover'],
+      ['Error', '--error', 'Field errors: outline, label and message. One red everywhere'],
+      ['Selected', '--selected', 'Background of a chosen card: address, payment, tile'],
+      ['Control', '--control', 'Outline of a checkbox and a radio (darker than --mid-grey, so you see the control)'],
+    ]},
+  ];
+  const colVal = v => v.startsWith('--') ? `var(${v})` : v;
+  const colours = `<div class="ds-stage">${COLOURS.slice(0, 2).map(g => `<div class="sw-strip">${g.items.map(([n, v]) =>
+      `<div><div class="sw" style="background:${colVal(v)}"></div><small>${n}</small></div>`).join('')}</div>`).join('')}</div>` +
+    COLOURS.map(g => `<h3>${g.group}</h3>` + g.items.map(([n, v, use]) => row({
+      name: n, flag: g.loose, use,
+      ex: `<div class="sw" style="background:${colVal(v)}"></div>`,
+      meta: v.startsWith('--') ? [{ t: v }, { t: tok(v) }] : [{ t: v }],
+    })).join('')).join('');
+
+  // ---------- Typography (sample = real markup in its real context; size, line height, weight and colour are measured) ----------
+  const TYPE = [
+    { name: 'Display', ex: '<div class="hc-center"><h1 data-m>How can we help?</h1></div>', meta: '.hc-center h1',
+      use: 'Only the Help Centre head. 28/32 mobile, 48/56 desktop.' },
+    { name: 'Page title', ex: '<div class="plp"><div class="hero"><h1 data-m>Business Card Printing</h1></div></div>', meta: 'h1',
+      use: 'One per page, dark green, extra bold: 24/28 mobile, 32/40 desktop (a step above the section titles). Never a full stop.' },
+    { name: 'Section title', ex: '<div class="plp"><h2 data-m>Find the perfect paper</h2></div>', meta: 'h2',
+      use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile.' },
+    { name: 'Card title', ex: '<ul class="hc-rows"><li><a data-m href="#typography">Where is my order?</a></li></ul>', meta: '.hc-rows a, .cat .title, .dc-t',
+      use: 'Titles in cards, FAQ questions, question rows: semibold, black. 14 mobile, 16/22 desktop.' },
+    { name: 'Body', ex: '<div class="plp"><div class="hero"><div class="intro"><p data-m>Make a lasting first impression with business cards in every size, paper and finish.</p></div></div></div>', meta: '.intro p, .cat-lead',
+      use: 'One body text: 12/18 mobile, 14/22 desktop, dark grey. Black only on article pages.' },
+    { name: 'Label', ex: '<div class="product"><span class="from" data-m>100 pieces for</span></div>', meta: '.product .from, small',
+      use: 'Small info: "N pieces for", captions, legal lines. 12/17 dark grey.' },
+    { name: 'Breadcrumbs', ex: '<div class="crumbs" data-m>Home / <a href="#typography">Business Cards</a></div>', meta: '.crumbs',
+      use: 'A label, the same on mobile and desktop: 12/17 dark grey, links link green and underlined.' },
+    { name: 'Button', ex: '<div class="w"><button class="btn primary" data-m>Add to cart</button></div>', meta: '.btn',
+      use: 'Semibold 16/24 on every button.' },
+  ];
+  const typography = TYPE.map(t => row({ name: t.name, flag: t.flag, use: t.use, ex: stage(t.ex, 'left type'), meta: [{ t: t.meta }, { live: 'type' }] })).join('') +
+    `<h3>Weights</h3>` + row({ name: 'Inter: 400 · 600 · 700 · 800', wide: false,
+      ex: stage('<div style="font-size:20px;line-height:28px"><span style="font-weight:400">Aa</span> &nbsp;<span style="font-weight:600">Aa</span> &nbsp;<span style="font-weight:700">Aa</span> &nbsp;<span style="font-weight:800">Aa</span></div>'),
+      use: '400 body · 600 titles in cards, buttons, tabs, labels that matter · 700 prices and dates · 800 page and section titles.' }) +
+    `<ul class="ds-rules"><li><b>Headings never end with a full stop.</b></li><li><b>Sub text under a title is dark grey</b>, never black, so title and sub read apart.</li>
+      <li><b>Equal text sizes in comparable blocks</b> (the left card is the base).</li><li>One line height per size: 12/17 or 12/18, 14/22, 16/22, 20/24, 24/32.</li></ul>`;
+
+  // ---------- Spacing & grid ----------
+  const spacing = row({ name: 'The 8px grid', use: 'Every gap, padding and margin is 8, 16, 24 or 32 (48/64 for big page rhythm). 4px only inside small controls.',
+      ex: stage([8, 16, 24, 32].map(n => `<div class="sp"><span>${n}</span><i style="width:${n * 4}px"></i></div>`).join(''), 'left') }) +
+    row({ name: 'Between blocks', use: '<b>Desktop:</b> 32 between blocks, 8 from a section title (or lead line) to its block, 16 inside grids, 8 from the intro to the tab bar.<br><b>Mobile:</b> 16 between blocks, 32 around a promo-card block.',
+      ex: stage('<div class="sp"><span>32</span><i style="width:128px"></i>block → block</div><div class="sp"><span>8</span><i style="width:32px"></i>title → block</div><div class="sp"><span>16</span><i style="width:64px"></i>inside a grid</div>', 'left') }) +
+    `<h3>Grid</h3>` +
+    row({ name: 'Content width', meta: [{ t: 'max-width 1286px' }, { t: '24px each side' }, { t: 'mobile 16px gutter' }],
+      use: 'Desktop content is 1286px max with 24px free on each side; mobile has a 16px gutter. Everything lines up with the content edge.',
+      ex: stage('<div class="gd" style="--g:16px;grid-template-columns:repeat(4,1fr)"><i></i><i></i><i></i><i></i></div>') }) +
+    row({ name: 'Rows never leave an orphan', use: '4 or 5 items stay one row on desktop; 6 become 3×2. Gap 16 desktop, 8 mobile. Edges line up with the columns above and below.',
+      ex: stage('<div class="gd" style="--g:8px;grid-template-columns:repeat(5,1fr)"><i></i><i></i><i></i><i></i><i></i></div><div class="gd" style="--g:8px;grid-template-columns:repeat(3,1fr)"><i></i><i></i><i></i><i></i><i></i><i></i></div>') });
+
+  // ---------- Lines, corners & shadows ----------
+  const tileStyle = s => `<div class="tile" style="${s}">`;
+  const lines = `<h3>Lines</h3>` +
+    row({ name: 'Line', meta: [{ t: '--line' }, { t: tok('--line') }], use: 'One colour for every line: dividers, tab line, accordions, footer, card outlines.',
+      ex: stage('<div style="width:100%;border-top:1px solid var(--line)"></div>') }) +
+    row({ name: 'Control outline', meta: [{ t: '--mid-grey' }, { t: tok('--mid-grey') }], use: 'Pills, secondary buttons, round arrows. Hover: black.',
+      ex: stage('<a class="pill" href="#lines">Read more</a>') }) +
+    row({ name: 'Option card outline', meta: [{ t: '--outline' }, { t: tok('--outline') }], use: 'PDP option cards. Chosen: light green.',
+      ex: stage(tileStyle('border-color:var(--outline);border-radius:10px') + 'Option</div>' + tileStyle('border:2px solid var(--light-green);border-radius:10px') + 'Chosen</div>') }) +
+    `<h3>Corners</h3>` +
+    row({ name: 'Radius scale', meta: [{ t: '100px pill' }, { t: '10px card' }, { t: '8px small card' }, { t: '3px badge' }, { t: '50% round' }],
+      use: 'Buttons and pills are fully round, cards 10px. Also in the CSS: 5px (27×), 6px, 4px, 2px, 16px, 18px: to be folded into this scale.', flag: true,
+      ex: stage(['100px', '10px', '8px', '3px'].map(r => tileStyle(`border-radius:${r};border-color:var(--mid-grey)${r === '100px' ? ';height:40px' : ''}`) + r + '</div>').join('')) }) +
+    `<h3>Shadows</h3>` +
+    row({ name: 'Card hover', meta: [{ t: '0 2px 8px rgba(0,0,0,.08)' }], use: 'Cards on desktop: no shadow at rest, this one on hover only.',
+      ex: stage(tileStyle('border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)') + 'Hover</div>') }) +
+    row({ name: 'Floating button', meta: [{ t: '0 1px 4px rgba(0,0,0,.12)' }], use: 'The round arrow that floats on the edge of a row.',
+      ex: stage(`<button class="d-rev-nav" aria-label="Next">${ARROW}</button>`) }) +
+    row({ name: 'Sticky bar', meta: [{ t: '0 -4px 16px rgba(0,0,0,.08)' }], use: 'The sticky CTA bar at the bottom (mobile) and the order bar (desktop).',
+      ex: stage(tileStyle('width:100%;border:0;border-radius:0;box-shadow:0 -4px 16px rgba(0,0,0,.08)') + 'Sticky bar</div>') });
+
+  // ---------- Icons ----------
+  const icons = row({ name: 'Material icons', meta: [{ t: 'assets/icons/materials' }, { t: '50px desktop · 40px mobile' }], wide: true,
+      use: 'A sheet with a folded corner, square corners, crisp 1px border, subtle gradient. One kind of icon per row, everywhere instead of swatches. Read live from <code>index.json</code>.',
+      ex: stage('<div class="icon-grid" id="icMats"></div>') }) +
+    row({ name: 'Option icons', wide: true, meta: [{ t: 'printing/e-*' }, { t: 'corners' }, { t: 'bundling' }],
+      use: 'Show what you get: one square "1" or two stacked "2" for printing, the black L corner, a stack with a paper band for bundling.',
+      ex: stage('<div class="icon-grid">' + [['printing/e-single', 'Single-sided'], ['printing/e-double', 'Double-sided'], ['corners/straight', 'Straight'], ['corners/rounded', 'Rounded'],
+        ['bundling/not-bundled', 'Not bundled'], ['bundling/per-50', 'Per 50'], ['materials/no-finishing', 'No finishing']].map(([f, n]) => `<figure><img src="assets/icons/${f}.svg" alt="">${n}</figure>`).join('') + '</div>') }) +
+    row({ name: 'Line icons', meta: [{ t: 'Material Symbols Rounded' }, { t: '24px · weight 400' }],
+      use: 'Google Material Symbols Rounded, line, the stroke of the header cart icon. Dark green on a 56px grey outlined tile (Help Centre topics).',
+      ex: stage(['local_mall', 'upload', 'receipt', 'delivery_truck_speed', 'account_circle', 'error'].map(i => `<span class="material-symbols-rounded" style="font-size:24px;color:var(--dark-green)">${i}</span>`).join('')) }) +
+    row({ name: 'Ticks & arrows', meta: [{ t: 'tick --light-green · 2.2 stroke' }, { t: 'arrow.svg' }, { t: 'chevron.svg' }],
+      use: 'Green ticks only for selling points, never for product facts. The grey list arrow for rows and tiles, the chevron for accordions, the round arrow for scrolling rows.',
+      ex: stage(`<div class="icon-grid"><figure><span class="tick">${TICK}</span>Tick</figure><figure><img src="assets/category/arrow.svg" alt="" style="width:24px;height:24px">List arrow</figure>
+        <figure><img src="assets/chevron.svg" alt="" style="width:24px;height:24px">Chevron</figure><figure><button class="d-rev-nav" aria-label="Next">${ARROW}</button>Round arrow</figure></div>`) });
+
+  // ---------- Buttons ----------
+  const BUTTONS = [
+    { name: 'Primary', cls: '.btn.primary', ex: '<div class="w"><button class="btn primary">Continue to checkout</button></div>',
+      use: 'The one main action of a view (add to cart, continue, pay). One per screen.' },
+    { name: 'Primary, disabled', cls: '.btn.primary:disabled', ex: '<div class="w"><button class="btn primary" disabled>Payment</button></div>', use: 'Until the step is complete.' },
+    { name: 'Secondary', cls: '.btn.outline', ex: '<div class="w"><button class="btn outline">Continue shopping</button></div>', use: 'The second action next to a primary (No thanks, Continue shopping, Done). Dark green text. The only secondary button.' },
+    { name: 'Pill', cls: '.pill', ex: '<a class="pill" href="#buttons">Read more</a>', use: 'Small actions and filters: Read more, chips, Shop X. Grey outline, black on hover.' },
+    { name: 'Pill, active', cls: '.pill.active', ex: '<button class="pill active">All</button>', use: 'The chosen filter, or a dark green call to action in a block (Chat with us).' },
+    { name: 'Pill with icon', cls: '.pill.has-icon', ex: '<button class="pill has-icon"><span class="material-symbols-rounded" aria-hidden="true">edit</span>Edit</button>',
+      use: 'A pill with an icon in front, dark green: Edit in the PDP summary. Plain Edit / Choose buttons are a normal pill.' },
+    { name: 'Round arrow', cls: '.d-rev-nav', ex: `<button class="d-rev-nav" aria-label="Next">${ARROW}</button>`,
+      use: 'Next/previous on rows that scroll (reviews, promo cards). 40px, white, grey outline, floats on the row edge.' },
+    { name: 'Text link', cls: '--link', ex: '<a href="#buttons" style="color:var(--link);text-decoration:underline;font-size:14px;line-height:22px">Shipping costs</a>',
+      use: 'Links in running text, as the breadcrumbs: green and underlined.' },
+  ];
+  const buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
+
+  // ---------- Components (markup copied 1:1 from the page that renders it; the styles are the live styles.css) ----------
+  const CHEV = '<img src="assets/chevron.svg" alt="">';
+  const w = (html, px) => `<div style="width:100%;max-width:${px}px">${html}</div>`;
+
+  const forms = row({ name: 'Text field', meta: [{ t: '.field' }, { t: 'details.html' }],
+      use: 'Floating label: the label sits in the field and moves up when you type. Focus = light green outline. Always a label, never only a placeholder.',
+      ex: stage(w('<label class="field"><input placeholder=" " aria-label="First name"><span class="fl">First name</span></label><br><label class="field"><input placeholder=" " value="Cornel" aria-label="First name"><span class="fl">First name</span></label>', 300)) }) +
+    row({ name: 'Error', meta: [{ t: '.field.invalid' }, { t: '.field-error' }, { t: '--error' }],
+      use: 'Red outline and a short message under the field that says how to fix it.',
+      ex: stage(w('<label class="field invalid"><input placeholder=" " value="cornel@" aria-label="Email address"><span class="fl">Email address</span><span class="field-error">Enter a valid email address</span></label>', 300)) }) +
+    row({ name: 'Select', meta: [{ t: '.field select' }],
+      use: 'Same height, border and radius as a text field.',
+      ex: stage(w('<label class="field"><select aria-label="Country code"><option>🇮🇪 +353</option><option>🇬🇧 +44</option></select></label>', 140)) }) +
+    row({ name: 'Checkbox', meta: [{ t: '.check' }, { t: '--control' }],
+      use: 'Rounded square, light green when on. Label 12px dark grey.',
+      ex: stage('<div><label class="check"><input type="checkbox">I’m ordering for a business</label><label class="check"><input type="checkbox" checked>Billing address is the same as shipping address</label></div>', 'left') }) +
+    row({ name: 'Radio row', meta: [{ t: '.qrow' }, { t: '.radio' }],
+      use: 'A choice from a list (quantity, address, payment): the whole row is the radio. Chosen = 2px light green outline.',
+      ex: stage(w('<div class="qty-list" role="radiogroup" style="display:block"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button></div>', 300)) }) +
+    row({ name: 'Search', meta: [{ t: '.search' }],
+      use: 'The header search: a white pill with the green round search button. Lives on the dark green header.',
+      ex: stage('<div class="nav" style="width:100%;border-radius:8px"><form class="search" role="search" onsubmit="return false"><input type="search" placeholder="Search printed products" aria-label="Search"><button type="submit" aria-label="Search"><img src="assets/search.svg" alt=""></button></form></div>') });
+
+  const badges = row({ name: 'Commercial', meta: [{ t: '.badge' }, { t: '--orange' }],
+      use: 'A commercial highlight on a product or option: Most Popular, Best Seller, Great Value, Recommended. One per card, top left.',
+      ex: stage('<span class="badge">Most Popular</span><span class="badge">Best Seller</span>') }) +
+    row({ name: 'Information', meta: [{ t: '.badge.neutral' }],
+      use: 'Neutral information: Eco, Free design templates, Default, a Help Centre topic. Never a colour per label.',
+      ex: stage('<span class="badge neutral">Eco</span><span class="badge neutral">Free design templates</span>') });
+
+  const tabs = row({ name: 'Section tabs', meta: [{ t: '.tabs' }], wide: true,
+      use: 'Jump to a section on long pages; sticky under the header. Semibold, grey; the active one black with a 2px light green line inside the light grey bar. Scrolls with a fade when it does not fit.',
+      ex: stage('<nav class="tabs" style="position:static;width:100%" aria-label="Sections"><a href="#tabs" class="active">Types</a><a href="#tabs">Sizes</a><a href="#tabs">Materials</a><a href="#tabs">Finishes</a><a href="#tabs">Reviews</a></nav>') });
+
+  const cards = row({ name: 'Product card', meta: [{ t: '.product' }],
+      use: 'A product. Square photo (badge top left), title, green ticks for selling points only, "N pieces for" + a real price. Never "Configure & see price".',
+      ex: stage(w(`<a class="product" href="#cards"><div class="thumb" style="background:#f3f3f3"><img src="assets/category/t-classic.png" alt=""><span class="badge">Most Popular</span></div><p class="name">Classic Business Cards</p><ul class="usp-list"><li>${TICK.replace(/24/g, '16')}Our best-selling card</li><li>${TICK.replace(/24/g, '16')}Many paper options</li></ul><div><p class="from">500 pieces for</p><p class="prices"><span class="price">€29.95</span></p></div></a>`, 220)) }) +
+    row({ name: 'Category card', meta: [{ t: '.cat' }],
+      use: 'A category (not a product). Always square: grey, image on top, title under it. Never stretched taller.',
+      ex: stage('<div class="cats" style="margin:0"><a class="cat" href="#cards"><div class="collage"><img src="assets/menu/sub/appointment-cards.webp" alt="" style="inset:0;object-fit:contain"></div><p class="title">Appointment Cards</p></a></div>') }) +
+    row({ name: 'Grey tile', meta: [{ t: '.dc-card' }],
+      use: 'Related or bottom category rows and next to promo cards: title top left, image right, grey arrow. 120px high everywhere.',
+      ex: stage(w('<a class="dc-card" href="#cards" style="height:120px"><span class="dc-t">Banner Printing</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="assets/menu/sub/banner-printing.webp" alt=""></span></a>', 300)) }) +
+    row({ name: 'Promo card', meta: [{ t: '.pc' }, { t: 'style E' }],
+      use: 'A campaign. Title top left in white on the photo (soft gradient), one "Shop X" pill. No text baked into the image; hover zooms the photo 4%.',
+      ex: stage(w('<div class="promo-e"><a class="pc" href="#cards"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/644jkE0EFWWZITnJfevHsM/58458b07aaa3a855ca8a376cc5df4960/promotional_printing.png?w=900&fm=webp&q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Promotional Printing for all your projects</strong></span><span class="pc-cta pill">Shop top gifts</span></span></a></div>', 300)) }) +
+    row({ name: 'Material row', meta: [{ t: '.mat' }, { t: '.plp-mats' }],
+      use: 'A paper or material: the material icon, name, points, grey list arrow. Opens the product with that material chosen.',
+      ex: stage(w('<ul class="mat-list plp-mats" style="width:100%"><li><a class="mat" href="#cards"><img class="mat-icon" src="assets/icons/materials/silk-matte.svg" alt=""><span class="text"><strong>Silk - 350 gsm</strong><small>Smooth · Matte · Most chosen</small></span><img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul>', 360)) });
+
+  const accordion = row({ name: 'Accordion (mobile)', meta: [{ t: '.acc' }], wide: true,
+      use: 'FAQ and folding lists on mobile: question semibold, chevron right that turns, light line under each.',
+      ex: stage(`<div class="acc" style="width:100%"><details open><summary>How long does delivery take?${CHEV}</summary><ul><li>Standard delivery arrives in 3–5 working days.</li></ul></details><details><summary>Can I order a sample?${CHEV}</summary></details></div>`) }) +
+    row({ name: 'Accordion (desktop)', meta: [{ t: '.d-acc' }], wide: true,
+      use: 'The same on desktop with full-width light lines. Question = card title size on category pages (16/22), 14px on the PDP.',
+      ex: stage(`<div class="d-acc" style="width:100%"><details><summary>How long does delivery take?${CHEV}</summary></details><details><summary>Can I order a sample?${CHEV}</summary></details></div>`) }) +
+    row({ name: 'Question rows', meta: [{ t: '.hc-rows' }],
+      use: 'When every answer has its own page (Help Centre): a row with the grey list arrow, no folding.',
+      ex: stage('<ul class="hc-rows" style="width:100%"><li><a href="#accordion">Where is my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li><li><a href="#accordion">Can I change my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul>') });
+
+  const options = row({ name: 'Option card', wide: true, meta: [{ t: '.opt' }, { t: '--outline' }],
+      use: 'One option of a step (paper, finishing, corners): name, sub line, the option icon. Chosen = light green outline. Desktop: options on the page, icons 50px.',
+      ex: stage(`<div class="opts" style="width:100%">${[['Silk', '350 gsm', 'materials/silk-matte', true], ['Uncoated', 'Writable', 'materials/uncoated', false], ['Kraft', 'Natural', 'materials/kraft', false]].map(([n, s, i, on]) =>
+        `<button class="opt" role="radio" aria-checked="${on}"><span class="t"><b>${n}</b><small>${s}</small></span><img class="mi" src="assets/icons/${i}.svg" alt=""></button>`).join('')}</div>`) }) +
+    row({ name: 'Quantity', wide: true, meta: [{ t: '.qty-list' }, { t: '.qrow' }],
+      use: 'Quantities in 2 columns so low → high and the price advantage are visible at a glance. Price each + total.',
+      ex: stage(w('<div class="qty-list" role="radiogroup" style="--qrows:2"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">100 pcs</span><span class="e">€0.20 each</span><span class="p">€19.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">1000 pcs</span><span class="e">€0.04 each</span><span class="p">€39.95</span></button></div>', 560)) }) +
+    row({ name: 'Delivery', wide: true, meta: [{ t: '.deliv.d-cal-card' }],
+      use: 'Side by side with a calendar tile so a faster day reads as an upsell. Chosen tile: green header and outline. No labels on the tiles.',
+      ex: stage(['Saver|Nov|12|Wed|Our best value|Included|false', 'Standard|Nov|7|Fri|5 days sooner|+€4.95|true', 'Express|Nov|5|Wed|7 days sooner|+€14.95|false'].map(s => { const [n, m, d, wd, g, p, on] = s.split('|');
+        return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="gain">${g}</span><span class="pr">${p}</span></span></button>`; }).join(''), 'left') });
+
+  const feedback = row({ name: 'Toast', meta: [{ t: '.toast' }, { t: 'showToast(text)' }],
+      use: 'A short confirmation at the bottom (Added to cart, Address saved). Dark green, disappears after 2 seconds.',
+      ex: stage('<div class="toast show" style="position:static;transform:none">Added to cart</div><button class="pill" onclick="showToastDemo()">Show it</button>') }) +
+    row({ name: 'Sheet', meta: [{ t: '.sheet' }, { t: 'openSheet(name)' }], 
+      use: 'Mobile: a layer from the bottom for a choice or more info, with a grab bar, a title and a sticky bar with the action. Desktop uses the same content in a panel.',
+      ex: stage('<div class="sheet-layer open" style="display:contents"><div class="sheet" style="position:relative;inset:auto;max-height:none;transform:none;width:100%;max-width:320px;box-shadow:0 -4px 16px rgba(0,0,0,.08)"><div class="grab"><span></span></div><div class="sheet-head"><b>Delivery</b></div><div class="sheet-body" style="padding:0 16px 16px"><p class="ds-note">Choose when you want your order.</p></div><div class="sheet-bar"><button class="btn primary">Confirm</button></div></div></div>') });
+  window.showToastDemo = () => { let t = document.getElementById('toast');
+    if (!t) { t = Object.assign(document.createElement('div'), { id: 'toast', className: 'toast' }); document.body.appendChild(t); }
+    t.textContent = 'Added to cart'; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
+
+  document.getElementById('dsMain').innerHTML =
+    sec('colours', 'Colours', 'Calm over loud: green for actions and the brand, orange only for commercial labels, greys for everything else. One line colour everywhere.', colours) +
+    sec('typography', 'Typography', 'Inter, one text scale. Every value below is measured from the prototype’s CSS in the view you picked (Mobile / Desktop).', typography) +
+    sec('spacing', 'Spacing &amp; grid', 'Everything on the 8px grid. Blocks breathe 32px on desktop and 16px on mobile; titles sit 8px from their block.', spacing) +
+    sec('lines', 'Lines, corners &amp; shadows', 'One light line colour, round controls, soft cards. Shadows only where something floats or reacts.', lines) +
+    sec('icons', 'Icons', 'Icons show what you get. One kind of icon per row; product icons look like real paper.', icons) +
+    sec('buttons', 'Buttons &amp; pills', 'Every button is a rounded pill. One primary action per view; secondary actions are white with a grey outline.', buttons) +
+    sec('forms', 'Form elements', 'Big, calm fields with a floating label. Light green means focus or chosen; red only for errors.', forms) +
+    sec('badges', 'Badges', 'One label component, two tones: orange sells, grey informs.', badges) +
+    sec('tabs', 'Tabs', 'Section tabs on long pages, semibold, one light line.', tabs) +
+    sec('cards', 'Cards', 'Products as product cards, categories as category cards: never mix them up. Cards on desktop: light outline, soft shadow only on hover.', cards) +
+    sec('accordion', 'Accordion / FAQ', 'Questions fold open with a turning chevron; when every answer has its own page, rows with the list arrow.', accordion) +
+    sec('options', 'PDP option cards', 'Configure the product on the page: one card per option, the chosen one in light green.', options) +
+    sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback);
+
+  // Measured type specs: "24/32 · 800 · #022b07"
+  const hex = c => '#' + c.match(/\d+/g).slice(0, 3).map(n => (+n).toString(16).padStart(2, '0')).join('');
+  document.querySelectorAll('#typography .b-row').forEach(r => {
+    const el = r.querySelector('[data-m]'), out = r.querySelector('[data-live="type"]');
+    if (!el || !out) return;
+    const s = getComputedStyle(el), lh = s.lineHeight === 'normal' ? 'normal' : Math.round(parseFloat(s.lineHeight));
+    out.textContent = `${parseFloat(s.fontSize)}/${lh} · ${s.fontWeight} · ${hex(s.color)}`;
+  });
+  // Material icons: read the live list
+  fetch('assets/icons/materials/index.json').then(r => r.json()).then(m => {
+    document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="assets/icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
+  });
+
+  // Top bar view switch
+  document.querySelectorAll('[data-view]').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === V);
+    b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
+  });
+  // Sidebar: current topic follows the scroll; drawer on mobile
+  const links = [...document.querySelectorAll('.ds-side a:not(.soon)')], secs = [...document.querySelectorAll('.ds-sec')];
+  const spy = () => { const end = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;   // at the bottom: the last topic
+    const cur = end ? secs[secs.length - 1] : secs.filter(s => s.getBoundingClientRect().top < 120).pop() || secs[0];
+    links.forEach(a => a.toggleAttribute('aria-current', a.hash === '#' + cur.id)); };
+  addEventListener('scroll', spy, { passive: true }); spy();
+  const side = document.getElementById('dsSide');
+  document.getElementById('dsMenu').addEventListener('click', () => side.classList.toggle('open'));
+  side.addEventListener('click', e => { if (e.target.closest('a')) side.classList.remove('open'); });
+</script>
+</body>
+</html>

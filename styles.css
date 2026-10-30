@@ -11,6 +11,10 @@
   --outline: #cfcfcf;   /* every card outline */
   --white: #fff;
   --stage: #d9d9d9;
+  --link: #008539;       /* inline links, breadcrumbs, link hover */
+  --error: #c90e2e;      /* field errors, everywhere (was also #d0021b on login) */
+  --selected: #eefaf3;   /* background of a chosen card (address, payment, tile) */
+  --control: #9f9f9f;    /* outline of a checkbox and a radio */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--stage); }
@@ -241,7 +245,7 @@ body.menu-open { overflow: hidden; }
 .cat-page > .footer { padding: 0 14px; }
 .cat-page h2 { margin-bottom: 8px; }
 .crumbs { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
-.crumbs a { color: var(--light-green); text-decoration: underline; }
+.crumbs a { color: var(--link); text-decoration: underline; }   /* one breadcrumb on mobile and desktop: 12/17 grey, links link green (2026-10-30) */
 .hero { display: flex; flex-direction: column; gap: 16px; }
 .hero h1 { color: var(--dark-green); }
 .hero .intro { display: flex; flex-direction: column; gap: 8px; }
@@ -325,8 +329,6 @@ body.menu-open { overflow: hidden; }
 .check-line b { font-weight: 700; }
 .cta-row { display: flex; gap: 8px; }
 .cta-row .btn { flex: 1 0 0; }
-.btn.ghost { background: var(--white); border: 1px solid var(--mid-grey); color: var(--black); }
-.btn.ghost.dark { color: var(--dark-green); height: 42px; }
 .btn:hover { filter: brightness(.97); }
 .usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .usps li { display: flex; align-items: center; gap: 4px; font-size: 14px; line-height: 1.5; }
@@ -394,7 +396,7 @@ body.menu-open { overflow: hidden; }
 .qrow:first-child { margin-top: 0; border-radius: 5px 5px 0 0; }
 .qrow:last-child { border-radius: 0 0 5px 5px; }
 .qrow[aria-checked="true"] { border: 2px solid var(--light-green); padding: 11px 7px; z-index: 1; }
-.radio { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; border: 1px solid #9f9f9f; background: var(--white); position: relative; }
+.radio { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; border: 1px solid var(--control); background: var(--white); position: relative; }
 [aria-checked="true"] > .radio { border: 0; background: var(--light-green); }
 [aria-checked="true"] > .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .qrow .n { flex: 1; font-weight: 600; }
@@ -464,8 +466,6 @@ body.menu-open .toast { bottom: 100px; }
 body.buybar-on .toast { bottom: 100px; }
 
 /* Price box: "Edit" as an outlined pill next to the recap; "Add to cart" full width */
-.btn-edit { flex-shrink: 0; min-height: 34px; padding: 0 16px; border: 1px solid var(--mid-grey); border-radius: 100px; background: var(--white); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--black); transition: border-color .15s; }
-.btn-edit:hover { border-color: var(--black); }
 .recap-head { gap: 8px; }
 .recap { gap: 4px; }
 /* Recap: text column left, Edit button right (vertically centred, independent heights) */
@@ -628,13 +628,13 @@ body.buybar-on .toast { bottom: 100px; }
 .field input::placeholder { color: var(--dark-grey); }
 .field input:focus, .field select:focus { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }
 .field input[readonly] { background: var(--light-grey); }
-.field.invalid input { border-color: #c90e2e; color: #d74a62; box-shadow: none; }
-.field-error { margin-top: -2px; font-size: 12px; line-height: 18px; color: #c90e2e; }
+.field.invalid input { border-color: var(--error); color: var(--error); box-shadow: none; }
+.field-error { margin-top: -2px; font-size: 12px; line-height: 18px; color: var(--error); }
 .phone-prefix { flex: 0 0 auto; }
 .phone-prefix select { width: 112px; padding-left: 36px; padding-right: 28px; background: var(--light-grey) url(assets/checkout/chevron-down.svg) no-repeat right 8px center / 20px 16px; }
 .phone-prefix .flag { position: absolute; left: 12px; top: 16.5px; width: 16px; height: 10.67px; border-radius: 2px; object-fit: cover; pointer-events: none; }
 .check { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.3; color: var(--dark-grey); cursor: pointer; padding: 2px 0; }
-.check input { width: 20px; height: 20px; margin: 0; border: 1px solid #9f9f9f; border-radius: 5px; background: var(--white); -webkit-appearance: none; appearance: none; display: grid; place-items: center; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 0; border: 1px solid var(--control); border-radius: 5px; background: var(--white); -webkit-appearance: none; appearance: none; display: grid; place-items: center; cursor: pointer; }
 .check input:checked { background: var(--light-green); border-color: var(--light-green); }
 .check input:checked::after { content: ''; width: 5px; height: 10px; border: solid var(--white); border-width: 0 2px 2px 0; transform: translate(0, -1px) rotate(45deg); }
 .co-extra { display: flex; flex-direction: column; gap: 10px; }
@@ -728,7 +728,7 @@ body.buybar-on .toast { bottom: 100px; }
 .field input:focus + .fl,
 .field input:not(:placeholder-shown) + .fl { transform: translateY(-9px) scale(.75); }
 .field input:focus + .fl { color: var(--light-green); }
-.field.invalid .fl { color: #c90e2e; }
+.field.invalid .fl { color: var(--error); }
 .field input[readonly] + .fl { transform: translateY(-9px) scale(.75); }
 .phone-prefix select { height: 52px; }
 .phone-prefix + .field, .co-row > .field { min-width: 0; }
@@ -741,7 +741,7 @@ body.buybar-on .toast { bottom: 100px; }
 .field input:-webkit-autofill ~ .fl,
 .field input[readonly] ~ .fl { transform: translateY(-9px) scale(.75); }
 .field input:focus ~ .fl { color: var(--light-green); }
-.field.invalid input ~ .fl { color: #c90e2e; }
+.field.invalid input ~ .fl { color: var(--error); }
 /* Keep autofilled fields white (no light-blue browser fill) and the text black */
 .field input:not([readonly]):autofill,
 .field input:not([readonly]):-webkit-autofill { -webkit-box-shadow: 0 0 0 100px var(--white) inset; box-shadow: 0 0 0 100px var(--white) inset; -webkit-text-fill-color: var(--black); }
@@ -803,9 +803,9 @@ body.info-guide .opt-info { display: none; }
 
 /* Edit pill with a Material Symbols Rounded pen */
 .material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-weight: 400; font-style: normal; font-size: 18px; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; direction: ltr; -webkit-font-smoothing: antialiased; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
-.btn-edit.has-icon { display: inline-flex; align-items: center; gap: 6px; padding: 0 16px 0 12px; border-color: var(--dark-green); color: var(--dark-green); }
-.btn-edit.has-icon:hover { background: var(--light-grey); border-color: var(--dark-green); }
-.btn-edit.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }
+.pill.has-icon { gap: 6px; border-color: var(--dark-green); color: var(--dark-green); }   /* a pill with an icon in front (PDP summary Edit) */
+.pill.has-icon:hover { background: var(--light-grey); border-color: var(--dark-green); }
+.pill.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }
 
 /* Option colour chips (foils, metallics, middle layers) */
 .opt .chip, .gi-vis .chip { flex-shrink: 0; align-self: flex-start; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); box-shadow: inset 0 1px 2px rgba(255,255,255,.5); }
@@ -991,7 +991,6 @@ body.flow-i .price-box > div:first-child, body.flow-i .sr-state, body.flow-i #ct
 .i-state { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .i-state > span { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--dark-grey); }
 .i-state img { width: 18px; height: 18px; }
-.i-state .btn-edit { min-height: 30px; padding: 0 18px; font-size: 13px; }
 body.flow-i .spec-rows { border: 0; padding: 0; }
 body.flow-i .spec-rows button, body.flow-i .spec-rows .fixed { min-height: 26px; padding: 3px 0; font-size: 13px; }
 body.flow-i .spec-rows .fixed { padding-right: 22px; }
@@ -1122,8 +1121,8 @@ body.flow-j .flow-a-only { display: none; }
 .auth-field i { font-style: normal; color: var(--light-green); }
 .auth-field input { width: 100%; height: 44px; padding: 0 12px; border: 1px solid #cfcfcf; border-radius: 6px; font: inherit; font-weight: 400; font-size: 15px; }
 .auth-field input:focus { outline: none; border-color: var(--dark-green); box-shadow: 0 0 0 3px rgba(0,166,81,.15); }
-.auth-field.invalid input { border-color: #d0021b; }
-.auth-field .err { font-weight: 400; font-size: 12px; color: #d0021b; }
+.auth-field.invalid input { border-color: var(--error); }
+.auth-field .err { font-weight: 400; font-size: 12px; color: var(--error); }
 .auth-field .hint { font-weight: 400; font-size: 12px; color: var(--dark-grey); }
 .auth-field .pw { position: relative; display: block; }
 .auth-field .pw input { padding-right: 44px; }
@@ -1181,7 +1180,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px; }
 .addr-row::-webkit-scrollbar { display: none; }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid #cfcfcf; border-radius: 8px; background: var(--white); cursor: pointer; }
-.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; background: #eefaf3; }
+.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; background: var(--selected); }
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
 .addr-card .top b { font-weight: 700; font-size: 16px; }
 .addr-card .top .co-badge { margin: 0 0 0 auto; }
@@ -1301,7 +1300,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Payment: Pay later = Pay by Link (live checkout), optionally sent to a colleague */
 .pay-later[hidden] { display: none; }
 .pay-later { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
-.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: 10px; background: #eefaf3; }
+.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: 10px; background: var(--selected); }
 .pl-card .radio { margin-top: 1px; }
 .pl-card b { font-size: 14px; }
 .pl-card p { margin: 2px 0 0; font-size: 12px; line-height: 1.4; color: var(--dark-grey); }
@@ -1324,7 +1323,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
    The input is 16px (smaller makes iOS zoom in on focus), scaled down to 14px */
 .sm-tile input { width: 114%; height: 20px; margin: 0 -7%; padding: 0; border: 0; background: transparent; text-align: center; font: 400 16px/20px Inter, sans-serif; color: var(--black); outline: none; font-variant-numeric: tabular-nums; transform: scale(.875); }
 .sm-tile input::placeholder { color: var(--dark-grey); font-weight: 400; }
-.sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; background: #eefaf3; }
+.sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; background: var(--selected); }
 .sm-tile:focus-within { border: 2px solid var(--light-green); padding: 7px 0; }
 #saveUpdate:disabled, #toDesign:disabled { opacity: .45; }
 
@@ -1448,8 +1447,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dlegal a:hover { text-decoration: underline; }
 
 /* Breadcrumb (Figma 15927:9189) */
-.desk .crumbs { padding: 16px 0 24px; font-size: 14px; line-height: 24px; letter-spacing: -0.28px; color: var(--black); }
-.desk .crumbs a { color: #008539; text-decoration: underline; }
+.desk .crumbs { padding: 16px 0 24px; }
 
 /* PDP on desktop: content in the 1286px column, the footer full width */
 .desk .pdp { padding: 0 0 0; gap: 0; }
@@ -2116,7 +2114,7 @@ html:not(.desk) .d-banners { display: contents; }
 .d-cats2 .dc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: 10px; background: var(--light-grey); color: var(--black); transition: background .15s; }
 .dc-card:hover { background: #e8e8e8; }
-.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: 16px; line-height: 22px; color: #333; }   /* the card title size (16/22) */
+.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: 16px; line-height: 22px; color: var(--black); }   /* the card title size (16/22) */
 .dc-img { position: absolute; right: 16px; top: 50%; width: 112px; height: 112px; margin-top: -56px; display: grid; place-items: center; }   /* the image stands free, no circle */
 .dc-img img { width: 100%; height: 100%; object-fit: contain; }
 .dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */
@@ -2257,7 +2255,7 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 /* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
 .product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-top: 0; }
 .product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
-.product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }   /* the green of the USP check circles */
+.product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: var(--light-green); }   /* the green of the USP check circles */
 .desk .plp .product .usp-list li { font-size: 14px; line-height: 22px; }
 .desk .plp .product .usp-list svg { margin-top: 3px; }   /* centred on the 22px line */
 .types .product:has(.usp-list) > :last-child { margin-top: auto; }   /* prices line up in a row when the lists differ in length */
@@ -2307,12 +2305,12 @@ html:not(.desk) .plp > section + .plp-feature, html:not(.desk) .plp > .plp-featu
 html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important; letter-spacing: -0.4px !important; }   /* promo card titles on mobile = the section title size (20/24), on every page (Cornel, 2026-10-28) */
 .plp .so-txt h2 { margin-bottom: 0; font-weight: 600; font-size: 14px; line-height: 1.2; letter-spacing: 0; color: var(--black); }   /* the title of a content row = the material title, as "Make it stand out" (Cornel) */
 .desk .plp .so-txt h2 { font-size: 16px; line-height: 22px; }
-.so-txt p a { color: #008539; text-decoration: underline; }   /* inline links as the breadcrumb links */
+.so-txt p a { color: var(--link); text-decoration: underline; }   /* inline links as the breadcrumb links */
 
 /* Size cards: the size as plain text, its use as the green tick (a selling point), everything centred (Cornel) */
 .size-card .usp-list { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
 .size-card .usp-list li { display: flex; align-items: flex-start; justify-content: center; gap: 4px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
-.size-card .usp-list svg { flex-shrink: 0; margin-top: 1px; color: #00ad4c; }
+.size-card .usp-list svg { flex-shrink: 0; margin-top: 1px; color: var(--light-green); }
 .desk .plp.clp .size-card { flex: none; padding: 24px 16px; }
 /* Size cards: the size as body text (12/18 mobile, 14/22 desktop); the use with the tick stays 12/18 (Cornel) */
 .size-card small { font-size: 12px; line-height: 18px; }
@@ -2322,7 +2320,7 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .size-card .usp-list svg { display: inline-block; vertical-align: -3px; margin: 0 4px 0 0; }
 /* Size cards: the shapes stand on one base line (easier to compare sizes); room for the tallest (A4, 59px) */
 .size-card .shape { height: 60px; place-items: end center; }
-.cat-about p a { color: #008539; text-decoration: underline; }   /* inline links in SEO text, as the breadcrumb links */
+.cat-about p a { color: var(--link); text-decoration: underline; }   /* inline links in SEO text, as the breadcrumb links */
 /* Try-out (Cornel, 2026-10-28): the last 2 of 6 card types take the full width, each over 2 columns; the photo keeps the
    height of the cards above (aspect 636/310) and shows the whole product on its own background colour */
 .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(5):nth-last-child(2), .desk .plp.clp .types:not([class*="cols-"]) > :nth-child(6):last-child { grid-column: span 2; }
@@ -2342,7 +2340,7 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 .plp .section-head .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
 .plp .section-head + .cat-lead { margin-top: 8px; }
 .cat-lead b { font-weight: 600; color: var(--black); }
-.cat-lead a { color: #008539; text-decoration: underline; }
+.cat-lead a { color: var(--link); text-decoration: underline; }
 
 /* Blog cards (business cards page; concept C of standout-sketch.html): photo on top, title, text, "Read more" button.
    Mobile: swipe row of 300px cards; desktop: 3 in a row. Title = material title, text = body text (Cornel, 2026-10-28) */
@@ -2365,12 +2363,12 @@ html:not(.desk) .pc-t { font-size: 20px !important; line-height: 24px !important
 /* FAQ on category pages: the PDP accordion; answers as body text (12/18 mobile, 14/22 desktop), links green */
 .plp .oc-faq p { font-size: 12px; line-height: 18px; }
 .desk .plp .d-acc details p { font-size: 14px; line-height: 22px; }
-.plp #faqList p a { color: #008539; text-decoration: underline; }
+.plp #faqList p a { color: var(--link); text-decoration: underline; }
 /* FAQ answers with a list: normal bullets, body text, aligned with the answer text */
 .plp #faqList ul { list-style: disc; display: flex; flex-direction: column; gap: 4px; padding: 0 0 8px 16px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
 .plp #faqList p:has(+ ul) { padding-bottom: 4px; }
 .desk .plp #faqList ul { padding: 0 40px 12px 24px; font-size: 14px; line-height: 22px; }
-.plp #faqList ul a { color: #008539; text-decoration: underline; }
+.plp #faqList ul a { color: var(--link); text-decoration: underline; }
 .desk .plp .d-acc summary { font-size: 16px; line-height: 22px; }   /* FAQ questions = the card titles on the page (16/22 desktop, 14 mobile) */
 .plp .oc-faq summary { font-size: 14px; line-height: 1.2; }   /* mobile: = the card titles (14px) */
 /* Mobile text rules on the category pages: the "Rated 4.5…" line is body text (12/18); the page title a 28px line */
@@ -2466,6 +2464,13 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .hc-cols img { width: 112px; height: 128px; margin-bottom: 8px; object-fit: cover; border-radius: 10px; }   /* margin per photo (not gap), so -50% is exactly one set: a seamless loop */
 @keyframes hc-drift { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 @media (prefers-reduced-motion: reduce) { .hc-cols .track { animation: none; } }
+/* switch "Photos" (2026-10-30): 1 = one slow column a side, left up / right down, the fade starts sooner; S = still */
+.hc-strip-one .hc-cols .col + .col { display: none; }
+.hc-strip-one .hc-cols .track { animation-duration: 120s; }
+.hc-strip-one .hc-cols.r .track { animation-direction: reverse; }
+.desk.hc-strip-one .hc-cols.l { -webkit-mask-image: linear-gradient(90deg, #000 15%, transparent); mask-image: linear-gradient(90deg, #000 15%, transparent); }
+.desk.hc-strip-one .hc-cols.r { -webkit-mask-image: linear-gradient(270deg, #000 15%, transparent); mask-image: linear-gradient(270deg, #000 15%, transparent); }
+.hc-strip-still .hc-cols .track { animation: none; }
 .desk .hc-center h1 { font-size: 48px; line-height: 56px; letter-spacing: -1.2px; }
 .desk .hc-center .lead { font-size: 16px; line-height: 24px; }
 .hc-search { position: relative; width: 100%; max-width: 640px; margin-top: 16px; }
@@ -2501,7 +2506,7 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 /* topics: Material Symbols line icon on a grey tile, title, questions without lines, View all */
 .hc-qlist { list-style: none; margin: 0 -16px; }   /* rows of the PDP specs list height, no stripes (Cornel, 2026-10-29) */
 .hc-qlist a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px 16px; font-size: 12px; line-height: 18px; color: var(--dark-grey); }
-.hc-qlist a:hover { color: #008539; text-decoration: underline; }
+.hc-qlist a:hover { color: var(--link); text-decoration: underline; }
 .hc-qlist .chev { width: 20px; height: 20px; flex-shrink: 0; }   /* the grey arrow of the mobile lists at the end of the row, 20px as the View all arrow (Cornel, 2026-10-29) */
 /* the topic cards = the material card (desktop border + hover from the shared card rules); 1 column mobile, 3 desktop */
 .hc-topics { display: grid; gap: 8px; }   /* mobile: all topics written out, one per row (Cornel, 2026-10-29) */
@@ -2512,7 +2517,7 @@ html:not(.desk) .plp .d-rev-note { font-size: 12px; line-height: 18px; }
 .desk .hc-card-h { font-size: 16px; line-height: 22px; }
 /* card top = one link row: icon + title (B, Cornel 2026-10-29: no arrow, hover turns the title green) */
 .hc-card-top { display: flex; align-items: center; gap: 16px; align-self: stretch; margin: 0 -16px; padding: 0 16px 16px; border-bottom: 1px solid var(--line); }   /* one full-width line under icon + title (Cornel, 2026-10-29) */
-.hc-card-top:hover .hc-card-h { color: #008539; }
+.hc-card-top:hover .hc-card-h { color: var(--link); }
 .hc-card .hc-qlist { flex: 1; align-self: stretch; margin-top: 8px; }   /* the zebra rows start 8px under the line */
 .desk .hc-card .hc-qlist a { font-size: 14px; line-height: 22px; }
 .hc-card .link { margin-top: 16px; }   /* 16px from the last question */
@@ -2533,7 +2538,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .hc-team .av img { width: 100%; height: 100%; object-fit: cover; }
 .hc-team .people b { font-weight: 600; font-size: 14px; line-height: 20px; }
 .hc-team .people small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
-.hc-team .bot small { color: #008539; }
+.hc-team .bot small { color: var(--link); }
 .hc-team .bot .av { display: grid; place-items: center; color: var(--dark-green); font-size: 24px; }   /* Anna: Material Symbols chat in dark green on the same light green (Cornel, 2026-10-29) */
 .hc-team .bot .material-symbols-rounded { font-size: 24px; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .desk .hc-team { flex-direction: row; align-items: center; gap: 32px; padding: 24px 32px; }
@@ -2561,7 +2566,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ha-back { margin-bottom: 16px; }   /* the green "All categories" link, arrow in front pointing left */
 .ha-back::before { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 .ha-body h1 { font-size: 24px; line-height: 28px; }
-.desk .ha-body h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
+.desk .ha-body h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }   /* page title on desktop 32/40, a step above the section titles (2026-10-30) */
 /* article text: body 12/18 mobile, 14/22 desktop; h2 = section title, h3 = card title; inline links green underlined */
 .ha-text { margin-top: 16px; font-size: 12px; line-height: 18px; color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
 .desk .ha-text { margin-top: 24px; font-size: 14px; line-height: 22px; }
@@ -2572,7 +2577,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .ha-text h3 { font-size: 16px; line-height: 22px; }
 .ha-text h2 + *, .ha-text h3 + * { margin-top: 8px; }
 .ha-text ol, .ha-text ul { display: flex; flex-direction: column; gap: 8px; padding-left: 20px; }
-.ha-text a { color: #008539; text-decoration: underline; }
+.ha-text a { color: var(--link); text-decoration: underline; }
 .ha-text img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }   /* screenshots in the live articles */
 .ha-text table { width: 100%; border-collapse: collapse; }
 .ha-text th, .ha-text td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
@@ -2595,9 +2600,9 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 /* the sub-topics under the active topic (desktop), text only, indented to the topic name (8 + 24 icon + 12 gap) */
 .ht-subnav { list-style: none; display: flex; flex-direction: column; padding: 4px 0 8px 44px; }
 .ht-subnav a { display: block; padding: 6px 8px; border-radius: 8px; font-weight: 400; font-size: 14px; line-height: 20px; color: var(--dark-grey); }   /* regular; only the active one semibold (Cornel, 2026-10-29) */
-.ht-subnav a:hover { color: #008539; }
+.ht-subnav a:hover { color: var(--link); }
 .ht-subnav a.active { font-weight: 600; color: var(--black); }   /* the sub-topic you are in (follows the scroll) */
-.ht-nav a:not([aria-current]):hover { color: #008539; }
+.ht-nav a:not([aria-current]):hover { color: var(--link); }
 .hc-hubview .ha-side { order: 0; }
 .hc-hubview .ha-body { max-width: none; }   /* only the hub uses the full column; topic and article pages keep the reading width (760px, Cornel 2026-10-29) */
 /* hub (F): Getting started = quick links (the hub card: icon tile + title) and common questions (the FAQ) */
@@ -2637,4 +2642,3 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-empty { margin-top: 16px; padding: 16px; border-radius: 10px; background: var(--light-grey); font-size: 14px; line-height: 22px; }
 .ht-empty .pill { margin-top: 16px; }
 .help-page .ht-other h2 { font-size: 14px; line-height: 20px; letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
-

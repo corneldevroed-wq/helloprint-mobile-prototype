@@ -3,6 +3,23 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **10-30 — Page title 32/40 on desktop (Check 10):** home, category pages and Help Centre topic + article pages (one rule);
+  mobile stays 24/28. The PDP title stays 24/28 (narrow column next to the configuration, Figma PDP).
+- **10-30 — One breadcrumb (Check 9):** 12/17 dark grey with `--link` links, mobile = desktop (desktop was 14/24 black, mobile
+  links were light green). Desktop crumbs 7px lower, spacing around unchanged.
+- **10-30 — No separate Edit button (Check 8):** `.btn-edit` removed; Edit (flow I) and Choose (option guide) are a normal
+  `.pill`, the PDP summary Edit with the pencil is `.pill.has-icon` (dark green outline + text). 34px → 31/32px high.
+- **10-30 — One secondary button (Check 7):** `.btn.outline` (white, grey outline, dark green text). `.btn.ghost` (black text,
+  only on the cart's Secured Delivery "No thanks") and the unused `.btn.ghost.dark` removed.
+- **10-30 — UI kit = layout B** of `design-system-sketch.html` (example left, spec right, one row per item; A spec sheet and
+  C gallery rejected). One page with a sidebar (Foundations + Components), Mobile/Desktop switch on top; it loads the real
+  `styles.css` and reads colours, type sizes and the material icon list live. Grey "Check" label = an inconsistency to clean up.
+- **10-30 — Colour tokens (Check 1–6), N chosen, switch removed:** `--link` #008539 (inline links, breadcrumbs, link hover),
+  `--error` #c90e2e (one red for every error: also login, was #d0021b, and the text in an invalid field, was #d74a62),
+  `--selected` #eefaf3 (background of a chosen card), `--control` #9f9f9f (checkbox/radio outline). Selling-point ticks use
+  `--light-green` (was #00ad4c), grey tile titles `--black` (was #333). No hex values for these in the CSS any more.
+
 ## Labels (all pages, Oct 29, 2026)
 - **10-29 — One label component, two tones:** `.badge` orange = commercial highlight (Most Popular, Best Seller, Great Value,
   Recommended), `.badge.neutral` grey = information (Eco, Free design templates, Default, Help Centre topic). One helper in app.js
