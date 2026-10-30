@@ -10,6 +10,7 @@ Before building anything, also read:
 - `docs/decisions.md` — what was decided, rejected and why (newest on top)
 - `docs/components.md` — what exists, where it lives, which prototype switches there are
 - `docs/backlog.md` — parked ideas and open points
+- `design-system.html` — the UI Style Guide: every token and component with its rule, live from styles.css
 
 ## How Cornel works (non-negotiable)
 
@@ -44,6 +45,14 @@ Before building anything, also read:
   dark green pill) instead of copying it. One rule per thing: no duplicate selectors, no repeated sizes per block, one body
   text rule. Remove dead code and unused icons/fields when a choice is final (hidden variants stay only when Cornel says
   "hide"). After a bigger round, do a simplify pass and check before/after with measurements that nothing moved.
+- **Use the tokens, never raw values** (`:root` in styles.css): colours (`--dark-green`, `--light-green`, `--orange`, greys,
+  `--line`, `--outline`, `--link`, `--error`, `--selected`, `--control`), corners (`--r-s` 4 · `--r-m` 8 · `--r-l` 10 · `--r-xl` 16 ·
+  `--r-pill`), type sizes (`--t-10` … `--t-48`), line heights (`--lh-12` 18 · `--lh-14` 22 · `--lh-16` 22 · `--lh-20` 24 ·
+  `--lh-tight` 1.2). Labels: `badgeHtml()` (orange commercial, `.eco` light green, `.neutral` grey information).
+- **The UI Style Guide is a living doc** (`design-system.html`, Cornel, 2026-10-30). When you add a component, change one, or change a
+  token or rule, update the style guide in the same change: its row (live example with the real classes + the rule), the markup copied
+  1:1 from the page that renders it. A choice that makes a "Check" label obsolete removes that label. New tokens go in the
+  Foundations sections. Verify the style guide at 390 and 1512 like any page.
 
 ## Tech in 60 seconds
 

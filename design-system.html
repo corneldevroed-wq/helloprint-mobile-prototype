@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HelloPrint UI kit</title>
+<title>HelloPrint UI Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
@@ -17,6 +17,10 @@
   .ds-top b { font-weight: 600; font-size: 14px; color: var(--dark-grey); padding-left: 16px; border-left: 1px solid var(--line); }
   .ds-top .seg { margin-left: auto; display: flex; gap: 8px; }
   .ds-menu-btn { display: none; }
+  .ds-hero { position: relative; display: grid; place-items: center; height: min(500px, 100vw); overflow: hidden; }   /* full-width banner, max 500px high */
+  .ds-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }   /* the crop keeps the smile in view */
+  .ds-hero::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }   /* overlay, so the title reads */
+  .ds-hero b { position: relative; z-index: 1; font-weight: 800; font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; color: var(--white); }   /* display size */
   .ds { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1280px; margin: 0 auto; }
   .ds-side { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow-y: auto; padding: 32px 16px 32px 24px; }
   .ds-side h4 { margin: 24px 0 8px 12px; font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
@@ -77,6 +81,7 @@
     .ds-top { gap: 8px; padding: 0 16px; }
     .ds-top .logo { height: 18px; }
     .ds-top b { display: none; }
+    .ds-hero b { font-size: var(--t-28); line-height: 32px; letter-spacing: -0.56px; }
     .ds-menu-btn { display: inline-flex; }
     .ds-side { position: fixed; top: 64px; left: 0; z-index: 25; width: 280px; background: var(--white); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .2s; }
     .ds-side.open { transform: none; }
@@ -89,12 +94,14 @@
 <header class="ds-top">
   <button class="pill ds-menu-btn" id="dsMenu">Menu</button>
   <img class="logo" src="assets/logo-dark.svg" alt="HelloPrint">
-  <b>UI kit</b>
+  <b>UI Style Guide</b>
   <div class="seg" role="group" aria-label="Show examples as">
     <button class="pill" data-view="m">Mobile</button>
     <button class="pill" data-view="d">Desktop</button>
   </div>
 </header>
+
+<div class="ds-hero"><img src="assets/ui-kit/banner.webp" alt="A wide smile with a green HelloPrint tooth gem and two gold teeth"><b>UI Style Guide</b></div>
 
 <div class="ds">
   <nav class="ds-side" id="dsSide">
