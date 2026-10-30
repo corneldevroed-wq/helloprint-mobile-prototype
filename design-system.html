@@ -34,7 +34,7 @@
   .ds-sec { max-width: 880px; padding-bottom: 64px; scroll-margin-top: 96px; }
   .ds-sec + .ds-sec { padding-top: 64px; border-top: 1px solid var(--line); }
   .ds-sec > h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
-  .ds-lead { margin-top: 8px; max-width: 640px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
+  .ds-lead { margin: 8px 0 24px; max-width: 640px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
   .ds-sec h3 { margin: 32px 0 8px; font-weight: 600; font-size: 16px; line-height: 22px; }
   .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow-x: auto; }   /* white, as the page: grey tiles and white cards both read */
   .ds-stage .real { flex: none; }
@@ -417,7 +417,7 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
   // Sidebar: current topic follows the scroll; drawer on mobile
-  const links = [...document.querySelectorAll('.ds-side a:not(.soon)')], secs = [...document.querySelectorAll('.ds-sec')];
+  const links = [...document.querySelectorAll('.ds-side a:not(.soon)')], secs = [...document.querySelectorAll('.ds-sec:not([hidden])')];   // a hidden section has no position, so it never counts
   const spy = () => { const end = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;   // at the bottom: the last topic
     const cur = end ? secs[secs.length - 1] : secs.filter(s => s.getBoundingClientRect().top < 120).pop() || secs[0];
     links.forEach(a => a.toggleAttribute('aria-current', a.hash === '#' + cur.id)); };

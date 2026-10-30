@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unused JavaScript — overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107m">
+<style>
+  /* Sketch only: JavaScript nobody uses, and code that only serves prototype switches that look decided. */
+  html, body { background: var(--white); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: var(--t-32); line-height: 40px; }
+  h2 { margin: 48px 0 8px; font-size: var(--t-24); line-height: 32px; }
+  .lead { margin-top: 8px; max-width: 680px; font-size: var(--t-16); line-height: 24px; color: var(--dark-grey); }
+  .note { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  code { font: 500 12px/17px ui-monospace, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: var(--r-s); }
+  table { width: 100%; margin-top: 8px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  th { text-align: left; font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  .pick { margin-top: 32px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  @media (max-width: 760px) { table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Unused JavaScript</h1>
+  <p class="lead">Every function and constant in <code>app.js</code>, <code>products.js</code>, <code>help-data.js</code> and the inline scripts of
+    every page, searched across all pages (sketch pages not counted). The JavaScript is in good shape: almost nothing is truly dead.
+    The bigger win is code that only exists for prototype switches whose choice already looks made.</p>
+
+  <h2>1. Truly unused: safe to delete</h2>
+  <table>
+    <tr><th>What</th><th>Where</th><th>Why it is dead</th></tr>
+    <tr><td>VAT dropdown code</td><td><code>app.js</code> 348–369, ~12 lines</td><td>Looks up <code>#vatBtn</code>, <code>#vatMenu</code> and <code>#vatLabel</code>: the mobile header VAT dropdown, removed on 10-28 (its CSS went in the dead-code round). <code>setVat()</code> itself stays: the PDP, cart and desktop VAT switches use it.</td></tr>
+    <tr><td><code>TP_STAR</code></td><td><code>app.js</code> 127</td><td>A Trustpilot star SVG that nothing uses any more (the widgets use the image).</td></tr>
+  </table>
+  <p class="note" style="margin-top:8px">Everything else is used. Two names looked unused but are not: <code>ours()</code> on promotional (used as
+    <code>...ours(slug)</code>) and the class names built in code (<code>'flow-' + FLOW</code>, <code>'rec-' + x</code>, <code>'info-' + mode</code>).</p>
+
+  <h2>2. Prototype switches that look decided</h2>
+  <p class="note">Your rule: when you choose, the losing variant goes. These switches are still in the code; <code>docs/decisions.md</code>
+    suggests a winner for most. Removing a losing variant removes its JavaScript, its CSS and the switch button. Your call per line.</p>
+  <table>
+    <tr><th>Switch</th><th>Where</th><th>Decided?</th><th>Would go</th></tr>
+    <tr><td>Icons O/N</td><td>desktop PDP</td><td>Yes, N: the material icon set (10-26)</td><td>old swatches and colour chips (<code>ICONS_V</code>)</td></tr>
+    <tr><td>Names O/N</td><td>desktop PDP</td><td>Yes, N: one thickness scale (10-26)</td><td>each product's own thickness names (<code>NAMES_V</code>)</td></tr>
+    <tr><td>Specs O/N</td><td>desktop PDP</td><td>Yes, N: links + See also (10-26)</td><td>plain-text specs (<code>SPECS_V</code>)</td></tr>
+    <tr><td>Funnel O/N</td><td>desktop PDP</td><td>Yes, N: live-style funnels (10-26)</td><td>the prototype's own steps for business cards and flyers (<code>FUNNEL_V</code>)</td></tr>
+    <tr><td>Rec 0/C/D</td><td>desktop PDP</td><td>Yes, D: green bar in the card (10-23)</td><td>no label (0) and the corner (C) (<code>.rec-c</code> CSS)</td></tr>
+    <tr><td>Design A/B</td><td>desktop PDP</td><td>Yes, A: cards in Your selection (10-23)</td><td>design as last config step (<code>DESIGN_V</code>)</td></tr>
+    <tr><td>Delivery D/E</td><td>desktop PDP</td><td>D is the default, E not rejected</td><td>E: tile on top (<code>.dl-e</code> CSS)</td></tr>
+    <tr><td>Cards A/B</td><td>desktop PDP</td><td>A in use, B not rejected</td><td>B: mobile-style cards 3 per row (<code>.dv-b</code>, 13 CSS rules)</td></tr>
+    <tr><td>Photos A/B</td><td>desktop PDP</td><td>Not in the log</td><td>B: thumbnail column left</td></tr>
+    <tr><td>Flow A–J</td><td>mobile PDP</td><td>H and J leading, not final</td><td>the flows you drop (the biggest block: ~50 <code>FLOW_</code> branches)</td></tr>
+    <tr><td>Photos N/1/S</td><td>Help Centre</td><td>No (10-30, new)</td><td>–</td></tr>
+  </table>
+
+  <h2>Kept on purpose</h2>
+  <table>
+    <tr><th>What</th><th></th><th>Why</th></tr>
+    <tr><td>Help answers F/P</td><td></td><td>Hidden, not removed, as you asked (to decide internally).</td></tr>
+    <tr><td><code>home-promos.html</code></td><td></td><td>The promo card variants A–F test page; E was chosen. Record, like the sketch pages.</td></tr>
+  </table>
+
+  <div class="pick"><b>My pick:</b> delete part 1 now (no visible change; checked before/after like the CSS round). For part 2, go through it
+    with me line by line: the six "Yes" switches can go in one round (each behind its own before/after check of the desktop PDP); Delivery,
+    Cards, Photos and the mobile flows need your call first.</div>
+</main>
+</body>
+</html>
