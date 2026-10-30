@@ -260,8 +260,10 @@ const fmt = n => '€' + (inclVat ? n * (1 + VAT_RATE) : n).toFixed(2);
 const esc = t => t.replace(/&/g, '&amp;');
 // Labels: one component (.badge), two tones (Cornel, 2026-10-29): orange = a commercial highlight (Most Popular, Best Seller,
 // Great Value), neutral grey = information (Eco, Free design templates, Default, a Help Centre topic)
-const BADGE_INFO = ['Eco', 'Free design templates', 'Default'];
-const badgeTone = t => BADGE_INFO.includes(t) ? ' neutral' : '';
+// Labels (Cornel, 2026-10-30): orange = commercial (Most Popular, Best Seller, Great Value, Recommended, Free design templates),
+// light green = eco, grey (neutral) = information (Default, Help Centre topics)
+const BADGE_TONE = { 'Eco': ' eco', 'Default': ' neutral' };
+const badgeTone = t => BADGE_TONE[t] || '';
 const badgeHtml = t => t ? `<span class="badge${badgeTone(t)}">${t}</span>` : '';
 function updatePrices() {
   document.querySelectorAll('[data-price]').forEach(el => { el.textContent = fmt(+el.dataset.price); });

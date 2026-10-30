@@ -38,6 +38,9 @@ Add new decisions here when Cornel makes a final call.
   `--light-green` (was #00ad4c), grey tile titles `--black` (was #333). No hex values for these in the CSS any more.
 
 ## Labels (all pages, Oct 29, 2026)
+- **10-30 — Three tones:** orange = commercial (Most Popular, Best Seller, Great Value, Recommended, **Free design templates**),
+  light green `.badge.eco` = eco (solid `--light-green`, white text, as every green button), grey `.badge.neutral` = information
+  (Default, Help Centre topics). `BADGE_TONE` in app.js. Rejected: a light green tint with dark green text.
 - **10-29 — One label component, two tones:** `.badge` orange = commercial highlight (Most Popular, Best Seller, Great Value,
   Recommended), `.badge.neutral` grey = information (Eco, Free design templates, Default, Help Centre topic). One helper in app.js
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
