@@ -28,6 +28,7 @@
   .ds-side a { display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 22px; color: var(--black); }
   .ds-side a:hover { color: var(--link); }
   .ds-side a[aria-current] { background: var(--light-grey); font-weight: 600; }
+  .ds-side a[hidden] { display: none; }   /* a section hidden for now */
   .ds-side a.soon { color: var(--mid-grey); pointer-events: none; }
   .ds-main { padding: 32px 48px 96px; min-width: 0; }
   .ds-sec { max-width: 880px; padding-bottom: 64px; scroll-margin-top: 96px; }
@@ -123,7 +124,7 @@
     <a href="#cards">Cards</a>
     <a href="#accordion">Accordion / FAQ</a>
     <a href="#options">PDP option cards</a>
-    <a href="#feedback">Toast &amp; sheet</a>
+    <a href="#feedback" hidden>Toast &amp; sheet</a>   <!-- hidden for now (Cornel, 2026-10-30): maybe later -->
   </nav>
   <main class="ds-main" id="dsMain"></main>
 </div>
@@ -387,7 +388,7 @@
     sec('cards', 'Cards', 'Products as product cards, categories as category cards: never mix them up. Cards on desktop: light outline, soft shadow only on hover.', cards) +
     sec('accordion', 'Accordion / FAQ', 'Questions fold open with a turning chevron; when every answer has its own page, rows with the list arrow.', accordion) +
     sec('options', 'PDP option cards', 'Configure the product on the page: one card per option, the chosen one in light green.', options) +
-    sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback);
+    sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback).replace('<section ', '<section hidden ');   // hidden for now (Cornel, 2026-10-30): maybe later
 
   // Measured type specs: "24/32 · 800 · #022b07"
   const hex = c => '#' + c.match(/\d+/g).slice(0, 3).map(n => (+n).toString(16).padStart(2, '0')).join('');
