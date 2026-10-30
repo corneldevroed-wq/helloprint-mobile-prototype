@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Line heights — overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107j">
+<style>
+  /* Sketch only: every line height per font size in styles.css, and a proposal for one per size. */
+  html, body { background: var(--white); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: var(--t-32); line-height: 40px; }
+  h2 { margin: 48px 0 8px; font-size: var(--t-24); line-height: 32px; }
+  h3 { margin: 32px 0 8px; font-size: var(--t-16); line-height: 22px; }
+  .lead { margin-top: 8px; max-width: 680px; font-size: var(--t-16); line-height: 24px; color: var(--dark-grey); }
+  .note { font-size: var(--t-14); line-height: 22px; color: var(--dark-grey); }
+  code { font: 500 12px/17px ui-monospace, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: var(--r-s); white-space: nowrap; }
+  table { width: 100%; margin-top: 8px; border-collapse: collapse; font-size: var(--t-14); line-height: 22px; }
+  th { text-align: left; font-weight: 600; font-size: var(--t-12); line-height: 18px; color: var(--dark-grey); padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chips span { padding: 0 6px; border-radius: var(--r-s); background: var(--light-grey); font-size: var(--t-12); line-height: 20px; white-space: nowrap; }
+  .chips span.ok { background: #e6f6ec; color: var(--dark-green); font-weight: 600; }
+  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .ab div { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: #fafafa; }
+  .ab div::before { content: attr(data-l); display: block; margin-bottom: 8px; font-size: var(--t-12); line-height: 18px; color: var(--dark-grey); }
+  .pick { margin-top: 32px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: 22px; }
+  @media (max-width: 760px) { table { display: block; overflow-x: auto; } .ab { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Line heights</h1>
+  <p class="lead">Next round after the type scale. Every size now has several line heights (14px has 18 different ones). Below: what is used now,
+    the proposal (one line height per size for text, plus one tight value for single-line controls) and what you would see.</p>
+
+  <h2>Now: line heights per size</h2>
+  <p class="note">Counted in <code>styles.css</code>, rules that set both size and line height. Green = the one in the proposal.
+    Ratios are shown with what they become in px.</p>
+  <div id="now"></div>
+
+  <h2>Proposal</h2>
+  <table>
+    <tr><th>Size</th><th>Text (can wrap)</th><th>Where</th></tr>
+    <tr><td>12</td><td>18px</td><td>Labels, notes, meta, body on mobile. Label 17 and body 18 become one: 18</td></tr>
+    <tr><td>14</td><td>22px</td><td>Body on desktop, links, rows, card titles on mobile</td></tr>
+    <tr><td>16</td><td>22px</td><td>Card titles on desktop, inputs, 16px text</td></tr>
+    <tr><td>20</td><td>24px</td><td>Section title on mobile, sheet title, checkout headings</td></tr>
+    <tr><td>24</td><td>28px mobile · 32px desktop</td><td>Page title on mobile 24/28 · page and section titles on desktop 24/32 (as now)</td></tr>
+    <tr><td>28 · 48</td><td>32px · 56px</td><td>Display (as now)</td></tr>
+  </table>
+  <p class="note" style="margin-top:16px"><b>Two exceptions, on purpose:</b> <code>1.2</code> for single-line controls whose height comes from padding
+    (buttons, pills, tabs, chips, badges, rows that never wrap) and <code>1</code> for icons, counters and big numbers. As tokens:
+    <code>--lh-12</code> 18 · <code>--lh-14</code> 22 · <code>--lh-16</code> 22 · <code>--lh-20</code> 24 … and <code>--lh-tight</code> 1.2.</p>
+  <p class="note" style="margin-top:8px"><b>Rule to map what is there now:</b> 1 stays 1 · 1.1–1.25 becomes 1.2 (tight) · everything else
+    (1.3–1.7 and px values) becomes the text line height of its size.</p>
+
+  <h2>What you would see</h2>
+  <h3>Body text 14 · 1.5 (21px) → 22px</h3>
+  <div class="ab">
+    <div data-l="Now"><p style="font-size:14px;line-height:1.5;color:var(--dark-grey)">We specialise in top-quality Business Card Printing with 1000+ free business cards designs for all needs. Whether you're looking for stylish design templates or the most cheap options.</p></div>
+    <div data-l="Proposed"><p style="font-size:14px;line-height:22px;color:var(--dark-grey)">We specialise in top-quality Business Card Printing with 1000+ free business cards designs for all needs. Whether you're looking for stylish design templates or the most cheap options.</p></div>
+  </div>
+  <h3>Note 12 · 1.6 (19px) / 1.3 (16px) → 18px</h3>
+  <div class="ab">
+    <div data-l="Now"><p style="font-size:12px;line-height:1.6;color:var(--dark-grey)">Free automated file check. We check every file before printing and let you know when something is wrong.</p>
+      <p style="margin-top:8px;font-size:12px;line-height:1.3;color:var(--dark-grey)">Estimated Tue 29 Sep, latest Wed 30 Sep. Order before 17:00 for this date.</p></div>
+    <div data-l="Proposed"><p style="font-size:12px;line-height:18px;color:var(--dark-grey)">Free automated file check. We check every file before printing and let you know when something is wrong.</p>
+      <p style="margin-top:8px;font-size:12px;line-height:18px;color:var(--dark-grey)">Estimated Tue 29 Sep, latest Wed 30 Sep. Order before 17:00 for this date.</p></div>
+  </div>
+  <h3>Checkout heading 20 · 32px → 24px</h3>
+  <div class="ab">
+    <div data-l="Now"><p style="font-weight:800;font-size:20px;line-height:32px;color:var(--dark-green)">Your details</p><p class="note">The heading takes 32px; the extra 8px acts as spacing.</p></div>
+    <div data-l="Proposed"><p style="font-weight:800;font-size:20px;line-height:24px;color:var(--dark-green)">Your details</p><p class="note" style="margin-top:8px">24px + an 8px margin: the same position, but spacing is spacing.</p></div>
+  </div>
+
+  <div class="pick"><b>My pick:</b> this proposal. It is mostly 1–3px per line, so pages stay recognisable, but paragraphs land on the grid
+    (18 / 22 / 24) and comparable blocks get the same rhythm. Where a line height was used as spacing (the 20/32 checkout headings) I add the
+    margin, so nothing moves. Build as before: tokens, every line height on a token, a switch O/N, measured page by page.</div>
+</main>
+<script>
+  // [size, [[value, px, count, ok]]] counted from styles.css (2026-10-30)
+  const NOW = [
+    [12, [['18px', 18, 30, 1], ['1.3', 16, 18], ['17px', 17, 14], ['1.4', 17, 13], ['1.6', 19, 9], ['1.5', 18, 5, 1], ['1.45', 17, 4], ['1.35', 16, 3], ['1', 12, 2], ['1.2', 14, 2], ['16px', 16, 2]]],
+    [14, [['1.5', 21, 38], ['1.2', 17, 37, 1], ['22px', 22, 24, 1], ['20px', 20, 15], ['1.4', 20, 10], ['18px', 18, 8], ['1.45', 20, 5], ['24px', 24, 4], ['1', 14, 3, 1], ['16px', 16, 3], ['17px', 17, 3], ['1.3', 18, 3], ['1.35', 19, 2], ['1.7', 24, 2], ['1.55', 22, 2, 1], ['1.15', 16, 1], ['1.25', 18, 1]]],
+    [16, [['22px', 22, 17, 1], ['1.2', 19, 16, 1], ['1.3', 21, 7], ['24px', 24, 4], ['20px', 20, 1]]],
+    [20, [['1.2', 24, 6, 1], ['32px', 32, 3], ['24px', 24, 3, 1], ['1.3', 26, 2]]],
+    [24, [['1.16', 28, 5, 1], ['28px', 28, 4, 1], ['32px', 32, 4, 1], ['1.15', 28, 1, 1], ['1', 24, 1, 1], ['1.1', 26, 1]]],
+  ];
+  document.getElementById('now').innerHTML = `<table><tr><th>Size</th><th>Different</th><th>Line heights now (× rules)</th></tr>${NOW.map(([s, l]) =>
+    `<tr><td>${s}px</td><td>${l.length}</td><td><div class="chips">${l.map(([v, px, n, ok]) =>
+      `<span${ok ? ' class="ok"' : ''}>${v}${v.endsWith('px') ? '' : ` = ${px}`} · ${n}×</span>`).join('')}</div></td></tr>`).join('')}</table>`;
+</script>
+</body>
+</html>

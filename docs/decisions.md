@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **10-30 — One line height per size (`lineheight-sketch.html`):** tokens `--lh-12` 18, `--lh-14` 22, `--lh-16` 22, `--lh-20` 24 for text
+  that can wrap, `--lh-tight` 1.2 for single-line controls, 1 for icons/counters/numbers; 24/28/48 keep 28 or 32 / 32 / 56.
+  The 20/32 checkout headings are 24 + 4px padding (same height). Pages 0–49px longer, nothing clipped.
 - **10-30 — Type scale (Check 12, `type-sketch.html`):** tokens `--t-10` 12 14 16 20 24 28 32 48; every font size is a token
   (icons and the Flow switch stay px). 13 → 14 for links, buttons, rows and → 12 for notes/meta; 15 → 16 desktop card titles,
   buttons, inputs (no iOS zoom) and → 14 mobile card titles; 17 → 16; 18 → 20 (sheet/checkout titles); 11 → 12. Dead CSS of the
