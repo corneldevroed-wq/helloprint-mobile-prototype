@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type sizes — overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107h">
+<style>
+  /* Sketch only (Check 12): every font size outside the scale in styles.css, with where it would go. */
+  html, body { background: var(--white); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: 32px; line-height: 40px; }
+  h2 { margin: 48px 0 8px; font-size: 24px; line-height: 32px; }
+  h3 { margin: 32px 0 8px; font-size: 16px; line-height: 22px; }
+  .lead { margin-top: 8px; max-width: 680px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
+  .note { font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  code { font: 500 12px/17px ui-monospace, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: var(--r-s); white-space: nowrap; }
+  .scale { margin-top: 16px; border-top: 1px solid var(--line); }
+  .scale div { display: grid; grid-template-columns: 72px 1fr 280px; gap: 16px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .scale b { font-size: 14px; line-height: 22px; }
+  .scale span { color: var(--black); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .scale small { font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  table { width: 100%; margin-top: 8px; border-collapse: collapse; font-size: 14px; line-height: 22px; }
+  th { text-align: left; font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { width: 120px; font-weight: 600; white-space: nowrap; }
+  td:nth-child(2) { width: 56px; color: var(--dark-grey); }
+  .ab { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .ab div { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: #fafafa; }
+  .ab div::before { content: attr(data-l); display: block; margin-bottom: 8px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .pick { margin-top: 32px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: 14px; line-height: 22px; }
+  @media (max-width: 760px) { .scale div { grid-template-columns: 56px 1fr; } .scale small { grid-column: 2; } table { display: block; overflow-x: auto; } .ab { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Type sizes</h1>
+  <p class="lead">Check 12 of the UI kit. <code>styles.css</code> uses 12, 14, 16, 20 and 24 most, but also 22 other sizes (13px 50×, 15px 10×,
+    11px 7×…). Below: the proposed scale, every size outside it and where it would go, and what would change.</p>
+
+  <h2>Proposed scale: 9 sizes</h2>
+  <div class="scale" id="scale"></div>
+  <p class="note" style="margin-top:16px">As tokens <code>--t-10</code> … <code>--t-48</code>. 10 is only for tiny UI (counters, the calendar month, a label in a
+    toggle). Big numbers (calendar day, review score) use the scale too.</p>
+
+  <h2>Every size outside the scale → proposed</h2>
+  <div id="map"></div>
+
+  <h2>Not part of this round</h2>
+  <table>
+    <tr><th>What</th><th>Size</th><th>Why</th></tr>
+    <tr><td>Dead CSS</td><td>63.75 · 18.6 · 23.7 · 74</td><td><code>.banner</code> and <code>.b-expert</code> (the old green banner and expert banner) are used on no page any more. My pick: delete them (simplify rule).</td></tr>
+    <tr><td>Icons</td><td>18 · 22 · 26</td><td>Material Symbols (18), the edit icon in flow D (22) and the "+" in Add address (26) are icon sizes, not text.</td></tr>
+    <tr><td>Prototype switches</td><td>8 · 10</td><td>The Flow and desk switches on the left edge are tooling, not product.</td></tr>
+    <tr><td>Line heights</td><td>1.2 · 1.3 · 1.4 · 1.45 · 1.5…</td><td>Many sizes have several line heights. One line height per size is the next round, after the sizes.</td></tr>
+  </table>
+
+  <h2>What you would see</h2>
+  <p class="note">Two typical cases, now and proposed.</p>
+  <h3>Checkout: 13px links and notes</h3>
+  <div class="ab">
+    <div data-l="Now"><p style="font-size:13px;line-height:1.45;color:var(--dark-grey)">Your payment is secure. We never store your card details.</p>
+      <p style="margin-top:8px;font-size:13px;font-weight:600;text-decoration:underline">Not you? Sign out</p></div>
+    <div data-l="Proposed"><p style="font-size:12px;line-height:18px;color:var(--dark-grey)">Your payment is secure. We never store your card details.</p>
+      <p style="margin-top:8px;font-size:14px;line-height:22px;font-weight:600;text-decoration:underline">Not you? Sign out</p></div>
+  </div>
+  <h3>Sheet title and card titles</h3>
+  <div class="ab">
+    <div data-l="Now"><p style="font-weight:800;font-size:18px;line-height:1.3;color:var(--dark-green)">Choose your delivery</p>
+      <p style="margin-top:8px;font-weight:600;font-size:15px;line-height:1.2">Standard</p><p style="font-weight:600;font-size:17px;line-height:1.2">Classic Business Cards</p></div>
+    <div data-l="Proposed"><p style="font-weight:800;font-size:20px;line-height:24px;color:var(--dark-green)">Choose your delivery</p>
+      <p style="margin-top:8px;font-weight:600;font-size:16px;line-height:22px">Standard</p><p style="font-weight:600;font-size:16px;line-height:22px">Classic Business Cards</p></div>
+  </div>
+
+  <div class="pick"><b>My pick:</b> this scale. The rule of thumb: <b>13 → 12</b> for notes and meta text (it is helper text, as the label size),
+    <b>13 → 14</b> for links, buttons and rows (things you click); <b>15 and 17 → 16</b> for titles in cards on desktop and <b>14</b> on mobile
+    (the card title rule); <b>18 → 20</b> for sheet and checkout titles (the mobile section title); <b>11 → 12</b>. The 16px login field also
+    stops iOS from zooming in. Build as the corners: tokens, every size on a token, a switch Type O/N, measured page by page.
+    The dead banner CSS goes in the same round.</div>
+</main>
+<script>
+  const SCALE = [
+    [10, '10/12', 'Micro: cart counter, calendar month, toggle label, Recommended tag'],
+    [12, '12/17 · 12/18', 'Label, notes, meta · body on mobile'],
+    [14, '14/22', 'Body on desktop, links, rows, buttons in rows · card title on mobile'],
+    [16, '16/22 · 16/24', 'Card title on desktop, buttons, inputs'],
+    [20, '20/24', 'Section title on mobile, sheet title'],
+    [24, '24/28 · 24/32', 'Page title on mobile, section title on desktop'],
+    [28, '28/32', 'Display on mobile (Help Centre head)'],
+    [32, '32/40', 'Page title on desktop, big numbers'],
+    [48, '48/56', 'Display on desktop'],
+  ];
+  document.getElementById('scale').innerHTML = SCALE.map(([s, lh, use]) =>
+    `<div><b>${s}px</b><span style="font-size:${s}px;line-height:1.2">Business Cards</span><small>${lh} · ${use}</small></div>`).join('');
+
+  // [now, count, proposed, where]
+  const MAP = [
+    ['13px', '50×', [
+      ['14', 'Links, buttons and rows: VAT menu items, template links, "Change file", design choice, alt buttons (flows C/D), "Upload now", info links (flow I), address Edit, "Not you?", "More", fold CTA, header nav links, "See all reviews", See also chips, spec rows (flow I), option title count'],
+      ['12', 'Notes and meta: Secured Delivery help, sub text under CTA (flow C), small text in buttons, support line, "or", terms and sign-up switch, user line, tags, business line, payment note, trust lines, Trustpilot pop-up, "N days sooner", design card lists, review count and meta, promo card sub text, Team/Promises text on mobile (the mobile body 12/18), guide text'],
+    ]],
+    ['15px', '10×', [
+      ['16', 'Desktop card titles: delivery card name, design card title, review card title · buttons and fields: "Skip" in the ad, login field (16 also stops iOS zoom)'],
+      ['14', 'Mobile card titles: order confirmed upload / per product / summary, FAQ question on order confirmed, folded leaflet card'],
+    ]],
+    ['17px', '4×', [['16', 'Titles: flow I top line and button, Trustpilot title, desktop Trustpilot logo text']]],
+    ['18px', '5×', [['20', 'Sheet titles, the summary, add-ons and checkout headings (the mobile section title 20/24), the letter in a thumbnail']]],
+    ['11px', '7×', [
+      ['12', 'Small text in buttons, prototype login note, size card note, expert eyebrow, calendar month and weekday'],
+      ['10', 'The letter in the upload icon'],
+    ]],
+    ['9.4px', '1×', [['10', '"+N" brands in the card box']]],
+    ['26px', '2×', [['24', 'Order confirmed title (= page title on mobile) · day number in the calendar tile']]],
+    ['30px', '1×', [['32', 'Day number in the calendar tile, delivery variant E']]],
+    ['40px', '1×', [['32', 'Review score ("4.5") on the reviews summary']]],
+  ];
+  document.getElementById('map').innerHTML = MAP.map(([now, n, rows]) => `<h3>${now} · ${n}</h3><table><tr><th>Proposed</th><th></th><th>Where</th></tr>${
+    rows.map(([to, where]) => `<tr><td>→ ${to}px</td><td></td><td>${where}</td></tr>`).join('')}</table>`).join('');
+</script>
+</body>
+</html>

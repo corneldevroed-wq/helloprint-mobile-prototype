@@ -4,12 +4,18 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **10-30 — Type scale (Check 12, `type-sketch.html`):** tokens `--t-10` 12 14 16 20 24 28 32 48; every font size is a token
+  (icons and the Flow switch stay px). 13 → 14 for links, buttons, rows and → 12 for notes/meta; 15 → 16 desktop card titles,
+  buttons, inputs (no iOS zoom) and → 14 mobile card titles; 17 → 16; 18 → 20 (sheet/checkout titles); 11 → 12. Dead CSS of the
+  old Flash Sale banner, banner row, catalogs and expert banners removed.
 - **10-30 — Corner scale (Check 11, `radius-sketch.html`):** tokens `--r-s` 4 (badges, checkbox, flags, tiles inside a card),
   `--r-m` 8 (fields, option cards, quantity rows, delivery cards, menus), `--r-l` 10 (cards, photos), `--r-xl` 16 (sheet),
   `--r-pill` 100px (buttons, pills, toggles, toast); 50% round, 0 for photos square on purpose. Every radius in styles.css is a
   token (was 20 values). Visible: option/quantity/delivery cards 5 → 8, badges 3 → 4. New radius = one of these tokens.
 - **10-30 — No full stop after the PDP product name** (product.html added one in code).
-- **10-30 — Page title 32/40 on desktop (Check 10):** home, category pages and Help Centre topic + article pages (one rule);
+- **10-30 — Page title on desktop back to 24/32 = the section title size** (Cornel: 32/40 was way too big; the PDP title is 24 too).
+  The h1 tag makes it the page title, not its size. Replaces the 32/40 below.
+- **10-30 — (replaced) Page title 32/40 on desktop (Check 10):** home, category pages and Help Centre topic + article pages (one rule);
   mobile stays 24/28. The PDP title stays 24/28 (narrow column next to the configuration, Figma PDP).
 - **10-30 — One breadcrumb (Check 9):** 12/17 dark grey with `--link` links, mobile = desktop (desktop was 14/24 black, mobile
   links were light green). Desktop crumbs 7px lower, spacing around unchanged.

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107f">
+<link rel="stylesheet" href="styles.css?v=20261107h">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -172,7 +172,7 @@
     { name: 'Display', ex: '<div class="hc-center"><h1 data-m>How can we help?</h1></div>', meta: '.hc-center h1',
       use: 'Only the Help Centre head. 28/32 mobile, 48/56 desktop.' },
     { name: 'Page title', ex: '<div class="plp"><div class="hero"><h1 data-m>Business Card Printing</h1></div></div>', meta: 'h1',
-      use: 'One per page, dark green, extra bold: 24/28 mobile, 32/40 desktop (a step above the section titles). Never a full stop.' },
+      use: 'One per page, dark green, extra bold: 24/28 mobile, 24/32 desktop (the section title size: the h1 tag, not the size, makes it the page title). Never a full stop.' },
     { name: 'Section title', ex: '<div class="plp"><h2 data-m>Find the perfect paper</h2></div>', meta: 'h2',
       use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile.' },
     { name: 'Card title', ex: '<ul class="hc-rows"><li><a data-m href="#typography">Where is my order?</a></li></ul>', meta: '.hc-rows a, .cat .title, .dc-t',
@@ -186,7 +186,10 @@
     { name: 'Button', ex: '<div class="w"><button class="btn primary" data-m>Add to cart</button></div>', meta: '.btn',
       use: 'Semibold 16/24 on every button.' },
   ];
-  const typography = TYPE.map(t => row({ name: t.name, flag: t.flag, use: t.use, ex: stage(t.ex, 'left type'), meta: [{ t: t.meta }, { live: 'type' }] })).join('') +
+  const typography = row({ name: 'Type scale', meta: [10, 12, 14, 16, 20, 24, 28, 32, 48].map(n => ({ t: '--t-' + n })),
+      use: 'Every font size is one of these tokens. 10 micro (counters, calendar month) · 12 labels, notes, body on mobile · 14 body on desktop, links, rows · 16 card titles on desktop, buttons, inputs · 20 section title on mobile, sheet title · 24 page title, section title on desktop · 28/48 display · 32 big numbers.',
+      ex: stage([12, 14, 16, 20, 24, 32].map(n => `<span style="font-size:var(--t-${n});font-weight:600">${n}</span>`).join(''), 'left') }) +
+    TYPE.map(t => row({ name: t.name, flag: t.flag, use: t.use, ex: stage(t.ex, 'left type'), meta: [{ t: t.meta }, { live: 'type' }] })).join('') +
     `<h3>Weights</h3>` + row({ name: 'Inter: 400 · 600 · 700 · 800', wide: false,
       ex: stage('<div style="font-size:20px;line-height:28px"><span style="font-weight:400">Aa</span> &nbsp;<span style="font-weight:600">Aa</span> &nbsp;<span style="font-weight:700">Aa</span> &nbsp;<span style="font-weight:800">Aa</span></div>'),
       use: '400 body · 600 titles in cards, buttons, tabs, labels that matter · 700 prices and dates · 800 page and section titles.' }) +
