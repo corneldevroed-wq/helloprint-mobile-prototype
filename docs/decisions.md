@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **10-30 — Dead code removed (`deadcode-sketch.html`):** 98 CSS rules + 3 dead selectors (old desktop hero tiles, folded-leaflet row,
+  stand-out swipe cards, old design cards, old checkout bits, mobile VAT dropdown) and 31 unused images. Every page identical before/after.
+  Hidden variants, URL-only flows and sketch pages stay. Unused JS not checked yet.
 - **10-30 — One line height per size (`lineheight-sketch.html`):** tokens `--lh-12` 18, `--lh-14` 22, `--lh-16` 22, `--lh-20` 24 for text
   that can wrap, `--lh-tight` 1.2 for single-line controls, 1 for icons/counters/numbers; 24/28/48 keep 28 or 32 / 32 / 56.
   The 20/32 checkout headings are 24 + 4px padding (same height). Pages 0–49px longer, nothing clipped.

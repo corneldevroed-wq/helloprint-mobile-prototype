@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead code — overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107k">
+<style>
+  /* Sketch only: CSS rules and image files that no page uses any more. */
+  html, body { background: var(--white); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: var(--t-32); line-height: 40px; }
+  h2 { margin: 48px 0 8px; font-size: var(--t-24); line-height: 32px; }
+  .lead { margin-top: 8px; max-width: 680px; font-size: var(--t-16); line-height: 24px; color: var(--dark-grey); }
+  .note { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  code { font: 500 12px/17px ui-monospace, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: var(--r-s); white-space: nowrap; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+  .stats div { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .stats b { display: block; font-size: var(--t-24); line-height: 32px; color: var(--dark-green); }
+  .stats span { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  table { width: 100%; margin-top: 8px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  th { text-align: left; font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 600; width: 220px; }
+  td:nth-child(2) { width: 64px; color: var(--dark-grey); white-space: nowrap; }
+  td code { white-space: normal; }
+  .pick { margin-top: 32px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  @media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } table { display: block; overflow-x: auto; } td:first-child { width: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Dead code</h1>
+  <p class="lead">CSS and images that no page uses any more: leftovers of variants that were replaced. Found by searching every class in
+    <code>styles.css</code> and every file in <code>assets/</code> across all pages and scripts (sketch pages not counted as use).</p>
+
+  <div class="stats">
+    <div><b>98</b><span>CSS rules nobody uses</span></div>
+    <div><b>32</b><span>class names behind them</span></div>
+    <div><b>3</b><span>rules where one selector in the list is dead</span></div>
+    <div><b>31</b><span>image files nobody loads (~1 MB)</span></div>
+  </div>
+
+  <h2>CSS, by where it came from</h2>
+  <table>
+    <tr><th>What it was</th><th>Rules</th><th>Classes</th></tr>
+    <tr><td>Old home: desktop hero (3 photo tiles with a white bar, replaced by promo cards E) and the old team promo logo</td><td>26</td>
+      <td><code>.d-hero</code> <code>.d-tile</code> <code>.overlay-card</code> <code>.badge-logo</code></td></tr>
+    <tr><td>Old folded-leaflet row on the flyers page (now product cards)</td><td>15</td>
+      <td><code>.fold-row</code> <code>.fold-card</code> <code>.fold-vis</code> <code>.fold-img</code> <code>.fold-cta</code></td></tr>
+    <tr><td>Old "Make it stand out" swipe cards on business cards (now the photo/text rows)</td><td>7</td>
+      <td><code>.standout</code> <code>.so-card</code></td></tr>
+    <tr><td>Old desktop design cards on the PDP and a start button</td><td>11</td>
+      <td><code>.d-designs</code> <code>.d-design</code> <code>.d-go-arrow</code> <code>.d-start</code></td></tr>
+    <tr><td>Old PDP bits: add-ons footer, alt link, Secured Delivery "incl.", recap head, guide sub line, info link</td><td>15</td>
+      <td><code>.addon-foot</code> <code>.ad-alt</code> <code>.sr-incl</code> <code>.recap-head</code> <code>.guide-sub</code> <code>.i-link</code> <code>.last-visible</code></td></tr>
+    <tr><td>Old checkout and account bits: back link, "Not you?", tags, More, address edit + pin, payment option rows, Revolut wallet, login logo</td><td>19</td>
+      <td><code>.co-back</code> <code>.co-notyou</code> <code>.co-tag</code> <code>.co-more</code> <code>.addr-edit</code> <code>.pin</code> <code>.pay-opt</code> <code>.revolut</code> <code>.auth-logo</code></td></tr>
+    <tr><td>VAT dropdown in the mobile header (VAT moved to the PDP and cart)</td><td>5</td><td><code>.vat-menu</code></td></tr>
+  </table>
+  <p class="note" style="margin-top:8px">The 3 mixed rules keep their other selectors; only the dead one goes
+    (<code>.qrow.last-visible</code>, <code>.addr-edit</code>, <code>.d-dcard .d-start</code>).</p>
+
+  <h2>Images nobody loads</h2>
+  <table>
+    <tr><th>What it was</th><th>Files</th><th>Files</th></tr>
+    <tr><td>Old home: hero tiles, banners, Flash Sale, "That's why", team badge</td><td>9</td>
+      <td><code>home/hero-labels</code> <code>home/hero-catalog</code> <code>home/hero-advent</code> <code>home/banner-catalogs</code> <code>home/banner-expert</code> <code>flash-sale.png</code> <code>thats-why.jpg</code> <code>logo-badge.png</code> <code>arrow-right-white.svg</code></td></tr>
+    <tr><td>Printing icon proposals A–D (E was chosen)</td><td>8</td><td><code>icons/printing/a–d-single/double.svg</code></td></tr>
+    <tr><td>Old desktop help block and Trustpilot image (now HTML text)</td><td>4</td><td><code>desktop/help-1–3.png</code> <code>desktop/trustpilot-excellent.png</code></td></tr>
+    <tr><td>Small leftovers: lines, chevron, swatch, stars, design icons, two menu photos</td><td>10</td>
+      <td><code>menu/line-head</code> <code>search/line-head</code> <code>search/line-row</code> <code>chevron-sm</code> <code>category/swatch-fold</code> <code>pdp/star-green</code> <code>pdp/d-ai</code> <code>pdp/d-designer</code> <code>menu/sub/industry-wedding</code> <code>menu/sub/industry-hospitality-restaurant</code></td></tr>
+  </table>
+
+  <h2>Kept on purpose</h2>
+  <table>
+    <tr><th>What</th><th></th><th>Why</th></tr>
+    <tr><td>Hidden variants</td><td></td><td>You said "hide, don't remove": Discover our categories (<code>.d-cats2</code>), Help Centre "Popular" chips, the Help answers switch F/P, Team + Promises setups 1/2.</td></tr>
+    <tr><td>URL-only versions</td><td></td><td>PDP flows A–J and <code>?info=line|guide</code> are only reachable with a URL, but they work, so they stay.</td></tr>
+    <tr><td>Sketch pages</td><td></td><td>The <code>*-sketch.html</code> pages and <code>material-icons.html</code> are the record of what was chosen.</td></tr>
+    <tr><td>Images loaded by name</td><td></td><td>Gallery photos, live flyer option photos and the folded-leaflet photos are built from a name in the code (<code>${slug}-2.webp</code>), so they are in use.</td></tr>
+  </table>
+  <p class="note" style="margin-top:8px">Not checked in this round: unused JavaScript functions (needs a separate pass).</p>
+
+  <div class="pick"><b>My pick:</b> delete all of it in one go: the 98 rules, the 3 dead selectors and the 31 files. No switch needed, because
+    nothing on any page uses it. To prove that, I compare every page before and after (size, spacing, colour, corners of every element,
+    mobile and desktop): it must be identical.</div>
+</main>
+</body>
+</html>
