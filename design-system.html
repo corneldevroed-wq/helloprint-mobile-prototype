@@ -12,6 +12,8 @@
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
   html, body { background: var(--white); }
+  html { scroll-behavior: smooth; }   /* the sidebar glides to a topic */
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   .ds-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; height: 64px; padding: 0 24px; background: var(--white); border-bottom: 1px solid var(--line); }
   .ds-top .logo { height: 24px; }
   .ds-top b { font-weight: 600; font-size: 14px; color: var(--dark-grey); padding-left: 16px; border-left: 1px solid var(--line); }

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart desktop sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107n">
+<!-- Sketch only, not linked from the prototype: three desktop layouts for cart.html. Content and wording 1:1 from the
+     mobile cart (add-ons, order summary, ETA, USPs, payments); a sidebar like live (outlined card: totals + CTA).
+     Uses the real cart classes from styles.css (.addon, .switch, .totals, .eta, .cart-usps, .payments, .btn). -->
+<style>
+  body { background: var(--white); }
+  /* sketch chrome */
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .frame { margin-top: 16px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .hdr { height: 64px; background: var(--dark-green); display: flex; align-items: center; padding: 0 24px; color: var(--white); font-size: var(--t-12); }
+  .hdr span { margin-left: auto; opacity: .6; }
+
+  /* the page */
+  .c-page { padding: 32px 24px 48px; }
+  .c-page h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; margin-bottom: 32px; }
+  .c-grid { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 32px; align-items: start; }
+  .c-main { display: flex; flex-direction: column; gap: 32px; }
+  .c-main section { display: flex; flex-direction: column; gap: 8px; }
+  .c-main h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; padding: 0; }
+  .addons > p { font-size: var(--t-14); line-height: var(--lh-14); margin-top: -4px; margin-bottom: 8px; }
+  .addon-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* product card: the mobile line item, desktop size, outlined like every desktop card */
+  .p-card { display: flex; gap: 24px; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .p-card + .p-card { margin-top: 8px; }
+  .p-card .img { width: 120px; height: 120px; flex-shrink: 0; border-radius: var(--r-l); background: var(--light-grey); overflow: hidden; }
+  .p-card .img img { width: 100%; height: 100%; object-fit: cover; }
+  .p-card .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .p-card .t strong { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); margin-bottom: 2px; }
+  .p-card .remove { align-self: flex-start; margin-top: 8px; font-size: var(--t-14); color: var(--dark-grey); text-decoration: underline; }
+  .p-card .p { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
+
+  /* sidebar like live: outlined card, sticky */
+  .side { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 16px; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .side h2 { font-size: var(--t-20); line-height: var(--lh-20); }
+  .side .totals { border-top: 0; padding-top: 0; }
+  .side .totals div.grand { font-size: var(--t-16); line-height: var(--lh-16); }
+  .side .btn { height: 48px; }
+  .side .cart-usps, .side .payments { padding-top: 16px; border-top: 1px solid var(--line); }
+  .side .payments + .cart-usps { border-top: 0; }
+  .side .line-item .img { width: 64px; height: 64px; background: var(--light-grey); }
+  .shop { font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); text-decoration: underline; align-self: center; }
+
+  @media (max-width: 900px) { .c-grid, .addon-row { grid-template-columns: 1fr; } .side { position: static; } }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Cart desktop sketch</b><a href="#a">A · Mobile order</a><a href="#b">B · Summary in sidebar</a><a href="#c">C · Products first</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> desktop version of the cart. Sidebar like live (outlined card with the price and the CTA, sticky).
+       Content and wording come from the mobile cart: design check + secured delivery, order summary, estimated delivery,
+       satisfaction USPs, payment methods. The mobile sticky bar (total + "Continue to checkout") becomes the sidebar.</p>
+    <p>Example: 2 products, Premium Check on, secured delivery off. Toggles and arrows aren't working in the sketch.
+       On desktop the arrows open the existing popups (the sheets are already centred dialogs there).</p>
+    <p><b>Not in the mobile cart, so not in these sketches:</b> live's discount code, "Request FREE quote", Duplicate/Edit, Trustpilot line, B-Corp block.
+       The discount code is in the backlog; I can add it later.</p>
+  </div>
+
+  <!-- ===================== A ===================== -->
+  <div class="sk-label" id="a"><b>A · Mobile order, sidebar = totals + checkout <span class="pick">my pick</span></b>
+    Left in the mobile order: design check first (the key choice), then the products. The sidebar has everything about paying:
+    totals, CTA, delivery date, USPs, payment methods. Same as live: the sidebar stays short and sticky however many products there are.
+    New wording: the products need a heading on desktop ("Your products"). On mobile they sit under "Order summary".</div>
+  <div class="frame">
+    <div class="hdr">desktop header (SHELL_HEADER_DESK)<span>1286 content width</span></div>
+    <div class="c-page">
+      <h1>Your Cart</h1>
+      <div class="c-grid">
+        <div class="c-main">
+          <section class="addons">
+            <h2>Do you want a design check?</h2>
+            <p>Catch print issues before they're printed. Every order gets the free automated check.</p>
+            <div class="addon-row" data-addons></div>
+          </section>
+          <section>
+            <h2>Your products</h2>
+            <div data-products></div>
+          </section>
+        </div>
+        <aside class="side" data-side="totals"></aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== B ===================== -->
+  <div class="sk-label" id="b"><b>B · Mobile blocks 1:1, Order summary in the sidebar</b>
+    The mobile "Order summary" (products + totals) moves into the sidebar as it is. Left only has the add-ons, then delivery and Continue shopping.
+    Closest to mobile with no new heading. But the sidebar grows with every product, so the CTA ends up under the fold with 3+ products,
+    and the left column is nearly empty.</div>
+  <div class="frame">
+    <div class="hdr">desktop header (SHELL_HEADER_DESK)<span>1286 content width</span></div>
+    <div class="c-page">
+      <h1>Your Cart</h1>
+      <div class="c-grid">
+        <div class="c-main">
+          <section class="addons">
+            <h2>Do you want a design check?</h2>
+            <p>Catch print issues before they're printed. Every order gets the free automated check.</p>
+            <div class="addon-row" data-addons></div>
+          </section>
+          <div data-eta></div>
+          <a class="btn outline" href="#" style="align-self:flex-start;padding:0 24px">Continue shopping</a>
+        </div>
+        <aside class="side" data-side="summary"></aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== C ===================== -->
+  <div class="sk-label" id="c"><b>C · Products first, like live</b>
+    Same sidebar as A, but the products come first and the add-ons sit under them, as on live.
+    You recognise it from live, but it's a different order than mobile, and the design check (where the upsell is) drops under the fold with 2+ products.</div>
+  <div class="frame">
+    <div class="hdr">desktop header (SHELL_HEADER_DESK)<span>1286 content width</span></div>
+    <div class="c-page">
+      <h1>Your Cart</h1>
+      <div class="c-grid">
+        <div class="c-main">
+          <section>
+            <div data-products></div>
+          </section>
+          <section class="addons">
+            <h2>Do you want a design check?</h2>
+            <p>Catch print issues before they're printed. Every order gets the free automated check.</p>
+            <div class="addon-row" data-addons></div>
+          </section>
+        </div>
+        <aside class="side" data-side="totals"></aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<template id="payTpl">
+  <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
+  <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
+  <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
+  <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
+  <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
+  <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
+  <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
+  <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
+</template>
+<script>
+  // Sketch data: same shape and wording as the mobile cart (cart.html + app.js)
+  const items = [
+    { name: 'Classic business cards', img: 'assets/pdp/classic.png', qty: 500, delivery: 'Saver', arrives: 'Tue 29 Sep',
+      options: 'Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided', design: 'Upload after checkout', price: 18.89 },
+    { name: 'Classic business cards', img: 'assets/pdp/classic.png', qty: 1000, delivery: 'Standard', arrives: 'Mon 28 Sep',
+      options: 'Standard 85 x 55 mm · Glossy · Luxury · No finishing · Rounded corners · Single-sided', design: 'Your designer sends the file', price: 27.40 },
+  ];
+  const eur = n => '€' + n.toFixed(2);
+  const check = { name: 'Premium Check + Proof', line: 'Premium Check + Proof', price: 10.99 };
+  const subtotal = items.reduce((s, it) => s + it.price, 0) + check.price;
+  const vat = Math.round(subtotal * 0.23 * 100) / 100, total = subtotal + vat;
+
+  const addons = `
+    <div class="addon addon-check" data-on="true" aria-checked="true">
+      <button class="switch" role="switch" aria-checked="true" aria-label="Design check"></button>
+      <span class="t"><b>${check.name}</b><small>A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.</small><span class="p">${eur(check.price)}</span></span>
+      <button class="go" aria-label="See our 3 file check options"><img src="assets/cart/arrow.png" alt=""></button>
+    </div>
+    <div class="addon addon-secured" data-on="false">
+      <button class="switch" role="switch" aria-checked="false" aria-label="Secured delivery"></button>
+      <span class="t"><b>Add secured delivery</b><small>Ensure priority support, fast reprint and delivery guarantees for your order</small><span class="p">€5.99</span></span>
+      <button class="go" aria-label="More info about secured delivery"><img src="assets/cart/arrow.png" alt=""></button>
+    </div>`;
+  const products = items.map(it => `
+    <div class="p-card">
+      <a class="img" href="#"><img src="${it.img}" alt=""></a>
+      <div class="t">
+        <strong>${it.name}</strong>
+        <span>${it.qty} pcs, ${it.delivery}, ${it.arrives}</span>
+        <span>${it.options}</span>
+        <span>Design: ${it.design}</span>
+        <button class="remove">Remove</button>
+      </div>
+      <span class="p">${eur(it.price)}</span>
+    </div>`).join('');
+  const lineItems = items.map(it => `
+    <div class="line-item">
+      <a class="img" href="#"><img src="${it.img}" alt=""></a>
+      <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small><small>${it.options}</small><small>Design: ${it.design}</small><button class="remove">Remove</button></div>
+      <span class="p">${eur(it.price)}</span>
+    </div>`).join('');
+  const totals = `
+    <div class="totals">
+      <div><span>${check.line}</span><span>${eur(check.price)}</span></div>
+      <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
+      <div><span>VAT (23%)</span><span>${eur(vat)}</span></div>
+      <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
+    </div>`;
+  const eta = `<div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div>`;
+  const cta = `<a class="btn primary" href="#">Continue to checkout</a>`;
+  const usps = `<ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul>`;
+  const pay = `<div class="payments" aria-label="Payment methods">${document.querySelector('#payTpl').innerHTML}</div>`;
+
+  document.querySelectorAll('[data-addons]').forEach(el => el.innerHTML = addons);
+  document.querySelectorAll('[data-products]').forEach(el => el.innerHTML = products);
+  document.querySelectorAll('[data-eta]').forEach(el => el.innerHTML = eta);
+  document.querySelectorAll('[data-side="totals"]').forEach(el => el.innerHTML =
+    `<h2>Order summary</h2>${totals}${cta}<a class="shop" href="#">Continue shopping</a>${eta}${usps}${pay}`);
+  document.querySelectorAll('[data-side="summary"]').forEach(el => el.innerHTML =
+    `<section class="summary-box"><h2>Order summary</h2>${lineItems}${totals}</section>${cta}${usps}${pay}`);
+</script>
+</body>
+</html>
