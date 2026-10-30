@@ -4,6 +4,11 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **10-30 — Corner scale (Check 11, `radius-sketch.html`):** tokens `--r-s` 4 (badges, checkbox, flags, tiles inside a card),
+  `--r-m` 8 (fields, option cards, quantity rows, delivery cards, menus), `--r-l` 10 (cards, photos), `--r-xl` 16 (sheet),
+  `--r-pill` 100px (buttons, pills, toggles, toast); 50% round, 0 for photos square on purpose. Every radius in styles.css is a
+  token (was 20 values). Visible: option/quantity/delivery cards 5 → 8, badges 3 → 4. New radius = one of these tokens.
+- **10-30 — No full stop after the PDP product name** (product.html added one in code).
 - **10-30 — Page title 32/40 on desktop (Check 10):** home, category pages and Help Centre topic + article pages (one rule);
   mobile stays 24/28. The PDP title stays 24/28 (narrow column next to the configuration, Figma PDP).
 - **10-30 — One breadcrumb (Check 9):** 12/17 dark grey with `--link` links, mobile = desktop (desktop was 14/24 black, mobile

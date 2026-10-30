@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corner radius — overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261107f">
+<style>
+  /* Sketch only (Check 11): every border-radius in styles.css, grouped, with a proposed scale. Examples use the real classes. */
+  html, body { background: var(--white); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: 32px; line-height: 40px; }
+  h2 { margin: 48px 0 8px; font-size: 24px; line-height: 32px; }
+  .lead { margin-top: 8px; max-width: 680px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
+  .note { font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  code { font: 500 12px/17px ui-monospace, Menlo, monospace; color: var(--dark-green); background: var(--light-grey); padding: 2px 6px; border-radius: 4px; }
+  .scale { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+  .scale div { display: flex; flex-direction: column; gap: 8px; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .scale i { display: block; height: 80px; border: 2px solid var(--dark-green); background: #f6faf7; }
+  .scale b { font-size: 16px; line-height: 22px; color: var(--black); }
+  table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 14px; line-height: 22px; }
+  th { text-align: left; font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child, td:nth-child(3) { font-weight: 600; white-space: nowrap; }
+  td.same { color: var(--dark-grey); font-weight: 400; }
+  .ab { display: grid; grid-template-columns: 160px 1fr 1fr; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .ab > b { font-size: 14px; line-height: 22px; }
+  .ab small { display: block; font-weight: 400; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .ab .cell { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: #fafafa; }
+  .ab .cell::before { content: attr(data-l); width: 100%; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
+  .badge { position: static; }
+  .opts, .ab .qrow { width: 100%; }
+  .toast { position: static; transform: none; opacity: 1; }
+  .pick { margin-top: 16px; padding: 16px; border-radius: 10px; background: var(--light-grey); font-size: 14px; line-height: 22px; }
+  @media (max-width: 760px) { .scale { grid-template-columns: repeat(3, 1fr); } .ab { grid-template-columns: 1fr; } table { display: block; overflow-x: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Corner radius</h1>
+  <p class="lead">Check 11 of the UI kit. Today <code>styles.css</code> uses 20 different corner values. Below: the proposed scale,
+    every value now and where it would go, and the changes you would see.</p>
+
+  <h2>Proposed scale: 6 values</h2>
+  <div class="scale">
+    <div><i style="border-radius:4px"></i><b>4px · small</b>Badges, checkbox, flags, thumbnails and tiles inside a card</div>
+    <div><i style="border-radius:8px"></i><b>8px · control</b>Fields, option cards, quantity rows, menus, small cards</div>
+    <div><i style="border-radius:10px"></i><b>10px · card</b>Product, category, promo, content and summary cards, photos</div>
+    <div><i style="border-radius:16px"></i><b>16px · sheet</b>The sheet from the bottom (top corners), desktop panels</div>
+    <div><i style="border-radius:100px;height:40px;margin:20px 0"></i><b>100px · pill</b>Buttons, pills, search, toggles, toast</div>
+    <div><i style="border-radius:50%;width:80px"></i><b>50% · round</b>Radios, avatars, dots, round arrow buttons</div>
+  </div>
+  <p class="note" style="margin-top:16px">0 stays where a photo is deliberately square (home and category product photos on desktop, Team + Promises images).
+    As tokens: <code>--r-s</code> 4 · <code>--r-m</code> 8 · <code>--r-l</code> 10 · <code>--r-xl</code> 16 · <code>--r-pill</code> 100px.</p>
+
+  <h2>Every value now → proposed</h2>
+  <table>
+    <tr><th>Now</th><th>Used</th><th>Proposed</th><th>Where</th></tr>
+    <tr><td>2px</td><td>8×</td><td>4px</td><td>Flags (VAT, buttons, phone prefix), upload bar + thumb, Trustpilot pop-up, search match</td></tr>
+    <tr><td>3px · 3.96px</td><td>9×</td><td>4px</td><td>Badge, sheet grab bar, design icons, template tiles, header nav links, Recommended label, category collage</td></tr>
+    <tr><td>4px</td><td>8×</td><td class="same">4px</td><td>Small tags, option photos, spec buttons, prototype switch buttons</td></tr>
+    <tr><td>5px</td><td>28×</td><td>8px</td><td><b>Option cards</b>, delivery cards, quantity rows, design cards, add-ons, shipping and payment options, wallet, card box, upload tiles, desktop thumbnails. <b>Checkbox → 4px</b></td></tr>
+    <tr><td>6px</td><td>12×</td><td>8px · 4px inside</td><td>VAT menu items, spec table, Google button, login fields, address menu → 8. Calendar tile in the delivery card, icons in design cards, small photos, search suggestions → 4</td></tr>
+    <tr><td>8px</td><td>15×</td><td class="same">8px</td><td>Fields (already 8 on mobile), VAT menu, address cards, info blocks, help menu items</td></tr>
+    <tr><td>10px</td><td>49×</td><td class="same">10px</td><td>All cards and photos</td></tr>
+    <tr><td>12px</td><td>1×</td><td>10px</td><td>Login card (a card)</td></tr>
+    <tr><td>16px</td><td>2×</td><td class="same">16px</td><td>Sheet</td></tr>
+    <tr><td>18 · 20 · 37px</td><td>7×</td><td>100px</td><td>Toggle switches, toast, desktop header button and pill: all fully round already, one value</td></tr>
+    <tr><td>100px</td><td>25×</td><td class="same">100px</td><td>Buttons, pills, search fields, segmented controls</td></tr>
+    <tr><td>50%</td><td>27×</td><td class="same">50%</td><td>Radios, avatars, dots, round buttons</td></tr>
+    <tr><td>0</td><td>8×</td><td class="same">0</td><td>Square photos on purpose</td></tr>
+  </table>
+
+  <h2>What you would see change</h2>
+  <p class="note">Left the CSS as it is now, right the proposal (same classes, only the corner changed).</p>
+
+  <div class="ab"><b>Option cards<small>.opt, 5 → 8</small></b>
+    <div class="cell" data-l="Now"><div class="opts" id="optNow"></div></div>
+    <div class="cell" data-l="Proposed"><div class="opts" id="optNew"></div></div></div>
+
+  <div class="ab"><b>Quantity rows<small>.qrow, 5 → 8</small></b>
+    <div class="cell" data-l="Now"><div class="qty-list" id="qNow" style="width:100%;display:block"></div></div>
+    <div class="cell" data-l="Proposed"><div class="qty-list" id="qNew" style="width:100%;display:block"></div></div></div>
+
+  <div class="ab"><b>Checkbox<small>.check input, 5 → 4</small></b>
+    <div class="cell" data-l="Now"><label class="check"><input type="checkbox" checked>Billing address is the same</label><label class="check"><input type="checkbox">Ordering for a business</label></div>
+    <div class="cell" data-l="Proposed"><label class="check"><input type="checkbox" checked style="border-radius:4px">Billing address is the same</label><label class="check"><input type="checkbox" style="border-radius:4px">Ordering for a business</label></div></div>
+
+  <div class="ab"><b>Badge<small>.badge, 3 → 4</small></b>
+    <div class="cell" data-l="Now"><span class="badge">Most Popular</span><span class="badge neutral">Eco</span></div>
+    <div class="cell" data-l="Proposed"><span class="badge" style="border-radius:4px">Most Popular</span><span class="badge neutral" style="border-radius:4px">Eco</span></div></div>
+
+  <div class="ab"><b>Text field<small>.field input, already 8</small></b>
+    <div class="cell" data-l="Now"><label class="field" style="width:100%"><input placeholder=" " value="Cornel" aria-label="First name"><span class="fl">First name</span></label></div>
+    <div class="cell" data-l="Proposed"><label class="field" style="width:100%"><input placeholder=" " value="Cornel" aria-label="First name"><span class="fl">First name</span></label></div></div>
+
+  <div class="ab"><b>Toast<small>.toast, 18 → 100</small></b>
+    <div class="cell" data-l="Now"><div class="toast">Added to cart</div></div>
+    <div class="cell" data-l="Proposed"><div class="toast" style="border-radius:100px">Added to cart</div></div></div>
+
+  <div class="pick"><b>My pick:</b> this scale. The biggest visible change is option cards, delivery cards and quantity rows going from 5 to 8:
+    they then match the text fields (already 8) and sit one calm step below the cards (10). Everything else is 1–2px and mostly invisible.
+    Build: tokens in <code>:root</code>, every radius in <code>styles.css</code> on a token, behind a switch Radius O/N, checked page by page with measurements.</div>
+</main>
+<script>
+  const opt = (r) => [['Silk', '350 gsm', 'silk-matte', true], ['Uncoated', 'Writable', 'uncoated', false], ['Kraft', 'Natural', 'kraft', false]].map(([n, s, i, on]) =>
+    `<button class="opt" role="radio" aria-checked="${on}"${r ? ` style="border-radius:${r}"` : ''}><span class="t"><b>${n}</b><small>${s}</small></span><img class="mi" src="assets/icons/materials/${i}.svg" alt=""></button>`).join('');
+  document.getElementById('optNow').innerHTML = opt();
+  document.getElementById('optNew').innerHTML = opt('8px');
+  const q = (r) => [['250 pcs', '€24.95', false], ['500 pcs', '€29.95', true]].map(([n, p, on]) =>
+    `<button class="qrow" role="radio" aria-checked="${on}"${r ? ` style="border-radius:${r}"` : ''}><span class="radio"></span><span class="n">${n}</span><span class="p">${p}</span></button>`).join('');
+  document.getElementById('qNow').innerHTML = q();
+  document.getElementById('qNew').innerHTML = q('0 0 8px 8px');
+  document.querySelector('#qNew .qrow').style.borderRadius = '8px 8px 0 0';
+</script>
+</body>
+</html>

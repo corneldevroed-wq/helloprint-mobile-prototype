@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107d">
+<link rel="stylesheet" href="styles.css?v=20261107f">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -215,9 +215,9 @@
     row({ name: 'Option card outline', meta: [{ t: '--outline' }, { t: tok('--outline') }], use: 'PDP option cards. Chosen: light green.',
       ex: stage(tileStyle('border-color:var(--outline);border-radius:10px') + 'Option</div>' + tileStyle('border:2px solid var(--light-green);border-radius:10px') + 'Chosen</div>') }) +
     `<h3>Corners</h3>` +
-    row({ name: 'Radius scale', meta: [{ t: '100px pill' }, { t: '10px card' }, { t: '8px small card' }, { t: '3px badge' }, { t: '50% round' }],
-      use: 'Buttons and pills are fully round, cards 10px. Also in the CSS: 5px (27×), 6px, 4px, 2px, 16px, 18px: to be folded into this scale.', flag: true,
-      ex: stage(['100px', '10px', '8px', '3px'].map(r => tileStyle(`border-radius:${r};border-color:var(--mid-grey)${r === '100px' ? ';height:40px' : ''}`) + r + '</div>').join('')) }) +
+    row({ name: 'Radius scale', meta: [{ t: '--r-s 4' }, { t: '--r-m 8' }, { t: '--r-l 10' }, { t: '--r-xl 16' }, { t: '--r-pill' }, { t: '50% round' }],
+      use: 'Small 4 (badges, checkbox, flags, tiles inside a card) · control 8 (fields, option cards, quantity rows, menus) · card 10 · sheet 16 · pill for buttons and toggles · 50% for radios, avatars, round buttons. 0 only for photos that are square on purpose.',
+      ex: stage(['--r-s', '--r-m', '--r-l', '--r-xl', '--r-pill'].map(r => tileStyle(`border-radius:var(${r});border-color:var(--mid-grey)${r === '--r-pill' ? ';height:40px' : ''}`) + r.slice(2) + '</div>').join('')) }) +
     `<h3>Shadows</h3>` +
     row({ name: 'Card hover', meta: [{ t: '0 2px 8px rgba(0,0,0,.08)' }], use: 'Cards on desktop: no shadow at rest, this one on hover only.',
       ex: stage(tileStyle('border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08)') + 'Hover</div>') }) +
