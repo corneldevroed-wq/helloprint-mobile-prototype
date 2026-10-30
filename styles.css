@@ -2344,10 +2344,10 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .desk .hc-cols { position: absolute; top: 8px; bottom: 8px; display: flex; gap: 8px; }   /* 8px from every edge of the block (Cornel, 2026-10-29) */
 .desk .hc-cols.l { left: 8px; -webkit-mask-image: linear-gradient(90deg, #000 15%, transparent); mask-image: linear-gradient(90deg, #000 15%, transparent); }   /* fades towards the text */
 .desk .hc-cols.r { right: 8px; -webkit-mask-image: linear-gradient(270deg, #000 15%, transparent); mask-image: linear-gradient(270deg, #000 15%, transparent); }
-.hc-cols .col { width: 160px; overflow: hidden; border-radius: var(--r-l); }   /* one column a side, square photos (Cornel, 2026-10-30: two felt busy) */
+.hc-cols .col { width: 144px; overflow: hidden; border-radius: var(--r-l); }   /* one column a side, square photos (Cornel, 2026-10-30: two felt busy) */
 .hc-cols .track { animation: hc-drift 120s linear infinite; }   /* slow; left up, right down */
 .hc-cols.r .track { animation-direction: reverse; }
-.hc-cols img { width: 160px; height: 160px; margin-bottom: 8px; object-fit: cover; border-radius: var(--r-l); }   /* margin per photo (not gap), so -50% is exactly one set: a seamless loop */
+.hc-cols img { width: 144px; height: 144px; margin-bottom: 8px; object-fit: cover; border-radius: var(--r-l); }   /* margin per photo (not gap), so -50% is exactly one set: a seamless loop */
 @keyframes hc-drift { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 @media (prefers-reduced-motion: reduce) { .hc-cols .track { animation: none; } }
 .desk .hc-center h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
