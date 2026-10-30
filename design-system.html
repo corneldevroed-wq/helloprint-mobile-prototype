@@ -35,7 +35,9 @@
   .ds-sec > h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
   .ds-lead { margin-top: 8px; max-width: 640px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
   .ds-sec h3 { margin: 32px 0 8px; font-weight: 600; font-size: 16px; line-height: 22px; }
-  .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fafafa; }
+  .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow-x: auto; }   /* white, as the page: grey tiles and white cards both read */
+  .ds-stage .real { flex: none; }
+  .ds-phone { display: block; width: 390px; height: 760px; border: 1px solid var(--line); border-radius: var(--r-xl); }   /* a real page at phone size (live, not a copy) */   /* a component at its real width (per view), the height follows from the real CSS */
   .ds-stage .w { width: 100%; }
   .ds-stage .w > * { width: 100%; }
   .ds-stage.left { justify-content: flex-start; }
@@ -44,11 +46,11 @@
   .ds-rules { margin-top: 16px; padding-left: 20px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
   .ds-rules li + li { margin-top: 4px; }
   .ds-rules b { color: var(--black); font-weight: 600; }
-  .ds .badge:not(.thumb .badge) { position: static; display: inline-block; }
+  .ds-stage > .badge, .b-spec .badge { position: static; display: inline-block; }   /* loose badges in the guide; badges inside a real component keep their own place */
   .ds .d-rev-nav { position: static; }
   /* real page contexts inside a stage keep their text rules but not their page layout */
-  .ds .ds-stage .plp, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage .product { display: contents; }
-  .ds .ds-stage .plp > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
+  .ds .ds-stage .plp, .ds .ds-stage .materials, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage div.product { display: contents; }
+  .ds .ds-stage .plp > *, .ds .ds-stage .materials > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
 
   /* One row per item: example left, spec right */
   .b-row { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
@@ -58,6 +60,7 @@
   .b-spec h5 { font-weight: 600; font-size: 16px; line-height: 22px; }
   .b-spec p { margin-top: 4px; }
   .b-spec .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .b-spec .meta code { white-space: normal; }
   .sw { width: 100%; border-radius: 8px; border: 1px solid var(--line); }
   .sw-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; width: 100%; }
   .sw-strip .sw { height: 56px; }
@@ -87,6 +90,7 @@
     .ds-side.open { transform: none; }
     .ds-main { padding: 24px 16px 64px; }
     .b-row { grid-template-columns: 1fr; gap: 16px; }
+    .b-row.wide .ds-stage { margin: 0 -16px; padding: 16px 0; border-width: 1px 0; border-radius: 0; }   /* the full screen width, so a 339 or 390 wide component fits at its real size */
   }
 </style>
 </head>
@@ -272,6 +276,10 @@
   // ---------- Components (markup copied 1:1 from the page that renders it; the styles are the live styles.css) ----------
   const CHEV = '<img src="assets/chevron.svg" alt="">';
   const w = (html, px) => `<div style="width:100%;max-width:${px}px">${html}</div>`;
+  // Real size: the component at the width it has on the page, per view ([width, where] for mobile and desktop, measured 2026-10-30).
+  // The height is measured live after render and shown next to the class ("244 × 336 · home, 5 per row").
+  const real = (html, m, d) => { const [px, where] = V === 'm' ? m : d; return `<div class="real" style="width:${px}px" data-where="${where}">${html}</div>`; };
+  const SIZE = { live: 'size' };
 
   const forms = row({ name: 'Text field', meta: [{ t: '.field' }, { t: 'details.html' }],
       use: 'Floating label: the label sits in the field and moves up when you type. Focus = light green outline. Always a label, never only a placeholder.',
@@ -285,12 +293,14 @@
     row({ name: 'Checkbox', meta: [{ t: '.check' }, { t: '--control' }],
       use: 'Rounded square, light green when on. Label 12px dark grey.',
       ex: stage('<div><label class="check"><input type="checkbox">I’m ordering for a business</label><label class="check"><input type="checkbox" checked>Billing address is the same as shipping address</label></div>', 'left') }) +
-    row({ name: 'Radio row', meta: [{ t: '.qrow' }, { t: '.radio' }],
+    row({ name: 'Radio row', wide: true, meta: [{ t: '.qrow' }, { t: '.radio' }, SIZE],
       use: 'A choice from a list (quantity, address, payment): the whole row is the radio. Chosen = 2px light green outline.',
-      ex: stage(w('<div class="qty-list" role="radiogroup" style="display:block"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button></div>', 300)) }) +
-    row({ name: 'Search', meta: [{ t: '.search' }],
-      use: 'The header search: a white pill with the green round search button. Lives on the dark green header.',
-      ex: stage('<div class="nav" style="width:100%;border-radius:8px"><form class="search" role="search" onsubmit="return false"><input type="search" placeholder="Search printed products" aria-label="Search"><button type="submit" aria-label="Search"><img src="assets/search.svg" alt=""></button></form></div>') });
+      ex: stage(real('<div class="qty-list" role="radiogroup" style="--qrows:2;grid-template-columns:1fr"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button></div>', [339, 'PDP quantity, checkout lists'], [365, 'PDP quantity, one of 2 columns'])) }) +
+    row({ name: 'Search', wide: true, meta: [{ t: V === 'm' ? '.search' : '.dsearch' }, SIZE],
+      use: 'The header search: a white pill on the dark green header. Mobile: a round green search button inside the field; desktop: a search icon and a green Search button.',
+      ex: stage(V === 'm'
+        ? real('<div class="nav"><form class="search" role="search" onsubmit="return false"><input type="search" placeholder="Search printed products" aria-label="Search"><button type="submit" aria-label="Search"><img src="assets/search.svg" alt=""></button></form></div>', [390, 'mobile header (the field is 358 wide)'], [])
+        : '<div style="padding:16px 24px;border-radius:var(--r-m);background:var(--dark-green)">' + real('<form class="dsearch" role="search" onsubmit="return false"><img src="assets/search/search.svg" alt=""><input type="search" placeholder="Search for promo and printed products" aria-label="Search"><button type="submit" class="dbtn">Search</button></form>', [], [600, 'desktop header']) + '</div>') });
 
   const badges = row({ name: 'Commercial', meta: [{ t: '.badge' }, { t: '--orange' }],
       use: 'Orange = commercial: Most Popular, Best Seller, Great Value, Recommended, Free design templates. One per card, top left.',
@@ -306,21 +316,21 @@
       use: 'Jump to a section on long pages; sticky under the header. Semibold, grey; the active one black with a 2px light green line inside the light grey bar. Scrolls with a fade when it does not fit.',
       ex: stage('<nav class="tabs" style="position:static;width:100%" aria-label="Sections"><a href="#tabs" class="active">Types</a><a href="#tabs">Sizes</a><a href="#tabs">Materials</a><a href="#tabs">Finishes</a><a href="#tabs">Reviews</a></nav>') });
 
-  const cards = row({ name: 'Product card', meta: [{ t: '.product' }],
+  const cards = row({ name: 'Product card', wide: true, meta: [{ t: '.product' }, SIZE],
       use: 'A product. Square photo (badge top left), title, green ticks for selling points only, "N pieces for" + a real price. Never "Configure & see price".',
-      ex: stage(w(`<a class="product" href="#cards"><div class="thumb" style="background:#f3f3f3"><img src="assets/category/t-classic.png" alt=""><span class="badge">Most Popular</span></div><p class="name">Classic Business Cards</p><ul class="usp-list"><li>${TICK.replace(/24/g, '16')}Our best-selling card</li><li>${TICK.replace(/24/g, '16')}Many paper options</li></ul><div><p class="from">500 pieces for</p><p class="prices"><span class="price">€29.95</span></p></div></a>`, 220)) }) +
-    row({ name: 'Category card', meta: [{ t: '.cat' }],
+      ex: stage(real(`<div class="plp clp"><a class="product" href="#cards"><div class="thumb" style="background:#f3f3f3"><img src="assets/category/t-classic.png" alt=""><span class="badge">Most Popular</span></div><p class="name">Classic Business Cards</p><ul class="usp-list"><li>${TICK.replace(/24/g, '16')}Our best-selling card</li><li>${TICK.replace(/24/g, '16')}Many paper options</li></ul><div><p class="from">500 pieces for</p><p class="prices"><span class="price">€29.95</span></p></div></a></div>`, [166, 'business cards, 2 per row'], [310, 'business cards, 4 per row (home: 244, 5 per row)'])) }) +
+    row({ name: 'Category card', wide: true, meta: [{ t: '.cat' }, SIZE],
       use: 'A category (not a product). Always square: grey, image on top, title under it. Never stretched taller.',
-      ex: stage('<div class="cats" style="margin:0"><a class="cat" href="#cards"><div class="collage"><img src="assets/menu/sub/appointment-cards.webp" alt="" style="inset:0;object-fit:contain"></div><p class="title">Appointment Cards</p></a></div>') }) +
-    row({ name: 'Grey tile', meta: [{ t: '.dc-card' }],
+      ex: stage(real('<div class="plp clp"><div class="cats" style="margin:0"><a class="cat" href="#cards"><div class="collage"><img src="assets/menu/sub/appointment-cards.webp" alt="" style="inset:0;object-fit:contain"></div><p class="title">Appointment Cards</p></a></div></div>', [184, 'category pages'], [201, 'category pages, 6 per row'])) }) +
+    row({ name: 'Grey tile', wide: true, meta: [{ t: '.dc-card' }, SIZE],
       use: 'Related or bottom category rows and next to promo cards: title top left, image right, grey arrow. 120px high everywhere.',
-      ex: stage(w('<a class="dc-card" href="#cards" style="height:120px"><span class="dc-t">Banner Printing</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="assets/menu/sub/banner-printing.webp" alt=""></span></a>', 300)) }) +
-    row({ name: 'Promo card', meta: [{ t: '.pc' }, { t: 'style E' }],
+      ex: stage(real('<div class="plp"><div class="plp-cats" style="grid-template-columns:1fr"><a class="dc-card" href="#cards"><span class="dc-t">Banner Printing</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="assets/menu/sub/banner-printing.webp" alt=""></span></a></div></div>', [310, 'desktop only (mobile uses category cards)'], [310, 'promotional, 4 per row'])) }) +
+    row({ name: 'Promo card', wide: true, meta: [{ t: '.pc' }, { t: 'style E' }, SIZE],
       use: 'A campaign. Title top left in white on the photo (soft gradient), one "Shop X" pill. No text baked into the image; hover zooms the photo 4%.',
-      ex: stage(w('<div class="promo-e"><a class="pc" href="#cards"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/644jkE0EFWWZITnJfevHsM/58458b07aaa3a855ca8a376cc5df4960/promotional_printing.png?w=900&fm=webp&q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Promotional Printing for all your projects</strong></span><span class="pc-cta pill">Shop top gifts</span></span></a></div>', 300)) }) +
-    row({ name: 'Material row', meta: [{ t: '.mat' }, { t: '.plp-mats' }],
-      use: 'A paper or material: the material icon, name, points, grey list arrow. Opens the product with that material chosen.',
-      ex: stage(w('<ul class="mat-list plp-mats" style="width:100%"><li><a class="mat" href="#cards"><img class="mat-icon" src="assets/icons/materials/silk-matte.svg" alt=""><span class="text"><strong>Silk - 350 gsm</strong><small>Smooth · Matte · Most chosen</small></span><img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul>', 360)) });
+      ex: stage(real('<div class="promo-e"><a class="pc" href="#cards"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/644jkE0EFWWZITnJfevHsM/58458b07aaa3a855ca8a376cc5df4960/promotional_printing.png?w=900&fm=webp&q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Promotional Printing for all your projects</strong></span><span class="pc-cta pill">Shop top gifts</span></span></a></div>', [300, 'home, swipe row'], [288, 'home (the first card is 591 wide)'])) }) +
+    row({ name: 'Material', wide: true, meta: [{ t: '.mat' }, { t: '.plp-mats' }, SIZE],
+      use: 'A paper or material: the material icon, name, points, grey list arrow (a row on mobile, a card on desktop). Opens the product with that material chosen.',
+      ex: stage(real('<div class="plp clp"><section class="materials"><ul class="mat-list plp-mats" style="grid-template-columns:1fr"><li><a class="mat" href="#cards"><img class="mat-icon" src="assets/icons/materials/silk-matte.svg" alt=""><span class="text"><span class="badge">Most Popular</span><strong>Silk - Matte</strong><small>Most cost-effective option · Professional appearance · Variety of finishes available</small></span><img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul></section></div>', [339, 'business cards'], [244, 'business cards, 5 per row; in the row every card gets the height of the tallest (214)'])) });
 
   const accordion = row({ name: 'Accordion (mobile)', meta: [{ t: '.acc' }], wide: true,
       use: 'FAQ and folding lists on mobile: question semibold, chevron right that turns, light line under each.',
@@ -332,24 +342,34 @@
       use: 'When every answer has its own page (Help Centre): a row with the grey list arrow, no folding.',
       ex: stage('<ul class="hc-rows" style="width:100%"><li><a href="#accordion">Where is my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li><li><a href="#accordion">Can I change my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul>') });
 
-  const options = row({ name: 'Option card', wide: true, meta: [{ t: '.opt' }, { t: '--outline' }],
+  const CONF = [[339, 'PDP configuration'], [737, 'PDP configuration column']];
+  const options = row({ name: 'Option card', wide: true, meta: [{ t: '.opt' }, { t: '--outline' }, SIZE],
       use: 'One option of a step (paper, finishing, corners): name, sub line, the option icon. Chosen = light green outline. Desktop: options on the page, icons 50px.',
-      ex: stage(`<div class="opts" style="width:100%">${[['Silk', '350 gsm', 'materials/silk-matte', true], ['Uncoated', 'Writable', 'materials/uncoated', false], ['Kraft', 'Natural', 'materials/kraft', false]].map(([n, s, i, on]) =>
-        `<button class="opt" role="radio" aria-checked="${on}"><span class="t"><b>${n}</b><small>${s}</small></span><img class="mi" src="assets/icons/${i}.svg" alt=""></button>`).join('')}</div>`) }) +
-    row({ name: 'Quantity', wide: true, meta: [{ t: '.qty-list' }, { t: '.qrow' }],
+      ex: stage(real(`<div class="opts">${[['Silk', '350 gsm', 'materials/silk-matte', true], ['Uncoated', 'Writable', 'materials/uncoated', false], ['Kraft', 'Natural', 'materials/kraft', false]].map(([n, s, i, on]) =>
+        `<button class="opt" role="radio" aria-checked="${on}"><span class="t"><b>${n}</b><small>${s}</small></span><img class="mi" src="assets/icons/${i}.svg" alt=""></button>`).join('')}</div>`, ...CONF)) }) +
+    row({ name: 'Quantity', wide: true, meta: [{ t: '.qty-list' }, { t: '.qrow' }, SIZE],
       use: 'Quantities in 2 columns so low → high and the price advantage are visible at a glance. Price each + total.',
-      ex: stage(w('<div class="qty-list" role="radiogroup" style="--qrows:2"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">100 pcs</span><span class="e">€0.20 each</span><span class="p">€19.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">1000 pcs</span><span class="e">€0.04 each</span><span class="p">€39.95</span></button></div>', 560)) }) +
-    row({ name: 'Delivery', wide: true, meta: [{ t: '.deliv.d-cal-card' }],
-      use: 'Side by side with a calendar tile so a faster day reads as an upsell. Chosen tile: green header and outline. No labels on the tiles.',
-      ex: stage(['Saver|Nov|12|Wed|Our best value|Included|false', 'Standard|Nov|7|Fri|5 days sooner|+€4.95|true', 'Express|Nov|5|Wed|7 days sooner|+€14.95|false'].map(s => { const [n, m, d, wd, g, p, on] = s.split('|');
-        return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="gain">${g}</span><span class="pr">${p}</span></span></button>`; }).join(''), 'left') });
+      ex: stage(real('<div class="qty-list" role="radiogroup" style="--qrows:2"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">100 pcs</span><span class="e">€0.20 each</span><span class="p">€19.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">1000 pcs</span><span class="e">€0.04 each</span><span class="p">€39.95</span></button></div>', ...CONF)) }) +
+    row({ name: 'Delivery', wide: true, meta: [{ t: V === 'm' ? '.deliv' : '.deliv.d-cal-card' }, SIZE],
+      use: 'Mobile: a list, date tile left, name + estimated / latest day, price right. Desktop: side by side with a calendar tile so a faster day reads as an upsell (chosen: green header and outline). No labels on the tiles.',
+      ex: stage(real(V === 'm'
+        ? ['Saver|12|NOV|Wed 12 Nov · latest Thu 13|Included|false', 'Standard|7|NOV|Fri 7 Nov · latest Mon 10|+€4.95|true', 'Express|5|NOV|Wed 5 Nov · latest Thu 6|+€14.95|false'].map(x => { const [n, d, m, eta, p, on] = x.split('|');
+            return `<button class="deliv" role="radio" aria-checked="${on}"><span class="date"><b>${d}</b><small>${m}</small></span><span class="t"><b>${n}</b><small>${eta}</small></span><span class="p">${p}</span></button>`; }).join('').replace(/^/, '<div class="opt-group">') + '</div>'
+        : ['Saver|Nov|12|Wed|Our best value|Included|false', 'Standard|Nov|7|Fri|5 days sooner|+€4.95|true', 'Express|Nov|5|Wed|7 days sooner|+€14.95|false'].map(x => { const [n, m, d, wd, g, p, on] = x.split('|');
+            return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="gain">${g}</span><span class="pr">${p}</span></span></button>`; }).join('').replace(/^/, '<div class="opt-group" data-option="delivery">') + '</div>',
+        ...CONF), 'left') });
 
   const feedback = row({ name: 'Toast', meta: [{ t: '.toast' }, { t: 'showToast(text)' }],
       use: 'A short confirmation at the bottom (Added to cart, Address saved). Dark green, disappears after 2 seconds.',
       ex: stage('<div class="toast show" style="position:static;transform:none">Added to cart</div><button class="pill" onclick="showToastDemo()">Show it</button>') }) +
-    row({ name: 'Sheet', meta: [{ t: '.sheet' }, { t: 'openSheet(name)' }], 
-      use: 'Mobile: a layer from the bottom for a choice or more info, with a grab bar, a title and a sticky bar with the action. Desktop uses the same content in a panel.',
-      ex: stage('<div class="sheet-layer open" style="display:contents"><div class="sheet" style="position:relative;inset:auto;max-height:none;transform:none;width:100%;max-width:320px;box-shadow:0 -4px 16px rgba(0,0,0,.08)"><div class="grab"><span></span></div><div class="sheet-head"><b>Delivery</b></div><div class="sheet-body" style="padding:0 16px 16px"><p class="ds-note">Choose when you want your order.</p></div><div class="sheet-bar"><button class="btn primary">Confirm</button></div></div></div>') });
+    row({ name: 'Sheet', wide: true, meta: [{ t: '.sheet' }, { t: 'openSheet(name)' }, SIZE],
+      use: 'A mobile pattern: a layer from the bottom over the full width (390), on a dark overlay, with a grab bar, title + close, scrollable content and a sticky bar with the action. Shown live: the PDP (Classic Business Cards) on a 390 wide phone with the Customise sheet open. (On desktop the same markup becomes a centred panel of 560, used for the PDP info.)',
+      ex: stage(`<div class="real" data-where="mobile, the PDP with the Customise sheet open"><iframe class="ds-phone" src="product.html?p=classic-business-cards&flow=a" title="PDP with the Customise sheet" loading="lazy"
+        onload="try { const d = this.contentDocument; ([...d.querySelectorAll('[data-open-sheet=customise]')].find(b => b.offsetParent) || {}).click?.(); restoreFlow(); } catch (e) {}"></iframe></div>`) });
+  // The phone example opens the PDP in flow A (it has the Edit button); the PDP remembers ?flow= in localStorage,
+  // so the viewer's own flow is put back once it has loaded
+  const FLOW_BEFORE = (() => { try { return localStorage.getItem('hp-flow'); } catch (e) { return null; } })();
+  window.restoreFlow = () => { try { FLOW_BEFORE === null ? localStorage.removeItem('hp-flow') : localStorage.setItem('hp-flow', FLOW_BEFORE); } catch (e) {} };
   window.showToastDemo = () => { let t = document.getElementById('toast');
     if (!t) { t = Object.assign(document.createElement('div'), { id: 'toast', className: 'toast' }); document.body.appendChild(t); }
     t.textContent = 'Added to cart'; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
@@ -377,6 +397,14 @@
     const s = getComputedStyle(el), lh = s.lineHeight === 'normal' ? 'normal' : Math.round(parseFloat(s.lineHeight));
     out.textContent = `${parseFloat(s.fontSize)}/${lh} · ${s.fontWeight} · ${hex(s.color)}`;
   });
+  // Real sizes: "244 × 336 · home, 5 per row"
+  const sizes = () => document.querySelectorAll('.b-row').forEach(r => {
+    const el = r.querySelector('.real'), out = r.querySelector('[data-live="size"]');
+    if (!el || !out) return;
+    const b = el.getBoundingClientRect();
+    out.textContent = `${Math.round(b.width)} × ${Math.round(b.height)} · ${el.dataset.where}`;
+  });
+  sizes(); addEventListener('load', sizes);   // again once the images are in
   // Material icons: read the live list
   fetch('assets/icons/materials/index.json').then(r => r.json()).then(m => {
     document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="assets/icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
