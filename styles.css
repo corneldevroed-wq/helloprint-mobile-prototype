@@ -86,7 +86,7 @@ h2 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); let
 .pill.solid { border-color: var(--white); }
 
 .section-head { display: flex; justify-content: space-between; align-items: baseline; }
-.link { font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); text-decoration: underline; }
+.link { font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); text-decoration: underline; }   /* the text link of the style guide (Cornel, 2026-11-02: was --light-green); the arrow links ("All categories →") keep light green with their arrow */
 
 /* Top categories */
 .cats { gap: 8px; margin-top: 8px; }
@@ -513,46 +513,47 @@ body.buybar-on .toast { bottom: 100px; }
 .cart-side .totals { margin-top: -8px; }   /* 8px under the products (mobile) and under the upsells (desktop) */
 .addons { display: flex; flex-direction: column; gap: 8px; }
 .addons h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
-.addons > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); margin-top: -6px; }
-.addon { display: flex; align-items: flex-start; gap: 10px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); text-align: left; width: 100%; transition: border-color .15s; }
-.addon[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
-.switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; border-radius: var(--r-pill); background: var(--mid-grey); transition: background .2s; }
+.addons > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; border: 0; padding: 0; border-radius: var(--r-pill); background: var(--mid-grey); cursor: pointer; transition: background .2s; }
 .switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #f8f8f8; transition: transform .2s; }
-.addon[aria-checked="true"] .switch { background: var(--light-green); }
-.addon[aria-checked="true"] .switch::after { transform: translateX(16px); }
-.addon .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-right: 10px; border-right: 1px solid var(--line); }
-.addon b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
+.switch[aria-checked="true"] { background: var(--light-green); }
+.switch[aria-checked="true"]::after { transform: translateX(16px); }
+.switch:focus-visible { outline: 2px solid var(--dark-green); outline-offset: 2px; }
+/* Upsell card (cart): only the switch toggles; the divider before the arrow runs edge to edge, so the padding sits on the parts.
+   On = an inset ring, so nothing shifts. */
+.addon { display: flex; align-items: stretch; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); text-align: left; width: 100%; transition: border-color .15s; }
+.addon[data-on="true"] { border-color: var(--light-green); box-shadow: inset 0 0 0 1px var(--light-green); }
+.addon.changed { animation: changed 1.8s ease-out; }
+.addon .switch { margin: 16px 8px 0 16px; }
+.addon .t { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 16px 8px 16px 0; border-right: 1px solid var(--line); }
+.addon b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .addon small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .addon .p { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); }
-.addon .go { align-self: center; width: 20.5px; height: 20.5px; }
+.addon .go { align-self: center; flex-shrink: 0; display: grid; place-items: center; width: 32px; height: 32px; margin: 0 8px; padding: 0; border-radius: 50%; cursor: pointer; transition: background .15s; }
+.addon .go:hover { background: var(--light-grey); }
+.addon .go img { width: 20.5px; height: 20.5px; }
 .summary-box { display: flex; flex-direction: column; gap: 8px; }
 .summary-box h2 { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--black); }
-.line-item { display: flex; align-items: center; gap: 16px; padding-bottom: 4px; }
+.line-item { display: flex; align-items: center; gap: 16px; }
 .line-item .img { width: 75px; height: 75px; flex-shrink: 0; border-radius: var(--r-l); overflow: hidden; }
 .line-item .img img { width: 100%; height: 100%; object-fit: cover; }
-.line-item .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.line-item .t strong { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.line-item .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.line-item .t strong { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .line-item .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.line-item .remove { align-self: flex-start; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-decoration: underline; }
+.line-item .remove { align-self: flex-start; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-decoration: underline; }
 .line-item .p { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-14); text-align: right; }
-.totals { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 8px; }
+.totals { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
 .totals div { display: flex; justify-content: space-between; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.totals div.grand { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 8px; font-weight: 700; color: var(--black); line-height: 17px; }
+.totals div.grand { border-top: 1px solid var(--line); padding-top: 8px; font-weight: 700; color: var(--black); }
 .cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .cart-usps li { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); }
 .cart-usps img { width: 20px; height: 20px; }
 .cart-page .payments { padding: 0; justify-content: flex-start; gap: 0; flex-wrap: nowrap; }
-.cart-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 8px 0 24px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.cart-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 8px 0 24px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .cart-empty .btn { padding: 0 24px; }
 .cart-bar { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; max-width: var(--app-w); margin: 0 auto; z-index: 40; box-shadow: 0 -4px 16px rgba(0,0,0,.08); }
 .cart-bar .total span { font-size: var(--t-12); line-height: var(--lh-12); }
 .cart-bar .btn { flex: 0 0 auto; }
-
-/* Cart: design check card with "See our 3 options" footer */
-.addon { flex-wrap: wrap; cursor: pointer; }
-.addon .go { align-self: center; flex-shrink: 0; width: 20.5px; height: 20.5px; padding: 0; display: grid; place-items: center; }
-.addon .go img { width: 20.5px; height: 20.5px; }
-.addon.changed { animation: changed 1.8s ease-out; }
 
 /* File check sheet */
 .fc-intro { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); margin-top: -4px; }
@@ -572,9 +573,6 @@ body.buybar-on .toast { bottom: 100px; }
 .fc-bar .btn { flex: 1; }
 .fc[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
 .fc[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
-/* Arrow on the design check card opens the file-check sheet: give it a comfortable tap area */
-.addon .go { width: 32px; height: 32px; margin: -6px -6px -6px 0; border-radius: 50%; transition: background .15s; }
-.addon-check .go:hover { background: var(--light-grey); }
 
 /* Secured delivery sheet */
 .sd-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
@@ -588,16 +586,6 @@ body.buybar-on .toast { bottom: 100px; }
 .sd-help a { color: var(--light-green); text-decoration: underline; }
 .sd-bar { flex-direction: column; align-items: stretch; background: var(--white); padding: 12px 16px 16px; gap: 8px; }
 .sd-bar .btn { flex: none; white-space: pre; }
-.addon .go { cursor: pointer; }
-.addon .go:hover { background: var(--light-grey); }
-
-/* Add-on cards: the divider between the toggle part and the arrow runs edge to edge.
-   Padding moves from the card to its parts; the selected state uses an inset ring so nothing shifts. */
-.addon { padding: 0; align-items: stretch; gap: 0; }
-.addon[aria-checked="true"] { border: 1px solid var(--light-green); padding: 0; box-shadow: inset 0 0 0 1px var(--light-green); }
-.addon .switch { margin: 16px 10px 0 16px; }
-.addon .t { padding: 16px 10px 16px 0; border-right: 1px solid var(--line); }
-.addon .go { align-self: center; width: 32px; height: 32px; margin: 0 8px; }
 
 /* ---------- Checkout: Details & shipping ---------- */
 .co-nav { flex-direction: row; align-items: center; justify-content: space-between; padding: 16px 16px 8px; }
@@ -663,10 +651,10 @@ body.buybar-on .toast { bottom: 100px; }
 .test-hint b { font-weight: 600; color: var(--black); }
 .pay-methods[hidden] { display: none; }
 .pay-methods { display: flex; flex-direction: column; gap: 8px; }
-.eta { display: flex; flex-direction: column; gap: 2px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); text-align: left; }
+.eta { display: flex; flex-direction: column; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); text-align: left; }
 .eta b { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
 .eta p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.eta small { display: flex; align-items: flex-start; gap: 4px; margin-top: 6px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.eta small { display: flex; align-items: flex-start; gap: 4px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .eta small img { width: 16px; height: 16px; flex-shrink: 0; }
 /* PDP price box: the latest day under the estimated one */
 .check-line .eta-latest { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
@@ -675,13 +663,6 @@ body.buybar-on .toast { bottom: 100px; }
 /* Checkout: 8px white space between the header and the step bar (Figma: header ends at 79, content starts at 87) */
 .co-page { padding-top: 8px; }
 
-/* Cart add-ons: only the switch toggles; the card itself is not clickable */
-.addon { cursor: default; }
-.addon[data-on="true"] { border: 1px solid var(--light-green); box-shadow: inset 0 0 0 1px var(--light-green); }
-.addon .switch { border: 0; padding: 0; cursor: pointer; }
-.addon .switch[aria-checked="true"] { background: var(--light-green); }
-.addon .switch[aria-checked="true"]::after { transform: translateX(16px); }
-.addon .switch:focus-visible { outline: 2px solid var(--dark-green); outline-offset: 2px; }
 
 /* File check sheet: no tinted background on the recommended option */
 .fc.rec { background: var(--white); }
@@ -737,7 +718,7 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.done:not(:first-child) a::before { display: none; }
 
 /* Order summary (cart + payment): a divider between products */
-.line-item + .line-item { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
+.line-item + .line-item { border-top: 1px solid var(--line); padding-top: 8px; }   /* 8 · line · 8 between products */
 
 /* Bottom bars: the line under the price (context per page) */
 .sheet-bar .total .bar-sub { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }
@@ -976,9 +957,6 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .i-q { display: flex; align-items: center; gap: 10px; min-height: 26px; font-weight: 600; font-size: var(--t-14); }
 .i-q > span:first-child { flex: 1; }
 .i-yn { font-weight: 400; color: var(--dark-grey); }
-.i-q .switch { border: 0; padding: 0; cursor: pointer; }
-.i-q .switch[aria-checked="true"] { background: var(--light-green); }
-.i-q .switch[aria-checked="true"]::after { transform: translateX(16px); }
 .i-btn { justify-content: space-between; height: 48px; padding: 0 24px; }
 .i-btn b { font-weight: 600; font-size: var(--t-16); }
 .i-btn small { font-weight: 400; font-size: var(--t-12); opacity: .92; }
@@ -1720,7 +1698,7 @@ html:not(.desk) .desk-only { display: none; }
 @keyframes logo-glide-desk { to { transform: translateX(calc(-50% - 32px)); } }
 
 /* Section heads: 24px titles, green "View all"-style link with arrow */
-.desk .home h2, .desk .cart-main h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
+.desk .home h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
 .desk .home .section-head { align-items: center; }
 .desk .home .section-head .link { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); text-decoration: none; }
 .desk .home .section-head .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
@@ -2525,17 +2503,15 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .help-page .ht-other h2 { font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
 
 /* ---------- Cart on desktop: products left, sticky sidebar right with the totals and the button (sketch A, Cornel 2026-11-02) ---------- */
-.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 32px; align-items: start; padding: 32px 0 48px; }
+.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0 48px; }
 .desk .cart-page h1 { grid-column: 1 / -1; }
 .desk .cart-main { gap: 32px; }
-.desk .cart-main .summary-box h2 { font-weight: 800; color: var(--dark-green); }
 .desk .cart-side, .desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
 .desk .cart-side { position: sticky; top: 24px; }
 /* Upsells in the sidebar (sketch C): option card, 16 padding, title 16/22 with the price on the right, label 12/18, text link 14/22 */
 .desk .cart-side .addon { padding: 16px; gap: 8px; }
 .desk .cart-side .addon .switch { margin: 1px 0 0; }   /* centred on the 22px title line */
 .desk .cart-side .addon .t { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; padding: 0; border-right: 0; }
-.desk .cart-side .addon b { font-size: var(--t-16); line-height: var(--lh-16); }
 .desk .cart-side .addon .p { grid-row: 1; grid-column: 2; }
 .desk .cart-side .addon small, .desk .cart-side .addon .link { grid-column: 1 / -1; justify-self: start; }
 .desk .cart-main .line-item { align-items: flex-start; gap: 24px; }

@@ -4,7 +4,7 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
-- **11-02 — Direction A from `cart-desk-sketch.html`:** mobile order on the left (design check, then "Your products" as outlined cards),
+- **11-02 — Direction A from `cart-desk-sketch.html`:** mobile order on the left (design check, then the products as outlined cards; no title above them on desktop, Cornel 11-02),
   a sticky sidebar like live on the right ("Order summary": totals, Continue to checkout, delivery date, Continue shopping, USPs, payments).
   The mobile checkout bar is hidden on desktop. Rejected: B (whole mobile order summary in the sidebar: the button drops under the fold with
   3+ products) and C (products first like live: different order than mobile, design check under the fold).
@@ -12,7 +12,13 @@ Add new decisions here when Cornel makes a final call.
   secured delivery as option cards under "Order summary", right above the totals they change: switch, title + price, a short line
   ("An expert checks your file." / "Priority support and reprint.") and a text link to the popup ("See our 3 options" / "More info").
   Left column = products only. Mobile unchanged (cards on top, arrow to the popup). Rejected: A (three checks on the page) and B (one card, two rows).
+- **11-02 — Cart parts on the 8px grid, mobile and desktop:** upsell card (16 padding, 8 switch → text, title 16/22, no gaps between
+  text lines), product line (8 before Remove, 8 · line · 8 between products), totals (8 between rows and around the Total line),
+  delivery box (8 above the tick line). "Your Cart" → content 8 on desktop. The upsell card CSS is one block now; the switch's on
+  state lives on `.switch` (cart + PDP).
 - **11-02 — Cart count on the desktop bag icon too** (was mobile only).
+- **11-02 — `.link` = the style guide's text link:** `--link` green (#008539), underlined, 14/22 (was `--light-green`). The arrow links
+  ("All categories →", "View all … articles", Help Centre "Read more") keep light green, matching their green arrow icon.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
 - **10-30 — Dead code removed (`deadcode-sketch.html`):** 98 CSS rules + 3 dead selectors (old desktop hero tiles, folded-leaflet row,

@@ -6,7 +6,7 @@
 <title>Your Cart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107q">
+<link rel="stylesheet" href="styles.css?v=20261107u">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261107q"></script>
+<script src="app.js?v=20261107u"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -145,7 +145,7 @@
       </section>`}
 
       <section class="summary-box">
-        <h2>${DESK ? 'Your products' : 'Order summary'}</h2>
+        ${DESK ? '' : '<h2>Order summary</h2>'}
         ${items.map((it, i) => `
           <div class="line-item">
             <a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107q">
+<link rel="stylesheet" href="styles.css?v=20261107u">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -274,8 +274,8 @@
       use: 'A pill with an icon in front, dark green: Edit in the PDP summary. Plain Edit / Choose buttons are a normal pill.' },
     { name: 'Round arrow', cls: '.d-rev-nav', ex: `<button class="d-rev-nav" aria-label="Next">${ARROW}</button>`,
       use: 'Next/previous on rows that scroll (reviews, promo cards). 40px, white, grey outline, floats on the row edge.' },
-    { name: 'Text link', cls: '--link', ex: '<a href="#buttons" style="color:var(--link);text-decoration:underline;font-size:14px;line-height:22px">Shipping costs</a>',
-      use: 'Links in running text, as the breadcrumbs: green and underlined.' },
+    { name: 'Text link', cls: '.link', ex: '<a class="link" href="#buttons">Shipping costs</a>',
+      use: 'Links in running text and loose links (Read more, See our 3 options): --link green, underlined, 14/22. Same green as the breadcrumbs.' },
   ];
   const buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
 
