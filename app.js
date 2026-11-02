@@ -205,6 +205,7 @@ const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
 if (checkoutSlot) checkoutSlot.outerHTML = SHELL_CHECKOUT_HEADER;
 const footerSlot = document.querySelector('[data-shell="footer"]');
 if (footerSlot && DESK) footerSlot.outerHTML = SHELL_FOOTER_DESK;
+else if (footerSlot && footerSlot.hasAttribute('data-desk-only')) footerSlot.remove();
 else if (footerSlot) footerSlot.innerHTML = SHELL_FOOTER;
 document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 

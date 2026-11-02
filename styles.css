@@ -2503,7 +2503,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .help-page .ht-other h2 { font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
 
 /* ---------- Cart on desktop: products left, sticky sidebar right with the totals and the button (sketch A, Cornel 2026-11-02) ---------- */
-.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0 48px; }
+.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0; }   /* + the footer's 64: 96 above the footer, as on the other pages */
 .desk .cart-page h1 { grid-column: 1 / -1; }
 .desk .cart-main { gap: 32px; }
 .desk .cart-side, .desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
