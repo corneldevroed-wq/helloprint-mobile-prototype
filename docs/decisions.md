@@ -16,6 +16,8 @@ Add new decisions here when Cornel makes a final call.
   text lines), product line (8 before Remove, 8 · line · 8 between products), totals (8 between rows and around the Total line),
   delivery box (8 above the tick line). "Your Cart" → content 8 on desktop. The upsell card CSS is one block now; the switch's on
   state lives on `.switch` (cart + PDP).
+- **11-02 — Desktop PDP "Your selection" on the 8px grid:** option rows, delivery box and price lines all line · 8 · text · 8 · text …
+  · 8 · line (rows keep a 4px padding for the hover background, so text to text is 8). Block 27px taller.
 - **11-02 — Cart count on the desktop bag icon too** (was mobile only).
 - **11-02 — `.link` = the style guide's text link:** `--link` green (#008539), underlined, 14/22 (was `--light-green`). The arrow links
   ("All categories →", "View all … articles", Help Centre "Read more") keep light green, matching their green arrow icon.

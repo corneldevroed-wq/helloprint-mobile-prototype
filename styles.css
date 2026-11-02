@@ -1442,21 +1442,21 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-sel-head b { display: block; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .d-sel-head p { display: flex; align-items: center; gap: 4px; padding: 4px 0 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-sel-head p img { width: 20px; height: 20px; }
-.d-sel-rows { list-style: none; border-top: 1px solid var(--line); padding: 8px 0 4px; }
-.d-sel-rows button { display: flex; align-items: center; gap: 8px; padding: 2px 8px; margin: 0 -8px; width: calc(100% + 16px); border-radius: var(--r-m); transition: background .15s; font-size: var(--t-14); line-height: var(--lh-14); text-align: left; }
+.d-sel-rows { list-style: none; border-top: 1px solid var(--line); padding: 4px 0; }   /* + the 4px row padding: 8 between the line and the text, 8 between rows */
+.d-sel-rows button { display: flex; align-items: center; gap: 8px; padding: 4px 8px; margin: 0 -8px; width: calc(100% + 16px); border-radius: var(--r-m); transition: background .15s; font-size: var(--t-14); line-height: var(--lh-14); text-align: left; }
 .d-sel-rows button:hover { background: rgba(0,0,0,.04); }
 .d-sel-rows span { flex: 1; color: var(--black); }
 .d-sel-rows u { color: var(--dark-grey); text-underline-offset: 2px; }
 .d-sel-rows img { width: 14.3px; height: 14.4px; }
-.d-eta { padding: 8px 0 12px; border-radius: 0; background: none; border-top: 1px solid var(--line); gap: 2px; }
+.d-eta { padding: 8px 0; border-radius: 0; background: none; border-top: 1px solid var(--line); }   /* line · 8 · content · 8, like the rows around it */
 .d-eta small { margin-top: 8px; padding: 8px 16px; background: var(--white); border-left: 3px solid var(--light-green); font-size: var(--t-14); line-height: var(--lh-14); }
 .d-eta small img { display: none; }
-.d-sel-sum { list-style: none; border-top: 1px solid var(--line); padding-top: 8px; }
-.d-sel-sum li { display: flex; justify-content: space-between; padding: 2px 0; font-size: var(--t-14); line-height: var(--lh-14); }
+.d-sel-sum { list-style: none; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+.d-sel-sum li { display: flex; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); }
 .d-sel-sum li b { font-weight: 700; }
-.d-sel-sum .grand { margin-top: 6px; padding: 8px 0; border-top: 1px solid var(--line); }
-.d-sel-sum .grand span { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
-.d-sel-sum .grand b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; }
+.d-sel-sum .grand { align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); }
+.d-sel-sum .grand span { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+.d-sel-sum .grand b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }
 /* Upload later: download line for the template that fits the selection, under the green button */
 .d-tpl-dl { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); text-align: center; }
 .d-tpl-dl a { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-s); transition: background .15s; }

@@ -124,7 +124,6 @@ const DESK_NAV = [['Promotional Print', 'promotional-printing'], ['Books', 'broc
   ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs', 'panels-and-signs'], ['Stickers', 'all-stickers'], ['Gifts', 'corporate-gifts'], ['Bags', 'promotional-bags'], ['Clothing', 'clothing-printing']];
 const deskUser = (() => { try { return JSON.parse(localStorage.getItem('hp-user')) || null; } catch (e) { return null; } })();
 // Trustpilot service score (header + footer), built in HTML instead of a picture, like the live widget: "See our 35,364 reviews on ★ Trustpilot"
-const TP_STAR = '<svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 const SHELL_HEADER_DESK = `
   <header class="dhead">
@@ -345,28 +344,14 @@ document.querySelectorAll('[data-acc]').forEach(el => {
 });
 
 // VAT toggle
-const vatBtn = document.getElementById('vatBtn'), vatMenu = document.getElementById('vatMenu');
 function setVat(incl) {
   inclVat = incl;
   try { localStorage.setItem('hp-vat', incl ? 'incl' : 'excl'); } catch (e) {}
-  if (vatMenu) {
-    vatMenu.querySelectorAll('button').forEach(x => x.setAttribute('aria-checked', (x.dataset.vat === '1') === incl));
-    document.getElementById('vatLabel').textContent = incl ? 'Incl VAT' : 'Excl VAT';
-  }
   // Desktop: the VAT switches (footer, quantity list) follow the same setting
   document.querySelectorAll('[data-vat-switch]').forEach(b => { b.setAttribute('aria-checked', incl); const t = b.querySelector('span'); if (t) t.textContent = incl ? 'ON' : 'OFF'; });
   updatePrices();
   document.dispatchEvent(new Event('hp-vat'));   // pages that render prices themselves (desktop PDP) re-render
 }
-vatBtn?.addEventListener('click', e => {
-  e.stopPropagation();
-  const open = vatMenu.classList.toggle('open');
-  vatBtn.setAttribute('aria-expanded', open);
-});
-vatMenu?.addEventListener('click', e => {
-  const b = e.target.closest('button'); if (b) setVat(b.dataset.vat === '1');
-});
-document.addEventListener('click', () => { vatMenu?.classList.remove('open'); vatBtn?.setAttribute('aria-expanded', false); });
 document.addEventListener('click', e => { if (e.target.closest('[data-vat-switch]')) { e.preventDefault(); setVat(!inclVat); } });
 setVat(inclVat);
 
