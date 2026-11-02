@@ -41,6 +41,12 @@ the leading ones). Remembered in `hp-flow`.
 | Photos | `photos` | a / b | a | A = thumbnails under the photo; B = thumbnail column left |
 | Delivery | `deliv` | d / e | d | Calendar tile left / on top |
 
+**Desktop cart** (left edge, `.desk-switch`): Lines `lines` = a / b (default b), remembered in `hp-cart-lines` (cart-lines-sketch.html).
+A = action row under each product (Edit · Duplicate pills, Remove right) + a light green quantity tip ("Switch to 1000");
+B = round icon buttons under the price + a quantity dropdown with the next step as a hint. Both: label (Most Popular, Eco), per line
+"Approve your files by …" + "<Delivery> · Estimated … — latest …", discount code under the totals (closed: "+ Add discount code";
+HELLO10 = 10% off the products, `DISCOUNTS` / `getCode` / `cartTotals` in app.js, also on payment). Mobile cart unchanged.
+
 **Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
 sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same
 sidebar, Getting started = back). P = the 6 topic cards, topic page with rows, a page per answer (`help-article.html`).

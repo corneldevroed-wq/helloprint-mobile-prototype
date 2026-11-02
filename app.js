@@ -582,11 +582,17 @@ function getAddons() {
   if (typeof a.check !== 'string') a.check = a.check ? 'premium' : 'basic';
   return a;
 }
+// Discount codes (prototype): % off the products; one code per order, kept with the cart
+const DISCOUNTS = { HELLO10: .10 };
+const getCode = () => { try { const c = localStorage.getItem('hp-cart-code'); return DISCOUNTS[c] ? c : null; } catch (e) { return null; } };
+const setCode = c => { try { c ? localStorage.setItem('hp-cart-code', c) : localStorage.removeItem('hp-cart-code'); } catch (e) {} };
 function cartTotals(items = getCart(), addons = getAddons()) {
-  const check = CHECK_TIERS.find(t => t.id === addons.check);
-  const subtotal = items.reduce((s, it) => s + it.price, 0) + check.price + (addons.secured ? SECURED.price : 0);
+  const check = CHECK_TIERS.find(t => t.id === addons.check), code = getCode();
+  const products = items.reduce((s, it) => s + it.price, 0);
+  const discount = code ? Math.round(products * DISCOUNTS[code] * 100) / 100 : 0;
+  const subtotal = products - discount + check.price + (addons.secured ? SECURED.price : 0);
   const vat = Math.round(subtotal * VAT_RATE * 100) / 100;
-  return { check, subtotal, vat, total: subtotal + vat };
+  return { check, products, code, discount, subtotal, vat, total: subtotal + vat };
 }
 
 // Cart: kept in this browser only (localStorage), so it survives moving between prototype pages.

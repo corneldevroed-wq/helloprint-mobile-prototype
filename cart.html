@@ -6,7 +6,8 @@
 <title>Your Cart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107z">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,local_shipping,schedule,trending_up&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261108g">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -103,7 +104,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261107z"></script>
+<script src="app.js?v=20261108g"></script>
+<script src="products.js?v=20261108g"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -113,6 +115,40 @@
   // Same wording as on the product page (also for items added before the wording changed)
   const DESIGN_LABEL = { 'I will upload later': 'Upload after checkout', 'My designer will send the file': 'Your designer sends the file' };
   const eur = n => '€' + n.toFixed(2);
+  const icon = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+
+  // Desktop product lines, prototype switch "Lines" (?lines=a|b, Cornel 2026-11-02, cart-lines-sketch.html):
+  // A = action row with pills + a light green quantity tip; B = round icon buttons + quantity dropdown with a hint
+  let LINES = (() => { const q = new URLSearchParams(location.search).get('lines');
+    try { if (['a', 'b'].includes(q)) localStorage.setItem('hp-cart-lines', q); return localStorage.getItem('hp-cart-lines') || 'b'; } catch (e) { return q || 'b'; } })();
+  // The product behind a cart line: its label (Most Popular, Eco…) and quantity steps
+  const productOf = it => PRODUCTS[new URLSearchParams(it.href.split('?')[1]).get('p')];
+  const qtySteps = it => { const P = productOf(it); return P ? productQty(P.live || P) : []; };
+  // Another quantity: the price follows the product's price list (price = step price × options)
+  const priceAt = (it, q) => { const steps = qtySteps(it), now = steps.find(([n]) => n === it.qty), to = steps.find(([n]) => n === q);
+    return now && to ? Math.round(it.price * to[1] / now[1] * 100) / 100 : null; };
+  // The quantity tip: the first bigger step that is at least 5% cheaper per piece (750 cards cost about the same each as 500, so not that one)
+  const nextStep = it => { const steps = qtySteps(it), now = steps.find(([n]) => n === it.qty);
+    return now ? (steps.find(([n, p]) => n > it.qty && p / n <= now[1] / now[0] * .95) || [])[0] : null; };
+  // Per line: the file deadline, then the delivery date it gives
+  const when = it => `<div class="cart-when">
+      <span>${icon('schedule')}<span>Approve your files by <b>10:30 on ${etaApprove(it.arrives)}</b></span></span>
+      <span>${icon('local_shipping')}<span><b>${it.delivery}</b> · Estimated ${etaShort(etaDate(it.arrives))} — latest ${etaShort(etaLatest(it.arrives))}</span></span></div>`;
+  function deskLine(it, i) {
+    const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
+    const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
+      <small>${it.qty} pcs · ${it.options}</small><small>Design: ${DESIGN_LABEL[it.design] || it.design}</small>${when(it)}`;
+    const img = `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>`;
+    if (LINES === 'a') return `<div class="line-item">${img}
+      <div class="t">${head}${np ? `<div class="qty-tip">${icon('trending_up')}<span><b>${nq} pcs for ${fmt(np - it.price)} more</b> · ${each({ price: np, qty: nq })} instead of ${each(it)}</span><button class="pill" data-qty-to="${nq}" data-i="${i}">Switch to ${nq}</button></div>` : ''}</div>
+      <span class="p">${fmt(it.price)}</span>
+      <div class="cart-actions"><a class="pill" href="${it.href}">${icon('edit')}Edit</a><button class="pill" data-dup="${i}">${icon('content_copy')}Duplicate</button><button class="pill" data-remove="${i}">${icon('delete')}Remove</button></div></div>`;
+    const steps = qtySteps(it);
+    return `<div class="line-item">${img}
+      <div class="t">${head}${steps.some(([n]) => n === it.qty) ? `<div class="cart-qty"><label class="field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs</option>`).join('')}</select></label>
+        ${np ? `<span class="qty-hint">${nq} pcs: ${each({ price: np, qty: nq })} (+${fmt(np - it.price)})</span>` : ''}</div>` : ''}</div>
+      <div class="cart-right"><span class="p">${fmt(it.price)}</span><div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div></div></div>`;
+  }
 
   function render() {
     const items = getCart(), box = document.getElementById('cartContent'), side = document.getElementById('cartSide');
@@ -124,7 +160,7 @@
       side.innerHTML = '';
       return;
     }
-    const { check, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
+    const { check, products, code, discount, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
     // Upsell cards: mobile on top of the cart (arrow opens the popup); desktop in the sidebar above the totals,
     // a short line and a text link (upsell sketch C, upsell-desk-sketch.html)
     const addon = (id, on, name, sub, short, price, link, aria) => `
@@ -138,6 +174,8 @@
         'An expert checks your file.', checkOn ? check.price : tier('premium').price, 'See our 3 options', 'Design check') +
       addon('secured', !!addons.secured, SECURED.name, SECURED.sub, 'Priority support and reprint.', SECURED.price, 'More info', 'Secured delivery');
 
+    // Continue shopping: desktop under the products (left column), mobile under the delivery date
+    const shop = '<a class="btn outline continue-shopping" href="index.html">Continue shopping</a>';
     box.innerHTML = `${DESK ? '' : `
       <section class="addons">
         <h2>Do you want a design check?</h2>
@@ -147,7 +185,7 @@
 
       <section class="summary-box">
         ${DESK ? '' : '<h2>Order summary</h2>'}
-        ${items.map((it, i) => `
+        ${items.map((it, i) => DESK ? deskLine(it, i) : `
           <div class="line-item">
             <a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
             <div class="t">
@@ -159,29 +197,67 @@
             </div>
             <span class="p">${fmt(it.price)}</span>
           </div>`).join('')}
-      </section>`;
+      </section>
+      ${DESK ? shop : ''}`;
     side.innerHTML = `
         ${DESK ? `<div class="addons"><h2>Order summary</h2>${addonCards}</div>` : ''}
         <div class="totals">
-          <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
-          ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
-          <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
-          <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
-          <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
+          <div><span>Products (${items.length})</span><span>${eur(products)}</span></div>
+          <div><span>${check.line}<button class="info-btn" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
+          ${addons.secured ? `<div><span>${SECURED.line}<button class="info-btn" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/pdp/info.svg" alt=""></button></span><span>${eur(SECURED.price)}</span></div>` : ''}
+          <div><span>Shipping</span><span class="free">Free</span></div>
+          ${code ? `<div><span>Discount <small>(${code})</small><button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button></span><span>−${eur(discount)}</span></div>` : ''}
+          <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>
+          <div><span>VAT ${Math.round(VAT_RATE * 100)}%</span><span>${eur(vat)}</span></div>
+          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
         </div>
-      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>' : ''}
-      <div class="eta">${(d => etaHtml(d, `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>
-      <a class="btn outline continue-shopping" href="index.html">Continue shopping</a>`;
+      ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}Add discount code</button>
+        <div class="code-box" hidden><div class="code-row"><label class="field"><input id="codeIn" placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" data-apply-code>Apply</button></div>
+        <p class="field-error" id="codeErr" hidden>This code isn't valid</p></div>` : ''}
+      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>' : `
+      <div class="eta">${(d => etaHtml(d, `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>`}
+      ${DESK ? '' : shop}`;
     document.getElementById('barTotal').textContent = eur(total);
   }
 
   document.querySelector('.cart-page').addEventListener('click', e => {
     if (e.target.closest('[data-open-sheet]')) return;
-    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]');
+    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), q = e.target.closest('[data-qty-to]');
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
     if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
+    if (d) { const items = getCart(); items.splice(+d.dataset.dup + 1, 0, { ...items[+d.dataset.dup] }); setCart(items); render(); showToast('Product duplicated'); }
+    if (q) setQty(+q.dataset.i, +q.dataset.qtyTo);
+    // Discount code: "+ Add discount code" opens the field; Apply checks it; ✕ removes it
+    if (e.target.closest('[data-open-code]')) { e.target.closest('[data-open-code]').hidden = true; document.querySelector('.code-box').hidden = false; document.getElementById('codeIn').focus(); }
+    if (e.target.closest('[data-apply-code]')) applyCode();
+    if (e.target.closest('[data-rm-code]')) { setCode(null); render(); showToast('Discount code removed'); }
   });
+  document.querySelector('.cart-page').addEventListener('change', e => { const sel = e.target.closest('select[data-i]'); if (sel) setQty(+sel.dataset.i, +sel.value); });
+  document.querySelector('.cart-page').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'codeIn') applyCode(); });
+  function setQty(i, q) {
+    const items = getCart(), it = items[i], price = priceAt(it, q);
+    if (price == null) return;
+    Object.assign(it, { qty: q, price }); setCart(items); render(); showToast(`Quantity changed to ${q} pcs`);
+  }
+  function applyCode() {
+    const c = document.getElementById('codeIn').value.trim().toUpperCase();
+    if (!DISCOUNTS[c]) { document.getElementById('codeErr').hidden = false; return; }
+    setCode(c); render(); showToast(`${c} applied`);
+  }
+
+  // Prototype switch (desktop): product lines A / B
+  if (DESK) {
+    document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Lines</span>${['a', 'b'].map(v =>
+      `<button data-lines="${v}" aria-pressed="${v === LINES}" title="${v === 'a' ? 'A: action row, quantity tip' : 'B: icon buttons, quantity dropdown'}">${v.toUpperCase()}</button>`).join('')}</div>`);
+    document.querySelector('[data-lines]').parentNode.addEventListener('click', e => {
+      const b = e.target.closest('[data-lines]'); if (!b) return;
+      LINES = b.dataset.lines;
+      try { localStorage.setItem('hp-cart-lines', LINES); const u = new URL(location.href); u.searchParams.set('lines', LINES); history.replaceState(null, '', u); } catch (err) {}
+      document.querySelectorAll('[data-lines]').forEach(x => x.setAttribute('aria-pressed', x.dataset.lines === LINES));
+      render();
+    });
+  }
 
 
   // File check sheet: opens on the current choice; Confirm applies it

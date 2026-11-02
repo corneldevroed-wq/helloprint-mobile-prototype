@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107z">
+<link rel="stylesheet" href="styles.css?v=20261108g">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -294,7 +294,7 @@
       use: 'Red outline and a short message under the field that says how to fix it.',
       ex: stage(w('<label class="field invalid"><input placeholder=" " value="cornel@" aria-label="Email address"><span class="fl">Email address</span><span class="field-error">Enter a valid email address</span></label>', 300)) }) +
     row({ name: 'Select', meta: [{ t: '.field select' }],
-      use: 'Same height, border and radius as a text field.',
+      use: 'Same height, border and radius as a text field, with the arrow down on the right (12 from the edge).',
       ex: stage(w('<label class="field"><select aria-label="Country code"><option>🇮🇪 +353</option><option>🇬🇧 +44</option></select></label>', 140)) }) +
     row({ name: 'Checkbox', meta: [{ t: '.check' }, { t: '--control' }],
       use: 'Rounded square, light green when on. Label 12px dark grey.',
@@ -373,9 +373,9 @@
       ${D ? '' : `<button class="go" aria-label="${link}"><img src="assets/cart/arrow.png" alt=""></button>`}</div>`;
   const UPSELLS = upsell('check', true, 'Premium Check + Proof', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.', 'An expert checks your file.', '€10.99', 'See our 3 options') +
     upsell('secured', false, 'Add secured delivery', 'Ensure priority support, fast reprint and delivery guarantees for your order', 'Priority support and reprint.', '€5.99', 'More info');
-  const TOTALS = `<div class="totals"><div><span>Premium Check + Proof</span><span>€10.99</span></div><div><span>Subtotal excl. VAT</span><span>€29.88</span></div><div><span>VAT (23%)</span><span>€6.87</span></div><div class="grand"><span>Total incl. VAT</span><span>€36.75</span></div></div>`;
+  const TOTALS = `<div class="totals"><div><span>Products (1)</span><span>€18.89</span></div><div><span>Premium Check + Proof<button class="info-btn" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span><span>€10.99</span></div><div><span>Shipping</span><span class="free">Free</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€29.88</span></div><div><span>VAT 23%</span><span>€6.87</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€36.75</span></div></div>`;
   const cart = row({ name: 'Upsell card', wide: true, meta: [{ t: '.addon' }, { t: '.switch' }, SIZE],
-      use: 'An extra for the whole order (design check, secured delivery): switch, title, price; chosen = light green outline. Only the switch toggles. <b>Mobile:</b> on top of the cart, the full line, the arrow opens the popup. <b>Desktop:</b> in the sidebar above the totals it changes: 16 padding, title 16/22 with the price on the right, a short label line (12/18) and a text link to the popup.',
+      use: 'An extra for the whole order (design check, secured delivery): switch, title, price; chosen = light green outline. Only the switch toggles. <b>Mobile:</b> on top of the cart, the full line, the arrow opens the popup. <b>Desktop:</b> in the sidebar above the totals it changes: no outline or padding, 16 apart, title 16/22 with the price on the right, a short label line (12/18) and a text link to the popup.',
       ex: stage(real(D ? `<aside class="cart-side bare"><div class="addons">${UPSELLS}</div></aside>` : `<div class="addons">${UPSELLS}</div>`, [358, 'mobile cart'], [342, 'cart sidebar'])) }) +
     row({ name: 'Product line', wide: true, meta: [{ t: '.line-item' }, SIZE],
       use: 'A product in the cart: photo, name, quantity + delivery, options, design, Remove; price on the right. Mobile: 75px photo, a line between products. Desktop: an outlined card (24 padding), 120px photo, title 16/22, text 14/22.',
@@ -384,11 +384,11 @@
         <div class="t"><a href="#cart"><strong>Classic business cards</strong></a><small>500 pcs, Saver, Tue 29 Sep</small><small>Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><small>Design: Upload after checkout</small><button class="remove">Remove</button></div>
         <span class="p">€18.89</span></div></section></div>`, [358, 'mobile cart'], [862, 'cart, left column'])) }) +
     row({ name: 'Order summary', wide: true, meta: [{ t: '.cart-side' }, SIZE],
-      use: 'Desktop: the sticky sidebar card (outline --line, 24 padding): title + upsells, totals, the one primary button, delivery date, Continue shopping, USPs, payment methods. 8 from the title to the cards, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
+      use: 'Desktop: the sticky sidebar card (outline --line, 24 padding): title + upsells, totals (Products, design check with ⓘ to its popup, Shipping Free in green; a line, Subtotal and VAT; a line, Total 20/24 with the suffix in 12 grey), the one primary button, delivery date, USPs, payment methods; Continue shopping sits under the products (left, as wide as its text). 8 from the title to the cards, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
       ex: stage(real(`<aside class="cart-side">${D ? `<div class="addons"><h2>Order summary</h2>${UPSELLS}</div>` : ''}${TOTALS}
         ${D ? '<a class="btn primary" href="#cart">Continue to checkout</a>' : ''}
         <div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div>
-        <a class="btn outline continue-shopping" href="#cart">Continue shopping</a>
+        ${D ? '' : '<a class="btn outline continue-shopping" href="#cart">Continue shopping</a>'}
         <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`, [358, 'mobile cart'], [392, 'cart sidebar'])) });
 
   const feedback = row({ name: 'Toast', meta: [{ t: '.toast' }, { t: 'showToast(text)' }],

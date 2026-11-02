@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107z">
+<link rel="stylesheet" href="styles.css?v=20261108g">
 </head>
 <body>
 <div class="phone">
@@ -102,7 +102,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261107z"></script>
+<script src="app.js?v=20261108g"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -110,7 +110,7 @@
   const eur = n => '€' + n.toFixed(2);
 
   // Order summary + totals (shared maths with the cart)
-  const addons = getAddons(), { check, subtotal, vat, total } = cartTotals(items, addons);
+  const addons = getAddons(), { check, code, discount, subtotal, vat, total } = cartTotals(items, addons);
   document.getElementById('paySummary').innerHTML = `
     ${items.map(it => `
       <div class="line-item">
@@ -121,6 +121,7 @@
     <div class="totals">
       <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
       ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+      ${code ? `<div><span>Discount <small>(${code})</small></span><span>−${eur(discount)}</span></div>` : ''}
       <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
       <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
       <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>

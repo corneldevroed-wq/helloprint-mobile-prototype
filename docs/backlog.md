@@ -3,8 +3,8 @@
 Not started unless Cornel says go. Move items to `decisions.md` once decided.
 
 ## Parked by Cornel
-- **Discount code box** — proposal (2026-10-07): in the cart summary a collapsed "Have a discount code?" → input + Apply;
-  applied code as "Discount (HELLO10) −€x" with ✕, also on details/payment; HELLO10 = 10%, invalid → "This code isn't valid".
+- **Discount code box** — built on the desktop cart (2026-11-02, "+ Add discount code", also shown on payment).
+  Still open: the field on the mobile cart, and the code on the details page.
 - **PO / reference number** — proposal: optional field in the "I'm ordering for a business" block on details
   ("Shown on your invoice and packing slip"), shown in the payment summary. Open: field for everyone instead?
 - **My account / logged-in pages** beyond checkout (ask for Figma frames first).

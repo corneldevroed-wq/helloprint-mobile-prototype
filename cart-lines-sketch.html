@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" class="desk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart lines sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,local_shipping,schedule,trending_up&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261108g">
+<!-- Sketch only, not linked from the prototype: a richer product line on the desktop cart (Cornel, 2026-11-02):
+     icons for Edit / Duplicate / Remove, a quantity upsell, a discount code, the delivery date per product line,
+     and the product's label (Most Popular, Eco) as on the product page. The page around it is the built cart (html.desk, real classes).
+     Prices and quantity steps are examples. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .frame { margin-top: 16px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .frame .cart-page { width: calc(100% - 48px); }
+  .frame .cart-side { position: static; }
+  .ms { font-family: 'Material Symbols Rounded'; font-size: 20px; line-height: 1; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+
+  /* shared in the sketch */
+  .line-item .badge { position: static; align-self: flex-start; margin-bottom: 8px; }
+  /* per line: the file deadline, then the delivery date it gives (both 14/22, icon 20 in light green) */
+  .deliv-line { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+  .when { margin-top: 8px; }
+  .deliv-line .ms { color: var(--light-green); }
+  .deliv-line b { font-weight: 600; }
+  .disc { display: flex; gap: 8px; }
+  .disc[hidden], .add-code[hidden] { display: none; }
+  .disc .field { flex: 1; }
+  .disc .field input { height: 40px; padding: 0 12px; font-size: var(--t-14); }   /* no floating label here, so the placeholder sits in the middle */
+  .disc-row span:first-child { display: inline-flex; align-items: center; gap: 4px; color: var(--link); }
+  .disc-row .ms { font-size: 16px; color: var(--dark-grey); cursor: pointer; }
+  .add-code { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; }
+  .add-code .ms { font-size: 18px; }
+
+  /* A: action row + upsell strip */
+  .a .line-item { flex-wrap: wrap; }
+  .a .actions { flex-basis: 100%; display: flex; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .a .actions .pill { gap: 4px; }
+  .a .actions .pill .ms { font-size: 18px; }
+  .a .actions .rm { margin-left: auto; }
+  .upsell-strip { display: flex; align-items: center; gap: 16px; margin-top: 16px; padding: 8px 8px 8px 16px; border-radius: var(--r-m); background: var(--selected); font-size: var(--t-14); line-height: var(--lh-14); }
+  .upsell-strip .ms { color: var(--light-green); }
+  .upsell-strip span:nth-child(2) { flex: 1; }
+  .upsell-strip b { font-weight: 600; }
+
+  /* B: round icon buttons, quantity as a field */
+  .b .right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+  .b .icons { display: flex; gap: 8px; }
+  .b .icons button { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--dark-green); }
+  .b .icons button:hover { border-color: var(--black); }
+  .b .qty { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+  .b .qty .field { width: 144px; }
+  .b .qty .field select { height: 40px; font-size: var(--t-14); }
+  .b .qty small { color: var(--link) !important; font-size: var(--t-14) !important; line-height: var(--lh-14) !important; }
+
+  /* C: text links with icons, upsell as one line */
+  .c .links { display: flex; gap: 24px; margin-top: 16px; }
+  .c .links button { display: inline-flex; align-items: center; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .c .links button:hover { color: var(--black); }
+  .c .links .ms { font-size: 18px; }
+  .c .nudge { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+  .c .nudge .ms { font-size: 18px; color: var(--light-green); }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Cart lines sketch</b><a href="#a">A · Action row</a><a href="#b">B · Icon buttons</a><a href="#c">C · Quiet links</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> richer product lines on the desktop cart. Edit / Duplicate / Remove with icons, a quantity upsell,
+       a discount code, the delivery date per line ("Estimated … — latest …") and the product's label as on the product page (<code>badgeHtml</code>: orange = commercial, green = Eco).
+       The page around it is the built cart. Mobile follows once desktop is picked.</p>
+    <p><b>Same in all three:</b> label above the name, the discount code under the totals (closed by default: "+ Add discount code" opens the field), and per product line the file deadline and the delivery date
+       (update 11-02, Cornel: "approve your files before" matters per order line, not as one message under the button).</p>
+    <p><b>Why per line:</b> every product is made on its own, with its own delivery option, so every line has its own deadline:
+       here the Express flyers need their files approved by <b>Thu 24 Sep</b>, the Saver cards only by <b>Mon 28 Sep</b>. One message under the button can't say that.
+       So the deadline sits right under "Design: …" (who sends the file, and by when), with the delivery date it gives under it: approve by X → estimated Y.
+       Two calm lines with an icon (clock, truck), the time in bold as in today's delivery box; no extra grey block per product.
+       The sidebar loses its delivery box: the dates are on the lines now.</p>
+    <p><b>New wording (mine, to check):</b> "Approve your files by 10:30 on Thu 24 Sep", "1000 pcs for €8.51 more · €0.03 each instead of €0.04", "Switch to 1000", "Add discount code".
+       Prices and quantity steps are examples. Icons: Material Symbols Rounded, line, as in the rest of the prototype.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b>A · Action row under the card, upsell as a light green strip <span class="pick">my pick</span></b>
+    Closest to live: Edit and Duplicate as pills with an icon at the bottom left, Remove on the right (grey, not red: no alarm for a normal action).
+    The quantity upsell is a calm light green strip with one button, so it reads as a tip and not an ad.
+    Most to see, but every part has its own place, so it stays calm.</div>
+  <div class="frame"><main class="cart-page a" data-v="a"></main></div>
+
+  <div class="sk-label" id="b"><b>B · Round icon buttons, quantity as a dropdown</b>
+    Icons only, top right under the price (name in the tooltip). You change the quantity right in the card;
+    the hint next to it does the upsell. The most compact, but icons without words need a hover to be sure.</div>
+  <div class="frame"><main class="cart-page b" data-v="b"></main></div>
+
+  <div class="sk-label" id="c"><b>C · Quiet text links, upsell as one line</b>
+    Edit · Duplicate · Remove as grey text links with an icon, the upsell as one line with a link. The calmest,
+    but the upsell is easy to miss and the actions look secondary (which they are).</div>
+  <div class="frame"><main class="cart-page c" data-v="c"></main></div>
+</div>
+
+<script>
+  const ms = n => `<span class="ms" aria-hidden="true">${n}</span>`;
+  const items = [
+    { name: 'Classic business cards', badge: 'Most Popular', img: 'assets/pdp/classic.png', qty: 500, opts: 'Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided',
+      design: 'Upload after checkout', deliv: 'Saver', approve: 'Mon 28 Sep', est: 'Tue 29 Sep', latest: 'Wed 30 Sep', price: '€18.89', up: { qty: 1000, more: '€8.51', each: '€0.03', now: '€0.04' } },
+    { name: 'Eco flyers', badge: 'Eco', badgeCls: ' eco', img: 'assets/flyers/t-eco.webp', qty: 250, opts: 'A5 · Recycled 150 gsm · Double-sided',
+      design: 'Your designer sends the file', deliv: 'Express', approve: 'Thu 24 Sep', est: 'Fri 25 Sep', latest: 'Mon 28 Sep', price: '€32.50', up: { qty: 500, more: '€7.40', each: '€0.08', now: '€0.13' } },
+  ];
+  const badge = it => `<span class="badge${it.badgeCls || ''}">${it.badge}</span>`;
+  const deliv = it => `<div class="when"><span class="deliv-line">${ms('schedule')}<span>Approve your files by <b>10:30 on ${it.approve}</b></span></span>
+    <span class="deliv-line">${ms('local_shipping')}<span><b>${it.deliv}</b> · Estimated ${it.est} — latest ${it.latest}</span></span></div>`;
+  const head = it => `${badge(it)}<a href="#"><strong>${it.name}</strong></a><small>${it.qty} pcs · ${it.opts}</small><small>Design: ${it.design}</small>`;
+
+  const line = {
+    a: it => `<div class="line-item"><a class="img" href="#" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
+      <div class="t">${head(it)}${deliv(it)}
+        <div class="upsell-strip">${ms('trending_up')}<span><b>${it.up.qty} pcs for ${it.up.more} more</b> · ${it.up.each} each instead of ${it.up.now}</span><button class="pill">Switch to ${it.up.qty}</button></div></div>
+      <span class="p">${it.price}</span>
+      <div class="actions"><button class="pill">${ms('edit')}Edit</button><button class="pill">${ms('content_copy')}Duplicate</button><button class="pill rm">${ms('delete')}Remove</button></div></div>`,
+    b: it => `<div class="line-item"><a class="img" href="#" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
+      <div class="t">${head(it)}${deliv(it)}
+        <div class="qty"><label class="field"><select aria-label="Quantity"><option>${it.qty} pcs</option><option>${it.up.qty} pcs</option></select></label>
+        <small>${it.up.qty} pcs: ${it.up.each} each (+${it.up.more})</small></div></div>
+      <div class="right"><span class="p">${it.price}</span><div class="icons"><button title="Edit" aria-label="Edit">${ms('edit')}</button><button title="Duplicate" aria-label="Duplicate">${ms('content_copy')}</button><button title="Remove" aria-label="Remove">${ms('delete')}</button></div></div></div>`,
+    c: it => `<div class="line-item"><a class="img" href="#" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
+      <div class="t">${head(it)}${deliv(it)}
+        <span class="nudge">${ms('trending_up')}Order ${it.up.qty} and pay ${it.up.each} each (+${it.up.more}) <a class="link" href="#">Switch</a></span>
+        <div class="links"><button>${ms('edit')}Edit</button><button>${ms('content_copy')}Duplicate</button><button>${ms('delete')}Remove</button></div></div>
+      <span class="p">${it.price}</span></div>`,
+  };
+  // Discount code: closed by default ("+ Add discount code"); a click opens the field with Apply (Cornel, 2026-11-02)
+  const discount = `<button class="link add-code" data-open-code>${ms('add')}Add discount code</button>
+    <div class="disc" hidden><label class="field"><input placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" style="padding:0 16px">Apply</button></div>`;
+  const upsells = `<div class="addons"><h2>Order summary</h2>
+    <div class="addon addon-check" data-on="true"><button class="switch" role="switch" aria-checked="true" aria-label="Design check"></button>
+      <span class="t"><b>Premium Check + Proof</b><small>An expert checks your file.</small><span class="p">€10.99</span><button class="link">See our 3 options</button></span></div>
+    <div class="addon addon-secured" data-on="false"><button class="switch" role="switch" aria-checked="false" aria-label="Secured delivery"></button>
+      <span class="t"><b>Add secured delivery</b><small>Priority support and reprint.</small><span class="p">€5.99</span><button class="link">More info</button></span></div></div>`;
+  const totals = v => `<div class="totals">
+      <div><span>Products (2)</span><span>€51.39</span></div>
+      <div><span>Premium Check + Proof<button class="info-btn" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span><span>€10.99</span></div>
+      <div><span>Shipping</span><span class="free">Free</span></div>
+      ${v === 'a' ? `<div class="disc-row"><span>Discount <small>(HELLO10)</small> ${ms('close')}</span><span>−€6.24</span></div>` : ''}
+      <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${v === 'a' ? '€56.14' : '€62.38'}</span></div>
+      <div><span>VAT 23%</span><span>${v === 'a' ? '€12.91' : '€14.35'}</span></div>
+      <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${v === 'a' ? '€69.05' : '€76.73'}</span></div></div>`;
+  const side = v => `<aside class="cart-side">${upsells}${totals(v)}${discount}
+    <a class="btn primary" href="#">Continue to checkout</a>
+    <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`;
+
+  document.querySelectorAll('[data-v]').forEach(m => { const v = m.dataset.v;
+    m.innerHTML = `<h1>Your Cart</h1><div class="cart-main"><section class="summary-box">${items.map(line[v]).join('')}</section><a class="btn outline continue-shopping" href="#">Continue shopping</a></div>${side(v)}`; });
+  document.addEventListener('click', e => { const b = e.target.closest('[data-open-code]'); if (!b) return;
+    const box = b.nextElementSibling; b.hidden = true; box.hidden = false; box.querySelector('input').focus(); });
+</script>
+</body>
+</html>

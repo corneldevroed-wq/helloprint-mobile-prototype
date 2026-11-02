@@ -4,6 +4,10 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-02 — Richer product lines on desktop, A and B behind the switch Lines (`cart-lines-sketch.html`):** label from the product, file deadline
+  and delivery date per line (each product has its own deadline; the sidebar delivery box is gone on desktop), Edit / Duplicate / Remove with
+  icons, a quantity upsell (only a step that is ≥5% cheaper per piece, price from the product's price list), discount code closed by default
+  under the totals. Continue shopping under the products. C (quiet text links) rejected: upsell easy to miss.
 - **11-02 — Direction A from `cart-desk-sketch.html`:** mobile order on the left (design check, then the products as outlined cards; no title above them on desktop, Cornel 11-02),
   a sticky sidebar like live on the right ("Order summary": totals, Continue to checkout, delivery date, Continue shopping, USPs, payments).
   The mobile checkout bar is hidden on desktop. Rejected: B (whole mobile order summary in the sidebar: the button drops under the fold with
