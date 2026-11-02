@@ -34,18 +34,12 @@ All switches write their value into the URL and localStorage, so a copied link o
 **Mobile PDP** (left edge, "Flow"): `?flow=a…j` — A–J versions of the PDP config/CTA (see memory/decisions; H and J are
 the leading ones). Remembered in `hp-flow`.
 
-**Desktop PDP** (left edge, `.desk-switch`):
+**Desktop PDP** (left edge, `.desk-switch`). Decided and removed 2026-11-02: Funnel (live funnels), Names (one thickness scale), Specs (links + See also), Icons (material icon set), Design (A: cards in Your selection), Rec (D: green bar in the card).
 | Switch | Param | Values | Default | What |
 |---|---|---|---|---|
 | Cards | `desk` | a / b | a | A = Figma cards (image on top, auto-fill grid); B = mobile-style cards 3/row |
 | Photos | `photos` | a / b | a | A = thumbnails under the photo; B = thumbnail column left |
 | Delivery | `deliv` | d / e | d | Calendar tile left / on top |
-| Funnel | `funnel` | old / new | new | Live-style funnel (business cards, flyers); reloads |
-| Names | `names` | old / new | new | One thickness scale for all paper; reloads |
-| Specs | `specs` | old / new | new | Specs table with option links + See also chips |
-| Icons | `icons` | old / new | new | New material icon set vs old swatches |
-| Design | `design` | a / b | a | Design cards in "Your selection" / as last config step |
-| Rec | `rec` | 0 / c / d | d | Recommended label off / variants |
 
 **Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
 sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same

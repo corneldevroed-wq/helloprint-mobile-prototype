@@ -1839,19 +1839,12 @@ html:not(.desk) .desk-only { display: none; }
 .desk #jConfig .qty-foot { margin-top: 0; }
 .d-sel .d-direct + .d-go { margin-top: 16px; }   /* breathing room between the design cards and the button */
 
-/* Desktop PDP: Recommended label on the option of the Recommended preset (prototype switch Rec 0|A|B|C) */
+/* Desktop PDP: Recommended label on the option of the Recommended preset: a green bar inside the card (Cornel, 2026-10-23) */
 span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card in the cart's file check popup */
 .desk .opt.is-rec { position: relative; overflow: visible; }
-/* C · minimal: a green corner with a white star (the word in the tooltip) */
-.desk.rec-c .rec { display: grid; place-items: center; position: absolute; top: -1px; right: -1px; z-index: 2; width: 22px; height: 22px; border-radius: 0 var(--r-m) 0 var(--r-m); background: var(--light-green); }
-.desk.rec-c .rec svg { width: 13px; height: 13px; fill: var(--white); }
-.desk.rec-c .rec i { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 /* The recommended quantity: the label sits next to the amount (rows are too close for a label on the edge) */
 .desk .qrow.is-rec { position: relative; }
-.desk.rec-c .qrow .rec { top: -1px; right: -1px; }
 .desk .qrow.is-rec .n { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-.desk.rec-c .qrow.is-rec { padding-right: 30px; }
-.desk.rec-c .qrow.is-rec[aria-checked="true"] { padding-right: 29px; }
 
 /* Desktop PDP: product reviews at the bottom (Trustpilot style; summary left, cards right) */
 .pr-wrap { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
@@ -1879,20 +1872,17 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .tp-all { display: inline-block; margin-top: 12px; font-weight: 600; font-size: var(--t-14); color: var(--light-green); }
 .tp-src { display: flex; align-items: center; gap: 4px; margin-top: 16px; font-weight: 600; font-size: var(--t-14); }
 .tp-src img { width: 16px; height: 16px; }
-/* D · Cornel's ref: a full-width green bar inside the card, under the text; nothing sticks out of the card */
-.desk.rec-d .rec { display: block; margin-top: 6px; padding: 3px 6px; border-radius: var(--r-s); background: var(--light-green); text-align: center; font-weight: 700; font-size: var(--t-10); line-height: 1.3; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--white); }
-.desk.rec-d .rec svg { display: none; }
-.desk.rec-d .rec i { font-style: normal; }
-.desk.rec-d .opt.is-rec .t { align-self: stretch; display: flex; flex-direction: column; }
-.desk.rec-d .qrow .rec { display: inline-block; margin: 0; }
-/* D: the bar always sits on the bottom of the card (cards in a row are equally tall) */
-.desk.rec-d .opt.is-rec .t { flex: 1; }
-.desk.rec-d .opt.is-rec .t small { margin-bottom: 6px; }
-.desk.rec-d .opt .rec { margin-top: auto; }
-/* D: same type as the orange "Most Popular" badge (12px bold, no caps) */
-.desk.rec-d .rec { padding: 4px 6px; font-size: var(--t-12); line-height: 1; letter-spacing: normal; text-transform: none; }
+/* A full-width green bar inside the card, under the text; nothing sticks out of the card */
+.desk span.rec { display: block; margin-top: 6px; padding: 4px 6px; border-radius: var(--r-s); background: var(--light-green); text-align: center; font-weight: 700; font-size: var(--t-12); line-height: 1; white-space: nowrap; color: var(--white); }   /* same type as the orange "Most Popular" badge (12px bold, no caps) */
+.desk span.rec svg { display: none; }
+.desk span.rec i { font-style: normal; }
+.desk .opt.is-rec .t { align-self: stretch; display: flex; flex-direction: column; }
+.desk .qrow span.rec { display: inline-block; margin: 0; }
+/* The bar always sits on the bottom of the card (cards in a row are equally tall) */
+.desk .opt.is-rec .t { flex: 1; }
+.desk .opt.is-rec .t small { margin-bottom: 6px; }
+.desk .opt span.rec { margin-top: auto; }
 .desk.dv-b .opt .rec { display: none; }   /* Cards B: no recommended label on the option cards for now (Cornel) */
-.d-design-step .d-direct { padding: 0; }
 
 /* Option photos (copy of Standard Flyers with the live site's images): mobile = a small square next to the text; desktop = the photo on top of the card */
 .opt .ph, .gi-vis .ph { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--r-s); overflow: hidden; background: var(--white); }
@@ -1902,7 +1892,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 /* Desktop: material icons 50px (paper swatches drawn at 37.5px, scaled up; colour chips 50px) */
 .desk #jConfig [data-option="paper"] .opt .swatch { zoom: 1.3333; }
 .desk #jConfig [data-option="paper"] .opt .chip { width: 50px; height: 50px; }
-.desk #jConfig .opt-group:not(.d-design-step) > .opt-info { display: block; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* cards A too: the explanation of the chosen option under each group (Cornel) */
+.desk #jConfig .opt-group > .opt-info { display: block; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* cards A too: the explanation of the chosen option under each group (Cornel) */
 
 /* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
 .opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }

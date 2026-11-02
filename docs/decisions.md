@@ -25,6 +25,10 @@ Add new decisions here when Cornel makes a final call.
   ("All categories →", "View all … articles", Help Centre "Read more") keep light green, matching their green arrow icon.
 
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+- **11-02 — Decided PDP switches removed (`unused-js-sketch.html`):** Funnel → live funnels, Names → one thickness scale, Specs → links +
+  See also, Icons → material icon set, Design → A (cards in Your selection), Rec → D (green bar, now `.desk span.rec`). Code, CSS and switch
+  buttons gone; the PDP is identical before/after (8 checks). Cards A/B, Photos A/B, Delivery D/E and the mobile flows stay until Cornel picks.
+- **11-02 — Unused JS removed:** the old mobile VAT dropdown code and `TP_STAR` (app.js).
 - **10-30 — Dead code removed (`deadcode-sketch.html`):** 98 CSS rules + 3 dead selectors (old desktop hero tiles, folded-leaflet row,
   stand-out swipe cards, old design cards, old checkout bits, mobile VAT dropdown) and 31 unused images. Every page identical before/after.
   Hidden variants, URL-only flows and sketch pages stay. Unused JS not checked yet.
