@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107n">
+<link rel="stylesheet" href="styles.css?v=20261107q">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -54,6 +54,8 @@
   /* real page contexts inside a stage keep their text rules but not their page layout */
   .ds .ds-stage .plp, .ds .ds-stage .materials, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage div.product { display: contents; }
   .ds .ds-stage .plp > *, .ds .ds-stage .materials > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
+  .ds .ds-stage .cart-side { position: static; }   /* sticky on the cart page */
+  .ds .ds-stage .cart-side.bare { padding: 0; border: 0; }   /* only the upsell cards, without the sidebar card around them */
 
   /* One row per item: example left, spec right */
   .b-row { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
@@ -126,6 +128,7 @@
     <a href="#cards">Cards</a>
     <a href="#accordion">Accordion / FAQ</a>
     <a href="#options">PDP option cards</a>
+    <a href="#cart">Cart</a>
     <a href="#feedback" hidden>Toast &amp; sheet</a>   <!-- hidden for now (Cornel, 2026-10-30): maybe later -->
   </nav>
   <main class="ds-main" id="dsMain"></main>
@@ -362,6 +365,32 @@
             return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="gain">${g}</span><span class="pr">${p}</span></span></button>`; }).join('').replace(/^/, '<div class="opt-group" data-option="delivery">') + '</div>',
         ...CONF), 'left') });
 
+  // ---------- Cart (markup as cart.html renders it, per view) ----------
+  const D = V === 'd';
+  const upsell = (id, on, name, sub, short, price, link) => `<div class="addon addon-${id}" data-on="${on}">
+      <button class="switch" role="switch" aria-checked="${on}" aria-label="${name}"></button>
+      <span class="t"><b>${name}</b><small>${D ? short : sub}</small><span class="p">${price}</span>${D ? `<button class="link">${link}</button>` : ''}</span>
+      ${D ? '' : `<button class="go" aria-label="${link}"><img src="assets/cart/arrow.png" alt=""></button>`}</div>`;
+  const UPSELLS = upsell('check', true, 'Premium Check + Proof', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.', 'An expert checks your file.', '€10.99', 'See our 3 options') +
+    upsell('secured', false, 'Add secured delivery', 'Ensure priority support, fast reprint and delivery guarantees for your order', 'Priority support and reprint.', '€5.99', 'More info');
+  const TOTALS = `<div class="totals"><div><span>Premium Check + Proof</span><span>€10.99</span></div><div><span>Subtotal excl. VAT</span><span>€29.88</span></div><div><span>VAT (23%)</span><span>€6.87</span></div><div class="grand"><span>Total incl. VAT</span><span>€36.75</span></div></div>`;
+  const cart = row({ name: 'Upsell card', wide: true, meta: [{ t: '.addon' }, { t: '.switch' }, SIZE],
+      use: 'An extra for the whole order (design check, secured delivery): switch, title, price; chosen = light green outline. Only the switch toggles. <b>Mobile:</b> on top of the cart, the full line, the arrow opens the popup. <b>Desktop:</b> in the sidebar above the totals it changes: 16 padding, title 16/22 with the price on the right, a short label line (12/18) and a text link to the popup.',
+      ex: stage(real(D ? `<aside class="cart-side bare"><div class="addons">${UPSELLS}</div></aside>` : `<div class="addons">${UPSELLS}</div>`, [358, 'mobile cart'], [342, 'cart sidebar'])) }) +
+    row({ name: 'Product line', wide: true, meta: [{ t: '.line-item' }, SIZE],
+      use: 'A product in the cart: photo, name, quantity + delivery, options, design, Remove; price on the right. Mobile: 75px photo, a line between products. Desktop: an outlined card (24 padding), 120px photo, title 16/22, text 14/22.',
+      ex: stage(real(`<div class="cart-main"><section class="summary-box"><div class="line-item">
+        <a class="img" href="#cart" style="background:var(--light-grey)"><img src="assets/pdp/classic.png" alt=""></a>
+        <div class="t"><a href="#cart"><strong>Classic business cards</strong></a><small>500 pcs, Saver, Tue 29 Sep</small><small>Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><small>Design: Upload after checkout</small><button class="remove">Remove</button></div>
+        <span class="p">€18.89</span></div></section></div>`, [358, 'mobile cart'], [862, 'cart, left column'])) }) +
+    row({ name: 'Order summary', wide: true, meta: [{ t: '.cart-side' }, SIZE],
+      use: 'Desktop: the sticky sidebar card (outline --line, 24 padding): title + upsells, totals, the one primary button, delivery date, Continue shopping, USPs, payment methods. 8 from the title to the cards, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
+      ex: stage(real(`<aside class="cart-side">${D ? `<div class="addons"><h2>Order summary</h2>${UPSELLS}</div>` : ''}${TOTALS}
+        ${D ? '<a class="btn primary" href="#cart">Continue to checkout</a>' : ''}
+        <div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div>
+        <a class="btn outline continue-shopping" href="#cart">Continue shopping</a>
+        <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`, [358, 'mobile cart'], [392, 'cart sidebar'])) });
+
   const feedback = row({ name: 'Toast', meta: [{ t: '.toast' }, { t: 'showToast(text)' }],
       use: 'A short confirmation at the bottom (Added to cart, Address saved). Dark green, disappears after 2 seconds.',
       ex: stage('<div class="toast show" style="position:static;transform:none">Added to cart</div><button class="pill" onclick="showToastDemo()">Show it</button>') }) +
@@ -390,6 +419,7 @@
     sec('cards', 'Cards', 'Products as product cards, categories as category cards: never mix them up. Cards on desktop: light outline, soft shadow only on hover.', cards) +
     sec('accordion', 'Accordion / FAQ', 'Questions fold open with a turning chevron; when every answer has its own page, rows with the list arrow.', accordion) +
     sec('options', 'PDP option cards', 'Configure the product on the page: one card per option, the chosen one in light green.', options) +
+    sec('cart', 'Cart', 'Mobile leads: the same blocks and wording. Desktop: products left, a sticky sidebar right with the upsells, the total and the button.', cart) +
     sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback).replace('<section ', '<section hidden ');   // hidden for now (Cornel, 2026-10-30): maybe later
 
   // Measured type specs: "24/32 · 800 · #022b07"

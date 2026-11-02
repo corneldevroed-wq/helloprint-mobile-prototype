@@ -607,7 +607,7 @@ function cartTotals(items = getCart(), addons = getAddons()) {
 function getCart() { try { return JSON.parse(localStorage.getItem('hp-cart')) || []; } catch (e) { return []; } }
 function setCart(items) { try { localStorage.setItem('hp-cart', JSON.stringify(items)); } catch (e) {} renderCartBadge(); }
 function renderCartBadge() {
-  const bag = document.querySelector('.header a[aria-label="Cart"]'); if (!bag) return;
+  const bag = document.querySelector('.header a[aria-label="Cart"], .dhead a[aria-label="Cart"]'); if (!bag) return;
   const n = getCart().length;
   let badge = bag.querySelector('.cart-count');
   if (!n) { badge && badge.remove(); return; }

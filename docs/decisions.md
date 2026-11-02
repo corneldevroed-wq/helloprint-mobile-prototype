@@ -3,6 +3,17 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-02 — Direction A from `cart-desk-sketch.html`:** mobile order on the left (design check, then "Your products" as outlined cards),
+  a sticky sidebar like live on the right ("Order summary": totals, Continue to checkout, delivery date, Continue shopping, USPs, payments).
+  The mobile checkout bar is hidden on desktop. Rejected: B (whole mobile order summary in the sidebar: the button drops under the fold with
+  3+ products) and C (products first like live: different order than mobile, design check under the fold).
+- **11-02 — Upsells on desktop in the sidebar (option C of `upsell-desk-sketch.html`, keep that file for reference):** design check and
+  secured delivery as option cards under "Order summary", right above the totals they change: switch, title + price, a short line
+  ("An expert checks your file." / "Priority support and reprint.") and a text link to the popup ("See our 3 options" / "More info").
+  Left column = products only. Mobile unchanged (cards on top, arrow to the popup). Rejected: A (three checks on the page) and B (one card, two rows).
+- **11-02 — Cart count on the desktop bag icon too** (was mobile only).
+
 ## Design system / UI kit (`design-system.html`, Oct 30, 2026)
 - **10-30 — Dead code removed (`deadcode-sketch.html`):** 98 CSS rules + 3 dead selectors (old desktop hero tiles, folded-leaflet row,
   stand-out swipe cards, old design cards, old checkout bits, mobile VAT dropdown) and 31 unused images. Every page identical before/after.

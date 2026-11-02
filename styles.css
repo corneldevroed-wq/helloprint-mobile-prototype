@@ -503,11 +503,14 @@ body.buybar-on .toast { bottom: 100px; }
 .spec-table div:nth-child(odd) { background: var(--light-grey); }
 .spec-table dt { background: none; border-right: 0; color: var(--dark-grey); }
 .about p strong { font-weight: 600; color: var(--black); }
-.nav-row .right a { position: relative; }
+.nav-row .right a, .dhead-right a { position: relative; }   /* the cart count sits on the bag icon */
 
 /* ---------- Cart ---------- */
 .cart-page { padding: 16px 16px 110px; display: flex; flex-direction: column; gap: 16px; }
 .cart-page h1 { color: var(--dark-green); }
+.cart-main, .cart-side { display: flex; flex-direction: column; gap: 16px; }
+#cartSide { display: contents; }   /* its blocks join the sidebar's column */
+.cart-side .totals { margin-top: -8px; }   /* 8px under the products (mobile) and under the upsells (desktop) */
 .addons { display: flex; flex-direction: column; gap: 8px; }
 .addons h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
 .addons > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); margin-top: -6px; }
@@ -764,7 +767,6 @@ body.info-guide .opt-info { display: none; }
 .guide-help { padding-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); text-align: center; }
 .guide-help a { font-weight: 600; text-decoration: underline; }
 .opt.changed, .qrow.changed, .deliv.changed { animation: changed 1.8s ease-out; }
-.continue-shopping { margin-top: 16px; }
 
 /* Customise sheet bar: recap, price, then Save (secondary) + Add your design (primary) */
 .bar-two-btn .total { flex: 0 0 100%; display: flex; align-items: center; gap: 10px; padding: 2px 16px 8px; }
@@ -1308,7 +1310,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk, .desk body { background: var(--white); }
 .desk .phone { max-width: none; }
 .desk .flow-switch { display: none; }
-.dwrap { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
+.dwrap, .desk .cart-page { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
 
 /* Header: top bar 60px + category bar 40px (dark green), USP bar 40px (white) */
 .dhead-top, .dhead-nav { background: var(--dark-green); }
@@ -1718,7 +1720,7 @@ html:not(.desk) .desk-only { display: none; }
 @keyframes logo-glide-desk { to { transform: translateX(calc(-50% - 32px)); } }
 
 /* Section heads: 24px titles, green "View all"-style link with arrow */
-.desk .home h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
+.desk .home h2, .desk .cart-main h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
 .desk .home .section-head { align-items: center; }
 .desk .home .section-head .link { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); text-decoration: none; }
 .desk .home .section-head .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
@@ -1860,7 +1862,7 @@ html:not(.desk) .desk-only { display: none; }
 .d-sel .d-direct + .d-go { margin-top: 16px; }   /* breathing room between the design cards and the button */
 
 /* Desktop PDP: Recommended label on the option of the Recommended preset (prototype switch Rec 0|A|B|C) */
-.rec { display: none; }
+span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card in the cart's file check popup */
 .desk .opt.is-rec { position: relative; overflow: visible; }
 /* C · minimal: a green corner with a white star (the word in the tooltip) */
 .desk.rec-c .rec { display: grid; place-items: center; position: absolute; top: -1px; right: -1px; z-index: 2; width: 22px; height: 22px; border-radius: 0 var(--r-m) 0 var(--r-m); background: var(--light-green); }
@@ -2445,7 +2447,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ha-back { margin-bottom: 16px; }   /* the green "All categories" link, arrow in front pointing left */
 .ha-back::before { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 .ha-body h1 { font-size: var(--t-24); line-height: 28px; }
-.desk .ha-body h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
+.desk .ha-body h1, .desk .cart-page h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
 /* article text: body 12/18 mobile, 14/22 desktop; h2 = section title, h3 = card title; inline links green underlined */
 .ha-text { margin-top: 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
 .desk .ha-text { margin-top: 24px; font-size: var(--t-14); line-height: var(--lh-14); }
@@ -2521,3 +2523,22 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-empty { margin-top: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
 .ht-empty .pill { margin-top: 16px; }
 .help-page .ht-other h2 { font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
+
+/* ---------- Cart on desktop: products left, sticky sidebar right with the totals and the button (sketch A, Cornel 2026-11-02) ---------- */
+.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 32px; align-items: start; padding: 32px 0 48px; }
+.desk .cart-page h1 { grid-column: 1 / -1; }
+.desk .cart-main { gap: 32px; }
+.desk .cart-main .summary-box h2 { font-weight: 800; color: var(--dark-green); }
+.desk .cart-side, .desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
+.desk .cart-side { position: sticky; top: 24px; }
+/* Upsells in the sidebar (sketch C): option card, 16 padding, title 16/22 with the price on the right, label 12/18, text link 14/22 */
+.desk .cart-side .addon { padding: 16px; gap: 8px; }
+.desk .cart-side .addon .switch { margin: 1px 0 0; }   /* centred on the 22px title line */
+.desk .cart-side .addon .t { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; padding: 0; border-right: 0; }
+.desk .cart-side .addon b { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .cart-side .addon .p { grid-row: 1; grid-column: 2; }
+.desk .cart-side .addon small, .desk .cart-side .addon .link { grid-column: 1 / -1; justify-self: start; }
+.desk .cart-main .line-item { align-items: flex-start; gap: 24px; }
+.desk .cart-main .line-item .img { width: 120px; height: 120px; }
+.desk .cart-main .line-item .t strong, .desk .cart-main .line-item .p { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .cart-main .line-item small, .desk .cart-main .line-item .remove { font-size: var(--t-14); line-height: var(--lh-14); }

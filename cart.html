@@ -6,17 +6,20 @@
 <title>Your Cart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261107n">
+<link rel="stylesheet" href="styles.css?v=20261107q">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
   <main class="cart-page">
     <h1>Your Cart</h1>
 
-    <div id="cartContent"></div>
+    <div class="cart-main" id="cartContent"></div>
 
+    <!-- Desktop: the sidebar (sticky card); mobile: the same blocks under the products -->
+    <aside class="cart-side">
+    <div id="cartSide"></div>
     <ul class="cart-usps">
       <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
       <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
@@ -32,6 +35,7 @@
       <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
       <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
     </div>
+    </aside>
   </main>
 </div>
 
@@ -98,7 +102,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261107n"></script>
+<script src="app.js?v=20261107q"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -110,37 +114,38 @@
   const eur = n => '€' + n.toFixed(2);
 
   function render() {
-    const items = getCart(), box = document.getElementById('cartContent');
-    document.getElementById('cartBar').hidden = !items.length;
-    document.body.classList.toggle('buybar-on', !!items.length); // lifts toasts above the checkout bar
+    const items = getCart(), box = document.getElementById('cartContent'), side = document.getElementById('cartSide');
+    const bar = !!items.length && !DESK;   // desktop: the sidebar has the total and the button
+    document.getElementById('cartBar').hidden = !bar;
+    document.body.classList.toggle('buybar-on', bar); // lifts toasts above the checkout bar
     if (!items.length) {
       box.innerHTML = `<div class="cart-empty"><p>Your cart is empty.</p><a class="btn primary" href="index.html">Browse products</a></div>`;
+      side.innerHTML = '';
       return;
     }
     const { check, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
+    // Upsell cards: mobile on top of the cart (arrow opens the popup); desktop in the sidebar above the totals,
+    // a short line and a text link (upsell sketch C, upsell-desk-sketch.html)
+    const addon = (id, on, name, sub, short, price, link, aria) => `
+        <div class="addon addon-${id}" data-on="${on}">
+          <button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${aria}"></button>
+          <span class="t"><b>${name}</b><small>${DESK ? short : sub}</small><span class="p">${fmt(price)}</span>${DESK ? `<button class="link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button>` : ''}</span>
+          ${DESK ? '' : `<button class="go" data-open-sheet="${id === 'check' ? 'filecheck' : id}" aria-label="${link}"><img src="assets/cart/arrow.png" alt=""></button>`}
+        </div>`;
+    const addonCards =
+      addon('check', checkOn, checkOn ? check.name : 'Please check my designs', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.',
+        'An expert checks your file.', checkOn ? check.price : tier('premium').price, 'See our 3 options', 'Design check') +
+      addon('secured', !!addons.secured, SECURED.name, SECURED.sub, 'Priority support and reprint.', SECURED.price, 'More info', 'Secured delivery');
 
-    box.innerHTML = `
+    box.innerHTML = `${DESK ? '' : `
       <section class="addons">
         <h2>Do you want a design check?</h2>
         <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>
-        <div class="addon addon-check" data-on="${checkOn}">
-          <button class="switch" role="switch" aria-checked="${checkOn}" data-addon="check" aria-label="Design check"></button>
-          <span class="t">
-            <b>${checkOn ? check.name : 'Please check my designs'}</b>
-            <small>A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.</small>
-            <span class="p">${fmt(checkOn ? check.price : tier('premium').price)}</span>
-          </span>
-          <button class="go" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/cart/arrow.png" alt=""></button>
-        </div>
-        <div class="addon addon-secured" data-on="${!!addons.secured}">
-          <button class="switch" role="switch" aria-checked="${!!addons.secured}" data-addon="secured" aria-label="Secured delivery"></button>
-          <span class="t"><b>${SECURED.name}</b><small>${SECURED.sub}</small><span class="p">${fmt(SECURED.price)}</span></span>
-          <button class="go" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/cart/arrow.png" alt=""></button>
-        </div>
-      </section>
+        ${addonCards}
+      </section>`}
 
-      <section class="summary-box" style="margin-top:16px">
-        <h2>Order summary</h2>
+      <section class="summary-box">
+        <h2>${DESK ? 'Your products' : 'Order summary'}</h2>
         ${items.map((it, i) => `
           <div class="line-item">
             <a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
@@ -153,6 +158,9 @@
             </div>
             <span class="p">${fmt(it.price)}</span>
           </div>`).join('')}
+      </section>`;
+    side.innerHTML = `
+        ${DESK ? `<div class="addons"><h2>Order summary</h2>${addonCards}</div>` : ''}
         <div class="totals">
           <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
           ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
@@ -160,13 +168,13 @@
           <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
           <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
         </div>
-      </section>
+      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>' : ''}
       <div class="eta">${(d => etaHtml(d, `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>
       <a class="btn outline continue-shopping" href="index.html">Continue shopping</a>`;
     document.getElementById('barTotal').textContent = eur(total);
   }
 
-  document.getElementById('cartContent').addEventListener('click', e => {
+  document.querySelector('.cart-page').addEventListener('click', e => {
     if (e.target.closest('[data-open-sheet]')) return;
     const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]');
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
