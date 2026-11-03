@@ -2543,8 +2543,9 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .qty-field option { color: var(--black); }
 .qty-val { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); pointer-events: none; }
 .cart-qty .field select { height: 40px; font-size: var(--t-14); }
-.qty-hint { order: 1; width: 100%; font-size: var(--t-12); line-height: var(--lh-12); color: var(--link); }   /* green text that is not a link: --link green (readable), no underline; mobile under the row */
-.qty-hint b { font-weight: 600; }   /* the next quantity: semibold, the emphasis weight of the style guide */
+.qty-hint { order: 1; width: 100%; text-align: left; font-size: var(--t-12); line-height: var(--lh-12); color: var(--link); }   /* green text that is not a link: --link green (readable), no underline; mobile under the row */
+.qty-hint b { font-weight: 600; }
+.qty-hint:hover span { text-decoration: underline; }   /* a button: one tap sets the next quantity; underlined on hover */   /* the next quantity: semibold, the emphasis weight of the style guide */
 .desk .qty-hint { order: 0; width: auto; font-size: var(--t-14); line-height: var(--lh-14); }
 .cart-qty .icon-btns { margin-left: auto; }
 .icon-btns { display: flex; gap: 8px; }

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111q">
+<link rel="stylesheet" href="styles.css?v=20261111s">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -136,8 +136,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261111q"></script>
-<script src="products.js?v=20261111q"></script>
+<script src="app.js?v=20261111s"></script>
+<script src="products.js?v=20261111s"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -211,7 +211,7 @@
     const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div>`;
     return `<div class="line-item cart-line">${top}
       <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field qty-field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs${n === it.qty ? '' : (d => ` · ${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`)(priceAt(it, n) - it.price)}</option>`).join('')}</select><span class="qty-val">${it.qty} pcs</span></label>
-        ${np ? `<span class="qty-hint">Upgrade to <b>${nq} pcs</b> for just ${fmt(np - it.price)}</span>` : ''}` : ''}${icons}</div></div>`;
+        ${np ? `<button class="qty-hint" data-i="${i}" data-up="${nq}"><span>Upgrade to <b>${nq} pcs</b> for just ${fmt(np - it.price)}</span></button>` : ''}` : ''}${icons}</div></div>`;
   }
 
 
@@ -272,7 +272,8 @@
 
   document.querySelector('.cart-page').addEventListener('click', e => {
     if (e.target.closest('[data-open-sheet]')) return;
-    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]');
+    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), up = e.target.closest('[data-up]');
+    if (up) setQty(+up.dataset.i, +up.dataset.up);   // the hint is a button: one tap to the next quantity (as live's DEAL +)
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
     if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
