@@ -4,6 +4,12 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-03 — Mobile cart = the desktop line and blocks** (cart-lines-mobile-sketch.html A): the order line is one component for both screens
+  (`lineHtml`, `.cart-line`): photo | text | price, the delivery per line between two lines, the quantity dropdown + Edit / Duplicate / Remove
+  on one row, the hint under it (mobile). Icon buttons 40 on mobile (the height of the dropdown), 32 on desktop. The order-level delivery block
+  under the totals on mobile is gone (each line has its own). The upsells on mobile are the desktop light grey blocks (`.sum-up`), on top of the
+  cart; the white card with the arrow is removed. Rejected: B (quantity on the price row, text links), C (actions behind ⋯ in a sheet).
+- **11-03 — "Request a free quote"** (as live) under Continue to checkout in the desktop summary: outline button, 8 under the CTA.
 - **11-03 — "Often ordered with <group>" in the cart** (as bol's "Vaak samen gekocht"): 4 products from other groups than the first cart item,
   not already in the cart, the home / PLP product card; the photo and name open the product page. Desktop only: an "Add to cart" pill that adds
   the Recommended preset at the product's own quantity ("Upload after checkout", delivery as the first cart line); the card shows that price.

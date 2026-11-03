@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261110t">
+<link rel="stylesheet" href="styles.css?v=20261110y">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -106,8 +106,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261110t"></script>
-<script src="products.js?v=20261110t"></script>
+<script src="app.js?v=20261110y"></script>
+<script src="products.js?v=20261110y"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -165,16 +165,16 @@
     const link = type === 'file' ? '<a class="link" href="#artwork">View artwork</a>' : type === 'canva' ? '<a class="link" href="#canva-design">Edit in Canva</a>' : '';
     return { label: DESIGN_LABEL[it.design] || it.design, link: link && ` · ${link}` };
   };
-  // Desktop line (cart-lines-sketch.html B, Cornel 2026-11-03): photo | text | price, then the delivery (etaHtml) between two lines
+  // Order line (cart-lines-sketch.html B, Cornel 2026-11-03; mobile the same: cart-lines-mobile-sketch.html A): photo | text | price, then the delivery (etaHtml) between two lines
   // and one row with the quantity dropdown, the next step as a hint and the round icon buttons (Edit, Duplicate, Remove)
-  function deskLine(it, i) {
+  function lineHtml(it, i) {
     const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
       <small>${it.qty} pcs · ${it.options}</small><span class="cart-design">Design: ${designOf(it).label}${designOf(it).link}</span>`;
     const top = `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a><div class="t">${head}</div>${priceHtml(it)}
       <div class="eta">${etaHtml(it.arrives, `If your files are approved by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
     const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div>`;
-    return `<div class="line-item desk-line">${top}
+    return `<div class="line-item cart-line">${top}
       <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs</option>`).join('')}</select></label>
         ${np ? `<span class="qty-hint">${nq} pcs: ${each({ price: np, qty: nq })} (+${fmt(np - it.price)})</span>` : ''}` : ''}${icons}</div></div>`;
   }
@@ -192,52 +192,27 @@
     }
     const { check, products, code, discount, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
     const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
-    // Upsell cards on mobile: switch, title, line, price, the arrow to the popup
-    const addon = (id, on, name, sub, price, link, aria) => `
-        <div class="addon addon-${id}" data-on="${on}">
-          <button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${aria}"></button>
-          <span class="t"><b>${name}</b><small>${sub}</small><span class="p">${fmt(price)}</span></span>
-          <button class="go" data-open-sheet="${id === 'check' ? 'filecheck' : id}" aria-label="${link}"><img src="assets/cart/arrow.png" alt=""></button>
-        </div>`;
-    // Upsells on desktop (Cornel's design, 2026-11-03): inside the Order summary card, each a light grey block: switch, title, price right;
-    // a short line and the link to the popup under the title. A line across the card, then the totals
-    const dBlock = (id, on, title, price, sub, link) => `<div class="sum-up"><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${title}"></button>
+    // Upsells (Cornel's design, 2026-11-03), each a light grey block: switch, title, price right; a short line and the link to the popup
+    // under the title. Desktop: inside the Order summary card, a line across the card, then the totals. Mobile: on top of the cart (2026-11-03)
+    const dBlock = (id, on, title, price, sub, link) => `<div class="sum-up sum-${id}"><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${title}"></button>
         <b>${title}</b><span class="p">${price}</span><small>${sub}</small><button class="link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button></div>`;
-    const upsD = `<div class="sum-ups">${
-      dBlock('check', checkOn, 'Please check my designs', fmt(checkOn ? check.price : tier('premium').price), 'An expert checks your file.', 'See our 3 options') +
-      (OFFER_SECURED ? dBlock('secured', !!addons.secured, SECURED.name, fmt(SECURED.price), 'Priority support and reprint.', 'More info') : '')}</div>`;
-    const addonCards =
-      addon('check', checkOn, checkOn ? check.name : 'Please check my designs', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.',
-        checkOn ? check.price : tier('premium').price, 'See our 3 options', 'Design check') +
-      (OFFER_SECURED ? addon('secured', !!addons.secured, SECURED.name, SECURED.sub, SECURED.price, 'More info', 'Secured delivery') : '');
+    const ups = dBlock('check', checkOn, 'Please check my designs', fmt(checkOn ? check.price : tier('premium').price), 'An expert checks your file.', 'See our 3 options') +
+      (OFFER_SECURED ? dBlock('secured', !!addons.secured, SECURED.name, fmt(SECURED.price), 'Priority support and reprint.', 'More info') : '');
 
     // Continue shopping: desktop under the products (left column), mobile under the delivery date
     const shop = '<a class="btn outline continue-shopping" href="index.html">Continue shopping</a>';
     box.innerHTML = `${DESK ? '' : `
       <section class="addons">
-        <h2>Do you want a design check?</h2>
-        <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>
-        ${addonCards}
+        ${ups}
       </section>`}
 
+      ${DESK ? '' : '<h2>Order summary</h2>'}
       <section class="summary-box">
-        ${DESK ? '' : '<h2>Order summary</h2>'}
-        ${items.map((it, i) => DESK ? deskLine(it, i) : `
-          <div class="line-item">
-            <a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>
-            <div class="t">
-              <a href="${it.href}"><strong>${it.name}</strong></a>
-              <small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small>
-              <small>${it.options}</small>
-              <small>Design: ${designOf(it).label}${designOf(it).link}</small>
-              <button class="remove" data-remove="${i}">Remove</button>
-            </div>
-            ${priceHtml(it)}
-          </div>`).join('')}
+        ${items.map(lineHtml).join('')}
       </section>
       ${DESK ? xsellHtml(items) + shop : ''}`;
     side.innerHTML = `
-        ${DESK ? '<h2>Order summary</h2>' + upsD : ''}
+        ${DESK ? '<h2>Order summary</h2><div class="sum-ups">' + ups + '</div>' : ''}
         <div class="totals">
           <div><span>Products (${items.length})</span><span>${eur(gross)}</span></div>
           ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
@@ -252,8 +227,7 @@
       ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}<u>Add discount code</u></button>
         <div class="code-box" hidden><div class="code-row"><label class="field"><input id="codeIn" placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" data-apply-code>Apply</button></div>
         <p class="field-error" id="codeErr" hidden>This code isn't valid</p></div>` : ''}
-      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a><a class="btn outline quote" href="#request-quote">Request a free quote</a>' : `
-      <div class="eta">${(d => etaHtml(d, `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`))(items.map(it => it.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0])}</div>`}
+      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a><a class="btn outline quote" href="#request-quote">Request a free quote</a>' : ''}
       ${DESK ? '' : xsellHtml(items) + shop}`;
     document.getElementById('barTotal').textContent = eur(total);
   }
@@ -332,7 +306,7 @@
     const changed = fcPick !== addons.check;
     addons.check = fcPick; saveAddons(); closeSheet(); render();
     if (changed) {
-      document.querySelector('.addon-check')?.classList.add('changed');
+      document.querySelector('.sum-check')?.classList.add('changed');
       showToast(fcPick === 'basic' ? 'Basic check selected' : `${tier(fcPick).name} added`);
     }
   });
@@ -343,7 +317,7 @@
     const changed = on !== addons.secured;
     addons.secured = on; saveAddons(); closeSheet(); render();
     if (changed) {
-      document.querySelector('.addon-secured')?.classList.add('changed');
+      document.querySelector('.sum-secured')?.classList.add('changed');
       showToast(on ? 'Secured delivery added' : 'Standard delivery kept');
     }
   }
