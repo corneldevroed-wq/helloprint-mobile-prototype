@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261110z">
+<link rel="stylesheet" href="styles.css?v=20261111g">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -155,7 +155,7 @@
   const COLOURS = [
     { group: 'Brand', items: [
       ['Dark green', '--dark-green', 'Header, headings, active pill, secondary button text'],
-      ['Light green', '--light-green', 'Primary button, chosen option outline, search button; green text that is not a link: Free, savings, upsell prices, hints, social proof, the arrow link'],
+      ['Light green', '--light-green', 'Areas, not text: primary button, switch, chosen option outline, focus outline, search button, check icons. Text in green is always --link (light green is too light for small text); only exception the 20px monogram letter in a thumbnail'],
       ['Orange', '--orange', 'Commercial badges only (Most Popular, Best Seller…)'],
     ]},
     { group: 'Neutrals', items: [
@@ -168,9 +168,10 @@
       ['White', '--white', 'Page and card background'],
     ]},
     { group: 'Links & states', items: [
-      ['Link', '--link', 'Inline links (underlined), breadcrumbs, link hover'],
+      ['Link', '--link', 'Inline links (underlined), breadcrumbs, link hover; also all green text that is not a link (no underline): Free, savings, hints, delivery dates, social proof, done steps, the focused field label, the arrow links. Readable on white (4.8:1; light green is 3.2:1, too low for small text)'],
       ['Error', '--error', 'Field errors: outline, label and message. One red everywhere'],
-      ['Selected', '--selected', 'Background of a chosen card: address, payment, tile'],
+      ['Selected', '--selected', 'Background of a chosen card: address, payment, tile, the recommended file check'],
+      ['Tint', '--tint', 'Light green at 16%, see-through: focus ring, the changed flash, the online dot. The only see-through green'],
       ['Control', '--control', 'Outline of a checkbox and a radio (darker than --mid-grey, so you see the control)'],
     ]},
   ];
@@ -278,7 +279,7 @@
     { name: 'Text link', cls: '.link', ex: '<a class="link" href="#buttons">Shipping costs</a>',
       use: 'Links in running text and loose links (Read more, Add discount code, View artwork): --link green, underlined, 14/22, or the size of its line. Same green as the breadcrumbs.' },
     { name: 'Arrow link', cls: '.section-head .link', ex: '<span class="plp"><span class="section-head"><a class="link" href="#buttons">All categories</a></span></span>',
-      use: 'A link that takes you somewhere (All categories, View all articles): light green, semibold 14/22, the green arrow after it, no underline. One rule for all.' },
+      use: 'A link that takes you somewhere (All categories, View all articles): <code>--link</code> green, semibold 14/22, the green arrow after it, no underline. One rule for all.' },
   ];
   const buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
 
@@ -382,12 +383,17 @@
       use: 'A product in the cart, the same line on mobile and desktop (Cornel, 2026-11-03): photo, label, name, options 12/18 grey, Design grey (+ View artwork / Edit in Canva), the price right; the delivery text (etaHtml) between two lines; the quantity dropdown with the next step as a hint and the round icon buttons (Edit, Duplicate, Remove) on one row. <b>Mobile:</b> 75px photo, Design 12/18, the delivery and the quantity row full width, the hint under the row, icon buttons 40 (the height of the dropdown); 16 · line · 16 between products. <b>Desktop:</b> an outlined card (<code>--outline</code>, 24 padding, hover shadow), 120px photo, name and price 16/22, Design 14/22; the delivery and the quantity row from the name to the price edge, the hint next to the dropdown, icon buttons 32.',
       ex: stage(real(`<div class="cart-main"><section class="summary-box"><div class="line-item cart-line"><a class="img" href="#cart" style="background:var(--light-grey)"><img src="assets/pdp/classic.png" alt=""></a><div class="t"><span class="badge">Most Popular</span><a href="#cart"><strong>Classic business cards</strong></a><small>500 pcs · Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><span class="cart-design">Design: Upload after checkout</span></div><span class="p">€18.89</span><div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep (Saver)</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div><div class="cart-qty"><label class="field"><select aria-label="Quantity"><option>250 pcs</option><option selected>500 pcs</option><option>1000 pcs</option></select></label><span class="qty-hint">1000 pcs: €0.035 each (+€16.10)</span><div class="icon-btns"><a class="icon-btn" href="#cart" title="Edit" aria-label="Edit"><span class="material-symbols-rounded" aria-hidden="true">edit</span></a><button class="icon-btn" title="Duplicate" aria-label="Duplicate"><span class="material-symbols-rounded" aria-hidden="true">content_copy</span></button><button class="icon-btn" title="Remove" aria-label="Remove"><span class="material-symbols-rounded" aria-hidden="true">delete</span></button></div></div></div></section></div>`, [358, 'mobile cart'], [862, 'cart, left column'])) }) +
     row({ name: 'Order summary', wide: true, meta: [{ t: '.cart-side' }, SIZE],
-      use: 'Desktop: the sticky sidebar card (outline --outline as the cards next to it, 24 padding): title, the upsell blocks (see Upsell block), a line across the card, totals (Products, design check with ⓘ to its popup, Shipping Free in green; a line, Subtotal and VAT; a line, Total 20/24 with the suffix in 12 grey), the one primary button, delivery date, USPs, payment methods; Continue shopping sits under the products (left, as wide as its text). 8 from the title to the totals line, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
+      use: 'Desktop: the sticky sidebar card (outline --outline as the cards next to it, 24 padding): title, the upsell blocks (see Upsell block), a line across the card, totals (Products, design check with ⓘ to its popup, Shipping Free in green; a line, Subtotal and VAT; a line, Total 20/24 with the suffix in 12 grey), the one primary button, 8 under it Request a free quote (outline, opens the quote popup), USPs, payment methods; Continue shopping sits under the products (left, as wide as its text). 8 from the title to the totals line, 16 between blocks. Mobile: the same blocks under the products (Request a free quote under the totals), the green button in the sticky bar; the delivery date is per product line.',
       ex: stage(real(`<aside class="cart-side">${D ? '<h2>Order summary</h2><div class="sum-ups">' + UPS + '</div>' : ''}${TOTALS}
-        ${D ? '<a class="btn primary" href="#cart">Continue to checkout</a><a class="btn outline quote" href="#request-quote">Request a free quote</a>' : ''}
-        <div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div>
+        ${D ? '<a class="btn primary" href="#cart">Continue to checkout</a>' : ''}<button class="btn outline quote">Request a free quote</button>
         ${D ? '' : '<a class="btn outline continue-shopping" href="#cart">Continue shopping</a>'}
-        <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`, [358, 'mobile cart'], [392, 'cart sidebar'])) });
+        <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`, [358, 'mobile cart'], [392, 'cart sidebar'])) }) +
+    row({ name: 'Empty cart', wide: true, meta: [{ t: '.cart-empty' }, SIZE],
+      use: 'The cart without products (Cornel, 2026-11-03, cart-empty-quote-sketch.html B): the live message centred under the page title: the header\'s bag icon in dark green in a 64 <code>--light-grey</code> circle, "Your cart is empty" (section title), one line 14/22 grey, Browse products (primary, as wide as its text). Then "Our best sellers": four product cards (the home / PLP card; desktop with Add to cart, the Recommended preset). No summary column, no checkout bar.',
+      ex: stage(real(`<div class="cart-main"><div class="cart-empty"><span class="ico"><i></i></span><h2>Your cart is empty</h2><p>Looks like you haven't added any items to your cart yet.</p><a class="btn primary" href="#cart">Browse products</a></div></div>`, [358, 'mobile cart'], [862, 'cart, full width'])) }) +
+    row({ name: 'Quote popup', wide: true, meta: [{ t: '#sheet-quote' }, { t: '.q-item' }, SIZE],
+      use: 'Request a free quote (Cornel, 2026-11-03, sketch B): our popup (560 desktop, a sheet on mobile), "Get your free quote by email". First what the quote is for: the cart lines (48 photo, name 14/22 semibold, quantity · delivery 12/18 grey, price), the extras and the discount (green), the total excl. VAT, so the rows add up. Then only what we need to send it: email, first and last name, phone optional; logged in a grey block "Sending to <name> <email>" with Change. Company, notes and files optional. The green button and the reCAPTCHA line (12/18) in the grey bar. No address: shipping is free.',
+      ex: stage(real(`<div class="sheet" style="position:relative;transform:none;opacity:1;left:auto;top:auto;bottom:auto;max-height:none;width:auto"><div class="sheet-head"><h2>Get your free quote by email</h2><button class="close" aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div><div class="sheet-body"><div class="pad"><p class="fc-intro">We email you a quote for the products in your cart.</p><div class="q-items"><div class="q-item"><span class="img"><img src="assets/pdp/classic.png" alt=""></span><div><b>Classic business cards</b><small>500 pcs · Saver</small></div><span class="p">€18.89</span></div><div class="q-item"><span></span><div><b>Premium Check + Proof</b></div><span class="p">€10.99</span></div><div class="q-total"><span>Total <small>(Excl. VAT)</small></span><span>€29.88</span></div></div><div class="q-to"><div><small>Sending to</small><b>Test User</b><br>test@example.com</div><button class="link">Change</button></div></div></div><div class="sheet-bar q-bar"><button class="btn primary">Get my free quote by email</button><p class="q-legal">This site is protected by reCAPTCHA and the Google <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a> apply.</p></div></div>`, [358, 'mobile sheet'], [560, 'desktop popup'])) });
 
   const feedback = row({ name: 'Toast', meta: [{ t: '.toast' }, { t: 'showToast(text)' }],
       use: 'A short confirmation at the bottom (Added to cart, Address saved). Dark green, disappears after 2 seconds.',

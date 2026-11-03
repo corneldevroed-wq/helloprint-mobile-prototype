@@ -4,6 +4,14 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-03 — Empty cart and the quote popup** (cart-empty-quote-sketch.html B for both): empty = the live message (the header's bag icon in a grey
+  circle, "Your cart is empty", Browse products) + "Our best sellers" (4 product cards, Add to cart on desktop). Request a free quote = our popup
+  with the cart lines, extras and total excl. VAT first, then email + name (phone, company, notes, files optional); logged in "Sending to … · Change";
+  no address (shipping is free). Also on mobile, under the totals. Rejected: empty A (as live only), C (categories); quote A (live's two columns + address).
+  The Cart prototype switch (demo carts 1 / 4 / 0) is removed.
+- **11-03 — Green text that is not a link = `--link`** (#008539, 4.8:1 on white), not light green (3.2:1, too low for small text): Free and
+  discounts in the totals, the saving under a crossed-out price, the quantity hint; then site-wide (26 rules: delivery dates, social proof,
+  done steps, focused field label, arrow links, older links). Light green stays for areas (CTA, switch, outlines, icons) and the 20px thumbnail letter.
 - **11-03 — "Often ordered with" hidden on mobile** (`.desk-only`, the code stays): desktop only for now.
 - **11-03 — Mobile cart = the desktop line and blocks** (cart-lines-mobile-sketch.html A): the order line is one component for both screens
   (`lineHtml`, `.cart-line`): photo | text | price, the delivery per line between two lines, the quantity dropdown + Edit / Duplicate / Remove

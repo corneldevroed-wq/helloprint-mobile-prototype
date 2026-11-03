@@ -41,11 +41,9 @@ the leading ones). Remembered in `hp-flow`.
 | Photos | `photos` | a / b | a | A = thumbnails under the photo; B = thumbnail column left |
 | Delivery | `deliv` | d / e | d | Calendar tile left / on top |
 
-**Desktop cart** (left edge, `.desk-switch`): Cart `1` / `4` / `0` (buttons, not remembered): load a demo cart. 1 = one product;
-4 = the edge cases: a product discount (`was` = price before, crossed out + "−€x" in the line, "Product discounts" in the overview), labels and
-none, Saver / Express / Standard, upload later / file uploaded / Canva, the highest quantity (no hint), a size mix (no dropdown), Basic check,
-secured delivery, code HELLO10; 0 = empty. `?secured=off` = no secured delivery offered (one upsell block).
-Decided 2026-11-03 and removed: Lines (B: icon buttons + quantity dropdown), Upsells (D: blocks in the summary card).
+**Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
+Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,
+contact or "Sending to" when logged in via `hp-user`). Decided 2026-11-03 and removed: Lines (B), Upsells (D).
 
 **Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
 sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same
