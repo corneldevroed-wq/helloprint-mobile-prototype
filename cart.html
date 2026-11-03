@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261110y">
+<link rel="stylesheet" href="styles.css?v=20261110z">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -106,8 +106,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261110y"></script>
-<script src="products.js?v=20261110y"></script>
+<script src="app.js?v=20261110z"></script>
+<script src="products.js?v=20261110z"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -144,7 +144,7 @@
     const first = productOf(items[0]), group = (first && first.noun) || 'business cards';
     const inCart = items.map(it => productOf(it));
     const picks = XSELL.filter(s => PRODUCTS[s] && !inCart.includes(PRODUCTS[s]) && (PRODUCTS[s].noun || 'business cards') !== group).slice(0, 4);
-    return `<section class="xsell"><h2>Often ordered with ${group}</h2><div class="grid">${picks.map(slug => { const { B, qty, price } = quick(slug);
+    return `<section class="xsell desk-only"><h2>Often ordered with ${group}</h2><div class="grid">${picks.map(slug => { const { B, qty, price } = quick(slug);
       const body = `<div class="thumb" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</div><p class="name">${B.name}</p>`;
       const buy = `<p class="from">${qty} ${qty === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price" data-price="${price}">${fmt(price)}</span></p>`;
       return DESK ? `<div class="product"><a class="thumb" href="${B.href}" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</a><a class="name" href="${B.href}">${B.name}</a>

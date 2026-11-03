@@ -4,6 +4,7 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-03 — "Often ordered with" hidden on mobile** (`.desk-only`, the code stays): desktop only for now.
 - **11-03 — Mobile cart = the desktop line and blocks** (cart-lines-mobile-sketch.html A): the order line is one component for both screens
   (`lineHtml`, `.cart-line`): photo | text | price, the delivery per line between two lines, the quantity dropdown + Edit / Duplicate / Remove
   on one row, the hint under it (mobile). Icon buttons 40 on mobile (the height of the dropdown), 32 on desktop. The order-level delivery block
