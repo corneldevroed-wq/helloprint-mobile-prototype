@@ -40,6 +40,10 @@
   .ds-sec h3 { margin: 32px 0 8px; font-weight: 600; font-size: 16px; line-height: 22px; }
   .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow-x: auto; }   /* white, as the page: grey tiles and white cards both read */
   .ds-stage .real { flex: none; }
+  /* A cut-out: the real component from the real page (live), at its real size; scaled down only when wider than the stage */
+  .ds-crop { position: relative; flex: none; width: 100%; height: 120px; overflow: hidden; }
+  .ds-crop iframe { position: absolute; left: 0; top: 0; border: 0; pointer-events: none; visibility: hidden; }
+  .ds-crop.ready iframe { visibility: visible; }
   .ds-phone { display: block; width: 390px; height: 760px; border: 1px solid var(--line); border-radius: var(--r-xl); }   /* a real page at phone size (live, not a copy) */   /* a component at its real width (per view), the height follows from the real CSS */
   .ds-stage .w { width: 100%; }
   .ds-stage .w > * { width: 100%; }
@@ -128,7 +132,12 @@
     <a href="#accordion">Accordion / FAQ</a>
     <a href="#options">PDP option cards</a>
     <a href="#cart">Cart</a>
+    <a href="#checkout">Checkout</a>
     <a href="#feedback" hidden>Toast &amp; sheet</a>   <!-- hidden for now (Cornel, 2026-10-30): maybe later -->
+    <h4>Patterns</h4>
+    <a href="#shell">Header &amp; footer</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#helpcentre">Help Centre</a>
   </nav>
   <main class="ds-main" id="dsMain"></main>
 </div>
@@ -281,7 +290,7 @@
     { name: 'Arrow link', cls: '.section-head .link', ex: '<span class="plp"><span class="section-head"><a class="link" href="#buttons">All categories</a></span></span>',
       use: 'A link that takes you somewhere (All categories, View all articles): <code>--link</code> green, semibold 14/22, the green arrow after it, no underline. One rule for all.' },
   ];
-  const buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
+  let buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
 
   // ---------- Components (markup copied 1:1 from the page that renders it; the styles are the live styles.css) ----------
   const CHEV = '<img src="assets/chevron.svg" alt="">';
@@ -291,7 +300,7 @@
   const real = (html, m, d) => { const [px, where] = V === 'm' ? m : d; return `<div class="real" style="width:${px}px" data-where="${where}">${html}</div>`; };
   const SIZE = { live: 'size' };
 
-  const forms = row({ name: 'Text field', meta: [{ t: '.field' }, { t: 'details.html' }],
+  let forms = row({ name: 'Text field', meta: [{ t: '.field' }, { t: 'details.html' }],
       use: 'Floating label: the label sits in the field and moves up when you type. Focus = light green outline. Always a label, never only a placeholder.',
       ex: stage(w('<label class="field"><input placeholder=" " aria-label="First name"><span class="fl">First name</span></label><br><label class="field"><input placeholder=" " value="Cornel" aria-label="First name"><span class="fl">First name</span></label>', 300)) }) +
     row({ name: 'Error', meta: [{ t: '.field.invalid' }, { t: '.field-error' }, { t: '--error' }],
@@ -329,7 +338,7 @@
       use: 'Jump to a section on long pages; sticky under the header. Semibold, grey; the active one black with a 2px light green line inside the light grey bar. Scrolls with a fade when it does not fit.',
       ex: stage('<nav class="tabs" style="position:static;width:100%" aria-label="Sections"><a href="#tabs" class="active">Types</a><a href="#tabs">Sizes</a><a href="#tabs">Materials</a><a href="#tabs">Finishes</a><a href="#tabs">Reviews</a></nav>') });
 
-  const cards = row({ name: 'Product card', wide: true, meta: [{ t: '.product' }, SIZE],
+  let cards = row({ name: 'Product card', wide: true, meta: [{ t: '.product' }, SIZE],
       use: 'A product. Square photo (badge top left), title, green ticks for selling points only, "N pieces for" + a real price. Never "Configure & see price". Also in the cart: "Often ordered with …", 4 in a row on desktop (2 × 2 on mobile), the price of the Recommended preset; desktop adds a "+ Add to cart" pill (Pill with icon) that adds that preset.',
       ex: stage(real(`<div class="plp clp"><a class="product" href="#cards"><div class="thumb" style="background:#f3f3f3"><img src="assets/category/t-classic.png" alt=""><span class="badge">Most Popular</span></div><p class="name">Classic Business Cards</p><ul class="usp-list"><li>${TICK.replace(/24/g, '16')}Our best-selling card</li><li>${TICK.replace(/24/g, '16')}Many paper options</li></ul><div><p class="from">500 pieces for</p><p class="prices"><span class="price">€29.95</span></p></div></a></div>`, [166, 'business cards, 2 per row'], [310, 'business cards, 4 per row (home: 244, 5 per row)'])) }) +
     row({ name: 'Category card', wide: true, meta: [{ t: '.cat' }, SIZE],
@@ -356,7 +365,7 @@
       ex: stage('<ul class="hc-rows" style="width:100%"><li><a href="#accordion">Where is my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li><li><a href="#accordion">Can I change my order?<img class="chev" src="assets/category/arrow.svg" alt=""></a></li></ul>') });
 
   const CONF = [[339, 'PDP configuration'], [737, 'PDP configuration column']];
-  const options = row({ name: 'Option card', wide: true, meta: [{ t: '.opt' }, { t: '--outline' }, SIZE],
+  let options = row({ name: 'Option card', wide: true, meta: [{ t: '.opt' }, { t: '--outline' }, SIZE],
       use: 'One option of a step (paper, finishing, corners): name, sub line, the option icon. Chosen = light green outline. Desktop: options on the page, icons 50px.',
       ex: stage(real(`<div class="opts">${[['Silk', '350 gsm', 'materials/silk-matte', true], ['Uncoated', 'Writable', 'materials/uncoated', false], ['Kraft', 'Natural', 'materials/kraft', false]].map(([n, s, i, on]) =>
         `<button class="opt" role="radio" aria-checked="${on}"><span class="t"><b>${n}</b><small>${s}</small></span><img class="mi" src="assets/icons/${i}.svg" alt=""></button>`).join('')}</div>`, ...CONF)) }) +
@@ -407,6 +416,54 @@
     if (!t) { t = Object.assign(document.createElement('div'), { id: 'toast', className: 'toast' }); document.body.appendChild(t); }
     t.textContent = 'Added to cart'; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
 
+  // Cut-outs: crop(page, 'mobile selector||desktop selector', where). The real page loads in a hidden frame at 390 or 1512
+  // and only that component shows, so it can never drift from the prototype. An empty selector = not in that view.
+  const crop = (src, sel, where, cart) => `<div class="ds-crop" data-src="${src}" data-sel="${sel}" data-where="${where}"${cart ? ' data-cart' : ''}></div>`;
+  const cut = (name, cls, src, sel, where, use, cart) => row({ name, wide: true, meta: [{ t: cls }, SIZE], use, ex: stage(crop(src, sel, where, cart)) });
+
+  buttons += row({ name: 'Info button', meta: [{ t: '.info-btn' }],
+    use: 'Opens a short explanation next to an option or a total line (the ⓘ): grey line icon, no frame.',
+    ex: stage('<button class="info-btn" aria-label="More info"><img src="assets/pdp/info.svg" alt=""></button>') });
+  forms += cut('Login field', '.auth-field', 'login.html', '.auth-field', 'login', 'The login and account fields: the label above the field (with * when required), the field 52 high.');
+  cards += cut('Size card', '.size-card', 'business-cards.html', '.size-card', 'business cards, sizes',
+      'A size: the shape to scale, the name, the measurements, one tick with what it is for.') +
+    cut('Blog card', '.blog-card', 'business-cards.html', '.blog-card', 'business cards, blogs',
+      'An article: photo, title, two lines of text, Read more. A swipe row on mobile, 3 in a row on desktop.') +
+    cut('Content row', '.so-row', 'business-cards.html', '.so-row', 'business cards, Make it stand out',
+      'Photo and text side by side on desktop (switching sides per row), stacked on mobile. A content block, not SEO text.');
+  options += cut('Quick start', '.presets', 'product.html?p=classic-business-cards', '||.presets', 'PDP, above the options',
+      'Ready-made combinations (Recommended, Budget, Eco) with their price; the chosen one dark green. On mobile in the Customise sheet.') +
+    cut('Photo gallery', '.gallery', 'product.html?p=classic-business-cards', '.gallery', 'PDP',
+      'The product photo. Mobile: one photo, no arrows (people clicked arrows instead of the button). Desktop: the photo with the thumbnails under it.') +
+    cut('Your selection', '.d-sel', 'product.html?p=classic-business-cards', '||.d-sel', 'PDP, desktop sidebar',
+      'Desktop: the chosen options as rows (click = jump to the step), delivery, the totals, the design choice and the one button.') +
+    cut('Specifications', '#pSpecs', 'product.html?p=classic-business-cards', '#pSpecs', 'PDP',
+      'Every option as a spec; Size and Material appearance are links that choose the option, with See also chips to related products.');
+  const checkout = cut('Checkout steps', '.co-steps', 'details.html', '.co-steps', 'checkout, details',
+      'Where you are in the checkout: the steps in a row, done steps in link green, the current one black.', true) +
+    cut('Delivery option', '.ship', 'details.html', '.ship', 'checkout, details',
+      'Shipping method as a radio row: name, estimated day, price (Included).', true) +
+    cut('Payment methods', '.wallets', 'payment.html', '.wallets', 'checkout, payment',
+      'The payment methods as tiles; the chosen one with the light green outline.', true);
+  const shell = cut('Header', '.header / .dhead', 'index.html', 'header.header||.dhead', 'every page',
+      'Mobile: dark green bar with menu, logo, account and cart, the search under it. Desktop: logo, search, language, account, cart, then the category bar.') +
+    cut('USP bar', '.usp / .dusps', 'index.html', '.usp||.dusps', 'under the header',
+      'Light grey: the Trustpilot reviews first, then the USPs (a ticker on mobile).') +
+    cut('Newsletter', '.dnews', 'index.html', '.dnews', 'on top of the footer',
+      'The green newsletter bar: text and the email field. Stacked on mobile.') +
+    cut('Footer', 'footer / .dfoot', 'index.html', 'footer||.dfoot', 'every page',
+      'Help, the link columns (accordions on mobile), payment methods, B Corp and the legal line.');
+  const reviews = cut('Reviews row', '.d-reviews', 'business-cards.html', '.d-reviews', 'home, category pages',
+      'Trustpilot score as text plus the review cards: a swipe row on mobile, round arrows on desktop.') +
+    cut('Review card', '.d-rev', 'business-cards.html', '.d-rev', 'in the reviews row',
+      'Stars, Verified, title, the review (grey), name and date.');
+  const helpcentre = cut('Help head', '.hc-hero', 'help-centre.html', '.hc-hero', 'Help Centre hub',
+      'Title, sub line, the search with suggestions and "Can\'t find it?" with the experts online. Desktop: slow photo columns on both sides.') +
+    cut('Article card', '.hc-card', 'help-centre.html', '.hc-quick .hc-card', 'Help Centre, popular articles',
+      'A popular article: the topic as a grey label, the question, two lines of the answer, Read more.') +
+    cut('Team strip', '.hc-team', 'help-centre.html', '.hc-team', 'Help Centre',
+      'Real people: Anna (our bot) first, then the team with name and role.');
+
   document.getElementById('dsMain').innerHTML =
     sec('colours', 'Colours', 'Calm over loud: green for actions and the brand, orange only for commercial labels, greys for everything else. One line colour everywhere.', colours) +
     sec('typography', 'Typography', 'Inter, one text scale. Every value below is measured from the prototype’s CSS in the view you picked (Mobile / Desktop).', typography) +
@@ -421,7 +478,11 @@
     sec('accordion', 'Accordion / FAQ', 'Questions fold open with a turning chevron; when every answer has its own page, rows with the list arrow.', accordion) +
     sec('options', 'PDP option cards', 'Configure the product on the page: one card per option, the chosen one in light green.', options) +
     sec('cart', 'Cart', 'Mobile leads: the same blocks and wording. Desktop: products left, a sticky sidebar right with the upsells, the total and the button.', cart) +
-    sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback).replace('<section ', '<section hidden ');   // hidden for now (Cornel, 2026-10-30): maybe later
+    sec('checkout', 'Checkout', 'Details and payment: calm forms, one choice per row, the order overview on the side.', checkout) +
+    sec('feedback', 'Toast &amp; sheet', 'Feedback stays small and temporary; choices on mobile open from the bottom.', feedback).replace('<section ', '<section hidden ') +   // hidden for now (Cornel, 2026-10-30): maybe later
+    sec('shell', 'Header &amp; footer', 'The frame of every page: the same header, USP bar, newsletter and footer everywhere.', shell) +
+    sec('reviews', 'Reviews', 'Social proof as real text: the Trustpilot score and real reviews.', reviews) +
+    sec('helpcentre', 'Help Centre', 'Human and calm: search first, real people, every answer its own page.', helpcentre);
 
   // Measured type specs: "24/32 · 800 · #022b07"
   const hex = c => '#' + c.match(/\d+/g).slice(0, 3).map(n => (+n).toString(16).padStart(2, '0')).join('');
@@ -439,6 +500,42 @@
     out.textContent = `${Math.round(b.width)} × ${Math.round(b.height)} · ${el.dataset.where}`;
   });
   sizes(); addEventListener('load', sizes);   // again once the images are in
+  // Cut-outs load when they come near the screen. The checkout pages need a cart: when the viewer's cart is empty, a demo
+  // product is put in while those pages load and taken out again right after (the viewer's own cart is never touched).
+  const DEMO = [{ name: 'Classic business cards', img: 'assets/pdp/classic.png', bg: 'var(--light-grey)', href: 'product.html?p=classic-business-cards', qty: 500,
+    delivery: 'Saver', arrives: 'Tuesday 29 Sep', options: 'Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided', design: 'Upload later', designType: 'later', price: 18.89 }];
+  let demoUsers = 0;
+  const demoIn = () => { try { if (!demoUsers++ && !JSON.parse(localStorage.getItem('hp-cart') || '[]').length) { localStorage.setItem('hp-cart', JSON.stringify(DEMO)); demoIn.set = true; } } catch (e) {} };
+  const demoOut = () => { try { if (!--demoUsers && demoIn.set) { localStorage.removeItem('hp-cart'); demoIn.set = false; } } catch (e) {} };
+  function place(box, f, sel) {
+    const d = f.contentDocument, w = f.contentWindow, out = box.closest('.b-row').querySelector('[data-live="size"]');
+    d.head.insertAdjacentHTML('beforeend', '<style>html{scrollbar-width:none}html::-webkit-scrollbar{display:none}</style>');
+    const el = [...d.querySelectorAll(sel)].find(x => x.getClientRects().length);
+    if (!el) { box.outerHTML = '<p class="ds-note">Not on the page in this view.</p>'; if (out) out.textContent = '–'; return; }
+    let r = el.getBoundingClientRect();
+    f.style.height = Math.max(900, r.height + 400) + 'px';
+    w.scrollTo(0, Math.max(0, r.top + w.scrollY - 200));   // below a sticky header
+    r = el.getBoundingClientRect();
+    if (r.bottom > f.offsetHeight) { f.style.height = Math.ceil(r.bottom + 8) + 'px'; r = el.getBoundingClientRect(); }
+    const st = getComputedStyle(box.parentElement), k = Math.min(1, (box.parentElement.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight)) / Math.round(r.width));
+    Object.assign(f.style, { left: -r.left + 'px', top: -r.top + 'px', transformOrigin: `${r.left}px ${r.top}px`, transform: k < 1 ? `scale(${k})` : '' });
+    Object.assign(box.style, { width: r.width * k + 'px', height: r.height * k + 'px' });
+    if (out) out.textContent = `${Math.round(r.width)} × ${Math.round(r.height)} · ${box.dataset.where}${k < 1 ? ` · shown at ${Math.round(k * 100)}%` : ''}`;
+    box.classList.add('ready');
+  }
+  function initCrop(box) {
+    const [m, dsk] = box.dataset.sel.split('||'), sel = V === 'm' ? m : (dsk ?? m);
+    if (!sel) { box.outerHTML = '<p class="ds-note">Not in this view (see the other one).</p>'; return; }
+    const f = document.createElement('iframe');
+    f.title = box.dataset.where; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+    f.style.width = (V === 'm' ? 390 : 1512) + 'px'; f.style.height = '900px';
+    box.append(f);   // in the page first, then load: the page decides mobile/desktop on its width
+    if (box.hasAttribute('data-cart')) demoIn();
+    f.onload = () => setTimeout(() => { try { place(box, f, sel); } finally { if (box.hasAttribute('data-cart')) demoOut(); } }, 900);
+    f.src = box.dataset.src;
+  }
+  const cropIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { cropIO.unobserve(e.target); initCrop(e.target); } }), { rootMargin: '800px 0px' });
+  document.querySelectorAll('.ds-crop').forEach(b => cropIO.observe(b));
   // Material icons: read the live list
   fetch('assets/icons/materials/index.json').then(r => r.json()).then(m => {
     document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="assets/icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
