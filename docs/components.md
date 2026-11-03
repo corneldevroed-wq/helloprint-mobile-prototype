@@ -42,6 +42,13 @@ the leading ones). Remembered in `hp-flow`.
 | Delivery | `deliv` | d / e | d | Calendar tile left / on top |
 
 **Desktop cart** (left edge, `.desk-switch`): Lines `lines` = a / b (default b), remembered in `hp-cart-lines` (cart-lines-sketch.html).
+Upsells `ups` = o / r / s / c (default o), remembered in `hp-cart-ups`: O = the card of the old site 1:1 (name, price, switch; why; footer with
+social proof + arrow link to the popup), two side by side under the order lines (one upsell, e.g. `?secured=off` = no secured delivery for this order: the full width); R = a question per extra ("Do you want us to check your files?")
+with a plain radio list in a grey block under the order lines (upsell-buttons-sketch.html); S = the switches; C = no switch, the design check
+as its 3 levels in pills (Basic Free / Premium / Deluxe, chosen = `.pill.active`, Compare = the popup), secured delivery "+ Add" → "✓ Secured delivery added" + Remove.
+Cart `1` / `4` / `0` (buttons, not remembered): load a demo cart. 1 = one product; 4 = the edge cases: a product discount (`was` = price
+before, crossed out + "−€x" in the line, "Product discounts" in the overview), labels and none, Saver / Express / Standard (each its own deadline),
+upload later / file uploaded / Canva, the highest quantity (no tip), a size mix (no dropdown), Basic check, secured delivery, code HELLO10; 0 = empty.
 A = action row under each product (Edit · Duplicate pills, Remove right) + a light green quantity tip ("Switch to 1000");
 B = round icon buttons under the price + a quantity dropdown with the next step as a hint. Both: label (Most Popular, Eco), per line
 "Approve your files by …" + "<Delivery> · Estimated … — latest …", discount code under the totals (closed: "+ Add discount code";

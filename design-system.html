@@ -6,8 +6,8 @@
 <title>HelloPrint UI Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261108g">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261110g">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -55,7 +55,6 @@
   .ds .ds-stage .plp, .ds .ds-stage .materials, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage div.product { display: contents; }
   .ds .ds-stage .plp > *, .ds .ds-stage .materials > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
   .ds .ds-stage .cart-side { position: static; }   /* sticky on the cart page */
-  .ds .ds-stage .cart-side.bare { padding: 0; border: 0; }   /* only the upsell cards, without the sidebar card around them */
 
   /* One row per item: example left, spec right */
   .b-row { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
@@ -156,7 +155,7 @@
   const COLOURS = [
     { group: 'Brand', items: [
       ['Dark green', '--dark-green', 'Header, headings, active pill, secondary button text'],
-      ['Light green', '--light-green', 'Primary button, chosen option outline, search button'],
+      ['Light green', '--light-green', 'Primary button, chosen option outline, search button; green text that is not a link: Free, savings, upsell prices, hints, social proof, the arrow link'],
       ['Orange', '--orange', 'Commercial badges only (Most Popular, Best Seller…)'],
     ]},
     { group: 'Neutrals', items: [
@@ -228,11 +227,11 @@
   // ---------- Lines, corners & shadows ----------
   const tileStyle = s => `<div class="tile" style="${s}">`;
   const lines = `<h3>Lines</h3>` +
-    row({ name: 'Line', meta: [{ t: '--line' }, { t: tok('--line') }], use: 'One colour for every line: dividers, tab line, accordions, footer, card outlines.',
+    row({ name: 'Line', meta: [{ t: '--line' }, { t: tok('--line') }], use: 'One colour for every line: dividers (also inside cards), tab line, accordions, footer, card outlines (except the cart cards, see Option card outline).',
       ex: stage('<div style="width:100%;border-top:1px solid var(--line)"></div>') }) +
     row({ name: 'Control outline', meta: [{ t: '--mid-grey' }, { t: tok('--mid-grey') }], use: 'Pills, secondary buttons, round arrows. Hover: black.',
       ex: stage('<a class="pill" href="#lines">Read more</a>') }) +
-    row({ name: 'Option card outline', meta: [{ t: '--outline' }, { t: tok('--outline') }], use: 'PDP option cards. Chosen: light green.',
+    row({ name: 'Option card outline', meta: [{ t: '--outline' }, { t: tok('--outline') }], use: 'PDP option cards, and the cards in the cart (order lines, upsell cards, the summary; Cornel, 2026-11-03). Chosen: light green.',
       ex: stage(tileStyle('border-color:var(--outline);border-radius:10px') + 'Option</div>' + tileStyle('border:2px solid var(--light-green);border-radius:10px') + 'Chosen</div>') }) +
     `<h3>Corners</h3>` +
     row({ name: 'Radius scale', meta: [{ t: '--r-s 4' }, { t: '--r-m 8' }, { t: '--r-l 10' }, { t: '--r-xl 16' }, { t: '--r-pill' }, { t: '50% round' }],
@@ -274,8 +273,12 @@
       use: 'A pill with an icon in front, dark green: Edit in the PDP summary. Plain Edit / Choose buttons are a normal pill.' },
     { name: 'Round arrow', cls: '.d-rev-nav', ex: `<button class="d-rev-nav" aria-label="Next">${ARROW}</button>`,
       use: 'Next/previous on rows that scroll (reviews, promo cards). 40px, white, grey outline, floats on the row edge.' },
+    { name: 'Icon button', cls: '.icon-btn', ex: '<span class="icon-btns"><button class="icon-btn" aria-label="Edit"><span class="material-symbols-rounded" aria-hidden="true">edit</span></button><button class="icon-btn" aria-label="Duplicate"><span class="material-symbols-rounded" aria-hidden="true">content_copy</span></button><button class="icon-btn" aria-label="Remove"><span class="material-symbols-rounded" aria-hidden="true">delete</span></button></span>',
+      use: 'Small actions on a cart line (Edit, Duplicate, Remove): 32px round, white, grey outline, dark green line icon, the name in the tooltip. Black outline on hover. 8 apart.' },
     { name: 'Text link', cls: '.link', ex: '<a class="link" href="#buttons">Shipping costs</a>',
-      use: 'Links in running text and loose links (Read more, See our 3 options): --link green, underlined, 14/22. Same green as the breadcrumbs.' },
+      use: 'Links in running text and loose links (Read more, Add discount code, View artwork): --link green, underlined, 14/22, or the size of its line. Same green as the breadcrumbs.' },
+    { name: 'Arrow link', cls: '.section-head .link, .o-link', ex: '<button class="o-link">See our 3 options</button>',
+      use: 'A link that takes you somewhere (All categories, View all articles, See our 3 options): light green, semibold 14/22, the green arrow after it, no underline. One rule for all.' },
   ];
   const buttons = BUTTONS.map(b => row({ name: b.name, flag: b.flag, use: b.use, ex: stage(b.ex), meta: [{ t: b.cls }] })).join('');
 
@@ -299,6 +302,9 @@
     row({ name: 'Checkbox', meta: [{ t: '.check' }, { t: '--control' }],
       use: 'Rounded square, light green when on. Label 12px dark grey.',
       ex: stage('<div><label class="check"><input type="checkbox">I’m ordering for a business</label><label class="check"><input type="checkbox" checked>Billing address is the same as shipping address</label></div>', 'left') }) +
+    row({ name: 'Switch', meta: [{ t: '.switch' }],
+      use: 'Switches an extra on or off right away (cart upsells): 36 × 20, grey off, light green on. Only the switch toggles, not the card.',
+      ex: stage('<button class="switch" role="switch" aria-checked="false" aria-label="Off"></button><button class="switch" role="switch" aria-checked="true" aria-label="On"></button>') }) +
     row({ name: 'Radio row', wide: true, meta: [{ t: '.qrow' }, { t: '.radio' }, SIZE],
       use: 'A choice from a list (quantity, address, payment): the whole row is the radio. Chosen = 2px light green outline.',
       ex: stage(real('<div class="qty-list" role="radiogroup" style="--qrows:2;grid-template-columns:1fr"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button></div>', [339, 'PDP quantity, checkout lists'], [365, 'PDP quantity, one of 2 columns'])) }) +
@@ -374,18 +380,18 @@
   const UPSELLS = upsell('check', true, 'Premium Check + Proof', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.', 'An expert checks your file.', '€10.99', 'See our 3 options') +
     upsell('secured', false, 'Add secured delivery', 'Ensure priority support, fast reprint and delivery guarantees for your order', 'Priority support and reprint.', '€5.99', 'More info');
   const TOTALS = `<div class="totals"><div><span>Products (1)</span><span>€18.89</span></div><div><span>Premium Check + Proof<button class="info-btn" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span><span>€10.99</span></div><div><span>Shipping</span><span class="free">Free</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€29.88</span></div><div><span>VAT 23%</span><span>€6.87</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€36.75</span></div></div>`;
-  const cart = row({ name: 'Upsell card', wide: true, meta: [{ t: '.addon' }, { t: '.switch' }, SIZE],
-      use: 'An extra for the whole order (design check, secured delivery): switch, title, price; chosen = light green outline. Only the switch toggles. <b>Mobile:</b> on top of the cart, the full line, the arrow opens the popup. <b>Desktop:</b> in the sidebar above the totals it changes: no outline or padding, 16 apart, title 16/22 with the price on the right, a short label line (12/18) and a text link to the popup.',
-      ex: stage(real(D ? `<aside class="cart-side bare"><div class="addons">${UPSELLS}</div></aside>` : `<div class="addons">${UPSELLS}</div>`, [358, 'mobile cart'], [342, 'cart sidebar'])) }) +
+  const cart = row({ name: 'Upsell card', wide: true, meta: [{ t: D ? '.o-card' : '.addon' }, { t: '.switch' }, SIZE],
+      use: 'An extra for the whole order (design check, secured delivery). <b>Mobile:</b> on top of the cart, switch, title, line, price, the arrow opens the popup. <b>Desktop</b> (the card of the old site, switch Upsells O): under the order lines, two side by side (one alone = the full width): the name 16/22 with the price in light green and the switch on one line; why (14 grey); a line; a footer with social proof (12 light green) and an arrow link to the popup. Outline <code>--outline</code>, 24 padding, as the order lines; chosen = light green outline, no tint.',
+      ex: stage(real(D ? `<div class="o-cards"><div class="o-card" data-on="true"><div class="o-top"><b>Premium Check + Proof</b><span class="p">€10.99</span><button class="switch" role="switch" aria-checked="true" aria-label="Premium Check + Proof"></button></div><p>A real expert checks your file and sends you a proof. Did we miss something? Free reprint, on us.</p><div class="o-foot"><small>80% of our customers choose this option</small><button class="o-link">See our 3 options<img src="assets/desktop/arrow-forward-green.svg" alt=""></button></div></div><div class="o-card" data-on="false"><div class="o-top"><b>Add secured delivery</b><span class="p">+€5.99</span><button class="switch" role="switch" aria-checked="false" aria-label="Add secured delivery"></button></div><p>Ensure priority support, fast reprint and delivery guarantees for your order.</p><div class="o-foot"><small></small><button class="o-link">More info<img src="assets/desktop/arrow-forward-green.svg" alt=""></button></div></div></div>` : `<section class="addons"><h2>Do you want a design check?</h2><p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>${UPSELLS}</section>`, [358, 'mobile cart'], [862, 'cart, left column'])) }) +
     row({ name: 'Product line', wide: true, meta: [{ t: '.line-item' }, SIZE],
-      use: 'A product in the cart: photo, name, quantity + delivery, options, design, Remove; price on the right. Mobile: 75px photo, a line between products. Desktop: an outlined card (24 padding), 120px photo, title 16/22, text 14/22.',
-      ex: stage(real(`<div class="cart-main"><section class="summary-box"><div class="line-item">
+      use: 'A product in the cart. <b>Mobile:</b> 75px photo, name, quantity + delivery, options, design, Remove, price right; a line between products. <b>Desktop:</b> an outlined card (<code>--outline</code>, 24 padding, hover shadow): 120px photo; label, name 16/22, options 12/18 grey, Design 14/22 grey (+ View artwork / Edit in Canva); the price 16 right; the delivery text (etaHtml) between two lines from the name to the price; the quantity dropdown with the next step as a hint and the round icon buttons (Edit, Duplicate, Remove) on one row.',
+      ex: stage(real(D ? `<div class="cart-main"><section class="summary-box"><div class="line-item desk-line"><a class="img" href="#cart" style="background:var(--light-grey)"><img src="assets/pdp/classic.png" alt=""></a><div class="t"><span class="badge">Most Popular</span><a href="#cart"><strong>Classic business cards</strong></a><small>500 pcs · Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><span class="cart-design">Design: Upload after checkout</span></div><span class="p">€18.89</span><div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep (Saver)</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div><div class="cart-qty"><label class="field"><select aria-label="Quantity"><option>250 pcs</option><option selected>500 pcs</option><option>1000 pcs</option></select></label><span class="qty-hint">1000 pcs: €0.035 each (+€16.10)</span><div class="icon-btns"><a class="icon-btn" href="#cart" title="Edit" aria-label="Edit"><span class="material-symbols-rounded" aria-hidden="true">edit</span></a><button class="icon-btn" title="Duplicate" aria-label="Duplicate"><span class="material-symbols-rounded" aria-hidden="true">content_copy</span></button><button class="icon-btn" title="Remove" aria-label="Remove"><span class="material-symbols-rounded" aria-hidden="true">delete</span></button></div></div></div></section></div>` : `<div class="cart-main"><section class="summary-box"><div class="line-item">
         <a class="img" href="#cart" style="background:var(--light-grey)"><img src="assets/pdp/classic.png" alt=""></a>
         <div class="t"><a href="#cart"><strong>Classic business cards</strong></a><small>500 pcs, Saver, Tue 29 Sep</small><small>Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><small>Design: Upload after checkout</small><button class="remove">Remove</button></div>
         <span class="p">€18.89</span></div></section></div>`, [358, 'mobile cart'], [862, 'cart, left column'])) }) +
     row({ name: 'Order summary', wide: true, meta: [{ t: '.cart-side' }, SIZE],
-      use: 'Desktop: the sticky sidebar card (outline --line, 24 padding): title + upsells, totals (Products, design check with ⓘ to its popup, Shipping Free in green; a line, Subtotal and VAT; a line, Total 20/24 with the suffix in 12 grey), the one primary button, delivery date, USPs, payment methods; Continue shopping sits under the products (left, as wide as its text). 8 from the title to the cards, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
-      ex: stage(real(`<aside class="cart-side">${D ? `<div class="addons"><h2>Order summary</h2>${UPSELLS}</div>` : ''}${TOTALS}
+      use: 'Desktop: the sticky sidebar card (outline --outline as the cards next to it, 24 padding): title, totals (Products, design check with ⓘ to its popup, Shipping Free in green; a line, Subtotal and VAT; a line, Total 20/24 with the suffix in 12 grey), the one primary button, delivery date, USPs, payment methods; Continue shopping sits under the products (left, as wide as its text). 8 from the title to the totals line, 16 between blocks. Mobile: the same blocks under the products, the button in the sticky bar.',
+      ex: stage(real(`<aside class="cart-side">${D ? '<h2>Order summary</h2>' : ''}${TOTALS}
         ${D ? '<a class="btn primary" href="#cart">Continue to checkout</a>' : ''}
         <div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div>
         ${D ? '' : '<a class="btn outline continue-shopping" href="#cart">Continue shopping</a>'}

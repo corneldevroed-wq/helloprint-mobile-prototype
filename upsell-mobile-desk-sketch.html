@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" class="desk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upsell desktop placement sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261110g">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-03): the mobile upsells work well (a card per extra, the switch, the arrow opens
+     the popup with the choices, the summary shows what's on). Desktop needs the right look for exactly that: three placements of the mobile card. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .frame { margin-top: 16px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .frame .cart-page { width: calc(100% - 48px); }
+  .frame .cart-side { position: static; }
+
+  /* the mobile upsell card 1:1 on desktop (the cart's desktop rules turn it into the compact sidebar version; undo that here) */
+  .mob .addon { padding: 0; gap: 0; border: 1px solid var(--outline); background: var(--white); }
+  .mob .addon[data-on="true"] { border-color: var(--light-green); box-shadow: inset 0 0 0 1px var(--light-green); }
+  .mob .addon .switch { margin: 16px 8px 0 16px; }
+  .mob .addon .t { display: flex; flex-direction: column; padding: 16px 8px 16px 0; border-right: 1px solid var(--line); }
+  .mob .addon .p { grid-row: auto; grid-column: auto; }
+  .addons.mob { display: flex; flex-direction: column; gap: 8px; padding: 0; background: none; }
+  .addons.mob h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; }
+  .addons.mob > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .mob.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .mob.pair > :not(.addon) { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Upsell placement (desktop)</b><a href="#a">A · Top left, side by side</a><a href="#b">B · Sidebar, above the summary</a><a href="#c">C · Under the products</a></nav>
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> the mobile upsells work well, also with the summary. Desktop gets exactly that: the same card (switch, title, line, price, arrow to the popup with the choices),
+       the same wording, the summary shows what's on. Only the place differs. The mobile card is 358 wide; the sidebar is 392, so there it fits 1:1.</p>
+    <p>State: Premium Check on (default), secured delivery off. One product, as Cart 1.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b>A · Top left, side by side, as the order on mobile</b>
+    Title + intro and the two cards next to each other above the products, exactly the mobile order (extras first). The most attention,
+    but the products start lower and the extras sit far from the price they change.</div>
+  <div class="frame"><main class="cart-page" data-v="a"></main></div>
+
+  <div class="sk-label" id="b"><b>B · In the sidebar, above the summary card <span class="pick">my pick</span></b>
+    The mobile cards 1:1 (they fit the 392 column) stacked above the white summary, with the mobile title. Right next to the price they change,
+    the products stay first on the left, and it's the same card as on mobile, so one component. The cards scroll away, the summary stays sticky.</div>
+  <div class="frame"><main class="cart-page" data-v="b"></main></div>
+
+  <div class="sk-label" id="c"><b>C · Under the products, side by side</b>
+    Title + intro and the two cards after the products, before Continue shopping. Calm, the products first, but easy to miss and far from the summary.</div>
+  <div class="frame"><main class="cart-page" data-v="c"></main></div>
+</div>
+
+<script>
+  const card = (cls, on, name, sub, price, aria) => `<div class="addon ${cls}" data-on="${on}">
+      <button class="switch" role="switch" aria-checked="${on}" aria-label="${aria}"></button>
+      <span class="t"><b>${name}</b><small>${sub}</small><span class="p">${price}</span></span>
+      <button class="go" aria-label="Options"><img src="assets/cart/arrow.png" alt=""></button></div>`;
+  const cards = card('addon-check', true, 'Premium Check + Proof', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.', '€10.99', 'Design check') +
+    card('addon-secured', false, 'Add secured delivery', 'Ensure priority support, fast reprint and delivery guarantees for your order', '€5.99', 'Secured delivery');
+  const head = `<h2>Do you want a design check?</h2><p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>`;
+  const product = `<section class="summary-box"><div class="line-item desk-line"><a class="img" href="#" style="background:var(--light-grey)"><img src="assets/pdp/classic.png" alt=""></a>
+      <div class="t"><span class="badge">Most Popular</span><a href="#"><strong>Classic business cards</strong></a><small>500 pcs · Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided</small><span class="cart-design">Design: Upload after checkout</span></div>
+      <span class="p">€18.89</span>
+      <div class="eta"><b>Estimated delivery date</b><p>Tuesday 29 September — latest Wed 30 Sep (Saver)</p><small><img src="assets/pdp/check.svg" alt="">If your files are approved by <b>10:30 on Mon 28 Sep</b></small></div></div></section>`;
+  const shop = '<a class="btn outline continue-shopping" href="#">Continue shopping</a>';
+  const summary = `<aside class="cart-side"><h2>Order summary</h2><div class="totals">
+      <div><span>Products (1)</span><span>€18.89</span></div><div><span>Premium Check + Proof</span><span>€10.99</span></div><div><span>Shipping</span><span class="free">Free</span></div>
+      <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€29.88</span></div><div><span>VAT 23%</span><span>€6.87</span></div>
+      <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€36.75</span></div></div>
+      <a class="btn primary" href="#">Continue to checkout</a>
+      <ul class="cart-usps"><li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li><li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li></ul></aside>`;
+  const pair = `<section class="addons mob pair">${head}${cards}</section>`;
+  const page = {
+    a: `<h1>Your Cart</h1><div class="cart-main">${pair}${product}${shop}</div><div class="cart-col">${summary}</div>`,
+    b: `<h1>Your Cart</h1><div class="cart-main">${product}${shop}</div><div class="cart-col"><section class="addons mob">${head}${cards}</section>${summary}</div>`,
+    c: `<h1>Your Cart</h1><div class="cart-main">${product}${pair}${shop}</div><div class="cart-col">${summary}</div>`,
+  };
+  document.querySelectorAll('[data-v]').forEach(m => m.innerHTML = page[m.dataset.v]);
+</script>
+</body>
+</html>

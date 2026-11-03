@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261108g">
+<link rel="stylesheet" href="styles.css?v=20261110g">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -298,8 +298,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261108g"></script>
-<script src="products.js?v=20261108g"></script>
+<script src="app.js?v=20261110g"></script>
+<script src="products.js?v=20261110g"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -1097,7 +1097,7 @@
   if (!UPLOAD_NOW) document.body.classList.add('no-upload-now');
   const DESIGN = [
     { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
-    { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online' },
+    { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online', cartLabel: 'Designed in Canva' },
     { id: 'file', name: 'Upload your design', sub: 'Have print-ready files, or your own designer.', icon: 'd-upload.svg', cta: 'Upload design now' },
   ].filter(d => UPLOAD_NOW || d.id !== 'file');
   let design = 'upload';
@@ -1130,7 +1130,7 @@
     setCart([...getCart(), {
       name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
       qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c) + (SIZES_MIX ? ` · Sizes ${sizeMix(c)}` : ''),
-      design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), price: totalPrice(c),
+      design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), designType: design, price: totalPrice(c),   // designType: the cart links to the artwork (file) or the Canva design
     }]);
     location.href = 'cart.html';
   }

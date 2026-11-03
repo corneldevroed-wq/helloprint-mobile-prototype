@@ -6,8 +6,8 @@
 <title>Your Cart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,local_shipping,schedule,trending_up&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261108g">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,check_circle,schedule,trending_up&display=block" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261110g">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -18,7 +18,8 @@
 
     <div class="cart-main" id="cartContent"></div>
 
-    <!-- Desktop: the sidebar (sticky card); mobile: the same blocks under the products -->
+    <!-- Desktop: the right column with the summary card (sticky); mobile: the same blocks under the products -->
+    <div class="cart-col">
     <aside class="cart-side">
     <div id="cartSide"></div>
     <ul class="cart-usps">
@@ -37,6 +38,7 @@
       <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
     </div>
     </aside>
+    </div>
   </main>
   <footer data-shell="footer" data-desk-only></footer>   <!-- desktop only: on mobile the checkout bar sits at the bottom -->
 </div>
@@ -104,23 +106,32 @@
   </div>
 </div>
 
-<script src="app.js?v=20261108g"></script>
-<script src="products.js?v=20261108g"></script>
+<script src="app.js?v=20261110g"></script>
+<script src="products.js?v=20261110g"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
   let addons = getAddons();
+  // Not every product offers secured delivery (prototype: ?secured=off): then no card for it and it never counts in the totals
+  const OFFER_SECURED = new URLSearchParams(location.search).get('secured') !== 'off';
+  if (!OFFER_SECURED) addons.secured = false;
   const saveAddons = () => { try { localStorage.setItem('hp-cart-addons', JSON.stringify(addons)); } catch (e) {} };
   const tier = id => CHECK_TIERS.find(t => t.id === id);
   // Same wording as on the product page (also for items added before the wording changed)
   const DESIGN_LABEL = { 'I will upload later': 'Upload after checkout', 'My designer will send the file': 'Your designer sends the file' };
   const eur = n => '€' + n.toFixed(2);
   const icon = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+  // Line price; with a product discount (it.was = the price before) the old price crossed out and the saving under it
+  const priceHtml = it => `<span class="p">${fmt(it.price)}${it.was ? `<small class="was"><s>${fmt(it.was)}</s> −${fmt(it.was - it.price)}</small>` : ''}</span>`;
 
-  // Desktop product lines, prototype switch "Lines" (?lines=a|b, Cornel 2026-11-02, cart-lines-sketch.html):
-  // A = action row with pills + a light green quantity tip; B = round icon buttons + quantity dropdown with a hint
-  let LINES = (() => { const q = new URLSearchParams(location.search).get('lines');
-    try { if (['a', 'b'].includes(q)) localStorage.setItem('hp-cart-lines', q); return localStorage.getItem('hp-cart-lines') || 'b'; } catch (e) { return q || 'b'; } })();
+  // Desktop prototype switches (URL + localStorage, Cornel 2026-11-02):
+  // Lines (?lines=a|b, cart-lines-sketch.html): A = action row with pills + a quantity tip; B = round icon buttons + quantity dropdown
+  // Upsells (?ups=s|c, upsell-buttons-sketch.html): S = the switches; C = the check levels as pills, secured delivery "+ Add"
+  const SWITCHES = { lines: { vals: { a: 'A: action row, quantity tip', b: 'B: icon buttons, quantity dropdown' }, def: 'b' },
+                     ups: { vals: { o: 'O: the cards of the old site', r: 'R: plain radio buttons', s: 'S: switches', c: 'C: check levels as pills, + Add' }, def: 'o' } };
+  const proto = k => { const q = new URLSearchParams(location.search).get(k), { vals, def } = SWITCHES[k];
+    try { if (vals[q]) localStorage.setItem('hp-cart-' + k, q); return localStorage.getItem('hp-cart-' + k) || def; } catch (e) { return vals[q] ? q : def; } };
+  let LINES = proto('lines'), UPS = proto('ups');
   // The product behind a cart line: its label (Most Popular, Eco…) and quantity steps
   const productOf = it => PRODUCTS[new URLSearchParams(it.href.split('?')[1]).get('p')];
   const qtySteps = it => { const P = productOf(it); return P ? productQty(P.live || P) : []; };
@@ -130,25 +141,32 @@
   // The quantity tip: the first bigger step that is at least 5% cheaper per piece (750 cards cost about the same each as 500, so not that one)
   const nextStep = it => { const steps = qtySteps(it), now = steps.find(([n]) => n === it.qty);
     return now ? (steps.find(([n, p]) => n > it.qty && p / n <= now[1] / now[0] * .95) || [])[0] : null; };
-  // Per line: the file deadline, then the delivery date it gives
-  const when = it => `<div class="cart-when">
-      <span>${icon('schedule')}<span>Approve your files by <b>10:30 on ${etaApprove(it.arrives)}</b></span></span>
-      <span>${icon('local_shipping')}<span><b>${it.delivery}</b> · Estimated ${etaShort(etaDate(it.arrives))} — latest ${etaShort(etaLatest(it.arrives))}</span></span></div>`;
+  // Design per line, with a link to the artwork when there is one: an uploaded file or a Canva design (prototype anchors).
+  // Lines added before designType existed: an uploaded file ends in "✓ checked"
+  const designOf = it => {
+    const type = it.designType || (/✓ checked$/.test(it.design) ? 'file' : 'upload');
+    const link = type === 'file' ? '<a class="link" href="#artwork">View artwork</a>' : type === 'canva' ? '<a class="link" href="#canva-design">Edit in Canva</a>' : '';
+    return { label: DESIGN_LABEL[it.design] || it.design, link: link && ` · ${link}` };
+  };
+  // Per line: who sends the design, the file deadline, then the delivery date it gives
+  // Desktop line, one grid for A and B: photo | text | price, then full-width rows. The delivery (etaHtml) sits between
+  // two lines that run across the card (Cornel, 2026-11-02), its text in line with the product name.
   function deskLine(it, i) {
     const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
-      <small>${it.qty} pcs · ${it.options}</small><small>Design: ${DESIGN_LABEL[it.design] || it.design}</small>${when(it)}`;
-    const img = `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>`;
-    if (LINES === 'a') return `<div class="line-item">${img}
-      <div class="t">${head}${np ? `<div class="qty-tip">${icon('trending_up')}<span><b>${nq} pcs for ${fmt(np - it.price)} more</b> · ${each({ price: np, qty: nq })} instead of ${each(it)}</span><button class="pill" data-qty-to="${nq}" data-i="${i}">Switch to ${nq}</button></div>` : ''}</div>
-      <span class="p">${fmt(it.price)}</span>
+      <small>${it.qty} pcs · ${it.options}</small><span class="cart-design">Design: ${designOf(it).label}${designOf(it).link}</span>`;
+    const top = `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a><div class="t">${head}</div>${priceHtml(it)}
+      <div class="eta">${etaHtml(it.arrives, `If your files are approved by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
+    if (LINES === 'a') return `<div class="line-item desk-line">${top}
+      ${np ? `<div class="qty-tip">${icon('trending_up')}<span><b>${nq} pcs for ${fmt(np - it.price)} more</b> · ${each({ price: np, qty: nq })} instead of ${each(it)}</span><button class="pill" data-qty-to="${nq}" data-i="${i}">Switch to ${nq}</button></div>` : ''}
       <div class="cart-actions"><a class="pill" href="${it.href}">${icon('edit')}Edit</a><button class="pill" data-dup="${i}">${icon('content_copy')}Duplicate</button><button class="pill" data-remove="${i}">${icon('delete')}Remove</button></div></div>`;
-    const steps = qtySteps(it);
-    return `<div class="line-item">${img}
-      <div class="t">${head}${steps.some(([n]) => n === it.qty) ? `<div class="cart-qty"><label class="field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs</option>`).join('')}</select></label>
-        ${np ? `<span class="qty-hint">${nq} pcs: ${each({ price: np, qty: nq })} (+${fmt(np - it.price)})</span>` : ''}</div>` : ''}</div>
-      <div class="cart-right"><span class="p">${fmt(it.price)}</span><div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div></div></div>`;
+    const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div>`;
+    // B: the quantity dropdown, its hint and the icon buttons on one row (icons right, under the price)
+    return `<div class="line-item desk-line">${top}
+      <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs</option>`).join('')}</select></label>
+        ${np ? `<span class="qty-hint">${nq} pcs: ${each({ price: np, qty: nq })} (+${fmt(np - it.price)})</span>` : ''}` : ''}${icons}</div></div>`;
   }
+
 
   function render() {
     const items = getCart(), box = document.getElementById('cartContent'), side = document.getElementById('cartSide');
@@ -161,27 +179,61 @@
       return;
     }
     const { check, products, code, discount, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
-    // Upsell cards: mobile on top of the cart (arrow opens the popup); desktop in the sidebar above the totals,
-    // a short line and a text link (upsell sketch C, upsell-desk-sketch.html)
+    const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
+    // Upsell cards: mobile with the full line and an arrow to the popup; desktop a short line and a text link
     const addon = (id, on, name, sub, short, price, link, aria) => `
         <div class="addon addon-${id}" data-on="${on}">
           <button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${aria}"></button>
           <span class="t"><b>${name}</b><small>${DESK ? short : sub}</small><span class="p">${fmt(price)}</span>${DESK ? `<button class="link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button>` : ''}</span>
           ${DESK ? '' : `<button class="go" data-open-sheet="${id === 'check' ? 'filecheck' : id}" aria-label="${link}"><img src="assets/cart/arrow.png" alt=""></button>`}
         </div>`;
-    const addonCards =
+    // Upsells C (desktop): the design check as its 3 levels (Basic free / Premium / Deluxe), secured delivery as "+ Add" / "✓ added · Remove"
+    const upsC = `
+        <div class="up-card"><span class="t"><b>Design check</b><small>Every order gets the free automated check · <button class="link" data-open-sheet="filecheck">Compare</button></small>
+          <span class="up-levels">${CHECK_TIERS.map(t => `<button class="pill${t.id === addons.check ? ' active' : ''}" data-level="${t.id}" aria-pressed="${t.id === addons.check}">${t.name.split(' ')[0]} <small>${t.price ? fmt(t.price) : 'Free'}</small></button>`).join('')}</span></span></div>
+        <div class="up-card"><span class="t"><b>${addons.secured ? icon('check_circle') + 'Secured delivery added' : 'Secured delivery'}</b><small>Priority support and reprint · <button class="link" data-open-sheet="secured">More info</button></small></span>
+          <span class="end"><span class="p">${fmt(SECURED.price)}</span>${addons.secured ? '<button class="link" data-addon="secured">Remove</button>' : `<button class="pill" data-addon="secured">${icon('add')}Add</button>`}</span></div>`;
+    // Upsells R (desktop, Cornel 2026-11-02 "back to basic"): two plain radio lists, a choice and its price, nothing to switch on or off
+    // R (Cornel, 2026-11-02): a block of its own on top of the summary card (as a gift / extras block on other shops), choices that change the price;
+    // per extra a head (title + link to the popup) and plain radios: circle, name, price
+    // Asked as a question (Cornel, 2026-11-03, like a delivery picker in a checkout): a list of rows in one outlined box,
+    // circle, name in bold, the price right (Free in green, else +€…)
+    const opt = (on, attr, name, price) => `<button class="up-opt" role="radio" aria-checked="${on}" ${attr}><span class="radio"></span><b>${name}</b>${price ? `<span class="up-price">+${fmt(price)}</span>` : '<span class="up-price free">Free</span>'}</button>`;
+    const upGroup = (question, link, rows) => `<div class="up-box"><div class="up-head"><strong>${question}</strong>${link}</div>
+        <div class="up-list" role="radiogroup" aria-label="${question}">${rows}</div></div>`;
+    const CHECK_NAME = { basic: 'Basic Check', premium: 'Premium Design Check', deluxe: 'Deluxe Design Check' };
+    const upsR = `${
+      upGroup('Do you want us to check your files?', '<button class="link" data-open-sheet="filecheck">Compare</button>',
+        CHECK_TIERS.map(t => opt(t.id === addons.check, `data-level="${t.id}"`, CHECK_NAME[t.id], t.price)).join('')) +
+      upGroup('How should we deliver your order?', '<button class="link" data-open-sheet="secured">More info</button>',
+        opt(!addons.secured, 'data-sec="0"', 'Standard delivery', 0) + opt(!!addons.secured, 'data-sec="1"', SECURED.line, SECURED.price))}`;
+    // O (Cornel, 2026-11-03): the upsell card of the old site, 1:1 on desktop, the two side by side under the order lines.
+    // Top line: what it is, the price, the switch; then why; a line; a footer with social proof and a link to the popup
+    const oCard = (id, on, name, price, why, proof, link) => `<div class="o-card" data-on="${on}">
+        <div class="o-top"><b>${name}</b><span class="p">${price}</span><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${name}"></button></div>
+        <p>${why}</p>
+        <div class="o-foot"><small>${proof}</small><button class="o-link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button></div></div>`;
+    const upsO = `<div class="o-cards">${
+      oCard('check', checkOn, checkOn ? check.name : 'Please check my designs', fmt(checkOn ? check.price : tier('premium').price),
+        'A real expert checks your file and sends you a proof. Did we miss something? Free reprint, on us.', tier('premium').social, 'See our 3 options') +
+      (OFFER_SECURED ? oCard('secured', !!addons.secured, SECURED.name, (addons.secured ? '' : '+') + fmt(SECURED.price),
+        SECURED.sub + '.', '', 'More info') : '')}</div>`;
+    const addonCards = DESK && UPS === 'r' ? upsR : DESK && UPS === 'c' ? upsC :
       addon('check', checkOn, checkOn ? check.name : 'Please check my designs', 'A real expert checks your file and sends you a proof. Did we miss something? Free reprint on us.',
         'An expert checks your file.', checkOn ? check.price : tier('premium').price, 'See our 3 options', 'Design check') +
-      addon('secured', !!addons.secured, SECURED.name, SECURED.sub, 'Priority support and reprint.', SECURED.price, 'More info', 'Secured delivery');
+      (OFFER_SECURED ? addon('secured', !!addons.secured, SECURED.name, SECURED.sub, 'Priority support and reprint.', SECURED.price, 'More info', 'Secured delivery') : '');
 
     // Continue shopping: desktop under the products (left column), mobile under the delivery date
     const shop = '<a class="btn outline continue-shopping" href="index.html">Continue shopping</a>';
-    box.innerHTML = `${DESK ? '' : `
+    // Upsells: mobile on top of the products; desktop in a grey block under the products (Cornel, 2026-11-02)
+    const upsells = `
       <section class="addons">
+        ${DESK && UPS === 'r' ? '' : DESK ? `<h2>Do you want a design check? <span>Catch print issues before they're printed.</span></h2>` : `
         <h2>Do you want a design check?</h2>
-        <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>
+        <p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p>`}
         ${addonCards}
-      </section>`}
+      </section>`;
+    box.innerHTML = `${DESK ? '' : upsells}
 
       <section class="summary-box">
         ${DESK ? '' : '<h2>Order summary</h2>'}
@@ -192,26 +244,27 @@
               <a href="${it.href}"><strong>${it.name}</strong></a>
               <small>${it.qty} pcs, ${it.delivery}, ${it.arrives}</small>
               <small>${it.options}</small>
-              <small>Design: ${DESIGN_LABEL[it.design] || it.design}</small>
+              <small>Design: ${designOf(it).label}${designOf(it).link}</small>
               <button class="remove" data-remove="${i}">Remove</button>
             </div>
-            <span class="p">${fmt(it.price)}</span>
+            ${priceHtml(it)}
           </div>`).join('')}
       </section>
-      ${DESK ? shop : ''}`;
+      ${DESK ? (UPS === 'r' ? `<div class="up-boxes">${upsR}</div>` : UPS === 'o' ? upsO : upsells) + shop : ''}`;
     side.innerHTML = `
-        ${DESK ? `<div class="addons"><h2>Order summary</h2>${addonCards}</div>` : ''}
+        ${DESK ? '<h2>Order summary</h2>' : ''}
         <div class="totals">
-          <div><span>Products (${items.length})</span><span>${eur(products)}</span></div>
+          <div><span>Products (${items.length})</span><span>${eur(gross)}</span></div>
+          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
           <div><span>${check.line}<button class="info-btn" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
           ${addons.secured ? `<div><span>${SECURED.line}<button class="info-btn" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/pdp/info.svg" alt=""></button></span><span>${eur(SECURED.price)}</span></div>` : ''}
           <div><span>Shipping</span><span class="free">Free</span></div>
-          ${code ? `<div><span>Discount <small>(${code})</small><button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button></span><span>−${eur(discount)}</span></div>` : ''}
+          ${code ? `<div><span>Discount <small>(${code})</small><button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button></span><span class="free">−${eur(discount)}</span></div>` : ''}
           <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>
           <div><span>VAT ${Math.round(VAT_RATE * 100)}%</span><span>${eur(vat)}</span></div>
           <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
         </div>
-      ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}Add discount code</button>
+      ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}<u>Add discount code</u></button>
         <div class="code-box" hidden><div class="code-row"><label class="field"><input id="codeIn" placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" data-apply-code>Apply</button></div>
         <p class="field-error" id="codeErr" hidden>This code isn't valid</p></div>` : ''}
       ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>' : `
@@ -224,7 +277,11 @@
     if (e.target.closest('[data-open-sheet]')) return;
     const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), q = e.target.closest('[data-qty-to]');
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
-    if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
+    if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); if (UPS === 'c' && DESK) showToast(addons.secured ? 'Secured delivery added' : 'Secured delivery removed'); }
+    const sec = e.target.closest('[data-sec]');
+    if (sec && +sec.dataset.sec !== +!!addons.secured) { addons.secured = sec.dataset.sec === '1'; saveAddons(); render(); showToast(addons.secured ? 'Secured delivery added' : 'Standard delivery kept'); }
+    const lv = e.target.closest('[data-level]');
+    if (lv && lv.dataset.level !== addons.check) { addons.check = lv.dataset.level; saveAddons(); render(); showToast(addons.check === 'basic' ? 'Basic check selected' : `${tier(addons.check).name} added`); }
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
     if (d) { const items = getCart(); items.splice(+d.dataset.dup + 1, 0, { ...items[+d.dataset.dup] }); setCart(items); render(); showToast('Product duplicated'); }
     if (q) setQty(+q.dataset.i, +q.dataset.qtyTo);
@@ -246,15 +303,38 @@
     setCode(c); render(); showToast(`${c} applied`);
   }
 
-  // Prototype switch (desktop): product lines A / B
+  // Demo carts (prototype, Cornel 2026-11-02): the edge cases in one click. 1 = one product; 4 = four products: a product discount,
+  // labels and none, Saver / Express / Standard, upload later / file uploaded / Canva, the highest quantity (no tip), a size mix
+  // (no dropdown), Basic check, secured delivery, code HELLO10; 0 = empty
+  const demoItem = (slug, x) => { const P = PRODUCTS[slug]; return { name: P.cartName, img: P.img, bg: 'var(--light-grey)', href: P.href, ...x }; };
+  const DEMO = {
+    1: { items: [demoItem('classic-business-cards', { qty: 500, delivery: 'Saver', arrives: 'Tue 29 Sep', options: 'Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided', design: 'Upload after checkout', designType: 'upload', price: 18.89 })],
+         addons: { check: 'premium', secured: false }, code: null },
+    4: { items: [
+          demoItem('classic-business-cards', { qty: 500, delivery: 'Saver', arrives: 'Tue 29 Sep', options: 'Standard 85 x 55 mm · Matt · Luxury Plus · Matte lamination · Straight corners · Double-sided', design: 'Upload after checkout', designType: 'upload', price: 18.89, was: 20.99 }),
+          demoItem('eco-flyers', { qty: 250, delivery: 'Express', arrives: 'Fri 25 Sep', options: 'A5 · Recycled 150 gsm · Double-sided', design: 'flyer-front.pdf + flyer-back.pdf ✓ checked', designType: 'file', price: 41.49 }),
+          demoItem('deluxe-business-cards', { qty: 5000, delivery: 'Standard', arrives: 'Mon 28 Sep', options: 'Standard 85 x 55 mm · Gold foil · 800 gsm · Rounded corners', design: 'Designed in Canva', designType: 'canva', price: 230.40 }),
+          demoItem('sols-imperial-tshirt', { qty: 37, delivery: 'Standard', arrives: 'Mon 28 Sep', options: 'Black · Front print · Sizes S 10 · M 15 · L 12', design: 'logo.png ✓ checked', designType: 'file', price: 412.35, was: 458.15 })],
+         addons: { check: 'basic', secured: true }, code: 'HELLO10' },
+    0: { items: [], addons: { check: 'premium', secured: false }, code: null },
+  };
+  function loadDemo(n) {
+    const d = DEMO[n]; addons = { ...d.addons }; saveAddons(); setCode(d.code); setCart(d.items.map(it => ({ ...it }))); render();
+  }
+
+  // Prototype switches (desktop, left edge): Lines A / B, Upsells S / C, demo carts 1 / 4 / 0
   if (DESK) {
-    document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Lines</span>${['a', 'b'].map(v =>
-      `<button data-lines="${v}" aria-pressed="${v === LINES}" title="${v === 'a' ? 'A: action row, quantity tip' : 'B: icon buttons, quantity dropdown'}">${v.toUpperCase()}</button>`).join('')}</div>`);
-    document.querySelector('[data-lines]').parentNode.addEventListener('click', e => {
-      const b = e.target.closest('[data-lines]'); if (!b) return;
-      LINES = b.dataset.lines;
-      try { localStorage.setItem('hp-cart-lines', LINES); const u = new URL(location.href); u.searchParams.set('lines', LINES); history.replaceState(null, '', u); } catch (err) {}
-      document.querySelectorAll('[data-lines]').forEach(x => x.setAttribute('aria-pressed', x.dataset.lines === LINES));
+    const cur = { lines: () => LINES, ups: () => UPS };
+    document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions">${Object.entries(SWITCHES).map(([k, { vals }]) =>
+      `<span>${k === 'ups' ? 'Upsells' : 'Lines'}</span>${Object.entries(vals).map(([v, t]) => `<button data-sw="${k}" data-v="${v}" aria-pressed="${v === cur[k]()}" title="${t}">${v.toUpperCase()}</button>`).join('')}`).join('')}
+      <span>Cart</span>${[['1', 'One product'], ['4', 'Four products: the edge cases'], ['0', 'Empty cart']].map(([v, t]) => `<button data-demo="${v}" title="${t}">${v}</button>`).join('')}</div>`);
+    document.querySelector('.desk-switch').addEventListener('click', e => {
+      const dm = e.target.closest('[data-demo]'); if (dm) { loadDemo(dm.dataset.demo); return; }
+      const b = e.target.closest('[data-sw]'); if (!b) return;
+      const k = b.dataset.sw, v = b.dataset.v;
+      if (k === 'lines') LINES = v; else UPS = v;
+      try { localStorage.setItem('hp-cart-' + k, v); const u = new URL(location.href); u.searchParams.set(k, v); history.replaceState(null, '', u); } catch (err) {}
+      document.querySelectorAll(`[data-sw="${k}"]`).forEach(x => x.setAttribute('aria-pressed', x.dataset.v === v));
       render();
     });
   }
@@ -280,7 +360,7 @@
     const changed = fcPick !== addons.check;
     addons.check = fcPick; saveAddons(); closeSheet(); render();
     if (changed) {
-      document.querySelector('.addon-check').classList.add('changed');
+      document.querySelector('.addon-check')?.classList.add('changed');
       showToast(fcPick === 'basic' ? 'Basic check selected' : `${tier(fcPick).name} added`);
     }
   });
@@ -291,7 +371,7 @@
     const changed = on !== addons.secured;
     addons.secured = on; saveAddons(); closeSheet(); render();
     if (changed) {
-      document.querySelector('.addon-secured').classList.add('changed');
+      document.querySelector('.addon-secured')?.classList.add('changed');
       showToast(on ? 'Secured delivery added' : 'Standard delivery kept');
     }
   }

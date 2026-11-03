@@ -278,7 +278,7 @@ const etaLong = x => x.toLocaleDateString('en-GB', { weekday: 'long', day: 'nume
 // Files approved by 10:30 the working day before the estimated day keep the date
 const etaApprove = d => { const x = etaDate(d); do x.setDate(x.getDate() - 1); while (x.getDay() === 0 || x.getDay() === 6); return etaShort(x); };
 // The block from Cornel's ref (cart, payment, order confirmed): title, estimated day — latest day, the condition
-const etaHtml = (d, condition) => `<b>Estimated delivery date</b><p>${etaLong(etaDate(d))} — latest ${etaShort(etaLatest(d))}</p>${condition ? `<small><img src="assets/pdp/check.svg" alt="">${condition}</small>` : ''}`;
+const etaHtml = (d, condition, option) => `<b>Estimated delivery date</b><p>${etaLong(etaDate(d))} — latest ${etaShort(etaLatest(d))}${option ? ` (${option})` : ''}</p>${condition ? `<small><img src="assets/pdp/check.svg" alt="">${condition}</small>` : ''}`;
 
 // Best sellers (home grid) — also used by search
 const products = [
