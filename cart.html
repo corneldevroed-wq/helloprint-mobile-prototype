@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111p">
+<link rel="stylesheet" href="styles.css?v=20261111q">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -136,8 +136,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261111p"></script>
-<script src="products.js?v=20261111p"></script>
+<script src="app.js?v=20261111q"></script>
+<script src="products.js?v=20261111q"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -231,7 +231,7 @@
     const { check, products, code, discount, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
     const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
     // Upsells (Cornel's design, 2026-11-03), each a light grey block: switch, title, price right; a short line and the link to the popup
-    // under the title. Desktop: inside the Order summary card, a line across the card, then the totals. Mobile: on top of the cart (2026-11-03)
+    // under the title. Desktop: inside the Order overview card, a line across the card, then the totals. Mobile: on top of the cart (2026-11-03)
     const dBlock = (id, on, title, price, sub, link) => `<div class="sum-up sum-${id}"><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${title}"></button>
         <b>${title}</b><span class="p">${price}</span><small>${sub}</small><button class="link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button></div>`;
     const ups = dBlock('check', checkOn, 'Please check my designs', fmt(checkOn ? check.price : tier('premium').price), 'An expert checks your file.', 'See our 3 options') +
@@ -244,13 +244,13 @@
         ${ups}
       </section>`}
 
-      ${DESK ? '' : '<h2>Order summary</h2>'}
+      ${DESK ? '' : '<h2>Order overview</h2>'}
       <section class="summary-box">
         ${items.map(lineHtml).join('')}
       </section>
       ${DESK ? xsellHtml(items) + shop : ''}`;
     side.innerHTML = `
-        ${DESK ? '<h2>Order summary</h2><div class="sum-ups">' + ups + '</div>' : ''}
+        ${DESK ? '<h2>Order overview</h2><div class="sum-ups">' + ups + '</div>' : ''}
         <div class="totals">
           <div><span>Products (${items.length})</span><span>${eur(gross)}</span></div>
           ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}

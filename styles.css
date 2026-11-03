@@ -823,6 +823,7 @@ body.flow-a .cta-stack, body.flow-a .flow-b-only, body.flow-b .price-box .cta-ro
 .flow-switch button { width: 18px; height: 18px; border-radius: 0 50% 50% 0; color: var(--white); font-size: var(--t-10); font-weight: 700; }
 .flow-switch button[aria-pressed="true"] { background: var(--light-green); }
 body.menu-open .flow-switch { display: none; }
+.flow-switch { display: none; }   /* hidden: mobile PDP = flow H (Cornel, 2026-11-03); the code stays, ?flow=a…j still works */
 
 /* PDP version C: options as one selector field (like "Kies je iPad"); calmer design links */
 .pick { display: none; flex-direction: column; gap: 6px; }
@@ -1601,11 +1602,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-thumbs { overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; } .d-thumbs::-webkit-scrollbar { display: none; } .d-thumbs button { scroll-snap-align: start; }   /* more than 6 photos: the thumbnails scroll sideways */
 
 /* Desktop variant B (prototype switch): the option cards as on mobile, text left and image right, 3 per row */
-.desk.dv-b .opts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.desk.dv-b .opt { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; min-height: 55px; padding: 8px; }
-.desk.dv-b .opt[aria-checked="true"] { padding: 7px; }
-.desk.dv-b .opt > :not(.t) { order: 0; flex-shrink: 0; }
-.desk.dv-b .opt .t { flex: 1; min-width: 0; }
 /* The A|B switch, on the left edge like the mobile version switch */
 .desk-switch { position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 45; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 0 var(--r-m) var(--r-m) 0; background: var(--dark-green); color: var(--white); font-size: var(--t-10); }
 .desk-switch span { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; letter-spacing: .5px; text-transform: uppercase; opacity: .8; }
@@ -1633,15 +1629,8 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 
 /* Desktop photos B (prototype switch): thumbnails in a column left of the photo; the photo keeps 501px,
    so the media column grows to 590px (73 + 16 + 501) and the configuration narrows to 648px */
-.desk.ph-b .pdp > .d-top { grid-template-columns: minmax(0, 590fr) minmax(0, 648fr); }
-.desk.ph-b .d-media { display: grid; grid-template-columns: 73px minmax(0, 1fr); gap: 16px; align-items: stretch; }
-.desk.ph-b .d-media .gallery { grid-column: 2; grid-row: 1; }
-.desk.ph-b .d-media .d-thumbs { grid-column: 1; grid-row: 1; flex-direction: column; height: 0; min-height: 100%; overflow-x: hidden; overflow-y: auto; scroll-snap-type: y proximity; }
-.desk.ph-b .d-media:not(:has(.d-thumbs)) { grid-template-columns: minmax(0, 1fr); }
-.desk.ph-b .d-media:not(:has(.d-thumbs)) .gallery { grid-column: 1; width: calc(100% - 89px); margin-left: 89px; }   /* one photo: same 501px spot as with thumbnails */
 .eta small b { display: inline; font-weight: 600; font-size: inherit; line-height: inherit; color: var(--black); }   /* the deadline in the condition line */
 .desk-switch span + button { margin-top: 0; } .desk-switch button + span { margin-top: 8px; }
-.desk.ph-b .gallery .nav-btn { display: none; }   /* photos B: the thumbnail column is the navigation, no arrows on the photo */
 /* Calmer accordions: more air in the rows and between title and text */
 .d-acc summary { padding: 14px 0 14px 8px; line-height: 1.4; }
 .d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
@@ -1685,13 +1674,12 @@ html:not(.desk) .tpl-list a { gap: 6px; font-size: var(--t-14); font-weight: 400
 html:not(.desk) .tpl-list a:hover { text-decoration: underline; }
 html:not(.desk) .tpl-list a img { width: 20px; height: 20px; }
 .m-others, .m-revs { margin-right: 0; padding-right: 16px; }   /* full-width swipe rows: stay inside the canvas, 16px at the end */
-.desk.dv-b #jConfig .opt-info { display: block; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* cards B: the explanation of the chosen option under each group, as on mobile */
 /* Desktop quantity: explanation left, "View all" right, on one line */
 .qty-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .qty-foot .opt-info { flex: 1; }
 .qty-foot .d-viewall { flex-shrink: 0; padding-top: 2px; }
-.desk:not(.dv-b) .qty-foot .opt-info { display: none; }
-.desk:not(.dv-b) .qty-foot { justify-content: flex-end; }
+.desk .qty-foot .opt-info { display: none; }
+.desk .qty-foot { justify-content: flex-end; }
 /* More air between the sections under the configuration, on the 8px grid */
 .d-more { gap: 48px; padding-top: 48px; }
 .d-more .d-tabs { margin-bottom: -16px; }   /* the tabs stay a little closer to the first section (32px) */
@@ -1825,11 +1813,6 @@ html:not(.desk) .desk-only { display: none; }
 .d-cal-card .gain .fast { font-weight: 600; color: var(--link); }
 .d-cal-card .pr { font-weight: 600; font-size: var(--t-14); }
 /* Delivery E (prototype switch): the calendar tile on top, everything centred */
-.desk.dl-e .deliv.d-cal-card { flex-direction: column; justify-content: flex-start; gap: 8px; padding: 14px 12px; text-align: center; }
-.desk.dl-e .deliv.d-cal-card[aria-checked="true"] { padding: 13px 11px; }
-.desk.dl-e .d-cal-card .tx { align-items: center; }
-.desk.dl-e .d-cal-card .cal { width: 68px; }
-.desk.dl-e .d-cal-card .cal b { font-size: var(--t-32); }
 
 /* Desktop PDP: the design choice in Your selection, two cards (icon, title, bullets); the button sits below them */
 .d-direct { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px 0 0; }
@@ -1907,13 +1890,11 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .desk .opt.is-rec .t { flex: 1; }
 .desk .opt.is-rec .t small { margin-bottom: 6px; }
 .desk .opt span.rec { margin-top: auto; }
-.desk.dv-b .opt .rec { display: none; }   /* Cards B: no recommended label on the option cards for now (Cornel) */
 
 /* Option photos (copy of Standard Flyers with the live site's images): mobile = a small square next to the text; desktop = the photo on top of the card */
 .opt .ph, .gi-vis .ph { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--r-s); overflow: hidden; background: var(--white); }
 .opt .ph img, .gi-vis .ph img { width: 100%; height: 100%; object-fit: contain; }
-.desk:not(.dv-b) .opt .ph { width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--r-s); }
-.desk.dv-b .opt .ph { width: 56px; height: 56px; }
+.desk .opt .ph { width: 100%; height: auto; aspect-ratio: 1; border-radius: var(--r-s); }
 /* Desktop: material icons 50px (paper swatches drawn at 37.5px, scaled up; colour chips 50px) */
 .desk #jConfig [data-option="paper"] .opt .swatch { zoom: 1.3333; }
 .desk #jConfig [data-option="paper"] .opt .chip { width: 50px; height: 50px; }
@@ -1943,8 +1924,8 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .spec-rel a:hover { border-color: var(--black); }
 .spec-rel img { display: block; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 /* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
-.desk:not(.dv-b) #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
-.desk:not(.dv-b) #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
+.desk #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
+.desk #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
 
 /* Home promo cards (style E, chosen 2026-10-27 from home-promos.html): one card for every banner on the home,
    live content (Contentful images), title top left on the photo, only the live "Shop X" button, no white bar.

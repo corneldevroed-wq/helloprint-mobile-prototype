@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111p">
+<link rel="stylesheet" href="styles.css?v=20261111q">
 </head>
 <body>
 <div class="phone">
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="co-head"><h2>Order summary</h2></div>
+      <div class="co-head"><h2>Order overview</h2></div>
       <section class="summary-box">
         <div id="paySummary"></div>
       </section>
@@ -102,14 +102,14 @@
   </div>
 </div>
 
-<script src="app.js?v=20261111p"></script>
+<script src="app.js?v=20261111q"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
   document.body.classList.add('buybar-on');
   const eur = n => '€' + n.toFixed(2);
 
-  // Order summary + totals (shared maths with the cart)
+  // Order overview + totals (shared maths with the cart)
   const addons = getAddons(), { check, code, discount, subtotal, vat, total } = cartTotals(items, addons);
   document.getElementById('paySummary').innerHTML = `
     ${items.map(it => `

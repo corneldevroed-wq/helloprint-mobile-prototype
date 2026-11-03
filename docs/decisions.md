@@ -3,6 +3,12 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+
+## PDP switches (`product.html`, Nov 3, 2026)
+- **11-03 — Desktop PDP: Cards A, Photos A, Delivery D; the switches are gone.** Cards B (mobile card, 3 per row), Photos B
+  (thumbnail column) and Delivery E (calendar tile on top) removed with their CSS. Page identical to before with A / A / D (measured).
+- **11-03 — Mobile PDP: flow H is the default.** The Flow switch is hidden, not removed: flows A–J stay in the code and open
+  with `?flow=…` for that visit only (no localStorage memory, so testers who had another flow stored now land on H).
 ## Cart desktop (`cart.html`, Nov 2, 2026)
 - **11-03 — Empty cart and the quote popup** (cart-empty-quote-sketch.html B for both): empty = the live message (the header's bag icon in a grey
   circle, "Your cart is empty", Browse products) + "Our best sellers" (4 product cards, Add to cart on desktop). Request a free quote = our popup

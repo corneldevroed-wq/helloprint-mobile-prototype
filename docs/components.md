@@ -31,15 +31,12 @@ with live content), `usp-bar-sketch.html` (mobile USP bar A–D), `banner-icons-
 ## Prototype switches
 All switches write their value into the URL and localStorage, so a copied link opens the same version.
 
-**Mobile PDP** (left edge, "Flow"): `?flow=a…j` — A–J versions of the PDP config/CTA (see memory/decisions; H and J are
-the leading ones). Remembered in `hp-flow`.
+**Mobile PDP**: flow H is the default (Cornel, 2026-11-03). The Flow switch is hidden (`.flow-switch { display: none }`), the
+code of flows A–J stays; `?flow=a…j` opens another flow for that visit only (no longer remembered in `hp-flow`).
 
-**Desktop PDP** (left edge, `.desk-switch`). Decided and removed 2026-11-02: Funnel (live funnels), Names (one thickness scale), Specs (links + See also), Icons (material icon set), Design (A: cards in Your selection), Rec (D: green bar in the card).
-| Switch | Param | Values | Default | What |
-|---|---|---|---|---|
-| Cards | `desk` | a / b | a | A = Figma cards (image on top, auto-fill grid); B = mobile-style cards 3/row |
-| Photos | `photos` | a / b | a | A = thumbnails under the photo; B = thumbnail column left |
-| Delivery | `deliv` | d / e | d | Calendar tile left / on top |
+**Desktop PDP**: no switches any more. Decided 2026-11-02: Funnel (live funnels), Names (one thickness scale), Specs (links +
+See also), Icons (material icon set), Design (A: cards in Your selection), Rec (D: green bar in the card). Decided 2026-11-03:
+Cards A (Figma, image on top), Photos A (thumbnails under the photo), Delivery D (calendar tile left); B / B / E removed.
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
 Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,
