@@ -1707,7 +1707,7 @@ html:not(.desk) .desk-only { display: none; }
 @keyframes logo-glide-desk { to { transform: translateX(calc(-50% - 32px)); } }
 
 /* Section heads: 24px titles, green "View all"-style link with arrow */
-.desk .home h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
+.desk .home h2, .desk .xsell h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
 .desk .home .section-head { align-items: center; }
 .desk .home .section-head .link { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); text-decoration: none; }
 .desk .home .section-head .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
@@ -1717,16 +1717,18 @@ html:not(.desk) .desk-only { display: none; }
 .desk .cats .cat { flex: 1 1 0; min-width: 0; }
 
 /* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
-.desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }   /* 5 per row, 10 best sellers = 2 full rows (Cornel, 2026-10-28; 6 per row tried) */
-.desk .home .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
-.desk .home .product .thumb { border-radius: 0; }
-.desk .home .product .badge { padding: 4px 8px; letter-spacing: 0; }
-.desk .home .product > :not(.thumb) { padding: 0 16px; }
-.desk .home .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
-.desk .home .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
-.desk .home .product .prices { gap: 8px; align-items: center; line-height: 20px; }
+.desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.desk .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }   /* Often ordered with (cart): 4 in the left column, 8 under the title */
+.xsell .product .pill { margin-top: 16px; border-color: var(--mid-grey); }   /* desktop: Add to cart with the Recommended preset; the photo and the name open the product page */   /* 5 per row, 10 best sellers = 2 full rows (Cornel, 2026-10-28; 6 per row tried) */
+.desk .home .product, .desk .xsell .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
+.desk .home .product .thumb, .desk .xsell .product .thumb { border-radius: 0; }
+.desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; letter-spacing: 0; }
+.desk .home .product > :not(.thumb), .desk .xsell .product > :not(.thumb) { padding: 0 16px; }
+.desk .home .product > :last-child, .desk .xsell .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
+.desk .home .product .name, .desk .xsell .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .home .product .prices, .desk .xsell .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: var(--t-14); }
-.desk .home .product .price { font-weight: 900; letter-spacing: -0.28px; }
+.desk .home .product .price, .desk .xsell .product .price { font-weight: 900; letter-spacing: -0.28px; }
 
 /* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
 .desk .home > .promos { order: 6; }
@@ -2201,8 +2203,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
 .plp .section-head h2 { margin-bottom: 0; }
-.plp .section-head .link, .hc-card .link, .ha-back, .o-link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); }
-.plp .section-head .link::after, .hc-card .link::after, .o-link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); }
+.plp .section-head .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; }
 .plp .section-head + .cat-lead { margin-top: 8px; }
 .cat-lead b { font-weight: 600; color: var(--black); }
 .cat-lead a { color: var(--link); text-decoration: underline; }
@@ -2262,14 +2264,14 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .dsocial img { width: 16px; height: 16px; }
 .dcerts { gap: 8px; }
 .desk .plp .plp-mats .mat { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }   /* the slight shadow of the PDP option cards, so the material tiles pop a little (Cornel) */
-.desk .plp .product, .desk .home .product { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }   /* the same slight shadow on the product cards (bestsellers, card types, …) on desktop */
+.desk .plp .product, .desk .home .product, .desk .xsell .product { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }   /* the same slight shadow on the product cards (bestsellers, card types, …) on desktop */
 /* Card outline on desktop a little darker than our light line, so it stays visible with the soft shadow (Cornel) */
 :root { --card-line: var(--line); }
-.desk .plp .product, .desk .home .product, .desk .plp .plp-mats .mat, .desk .hc-card { border-color: var(--card-line); }
-.desk .plp .product:hover, .desk .home .product:hover, .desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
+.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card { border-color: var(--card-line); }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
 /* the soft card shadow only on hover (Cornel, 2026-10-28) */
-.desk .plp .product, .desk .home .product, .desk .plp .plp-mats .mat, .desk .hc-card, .desk .cart-main .line-item { box-shadow: none; transition: border-color .15s, box-shadow .2s; }
-.desk .plp .product:hover, .desk .home .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover, .desk .cart-main .line-item:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card, .desk .cart-main .line-item { box-shadow: none; transition: border-color .15s, box-shadow .2s; }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover, .desk .cart-main .line-item:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
 /* FAQ / accordion questions straightened on every page (PDP, promo SEO, category pages): question = card title
    (16/22 desktop, 14 mobile, semibold), answer = body text (14/22 desktop, 12/18 mobile) (Cornel, 2026-10-28) */
 .oc-faq summary { font-size: var(--t-14); line-height: var(--lh-tight); }
@@ -2503,63 +2505,25 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .cart-main { gap: 32px; }
 .desk .cart-side { padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); }   /* the same outline as the cards next to it */
 .cart-col { display: contents; }   /* mobile: its blocks join the page column */
-.up-boxes { display: flex; flex-direction: column; gap: 32px; }   /* the two questions under each other, full width, 32 apart as blocks */
 .desk .cart-col { align-self: stretch; }   /* the full row height, so the summary card can stick */
+.desk .cart-side .quote { margin-top: -8px; }   /* 8 under Continue to checkout, as live: the two buttons together */
 .desk .cart-side { position: sticky; top: 124px; }   /* under the sticky desktop header (100) + 24; the extras above it scroll away */
-/* Upsells on desktop: on top of the products in a light grey block (#FEF0DF tried, Cornel 11-02: grey), the two side by side as white cards without outline (Cornel, 2026-11-02);
-   title 16/22 with the price on the right, label 12/18, text link 14/22 */
-.desk .addons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }
-.desk .addons > h2 { grid-column: 1 / -1; }
-.desk .addons h2 { padding: 0; font-size: var(--t-16); line-height: var(--lh-16); letter-spacing: 0; }   /* one line: the title (card title size) with the intro after it, so the block stays low */
-.desk .addons h2 span { margin-left: 8px; font-weight: 400; font-size: var(--t-14); line-height: 1; color: var(--dark-grey); }
-.desk .addon { gap: 8px; padding: 16px; border: 0; box-shadow: none; }
-.desk .addon .switch { margin: 1px 0 0; }   /* centred on the 22px title line */
-.desk .addon .t { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; padding: 0; border-right: 0; }
-.desk .addon .p { grid-row: 1; grid-column: 2; }
-.desk .addon small, .desk .addon .link { grid-column: 1 / -1; justify-self: start; }
-/* Upsells C (switch Upsells, upsell-buttons-sketch.html): no switch. The design check shows its 3 levels as pills (chosen = .pill.active),
-   secured delivery a "+ Add" pill that becomes "✓ Secured delivery added" + Remove */
-.up-card { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: var(--r-m); background: var(--white); }
-.up-card .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.up-card b { display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
-.up-card small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.up-card .end { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-.up-card .p { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); white-space: nowrap; }
-.up-card b .material-symbols-rounded { font-size: 20px; color: var(--light-green); }
-.up-card .pill { gap: 4px; }
-.up-levels { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.up-levels .pill small { color: inherit; opacity: .8; }
-/* Upsells O (switch Upsells, default): the card of the old site 1:1 (Cornel, 2026-11-03), the two side by side under the order lines.
-   Top line: name 16 semibold, the price in green, the switch; why (14 grey); a line; footer: social proof (12 green) + an arrow link to the popup.
-   On = a light green outline, no tint. */
-.o-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.o-card:only-child { grid-column: 1 / -1; }   /* one upsell (no secured delivery for this order): the full width, no empty half */
-.o-card { display: flex; flex-direction: column; }
-.o-card, .desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* order lines and upsell cards: one outline, one padding (Cornel, 2026-11-03) */
-.o-card[data-on="true"] { border-color: var(--light-green); box-shadow: inset 0 0 0 1px var(--light-green); }
-.o-top { display: flex; align-items: center; gap: 16px; }
-.o-top b { flex: 1; min-width: 0; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
-.o-top .p { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--light-green); white-space: nowrap; }
-.o-card > p { flex: 1; margin-top: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* grows, so both footers line up */
-.o-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
-.o-foot small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--light-green); }
-.o-link { margin-left: auto; }   /* the arrow link of the PLP / Help Centre ("All categories →"), right in the footer */
-/* Upsells R (switch Upsells): each upsell a block of its own under the order lines (under each other, full width), asked as a question (Cornel, 2026-11-03,
-   like a delivery picker): the question (16 semibold) + a link to the popup, then one outlined list, a row = circle, name bold, price right */
-.up-box { display: flex; flex-direction: column; gap: 8px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }   /* grey, so the white list of options stands out (#FFFFE3 tried, rejected) */
-.up-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.up-head strong { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
-.up-list { border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); overflow: hidden; }
-.up-opt { display: flex; align-items: center; gap: 16px; width: 100%; padding: 16px; text-align: left; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); cursor: pointer; }
-.up-opt + .up-opt { border-top: 1px solid var(--outline); }
-.up-opt b { flex: 1; min-width: 0; font-weight: 600; }
-.up-opt .up-price { white-space: nowrap; }
-.up-opt .free { color: var(--light-green); font-weight: 600; }
+/* Upsells on desktop (Cornel's design 2026-11-03): inside the Order summary card, each a light grey block (8 from the card edge):
+   switch · title 16/22 semibold · price 16 bold right; under the title a short line (12/18 grey) and the link to the popup.
+   16 under the blocks a line across the whole card, 16 under it the totals. */
+.sum-ups { display: flex; flex-direction: column; gap: 8px; margin: -8px -24px 0; padding: 0 16px 16px; border-bottom: 1px solid var(--line); }   /* 8 under the title; to the card edge, so the line runs across; the blocks 16 in */
+.sum-up { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 8px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }   /* 16 inside, so the price has room on the right */
+.sum-up b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* the size of the summary rows */
+.sum-up .p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); white-space: nowrap; }   /* as the amounts in the totals */
+.sum-up small, .sum-up .link { grid-column: 2 / -1; justify-self: start; }
+.sum-up small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.sum-ups + .totals { margin-top: 0; border-top: 0; padding-top: 0; }   /* the line is the one across the card above */
+.desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* the cart cards: --outline, 24 padding (Cornel, 2026-11-03) */
 .desk .cart-main .line-item { align-items: flex-start; gap: 24px; }
 .desk .cart-main .line-item .img { width: 120px; height: 120px; }
 .desk .cart-main .line-item .t strong, .desk .cart-main .line-item .p { font-size: var(--t-16); line-height: var(--lh-16); }
-/* Desktop lines (cart-lines-sketch.html, switch Lines A/B): one grid, photo | text | price, then full-width rows:
-   the delivery, then A = the quantity tip + the action row, B = the quantity row. Label above the name. */
+/* Desktop lines (cart-lines-sketch.html B, Cornel 2026-11-03): one grid, photo | text | price, then the delivery and the quantity row
+   (dropdown, the next step as a hint, the round icon buttons). Label above the name. */
 .desk .cart-main .line-item.desk-line { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; row-gap: 0; }
 .desk-line > .img { grid-row: span 3; }   /* the photo spans the rows next to it, so the right column builds up without waiting for its height */
 .line-item .badge { position: static; align-self: flex-start; margin-bottom: 8px; }
@@ -2568,16 +2532,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
    (Cornel, 2026-11-02: not edge to edge); title a step under the name (14 vs 16) */
 .desk-line > .eta { grid-column: 2 / -1; margin-top: 16px; padding: 8px 0; border-radius: 0; background: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .desk-line > .eta > b { font-size: var(--t-14); line-height: var(--lh-14); }
-.desk-line > .qty-tip, .desk-line > .cart-qty { grid-column: 2 / -1; }
-.desk-line > .cart-actions { grid-column: 1 / -1; }
-/* A: a light green quantity tip, an action row with pills under the card */
-.qty-tip { display: flex; align-items: center; gap: 16px; margin-top: 16px; padding: 8px 8px 8px 16px; border-radius: var(--r-m); background: var(--selected); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.qty-tip > span:nth-child(2) { flex: 1; }
-.qty-tip b { font-weight: 600; color: var(--black); }   /* body dark grey, the point in black */
-.qty-tip .material-symbols-rounded { font-size: 20px; color: var(--light-green); }
-.cart-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
-.cart-actions .pill { gap: 4px; }
-.cart-actions .pill:last-child { margin-left: auto; }   /* Remove on the right */
+.desk-line > .cart-qty { grid-column: 2 / -1; }
 /* B: quantity dropdown with the next step as a hint; round icon buttons under the price */
 .cart-qty { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
 .cart-qty .field { width: 144px; }

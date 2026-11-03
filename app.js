@@ -572,7 +572,7 @@ const CHECK_TIERS = [
     perks: ['Print proof before production', 'Automated checks on resolution, size & colour settings'] },
   { id: 'premium', name: 'Premium Check + Proof', price: 10.99, line: 'Premium Check + Proof', recommended: true, social: '80% of our customers choose this option',
     lead: 'Everything in Basic, plus:', perks: ['All file formats accepted', 'Design support from our experts', 'AI-powered optimisation'] },
-  { id: 'deluxe', name: 'Deluxe', price: 21.00, line: 'Deluxe check',
+  { id: 'deluxe', name: 'Deluxe', price: 21.00, line: 'Deluxe Check',
     lead: 'Everything in Premium, plus:', perks: ['Perfect design guaranteed', 'Personal extra file-check, prioritised by our experts'] },
 ];
 const SECURED = { id: 'secured', name: 'Add secured delivery', sub: 'Ensure priority support, fast reprint and delivery guarantees for your order', price: 5.99, line: 'Secured delivery' };

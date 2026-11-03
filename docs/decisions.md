@@ -4,6 +4,16 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-03 — "Often ordered with <group>" in the cart** (as bol's "Vaak samen gekocht"): 4 products from other groups than the first cart item,
+  not already in the cart, the home / PLP product card; the photo and name open the product page. Desktop only: an "Add to cart" pill that adds
+  the Recommended preset at the product's own quantity ("Upload after checkout", delivery as the first cart line); the card shows that price.
+  Desktop: under the order lines, before Continue shopping (4 in a row); mobile: before Continue shopping (2 × 2), no pill. List: `XSELL` in cart.html.
+- **11-03 — Lines B and Upsells D, the other variants removed:** order lines = photo | label, name, options, Design (+ View artwork / Edit in
+  Canva) | price, the delivery (etaHtml, "(Saver)" after the date) between two lines, one row with the quantity dropdown + hint and the round
+  icon buttons. Upsells on desktop (Cornel's design) = light grey blocks inside the Order summary card (switch · title · price; short line +
+  link to the popup), a line across the card, then the totals; mobile keeps its cards on top. Rejected: Lines A (pills + quantity tip), Upsells
+  O (old-site cards under the lines), R (a question + radio list), S (switches in a grey block), C (level pills); #FEF0DF / #FFFFE3 tints.
+  Cart cards (lines, summary) use --outline. The demo carts (1 / 4 / 0) stay as a switch. Next: the empty cart.
 - **11-02 — Richer product lines on desktop, A and B behind the switch Lines (`cart-lines-sketch.html`):** label from the product, file deadline
   and delivery date per line (each product has its own deadline; the sidebar delivery box is gone on desktop), Edit / Duplicate / Remove with
   icons, a quantity upsell (only a step that is ≥5% cheaper per piece, price from the product's price list), discount code closed by default
