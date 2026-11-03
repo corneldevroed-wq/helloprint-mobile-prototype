@@ -7,7 +7,7 @@ Add new decisions here when Cornel makes a final call.
 - **11-03 — Empty cart and the quote popup** (cart-empty-quote-sketch.html B for both): empty = the live message (the header's bag icon in a grey
   circle, "Your cart is empty", Browse products) + "Our best sellers" (4 product cards, Add to cart on desktop). Request a free quote = our popup
   with the cart lines, extras and total excl. VAT first, then email + name (phone, company, notes, files optional); logged in "Sending to … · Change";
-  no address (shipping is free). Also on mobile, under the totals. Rejected: empty A (as live only), C (categories); quote A (live's two columns + address).
+  Eircode + town optional (added later the same day, for the shipping costs). Also on mobile, under the totals. Rejected: empty A (as live only), C (categories); quote A (live's two columns + address).
   The Cart prototype switch (demo carts 1 / 4 / 0) is removed.
 - **11-03 — Green text that is not a link = `--link`** (#008539, 4.8:1 on white), not light green (3.2:1, too low for small text): Free and
   discounts in the totals, the saving under a crossed-out price, the quantity hint; then site-wide (26 rules: delivery dates, social proof,

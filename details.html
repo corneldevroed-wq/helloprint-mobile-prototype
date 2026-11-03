@@ -6,7 +6,7 @@
 <title>Details &amp; Shipping</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111h">
+<link rel="stylesheet" href="styles.css?v=20261111l">
 </head>
 <body>
 <div class="phone">
@@ -171,7 +171,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261111h"></script>
+<script src="app.js?v=20261111l"></script>
 <script>
   // Nothing to check out → back to the cart
   const items = getCart();
@@ -454,7 +454,6 @@
   form.addEventListener('change', remember);
 
   // Validation: errors show after leaving a field and when going to Payment
-  const EIRCODE = /^[A-Z]\d[\dW]\s?[A-Z\d]{4}$/i;
   const RULES = {
     email: [v => /^\S+@\S+\.\S+$/.test(v), 'Enter a valid email address'],
     company: [v => v.trim().length > 1, 'Enter your company name', () => document.getElementById('isBusiness').checked],

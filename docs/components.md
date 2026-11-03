@@ -43,7 +43,7 @@ the leading ones). Remembered in `hp-flow`.
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
 Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,
-contact or "Sending to" when logged in via `hp-user`). Decided 2026-11-03 and removed: Lines (B), Upsells (D).
+contact or "Sending to" when logged in via `hp-user`, Eircode + town optional; `EIRCODE` lives in app.js). Decided 2026-11-03 and removed: Lines (B), Upsells (D).
 
 **Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
 sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same

@@ -538,7 +538,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .totals div.grand { font-weight: 700; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
 .totals div.grand span:last-child { font-weight: 800; }
 .totals small { font-weight: 400; font-size: var(--t-12); line-height: 1; color: var(--dark-grey); }   /* (Excl. VAT), (Incl. VAT) */
-.totals .free, .q-item .free { font-weight: 600; color: var(--link); }   /* green text that is not a link: --link green, readable (4.8:1; light green is 3.2:1) */
+.totals .free, .q-item .p.free { font-weight: 600; color: var(--link); }   /* green text that is not a link: --link green, readable (4.8:1; light green is 3.2:1) */
 .totals .info-btn { width: 22px; height: 22px; margin: 0 0 0 4px; vertical-align: top; }   /* the ⓘ on the line height of the row; opens the popup */
 .cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .cart-usps li { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); }
@@ -559,12 +559,14 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .q-item:first-child { border-top: 1px solid var(--line); }
 .q-item .img { width: 48px; height: 48px; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
 .q-item .img img { width: 100%; height: 100%; object-fit: cover; }
-.q-item b, .q-item .p, .q-total { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
-.q-item .p, .q-total > :last-child { font-weight: 700; }
-.q-item small, .q-to small, .q-legal { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.q-item b, .q-item .p, .q-total { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* prices regular (Cornel, 2026-11-03), the total bold */
+.q-item b, .q-total { font-weight: 600; }
+.q-total > :last-child { font-weight: 700; }
+.q-item small, .q-to small, .q-legal, .q-hint { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .q-total { display: flex; justify-content: space-between; padding-top: 8px; }
 .q-total small { font-weight: 400; font-size: var(--t-12); color: var(--dark-grey); }
 .q-who { display: flex; flex-direction: column; gap: 16px; }
+.q-addr { display: flex; flex-direction: column; gap: 8px; }   /* the hint 8 above its fields */
 .q-to { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
 .q-to b { font-weight: 600; }
 .q-bar { flex-direction: column; align-items: stretch; gap: 8px; padding: 16px; }
@@ -1488,7 +1490,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-go img { width: 24px; height: 24px; }
 
 /* Sheets (ⓘ guide, upload…) on desktop: a centred dialog instead of a bottom sheet */
-.desk .sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: 560px; max-height: calc(100% - 96px); border-radius: var(--r-xl); transform: translate(-50%, calc(-50% + 40px)); opacity: 0; transition: transform .25s, opacity .25s; }
+.desk .sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: 560px; max-height: calc(100% - 96px); border-radius: var(--r-xl); overflow: hidden; transform: translate(-50%, calc(-50% + 40px)); opacity: 0; transition: transform .25s, opacity .25s; }
 .desk .sheet-layer.open .sheet { transform: translate(-50%, -50%); opacity: 1; }
 .desk .sheet .grab { display: none; }
 .desk .sheet-head { padding-top: 16px; }

@@ -661,6 +661,9 @@ function showToast(text) {
 function toastOnNextPage(text) { try { sessionStorage.setItem('hp-toast', text); } catch (e) {} }
 try { const t = sessionStorage.getItem('hp-toast'); if (t) { sessionStorage.removeItem('hp-toast'); setTimeout(() => showToast(t), 300); } } catch (e) {}
 
+// An Irish postcode (details, the quote popup)
+const EIRCODE = /^[A-Z]\d[\dW]\s?[A-Z\d]{4}$/i;
+
 // Form errors (checkout): the message sits directly below its own input, inside the field's column
 function setFieldError(field, msg) {
   const input = field.querySelector('input, select');
