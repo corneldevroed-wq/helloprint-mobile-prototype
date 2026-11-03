@@ -211,7 +211,7 @@
     const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}" title="Edit" aria-label="Edit">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" title="Duplicate" aria-label="Duplicate">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" title="Remove" aria-label="Remove">${icon('delete')}</button></div>`;
     return `<div class="line-item cart-line">${top}
       <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs</option>`).join('')}</select></label>
-        ${np ? `<span class="qty-hint">${nq} pcs: ${each({ price: np, qty: nq })} (+${fmt(np - it.price)})</span>` : ''}` : ''}${icons}</div></div>`;
+        ${np ? `<span class="qty-hint">Upgrade to ${nq} pcs for just ${fmt(np - it.price)}</span>` : ''}` : ''}${icons}</div></div>`;
   }
 
 
