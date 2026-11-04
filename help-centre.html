@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,home,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261112s">
+<link rel="stylesheet" href="styles.css?v=20261112u">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -76,9 +76,9 @@
   </main>
 </div>
 
-<script src="app.js?v=20261112s"></script>
-<script src="help-content.js?v=20261112s"></script>
-<script src="help-data.js?v=20261112s"></script>
+<script src="app.js?v=20261112u"></script>
+<script src="help-content.js?v=20261112u"></script>
+<script src="help-data.js?v=20261112u"></script>
 <script>
   const I = {
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
@@ -88,8 +88,10 @@
   document.getElementById('hc-search-btn').innerHTML = svg('search');
   // hero photo columns: each column twice in a row, so the drift loops without a jump (help team photos, live about-us + our-culture)
   const col = list => `<div class="col"><div class="track">${[...list, ...list].map(n => `<img src="assets/help/${n}.webp" alt="">`).join('')}</div></div>`;
-  document.querySelector('.hc-cols.l').innerHTML = col(['strip-booklets', 'strip-focus', 'strip-thumbs-up']);   // one column a side (Cornel, 2026-10-30: two felt busy)
-  document.querySelector('.hc-cols.r').innerHTML = col(['strip-laptop', 'strip-magazines', 'strip-headphones']);   // Cornel's 6 square photos (2026-10-30): print and people alternate
+  // two columns a side again (Cornel, 2026-11-04): the outer and inner column drift apart, the inner one half a photo higher;
+  // 4 photos per column (one set must be taller than the column + the offset for a seamless loop), Cornel's 6 photos (2026-10-30)
+  document.querySelector('.hc-cols.l').innerHTML = col(['strip-booklets', 'strip-focus', 'strip-magazines', 'strip-thumbs-up']) + col(['strip-laptop', 'strip-thumbs-up', 'strip-headphones', 'strip-magazines']);
+  document.querySelector('.hc-cols.r').innerHTML = col(['strip-focus', 'strip-booklets', 'strip-laptop', 'strip-headphones']) + col(['strip-magazines', 'strip-headphones', 'strip-thumbs-up', 'strip-focus']);
   document.getElementById('hc-pop').insertAdjacentHTML('beforeend',
     ['Track my order', 'Upload artwork', 'Change my order', 'Download invoice', 'Delivery times'].map(p => `<a class="pill" href="#${hslug(p)}">${p}</a>`).join(''));
 
