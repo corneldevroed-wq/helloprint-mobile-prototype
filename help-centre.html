@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,chat,delivery_truck_speed,home,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261112u">
+<link rel="stylesheet" href="styles.css?v=20261112v">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -34,7 +34,7 @@
           </form>
           <div class="hc-pop" id="hc-pop">Popular:</div>
           <!-- people as the fallback under the search: "Can't find it?" + experts + chat (concept C of help-head-sketch.html, Cornel 2026-10-29) -->
-          <div class="hc-alt"><span class="or">Can't find it?</span><span class="hc-online"><span class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span><span class="txt"><b><span class="dot"></span>Our print experts are online</b><span>Usually reply within minutes</span></span></span><a class="pill active" href="#chat">Chat with us</a></div>
+          <div class="hc-alt"><span class="or">Can't find it?</span><span class="hc-online"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span class="txt"><b><span class="dot"></span>Our print experts are online</b><span>Usually reply within minutes</span></span></span><a class="pill active" href="#chat">Chat with us</a></div>
         </div>
       </div>
     </section>
@@ -57,7 +57,7 @@
       <div class="hc-team">
         <div class="txt">
           <h2>Real people, here to help</h2>
-          <p>Ask Anna, our assistant, any time. Our print experts take over Mon–Fri 9:00–17:00 and our designers check every file before it goes to print.</p>
+          <p>Ask Anna, our assistant, any time. Our print experts take over Mon–Fri 9:00–17:00 and our print experts check every file before it goes to print.</p>
           <div class="btns" id="hc-team-btns"></div>
         </div>
         <ul class="people" id="hc-people"></ul>
@@ -66,7 +66,7 @@
 
     <section class="hc-contact-wrap">
       <div class="hc-contact">
-        <div class="faces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></div>
+        <div class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></div>
         <div class="txt"><h2>Still need a hand?</h2><p>Our print experts are here to help. Mon–Fri 9:00–17:00, chat is open any time.</p></div>
         <div class="btns" id="hc-btns"></div>
       </div>
@@ -76,9 +76,9 @@
   </main>
 </div>
 
-<script src="app.js?v=20261112u"></script>
-<script src="help-content.js?v=20261112u"></script>
-<script src="help-data.js?v=20261112u"></script>
+<script src="app.js?v=20261112v"></script>
+<script src="help-content.js?v=20261112v"></script>
+<script src="help-data.js?v=20261112v"></script>
 <script>
   const I = {
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
@@ -116,12 +116,12 @@
     `<div class="hc-topics">${TOPICS.filter(t => t.id !== 'start').map(t => `<div class="hc-card"><a class="hc-card-top" href="${helpTopicUrl(t.id)}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
   }
 
-  // team cut-outs (Cornel, 2026-10-29) on the light green avatar background (CSS). Names: the real team (Cornel, 2026-11-04);
-  // photos and roles are still placeholders (the old cut-outs) until Cornel uploads the real photos
+  // the real team with their own photos (Cornel, 2026-11-04): cut-outs on the light green avatar background (CSS), framed close on
+  // the face (head ~40% of the width); John and Timo are the old cut-outs zoomed in. Real roles; men and women alternate
   const PEOPLE_TEAM = [
-    ['', 'Anna', 'AI assistant', true],   // our bot: the Material Symbols "chat" icon on light green
-    ['conor.webp', 'John', 'Customer care'], ['niamh.webp', 'Benji', 'Customer care'], ['ciaran.webp', 'Quinten', 'Customer care'],
-    ['aoife.webp', 'Simon', 'Print expert'], ['sean.webp', 'Saskia', 'Quotes'], ['sophie.webp', 'Roos', 'Designer'], ['liam.webp', 'Maria', 'Designer'],
+    ['', 'Anna', 'AI Assistant', true],   // our bot: the Material Symbols "chat" icon on light green
+    ['timo.webp', 'Timo', 'Customer Care'], ['saskia.webp', 'Saskia', 'Customer Care'], ['simon.webp', 'Simon', 'Sales'],
+    ['karen.webp', 'Karen', 'Account Executive'], ['benji.webp', 'Benji', 'Customer Care'], ['audrey.webp', 'Audrey', 'Customer Care'], ['john.webp', 'John', 'Quotes'],
   ];
   document.getElementById('hc-people').innerHTML = PEOPLE_TEAM.map(([img, name, role, bot]) =>
     `<li${bot ? ' class="bot"' : ''}><span class="av">${bot ? '<span class="material-symbols-rounded" aria-hidden="true">chat</span>' : `<img src="assets/help/team/${img}" alt="">`}</span><b>${name}</b><small>${role}</small></li>`).join('');

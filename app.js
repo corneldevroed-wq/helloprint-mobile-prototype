@@ -42,9 +42,9 @@ const SHELL_FOOTER = `
 ${SHELL_NEWS}
       <div class="help" style="width:100%">
         <div class="avatars">
-          <div class="avatar"><img src="assets/help/team/niamh.webp" alt=""></div>
-          <div class="avatar lg"><img src="assets/help/team/conor.webp" alt=""></div>
-          <div class="avatar"><img src="assets/help/team/aoife.webp" alt=""></div>
+          <div class="avatar"><img src="assets/help/team/saskia.webp" alt=""></div>
+          <div class="avatar lg"><img src="assets/help/team/timo.webp" alt=""></div>
+          <div class="avatar"><img src="assets/help/team/karen.webp" alt=""></div>
         </div>
         <h2>Do you need help?</h2>
         <div class="pills">
@@ -162,7 +162,7 @@ const SHELL_FOOTER_DESK = `
     ${SHELL_NEWS}
     <div class="dwrap">
       <div class="dfoot-help">
-        <div class="dhelp"><span class="dfaces"><img src="assets/help/team/niamh.webp" alt=""><img src="assets/help/team/conor.webp" alt=""><img src="assets/help/team/aoife.webp" alt=""></span>
+        <div class="dhelp"><span class="dfaces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span>
           <p><b>Need help?</b><a href="#chat">Ask our print experts</a></p></div>
         ${DTRUST}
       </div>
