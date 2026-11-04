@@ -2419,10 +2419,14 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .ha-body h1, .desk .cart-page h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
 /* article text: body 12/18 mobile, 14/22 desktop; headings (all h2, help-content.js) = h2 20/24; emphasis semibold; inline links green underlined */
 .ha-text { margin-top: 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
-.desk .ha-text { margin-top: 24px; font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .ha-text { font-size: var(--t-14); line-height: var(--lh-14); }   /* 16px under the title, as on mobile (Cornel, 2026-11-04) */
 .ha-text > * + * { margin-top: 16px; }
 .ha-text h2 { margin: 24px 0 0; line-height: var(--lh-20); }   /* one heading style in every article: the h2 (20/24, 800, dark green), as "Order overview" in the cart (Cornel, 2026-11-04) */
-.desk .ha-text h2 { margin-top: 32px; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }   /* 20 on desktop too (the .desk .help-page h2 rule makes page h2s 24) */
+.desk .ha-text h2 { margin-top: 32px; }
+.desk .ha-text h2, .desk .ha-more h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }   /* 20 on desktop too (the .desk .help-page h2 rule makes page h2s 24) */
+.ha-more { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }   /* "More help with …": the home's article cards under the text (Cornel, 2026-11-04) */
+.ha-more h2 { margin: 0 0 8px; line-height: var(--lh-20); }
+.desk .ha-more { margin-top: 32px; padding-top: 32px; }   /* a line between the article and More help (Cornel, 2026-11-04) */
 .ha-text > h2:first-child { margin-top: 0; }
 .ha-text h2 + * { margin-top: 8px; }
 .ha-text strong, .ha-text b { font-weight: 600; }   /* emphasis = semibold, as everywhere */
@@ -2436,7 +2440,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .hc-mine, .desk .hc-mine-out { padding: 16px 24px; }   /* 16px under the title on desktop too (Cornel, 2026-11-04: 24 was too much) */   /* signed out: the same grey block (Cornel, 2026-11-04) */
 .hc-mine-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* label left, View all right (Cornel, 2026-11-04) */
 .help-page .hc-mine h2 { margin: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-green); }   /* a small label, not a section title */
-.desk .hc-mine h2 { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title: 14 mobile, 16 desktop (Cornel, 2026-11-04) */
+.desk .hc-mine h2, .desk .ha-helpful { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title: 14 mobile, 16 desktop (Cornel, 2026-11-04; also "Was this article helpful?") */
 .hc-mine ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .hc-mine li { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; row-gap: 8px; padding: 12px 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* a row = a white card */
 .hc-mine li div { flex: 1; min-width: 0; }   /* the text between the product photo (.thumb-sm) and the action */

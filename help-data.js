@@ -188,3 +188,21 @@ function helpAccSwitch() {   // prototype switch "Account": I = signed in (the b
     const u = new URL(location.href); u.searchParams.set('acc', b.dataset.acc); location.href = u.toString();
   });
 }
+
+// "More help with …" under an enriched article (Cornel, 2026-11-04): related articles as the Help Centre home cards
+// (.hc-quick .hc-card: title, one line why, Read more), 3 in a row as on the home. Per article: heading + [slug, line].
+const HELP_MORE = {
+  'how-can-i-create-an-account': { h: 'More help with your account', items: [
+    ['what-can-i-do-in-my-account', 'Orders, invoices, addresses and settings'],
+    ['how-do-i-reset-my-password', 'If you cannot sign in'],
+    ['company-account-how-it-works', 'Invite colleagues to order and share invoices'],
+    ['how-do-i-update-my-company-and-vat-details', 'Company info and per-address details'],
+    ['do-i-need-to-have-an-account-to-place-an-order', 'Why an account is required'],
+    ['can-i-delete-my-account', 'What happens to your orders and details'],
+  ] },
+};
+function helpMore(afterEl, slug) {
+  const m = HELP_MORE[slug]; if (!m) return;
+  afterEl.insertAdjacentHTML('afterend', `<section class="ha-more"><h2>${m.h}</h2><div class="hc-quick">${m.items.map(([s, line]) =>
+    `<a class="hc-card" href="help-article.html?q=${s}"><span class="hc-card-h">${helpFind(s).q}</span><span class="hc-quick-p">${line}</span><span class="link">Read more</span></a>`).join('')}</div></section>`);
+}

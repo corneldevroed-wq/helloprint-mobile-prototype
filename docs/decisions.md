@@ -114,6 +114,11 @@ Add new decisions here when Cornel makes a final call.
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **11-04 — Enriched articles with what we have:** the draft content (artifact "How can I create an account?") built with the
+  article's own elements only: p, h2, ol, ul, strong, links; the table "What we ask for and why" became a list ("**Field**
+  (required): why"). "More help with your account" = the home's article cards (`.hc-card` in `.hc-quick`, 3 in a row
+  as on the home, title + one line + Read more), data in `HELP_MORE` (help-data.js). The artifact's "Still stuck?" line
+  is left out: the helpful block and "Can't find it?" + chat already close the page.
 - **11-04 — One text style for all 146 articles (UI Style Guide):** every heading in an article is an h2, 20/24 extra bold dark green
   on mobile and desktop, as "Order overview" in the cart (24/32 above, 8 to its text); was a mix of h2 (24px, as big as the page
   title), h3, h4 and bold-only paragraphs. Body 12/18 · 14/22 black, emphasis semibold (600), no trailing colon in headings,
