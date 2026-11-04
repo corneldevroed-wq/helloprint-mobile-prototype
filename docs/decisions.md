@@ -119,10 +119,15 @@ Add new decisions here when Cornel makes a final call.
   (required): why"). "More help with your account" = the home's article cards (`.hc-card` in `.hc-quick`, 3 in a row
   as on the home, title + one line + Read more), data in `HELP_MORE` (help-data.js). The artifact's "Still stuck?" line
   is left out: the helpful block and "Can't find it?" + chat already close the page.
+- **11-04 — Relinking under every article (max 3, one row; 6 was kermis):** "More help with <topic>" (Account: "your account") with 3 article cards on all
+  146 articles: the next questions of the same sub-topic first, then the rest of the topic; card line = the article's first
+  sentence (2 lines max, as on the home), card title one step smaller than on the home (14 on desktop). A hand-picked list in
+  `HELP_MORE` wins (create-account, its first 3).
 - **11-04 — One text style for all 146 articles (UI Style Guide):** every heading in an article is an h2, 20/24 extra bold dark green
   on mobile and desktop, as "Order overview" in the cart (24/32 above, 8 to its text); was a mix of h2 (24px, as big as the page
   title), h3, h4 and bold-only paragraphs. Body 12/18 · 14/22 black, emphasis semibold (600), no trailing colon in headings,
   no empty headings, list items without an inner <p>. Done in help-content.js by a script (16 articles changed).
+  Numbered steps (ol) 16px apart, as paragraphs (long steps ran together at 8); bullet lists (ul) stay 8.
 - **11-04 — Signed in: your own data in the article (A of help-personal-sketch.html):** one block under the title for 12 kinds
   (proofs, changeable orders, status, shipments, recently delivered, past orders, quotes, invoices, refunds, cases, shipping
   address, billing): grey block, small dark green label (no count), rows = white cards with the card outline, the product photo (`.thumb-sm`), number 14 semibold, the urgent part

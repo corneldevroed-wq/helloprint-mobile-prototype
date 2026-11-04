@@ -2426,11 +2426,13 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .ha-text h2, .desk .ha-more h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }   /* 20 on desktop too (the .desk .help-page h2 rule makes page h2s 24) */
 .ha-more { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }   /* "More help with …": the home's article cards under the text (Cornel, 2026-11-04) */
 .ha-more h2 { margin: 0 0 8px; line-height: var(--lh-20); }
+.desk .ha-more .hc-card-h { font-size: var(--t-14); line-height: var(--lh-14); }   /* one step smaller than on the home: the cards shouldn't outshout the article (Cornel, 2026-11-04) */
 .desk .ha-more { margin-top: 32px; padding-top: 32px; }   /* a line between the article and More help (Cornel, 2026-11-04) */
 .ha-text > h2:first-child { margin-top: 0; }
 .ha-text h2 + * { margin-top: 8px; }
 .ha-text strong, .ha-text b { font-weight: 600; }   /* emphasis = semibold, as everywhere */
 .ha-text ol, .ha-text ul { display: flex; flex-direction: column; gap: 8px; padding-left: 20px; }
+.ha-text ol { gap: 16px; }   /* numbered steps are often several lines long: 16 between them, as between paragraphs (Cornel, 2026-11-04) */
 .ha-text a { color: var(--link); text-decoration: underline; }
 .ha-text img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--r-l); }   /* screenshots in the live articles */
 .ha-text table { width: 100%; border-collapse: collapse; }
@@ -2514,7 +2516,6 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-count b { color: var(--black); }
 .ht-empty { margin-top: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
 .ht-empty .pill { margin-top: 16px; }
-.help-page .ht-other h2 { font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-grey); }   /* a quiet heading: these are extra */
 
 /* ---------- Cart on desktop: products left, sticky sidebar right with the totals and the button (sketch A, Cornel 2026-11-02) ---------- */
 .desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0; }   /* + the footer's 64: 96 above the footer, as on the other pages */

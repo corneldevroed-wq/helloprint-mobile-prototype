@@ -152,7 +152,7 @@ const HELP_MINE = {
 };
 const HELP_MINE_SLUGS = {   // ~60 of the 146 articles
   proofs: 'what-is-a-digital-proof how-do-i-approve-my-proof* what-happens-if-i-miss-my-proof-approval-deadline* can-i-make-changes-to-my-file i-don-t-see-all-my-designs-on-the-print-proof what-are-the-pre-flight-notes-on-my-proof how-long-does-an-artwork-check-take',
-  change: 'can-i-change-my-order* can-i-cancel-my-order* can-i-change-the-quantity-of-my-order-after-i-placed-it how-do-i-cancel-a-specific-product-instead-of-my-entire-order how-do-i-change-my-artwork-file-after-uploading can-i-change-my-delivery-date can-i-change-my-delivery-address can-i-change-my-delivery-address-when-i-have-already-placed-my-order how-do-i-change-my-delivery-address-after-ordering can-i-speed-up-my-order-that-is-already-in-production',
+  change: 'can-i-cancel-my-order* can-i-change-the-quantity-of-my-order-after-i-placed-it how-do-i-cancel-a-specific-product-instead-of-my-entire-order how-do-i-change-my-artwork-file-after-uploading can-i-change-my-delivery-date can-i-change-my-delivery-address can-i-change-my-delivery-address-when-i-have-already-placed-my-order how-do-i-change-my-delivery-address-after-ordering can-i-speed-up-my-order-that-is-already-in-production',
   status: 'where-can-i-find-my-order-status* what-does-the-status-assigned-to-my-order-mean why-is-my-order-on-hold why-did-the-delivery-date-change-since-i-placed-the-order why-can-t-i-make-any-modifications-to-my-order-once-it-has-gone-into-production why-have-i-not-received-my-order-confirmation',
   shipments: 'how-can-i-track-my-order* my-track-and-trace-code-is-not-working-what-can-i-do* how-do-i-track-a-multi-parcel-order* what-should-i-do-if-my-package-hasn-t-been-delivered what-happens-when-the-delivery-attempts-were-unsuccessful what-will-happen-if-i-m-not-at-the-delivery-address',
   delivered: 'my-order-arrived-incomplete-what-should-i-do my-order-has-been-delivered-damaged-what-should-i-do i-m-missing-the-accessory-i-ordered-with-my-purchase-what-now can-i-return-my-order how-do-i-file-a-complaint*',
@@ -164,6 +164,7 @@ const HELP_MINE_SLUGS = {   // ~60 of the 146 articles
   address: 'can-i-change-my-default-delivery-address-that-is-used-for-all-orders how-do-i-manage-my-addresses',
   billing: 'how-can-i-change-my-invoice-address how-do-i-update-my-company-and-vat-details how-can-i-change-the-email-address-where-i-receive-my-invoices',
 };   // * = a "my" question: signed out it gets the "Sign in to …" line
+// Not on can-i-change-my-order (Cornel, 2026-11-04): a shortcut to your orders there invites cancelling
 const helpSignedIn = (() => {   // the switch (URL ?acc= + localStorage) wins; without a choice: the prototype login (hp-user)
   let v = new URLSearchParams(location.search).get('acc');
   try { if (v) localStorage.setItem('hp-help-acc', v); else v = localStorage.getItem('hp-help-acc'); } catch (e) {}
@@ -189,7 +190,7 @@ function helpAccSwitch() {   // prototype switch "Account": I = signed in (the b
   });
 }
 
-// "More help with …" under an enriched article (Cornel, 2026-11-04): related articles as the Help Centre home cards
+// "More help with …" under every article (Cornel, 2026-11-04): related articles as the Help Centre home cards
 // (.hc-quick .hc-card: title, one line why, Read more), 3 in a row as on the home. Per article: heading + [slug, line].
 const HELP_MORE = {
   'how-can-i-create-an-account': { h: 'More help with your account', items: [
@@ -201,8 +202,19 @@ const HELP_MORE = {
     ['can-i-delete-my-account', 'What happens to your orders and details'],
   ] },
 };
+// Every other article (Cornel, 2026-11-04: relinking everywhere, max 3): the next questions of its own sub-topic first, then the rest
+// of the topic; the card line = the article's first sentence. A hand-picked HELP_MORE entry always wins.
+const helpLine = slug => { const d = document.createElement('div'); d.innerHTML = HELP_ARTICLES[slug] || ''; const t = (d.querySelector('p') || d).textContent.trim(); return (t.match(/^.*?[.?!](\s|$)/) || [t])[0].trim(); };
+function helpMoreAuto(slug) {
+  const hit = helpFind(slug); if (!hit) return null;
+  const own = hit.sub.q.map(([, s]) => s), i = own.indexOf(slug);
+  const rest = HELP_SUBS[hit.topic.id].filter(sub => sub !== hit.sub).flatMap(sub => sub.q.map(([, s]) => s));
+  const pick = [...own.slice(i + 1), ...own.slice(0, i), ...rest].slice(0, 3);
+  return { h: 'More help with ' + (hit.topic.id === 'account' ? 'your account' : hit.topic.name.toLowerCase()), items: pick.map(s => [s, helpLine(s)]) };
+}
 function helpMore(afterEl, slug) {
-  const m = HELP_MORE[slug]; if (!m) return;
-  afterEl.insertAdjacentHTML('afterend', `<section class="ha-more"><h2>${m.h}</h2><div class="hc-quick">${m.items.map(([s, line]) =>
-    `<a class="hc-card" href="help-article.html?q=${s}"><span class="hc-card-h">${helpFind(s).q}</span><span class="hc-quick-p">${line}</span><span class="link">Read more</span></a>`).join('')}</div></section>`);
+  const m = HELP_MORE[slug] || helpMoreAuto(slug); if (!m || !m.items.length) return;
+  const items = m.items.slice(0, 3);   // max 3: one calm row (Cornel, 2026-11-04: 6 was kermis)
+  afterEl.insertAdjacentHTML('afterend', `<section class="ha-more"><h2>${m.h}</h2><div class="hc-quick">${items.map(([s, line]) =>
+    `<a class="hc-card" href="help-article.html?q=${s}"><span class="hc-card-h">${helpFind(s).q}</span>${line ? `<span class="hc-quick-p">${line}</span>` : ''}<span class="link">Read more</span></a>`).join('')}</div></section>`);
 }
