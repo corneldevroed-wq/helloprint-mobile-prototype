@@ -591,6 +591,10 @@ const PRODUCTS = {
 // Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.
 const LIVE_GALLERY = { 'eco-friendly-business-cards': 7, 'pvc-cards-white': 5, 'deluxe-business-cards': 6, 'business-cards-special-materials': 6, 'standard-flyers': 5, 'eco-flyers': 4, 'special-material-flyers': 5, 'special-finishing-flyers': 5, 'ceramic-mug-330ml': 4, 'basic-cotton-bags': 2, 'premium-tote-bags': 3, 'sols-imperial-tshirt': 7, 'banners': 7, 'roller-banners': 6 };
 for (const [slug, n] of Object.entries(LIVE_GALLERY)) PRODUCTS[slug].gallery = [PRODUCTS[slug].img, ...Array.from({ length: n }, (_, i) => `assets/gallery/${slug}-${i + 2}.webp`)];
+// Our own photo first (Cornel, 2026-11-04): first in the desktop gallery and the one photo on mobile (`photo`, fills the frame);
+// the catalog image stays the image of tiles and cart
+PRODUCTS['premium-tote-bags'].photo = 'assets/gallery/premium-tote-bags-street.webp';
+PRODUCTS['premium-tote-bags'].gallery.unshift(PRODUCTS['premium-tote-bags'].photo);
 // One neutral photo background for every product (Cornel, 2026-10-21: no coloured backgrounds per product)
 for (const [slug, p] of Object.entries(PRODUCTS)) { p.slug = slug; p.href = 'product.html?p=' + slug; p.thumb = p.thumb || p.img; p.bg = 'var(--light-grey)'; }
 
