@@ -114,7 +114,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .product .thumb { position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--r-l); overflow: hidden; }
 .product .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
 .product:hover .thumb img { transform: scale(1.04); }
-.badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: var(--r-s); padding: 4px; font-weight: 700; font-size: var(--t-12); line-height: 1; letter-spacing: -0.36px; }
+.badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: var(--r-s); padding: 4px; font-weight: 700; font-size: var(--t-12); line-height: 1; }
 .badge.neutral { background: var(--light-grey); color: var(--dark-grey); }   /* one label, three tones (2026-10-30): orange = commercial (Most Popular, Free design templates…), */
 .badge.eco { background: var(--light-green); }                               /* light green = eco, grey = information (Default, Help Centre topics) */
 .product .name { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
@@ -184,7 +184,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .thumb-sm { position: relative; width: 60px; height: 60px; flex-shrink: 0; border-radius: var(--r-l); background: var(--light-grey); overflow: hidden; }
 .thumb-sm img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; max-width: none; }
 .thumb-sm.contain img { object-fit: contain; }
-.thumb-sm .letter { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: var(--t-20); letter-spacing: -0.36px; color: var(--light-green); }
+.thumb-sm .letter { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: var(--t-20); color: var(--light-green); }
 .panel-foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column; gap: 6px; padding: 12px 16px 16px; background: var(--white); border-top: 1px solid var(--line); }
 /* The panels end above the fixed login / country block */
 .menu-drawer .panel { bottom: 115px; }
@@ -320,7 +320,7 @@ body.menu-open { overflow: hidden; }
 .price-box { background: var(--light-grey); border-radius: var(--r-l); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .price-box .qty, .price-box .note { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .price-box .row { display: flex; align-items: center; justify-content: space-between; }
-.price-box .big { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; }
+.price-box .big { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
 .price-box .each { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .check-line { display: flex; align-items: center; gap: 2px; font-size: var(--t-14); line-height: var(--lh-14); }
 .check-line img { width: 20px; height: 20px; }
@@ -362,7 +362,7 @@ body.menu-open { overflow: hidden; }
 .sheet-body .pad { padding: 0 15px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
 .sheet-bar { flex-shrink: 0; background: var(--light-grey); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
 .sheet-bar .total { flex: 1; padding: 8px 16px; }
-.sheet-bar .total strong { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; }
+.sheet-bar .total strong { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
 .sheet-bar .total span { display: flex; align-items: center; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); }
 .sheet-bar .total img { width: 20px; height: 20px; }
 .sheet-bar .btn { flex: 1; padding: 0 16px; white-space: nowrap; }
@@ -404,7 +404,7 @@ body.menu-open { overflow: hidden; }
 .deliv[aria-checked="true"] { border: 2px solid var(--light-green); }
 .deliv .date { width: 60px; height: 60px; flex-shrink: 0; border-right: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .deliv[aria-checked="true"] .date { height: 58px; }
-.deliv .date b { font-weight: 800; font-size: var(--t-24); line-height: 1.16; letter-spacing: -0.48px; }
+.deliv .date b { font-weight: 800; font-size: var(--t-24); line-height: 1.16; }
 .deliv .date small { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--link); }
 .deliv .t { flex: 1; }
 .deliv .t b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
@@ -584,7 +584,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .fc { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); text-align: left; }
 .fc.rec { border-color: var(--light-green); background: var(--selected); }
 .fc[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
-.fc .badge { position: static; align-self: flex-start; padding: 4px 8px; letter-spacing: 0; }   /* "Recommended" = the shared label (orange: a highlight), was a green uppercase corner tag (2026-10-29) */
+.fc .badge { position: static; align-self: flex-start; padding: 4px 8px; }   /* "Recommended" = the shared label (orange: a highlight), was a green uppercase corner tag (2026-10-29) */
 .fc-top { display: flex; align-items: center; gap: 10px; }
 .fc-top b { flex: 1; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .fc-price { font-weight: 700; font-size: var(--t-16); }
@@ -676,7 +676,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .pay-methods[hidden] { display: none; }
 .pay-methods { display: flex; flex-direction: column; gap: 8px; }
 .eta { display: flex; flex-direction: column; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); text-align: left; }
-.eta b { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
+.eta b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
 .eta p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .eta small { display: flex; align-items: flex-start; gap: 4px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .eta small img { width: 16px; height: 16px; flex-shrink: 0; }
@@ -883,7 +883,7 @@ body.flow-d .upload-now { display: flex; }
 .up-replace { flex-shrink: 0; font-size: var(--t-14); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .up-add { padding: 12px; border: 1px dashed var(--mid-grey); border-radius: var(--r-m); font-size: var(--t-14); font-weight: 600; color: var(--dark-green); text-align: center; }
 .up-check { display: flex; flex-direction: column; gap: 6px; }
-.up-check-title { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+.up-check-title { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .up-check .ok, .up-check .warn { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
 .up-check .ok img { width: 20px; height: 20px; flex-shrink: 0; }
 .up-check .warn span { display: grid; place-items: center; width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: var(--orange); color: var(--white); font-weight: 800; font-size: var(--t-12); }
@@ -966,7 +966,7 @@ body.flow-i .i-head, body.flow-i .i-design { display: flex; flex-direction: colu
 body.flow-i .price-box > div:first-child, body.flow-i .sr-state, body.flow-i #ctaStack { display: none; }
 .i-head { gap: 6px; padding-bottom: 10px; border-bottom: 1px solid #cfcfcf; }
 .i-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.i-top > b { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-tight); }
+.i-top > b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .i-price { display: flex; align-items: center; gap: 6px; font-size: var(--t-14); color: var(--dark-grey); }
 .i-price b { font-weight: 700; font-size: var(--t-14); color: var(--black); }
 .i-price i { width: 1px; height: 14px; background: #bdbdbd; }
@@ -1153,7 +1153,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid #cfcfcf; border-radius: var(--r-m); background: var(--white); cursor: pointer; }
 .addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; background: var(--selected); }
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
-.addr-card .top b { font-weight: 700; font-size: var(--t-16); }
+.addr-card .top b { font-weight: 600; font-size: var(--t-16); }
 .addr-card .top .co-badge { margin: 0 0 0 auto; }
 /* Same radio as everywhere (quantity list): the .radio sits one level deeper here */
 .addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
@@ -1187,7 +1187,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Logged-in details in the live order: Contact Details, Shipping Address, billing checkbox */
 .co-desc { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .co-summary .h p { display: flex; flex-direction: column; font-size: var(--t-14); }
-.co-summary .h p b { font-weight: 700; font-size: var(--t-16); }
+.co-summary .h p b { font-weight: 600; font-size: var(--t-16); }
 .co-billcheck { margin-top: 8px; padding-top: 14px; border-top: 1px solid #ececec; }
 .co-inv[hidden], #invToggle[hidden] { display: none; }
 
@@ -1414,7 +1414,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk .d-media { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 8px; }
 .desk .gallery { height: auto; aspect-ratio: 1; border-radius: var(--r-l); }   /* the product's own background colour (PRODUCT.bg), as on mobile */
 .desk .gallery .track img { object-fit: cover; }
-.desk .gallery .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: var(--t-12); letter-spacing: 0; }
+.desk .gallery .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: var(--t-12); }
 .desk .gallery .prev { left: 16px; }
 .desk .gallery .next { right: 16px; }
 .d-thumbs { position: relative; display: flex; gap: 8px; }
@@ -1436,7 +1436,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* The options, open on the page (J's markup); desktop sizes from Figma */
 .desk #jConfig { display: flex; flex-direction: column; gap: 16px; }
 .desk #jConfig > .opt-group:first-child { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-.desk #jConfig .opt-title { font-size: var(--t-14); line-height: var(--lh-tight); }
 .desk #jConfig .opt-title span { color: var(--black); }
 .desk #jConfig .opt-info { display: none; }   /* the ⓘ explains; the page stays calm */
 .desk .presets { margin-right: 0; padding-right: 0; flex-wrap: wrap; }
@@ -1481,7 +1480,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-sel-sum li b { font-weight: 700; }
 .d-sel-sum .grand { align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); }
 .d-sel-sum .grand span { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
-.d-sel-sum .grand b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }
+.d-sel-sum .grand b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); }
 /* Upload later: download line for the template that fits the selection, under the green button */
 .d-tpl-dl { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); text-align: center; }
 .d-tpl-dl a { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-s); transition: background .15s; }
@@ -1538,11 +1537,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-others { display: flex; flex-wrap: wrap; gap: 16px; }
 .d-card { width: 244px; gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
 .d-card .thumb { width: 100%; aspect-ratio: 1; border-radius: var(--r-l) var(--r-l) 0 0; }
-.d-card .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: var(--t-12); letter-spacing: 0; }
+.d-card .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: var(--t-12); }
 .d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
 .d-card .name { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .d-card .from { font-size: var(--t-12); line-height: var(--lh-12); }
-.d-card .prices .price { font-weight: 900; font-size: var(--t-14); letter-spacing: -0.28px; }
+.d-card .prices .price { font-weight: 900; font-size: var(--t-14); }
 /* Reviews (Figma 15937:10023) */
 .d-reviews { display: flex; flex-direction: column; align-items: center; }
 .d-reviews h2 { align-self: stretch; }
@@ -1590,7 +1589,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-bar-eta { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); white-space: nowrap; }
 .d-bar-eta img { width: 20px; height: 20px; }
 .d-bar-total { display: flex; flex-direction: column; align-items: flex-end; }
-.d-bar-total b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; }
+.d-bar-total b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
 .d-bar-total small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); white-space: nowrap; }
 .d-bar .d-go { width: auto; padding: 0 24px; flex-shrink: 0; }
 .d-go .d-go-ico { filter: brightness(0) invert(1); }   /* the Design online icon in white on the green button */
@@ -1634,7 +1633,6 @@ html:not(.desk) .gallery .nav-btn { display: none; }   /* mobile: no photo arrow
 /* Calmer accordions: more air in the rows and between title and text */
 .d-acc summary { padding: 14px 0 14px 8px; line-height: 1.4; }
 .d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
-.eta > b { font-weight: 600; }   /* "Estimated delivery date": semibold, as the other block titles */
 
 /* Desktop: logo bar + category bar fixed at the top (the USP bar scrolls away); the section tabs stick right under it */
 .desk .dhead { position: sticky; top: 0; z-index: 30; }
@@ -1725,13 +1723,13 @@ html:not(.desk) .desk-only { display: none; }
 .xsell .product .pill { margin-top: 16px; border-color: var(--mid-grey); }   /* desktop: Add to cart with the Recommended preset; the photo and the name open the product page */   /* 5 per row, 10 best sellers = 2 full rows (Cornel, 2026-10-28; 6 per row tried) */
 .desk .home .product, .desk .xsell .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
 .desk .home .product .thumb, .desk .xsell .product .thumb { border-radius: 0; }
-.desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; letter-spacing: 0; }
+.desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; }
 .desk .home .product > :not(.thumb), .desk .xsell .product > :not(.thumb) { padding: 0 16px; }
 .desk .home .product > :last-child, .desk .xsell .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
 .desk .home .product .name, .desk .xsell .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
 .desk .home .product .prices, .desk .xsell .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: var(--t-14); }
-.desk .home .product .price, .desk .xsell .product .price { font-weight: 900; letter-spacing: -0.28px; }
+.desk .home .product .price, .desk .xsell .product .price { font-weight: 900; }
 
 /* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
 .desk .home > .promos { order: 6; }
@@ -1784,7 +1782,7 @@ html:not(.desk) .desk-only { display: none; }
 .tp-toggle:hover .tp-count { text-decoration: underline; text-underline-offset: 2px; }
 /* Breakdown dropdown, as Trustpilot's mini widget: title, one bar per star level in that level's colour, counts */
 .tp-pop { position: absolute; left: 0; top: calc(100% + 10px); z-index: 30; width: 300px; padding: 18px 20px 22px; border: 1px solid #e5e5dd; border-radius: var(--r-s); background: var(--white); box-shadow: 0 2px 12px rgba(0, 0, 0, .12); font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }
-.tp-title { margin-bottom: 10px; font-weight: 700; font-size: var(--t-16); }
+.tp-title { margin-bottom: 10px; font-weight: 600; font-size: var(--t-16); }
 .tp-bar { display: grid; grid-template-columns: 56px 1fr 26px; align-items: center; gap: 10px; margin-top: 6px; }
 .tp-bar i { height: 4px; background: #dcdce6; }
 .tp-bar s { display: block; height: 100%; background: var(--bar); }
@@ -1802,10 +1800,10 @@ html:not(.desk) .desk-only { display: none; }
 .desk .deliv.d-cal-card { flex-direction: row; align-items: center; gap: 12px; padding: 12px; }
 .desk .deliv.d-cal-card[aria-checked="true"] { padding: 11px; }
 .d-cal-card .cal { flex-shrink: 0; width: 60px; border: 1px solid var(--outline); border-radius: var(--r-s); overflow: hidden; background: var(--white); text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
-.d-cal-card .cal i { display: block; padding: 3px 0 0; background: var(--white); font-style: normal; font-weight: 700; font-size: var(--t-12); line-height: var(--lh-12); letter-spacing: .08em; text-transform: uppercase; color: var(--link); }   /* not chosen: white header, green month */
+.d-cal-card .cal i { display: block; padding: 3px 0 0; background: var(--white); font-style: normal; font-weight: 700; font-size: var(--t-12); line-height: var(--lh-12); text-transform: uppercase; color: var(--link); }   /* not chosen: white header, green month */
 .d-cal-card[aria-checked="true"] .cal { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* the chosen date: green outline */
 .d-cal-card[aria-checked="true"] .cal i { padding: 2px 0; background: var(--light-green); color: var(--white); }   /* chosen: solid green header */
-.d-cal-card .cal b { display: block; padding-top: 4px; font-weight: 800; font-size: var(--t-24); line-height: 1; letter-spacing: -0.5px; }
+.d-cal-card .cal b { display: block; padding-top: 4px; font-weight: 800; font-size: var(--t-24); line-height: 1; }
 .d-cal-card .cal small { display: block; padding: 2px 0 5px; font-size: var(--t-12); line-height: var(--lh-tight); color: var(--dark-grey); }
 .d-cal-card .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .d-cal-card .tx b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
@@ -1827,7 +1825,7 @@ html:not(.desk) .desk-only { display: none; }
 .d-dcard .d-tpl-dl { align-self: stretch; margin-top: 8px; }
 
 /* Desktop PDP option titles ("Size: A5"): 16px bold, the chosen value as a grey pill (Cornel picked proposal 3, without the lines) */
-.desk #jConfig .opt-title { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
+.desk #jConfig .opt-title { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
 .desk #jConfig .opt-title span { padding: 2px 10px; border-radius: var(--r-pill); background: var(--light-grey); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
 /* Selectable: the chosen card green */
 .d-dpick { text-align: left; cursor: pointer; }
@@ -1858,7 +1856,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .pr-wrap { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
 .pr-sum { position: sticky; top: 164px; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }
 .pr-score { display: flex; align-items: baseline; gap: 6px; }
-.pr-score b { font-weight: 800; font-size: var(--t-32); line-height: 1; letter-spacing: -1px; }
+.pr-score b { font-weight: 800; font-size: var(--t-32); line-height: 1; }
 .pr-score span { font-size: var(--t-14); color: var(--dark-grey); }
 .pr-stars { margin: 8px 0 4px; }
 .pr-count { margin-bottom: 12px; font-size: var(--t-12); color: var(--dark-grey); }
@@ -2089,11 +2087,11 @@ html:not(.desk) .tb-prom .tb-txt li svg circle { fill: var(--white); } html:not(
 .desk .plp .types { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
 .desk .plp .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
 .desk .plp .product .thumb { border-radius: 0; }
-.desk .plp .product .badge { padding: 4px 8px; letter-spacing: 0; }
+.desk .plp .product .badge { padding: 4px 8px; }
 .desk .plp .product > :not(.thumb) { padding: 0 16px; }
 .desk .plp .product > :last-child { padding-bottom: 16px; margin-top: auto; }
 .desk .plp .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
-.desk .plp .product .price { font-weight: 900; letter-spacing: -0.28px; }
+.desk .plp .product .price { font-weight: 900; }
 .desk .plp .materials .filter { display: none; }   /* the wireframe shows all 15 materials as tiles, no filter */
 .desk .plp .plp-mats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; border: 0; padding: 0; }
 .desk .plp .plp-mats li { border: 0; padding: 0; }
@@ -2419,26 +2417,26 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ha-back::before { content: ""; width: 20px; height: 20px; background: url(assets/desktop/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 .ha-body h1 { font-size: var(--t-24); line-height: 28px; }
 .desk .ha-body h1, .desk .cart-page h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
-/* article text: body 12/18 mobile, 14/22 desktop; h2 = section title, h3 = card title; inline links green underlined */
+/* article text: body 12/18 mobile, 14/22 desktop; headings (all h2, help-content.js) = h2 20/24; emphasis semibold; inline links green underlined */
 .ha-text { margin-top: 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
 .desk .ha-text { margin-top: 24px; font-size: var(--t-14); line-height: var(--lh-14); }
 .ha-text > * + * { margin-top: 16px; }
-.ha-text h2 { margin-top: 32px; font-size: var(--t-20); line-height: var(--lh-20); }
-.desk .ha-text h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
-.ha-text h3 { margin-top: 24px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
-.desk .ha-text h3 { font-size: var(--t-16); line-height: var(--lh-16); }
-.ha-text h2 + *, .ha-text h3 + * { margin-top: 8px; }
+.ha-text h2 { margin: 24px 0 0; line-height: var(--lh-20); }   /* one heading style in every article: the h2 (20/24, 800, dark green), as "Order overview" in the cart (Cornel, 2026-11-04) */
+.desk .ha-text h2 { margin-top: 32px; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; }   /* 20 on desktop too (the .desk .help-page h2 rule makes page h2s 24) */
+.ha-text > h2:first-child { margin-top: 0; }
+.ha-text h2 + * { margin-top: 8px; }
+.ha-text strong, .ha-text b { font-weight: 600; }   /* emphasis = semibold, as everywhere */
 .ha-text ol, .ha-text ul { display: flex; flex-direction: column; gap: 8px; padding-left: 20px; }
 .ha-text a { color: var(--link); text-decoration: underline; }
 .ha-text img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--r-l); }   /* screenshots in the live articles */
 .ha-text table { width: 100%; border-collapse: collapse; }
 .ha-text th, .ha-text td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .ha-text th { font-weight: 600; color: var(--black); }
-/* "Was this article helpful?" on a white outlined block (Cornel, 2026-10-29), two round thumb buttons */
 .hc-mine, .hc-mine-out { margin-top: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* signed in: the user's own orders, proofs, invoices… under the article title (Cornel, 2026-11-04) */
-.desk .hc-mine, .desk .hc-mine-out { margin-top: 24px; padding: 16px 24px; }   /* signed out: the same grey block (Cornel, 2026-11-04) */
+.desk .hc-mine, .desk .hc-mine-out { padding: 16px 24px; }   /* 16px under the title on desktop too (Cornel, 2026-11-04: 24 was too much) */   /* signed out: the same grey block (Cornel, 2026-11-04) */
 .hc-mine-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* label left, View all right (Cornel, 2026-11-04) */
 .help-page .hc-mine h2 { margin: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-green); }   /* a small label, not a section title */
+.desk .hc-mine h2 { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title: 14 mobile, 16 desktop (Cornel, 2026-11-04) */
 .hc-mine ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .hc-mine li { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; row-gap: 8px; padding: 12px 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* a row = a white card */
 .hc-mine li div { flex: 1; min-width: 0; }   /* the text between the product photo (.thumb-sm) and the action */
@@ -2453,6 +2451,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .hc-mine li > a { flex-shrink: 0; }
 .hc-mine-out { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* signed out, "my" questions only */
 .hc-mine-out .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-green); }
+/* "Was this article helpful?" on a white outlined block (Cornel, 2026-10-29), two round thumb buttons */
 .ha-helpful { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .ha-helpful .btns { display: flex; gap: 8px; }
 .ha-helpful .pill { justify-content: center; width: 40px; height: 40px; padding: 0; }
@@ -2478,7 +2477,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 /* hub (F): Getting started = quick links (the hub card: icon tile + title) and common questions (the FAQ) */
 .hc-quick { display: grid; gap: 8px; }   /* mobile: one card per row (title + explanation need the width) */
 .desk .hc-quick { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.hc-quick .badge { position: static; align-self: flex-start; margin-bottom: 8px; padding: 4px 8px; letter-spacing: 0; }   /* popular articles: the topic as a label (the shared .badge, neutral tone) */
+.hc-quick .badge { position: static; align-self: flex-start; margin-bottom: 8px; padding: 4px 8px; }   /* popular articles: the topic as a label (the shared .badge, neutral tone) */
 .hc-quick .hc-card-h { margin-bottom: 4px; }
 .hc-quick-p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .desk .hc-quick-p { font-size: var(--t-14); line-height: var(--lh-14); }

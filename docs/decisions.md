@@ -4,6 +4,14 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Type weights (all pages, Nov 4, 2026)
+- **11-04 — 16px titles are semibold (600), never bold:** bold (700) only for prices and dates, as the UI Style Guide says.
+  Fixed: PDP option titles on desktop, "Your selection" (mobile PDP), "Estimated delivery date", the upsell check title,
+  the name on the address card and in the checkout contact block, the Trustpilot title. Two dead duplicate rules removed.
+- **11-04 — Letter spacing only on big titles** (800 weight, 20px and up: page, section, promo and display titles). Removed from
+  badges, prices, totals, dates, the review score, the letter avatar and the calendar month; small h2s (card-title style) get 0.
+  Kept: the Trustpilot wordmark (it copies the logo) and the prototype switches.
+
 ## PDP switches (`product.html`, Nov 3, 2026)
 - **11-03 — Desktop PDP: Cards A, Photos A, Delivery D; the switches are gone.** Cards B (mobile card, 3 per row), Photos B
   (thumbnail column) and Delivery E (calendar tile on top) removed with their CSS. Page identical to before with A / A / D (measured).
@@ -106,6 +114,10 @@ Add new decisions here when Cornel makes a final call.
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **11-04 — One text style for all 146 articles (UI Style Guide):** every heading in an article is an h2, 20/24 extra bold dark green
+  on mobile and desktop, as "Order overview" in the cart (24/32 above, 8 to its text); was a mix of h2 (24px, as big as the page
+  title), h3, h4 and bold-only paragraphs. Body 12/18 · 14/22 black, emphasis semibold (600), no trailing colon in headings,
+  no empty headings, list items without an inner <p>. Done in help-content.js by a script (16 articles changed).
 - **11-04 — Signed in: your own data in the article (A of help-personal-sketch.html):** one block under the title for 12 kinds
   (proofs, changeable orders, status, shipments, recently delivered, past orders, quotes, invoices, refunds, cases, shipping
   address, billing): grey block, small dark green label (no count), rows = white cards with the card outline, the product photo (`.thumb-sm`), number 14 semibold, the urgent part
