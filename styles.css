@@ -901,6 +901,23 @@ body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22p
 /* A PDF is rendered at 5x size and scaled down, so the viewer fits the thumbnail; the dark viewer edge is cropped */
 .up-thumb iframe { position: absolute; left: -2px; top: -2px; width: calc(500% + 20px); height: calc(500% + 20px); border: 0; transform: scale(.2); transform-origin: 0 0; pointer-events: none; }
 
+/* Upload your artwork (D, switch "Upload"): one drop zone; when done the files as rows with a thumbnail + reassurance (.art-calm) */
+.up-file.err { border-color: var(--error); }
+.up-file.err small { color: var(--error); }
+.art-drop { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 16px; border: 1px dashed var(--mid-grey); border-radius: var(--r-m); text-align: center; }
+.art-drop.over { border-color: var(--light-green); background: var(--selected); }
+.art-drop > img { width: 32px; height: 32px; }
+.art-drop .btn { padding: 0 24px; }
+.art-drop small, .art-note { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-align: center; }
+.art-note button { font-size: inherit; color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+.art-team { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the promise, with the faces of our print experts */
+.art-team b { display: block; font-weight: 600; color: var(--black); }
+.art-note-text { width: 100%; padding: 12px; border: 1px solid var(--outline); border-radius: var(--r-m); font: inherit; font-size: var(--t-14); line-height: var(--lh-14); resize: vertical; }
+.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0; text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* no background (Cornel, 2026-11-04) */
+.art-emoji { font-size: 40px; line-height: 1; }   /* 🎉 instead of a tick */
+.art-calm b { font-size: var(--t-20); line-height: var(--lh-20); }
+.art-calm .up-check { align-self: stretch; margin-top: 8px; text-align: left; }
+
 /* Version E: two selector fields (Your cards + Your design) and one button */
 .design-pick { display: none !important; }
 body.flow-e .design-pick { display: flex !important; }
@@ -1813,7 +1830,7 @@ html:not(.desk) .desk-only { display: none; }
 /* Delivery E (prototype switch): the calendar tile on top, everything centred */
 
 /* Desktop PDP: the design choice in Your selection, two cards (icon, title, bullets); the button sits below them */
-.d-direct { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 8px 0 0; }
+.d-direct { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; padding: 8px 0 0; }   /* 2 or 3 cards (Upload your artwork, switch) side by side */
 .d-dcard { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); transition: border-color .15s; }
 .d-dcard:not(.primary):hover { border-color: var(--black); }
 .d-dcard.primary { border: 2px solid var(--light-green); padding: 15px; background: var(--white); }
@@ -2293,9 +2310,9 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 /* grey block with the card outline: T head, team strip, (hidden) contact block */
 .hc-team, .hc-contact, .hc-hero, .hc-ico { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); }
 /* overlapping avatars (experts online + contact block) */
-.help-page .faces { display: flex; flex-shrink: 0; }
-.help-page .faces img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--white); background: var(--light-green); }   /* team cut-outs on light green, as the team strip */
-.help-page .faces img + img { margin-left: -8px; }
+.help-page .faces, .art-team .faces { display: flex; flex-shrink: 0; }
+.help-page .faces img, .art-team .faces img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--white); background: var(--light-green); }   /* team cut-outs on light green, as the team strip */
+.help-page .faces img + img, .art-team .faces img + img { margin-left: -8px; }
 .hc-online .faces img { border-color: var(--light-grey); }
 .desk .hc-online .faces img { width: 40px; height: 40px; }
 .desk .help-page .faces img + img { margin-left: -12px; }
@@ -2567,8 +2584,8 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .qty-val { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); pointer-events: none; }
 .cart-qty .field select { height: 40px; font-size: var(--t-14); }
 .qty-hint { order: 1; width: 100%; text-align: left; font-size: var(--t-12); line-height: var(--lh-12); color: var(--link); }   /* green text that is not a link: --link green (readable), no underline; mobile under the row */
-.qty-hint b { font-weight: 600; }
-.qty-hint:hover span { text-decoration: underline; }   /* a button: one tap sets the next quantity; underlined on hover */   /* the next quantity: semibold, the emphasis weight of the style guide */
+.qty-hint b { font-weight: 600; }   /* the next quantity: semibold, the emphasis weight of the style guide */
+.qty-hint:hover span { text-decoration: underline; }   /* a button: one tap sets the next quantity; underlined on hover */
 .desk .qty-hint { order: 0; width: auto; font-size: var(--t-14); line-height: var(--lh-14); }
 .cart-qty .icon-btns { margin-left: auto; }
 .icon-btns { display: flex; gap: 8px; }

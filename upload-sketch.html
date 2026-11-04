@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- Sketch (not linked; 2026-11-04: D just upload added, nothing removed; 2026-11-03 update: one drop zone, the rows are the result; books added): a third design option "Upload your artwork" + the upload popup.
+     1 = the entry (design sheet + desktop cards), 2 = three popup concepts A / B / C, 3 = every edge case worked out in A,
+     4 = A on desktop (modal), 5 = open questions. Real classes from styles.css where they exist (.design, .up-file, .btn, .sheet-bar). -->
+<style>
+  body { background: var(--white); font-size: var(--t-14); line-height: var(--lh-14); }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 32px 24px 96px; }
+  .wrap > h1 { font-size: var(--t-32); line-height: 40px; margin-bottom: 8px; }
+  .lead { max-width: 760px; color: var(--dark-grey); margin-bottom: 40px; }
+  section { margin-bottom: 64px; }
+  section > h2 { font-size: var(--t-24); line-height: 32px; margin-bottom: 8px; }
+  section > p { max-width: 760px; color: var(--dark-grey); margin-bottom: 24px; }
+  .mypick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-s); background: var(--orange); color: var(--white); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 700; vertical-align: middle; }
+  .sgrid { display: flex; flex-wrap: wrap; gap: 32px 24px; align-items: flex-start; }
+  .cap { width: 390px; }
+  .cap h3 { font-size: var(--t-16); line-height: var(--lh-16); margin-bottom: 4px; }
+  .cap > p { color: var(--dark-grey); margin-bottom: 12px; min-height: 44px; }
+
+  /* phone frame + a sheet in its resting position */
+  .ph { position: relative; width: 390px; height: 720px; border-radius: 24px; overflow: hidden; background: var(--stage); box-shadow: 0 0 0 1px var(--line); }
+  .ph.short { height: 560px; }
+  .ph.tall { height: 780px; }
+  .ph::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+  .sk { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 48px); display: flex; flex-direction: column; border-radius: var(--r-xl) var(--r-xl) 0 0; background: var(--white); }
+  .sk .grab { display: flex; justify-content: center; padding: 8px 0 16px; }
+  .sk .grab span { width: 40px; height: 4px; border-radius: var(--r-pill); background: var(--mid-grey); }
+  .sk .body { flex: 1; overflow: hidden; padding: 0 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .sheet-head { padding-left: 16px; }
+  .sk .close { width: 20px; height: 20px; }
+
+  /* side slots (concept A) */
+  .slots { display: flex; flex-direction: column; gap: 8px; }
+  .slot { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid transparent; border-radius: var(--r-m); background: var(--light-grey); }   /* a result row, not an upload field: grey while still missing */
+  .slot.filled { border-color: var(--outline); background: var(--white); }
+  .slot.err { border: 1px solid var(--error); }
+  .slot.warn { border: 1px solid var(--orange); }
+  .slot .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .slot .t b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .slot .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .slot .t small.e { color: var(--error); }
+  .slot .t small.w { color: var(--black); }
+  .slot .act { flex-shrink: 0; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .slot .act.green { color: var(--link); text-decoration: none; }
+  .sd { flex-shrink: 0; width: 64px; height: 42px; border-radius: var(--r-s); display: grid; place-items: center; background: var(--light-grey); color: var(--dark-grey); font-size: var(--t-10); font-weight: 600; }
+  .sd.empty { background: var(--white); }
+  .art { flex-shrink: 0; width: 64px; height: 42px; border-radius: var(--r-s); background: var(--dark-green); color: var(--white); display: grid; place-items: center; font-size: 8px; font-weight: 800; letter-spacing: .5px; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+  .art.b { background: #cfe8b0; color: var(--dark-green); }
+  .art.c { background: var(--orange); }
+  .art.page { width: 42px; height: 56px; background: var(--white); color: var(--dark-grey); }
+  .art.small { width: 40px; height: 26px; }
+  .drop { padding: 24px 16px; border: 1px dashed var(--mid-grey); border-radius: var(--r-m); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .drop img { width: 32px; height: 32px; }
+  .drop-bar { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 12px; border: 1px dashed var(--mid-grey); border-radius: var(--r-m); }
+  .drop-bar img { width: 24px; height: 24px; }
+  .drop-bar span { flex: 1; font-weight: 600; }
+  .drop-bar .btn { height: 32px; padding: 0 16px; font-size: var(--t-14); }
+  .count { font-weight: 600; font-size: var(--t-14); color: var(--link); }
+  .count.w { color: #a8470a; }
+  .spreads { display: flex; flex-wrap: wrap; gap: 12px 8px; }
+  .spread { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: var(--t-10); line-height: 1; color: var(--dark-grey); }
+  .spread > span:first-child { display: flex; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .pg { width: 24px; height: 34px; background: var(--white); display: block; }
+  .pg + .pg { border-left: 1px solid var(--line); }
+  .pg.c { background: var(--dark-green); }
+  .pg.x { background: var(--white); outline: 1px dashed var(--orange); outline-offset: -1px; }
+  .drop small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .drop .btn { padding: 0 24px; }
+  .formats { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .later { font-size: var(--t-14); text-align: center; color: var(--dark-grey); }
+  .later a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+  .group-t { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); display: flex; justify-content: space-between; align-items: baseline; }
+  .group-t small { font-weight: 400; font-size: var(--t-14); color: var(--dark-grey); }
+  .msg { padding: 12px; border-radius: var(--r-m); background: var(--light-grey); display: flex; flex-direction: column; gap: 8px; }
+  .msg.warn { background: #fff4ec; }
+  .msg.err { background: #fbeaed; }
+  .msg b { font-weight: 600; }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ch { padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); background: var(--white); }
+  .ch.on { border-color: var(--dark-green); background: var(--dark-green); color: var(--white); }
+  .qtyrow { display: flex; align-items: center; gap: 12px; }
+  .qtyrow .q { margin-left: auto; padding: 6px 12px; border: 1px solid var(--outline); border-radius: var(--r-m); font-weight: 600; }
+  .preview { display: flex; gap: 16px; justify-content: center; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }
+  .cut { position: relative; width: 136px; height: 88px; border-radius: 2px; background: var(--dark-green); box-shadow: 0 1px 4px rgba(0,0,0,.25); display: grid; place-items: center; color: var(--white); font-size: var(--t-10); font-weight: 800; }
+  .cut::after { content: ''; position: absolute; inset: 6px; border: 1px dashed rgba(255,255,255,.7); }
+  .cut.fit { background: var(--white); color: var(--dark-green); }
+  .cut.fit i { position: absolute; inset: 10px 24px; background: var(--dark-green); }
+  .cut.fit::after { border-color: var(--mid-grey); }
+  .pcap { font-size: var(--t-12); line-height: var(--lh-12); text-align: center; margin-top: 4px; }
+  .pages { display: flex; gap: 8px; }
+  .pages > div { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: var(--t-12); }
+  .ptag { padding: 2px 8px; border-radius: var(--r-pill); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; background: var(--light-grey); }
+  .ptag.on { background: var(--dark-green); color: var(--white); }
+  .ssteps { display: flex; gap: 4px; }
+  .ssteps i { flex: 1; height: 4px; border-radius: var(--r-pill); background: var(--light-grey); }
+  .ssteps i.on { background: var(--light-green); }
+  .step-l { display: flex; justify-content: space-between; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); margin-top: -8px; }
+  .step-l b { font-weight: 600; color: var(--black); }
+  .back { align-self: flex-start; font-weight: 600; font-size: var(--t-14); color: var(--dark-green); }
+  .big-choice { display: flex; flex-direction: column; gap: 8px; }
+  .sheet-bar .btn:disabled { background: var(--mid-grey); }
+  .up-check .err-ico { display: grid; place-items: center; width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: var(--error); color: var(--white); font-weight: 800; font-size: var(--t-12); }
+  .up-check .bad { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+
+  /* desktop entry + modal */
+  .dcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 737px; }
+  .dcard { padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-m); display: flex; flex-direction: column; gap: 8px; background: var(--white); }
+  .dcard[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
+  .dcard .ico { width: 40px; height: 40px; border-radius: var(--r-s); background: var(--light-grey); display: grid; place-items: center; }
+  .dcard .ico img { width: 24px; height: 24px; }
+  .dcard b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .dcard small { color: var(--dark-grey); }
+  .dgo { width: 737px; margin-top: 16px; display: flex; justify-content: flex-end; }
+  .dgo .btn { padding: 0 24px; }
+  .stage { position: relative; width: 1100px; max-width: 100%; height: 760px; border-radius: var(--r-l); overflow: hidden; background: var(--stage); box-shadow: 0 0 0 1px var(--line); }
+  .stage::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+  .modal { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); width: 720px; border-radius: var(--r-xl); background: var(--white); overflow: hidden; display: flex; flex-direction: column; }
+  .modal .sheet-head { padding: 24px 24px 8px; }
+  .modal .mbody { padding: 0 24px 24px; display: grid; grid-template-columns: 1fr 248px; gap: 24px; }
+  .modal .mbody .l { display: flex; flex-direction: column; gap: 16px; }
+  .modal .sheet-bar { padding: 8px 24px; }
+  .modal .sheet-bar .btn { flex: 0 0 auto; padding: 0 24px; }
+  .side-sum { border-radius: var(--r-m); background: var(--light-grey); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .side-sum b { font-weight: 600; }
+  .side-sum small { color: var(--dark-grey); }
+
+  .table { width: 100%; max-width: 1100px; border-collapse: collapse; }
+  .table th, .table td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); }
+  .table th { font-weight: 600; font-size: var(--t-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  .table td:first-child { font-weight: 600; width: 220px; }
+  .table td:nth-child(3) { width: 140px; }
+  .lvl { display: inline-block; padding: 2px 8px; border-radius: var(--r-pill); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; }
+  .lvl.ok { background: var(--selected); color: var(--link); }
+  .lvl.w { background: #fff4ec; color: #a8470a; }
+  .lvl.e { background: #fbeaed; color: var(--error); }
+  ol.q { max-width: 760px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+  /* D: just upload. Animated previews (card flip, page turn); still when the viewer prefers less motion */
+  .new { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-s); background: var(--light-green); color: var(--white); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 700; vertical-align: middle; }
+  .d-drop { padding: 32px 16px; }
+  .d-note { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-align: center; }
+  .d-ok { text-align: center; font-weight: 600; color: var(--link); }
+  .d-files { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-align: center; }
+  .d-note a, .d-files a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+  .d-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border-radius: var(--r-m); background: var(--selected); text-align: center; }   /* no preview: reassurance instead */
+  .d-calm > img { width: 48px; height: 48px; }
+  .d-calm b { font-size: var(--t-20); line-height: var(--lh-20); }
+  .d-calm .up-check { align-self: stretch; margin-top: 8px; text-align: left; }
+  .stage3d { display: grid; place-items: center; height: 200px; border-radius: var(--r-m); background: var(--light-grey); perspective: 800px; }
+  .card3d { position: relative; width: 204px; height: 132px; transform-style: preserve-3d; animation: flip 4s ease-in-out infinite; }
+  .card3d .face { position: absolute; inset: 0; border-radius: 3px; backface-visibility: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.2); display: flex; flex-direction: column; justify-content: center; padding: 16px; gap: 2px; }
+  .card3d .front { background: var(--dark-green); color: var(--white); }
+  .card3d .front b { font-size: var(--t-14); }
+  .card3d .front small { font-size: var(--t-10); opacity: .8; }
+  .card3d .back { background: #cfe8b0; color: var(--dark-green); transform: rotateY(180deg); align-items: center; font-weight: 800; font-size: var(--t-16); letter-spacing: 1px; }
+  @keyframes flip { 0%, 35% { transform: rotateY(0); } 50%, 85% { transform: rotateY(180deg); } 100% { transform: rotateY(360deg); } }
+  .book3d { position: relative; width: 192px; height: 136px; transform-style: preserve-3d; }
+  .book3d > span { position: absolute; top: 0; width: 50%; height: 100%; background: var(--white) repeating-linear-gradient(transparent 0 14px, var(--line) 14px 16px) content-box; padding: 20px 12px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+  .book3d .l { left: 0; }
+  .book3d .r, .book3d .turn { right: 0; }
+  .book3d .turn { transform-origin: left center; animation: turn 3s ease-in-out infinite; backface-visibility: hidden; }
+  @keyframes turn { 0%, 15% { transform: rotateY(0); } 65%, 100% { transform: rotateY(-180deg); } }
+  @media (prefers-reduced-motion: reduce) { .card3d, .book3d .turn { animation: none; } }
+  .cartline { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
+  .cartline .thumb { width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--r-m); background: var(--light-grey); display: grid; place-items: center; }
+  .cartline .t { display: flex; flex-direction: column; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .cartline .t b { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+  .cartline .art-ok { display: flex; align-items: center; gap: 4px; color: var(--black); }
+  .cartline .art-ok img { width: 16px; height: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Upload your artwork</h1>
+  <p class="lead">A third design option in the bottom funnel. Choose it, tap the green button, and a popup opens to upload your files: a bottom sheet on mobile (like the design sheet), a modal on desktop. Shown for Classic Business Cards, double-sided, 250 pcs. Every check is simulated in the prototype; nothing leaves the browser.</p>
+
+  <!-- 1 ENTRY -->
+  <section>
+    <h2>1 · The entry</h2>
+    <p>The third card in “How will you add your design?”. When it’s chosen, the green button says <b>Upload artwork</b> instead of Add to cart, so it’s clear that a step follows. On desktop it’s a third card next to the other two.</p>
+    <div class="sgrid">
+      <div class="cap">
+        <h3>Mobile: the design sheet</h3>
+        <div class="ph short">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>How will you add your design?</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="design-list">
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>Upload later</b><small>Add to cart now, send your files after checkout.</small></span><span class="ico"><img src="assets/pdp/d-upload.svg" alt=""></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>Design online</b><small>Customise in our editor, with a live preview.</small></span><span class="ico"><img src="assets/pdp/d-canva.svg" alt=""></span></button>
+                <button class="design" aria-checked="true"><span class="radio"></span><span class="t"><b>Upload your artwork</b><small>Have print-ready files? We check them right away, for free.</small></span><span class="ico"><img src="assets/desktop/upload-cloud.svg" alt=""></span></button>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Upload artwork</button></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:var(--t-16);margin-bottom:12px">Desktop: three cards on the page</h3>
+        <div class="dcards">
+          <div class="dcard" aria-checked="false"><span class="ico"><img src="assets/desktop/upload-cloud.svg" alt=""></span><b>Upload later</b><small>Add to cart now, send your files after checkout.</small></div>
+          <div class="dcard" aria-checked="false"><span class="ico"><img src="assets/desktop/canva-logo.png" alt=""></span><b>Design online</b><small>Customise in our editor, with a live preview.</small></div>
+          <div class="dcard" aria-checked="true"><span class="ico"><img src="assets/desktop/upload-cloud.svg" alt=""></span><b>Upload your artwork</b><small>Have print-ready files? We check them right away, for free.</small></div>
+        </div>
+        <div class="dgo"><button class="btn primary">Upload artwork</button></div>
+        <p style="max-width:737px;margin-top:16px;color:var(--dark-grey)">Needs its own icon: “Upload later” and “Upload your artwork” can’t share the same cloud. Suggestion: a clock or a send icon for Upload later, the cloud for upload now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- D JUST UPLOAD -->
+  <section>
+    <h2>D · Just upload <span class="new">New, 2026-11-04</span></h2>
+    <p>Cornel’s idea, mobile first: one upload field for every product. The customer uploads until they’re done, we say “all uploaded”, and it goes to the cart. A moving preview only for 1 or 2 sides (a card that turns). More than 2 pages, or a file we can’t show: no preview, but a lot of reassurance: it’s in, don’t worry, we check it before we print. No questions and no file check in the popup: our prepress team checks every file afterwards (as with Upload later today) and emails when something needs fixing.</p>
+    <div class="sgrid">
+      <div class="cap">
+        <h3>D1 · One upload field</h3>
+        <p>The same screen for every product and every spec. No question, no rules to read. One line on what happens next.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <p class="up-intro">Upload your design: one file or several, PDF works best.</p>
+              <div class="drop d-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline">Choose files</button><small>or drag them here · as many as you like</small></div>
+              <p class="d-note">We check every file before we print. If something needs fixing, we’ll email you.</p>
+              <p class="later">No file ready? <a href="#">Upload later</a></p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D2 · Uploading</h3>
+        <p>Files come in one by one; the customer can keep adding. The button waits until every upload is finished.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots">
+                <div class="slot filled"><span class="sd">PDF</span><span class="t"><b>card-front.pdf</b><small>2.4 MB</small><span class="up-bar"><i style="width:100%"></i></span></span></div>
+                <div class="slot filled"><span class="sd">PDF</span><span class="t"><b>card-back.pdf</b><small>1.9 MB</small><span class="up-bar"><i style="width:40%"></i></span></span></div>
+              </div>
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Add more files</span><button class="btn outline">Choose files</button></div>
+              <p class="d-note">We check every file before we print. If something needs fixing, we’ll email you.</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Uploading…</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D3 · We recognise it: show it</h3>
+        <p>Two sides for a double-sided card? Then the card turns in front of them: front, back, front. That preview is the check: if it looks wrong, they see it themselves.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="stage3d"><div class="card3d"><div class="face front"><b>Anna de Vries</b><small>Creative director · Studio North</small><small>anna@studionorth.ie</small></div><div class="face back">STUDIO NORTH</div></div></div>
+              <p class="d-ok">Front and back uploaded ✓</p>
+              <p class="d-files">card-front.pdf · card-back.pdf · <a href="#">Change</a></p>
+              <p class="d-note">Not what you expected? <a href="#">Add a note for our team</a></p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D4 · We can’t show it: just go on</h3>
+        <p>An AI or EPS file, or anything we can’t read in the browser. No preview, no question: the same reassurance as D5, then add to cart.</p>
+        <div class="ph tall">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots">
+                <div class="slot filled"><span class="sd">AI</span><span class="t"><b>logo-card.ai</b><small>3.1 MB · uploaded ✓</small></span></div>
+                <div class="slot filled"><span class="sd">EPS</span><span class="t"><b>back.eps</b><small>2.2 MB · uploaded ✓</small></span></div>
+              </div>
+              <div class="d-calm"><img src="assets/pdp/check.svg" alt=""><b>2 files uploaded</b><span>Don’t worry, it’s in good hands. We always check your file before we print.</span>
+                <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Checked by our team before printing</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Small things (bleed, colours) we fix for free</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Anything unclear? We’ll email you</p></div></div>
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Add more files</span><button class="btn outline">Choose files</button></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D5 · More than 2 pages: no preview, lots of reassurance</h3>
+        <p>A brochure, a book, a menu: no page grid, no animation, no count to check. Just: it’s in, don’t worry, we check it before we print.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots"><div class="slot filled"><span class="sd">PDF</span><span class="t"><b>brochure-v3.pdf</b><small>16 pages · 8.2 MB · uploaded ✓</small></span><button class="act">Change</button></div></div>
+              <div class="d-calm"><img src="assets/pdp/check.svg" alt=""><b>All uploaded</b><span>Don’t worry, it’s in good hands. We always check your file before we print.</span>
+                <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Checked by our team before printing</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Small things (bleed, colours) we fix for free</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Anything unclear? We’ll email you</p></div></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€129.40</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Fri</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D5b · Earlier idea (parked): the pages turn</h3>
+        <p>A 16-page PDF for a 16-page brochure: a page turns, with the count. Wrong count? We don’t ask here; our team emails them (or adds a blank page, as agreed).</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="stage3d"><div class="book3d"><span class="l"></span><span class="r"></span><span class="turn"></span></div></div>
+              <p class="d-ok">16 pages uploaded ✓</p>
+              <p class="d-files">brochure-v3.pdf · <a href="#">Change</a></p>
+              <p class="d-note">We check every page before we print. If something needs fixing, we’ll email you.</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€129.40</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Fri</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D5c · More files than we need: thanks, we’ll sort it</h3>
+        <p>Five files for a double-sided card? No question, no “which one?”. We thank them and say our team picks the right ones. The file list folds into one line so it stays calm.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <p class="d-files">5 files uploaded · <a href="#">Show</a></p>
+              <div class="d-calm"><img src="assets/pdp/check.svg" alt=""><b>Thanks for your files</b><span>More than we need? No problem. Our team picks the right ones and checks them before we print.</span>
+                <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Checked by our team before printing</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Small things (bleed, colours) we fix for free</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Anything unclear? We’ll email you</p></div></div>
+              <p class="d-note">Want to tell us which is which? <a href="#">Add a note for our team</a></p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D6 · The only stop: an upload that failed</h3>
+        <p>The one thing we can’t hand to our team: a file that never arrived (connection, too big). Try again or remove it; the rest stays.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots">
+                <div class="slot filled"><span class="sd">PDF</span><span class="t"><b>card-front.pdf</b><small>2.4 MB · uploaded ✓</small></span></div>
+                <div class="slot err"><span class="sd">TIF</span><span class="t"><b>scan-hires.tif</b><small class="e">Didn’t upload: 412 MB, max 200 MB</small></span><button class="act">Remove</button></div>
+              </div>
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Add more files</span><button class="btn outline">Choose files</button></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>D7 · In the cart</h3>
+        <p>The cart line says the artwork is in. The check happens behind the scenes, as with Upload later today.</p>
+        <div class="cartline">
+          <span class="thumb"><span class="art small">FRONT</span></span>
+          <span class="t"><b>Classic Business Cards</b>85 × 55 mm · Double-sided · 250 pcs
+            <span class="art-ok"><img src="assets/pdp/check.svg" alt="">Artwork uploaded: 2 files</span>
+            We check it before printing</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:24px"><b>What moves where:</b> everything in A and C (the questions, the file check, fit / fill, page counts) doesn’t disappear, it moves to after the order: prepress fixes the small things (bleed, RGB, turning) and emails about the big ones (wrong size, missing pages, blurry). The only thing left in the popup is a failed upload, because then we have nothing to check.</p>
+    <p style="margin-top:8px"><b>The risk:</b> a problem we find later can push the delivery date. Worth agreeing with the team how fast prepress replies, and saying it in the email (“reply before 16:00 and your date stays”).</p>
+  </section>
+
+  <!-- 2 CONCEPTS -->
+  <section>
+    <h2>2 · Three ways to build the popup</h2>
+    <p>Same moment in all three: the customer has dropped one PDF with 2 pages for a double-sided card.</p>
+    <div class="sgrid">
+      <div class="cap">
+        <h3>A · One drop zone + what we print <span class="mypick">My pick</span></h3>
+        <p>Always one place to drop. Front and Back are the result, not fields: one PDF with both sides fills both rows. Each row can still be replaced on its own.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Drop files here</span><button class="btn outline">Choose files</button></div>
+              <p class="group-t">What we print <span class="count">2 of 2 sides ✓</span></p>
+              <div class="slots">
+                <div class="slot filled"><span class="art">FRONT</span><span class="t"><b>card-final.pdf</b><small>Front · page 1 of 2</small></span><button class="act">Replace</button></div>
+                <div class="slot filled"><span class="art b">BACK</span><span class="t"><b>card-final.pdf</b><small>Back · page 2 of 2</small></span><button class="act">Replace</button></div>
+              </div>
+              <div class="up-check">
+                <p class="up-check-title">File check</p>
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches 85 × 55 mm</p>
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">Resolution 300 dpi</p>
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">3 mm bleed included</p>
+              </div>
+              <button class="up-add">+ Another design (different names, same card)</button>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <h3>B · Drop everything, then sort</h3>
+        <p>One big drop zone. Every file and page shows as a thumbnail; the customer tags each one Front or Back. Flexible, but they do the sorting.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="drop" style="padding:16px"><img src="assets/desktop/upload-cloud.svg" alt=""><span><b>Add more files</b></span></div>
+              <p class="group-t">Your pages <small>2 pages</small></p>
+              <div class="pages">
+                <div><span class="art page">P1</span><span class="ptag on">Front</span></div>
+                <div><span class="art page">P2</span><span class="ptag on">Back</span></div>
+              </div>
+              <p class="up-intro">Tap a page to change where it goes: Front, Back or Not used.</p>
+              <div class="up-check">
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches 85 × 55 mm</p>
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">Resolution 300 dpi</p>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <h3>C · Step by step</h3>
+        <p>First a question (“one file or a file per side?”), then one upload per screen. Very guided, but 2–3 extra taps for the 80% who have one PDF. Worked out in section 5.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="ssteps"><i class="on"></i><i></i><i></i></div>
+              <p class="group-t">How are your files set up?</p>
+              <div class="big-choice">
+                <button class="design" aria-checked="true"><span class="radio"></span><span class="t"><b>One file with all sides</b><small>For example a PDF with 2 pages</small></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>A file per side</b><small>Front and back separately</small></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>Several designs</b><small>For example a card per colleague</small></span></button>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Next</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:24px"><b>Why A:</b> it asks nothing and assumes nothing. The customer drops whatever they have (one PDF, two JPGs, a 16-page book) in one place, and sees the list we print from. That list grows with the product: 1 row, 2 rows, or a page grid for a book (section 4). A missing side, an extra page or a wrong size is always “this row needs attention”. B makes the customer do our sorting job, and C slows down the most common case.</p>
+  </section>
+
+  <!-- 3 EDGE CASES -->
+  <section>
+    <h2>3 · Every case, worked out in A</h2>
+    <p>One rule for the tone: <b>green</b> = fine, <b>orange</b> = we’ll print it, but you should know, <b>red</b> = we can’t print this, you need to act. Only red blocks Add to cart.</p>
+    <div class="sgrid">
+
+      <!-- 3.1 empty -->
+      <div class="cap">
+        <h3>1 · Empty</h3>
+        <p>The popup opens straight from the green button. One drop zone; below it, in grey, what we need. These are not upload fields.</p>
+        <div class="ph tall">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <p class="up-intro">Double-sided, 85 × 55 mm. One PDF with both pages, or a file per side.</p>
+              <div class="drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline">Choose files</button><small>or drag them here</small></div>
+              <p class="group-t">What we print <small>2 sides</small></p>
+              <div class="slots">
+                <div class="slot"><span class="sd empty">Front</span><span class="t"><b>Front</b><small>Required</small></span></div>
+                <div class="slot"><span class="sd empty">Back</span><span class="t"><b>Back</b><small>Optional, blank if empty</small></span></div>
+              </div>
+              <p class="formats">PDF (best), AI, EPS, PSD, TIFF, PNG or JPG · max 200 MB per file</p>
+              <p class="later">No file ready? <a href="#">Upload later</a></p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2 uploading -->
+      <div class="cap">
+        <h3>2 · Uploading and checking</h3>
+        <p>Progress per file, then “checking”. The customer can already add the next file while the first one uploads.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Drop files here</span><button class="btn outline">Choose files</button></div>
+              <p class="group-t">What we print <small>1 of 2 sides</small></p>
+              <div class="slots">
+                <div class="slot filled"><span class="sd">PDF</span><span class="t"><b>card-front.pdf</b><small>Front · 2.4 MB</small><span class="up-bar"><i style="width:60%"></i></span></span></div>
+                <div class="slot"><span class="sd empty">Back</span><span class="t"><b>Back</b><small>Optional, blank if empty</small></span><button class="act green">+ Add</button></div>
+              </div>
+              <p class="up-checking">Uploading and checking…</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.3 multi-page pdf more pages -->
+      <div class="cap">
+        <h3>3 · PDF with more pages than sides</h3>
+        <p>4 pages for a 2-sided card. Most likely two designs (two people), so we ask with that as the first answer.</p>
+        <div class="ph tall">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="msg warn">
+                <span><b>Your PDF has 4 pages, a card has 2 sides.</b> What are the extra pages?</span>
+                <div class="choices"><button class="ch on">2 designs (2 × front + back)</button><button class="ch">Use pages 1–2 only</button><button class="ch">Choose pages</button></div>
+              </div>
+              <p class="group-t">Design 1</p>
+              <div class="slots">
+                <div class="slot filled"><span class="art">ANNA</span><span class="t"><b>team-cards.pdf</b><small>Front · page 1</small></span></div>
+                <div class="slot filled"><span class="art b">BACK</span><span class="t"><b>team-cards.pdf</b><small>Back · page 2</small></span></div>
+              </div>
+              <p class="group-t">Design 2</p>
+              <div class="slots">
+                <div class="slot filled"><span class="art">TOM</span><span class="t"><b>team-cards.pdf</b><small>Front · page 3</small></span></div>
+                <div class="slot filled"><span class="art b">BACK</span><span class="t"><b>team-cards.pdf</b><small>Back · page 4</small></span></div>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€37.78</strong><span class="bar-sub">2 × 250 pcs · excl. VAT</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.4 multiple designs -->
+      <div class="cap">
+        <h3>4 · Several designs (several files)</h3>
+        <p>“+ Another design” adds a set of slots with its own quantity. Each design becomes its own line in the cart, same options.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="qtyrow"><p class="group-t">Design 1</p><span class="q">250 pcs ▾</span></div>
+              <div class="slots">
+                <div class="slot filled"><span class="art small">ANNA</span><span class="t"><b>anna-front.png</b><small>Front</small></span><button class="act">Replace</button></div>
+                <div class="slot filled"><span class="art small b">BACK</span><span class="t"><b>back.png</b><small>Back</small></span><button class="act">Replace</button></div>
+              </div>
+              <div class="qtyrow"><p class="group-t">Design 2</p><span class="q">100 pcs ▾</span></div>
+              <div class="slots">
+                <div class="slot filled"><span class="art small">TOM</span><span class="t"><b>tom-front.png</b><small>Front</small></span><button class="act">Replace</button></div>
+                <div class="slot"><span class="sd empty">Back</span><span class="t"><b>Back</b><small>Blank, or <a href="#" style="color:var(--link);text-decoration:underline">same as design 1</a></small></span><button class="act green">+ Add</button></div>
+              </div>
+              <button class="up-add">+ Another design</button>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€31.29</strong><span class="bar-sub">2 designs · excl. VAT</span></div><button class="btn primary">Add 2 to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.5 back missing -->
+      <div class="cap">
+        <h3>5 · Only a front for a double-sided card</h3>
+        <p>Not an error: an empty back simply prints blank. We say it once, with a cheaper single-sided option when that exists.</p>
+        <div class="ph short">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots">
+                <div class="slot filled"><span class="art">FRONT</span><span class="t"><b>logo-card.pdf</b><small>Front · page 1 of 1</small></span><button class="act">Replace</button></div>
+                <div class="slot"><span class="sd empty">Back</span><span class="t"><b>Back</b><small>Blank back</small></span><button class="act green">+ Add</button></div>
+              </div>
+              <div class="msg"><span>The back stays blank. <b>Single-sided saves €3.10</b> on this order.</span><div class="choices"><button class="ch">Switch to single-sided</button><button class="ch">Keep double-sided</button></div></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.6 wrong size -->
+      <div class="cap">
+        <h3>6 · Wrong size or shape</h3>
+        <p>An A4 or a square logo on an 85 × 55 card. We show both ways to fix it on the card itself, with the cut line, and let them pick.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots"><div class="slot warn"><span class="sd">PNG</span><span class="t"><b>logo-square.png</b><small class="w">Front · 1000 × 1000 px, square</small></span><button class="act">Replace</button></div></div>
+              <div class="msg warn"><span><b>Your file is square, the card is 85 × 55 mm.</b> How should it fit?</span></div>
+              <div class="preview">
+                <div><div class="cut fit"><i></i></div><p class="pcap"><b>Fit</b> · white edges</p></div>
+                <div><div class="cut">LOGO</div><p class="pcap"><b>Fill</b> · edges cut off</p></div>
+              </div>
+              <div class="choices"><button class="ch on">Fit</button><button class="ch">Fill</button></div>
+              <p class="formats">Portrait on a landscape card? We turn it for you, no question asked.</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.7 low resolution -->
+      <div class="cap">
+        <h3>7 · Low resolution</h3>
+        <p>Orange: we print it, but it may look blurry. The customer decides; it doesn’t block.</p>
+        <div class="ph short">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots"><div class="slot warn"><span class="art">FRONT</span><span class="t"><b>whatsapp-image.jpg</b><small class="w">Front · 96 dpi</small></span><button class="act">Replace</button></div></div>
+              <div class="up-check">
+                <p class="up-check-title">File check</p>
+                <p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches 85 × 55 mm</p>
+                <p class="warn"><span>!</span>96 dpi – may print blurry (300 is best)</p>
+                <p class="warn"><span>!</span>No bleed found – we’ll add it for you</p>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.8 wrong type / too big / failed -->
+      <div class="cap">
+        <h3>8 · Can’t use it: type, size, upload failed</h3>
+        <p>Red, in the slot itself, with what to do next. Word and PowerPoint get a tip (save as PDF) instead of only “not supported”.</p>
+        <div class="ph short">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="slots">
+                <div class="slot err"><span class="sd">DOCX</span><span class="t"><b>business-card.docx</b><small class="e">Word files can’t be printed. Save as PDF and try again.</small></span><button class="act">Replace</button></div>
+                <div class="slot err"><span class="sd">TIF</span><span class="t"><b>scan-hires.tif</b><small class="e">412 MB – max 200 MB per file</small></span><button class="act">Replace</button></div>
+                <div class="slot err"><span class="sd">PDF</span><span class="t"><b>card-back.pdf</b><small class="e">Upload stopped. Check your connection.</small></span><button class="act">Try again</button></div>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 BOOKS -->
+  <section>
+    <h2>4 · Books and other multi-page products</h2>
+    <p>Same popup, same one drop zone. Only the overview changes: for a book it’s a page grid in spreads (how the book opens), with one count that says if it’s right. Separate rows only where a book really has separate parts: the cover of a glued book.</p>
+    <div class="sgrid">
+      <div class="cap">
+        <h3>1 · Stapled brochure, 16 pages, one PDF</h3>
+        <p>The most common case. Page count matches, all green. The spreads show the order is right without opening anything.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <p class="up-intro">A5 portrait, 16 pages including the cover. One PDF, pages in reading order.</p>
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Drop files here</span><button class="btn outline">Choose files</button></div>
+              <div class="slots"><div class="slot filled"><span class="sd">PDF</span><span class="t"><b>brochure-v3.pdf</b><small>16 pages · 8.2 MB</small></span><button class="act">Replace</button></div></div>
+              <p class="group-t">What we print <span class="count">16 of 16 pages ✓</span></p>
+              <div class="spreads"><span class="spread"><span><span class="pg c"></span></span>1</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>2–3</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>4–5</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>6–7</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>8–9</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>10–11</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>12–13</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>14–15</span><span class="spread"><span><span class="pg c"></span></span>16</span></div>
+              <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches A5 (148 × 210 mm)</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Resolution 300 dpi</p><p class="ok"><img src="assets/pdp/check.svg" alt="">3 mm bleed included</p></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€129.40</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Fri</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <h3>2 · Wrong page count</h3>
+        <p>15 pages for a 16-page brochure. Orange, with the fix as the first answer. The missing page shows in the grid, so it’s clear where it goes.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Drop files here</span><button class="btn outline">Choose files</button></div>
+              <div class="slots"><div class="slot warn"><span class="sd">PDF</span><span class="t"><b>brochure-v2.pdf</b><small class="w">15 pages · 7.9 MB</small></span><button class="act">Replace</button></div></div>
+              <p class="group-t">What we print <span class="count w">15 of 16 pages</span></p>
+              <div class="spreads"><span class="spread"><span><span class="pg c"></span></span>1</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>2–3</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>4–5</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>6–7</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>8–9</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>10–11</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>12–13</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>14–15</span><span class="spread"><span><span class="pg c x"></span></span>16</span></div>
+              <div class="msg warn">
+                <span><b>A 16-page brochure needs 16 pages.</b> Your PDF has 15.</span>
+                <div class="choices"><button class="ch on">Add a blank last page</button><button class="ch">Upload a new file</button><button class="ch">Change to 12 pages</button></div>
+              </div>
+              <p class="formats">Pages as spreads (2 on 1 sheet)? We split them for you.</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€129.40</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Fri</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <h3>3 · Glued book: cover + inside pages</h3>
+        <p>Two parts, two rows, because they really are two files at the printer. The cover needs the spine width, so we give it.</p>
+        <div class="ph tall">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <p class="up-intro">A5, 64 inside pages, glued. Cover and inside as two PDFs, or one PDF with the cover first.</p>
+              <div class="drop-bar"><img src="assets/desktop/upload-cloud.svg" alt=""><span>Drop files here</span><button class="btn outline">Choose files</button></div>
+              <p class="group-t">Cover <span class="count">✓</span></p>
+              <div class="slots"><div class="slot filled"><span class="art small">COVER</span><span class="t"><b>cover.pdf</b><small>Back, spine, front · 301 × 210 mm</small></span><button class="act">Replace</button></div></div>
+              <p class="group-t">Inside pages <span class="count">64 of 64 pages ✓</span></p>
+              <div class="slots"><div class="slot filled"><span class="sd">PDF</span><span class="t"><b>inside.pdf</b><small>64 pages · 24 MB</small></span><button class="act">Replace</button></div></div>
+              <div class="msg"><span>Spine for 64 pages on 115 g paper: <b>4.5 mm</b>. <a href="#" style="color:var(--link);text-decoration:underline">Download the cover template</a></span></div>
+              <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Cover matches, spine 4.5 mm</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Inside pages A5, 3 mm bleed</p></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€412.00</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Wed</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:24px">Tapping the page grid opens it full screen, for a closer look and to move or remove a page. That’s the only place the customer sorts, and only when they want to.</p>
+  </section>
+
+  <!-- 5 C WORKED OUT -->
+  <section>
+    <h2>5 · C worked out: step by step</h2>
+    <p>Three steps: <b>1 Your files</b> (the question) → <b>2 Upload</b> (one thing per screen) → <b>3 Check</b> (always the same screen). The question only shows when there is a real choice. Every answer shapes the next screen, so the customer always knows what to upload; when the file doesn’t match the answer, we fix it on the spot instead of sending them back. Same colour rule as A.</p>
+    <div class="sgrid">
+      <div class="cap">
+        <h3>1 · The question (double-sided card)</h3>
+        <p>Only asked when there’s a real choice. A single-sided card skips it: step 1 is the upload, and the steps go from 3 to 2.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              
+              <div class="ssteps"><i class="on"></i><i></i><i></i></div>
+              <p class="step-l"><span>Step 1 of 3 · <b>Your files</b></span></p>
+              <p class="group-t">How are your files set up?</p>
+              <div class="big-choice">
+                <button class="design" aria-checked="true"><span class="radio"></span><span class="t"><b>One file with all sides</b><small>For example a PDF with 2 pages</small></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>A file per side</b><small>Front and back separately</small></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>Several designs</b><small>For example a card per colleague</small></span></button>
+              </div>
+              <p class="later">No file ready? <a href="#">Upload later</a></p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Next</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>2 · One file with all sides</h3>
+        <p>One drop zone that says exactly what we expect: a PDF with page 1 = front, page 2 = back.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i></i></div>
+              <p class="step-l"><span>Step 2 of 3 · <b>Upload</b></span></p>
+              <p class="group-t">Upload your PDF with front and back</p>
+              <div class="drop"><img src="assets/desktop/upload-cloud.svg" alt=""><span><b>Page 1 = front, page 2 = back</b></span><button class="btn outline">Choose file</button><small>or drag it here</small></div>
+              <p class="formats">PDF (best), AI, EPS, PSD or TIFF · max 200 MB</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Check my file</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>3a · A file per side: the front</h3>
+        <p>One side per screen, with the size in the title. The next button names the next step.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+              <p class="step-l"><span>Step 2 of 4 · <b>Upload</b></span></p>
+              <p class="group-t">Front <small>85 × 55 mm</small></p>
+              <div class="slots"><div class="slot filled"><span class="art">FRONT</span><span class="t"><b>front.png</b><small>Front · 1.1 MB</small></span><button class="act">Replace</button></div></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Next: back side</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>3b · A file per side: the back</h3>
+        <p>The back is optional, so “Leave blank” is a real answer here, not a hidden escape. Same-design-for-both is one tap.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+              <p class="step-l"><span>Step 3 of 4 · <b>Upload</b></span></p>
+              <p class="group-t">Back <small>85 × 55 mm</small></p>
+              <div class="drop"><img src="assets/desktop/upload-cloud.svg" alt=""><span><b>Upload the back</b></span><button class="btn outline">Choose file</button><small>or drag it here</small></div>
+              <div class="choices"><button class="ch">Leave the back blank</button><button class="ch">Same as the front</button></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Check my files</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>4a · Several designs: how many?</h3>
+        <p>First the split: how many designs and how many cards each. The total price updates right away.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+              <p class="step-l"><span>Step 2 of 4 · <b>Designs</b></span></p>
+              <p class="group-t">How many designs?</p>
+              <div class="qtyrow"><span>Design 1</span><span class="q">250 pcs ▾</span></div>
+              <div class="qtyrow"><span>Design 2</span><span class="q">100 pcs ▾</span></div>
+              <button class="up-add">+ Another design</button>
+              <p class="formats">Each design is its own line in your cart, with the same options.</p>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€31.29</strong><span class="bar-sub">2 designs · excl. VAT</span></div><button class="btn primary">Next: upload</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>4b · Several designs: upload per design</h3>
+        <p>One design at a time, with a mini step inside the step (Design 1 of 2). Each design gets the same question as in 2 / 3, already answered.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+              <p class="step-l"><span>Step 3 of 4 · <b>Upload</b></span></p>
+              <p class="group-t">Design 1 of 2 <small>250 pcs</small></p>
+              <div class="slots">
+                <div class="slot filled"><span class="art small">ANNA</span><span class="t"><b>anna.pdf</b><small>Front · page 1 of 2</small></span></div>
+                <div class="slot filled"><span class="art small b">BACK</span><span class="t"><b>anna.pdf</b><small>Back · page 2 of 2</small></span></div>
+              </div>
+              <p class="group-t">Design 2 of 2 <small>100 pcs</small></p>
+              <div class="drop" style="padding:16px"><img src="assets/desktop/upload-cloud.svg" alt=""><span><b>Upload design 2</b></span></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€31.29</strong><span class="bar-sub">2 designs · excl. VAT</span></div><button class="btn primary" disabled>Check my files</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>5 · The file doesn’t match the answer</h3>
+        <p>Chose “one file with all sides”, but the PDF has 1 page. We don’t send them back to step 1; we fix it here with the answers that fit.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i></i></div>
+              <p class="step-l"><span>Step 2 of 3 · <b>Upload</b></span></p>
+              <div class="slots"><div class="slot warn"><span class="art">FRONT</span><span class="t"><b>card.pdf</b><small class="w">1 page · we expected 2</small></span><button class="act">Replace</button></div></div>
+              <div class="msg warn">
+                <span><b>We found only a front.</b> What about the back?</span>
+                <div class="choices"><button class="ch on">Upload the back</button><button class="ch">Leave it blank</button><button class="ch">Same as the front</button></div>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Check my file</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>6 · More pages than the answer</h3>
+        <p>4 pages in “one file”. Same question as in A, but here it can also switch the answer from step 1 to “several designs”.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i></i></div>
+              <p class="step-l"><span>Step 2 of 3 · <b>Upload</b></span></p>
+              <div class="slots"><div class="slot warn"><span class="sd">PDF</span><span class="t"><b>team-cards.pdf</b><small class="w">4 pages · we expected 2</small></span><button class="act">Replace</button></div></div>
+              <div class="msg warn">
+                <span><b>Your PDF has 4 pages, a card has 2 sides.</b> What are the extra pages?</span>
+                <div class="choices"><button class="ch on">2 designs (switch to several designs)</button><button class="ch">Use pages 1–2 only</button></div>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Check my file</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>7 · Step 3: the check, all good</h3>
+        <p>The last step is always the same: what we print + the file check. Everything green, Add to cart.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+              <p class="step-l"><span>Step 3 of 3 · <b>Check</b></span></p>
+              <p class="group-t">What we print <span class="count">2 of 2 sides ✓</span></p>
+              <div class="slots">
+                <div class="slot filled"><span class="art">FRONT</span><span class="t"><b>card-final.pdf</b><small>Front · page 1 of 2</small></span><button class="act">Change</button></div>
+                <div class="slot filled"><span class="art b">BACK</span><span class="t"><b>card-final.pdf</b><small>Back · page 2 of 2</small></span><button class="act">Change</button></div>
+              </div>
+              <div class="up-check"><p class="up-check-title">File check</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches 85 × 55 mm</p><p class="ok"><img src="assets/pdp/check.svg" alt="">Resolution 300 dpi</p><p class="ok"><img src="assets/pdp/check.svg" alt="">3 mm bleed included</p></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>8 · Step 3: the check, with problems</h3>
+        <p>Same colour rule as A. Orange (low dpi, no bleed, wrong shape with Fit / Fill) lets them go on; red (wrong type, too big, failed) sends them back to that side with one tap.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+              <p class="step-l"><span>Step 3 of 3 · <b>Check</b></span></p>
+              <p class="group-t">What we print <span class="count w">Needs a look</span></p>
+              <div class="slots">
+                <div class="slot warn"><span class="art">FRONT</span><span class="t"><b>whatsapp-image.jpg</b><small class="w">Front · 96 dpi</small></span><button class="act">Change</button></div>
+                <div class="slot err"><span class="sd">DOCX</span><span class="t"><b>back.docx</b><small class="e">Word can’t be printed. Save as PDF.</small></span><button class="act">Change</button></div>
+              </div>
+              <div class="up-check"><p class="up-check-title">File check</p><p class="warn"><span>!</span>Front: 96 dpi – may print blurry</p><p class="warn"><span>!</span>No bleed found – we’ll add it for you</p></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thu</span></div><button class="btn primary" disabled>Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>9 · Books: a different question</h3>
+        <p>For a book the question is about the parts, not the sides. A stapled brochure has no separate cover, so it skips the question.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              
+              <div class="ssteps"><i class="on"></i><i></i><i></i></div>
+              <p class="step-l"><span>Step 1 of 3 · <b>Your files</b></span></p>
+              <p class="group-t">How are your files set up?</p>
+              <div class="big-choice">
+                <button class="design" aria-checked="true"><span class="radio"></span><span class="t"><b>One PDF with everything</b><small>Cover first, then the 64 inside pages</small></span></button>
+                <button class="design" aria-checked="false"><span class="radio"></span><span class="t"><b>Cover and inside separately</b><small>Two PDFs: the cover (with spine) and the inside pages</small></span></button>
+              </div>
+              <div class="msg"><span>Spine for 64 pages on 115 g paper: <b>4.5 mm</b>. <a href="#" style="color:var(--link);text-decoration:underline">Download the cover template</a></span></div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€412.00</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Wed</span></div><button class="btn primary">Next</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">
+        <h3>10 · Books: the check, wrong page count</h3>
+        <p>Step 3 with the page grid from A. The count and the dashed page show what’s missing; the fix is the first answer.</p>
+        <div class="ph">
+          <div class="sk">
+            <div class="grab"><span></span></div>
+            <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+            <div class="body">
+              <button class="back">‹ Back</button>
+              <div class="ssteps"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+              <p class="step-l"><span>Step 3 of 3 · <b>Check</b></span></p>
+              <p class="group-t">Inside pages <span class="count w">63 of 64 pages</span></p>
+              <div class="spreads"><span class="spread"><span><span class="pg"></span></span>1</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>2–3</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>4–5</span><span class="spread" style="justify-content:center;font-size:var(--t-14)">…</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>60–61</span><span class="spread"><span><span class="pg"></span><span class="pg"></span></span>62–63</span><span class="spread"><span><span class="pg x"></span></span>64</span></div>
+              <div class="msg warn">
+                <span><b>The inside needs 64 pages.</b> Your PDF has 63.</span>
+                <div class="choices"><button class="ch on">Add a blank last page</button><button class="ch">Upload a new file</button></div>
+              </div>
+            </div>
+            <div class="sheet-bar"><div class="total"><strong>€412.00</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Wed</span></div><button class="btn primary">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:24px"><b>A vs C, honestly:</b> C is calmer and explains itself, which helps first-time and less experienced customers. It costs 2–3 extra taps for the most common case (one PDF), and it can be “wrong” when the file doesn’t match the answer (5, 6). A is faster and never wrong, but a bit more to read on one screen. A middle way: C’s question only for products where files really differ (double-sided, several designs, books), A’s single screen for everything else.</p>
+  </section>
+
+  <!-- 6 DESKTOP -->
+  <section>
+    <h2>6 · A on desktop: a modal</h2>
+    <p>Same content, centred modal (720 wide). Left: drop zone + what we print. Right: the order it belongs to, so nobody uploads for the wrong options. The whole modal accepts a drop.</p>
+    <div class="stage">
+      <div class="modal">
+        <div class="sheet-head"><h2>Upload your artwork</h2><img class="close" src="assets/pdp/close.svg" alt=""></div>
+        <div class="mbody">
+          <div class="l">
+            <div class="drop"><img src="assets/desktop/upload-cloud.svg" alt=""><span><b>Drag your files here</b></span><button class="btn outline">Choose files</button><small>PDF (best), AI, EPS, PSD, TIFF, PNG or JPG · max 200 MB per file</small></div>
+            <div class="slots">
+              <div class="slot filled"><span class="art">FRONT</span><span class="t"><b>card-final.pdf</b><small>Front · page 1 of 2</small></span><button class="act">Replace</button></div>
+              <div class="slot filled"><span class="art b">BACK</span><span class="t"><b>card-final.pdf</b><small>Back · page 2 of 2</small></span><button class="act">Replace</button></div>
+            </div>
+            <div class="up-check">
+              <p class="up-check-title">File check</p>
+              <p class="ok"><img src="assets/pdp/check.svg" alt="">Size matches 85 × 55 mm</p>
+              <p class="ok"><img src="assets/pdp/check.svg" alt="">Resolution 300 dpi</p>
+              <p class="ok"><img src="assets/pdp/check.svg" alt="">3 mm bleed included</p>
+            </div>
+            <button class="up-add">+ Another design</button>
+          </div>
+          <div>
+            <div class="side-sum">
+              <b>Classic Business Cards</b>
+              <small>85 × 55 mm · Double-sided · 350 g Matt · 250 pcs</small>
+              <small>Need a template? <a href="#" style="color:var(--link);text-decoration:underline">Download PDF template</a></small>
+            </div>
+            <p class="later" style="margin-top:16px;text-align:left">No file ready? <a href="#">Upload later</a></p>
+          </div>
+        </div>
+        <div class="sheet-bar"><div class="total"><strong>€18.89</strong><span class="bar-sub">excl. VAT ·<img src="assets/pdp/check.svg" alt="">Arrives Thursday 13 Nov</span></div><button class="btn primary">Add to cart</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 SILENT + QUESTIONS -->
+  <section>
+    <h2>7 · All cases at a glance</h2>
+    <table class="table">
+      <tr><th>Case</th><th>What we do</th><th>Level</th></tr>
+      <tr><td>1 file, single-sided</td><td>Fills Front. Done.</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>PDF with 2 pages, double-sided</td><td>Page 1 → Front, page 2 → Back. Swap with one tap.</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>2 files, double-sided</td><td>First file → Front, second → Back (by name if it says front/back).</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>PDF with more pages than sides</td><td>Ask: several designs (default), first pages only, or pick pages.</td><td><span class="lvl w">Ask</span></td></tr>
+      <tr><td>More files than sides</td><td>Same question: extra designs, or which ones to use.</td><td><span class="lvl w">Ask</span></td></tr>
+      <tr><td>Several designs</td><td>One set of slots + quantity per design; each design is its own cart line.</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>Only a front on double-sided</td><td>Back prints blank; offer single-sided if cheaper.</td><td><span class="lvl w">Inform</span></td></tr>
+      <tr><td>Wrong shape or size</td><td>Fit (white edges) or Fill (cut off), shown on the card.</td><td><span class="lvl w">Ask</span></td></tr>
+      <tr><td>Portrait file, landscape card</td><td>We turn it, no question.</td><td><span class="lvl ok">Silent</span></td></tr>
+      <tr><td>No bleed</td><td>We add it (as today).</td><td><span class="lvl w">Inform</span></td></tr>
+      <tr><td>RGB colours</td><td>We convert to CMYK; one line under the check.</td><td><span class="lvl ok">Silent</span></td></tr>
+      <tr><td>Low resolution (&lt; 150 dpi)</td><td>Warn, don’t block.</td><td><span class="lvl w">Warn</span></td></tr>
+      <tr><td>Text too close to the edge</td><td>Warn with the safe zone shown on the preview.</td><td><span class="lvl w">Warn</span></td></tr>
+      <tr><td>Word / PowerPoint / zip</td><td>Can’t use; tip to save as PDF.</td><td><span class="lvl e">Block</span></td></tr>
+      <tr><td>File &gt; 200 MB</td><td>Can’t use; say the limit.</td><td><span class="lvl e">Block</span></td></tr>
+      <tr><td>Upload failed</td><td>Try again in the slot.</td><td><span class="lvl e">Block</span></td></tr>
+      <tr><td>Password-protected PDF</td><td>Can’t open; ask for a version without a password.</td><td><span class="lvl e">Block</span></td></tr>
+      <tr><td>Book, page count right</td><td>Page grid in spreads, “16 of 16 pages ✓”.</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>Book, page count wrong</td><td>Add blank pages (default), upload again, or change the page count.</td><td><span class="lvl w">Ask</span></td></tr>
+      <tr><td>Book uploaded as spreads</td><td>We split them into single pages.</td><td><span class="lvl ok">Silent</span></td></tr>
+      <tr><td>Glued book</td><td>Cover and inside as two rows (or one PDF, cover first); spine width given.</td><td><span class="lvl ok">Fine</span></td></tr>
+      <tr><td>No file ready</td><td>“Upload later” link in the popup switches the option and adds to cart.</td><td><span class="lvl ok">Escape</span></td></tr>
+      <tr><td>Closes the popup halfway</td><td>Files stay while on the page; reopening shows them again.</td><td><span class="lvl ok">Fine</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Open questions for the team</h2>
+    <ol class="q">
+      <li><b>Several designs:</b> one cart line per design (my pick, simple and clear prices), or one line with a quantity split (like the sizes mix on flyers)? What does production prefer?</li>
+      <li><b>Price for several designs:</b> is each design priced as its own order (250 + 100), or do quantities add up to a better price tier?</li>
+      <li><b>Max file size and formats:</b> 200 MB and this list are my guess; what does prepress accept today?</li>
+      <li><b>Books:</b> which products need a separate cover file (glued, wire-bound?), and does prepress accept spreads or only single pages?</li>
+      <li><b>Order of the three options:</b> keep Upload your artwork third (as asked), or first because most B2B customers come with a file?</li>
+    </ol>
+  </section>
+</div>
+</body>
+</html>

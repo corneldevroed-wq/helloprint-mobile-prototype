@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261112v">
+<link rel="stylesheet" href="styles.css?v=20261113a">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -233,6 +233,25 @@
   <p class="bar-link flow-b-only">No design yet? <a href="#ctaStack" id="seeOptions">See options</a></p>
 </div>
 
+<!-- Sheet: upload your artwork (version D, upload-sketch.html; switch "Upload"). One upload field for every product.
+     Prototype: the files stay in the browser; only their name, size and page count are read, nothing is sent or stored. -->
+<input type="file" id="artInput" multiple hidden>
+<div class="sheet-layer" id="sheet-artwork" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="artTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="artTitle">Upload your artwork</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad" id="artBody"></div></div>
+    <div class="sheet-bar">
+      <div class="total"><strong data-bind="total"></strong><span class="bar-sub"><span data-bind="vatLabel"></span> ·<img src="assets/pdp/check.svg" alt=""><span data-bind="arrives"></span></span></div>
+      <button class="btn primary" id="artAdd" disabled>Add to cart</button>
+    </div>
+  </div>
+</div>
+
 <!-- Sheet: upload your file now (A: design layer option; D: link under Add to cart).
      Prototype: the file stays in the browser; only its name and size are read, nothing is sent or stored. -->
 <input type="file" id="fileInput" accept=".pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg" hidden>
@@ -298,8 +317,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261112v"></script>
-<script src="products.js?v=20261112v"></script>
+<script src="app.js?v=20261113a"></script>
+<script src="products.js?v=20261113a"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -373,6 +392,14 @@
   const FLOW_F = ['f', 'g', 'h', 'i'].includes(FLOW);       // G, H and I use F's spec list
   const FLOW_G = FLOW === 'g';
   const FLOW_H = FLOW === 'h';
+  // Upload your artwork, version D (upload-sketch.html, Cornel 2026-11-04): a third design option with one upload field for every product.
+  // Switch "Upload" on the left edge: D (default) or Off (the two options as before). ?art=d|off, remembered in hp-art.
+  const ART = (() => {
+    const q = new URLSearchParams(location.search).get('art');
+    try { if (['d', 'off'].includes(q)) localStorage.setItem('hp-art', q); return (q || localStorage.getItem('hp-art') || 'd') === 'd'; } catch { return q !== 'off'; }
+  })();
+  document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype version"><span>Upload</span>${[['d', 'D'], ['off', '–']].map(([v, l]) => `<button data-art="${v}" aria-pressed="${(v === 'd') === ART}" title="${v === 'd' ? 'D: Upload your artwork, one upload field' : 'Off: Upload later and Design online only'}">${l}</button>`).join('')}</div>`);
+  document.querySelectorAll('[data-art]').forEach(b => b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('art', b.dataset.art); location.href = u; }));
   const FLOW_I = FLOW === 'i';
   // J: every option on the page instead of in a sheet (SEO). Changes apply right away; the sticky bar
   //    always shows price + Continue, which opens the design step from H.
@@ -930,7 +957,7 @@
   var DESK_BAR = DESK;   // var: renderDeskSel runs before this line
   // The green button says what happens with the chosen design option (as the mobile design sheet's button)
   function deskCta() {   // a function declaration: renderDeskSel can run before this line
-    return deskDesign === 'canva' ? `<img src="${P}d-canva.svg" alt="" class="d-go-ico">Start designing` : '<img src="assets/bag.svg" alt="">Add to cart and continue';
+    return deskDesign === 'canva' ? `<img src="${P}d-canva.svg" alt="" class="d-go-ico">Start designing` : deskDesign === 'art' ? 'Upload artwork' : '<img src="assets/bag.svg" alt="">Add to cart and continue';
   }
   function renderDeskBar() {
     if (!DESK_BAR) return;
@@ -965,7 +992,10 @@
           <ul><li>Finish your order first.</li><li>Simply upload your design after checkout</li><li>Review the print proof, and approve.</li></ul></button>
         <button class="d-dcard d-dpick" role="radio" aria-checked="${deskDesign === 'canva'}" data-ddesign="canva"><span class="ico"><img src="assets/desktop/canva-logo.png" alt=""></span>
           <b>Design online with Canva</b>
-          <ul><li>Choose from 10.000+ templates</li><li>Get a print ready file fast</li><li>Finish your order</li></ul></button>
+          <ul><li>Choose from 10.000+ templates</li><li>Get a print ready file fast</li><li>Finish your order</li></ul></button>${ART ? `
+        <button class="d-dcard d-dpick" role="radio" aria-checked="${deskDesign === 'art'}" data-ddesign="art"><span class="ico"><img src="assets/desktop/upload-file.svg" alt=""></span>
+          <b>Upload your artwork</b>
+          <ul><li>Have your design ready? Upload it now</li><li>One file or several, any format</li><li>We check every file before we print</li></ul></button>` : ''}
       </div>`;
     box.innerHTML = `
       <div class="d-sel-head"><b>Your selection</b><p>${presetLabel(presetOf(c), c)}</p></div>
@@ -1077,7 +1107,8 @@
     { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
     { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online', cartLabel: 'Designed in Canva' },
     { id: 'file', name: 'Upload your design', sub: 'Have print-ready files, or your own designer.', icon: 'd-upload.svg', cta: 'Upload design now' },
-  ].filter(d => UPLOAD_NOW || d.id !== 'file');
+    { id: 'art', name: 'Upload your artwork', sub: 'Have your design ready? Upload it now, we check every file.', icon: 'd-artwork.svg', cta: 'Upload artwork' },
+  ].filter(d => (UPLOAD_NOW || d.id !== 'file') && (ART || d.id !== 'art'));
   let design = 'upload';
   function renderDesign() {
     document.getElementById('designList').innerHTML = DESIGN.map(d => `
@@ -1101,6 +1132,7 @@
     document.getElementById('ctaStack').scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   function placeOrder(design, label) {
+    if (design === 'art' && !label) { openSheet('artwork'); return; }
     if (design === 'file' && !label) { pickFile('front'); return; }
     // The online editor is a separate tool (no screens in the prototype yet)
     if (design === 'canva') { showToast('Opening the online editor…'); return; }
@@ -1174,6 +1206,66 @@
     placeOrder('file', `${front.name}${back ? ' + ' + back.name : ''} ✓ checked`);
   });
 
+  // ---------- Upload your artwork (D) ----------
+  // One upload field for every product and spec (upload-sketch.html D). No questions and no file check here: our team checks
+  // every file before printing. After uploading: every file as a row with its thumbnail (never an animated preview, Cornel 2026-11-04),
+  // always "Add more files", and reassurance. Only an upload that failed (over 200 MB) stops the button.
+  const artInput = document.getElementById('artInput'), artBody = document.getElementById('artBody'), artAdd = document.getElementById('artAdd');
+  let art = [];
+  function artFiles(list) {
+    [...list].forEach(f => {
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
+      const it = { name: f.name, size: f.size, ext, url: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'].includes(ext) ? URL.createObjectURL(f) : null, progress: 0, err: f.size > 200e6 };
+      art.push(it);
+      if (it.err) return;
+      // A PDF: count its pages for the row (read from the file itself; not shown when they can't be counted, e.g. compressed page lists)
+      if (ext === 'pdf' && f.size < 50e6) f.text().then(t => { it.pages = (t.match(/\/Type\s*\/Page(?![a-z])/g) || []).length; renderArt(); });
+      const timer = setInterval(() => { it.progress = Math.min(100, it.progress + 20); renderArt(); if (it.progress === 100) clearInterval(timer); }, 180);
+    });
+    renderArt();
+  }
+  // A row per file: the thumbnail in the product's shape (fileThumb, as the upload-now sheet), name, size; Remove once it's in
+  const artRow = (f, i) => `<div class="up-file${f.err ? ' err' : ''}">${fileThumb(f)}
+      <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${f.err ? `Didn’t upload: ${sizeText(f.size)}, max 200 MB` : sizeText(f.size) + (f.progress === 100 ? ' · uploaded ✓' : '') + (f.progress === 100 && f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : '')}</small>
+        ${f.err || f.progress === 100 ? '' : `<span class="up-bar"><i style="width:${f.progress}%"></i></span>`}</div>
+      ${f.err || f.progress === 100 ? `<button class="up-replace" data-art-remove="${i}">Remove</button>` : ''}</div>`;
+  // The promise with the faces of our print experts (as in the Help Centre), so it's people who check, not a machine
+  const ART_PROMISE = `<div class="art-team"><span class="faces">${['saskia', 'timo', 'karen'].map(n => `<img src="assets/help/team/${n}.webp" alt="">`).join('')}</span>
+    <p><b>Our print experts check every file</b>before we print. Something to fix? We’ll email you.</p></div>`;
+  function renderArt() {
+    const busy = art.some(f => !f.err && f.progress < 100), done = art.length && !busy && !art.some(f => f.err);
+    artAdd.disabled = !done;
+    artAdd.textContent = busy ? 'Uploading…' : 'Add to cart';
+    if (!art.length) {
+      artBody.innerHTML = `<p class="up-intro">Upload your design: one file or several, PDF works best.</p>
+        <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-art-pick>Choose files</button><small>or drag them here · as many as you like</small></div>
+        ${ART_PROMISE}<p class="art-note">No file ready? <button data-art-later>Upload later</button></p>`;
+      return;
+    }
+    // More files than sides: thank them, our team picks the right ones. "Add a note for our team" is hidden for now (Cornel, 2026-11-04): remove `hidden` to show it
+    const thanks = art.length > (doubleSided(saved) ? 2 : 1);
+    artBody.innerHTML = `<div class="up-files">${art.map(artRow).join('')}</div><button class="up-add" data-art-pick>+ Add more files</button>
+      ${!done ? ART_PROMISE : `<div class="art-calm"><span class="art-emoji" aria-hidden="true">🎉</span><b>${thanks ? 'Thanks for your files' : `We’ve got your file${art.length > 1 ? 's' : ''}`}</b>
+        <span>${thanks ? 'More than we need? No problem. Our team picks the right ones and checks them before we print.' : 'Don’t worry, it’s in good hands. We always check your file before we print.'}</span>
+        <div class="up-check"><p class="ok"><img src="${P}check.svg" alt="">Checked by our team before printing</p><p class="ok"><img src="${P}check.svg" alt="">Small things (bleed, colours) we fix for free</p><p class="ok"><img src="${P}check.svg" alt="">Anything unclear? We’ll email you</p></div></div>
+      <p class="art-note" hidden>${thanks ? 'Want to tell us which is which?' : 'Something we should know?'} <button data-art-note>Add a note for our team</button></p>`}`;
+  }
+  sheetHooks.artwork = renderArt;
+  artInput.addEventListener('change', () => { artFiles(artInput.files); artInput.value = ''; });
+  const artSheet = document.getElementById('sheet-artwork');
+  artSheet.addEventListener('click', e => {
+    const t = e.target;
+    if (t.closest('[data-art-pick]')) artInput.click();
+    if (t.closest('[data-art-remove]')) { const [f] = art.splice(+t.closest('[data-art-remove]').dataset.artRemove, 1); if (f.url) URL.revokeObjectURL(f.url); renderArt(); }
+    if (t.closest('[data-art-later]')) { closeSheet(); placeOrder('upload'); }
+    if (t.closest('[data-art-note]')) t.closest('.art-note').outerHTML = '<textarea class="art-note-text" rows="3" placeholder="For example: page 3 is the back of the card" aria-label="A note for our team"></textarea>';
+  });
+  // Desktop: drop the files anywhere on the popup
+  artSheet.addEventListener('dragover', e => { e.preventDefault(); artSheet.querySelector('.art-drop')?.classList.add('over'); });
+  artSheet.addEventListener('dragleave', e => { if (!artSheet.contains(e.relatedTarget)) artSheet.querySelector('.art-drop')?.classList.remove('over'); });
+  artSheet.addEventListener('drop', e => { e.preventDefault(); artFiles(e.dataTransfer.files); });
+  artAdd.addEventListener('click', () => { closeSheet(); placeOrder('art', `Artwork uploaded (${art.length} file${art.length > 1 ? 's' : ''})`); });
+
   // Version switch (prototype): keep the other URL parameters
   document.querySelectorAll('[data-flow]').forEach(b => {
     b.setAttribute('aria-pressed', b.dataset.flow === FLOW);
@@ -1183,7 +1275,7 @@
   // Sheets: page-specific preparation before opening (mechanics live in app.js)
   sheetHooks.customise = () => { draft = { ...saved }; renderDraft(); document.querySelector('#sheet-customise .sheet-body').scrollTop = 0; };
   // ---------- Version E: "Your design" field; the design layer only saves ----------
-  const DESIGN_SHORT = { upload: 'Upload after checkout', canva: 'Design online', file: 'Upload design now' };
+  const DESIGN_SHORT = { upload: 'Upload after checkout', canva: 'Design online', file: 'Upload design now', art: 'Upload your artwork' };
   let designSaved = 'upload';
   // Version F: one row per option + quantity, delivery and design; fixed specs as one "Included" line
   function renderSpecRows() {
