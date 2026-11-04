@@ -106,6 +106,12 @@ Add new decisions here when Cornel makes a final call.
   (`badgeHtml` / `badgeTone`, list `BADGE_INFO`). The cart's green uppercase RECOMMENDED tag now uses the badge. Rejected: a colour per label.
 
 ## Help Centre (`help-centre.html`, Oct 28, 2026)
+- **11-04 — Signed in: your own data in the article (A of help-personal-sketch.html):** one block under the title for 12 kinds
+  (proofs, changeable orders, status, shipments, recently delivered, past orders, quotes, invoices, refunds, cases, shipping
+  address, billing): grey block, small dark green label (no count), rows = white cards with the card outline, the product photo (`.thumb-sm`), number 14 semibold, the urgent part
+  semibold, one small action (the header's light green `.dbtn`, quiet = white `.pill`; `.btn` was too big), View all top right to My Account (not built yet). Nothing
+  relevant = no block. Signed out: one "Sign in to …" line in the same grey block, on the "my" questions only. Not on the Help Centre home.
+  Rejected: a white outlined block with a dark green pill, a big title, a yellow status label, light green background.
 - **10-29 — Search on the topic pages (B of help-search-sketch.html):** the hub search field under the title filters this
   topic's questions live (match marked light green, "5 in Ordering · 1 in other topics"), up to 5 matches from other topics under
   "In other topics", nothing anywhere = try other words + Chat with us. Not on article pages. Rejected: A (sidebar), C (band).

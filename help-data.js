@@ -118,3 +118,73 @@ function helpTabs() {
   };
   addEventListener('scroll', sync, { passive: true });
 }
+
+// Signed in: the user's own orders, proofs, invoices… right under the article title (Cornel, 2026-11-04; help-personal-sketch.html, A).
+// One block for 12 kinds of data, linked to the article by its slug. Rows: [title, detail (the urgent part in <em>), action, primary?, product image].
+// The action: the small light green button of the header (.dbtn) to act, the white .pill for a quiet one (Cornel, 2026-11-04: .btn was too big).
+// Prototype data (from Cornel's Help Centre artifact); links go to #my-account-… (My Account doesn't exist yet).
+// Signed out: one quiet "Sign in to …" line, only on the "my" questions (out). Switch "Account" (left edge): I = signed in, O = signed out.
+const HELP_MINE = {
+  proofs: { h: 'Waiting for your approval', all: 'View all orders', out: 'to see the proofs waiting for your approval.',
+    rows: [['Order #8839004', 'Roll-up banner ×2 · approve before Fri 6 Nov, 09:00 · <em>2 days left</em>', 'Review proof', 1, 'rollupbanners-printing']] },
+  change: { h: 'Orders you can still change', all: 'View all orders', out: 'to see which orders you can still change.',
+    rows: [['Order #8851022', 'Flyers A5 · 1,000 pcs · changes possible until <em>today, 18:00</em>', 'Change order', 1, 'flyers'], ['Order #8849910', 'Stickers · 250 pcs · <em>waiting for your file</em>', 'Upload file', 1, 'customsizestickers']] },
+  status: { h: 'Your open orders', all: 'View all orders', out: 'to see the status of your orders.',
+    rows: [['Order #8839004', 'Roll-up banner ×2 · <em>proof ready</em>', 'View order', 0, 'rollupbanners-printing'], ['Order #8851022', 'Flyers A5 · 1,000 pcs · in production', 'View order', 0, 'flyers'], ['Order #8842119', 'Business Cards · 500 pcs · on its way', 'View order', 0, 'businesscards-printing']] },
+  shipments: { h: 'Your orders on the way', all: 'View all orders', out: 'to track your orders here.',
+    rows: [['Order #8842119', 'Business Cards · 500 pcs · Estimated Thursday 5 Nov — latest Fri 6 Nov', 'Track', 1, 'businesscards-printing'], ['Order #8846210', 'Event pack · 3 items · 2 of 3 parcels on the way', 'Track', 1, 'banner-printing']] },
+  delivered: { h: 'Recently delivered', all: 'View all orders', out: 'to pick the order it\'s about.',
+    rows: [['Order #8825510', 'Roller Banner · 1 pc · delivered 2 Nov', 'Report a problem', 1, 'rollupbanners-printing'], ['Order #8814402', 'Tote bags · 100 pcs · delivered 28 Oct', 'Report a problem', 0, 'printing-cottonbags']] },
+  past: { h: 'Your previous orders', all: 'View all orders', out: 'to reorder from your previous orders.',
+    rows: [['Order #8842119', 'Business Cards · 500 pcs · placed 28 Oct', 'Reorder', 1, 'businesscards-printing'], ['Order #8830771', 'Flyers A5 · 2,500 pcs · placed 24 Oct', 'Reorder', 1, 'flyers']] },
+  quotes: { h: 'Your quotes', all: 'View all quotes', out: 'to see the quotes you requested.',
+    rows: [['Quote QT-5567', 'Roll-up banners ×50, custom size · <em>quote ready</em>, valid until 18 Nov', 'View quote', 1, 'rollupbanners-printing'], ['Quote QT-5540', 'Branded tote bags ×1,000 · requested 3 Nov, we usually reply within a few hours', '', 0, 'printing-cottonbags']] },
+  invoices: { h: 'Your recent invoices', all: 'View all invoices', out: 'to see, pay and download your invoices.',
+    rows: [['INV-2026-4302', 'Order #8830771 · €212.50 · <em>unpaid, due 18 Nov</em>', 'Pay now', 1, 'flyers'], ['INV-2026-4471', 'Order #8842119 · €184.20 · paid', 'Download PDF', 0, 'businesscards-printing']] },
+  refunds: { h: 'Your refunds', all: 'View all orders', out: 'to see the status of your refund.',
+    rows: [['Order #8851877', 'Posters A2 · 10 pcs · €48.60 · <em>refund on its way</em>, expected by 9 Nov', 'View order', 0, 'posters']] },
+  cases: { h: 'Your open cases', all: 'View all cases', out: 'to see the status of your cases.',
+    rows: [['Case C-10432', 'Business Cards, order #8842119 · we replied on 3 Nov · <em>waiting for you</em>', 'View case', 1, 'businesscards-printing']] },
+  address: { h: 'Your default shipping address', all: 'Manage addresses',
+    rows: [['Loraine Pijffers · HelloPrint', '12 Merrion Square, Dublin 2, Ireland', 'Edit', 0]] },
+  billing: { h: 'Your billing details', all: 'Go to My Account',
+    rows: [['HelloPrint · VAT IE 1234567 X', '12 Merrion Square, Dublin 2, Ireland · invoices to hello@helloprint.com', 'Edit', 0]] },
+};
+const HELP_MINE_SLUGS = {   // ~60 of the 146 articles
+  proofs: 'what-is-a-digital-proof how-do-i-approve-my-proof* what-happens-if-i-miss-my-proof-approval-deadline* can-i-make-changes-to-my-file i-don-t-see-all-my-designs-on-the-print-proof what-are-the-pre-flight-notes-on-my-proof how-long-does-an-artwork-check-take',
+  change: 'can-i-change-my-order* can-i-cancel-my-order* can-i-change-the-quantity-of-my-order-after-i-placed-it how-do-i-cancel-a-specific-product-instead-of-my-entire-order how-do-i-change-my-artwork-file-after-uploading can-i-change-my-delivery-date can-i-change-my-delivery-address can-i-change-my-delivery-address-when-i-have-already-placed-my-order how-do-i-change-my-delivery-address-after-ordering can-i-speed-up-my-order-that-is-already-in-production',
+  status: 'where-can-i-find-my-order-status* what-does-the-status-assigned-to-my-order-mean why-is-my-order-on-hold why-did-the-delivery-date-change-since-i-placed-the-order why-can-t-i-make-any-modifications-to-my-order-once-it-has-gone-into-production why-have-i-not-received-my-order-confirmation',
+  shipments: 'how-can-i-track-my-order* my-track-and-trace-code-is-not-working-what-can-i-do* how-do-i-track-a-multi-parcel-order* what-should-i-do-if-my-package-hasn-t-been-delivered what-happens-when-the-delivery-attempts-were-unsuccessful what-will-happen-if-i-m-not-at-the-delivery-address',
+  delivered: 'my-order-arrived-incomplete-what-should-i-do my-order-has-been-delivered-damaged-what-should-i-do i-m-missing-the-accessory-i-ordered-with-my-purchase-what-now can-i-return-my-order how-do-i-file-a-complaint*',
+  past: 'can-i-repeat-a-previous-order* how-can-i-download-designs-from-my-previous-orders how-can-i-find-my-previous-canva-designs',
+  quotes: 'how-do-i-request-a-quote* how-do-i-get-a-quote-for-a-bespoke-product how-do-i-order-a-custom-size',
+  invoices: 'how-do-i-download-my-invoices-and-credit-notes* where-can-i-find-my-credit-invoice* i-have-not-received-my-invoice-now-what* when-will-i-receive-my-invoice how-do-i-pay-on-invoice why-did-i-receive-a-payment-reminder* my-payment-has-failed-what-should-i-do',
+  refunds: 'i-have-cancelled-my-order-why-have-i-not-received-my-refund* i-have-overpaid-my-order-how-can-this-be-resolved how-do-refunds-work',
+  cases: 'what-is-the-status-of-my-complaint* how-long-does-a-reply-usually-take how-do-i-attach-files-to-my-message',
+  address: 'can-i-change-my-default-delivery-address-that-is-used-for-all-orders how-do-i-manage-my-addresses',
+  billing: 'how-can-i-change-my-invoice-address how-do-i-update-my-company-and-vat-details how-can-i-change-the-email-address-where-i-receive-my-invoices',
+};   // * = a "my" question: signed out it gets the "Sign in to …" line
+const helpSignedIn = (() => {   // the switch (URL ?acc= + localStorage) wins; without a choice: the prototype login (hp-user)
+  let v = new URLSearchParams(location.search).get('acc');
+  try { if (v) localStorage.setItem('hp-help-acc', v); else v = localStorage.getItem('hp-help-acc'); } catch (e) {}
+  if (v === 'in' || v === 'out') return v === 'in';
+  try { return !!localStorage.getItem('hp-user'); } catch (e) { return false; }
+})();
+function helpMine(afterEl, slug) {   // the block (signed in) or the sign-in line (signed out, "my" questions only) under the title
+  const hit = Object.entries(HELP_MINE_SLUGS).map(([k, s]) => [k, s.split(' ').find(x => x.replace('*', '') === slug)]).find(([, x]) => x);
+  if (!hit) return;
+  const d = HELP_MINE[hit[0]];
+  if (!helpSignedIn) {
+    if (hit[1].endsWith('*')) afterEl.insertAdjacentHTML('afterend', `<p class="hc-mine-out"><span class="material-symbols-rounded" aria-hidden="true">account_circle</span><span><a class="link" href="login.html">Sign in</a> ${d.out}</span></p>`);
+    return;
+  }
+  afterEl.insertAdjacentHTML('afterend', `<section class="hc-mine" aria-label="${d.h}"><div class="hc-mine-h"><h2>${d.h}</h2><a class="link" href="#my-account-${hit[0]}">${d.all}</a></div>
+    <ul>${d.rows.map(([t, s, a, p, img]) => `<li>${img ? `<span class="thumb-sm"><img src="assets/menu/sub/${img}.webp" alt=""></span>` : ''}<div><b>${t}</b><span>${s}</span></div>${a ? `<a class="${p ? 'dbtn' : 'pill'}" href="#my-account-${hit[0]}">${a}</a>` : ''}</li>`).join('')}</ul></section>`);
+}
+function helpAccSwitch() {   // prototype switch "Account": I = signed in (the block), O = signed out (the sign-in line)
+  document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Account</span>${[['in', 'I', 'Signed in'], ['out', 'O', 'Signed out']].map(([v, l, t]) => `<button data-acc="${v}" aria-pressed="${(v === 'in') === helpSignedIn}" title="${t}">${l}</button>`).join('')}</div>`);
+  document.querySelector('[data-acc]').parentNode.addEventListener('click', e => {
+    const b = e.target.closest('[data-acc]'); if (!b) return;
+    const u = new URL(location.href); u.searchParams.set('acc', b.dataset.acc); location.href = u.toString();
+  });
+}

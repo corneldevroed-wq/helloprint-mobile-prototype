@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261111s">
+<link rel="stylesheet" href="styles.css?v=20261112a">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -462,7 +462,9 @@
     cut('Article card', '.hc-card', 'help-centre.html', '.hc-quick .hc-card', 'Help Centre, popular articles',
       'A popular article: the topic as a grey label, the question, two lines of the answer, Read more.') +
     cut('Team strip', '.hc-team', 'help-centre.html', '.hc-team', 'Help Centre',
-      'Real people: Anna (our bot) first, then the team with name and role.');
+      'Real people: Anna (our bot) first, then the team with name and role.') +
+    cut('Your orders (signed in)', '.hc-mine', 'help-article.html?q=how-do-i-download-my-invoices-and-credit-notes&acc=in', '.hc-mine', 'Help Centre article, under the title',
+      'Signed in: the user\'s own proofs, orders, invoices… on ~60 articles. Grey block, a small dark green label, every row a white card (the product photo .thumb-sm, number 14 semibold, detail with the urgent part semibold, one action: the small light green button of the header (.dbtn) to act, the white .pill for a quiet one; mobile: the action under the text), max 3 rows, View all top right to My Account. Nothing relevant: no block. Signed out: one "Sign in to …" line in the same grey block, only on the "my" questions.');
 
   document.getElementById('dsMain').innerHTML =
     sec('colours', 'Colours', 'Calm over loud: green for actions and the brand, orange only for commercial labels, greys for everything else. One line colour everywhere.', colours) +

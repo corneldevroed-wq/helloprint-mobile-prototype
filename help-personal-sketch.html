@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help personal sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-04: "A is goed"): the article pages with the user's own data
+     when signed in. Concept A = one block "Your …" right under the article title: max 3 rows (number · product · status or
+     deadline · one action) + "View all" to My Account. Signed out: one quiet "Sign in to see …" line, only on the "my" questions.
+     The frames are the REAL pages (help-article.html / help-centre.html); the block is injected here, nothing changes in the
+     prototype. Data from Cornel's Help Centre artifact (Loraine, #8842119, QT-5567, INV-2026-4471), dates moved to Nov 2026. -->
+<style>
+  :root { --dark-green: #022b07; --link: #008539; --black: #191919; --dark-grey: #555; --mid-grey: #bbb; --line: #e4e4e4; --light-grey: #f0f0f0; --white: #fff; --selected: #eefaf3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; color: var(--black); background: var(--white); -webkit-font-smoothing: antialiased; padding-bottom: 96px; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: 14px; overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top button { padding: 4px 12px; border: 1px solid #555; border-radius: 100px; font-weight: 600; white-space: nowrap; color: var(--white); }
+  .sk-top button[aria-pressed="true"] { background: #00a651; border-color: #00a651; }
+  .sk-top a { margin-left: auto; white-space: nowrap; opacity: .8; }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+  h1.sk { margin-top: 32px; font-size: 32px; line-height: 40px; }
+  .sk-intro { margin-top: 8px; max-width: 860px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
+  .sk-intro + .sk-intro { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed #cfcfcf; scroll-margin-top: 56px; }
+  .sk-label h2 { font-size: 24px; line-height: 32px; }
+  .sk-label h2 small { margin-left: 8px; font-size: 14px; font-weight: 400; color: var(--dark-grey); }
+  .sk-label p { margin-top: 8px; max-width: 900px; font-size: 14px; line-height: 22px; color: var(--dark-grey); }
+  .sk-row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; align-items: flex-start; }
+  .cap { margin-bottom: 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--mid-grey); }
+  /* desktop = the real page at 1440 wide, shown at 60% */
+  .fd { width: 864px; height: 540px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+  .fd iframe { width: 1440px; height: 900px; border: 0; transform: scale(.6); transform-origin: 0 0; }
+  .fm { width: 392px; height: 760px; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; }
+  .fm iframe { width: 390px; height: 760px; border: 0; }
+  .rules { margin-top: 56px; padding: 24px; border-radius: 12px; background: var(--selected); max-width: 900px; font-size: 16px; line-height: 24px; }
+  .rules h2 { font-size: 20px; line-height: 28px; margin-bottom: 8px; }
+  .rules li { margin: 4px 0 0 20px; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Signed-in help · concept A</b>
+  <button data-state="in" aria-pressed="true">Signed in</button>
+  <button data-state="none" aria-pressed="false">Signed in, nothing open</button>
+  <button data-state="out" aria-pressed="false">Signed out</button>
+  <a href="#rules">The rules</a></nav>
+<div class="wrap">
+  <h1 class="sk">Your own orders, proofs and invoices in the article</h1>
+  <p class="sk-intro">Concept A: one block "Your …" right under the title. The action is often the real answer ("How do I approve my proof?" → this proof,
+    approve it); the explanation below stays for whoever wants it. Same rows everywhere: number · product · status or deadline · one action, max 3 + "View all" underneath.</p>
+  <p class="sk-intro">Use the switch on top: signed in · signed in with nothing open (the block disappears, except on status questions) · signed out (one quiet line).
+    These are the real prototype pages; the block is only added in this sketch. Links go to <code>#my-account-…</code> (My Account doesn't exist yet).</p>
+  <div id="examples"></div>
+
+  <section class="rules" id="rules"><h2>The rules</h2>
+    <ul>
+      <li>One component for 11 kinds of data (proofs, changeable orders, order status, shipments, recently delivered, past orders, quotes, invoices, refunds, cases, account details); linked to the article by its slug. ~65 of 146 articles.</li>
+      <li>Under the title, above the text. Max 3 rows, the most urgent first; "View all" under the rows, to the matching page in My Account.</li>
+      <li>The block is light grey; every row is a white card with the grey card outline. One action per row: the light green button (.btn.primary) for the thing to do (Review proof, Pay now), the outline button for a quiet one (Download PDF, Edit).</li>
+      <li>Nothing relevant: no block. Only status questions (my complaint, my refund) say "nothing open" because that is the answer.</li>
+      <li>Urgency in words (deadline, days left), never a red or orange label: orange stays commercial.</li>
+      <li>Signed out: one grey line with a Sign in link, only on the ~25 "my" questions (proof, track, invoice, quote, complaint, refund).</li>
+      <li>Help Centre home, signed in: "Needs your attention" with the same rows, under the search (last example).</li>
+    </ul></section>
+</div>
+
+<script>
+{
+  // The examples: page, title, rows [main, sub, action, primary?], the signed-out line, the empty state (status questions only)
+  const EX = [
+    { slug: 'how-do-i-approve-my-proof', label: 'How do I approve my proof?', kind: 'Proofs waiting',
+      h: 'Waiting for your approval', all: 'View all orders', rows: [['#8839004 · Roll-up banner ×2', 'Approve before Fri 6 Nov, 09:00 · <em>2 days left</em>', 'Review proof', 1]],
+      out: 'to see the proofs waiting for your approval.' },
+    { slug: 'how-can-i-track-my-order', label: 'How can I track my order?', kind: 'Shipments',
+      h: 'Your orders on the way', all: 'View all orders', rows: [['#8842119 · Business Cards 500 pcs', 'Estimated Thursday 5 Nov — latest Fri 6 Nov', 'Track', 1], ['#8846210 · Event pack (3 items)', '2 of 3 parcels on the way', 'Track', 1]],
+      out: 'to track your orders here.' },
+    { slug: 'can-i-change-my-order', label: 'Can I change my order?', kind: 'Orders you can still change',
+      h: 'Orders you can still change', all: 'View all orders', rows: [['#8851022 · Flyers A5 1,000 pcs', 'Changes possible until <em>today, 18:00</em>', 'Change order', 1], ['#8849910 · Stickers 250 pcs', 'Waiting for your file', 'Change order', 0]],
+      out: 'to see which orders you can still change.' },
+    { slug: 'how-do-i-download-my-invoices-and-credit-notes', label: 'Downloading invoices & credit notes', kind: 'Invoices',
+      h: 'Your recent invoices', all: 'View all invoices', rows: [['INV-2026-4302 · Order #8830771', '€212.50 · <em>unpaid, due 18 Nov</em>', 'Pay now', 1], ['INV-2026-4471 · Order #8842119', '€184.20 · paid', 'Download PDF', 0]],
+      out: 'to download your invoices and credit notes.' },
+    { slug: 'how-do-i-request-a-quote', label: 'How do I request a quote?', kind: 'Quotes',
+      h: 'Your quotes', all: 'View all quotes', rows: [['QT-5567 · Roll-up banners ×50, custom size', '<em>Quote ready</em> · valid until 18 Nov', 'View quote', 1], ['QT-5540 · Branded tote bags ×1,000', 'Requested 3 Nov · we usually reply within a few hours', '', 0]],
+      out: 'to see the quotes you requested.' },
+    { slug: 'what-is-the-status-of-my-complaint', label: 'What is the status of my complaint?', kind: 'Cases (a status question: it shows "nothing open")',
+      h: 'Your open cases', all: 'View all cases', rows: [['C-10432 · Business Cards #8842119', 'We replied on 3 Nov · <em>waiting for you</em>', 'View case', 1]],
+      empty: 'No open cases right now. Something wrong with an order? <a class="link" href="#report">Report a problem</a>', out: 'to see the status of your cases.' },
+    { slug: 'can-i-change-my-default-delivery-address-that-is-used-for-all-orders', label: 'Can I change my default shipping address?', kind: 'Account details (the current value)',
+      h: 'Your default shipping address', all: 'Manage addresses', rows: [['Loraine Pijffers · HelloPrint', '12 Merrion Square, Dublin 2, Ireland', 'Edit', 0]],
+      out: 'to see and change your default shipping address.' },
+  ];
+  const HUB = { h: 'Needs your attention', all: 'Go to My Account', rows: [['#8839004 · Roll-up banner ×2', 'Proof waiting · <em>approve before Fri 6 Nov, 09:00</em>', 'Review proof', 1], ['INV-2026-4302 · Order #8830771', '€212.50 · <em>unpaid, due 18 Nov</em>', 'Pay now', 1]] };
+
+  // the block, built from the prototype's own classes (.pill, .pill.active, .link) + a few rules of its own
+  const CSS = `
+    .hc-mine { margin-top: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* grey block (Cornel, 2026-11-04) */
+    .desk .hc-mine { margin-top: 24px; padding: 16px 24px; }
+    html .help-page .hc-mine h2 { margin: 0; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; font-weight: 600; color: var(--dark-green); }   /* small: a label above the rows, not a section title */
+    .hc-mine h2 i { font-style: normal; margin-left: 4px; padding: 0 6px; border-radius: var(--r-pill); background: var(--dark-green); color: var(--white); font-size: var(--t-12); line-height: var(--lh-12); display: inline-block; }   /* the count */
+    .hc-mine ul { list-style: none; margin-top: 8px; }
+    .hc-mine li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* each row a white card with the grey card outline */
+    .hc-mine li + li { margin-top: 8px; }
+    .hc-mine li .btn { flex-shrink: 0; padding: 0 16px; }   /* the light green button (.btn.primary); quiet actions .btn.outline */
+    .desk .hc-mine li b { font-size: var(--t-16); line-height: var(--lh-16); }
+    .hc-mine li em { font-style: normal; font-weight: 600; color: var(--black); }   /* the urgent part: deadline, days left, unpaid */
+    .hc-mine > .link { display: inline-block; margin-top: 12px; }   /* View all, under the rows */
+    .hc-mine li b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+    .hc-mine li span { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+    .desk .hc-mine li span { font-size: var(--t-14); line-height: var(--lh-14); }
+    .hc-mine p { margin-top: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+    .hc-mine-out { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+    .hc-mine-out .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-green); }
+    .hc-hero + .hc-mine { margin-top: 24px; }`;
+  const block = (d, state) => {
+    if (state === 'out') return d.out ? `<p class="hc-mine-out" data-mine><span class="material-symbols-rounded" aria-hidden="true">account_circle</span><span><a class="link" href="login.html">Sign in</a> ${d.out}</span></p>` : '';
+    const rows = state === 'none' ? [] : d.rows;
+    if (!rows.length && !d.empty) return '';
+    return `<section class="hc-mine" data-mine aria-label="${d.h}"><h2>${d.h}${rows.length ? `<i>${rows.length}</i>` : ''}</h2>
+      ${rows.length ? `<ul>${rows.map(([m, s, a, p]) => `<li><div><b>${m}</b><span>${s}</span></div>${a ? `<a class="btn ${p ? 'primary' : 'outline'}" href="#my-account">${a}</a>` : ''}</li>`).join('')}</ul><a class="link" href="#my-account">${d.all}</a>` : `<p>${d.empty}</p>`}</section>`;
+  };
+  let state = 'in';
+  const inject = f => {
+    const doc = f.contentDocument; if (!doc || !doc.body) return;
+    if (!doc.getElementById('mine-css')) doc.head.insertAdjacentHTML('beforeend', `<style id="mine-css">${CSS}</style>`);
+    doc.querySelectorAll('[data-mine]').forEach(e => e.remove());
+    const d = f.dataset.hub ? HUB : EX[f.dataset.i];
+    const html = block(d, f.dataset.hub && state === 'out' ? 'hide' : state);
+    const at = f.dataset.hub ? doc.querySelector('.hc-hero') : doc.getElementById('ha-title');
+    if (at && html && !(f.dataset.hub && state === 'out')) at.insertAdjacentHTML('afterend', html);
+  };
+
+  const frames = (src, i, hub) => ['fd', 'fm'].map(c => `<div><div class="cap">${c === 'fd' ? 'Desktop (1440, at 60%)' : 'Mobile 390'}</div><div class="${c}"><iframe src="${src}" ${hub ? 'data-hub="1"' : `data-i="${i}"`} loading="lazy" title="${src}"></iframe></div></div>`).join('');
+  document.getElementById('examples').innerHTML = EX.map((d, i) => `
+    <section class="sk-label" id="${d.slug}"><h2>${d.label} <small>${d.kind}</small></h2></section>
+    <div class="sk-row">${frames('help-article.html?q=' + d.slug, i)}</div>`).join('') + `
+    <section class="sk-label" id="hub"><h2>Help Centre home <small>Needs your attention (signed in only)</small></h2>
+      <p>The same block under the search: everything that waits on the user, across topics. Signed out: nothing extra (the hero already has search + chat).</p></section>
+    <div class="sk-row">${frames('help-centre.html', 0, 1)}</div>`;
+  document.querySelectorAll('iframe').forEach(f => f.addEventListener('load', () => setTimeout(() => inject(f), 300)));
+
+  document.querySelector('.sk-top').addEventListener('click', e => {
+    const b = e.target.closest('[data-state]'); if (!b) return;
+    state = b.dataset.state;
+    document.querySelectorAll('[data-state]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('iframe').forEach(inject);
+  });
+}
+</script>
+</body>
+</html>

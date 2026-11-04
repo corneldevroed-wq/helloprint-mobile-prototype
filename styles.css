@@ -2435,6 +2435,24 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ha-text th, .ha-text td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .ha-text th { font-weight: 600; color: var(--black); }
 /* "Was this article helpful?" on a white outlined block (Cornel, 2026-10-29), two round thumb buttons */
+.hc-mine, .hc-mine-out { margin-top: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* signed in: the user's own orders, proofs, invoices… under the article title (Cornel, 2026-11-04) */
+.desk .hc-mine, .desk .hc-mine-out { margin-top: 24px; padding: 16px 24px; }   /* signed out: the same grey block (Cornel, 2026-11-04) */
+.hc-mine-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* label left, View all right (Cornel, 2026-11-04) */
+.help-page .hc-mine h2 { margin: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--dark-green); }   /* a small label, not a section title */
+.hc-mine ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.hc-mine li { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; row-gap: 8px; padding: 12px 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* a row = a white card */
+.hc-mine li div { flex: 1; min-width: 0; }   /* the text between the product photo (.thumb-sm) and the action */
+.hc-mine li b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }   /* 14 on mobile and desktop (Cornel, 2026-11-04: one step smaller) */
+.hc-mine li span { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.desk .hc-mine li span { font-size: var(--t-14); line-height: var(--lh-14); }
+.hc-mine em { font-style: normal; font-weight: 600; color: var(--black); }   /* the urgent part: deadline, days left, unpaid */
+.hc-mine li > a { grid-column: 2; justify-self: start; }   /* the action: .dbtn (the header's small light green button) or the white .pill; mobile: under the text */
+.hc-mine li .thumb-sm { grid-row: span 2; }   /* mobile: the photo next to text + action */
+.hc-mine li > div:first-child, .hc-mine li > div:first-child ~ a { grid-column: 1 / -1; }   /* no photo (address, billing): text and action take the full width */
+.desk .hc-mine li { display: flex; }   /* desktop: photo, text, action in one line */
+.desk .hc-mine li > a { flex-shrink: 0; }
+.hc-mine-out { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* signed out, "my" questions only */
+.hc-mine-out .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-green); }
 .ha-helpful { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .ha-helpful .btns { display: flex; gap: 8px; }
 .ha-helpful .pill { justify-content: center; width: 40px; height: 40px; padding: 0; }
