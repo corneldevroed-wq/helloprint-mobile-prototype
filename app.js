@@ -586,13 +586,16 @@ function getAddons() {
 const DISCOUNTS = { HELLO10: .10 };
 const getCode = () => { try { const c = localStorage.getItem('hp-cart-code'); return DISCOUNTS[c] ? c : null; } catch (e) { return null; } };
 const setCode = c => { try { c ? localStorage.setItem('hp-cart-code', c) : localStorage.removeItem('hp-cart-code'); } catch (e) {} };
+// Shipping (Ireland, Cornel 2026-11-05): free when the products (after a discount code) are €60.00 or more excl. VAT, else €6.00
+const FREE_SHIPPING_FROM = 60, SHIPPING = 6;
 function cartTotals(items = getCart(), addons = getAddons()) {
   const check = CHECK_TIERS.find(t => t.id === addons.check), code = getCode();
   const products = items.reduce((s, it) => s + it.price, 0);
   const discount = code ? Math.round(products * DISCOUNTS[code] * 100) / 100 : 0;
-  const subtotal = products - discount + check.price + (addons.secured ? SECURED.price : 0);
+  const shipping = items.length && products - discount < FREE_SHIPPING_FROM ? SHIPPING : 0;
+  const subtotal = products - discount + check.price + (addons.secured ? SECURED.price : 0) + shipping;
   const vat = Math.round(subtotal * VAT_RATE * 100) / 100;
-  return { check, products, code, discount, subtotal, vat, total: subtotal + vat };
+  return { check, products, code, discount, shipping, subtotal, vat, total: subtotal + vat };
 }
 
 // Cart: kept in this browser only (localStorage), so it survives moving between prototype pages.

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261113x">
+<link rel="stylesheet" href="styles.css?v=20261113y">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -317,8 +317,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261113x"></script>
-<script src="products.js?v=20261113x"></script>
+<script src="app.js?v=20261113y"></script>
+<script src="products.js?v=20261113y"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -1276,6 +1276,8 @@
     // the bar's price includes the Premium Check when its switch is on (Cornel, 2026-11-05)
     const chk = CHECK_TIERS.find(x => x.id === getAddons().check);
     document.getElementById('artTotal').textContent = fmt(totalPrice(saved) + (chk ? chk.price : 0));
+    // files in = Upload your artwork is the way (Cornel, 2026-11-05), so closing the popup and adding to cart keeps them
+    if (art.some(f => !f.err && f.progress === 100)) { deskDesign = 'art'; design = 'art'; }
     renderDesign(); renderDeskSel();   // the option shows the uploaded files (artIco)
     const busy = art.some(f => !f.err && f.progress < 100), done = art.length && !busy && !art.some(f => f.err);
     artAdd.disabled = !done;

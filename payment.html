@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261113x">
+<link rel="stylesheet" href="styles.css?v=20261113y">
 </head>
 <body>
 <div class="phone">
@@ -111,11 +111,11 @@
       <h2 id="shipTitle">Free shipping</h2>
       <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
     </div>
-    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT.</p></div></div>
+    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT. Below that, shipping is €6.00.</p></div></div>
   </div>
 </div>
 
-<script src="app.js?v=20261113x"></script>
+<script src="app.js?v=20261113y"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -123,7 +123,7 @@
   const eur = n => '€' + n.toFixed(2);
 
   // Order overview + totals (shared maths with the cart)
-  const addons = getAddons(), { check, code, discount, subtotal, vat, total } = cartTotals(items, addons);
+  const addons = getAddons(), { check, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons);
   document.getElementById('paySummary').innerHTML = `
     ${items.map(it => `
       <div class="line-item">
@@ -134,7 +134,7 @@
     <div class="totals">
       <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
       ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
-      <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span><span class="free">Free</span></div>
+      <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span>${shipping ? `<span>${eur(shipping)}</span>` : '<span class="free">Free</span>'}</div>
       ${code ? `<div><span>Discount <small>(${code})</small></span><span>−${eur(discount)}</span></div>` : ''}
       <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
       <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
@@ -247,7 +247,7 @@
     let details = {};
     try { details = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
     const order = {
-      number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, total, subtotal, vat,
+      number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, shipping, total, subtotal, vat,
       when, method: when === 'later' ? 'Payment link' : method,
       // Pay by Link sent to a colleague: only their name and email, for the confirmation line
       linkTo: when === 'later' && shareLink.checked ? { name: document.querySelector('[name=recName]').value.trim(), email: document.querySelector('[name=recEmail]').value.trim() } : null, email: details.email || '', arrives: items[0]?.arrives,

@@ -13,7 +13,7 @@
   --stage: #d9d9d9;
   --link: #008539;       /* inline links, breadcrumbs, link hover */
   --error: #c90e2e;      /* field errors, everywhere (was also #d0021b on login) */
-  --cream: #fef0df;     /* warm block background: the upload reassurance (Cornel, 2026-11-05, on trial) */
+  --cream: #fef0df;     /* warm block background: the reassurance after an upload (Cornel, 2026-11-05) */
   --selected: #eefaf3;   /* background of a chosen card (address, payment, tile, the recommended file check) */
   --tint: rgba(0, 166, 81, .16);   /* light green, see-through: focus ring, the changed flash, the online dot */
   --control: #9f9f9f;    /* outline of a checkbox and a radio */
@@ -934,7 +934,7 @@ body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22p
 .art-team { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the promise, with the faces of our print experts */
 .art-team b { display: block; font-weight: 600; color: var(--black); }
 .art-note-text { width: 100%; padding: 12px; border: 1px solid var(--outline); border-radius: var(--r-m); font: inherit; font-size: var(--t-14); line-height: var(--lh-14); resize: vertical; }
-.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border-radius: var(--r-m); background: var(--cream); text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* the tick to the 3 promises in one warm block (Cornel, 2026-11-05, on trial; else --light-grey) */
+.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border-radius: var(--r-m); background: var(--cream); text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* the tick to the promises in one warm block (Cornel, 2026-11-05) */
 .art-calm > b { display: flex; align-items: center; gap: 8px; }   /* the tick next to the title (Cornel, 2026-11-05; back from 🎉) */
 .art-calm > b img { width: 32px; height: 32px; }
 .art-calm b { font-size: var(--t-20); line-height: var(--lh-20); }

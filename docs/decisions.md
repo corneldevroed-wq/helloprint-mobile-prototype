@@ -25,6 +25,9 @@ Add new decisions here when Cornel makes a final call.
   from cdnjs, loaded only then), shown as "card.pdf · page 2 of 2" and in the Design line "(1 file · 2 pages)". Not drawn within 8 s, or no picture (EPS, AI, DOCX): light grey with its type (tile, thumbnails) or its name (popup); no icons.
   The popup is our standard one (560 desktop), the artwork the full width; mobile the full width of the sheet.
   Rejected: A (a pile with edges peeking out), B (split tile). C also nudges people not to upload many files.
+- **11-05 — Shipping (Ireland):** €6.00, free when the products (after a discount code) are €60.00 or more excl. VAT (`FREE_SHIPPING_FROM`,
+  `SHIPPING` in app.js, `cartTotals().shipping`). Shown with an ⓘ + popup on cart and payment, a row in the quote popup and on confirmed.
+- **11-05 — `--cream` (#FEF0DF)** is a token: only the reassurance block after an upload. **Upload your artwork is selected** as soon as files are in.
 - **11-05 — Desktop PDP bar: split button with a drop-up** (design-dropup-sketch.html A): the green button stays one click for the chosen way,
   a chevron segment opens Upload later / Design online with Canva / Upload your artwork above it; picking one changes the button and the card.
   The chosen row only gets the tick, no coloured row. Rejected: B (a "Design: …" chooser pill), C (the button always opens the menu).
