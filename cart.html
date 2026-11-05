@@ -195,7 +195,7 @@
   const XSELL = ['standard-flyers', 'roller-banners', 'premium-tote-bags', 'ceramic-mug-330ml', 'eco-flyers', 'basic-cotton-bags', 'banners', 'sols-imperial-tshirt', 'deluxe-business-cards'];
   const quick = slug => { const B = PRODUCTS[slug], P = B.live || B, preset = P.presets.find(x => x.id === 'recommended') || P.presets[0], qty = P.defaultQty || B.defaultQty || 500;
     const options = P.groups.filter(g => !g.when || g.when(preset.cfg)).map(g => { const o = g.items.find(x => x.id === preset.cfg[g.key]); return o && (g.key === 'size' && o.sub ? `${o.name} ${o.sub}` : o.name); }).filter(Boolean).join(' · ');
-    return { B, qty, options, price: configPrice(P, preset.cfg, qty) }; };
+    return { B, qty, options, price: configPrice(P, preset.cfg, qty), cfg: { ...preset.cfg, qty } }; };   // cfg: Edit opens these choices
   function xsellHtml(items) {
     const first = productOf(items[0]), group = (first && first.noun) || 'business cards';
     const inCart = items.map(it => productOf(it));
@@ -214,9 +214,9 @@
   }
   // Add a suggestion with its Recommended preset (delivery and date as the first cart line), then change it in the cart
   function quickAdd(slug) {
-    const { B, qty, options, price } = quick(slug), items = getCart(), ref = items[0] || {};
+    const { B, qty, options, price, cfg } = quick(slug), items = getCart(), ref = items[0] || {};
     setCart([...items, { name: B.cartName, img: B.img, bg: B.bg, href: B.href, qty, delivery: ref.delivery || 'Saver', arrives: ref.arrives || 'Tue 29 Sep',
-      options, design: 'Upload after checkout', designType: 'upload', price }]);
+      options, cfg, design: 'Upload after checkout', designType: 'upload', price }]);
     render(); showToast(`${B.cartName} added to your cart`);
   }
   // Design per line, with a link to the artwork when there is one: an uploaded file or a Canva design (prototype anchors).
