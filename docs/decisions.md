@@ -13,6 +13,8 @@ Add new decisions here when Cornel makes a final call.
   Kept: the Trustpilot wordmark (it copies the logo) and the prototype switches.
 
 ## PDP switches (`product.html`, Nov 3, 2026)
+- **11-05 — Upload: D is the upload flow, the Upload switch is removed.** "Upload your artwork" (one upload field for every product,
+  upload-sketch.html D) is always the third design option, mobile and desktop. The Off variant (only Upload later + Design online) is gone.
 - **11-03 — Desktop PDP: Cards A, Photos A, Delivery D; the switches are gone.** Cards B (mobile card, 3 per row), Photos B
   (thumbnail column) and Delivery E (calendar tile on top) removed with their CSS. Page identical to before with A / A / D (measured).
 - **11-03 — Mobile PDP: flow H is the default.** The Flow switch is hidden, not removed: flows A–J stay in the code and open

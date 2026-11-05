@@ -38,11 +38,11 @@ code of flows A–J stays; `?flow=a…j` opens another flow for that visit only 
 See also), Icons (material icon set), Design (A: cards in Your selection), Rec (D: green bar in the card). Decided 2026-11-03:
 Cards A (Figma, image on top), Photos A (thumbnails under the photo), Delivery D (calendar tile left); B / B / E removed.
 
-**PDP, mobile + desktop: Upload** (left edge, `.desk-switch`, Cornel 2026-11-04): `?art=d|off`, remembered in `hp-art`, default D.
-D = a third design option "Upload your artwork" (mobile design sheet + a third `.d-dcard` on desktop, button "Upload artwork") that opens
+**PDP, mobile + desktop: Upload your artwork** (version D, Cornel 2026-11-04; the Upload switch was removed 2026-11-05, D is the upload flow):
+a third design option "Upload your artwork" (mobile design sheet + a third `.d-dcard` on desktop, button "Upload artwork") that opens
 `#sheet-artwork`: one upload field for every product (`artFiles`, `renderArt` in product.html; sketch: `upload-sketch.html` D). No questions,
 no file check (the promise under the field with the faces of our print experts, `.art-team` + the Help Centre `.faces`): after uploading every file as a row with its thumbnail (no animated preview, 2026-11-04); a PDF shows its page count in the row ("8.2 MB · uploaded ✓ · 16 pages", read from the file, left out when it can't be counted), always "+ Add more files", then reassurance (`.art-calm`);
-only a failed upload (over 200 MB) blocks. Cart line: "Artwork uploaded (n files)" with View artwork (`designType: 'art'`). Off = the two options as before.
+only a failed upload (over 200 MB) blocks. Cart line: "Artwork uploaded (n files)" with View artwork (`designType: 'art'`).
 Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketch.html.
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
