@@ -1521,7 +1521,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-eta small img { display: none; }
 .d-sel-sum { list-style: none; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
 .d-sel-sum li { display: flex; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); }
-.d-sel-sum li b { font-weight: 700; }
+.d-sel-sum li b { font-weight: 400; }   /* subtotal and VAT regular (Cornel, 2026-11-05); only the total is bold (.grand) */
 .d-sel-sum .grand { align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); }
 .d-sel-sum .grand span { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .d-sel-sum .grand b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); }
