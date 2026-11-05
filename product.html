@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261113z">
+<link rel="stylesheet" href="styles.css?v=20261114b">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -317,8 +317,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261113z"></script>
-<script src="products.js?v=20261113z"></script>
+<script src="app.js?v=20261114b"></script>
+<script src="products.js?v=20261114b"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -1253,7 +1253,8 @@
     renderArt();
   }
   // A row per file: the thumbnail in the product's shape (fileThumb, as the upload-now sheet), name, size; Remove once it's in
-  const artRow = (f, i) => `<div class="up-file${f.err ? ' err' : ''}">${fileThumb(f)}
+  // With more than one file every row gets a grab handle (Material "drag_indicator"): drag to set the order of the files (Cornel, 2026-11-05)
+  const artRow = (f, i) => `<div class="up-file${f.err ? ' err' : ''}" data-i="${i}">${art.length > 1 ? `<span class="art-grab" data-art-grab title="Drag to change the order" aria-hidden="true"><img src="${P}drag-indicator.svg" alt=""></span>` : ''}${fileThumb(f)}
       <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${f.err ? `Didn’t upload: ${sizeText(f.size)}, max 200 MB` : [f.size && sizeText(f.size), f.progress === 100 && 'uploaded ✓'].filter(Boolean).join(' · ') + (f.progress === 100 && f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : '')}</small>
         ${f.err || f.progress === 100 ? '' : `<span class="up-bar"><i style="width:${f.progress}%"></i></span>`}</div>
       ${f.err || f.progress === 100 ? `<button class="up-replace" data-art-remove="${i}">Remove</button>` : ''}</div>`;
@@ -1309,6 +1310,27 @@
     if (t.closest('[data-art-remove]')) { const [f] = art.splice(+t.closest('[data-art-remove]').dataset.artRemove, 1); if (f.url) URL.revokeObjectURL(f.url); renderArt(); }
     if (t.closest('[data-art-later]')) { closeSheet(); placeOrder('upload'); }
     if (t.closest('[data-art-note]')) t.closest('.art-note').outerHTML = '<textarea class="art-note-text" rows="3" placeholder="For example: page 3 is the back of the card" aria-label="A note for our team"></textarea>';
+  });
+  // Reorder: the row follows the pointer (mouse or finger) and the neighbours make room once it passes their middle; on release
+  // the files take the new order. Only the neighbours move in the DOM, never the dragged row, so it keeps the pointer.
+  artBody.addEventListener('pointerdown', e => {
+    const grab = e.target.closest('[data-art-grab]'); if (!grab) return;
+    e.preventDefault();
+    const row = grab.closest('.up-file'), list = row.parentNode, at = e.clientY - row.getBoundingClientRect().top;
+    const mid = el => { const r = el.getBoundingClientRect(); return r.top + r.height / 2; };
+    row.classList.add('dragging');
+    const move = ev => {
+      row.style.transform = '';
+      for (let n = row.nextElementSibling; n && ev.clientY > mid(n); n = row.nextElementSibling) list.insertBefore(n, row);
+      for (let p = row.previousElementSibling; p && ev.clientY < mid(p); p = row.previousElementSibling) list.insertBefore(p, row.nextElementSibling);
+      row.style.transform = `translateY(${ev.clientY - at - row.getBoundingClientRect().top}px)`;
+    };
+    const up = () => {
+      removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      art = [...list.children].map(el => art[+el.dataset.i]);
+      renderArt();
+    };
+    addEventListener('pointermove', move); addEventListener('pointerup', up); addEventListener('pointercancel', up);
   });
   // Desktop: drop the files anywhere on the popup
   artSheet.addEventListener('dragover', e => { e.preventDefault(); artSheet.querySelector('.art-drop')?.classList.add('over'); });

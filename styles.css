@@ -897,6 +897,9 @@ body.flow-d .upload-now { display: flex; }
 .up-intro { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .up-files { display: flex; flex-direction: column; gap: 8px; }
 .up-file { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--outline); border-radius: var(--r-m); }
+.art-grab { flex-shrink: 0; margin: -8px -8px -8px -4px; padding: 8px 4px; cursor: grab; touch-action: none; }   /* drag handle: the order of the uploaded files */
+.art-grab img { width: 24px; height: 24px; }
+.up-file.dragging { position: relative; z-index: 1; border-color: var(--black); background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,.08); cursor: grabbing; }   /* dark outline + the card hover shadow while dragging */
 .up-ico { flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 48px; border-radius: var(--r-s); background: var(--light-grey); font-weight: 700; font-size: var(--t-10); color: var(--dark-green); }
 .up-file .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .up-file b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
