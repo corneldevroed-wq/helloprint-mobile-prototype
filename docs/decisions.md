@@ -27,6 +27,9 @@ Add new decisions here when Cornel makes a final call.
   from cdnjs, loaded only then), shown as "card.pdf · page 2 of 2" and in the Design line "(1 file · 2 pages)". Not drawn within 8 s, or no picture (EPS, AI, DOCX): light grey with its type (tile, thumbnails) or its name (popup); no icons.
   The popup is our standard one (560 desktop), the artwork the full width; mobile the full width of the sheet.
   Rejected: A (a pile with edges peeking out), B (split tile). C also nudges people not to upload many files.
+- **11-05 — Edit a cart line:** the cart's Edit opens `product.html?p=…&edit=<line>`: the line's choices (`cfg`, kept on every new line),
+  its design way and its uploaded files (thumbnails, "+N") are back; the button says Update cart and replaces that line (toast "Your cart is
+  updated"). Lines from before `cfg` was kept open with the default choices.
 - **11-05 — Shipping (Ireland):** €6.00, free when the products (after a discount code) are €60.00 or more excl. VAT (`FREE_SHIPPING_FROM`,
   `SHIPPING` in app.js, `cartTotals().shipping`). Shown with an ⓘ + popup on cart and payment, a row in the quote popup and on confirmed.
 - **11-05 — `--cream` (#FEF0DF)** is a token: only the reassurance block after an upload. **Upload your artwork is selected** as soon as files are in.

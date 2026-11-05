@@ -559,6 +559,10 @@
 
   // saved = what the PDP shows; draft = what is being edited in the sheet
   let saved = { ...DEFAULT }, draft = { ...DEFAULT };
+  // Edit a cart line (cart Edit, Cornel 2026-11-05): ?edit=<line> opens that line's choices, design and files;
+  // Add to cart then updates the line instead of adding one. Lines from before cfg was kept open with the defaults
+  const EDIT = (() => { const q = new URLSearchParams(location.search).get('edit'), it = q !== null && getCart()[+q]; return it ? { i: +q, it } : null; })();
+  if (EDIT && EDIT.it.cfg) { saved = { ...DEFAULT, ...EDIT.it.cfg }; draft = { ...saved }; }
 
   const materials = c => activeKeys(c).map(k => { const o = pick(k, c[k]); return k === 'size' ? `${o.name} ${o.sub}` : k === 'corners' ? `${o.name} corners` : o.name; }).join(' · ');
   // What the customer picked on the category page, in their words: "Squared 55 x 55 mm", "Rounded corners", "Kraft"
@@ -951,7 +955,7 @@
   var DESK_BAR = DESK;   // var: renderDeskSel runs before this line
   // The green button says what happens with the chosen design option (as the mobile design sheet's button)
   function deskCta() {   // a function declaration: renderDeskSel can run before this line
-    return deskDesign === 'canva' ? `<img src="${P}d-canva.svg" alt="" class="d-go-ico">Start designing` : deskDesign === 'art' ? '<img src="assets/desktop/upload-cloud.svg" alt="" class="d-go-ico">Upload artwork' : '<img src="assets/bag.svg" alt="">Add to cart and continue';
+    return deskDesign === 'canva' ? `<img src="${P}d-canva.svg" alt="" class="d-go-ico">Start designing` : deskDesign === 'art' ? '<img src="assets/desktop/upload-cloud.svg" alt="" class="d-go-ico">Upload artwork' : (EDIT ? '<img src="assets/bag.svg" alt="">Update cart' : '<img src="assets/bag.svg" alt="">Add to cart and continue');
   }
   function renderDeskBar() {
     if (!DESK_BAR) return;
@@ -1049,7 +1053,9 @@
     closeSheet();
     if (FLOW_B) placeOrder('upload'); else openSheet('design');
   });
-  if (FLOW_B) document.getElementById('toDesign').textContent = 'Add to cart';
+  if (FLOW_B) document.getElementById('toDesign').textContent = EDIT ? 'Update cart' : 'Add to cart';
+  // Editing a cart line: every Add to cart button says Update cart (mobile flows, the upload-now popup)
+  if (EDIT) document.querySelectorAll('#upAdd, [data-order="upload"]').forEach(b => { (b.querySelector('span') || b).textContent = 'Update cart'; });
   if (FLOW_C) { document.getElementById('toDesign').hidden = true; document.getElementById('saveUpdate').className = 'btn primary'; }
   // Change options: back from the design sheet to the customise sheet, with the saved choices
   document.getElementById('backToOptions').addEventListener('click', () => {
@@ -1115,7 +1121,7 @@
   const UPLOAD_NOW = false;
   if (!UPLOAD_NOW) document.body.classList.add('no-upload-now');
   const DESIGN = [
-    { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: 'Add to cart', cartLabel: 'Upload after checkout' },
+    { id: 'upload', name: 'Upload later', sub: 'Add to cart now, send your files after checkout.', icon: 'd-upload.svg', cta: EDIT ? 'Update cart' : 'Add to cart', cartLabel: 'Upload after checkout' },
     { id: 'canva', name: 'Design online', sub: 'Customise in our editor, with a live preview.', icon: 'd-canva.svg', cta: 'Design online', cartLabel: 'Designed in Canva' },
     { id: 'file', name: 'Upload your design', sub: 'Have print-ready files, or your own designer.', icon: 'd-upload.svg', cta: 'Upload design now' },
     { id: 'art', name: 'Upload your artwork', sub: 'Have your design ready? Upload it now, we check every file.', icon: 'd-artwork.svg', cta: 'Upload artwork' },
@@ -1125,7 +1131,7 @@
   // as in the cart, so closing the popup doesn't feel like losing them
   function artIco(fallback) {   // a function declaration: the desktop cards render before this line
     const ok = (art || []).filter(f => !f.err && f.progress === 100), f = ok[0]; if (!f) return fallback;
-    const src = f.ext === 'pdf' ? f.pics && f.pics[0] : f.url;
+    const src = f.ext === 'pdf' ? f.pics && f.pics[0] : f.url || (f.pics && f.pics[0]);
     return `${src ? `<img class="art-mini" src="${src}" alt="">` : `<b class="art-mini">${f.ext.toUpperCase().slice(0, 4)}</b>`}${ok.length > 1 ? `<span class="art-count">+${ok.length - 1}</span>` : ''}`;
   }
   function renderDesign() {
@@ -1154,12 +1160,14 @@
     if (design === 'file' && !label) { pickFile('front'); return; }
     // The online editor is a separate tool (no screens in the prototype yet)
     if (design === 'canva') { showToast('Opening the online editor…'); return; }
-    const c = saved, d = delivery(c);
-    setCart([...getCart(), {
-      name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href,
+    const c = saved, d = delivery(c), items = getCart();
+    const line = {
+      name: PRODUCT.cartName, img: PRODUCT.img, bg: PRODUCT.bg, href: PRODUCT.href, cfg: { ...c },
       qty: c.qty, delivery: d.name, arrives: d.dayName, options: materials(c) + (SIZES_MIX ? ` · Sizes ${sizeMix(c)}` : ''),
       design: label || (d => d.cartLabel || d.name)(DESIGN.find(x => x.id === design)), designType: design, price: totalPrice(c), ...extra,   // designType: the cart links to the artwork (file) or the Canva design
-    }]);
+    };
+    if (EDIT) { items[EDIT.i] = line; toastOnNextPage('Your cart is updated'); } else items.push(line);
+    setCart(items);
     location.href = 'cart.html';
   }
 
@@ -1194,7 +1202,7 @@
   // The thumbnail in the file's own shape (Cornel, 2026-11-05: no dark PDF viewer edge, centred in a 56 square): an image as it is,
   // a PDF as its first page drawn by pdf.js (drawThumbs); until then, or for a type we can't draw, the file-type tile
   const fileThumb = f => {
-    const src = f.progress < 100 ? null : f.ext === 'pdf' ? f.pics && f.pics[0] : f.url;
+    const src = f.progress < 100 ? null : f.ext === 'pdf' ? f.pics && f.pics[0] : f.url || (f.pics && f.pics[0]);   // a file back from the cart: its picture
     return src ? `<span class="up-thumb"><img src="${src}" alt=""></span>` : `<span class="up-ico">${f.ext.toUpperCase().slice(0, 4)}</span>`;
   };
   // Draw the pictures once, right after the upload: the row shows the first one, Add to cart takes them all along to the cart
@@ -1246,7 +1254,7 @@
   }
   // A row per file: the thumbnail in the product's shape (fileThumb, as the upload-now sheet), name, size; Remove once it's in
   const artRow = (f, i) => `<div class="up-file${f.err ? ' err' : ''}">${fileThumb(f)}
-      <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${f.err ? `Didn’t upload: ${sizeText(f.size)}, max 200 MB` : sizeText(f.size) + (f.progress === 100 ? ' · uploaded ✓' : '') + (f.progress === 100 && f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : '')}</small>
+      <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${f.err ? `Didn’t upload: ${sizeText(f.size)}, max 200 MB` : [f.size && sizeText(f.size), f.progress === 100 && 'uploaded ✓'].filter(Boolean).join(' · ') + (f.progress === 100 && f.pages ? ` · ${f.pages} page${f.pages > 1 ? 's' : ''}` : '')}</small>
         ${f.err || f.progress === 100 ? '' : `<span class="up-bar"><i style="width:${f.progress}%"></i></span>`}</div>
       ${f.err || f.progress === 100 ? `<button class="up-replace" data-art-remove="${i}">Remove</button>` : ''}</div>`;
   // Help with the faces of our team (as in the Help Centre): simple, about help, no promise that people check every file (Cornel, 2026-11-05)
@@ -1274,7 +1282,7 @@
     renderDesign(); renderDeskSel();   // the option shows the uploaded files (artIco)
     const busy = art.some(f => !f.err && f.progress < 100), done = art.length && !busy && !art.some(f => f.err);
     artAdd.disabled = !done;
-    artAdd.textContent = busy ? 'Uploading…' : 'Add to cart';
+    artAdd.textContent = busy ? 'Uploading…' : EDIT ? 'Update cart' : 'Add to cart';
     if (!art.length) {
       artBody.innerHTML = `<p class="up-intro">Upload your design: one file or several, PDF works best.</p>
         <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-art-pick>Choose files</button><small>or drag them here · as many as you like</small></div>
@@ -1338,12 +1346,25 @@
     const files = art.filter(f => !f.err), pics = (await Promise.all(files.map(async f => {
       // never hang on Add to cart: a file that can't be drawn within 8 s goes without a picture
       const t = f.pics || (f.url ? await Promise.race([artThumbs(f), new Promise(ok => setTimeout(() => ok([]), 8000))]) : []);
-      return t.length ? t.map((thumb, k) => ({ name: f.name, ext: f.ext, thumb, page: t.length > 1 ? `page ${k + 1} of ${t.length}` : '' })) : [{ name: f.name, ext: f.ext, thumb: null }];
+      return t.length ? t.map((thumb, k) => ({ name: f.name, size: f.size, ext: f.ext, thumb, page: t.length > 1 ? `page ${k + 1} of ${t.length}` : '' })) : [{ name: f.name, size: f.size, ext: f.ext, thumb: null }];
     }))).flat();
     // in words too: "1 file · 2 pages" when a PDF has more pages
     const pages = pics.filter(x => x.page).length, s = n => n > 1 ? 's' : '';
     closeSheet(); placeOrder('art', `Artwork uploaded (${files.length} file${s(files.length)}${pages ? ` · ${pics.length} pages` : ''})`, { art: pics });
   });
+
+  // Editing a cart line: its design way and its files back (a PDF's pages were one cart entry each, here one file again)
+  if (EDIT) {
+    const it = EDIT.it, way = it.designType;
+    if (DESIGN.some(d => d.id === way)) { deskDesign = way; design = way; }
+    if (it.art && it.art.length) {
+      art = [];
+      it.art.forEach(p => { let f = art.find(x => x.name === p.name); if (!f) art.push(f = { name: p.name, size: p.size, ext: p.ext, url: null, pics: [], progress: 100 }); if (p.thumb) f.pics.push(p.thumb); });
+      art.forEach(f => { if (f.pics.length > 1) f.pages = f.pics.length; });
+      artWasDone = true;   // no confetti for files that were already in
+    }
+    renderSaved(); renderDesign();
+  }
 
   // Version switch (prototype): keep the other URL parameters
   document.querySelectorAll('[data-flow]').forEach(b => {
