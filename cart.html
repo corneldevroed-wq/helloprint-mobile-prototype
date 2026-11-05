@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261114b">
+<link rel="stylesheet" href="styles.css?v=20261114e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -162,8 +162,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261114b"></script>
-<script src="products.js?v=20261114b"></script>
+<script src="app.js?v=20261114e"></script>
+<script src="products.js?v=20261114e"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -233,12 +233,19 @@
   // A click / tap (or View artwork) opens it big in a popup (mobile: a sheet) with the others as thumbnails to switch; no hover preview
   // A file we have no picture of (EPS, AI, DOCX…): light grey in the space a picture would take, with its type (small) or its name (the big one)
   const artPic = (f, big) => f.thumb ? `<img src="${f.thumb}" alt="">` : `<span class="art-file"><b>${big ? f.name.replace(/</g, '&lt;') : (f.ext || 'file').toUpperCase().slice(0, 4)}</b>${big ? '<small>We can’t display this file type as an image</small>' : ''}</span>`;
-  const artView = (it, i, k) => `<span class="art-big">${artPic(it.art[k], true)}<small>${it.art[k].name.replace(/</g, '&lt;')}${it.art[k].page ? ` · ${it.art[k].page}` : ''}</small></span>${it.art.length > 1
-    ? `<span class="art-thumbs">${it.art.map((f, j) => `<span class="${j === k ? 'cur' : ''}" data-art-pick="${i}:${j}">${artPic(f)}</span>`).join('')}</span>` : ''}`;
+  // All files in a row you can swipe (Cornel, 2026-11-05: swipeable on mobile); a thumbnail scrolls to its file, the swipe moves the thumbnail mark
+  const artView = (it, i) => `<span class="art-track">${it.art.map(f => `<span class="art-big"><span class="art-stage">${artPic(f, true)}</span><small>${f.name.replace(/</g, '&lt;')}${f.page ? ` · ${f.page}` : ''}</small></span>`).join('')}</span>${it.art.length > 1
+    ? `<span class="art-thumbs">${it.art.map((f, j) => `<span class="${j ? '' : 'cur'}" data-art-pick="${j}">${artPic(f)}</span>`).join('')}</span>` : ''}`;
   const artTile = (it, i) => `<button class="img art-tile" data-art="${i}" aria-label="View your artwork">${artPic(it.art[0])}${it.art.length > 1 ? `<span class="art-count">+${it.art.length - 1}</span>` : ''}</button>`;
   const artPick = e => { const pick = e.target.closest('[data-art-pick]'); if (!pick) return false;
-    const [i, k] = pick.dataset.artPick.split(':').map(Number); pick.closest('.art-view').innerHTML = artView(getCart()[i], i, k); return true; };
+    const view = pick.closest('.art-view'), track = view.querySelector('.art-track'), k = +pick.dataset.artPick;
+    view.querySelectorAll('.art-thumbs > span').forEach((t, j) => t.classList.toggle('cur', j === k));
+    track.scrollTo({ left: k * track.clientWidth, behavior: 'smooth' }); return true; };
   document.getElementById('sheet-art').addEventListener('click', artPick);
+  document.getElementById('artView').addEventListener('scroll', e => {
+    const track = e.target, k = Math.round(track.scrollLeft / track.clientWidth);
+    track.parentElement.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === k));
+  }, true);   // scroll doesn't bubble: listen in the capture phase
   function lineHtml(it, i) {
     const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
@@ -310,9 +317,9 @@
   document.querySelector('.cart-page').addEventListener('click', e => {
     if (e.target.closest('[data-open-sheet]')) return;
     const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), up = e.target.closest('[data-up]');
-    if (up) setQty(+up.dataset.i, +up.dataset.up);
+    if (up) setQty(+up.dataset.i, +up.dataset.up);   // the hint is a button: one tap to the next quantity (as live's DEAL +)
     const tile = e.target.closest('[data-art]');
-    if (!artPick(e) && tile) { document.getElementById('artView').innerHTML = artView(getCart()[+tile.dataset.art], +tile.dataset.art, 0); openSheet('art'); }   // the hint is a button: one tap to the next quantity (as live's DEAL +)
+    if (!artPick(e) && tile) { document.getElementById('artView').innerHTML = artView(getCart()[+tile.dataset.art], +tile.dataset.art); openSheet('art'); }
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
     if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }

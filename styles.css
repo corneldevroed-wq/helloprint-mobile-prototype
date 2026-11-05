@@ -561,17 +561,20 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
    as thumbnails to switch (no hover preview, Cornel 2026-11-05: confusing). A file without a picture (AI, PSD…) shows its type (.up-ico) */
 .line-item .art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
 .line-item .art-tile > img { width: auto; height: auto; max-width: 78%; max-height: 78%; }
-.line-item .art-tile > img, .art-big img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.line-item .art-tile > img, .art-stage img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
 /* no picture (EPS, AI…): light grey in the space of a picture, the type (tile, thumbnail) or the file name (popup) in dark green */
 .art-file { display: grid; place-items: center; width: 100%; height: 100%; padding: 8px; background: var(--light-grey); color: var(--dark-green); text-align: center; overflow-wrap: anywhere; }
 .art-file b { font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); }
-.art-big .art-file { aspect-ratio: 3 / 2; border-radius: var(--r-m); }
-.art-big .art-file { align-content: center; gap: 4px; }
+.art-big .art-file { align-content: center; gap: 4px; background: none; }   /* on the grey stage */
 .art-big .art-file b { font-size: var(--t-16); line-height: var(--lh-16); }
 .art-big .art-file small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .art-count { position: absolute; right: 8px; bottom: 8px; padding: 0 8px; border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
-.art-big { display: flex; flex-direction: column; gap: 8px; }
-.art-big img { align-self: center; max-width: 100%; max-height: 60vh; }   /* our standard popup (desktop 560) and the full width on mobile */
+.art-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }   /* swipe between the files */
+.art-track::-webkit-scrollbar { display: none; }
+.art-big { flex: 0 0 100%; display: flex; flex-direction: column; gap: 8px; scroll-snap-align: start; }
+.art-stage { display: grid; place-items: center; width: 100%; aspect-ratio: 1; max-height: 60vh; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }   /* every file on the same square grey stage, centred: the slides are equally high, nothing jumps (Cornel, 2026-11-05) */
+.art-stage { position: relative; }
+.art-stage img { position: absolute; inset: 0; margin: auto; max-width: calc(100% - 32px); max-height: calc(100% - 32px); }   /* centred in the stage, without stretching it */
 .art-big small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .art-thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .art-thumbs > span { display: grid; place-items: center; width: 56px; height: 56px; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-s); cursor: pointer; }
