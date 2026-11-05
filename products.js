@@ -40,7 +40,7 @@ const FLYER_SIZES = [
       ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info }));
 const flyerSizes = ids => ({ key: 'size', title: 'Size', items: ids ? ids.map(id => FLYER_SIZES.find(s => s.id === id)) : FLYER_SIZES });
 const FLYER_DELIVERY = [
-  { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if your files are approved in time.' },
+  { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if you approve your files in time.' },
   { id: 'standard', name: 'Standard', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 43, info: 'Four days sooner, on Fri 25 Sep.' },
   { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
 ];
@@ -49,7 +49,7 @@ const FLYER_DELIVERY = [
 const STANDARD_ONLY = (dayName, noun, lead = '') => {
   const [, day, mon] = dayName.split(' ');
   const month = { Sep: 'September', Oct: 'October' }[mon];
-  return { id: 'standard', name: 'Standard', day, dayName, month: `${month} ${day}`, extra: 0, info: `Included in the price${lead ? ` (${lead})` : ''}. Your ${noun} arrive on ${dayName} if your files are approved in time.` };
+  return { id: 'standard', name: 'Standard', day, dayName, month: `${month} ${day}`, extra: 0, info: `Included in the price${lead ? ` (${lead})` : ''}. Your ${noun} arrive on ${dayName} if you approve your files in time.` };
 };
 // Textile colours (live names), shown as colour chips
 const TEXTILE = {

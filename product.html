@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261114e">
+<link rel="stylesheet" href="styles.css?v=20261114f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -317,8 +317,8 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261114e"></script>
-<script src="products.js?v=20261114e"></script>
+<script src="app.js?v=20261114f"></script>
+<script src="products.js?v=20261114f"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -357,7 +357,7 @@
   }
   const QTY = productQty(PRODUCT);
   const DELIVERY = PRODUCT.delivery || [
-    { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if your files are approved in time.' },
+    { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if you approve your files in time.' },
     { id: 'express', name: 'Express', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 9.99, info: 'Four days sooner, on Fri 25 Sep. We print your order with priority.' },
   ];
   const PRESETS = PRODUCT.presets;
@@ -841,7 +841,7 @@
     const faqs = [
       ['What is this product? And what can I use it for?', PRODUCT.about[0]],
       ['What materials can I choose from?', spec('material') || spec('paper') || (OPTIONS.paper || OPTIONS.material || { items: [] }).items.map(o => o.name).join(', ')],
-      ['What is the fastest possible turnaround?', `With ${fastest.name} delivery your order arrives on ${fastest.dayName} (latest ${etaShort(etaLatest(fastest.dayName))}), if your files are approved by 10:30 on ${etaApprove(fastest.dayName)}.`],
+      ['What is the fastest possible turnaround?', `With ${fastest.name} delivery your order arrives on ${fastest.dayName} (latest ${etaShort(etaLatest(fastest.dayName))}), if you approve your files by 10:30 on ${etaApprove(fastest.dayName)}.`],
       ['Which production techniques do you use?', spec('technique') || 'High-quality digital print for smaller runs, offset litho for larger runs.'],
       ['If I select the folded option, will they arrive folded?', 'Yes. Folded products are scored and folded for you, so they arrive ready to use.'],
       ['What is cutting deviation?', 'Cutting can shift up to 1 mm. That is why we ask for 3 mm bleed and a 4 mm safety margin in your file.'],

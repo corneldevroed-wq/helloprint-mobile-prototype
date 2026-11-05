@@ -6,7 +6,7 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261114e">
+<link rel="stylesheet" href="styles.css?v=20261114f">
 </head>
 <body>
 <div class="phone">
@@ -76,7 +76,7 @@
   </main>
 </div>
 
-<script src="app.js?v=20261114e"></script>
+<script src="app.js?v=20261114f"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -121,12 +121,12 @@
 
     document.getElementById('ocInfo').innerHTML = `
       <p><img src="assets/pdp/check.svg" alt=""><span>${o.email ? `Confirmation sent to <b>${o.email}</b>` : 'Confirmation sent by email'}</span></p>
-      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once your artwork is approved.` : 'Nothing to pay yet. We email your payment link once your artwork is approved.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
+      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once you've approved your artwork.` : 'Nothing to pay yet. We email your payment link once you've approved your artwork.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
 
     // Address as a short list, one line each (older orders only have the comma version)
     const lines = [o.name, ...(o.addressLines || (o.address || '').split(', ')), 'Ireland'].filter(Boolean);
     document.getElementById('ocAddress').innerHTML = lines.map(l => `<span>${l.replace(/</g, '&lt;')}</span>`).join('');
-    document.getElementById('ocArrives').innerHTML = etaHtml(o.arrives, needsFile ? `If your files are approved${later ? ' and the order is paid' : ''} by <b>10:30 on ${etaApprove(o.arrives)}</b>` : (later ? `If the order is paid by <b>10:30 on ${etaApprove(o.arrives)}</b>` : ''));
+    document.getElementById('ocArrives').innerHTML = etaHtml(o.arrives, needsFile ? `Approve your files${later ? ' and pay' : ''} by <b>10:30 on ${etaApprove(o.arrives)}</b>` : (later ? `Pay by <b>10:30 on ${etaApprove(o.arrives)}</b>` : ''));
 
     // Per product: own upload button; the row shows the file once chosen
     const perInput = Object.assign(document.createElement('input'), { type: 'file', accept: '.pdf,.ai,.eps,.psd,.tif,.tiff,.png,.jpg,.jpeg', hidden: true });

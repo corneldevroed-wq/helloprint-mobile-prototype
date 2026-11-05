@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261114e">
+<link rel="stylesheet" href="styles.css?v=20261114f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -162,8 +162,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261114e"></script>
-<script src="products.js?v=20261114e"></script>
+<script src="app.js?v=20261114f"></script>
+<script src="products.js?v=20261114f"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -251,7 +251,7 @@
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
       <small>${it.qty} pcs · ${it.options}</small><span class="cart-design">Design: ${designOf(it, i).label}${designOf(it, i).link}</span>`;
     const top = `${it.art && it.art.length ? artTile(it, i) : `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>`}<div class="t">${head}</div>${priceHtml(it)}
-      <div class="eta">${etaHtml(it.arrives, `If your files are approved by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
+      <div class="eta">${etaHtml(it.arrives, `Approve your files by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
     const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}${it.href.includes('?') ? '&' : '?'}edit=${i}" data-tip="Change options" aria-label="Change options">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" data-tip="Duplicate product" aria-label="Duplicate product">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" data-tip="Remove from cart" aria-label="Remove from cart">${icon('delete')}</button></div>`;
     return `<div class="line-item cart-line">${top}
       <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field qty-field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs${n === it.qty ? '' : (d => ` · ${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`)(priceAt(it, n) - it.price)}</option>`).join('')}</select><span class="qty-val">${it.qty} pcs</span></label>

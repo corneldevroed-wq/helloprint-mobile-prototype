@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261114e">
+<link rel="stylesheet" href="styles.css?v=20261114f">
 </head>
 <body>
 <div class="phone">
@@ -28,7 +28,7 @@
         <button type="button" role="radio" aria-checked="true" data-when="now">Pay now</button>
         <button type="button" role="radio" aria-checked="false" data-when="later">Pay later</button>
       </div>
-      <p class="pay-note" id="payNote">Fastest option. We start printing as soon as your files are approved.</p>
+      <p class="pay-note" id="payNote">Fastest option. We start printing as soon as you approve your files.</p>
 
       <!-- Pay later = Pay by Link (live checkout/payment), optionally sent to someone else -->
       <div class="pay-later" id="payLater" hidden>
@@ -115,7 +115,7 @@
   </div>
 </div>
 
-<script src="app.js?v=20261114e"></script>
+<script src="app.js?v=20261114f"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -148,8 +148,8 @@
     const d = items[0].arrives;
     // Pay later: production only starts once it's paid, so payment is part of the deadline
     document.getElementById('eta').innerHTML = etaHtml(d, when === 'later'
-      ? `If your files are approved and the order is paid by <b>10:30 on ${etaApprove(d)}</b>`
-      : `If your files are approved by <b>10:30 on ${etaApprove(d)}</b>`);
+      ? `Approve your files and pay by <b>10:30 on ${etaApprove(d)}</b>`
+      : `Approve your files by <b>10:30 on ${etaApprove(d)}</b>`);
   }
   const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
 
