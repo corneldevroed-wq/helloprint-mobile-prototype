@@ -1,0 +1,553 @@
+/* HelloPrint design system: base + every component (mobile, and .desk for ≥1024px). Loads after tokens.css. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--stage); }
+body { font-family: Inter, system-ui, sans-serif; color: var(--black); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+p { overflow-wrap: break-word; }
+
+.nav { background: var(--dark-green); padding: 16px 16px 8px; display: flex; flex-direction: column; gap: 8px; }
+.logo { width: 102.4px; height: 22px; }
+.search { position: relative; display: block; height: 34px; }
+.search input { width: 100%; height: 100%; border: 0; border-radius: var(--r-pill); padding: 0 44px 0 17px; font: 400 var(--t-14)/1 Inter, sans-serif; color: var(--black); outline: none; }
+.search input::placeholder { color: var(--dark-grey); }
+.search button { position: absolute; right: 3.5px; top: 3px; width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--light-green); display: grid; place-items: center; }
+.search button img { width: 19px; height: 19px; }
+h1 { font-weight: 800; font-size: var(--t-24); line-height: 1.16; letter-spacing: -0.48px; color: var(--dark-green); }
+h2 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; color: var(--dark-green); }
+.pill { flex-shrink: 0; display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
+.pill:hover { border-color: var(--black); }
+.pill.active { background: var(--dark-green); border-color: var(--dark-green); color: var(--white); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; }
+.link { font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); text-decoration: underline; }   /* the text link of the style guide (Cornel, 2026-11-02: was --light-green); since 11-03 all green text is --link (readable), the arrow links too */
+
+/* Top categories */
+.cats { gap: 8px; margin-top: 8px; }
+.cat { flex: 0 0 152px; background: var(--light-grey); border-radius: var(--r-l); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: background .15s; }
+.cat:hover { background: #e8e8e8; }
+html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category cards stay square (8px grid: 16px padding, 152 × 152) */
+.cat .title { min-height: 34px; display: flex; align-items: center; text-align: center; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.collage { position: relative; width: 120px; height: 75.25px; border-radius: var(--r-s); overflow: hidden; flex-shrink: 0; }
+.collage > * { position: absolute; }
+.collage img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
+.product { display: flex; flex-direction: column; gap: 8px; }
+.product .thumb { position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--r-l); overflow: hidden; }
+.product .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.product:hover .thumb img { transform: scale(1.04); }
+.badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: var(--r-s); padding: 4px; font-weight: 700; font-size: var(--t-12); line-height: 1; }
+.badge.neutral { background: var(--light-grey); color: var(--dark-grey); }   /* one label, three tones (2026-10-30): orange = commercial (Most Popular, Free design templates…), */
+.badge.eco { background: var(--light-green); }                               /* light green = eco, grey = information (Default, Help Centre topics) */
+.product .name { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.product .from { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.product .prices { display: flex; align-items: baseline; gap: 4px; margin-top: 0; font-weight: 700; line-height: 17px; }
+.product .price { font-size: var(--t-14); }
+
+/* Accordion */
+.acc { display: flex; flex-direction: column; gap: 8px; }
+.acc details { border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); cursor: pointer; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary img { width: 24px; height: 24px; transition: transform .2s; }
+.acc details[open] summary img { transform: rotate(180deg); }
+.acc ul { list-style: none; padding: 4px 0 8px; display: flex; flex-direction: column; gap: 8px; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }
+.acc ul a:hover { color: var(--black); text-decoration: underline; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+.btn.primary { background: var(--light-green); color: var(--white); }
+.btn.outline { background: var(--white); border: 1px solid var(--mid-grey); color: var(--dark-green); }
+body.menu-open { overflow: hidden; }
+
+.crumbs { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.crumbs a { color: var(--link); text-decoration: underline; }   /* one breadcrumb on mobile and desktop: 12/17 grey, links link green (2026-10-30) */
+.hero { display: flex; flex-direction: column; gap: 16px; }
+.hero h1 { color: var(--dark-green); }
+.hero .intro { display: flex; flex-direction: column; gap: 8px; }
+.hero .intro p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+/* Section tabs: stick under the header and follow the scroll position */
+.tabs { position: sticky; top: 89.2px; z-index: 15; background: var(--white); box-shadow: inset 0 -1px 0 var(--line); padding: 0 16px; display: flex; overflow-x: auto; scrollbar-width: none; }   /* the grey line as an inset shadow: the active 2px line paints over it inside the bar, so the bar can scroll (2026-10-29) */
+.tabs::-webkit-scrollbar { display: none; }
+.tabs a { flex-shrink: 0; padding: 6px 12px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+.tabs a.active { color: var(--black); border-bottom-color: var(--light-green); }
+.materials { display: flex; flex-direction: column; gap: 16px; }
+.mat-list { list-style: none; display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 16px; }
+.mat-list li { border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+.mat-list li[hidden] { display: none; }
+.mat { display: flex; align-items: center; gap: 16px; }
+.mat .text { display: flex; flex-direction: column; gap: 4px; width: 207px; }
+.mat .text .badge { position: static; align-self: flex-start; margin-bottom: 4px; }
+.mat strong { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.mat small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.mat .chev { margin-left: auto; width: 20.32px; height: 20.5px; }
+
+.btn:hover { filter: brightness(.97); }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 48px); background: var(--white); border-radius: var(--r-xl) var(--r-xl) 0 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+.sheet.dragging { transition: none; }
+.sheet-head { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 15px 8px 16px; }
+.sheet-head h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.36px; padding: 4px 12px 4px 0; }
+.sheet-head .close img { width: 19.1px; height: 19.2px; display: block; }
+.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+.sheet-body .pad { padding: 0 15px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+.sheet-bar { flex-shrink: 0; background: var(--light-grey); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+.sheet-bar .total { flex: 1; padding: 8px 16px; }
+.sheet-bar .total strong { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
+.sheet-bar .total span { display: flex; align-items: center; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); }
+.sheet-bar .total img { width: 20px; height: 20px; }
+.sheet-bar .btn { flex: 1; padding: 0 16px; white-space: nowrap; }
+
+.opt-group { display: flex; flex-direction: column; gap: 8px; }
+.opt-group > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.opt { display: flex; align-items: center; gap: 10px; padding: 8px; min-height: 55px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); text-align: left; transition: border-color .15s; }
+.opt:hover { border-color: var(--dark-grey); }
+.opt[aria-checked="true"] { border: 2px solid var(--light-green); padding: 7px; }
+.opt .t { flex: 1; min-width: 0; }
+.opt b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.opt small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.qty-list { display: flex; flex-direction: column; }
+.qrow { display: flex; align-items: center; gap: 10px; padding: 12px 8px; margin-top: -1px; border: 1px solid var(--outline); background: var(--white); text-align: left; font-size: var(--t-14); line-height: var(--lh-14); position: relative; }
+.qrow:first-child { margin-top: 0; border-radius: var(--r-m) var(--r-m) 0 0; }
+.qrow:last-child { border-radius: 0 0 var(--r-m) var(--r-m); }
+.qrow[aria-checked="true"] { border: 2px solid var(--light-green); padding: 11px 7px; z-index: 1; }
+.radio { width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; border: 1px solid var(--control); background: var(--white); position: relative; }
+[aria-checked="true"] > .radio { border: 0; background: var(--light-green); }
+[aria-checked="true"] > .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+.qrow .n { flex: 1; font-weight: 600; }
+.qrow .e { flex: 1; font-size: var(--t-12); color: var(--dark-grey); }
+.qrow .p { flex: 1; text-align: right; font-weight: 600; }
+.deliv { display: flex; align-items: center; gap: 8px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); text-align: left; }
+.deliv[aria-checked="true"] { border: 2px solid var(--light-green); }
+.deliv .date { width: 60px; height: 60px; flex-shrink: 0; border-right: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.deliv[aria-checked="true"] .date { height: 58px; }
+.deliv .date b { font-weight: 800; font-size: var(--t-24); line-height: 1.16; }
+.deliv .date small { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--link); }
+.deliv .t { flex: 1; }
+.deliv .t b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.deliv .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.deliv .p { padding: 0 18px; font-weight: 600; font-size: var(--t-14); }
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 80; transform: translate(-50%, 20px); opacity: 0; background: var(--dark-green); color: var(--white); padding: 10px 16px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-14); display: flex; align-items: center; gap: 8px; transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.sheet-bar { flex-wrap: wrap; row-gap: 0; }
+.cart-main, .cart-side { display: flex; flex-direction: column; gap: 16px; }
+.cart-side .totals { margin-top: -8px; }   /* 8px under the products (mobile) and under the upsells (desktop) */
+.cart-main > h2 { margin-bottom: -8px; }   /* mobile "Order summary": the section title (style guide), 8 to its block */
+.addons { display: flex; flex-direction: column; gap: 8px; }
+.cart-side h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
+.switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; border: 0; padding: 0; border-radius: var(--r-pill); background: var(--mid-grey); cursor: pointer; transition: background .2s; }
+.switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #f8f8f8; transition: transform .2s; }
+.switch[aria-checked="true"] { background: var(--light-green); }
+.switch[aria-checked="true"]::after { transform: translateX(16px); }
+.switch:focus-visible { outline: 2px solid var(--dark-green); outline-offset: 2px; }
+.summary-box { display: flex; flex-direction: column; gap: 8px; }
+.summary-box h2 { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--black); }
+.line-item { display: flex; align-items: center; gap: 16px; }
+.line-item .img { width: 75px; height: 75px; flex-shrink: 0; border-radius: var(--r-l); overflow: hidden; }
+.line-item .img img { width: 100%; height: 100%; object-fit: cover; }
+.line-item .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.line-item .t strong { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }   /* a block, so the link around it adds no extra line height */
+.line-item .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+small .link { font-size: inherit; line-height: inherit; }   /* a link takes the size of its line ("View artwork", "Compare", "More info" in a 12px line) */
+.line-item .p { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-14); text-align: right; }
+.totals { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+.totals div { display: flex; justify-content: space-between; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.totals div.grand, .totals div.sub { border-top: 1px solid var(--line); padding-top: 8px; }   /* a line before the subtotal and before the total */
+.totals div.grand { font-weight: 700; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+.totals div.grand span:last-child { font-weight: 800; }
+.totals small { font-weight: 400; font-size: var(--t-12); line-height: 1; color: var(--dark-grey); }   /* (Excl. VAT), (Incl. VAT) */
+.totals .info-btn { width: 22px; height: 22px; margin: 0 0 0 4px; vertical-align: top; }   /* the ⓘ on the line height of the row; opens the popup */
+.cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.cart-usps li { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); }
+.cart-usps img { width: 20px; height: 20px; }
+.desk .cart-main .continue-shopping, .cart-empty .btn { padding: 0 24px; }   /* a button as wide as its text */
+.desk .cart-main .continue-shopping { align-self: flex-start; }
+.cart-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 0; text-align: center; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.cart-empty .ico { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 8px; border-radius: 50%; background: var(--light-grey); }
+.cart-empty .ico i { width: 32px; height: 32px; background: var(--dark-green); -webkit-mask: url(icons/bag.svg) center / contain no-repeat; mask: url(icons/bag.svg) center / contain no-repeat; }   /* the header's bag icon (white svg) as a dark green mask */
+.cart-empty .btn { align-self: center; margin-top: 16px; }
+/* Uploaded artwork in the cart line (cart-artwork-sketch.html C, Cornel 2026-11-05): the first file in its own shape on the grey photo tile,
+   a soft shadow as a printed sheet, "+N" for more files. A click / tap opens it big in a popup (.art-view; mobile a sheet) with the others
+   as thumbnails to switch (no hover preview, Cornel 2026-11-05: confusing). A file without a picture (AI, PSD…) shows its type (.up-ico) */
+.line-item .art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
+.line-item .art-tile > img { width: auto; height: auto; max-width: 78%; max-height: 78%; }
+.line-item .art-tile > img, .art-stage img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.art-count { position: absolute; right: 8px; bottom: 8px; padding: 0 8px; border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+/* Request a free quote sheet (cart-empty-quote-sketch.html B): the cart lines + extras + total, the contact fields, notes, files */
+.q-item { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; column-gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.q-item:first-child { border-top: 1px solid var(--line); }
+.q-item .img { width: 48px; height: 48px; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
+.q-item .img img { width: 100%; height: 100%; object-fit: cover; }
+.q-item b, .q-item .p, .q-total { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* prices regular (Cornel, 2026-11-03), the total bold */
+.q-item b, .q-total { font-weight: 600; }
+.q-total > :last-child { font-weight: 700; }
+.q-item small, .q-to small, .q-legal, .q-hint { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.q-total { display: flex; justify-content: space-between; padding-top: 8px; }
+.q-total small { font-weight: 400; font-size: var(--t-12); color: var(--dark-grey); }
+.q-to { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+.q-to b { font-weight: 600; }
+.q-bar { flex-direction: column; align-items: stretch; gap: 8px; padding: 16px; }
+.q-bar .btn { flex: none; }
+.q-legal { text-align: center; }
+.q-legal a { color: var(--link); text-decoration: underline; }
+/* File check sheet */
+.fc-intro { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); margin-top: -4px; }
+.field { position: relative; display: block; }
+.field input, .field select { width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--outline, #cfcfcf); border-radius: var(--r-m); background: var(--white); font: 400 var(--t-16)/var(--lh-tight) Inter, sans-serif; color: var(--black); outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none; appearance: none; }
+.field input::placeholder { color: var(--dark-grey); }
+.field select { padding-right: 40px; background: var(--white) url(icons/chevron-down.svg) no-repeat right 12px center / 20px 16px; cursor: pointer; }   /* a dropdown shows its arrow (Cornel, 2026-11-02) */
+.field input:focus, .field select:focus { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }
+.field input[readonly] { background: var(--light-grey); }
+.field.invalid input { border-color: var(--error); color: var(--error); box-shadow: none; }
+.field-error { margin-top: -2px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--error); }
+.check { display: flex; align-items: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); cursor: pointer; padding: 2px 0; }
+.check input { width: 20px; height: 20px; margin: 0; border: 1px solid var(--control); border-radius: var(--r-s); background: var(--white); -webkit-appearance: none; appearance: none; display: grid; place-items: center; cursor: pointer; }
+.check input:checked { background: var(--light-green); border-color: var(--light-green); }
+.check input:checked::after { content: ''; width: 5px; height: 10px; border: solid var(--white); border-width: 0 2px 2px 0; transform: translate(0, -1px) rotate(45deg); }
+.eta { display: flex; flex-direction: column; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); text-align: left; }
+.eta b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
+.eta p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.eta small { display: flex; align-items: flex-start; gap: 4px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.eta small img { width: 16px; height: 16px; flex-shrink: 0; }
+/* Longer toasts wrap instead of running off the screen */
+.toast { white-space: normal; width: max-content; max-width: min(358px, calc(100vw - 32px)); text-align: center; line-height: 1.35; border-radius: var(--r-pill); }
+.field .field-error { display: block; margin: 4px 0 0; }
+
+/* Floating labels (checkout forms): the placeholder becomes a small label top-left once the field has a value or focus */
+.field input, .field select { height: 52px; border-radius: var(--r-m); }
+.field input { padding: 20px 12px 4px; }
+.field .fl { position: absolute; left: 13px; top: 15px; font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-grey); pointer-events: none; transform-origin: left top; transition: transform .15s ease, color .15s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 26px); }
+.field input:focus + .fl,
+.field input:not(:placeholder-shown) + .fl { transform: translateY(-9px) scale(.75); }
+.field input:focus + .fl { color: var(--link); }
+.field.invalid .fl { color: var(--error); }
+.field input[readonly] + .fl { transform: translateY(-9px) scale(.75); }
+/* Floating labels, robust version: password managers (LastPass, 1Password…) insert an icon right after the input,
+   so the label is found with ~ (any following sibling) instead of + (directly next). Autofilled fields count as filled. */
+.field input:focus ~ .fl,
+.field input:not(:placeholder-shown) ~ .fl,
+.field input:autofill ~ .fl,
+.field input:-webkit-autofill ~ .fl,
+.field input[readonly] ~ .fl { transform: translateY(-9px) scale(.75); }
+.field input:focus ~ .fl { color: var(--link); }
+.field.invalid input ~ .fl { color: var(--error); }
+/* Keep autofilled fields white (no light-blue browser fill) and the text black */
+.field input:not([readonly]):autofill,
+.field input:not([readonly]):-webkit-autofill { -webkit-box-shadow: 0 0 0 100px var(--white) inset; box-shadow: 0 0 0 100px var(--white) inset; -webkit-text-fill-color: var(--black); }
+.field input:not([readonly]):-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1px var(--light-green), 0 0 0 100px var(--white) inset; }
+/* Room on the right for a password-manager icon so it never sits on the text */
+.field input { padding-right: 40px; }
+
+/* Order summary (cart + payment): a divider between products */
+.line-item + .line-item { border-top: 1px solid var(--line); padding-top: 8px; }   /* 8 · line · 8 between products */
+
+/* Bottom bars: the line under the price (context per page) */
+.sheet-bar .total .bar-sub { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }
+.sheet-bar .total .bar-sub img { width: 16px; height: 16px; margin-left: 2px; }
+/* ---------- PDP option info: info line (variant 1) + ⓘ guide sheet (variant 2) ---------- */
+.info-btn { display: inline-grid; place-items: center; width: 32px; height: 32px; margin: -4px -6px; border-radius: 50%; }
+.info-btn img { width: 20px; height: 20px; }
+.info-btn:hover { background: var(--light-grey); }
+/* Edit pill with a Material Symbols Rounded pen */
+.material-symbols-rounded { font-family: 'Material Symbols Rounded'; font-weight: 400; font-style: normal; font-size: 18px; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; direction: ltr; -webkit-font-smoothing: antialiased; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+.pill.has-icon { gap: 6px; border-color: var(--dark-green); color: var(--dark-green); }   /* a pill with an icon in front (PDP summary Edit) */
+.pill.has-icon:hover { background: var(--light-grey); border-color: var(--dark-green); }
+.pill.has-icon .material-symbols-rounded { width: 18px; overflow: hidden; }
+
+.mat .text { flex: 1; width: auto; min-width: 0; }
+
+.up-files { display: flex; flex-direction: column; gap: 8px; }
+.up-file { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--outline); border-radius: var(--r-m); }
+.up-file .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.up-file b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.up-file small { font-size: var(--t-12); color: var(--dark-grey); }
+.up-replace { flex-shrink: 0; font-size: var(--t-14); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.up-add { padding: 12px; border: 1px dashed var(--mid-grey); border-radius: var(--r-m); font-size: var(--t-14); font-weight: 600; color: var(--dark-green); text-align: center; }
+.up-check { display: flex; flex-direction: column; gap: 6px; }
+.up-check .ok, .up-check .warn { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+.up-check .ok img { width: 20px; height: 20px; flex-shrink: 0; }
+.btn.primary:disabled { opacity: .45; cursor: default; }
+
+/* Upload sheet: the file in its own shape, centred in a 56 square, in place of the file-type tile (a PDF: its first page as a picture) */
+.up-thumb { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; }
+.up-thumb img { max-width: 56px; max-height: 56px; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+
+.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border-radius: var(--r-m); background: var(--cream); text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* the tick to the promises in one warm block (Cornel, 2026-11-05) */
+.art-calm > b { display: flex; align-items: center; gap: 8px; }   /* the tick next to the title (Cornel, 2026-11-05; back from 🎉) */
+.art-calm > b img { width: 32px; height: 32px; }
+.art-calm b { font-size: var(--t-20); line-height: var(--lh-20); }
+.art-calm .up-check { align-self: stretch; margin-top: 8px; text-align: left; }
+.art-calm .sum-up { align-self: stretch; margin-top: 8px; border: 1px solid var(--outline); background: var(--white); text-align: left; }   /* the cart's design check switch, white with our card outline on the cream */
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: var(--r-pill); background: #e2e2e2; }
+.seg button { height: 36px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-14); color: var(--dark-grey); transition: background .15s, color .15s; }
+.seg button[aria-checked="true"] { background: var(--white); color: var(--dark-green); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.field textarea { width: 100%; min-height: 84px; padding: 18px 12px 8px; border: 1px solid var(--outline, #cfcfcf); border-radius: var(--r-m); background: var(--white); font: 400 var(--t-16)/var(--lh-16) Inter, sans-serif; color: var(--black); outline: none; resize: vertical; -webkit-appearance: none; appearance: none; }
+.field textarea:focus { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }
+.field textarea { border-radius: var(--r-m); padding-top: 24px; }
+.field textarea:focus ~ .fl, .field textarea:not(:placeholder-shown) ~ .fl { transform: translateY(-9px) scale(.75); }
+.field textarea:focus ~ .fl { color: var(--link); }
+
+/* ================= Desktop (≥1024px, Figma 15927:9040) =================
+   Only pages with <body data-desktop> get html.desk (set in app.js); everything else stays the mobile prototype.
+   Content width 1286px (Figma: 113px margins on a 1512px frame). */
+.desk { --app-w: 100%; }
+.desk, .desk body { background: var(--white); }
+.dsearch { position: relative; width: 600px; height: 38px; display: flex; align-items: center; background: var(--white); border-radius: var(--r-pill); padding: 0 5px 0 9px; }
+.dsearch > img { width: 19.2px; height: 19.2px; flex-shrink: 0; }
+.dsearch input { flex: 1; min-width: 0; height: 100%; border: 0; outline: none; background: none; padding: 0 8px 0 3px; font: 400 var(--t-14)/var(--lh-14) Inter, sans-serif; color: var(--black); }
+.dsearch input::placeholder { color: #9f9f9f; }
+.dbtn { display: inline-flex; align-items: center; justify-content: center; padding: 4px 16px; border-radius: var(--r-pill); background: var(--light-green); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--white); white-space: nowrap; }
+.dsearch .dbtn { padding: 2px 14px; }
+.desk .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.desk .opt { width: 125px; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; padding: 9px 8px; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .opt[aria-checked="true"] { padding: 8px 7px; }
+.desk .opt > :not(.t) { order: -1; }
+.desk .opt .t b { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .opt .t small { font-size: var(--t-12); line-height: var(--lh-12); }
+/* Quantity: separate rows, total price on the right (no price per piece), "Incl VAT" switch on the title line */
+.desk .qty-list { gap: 8px; }
+.desk .qrow { margin-top: 0; padding: 8px; border-radius: var(--r-m) !important; box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .qrow[aria-checked="true"] { padding: 7px; }
+.desk .qrow .e { display: none; }
+.desk .qrow .p { font-weight: 400; }
+.desk .deliv { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }
+.desk .deliv .t b { font-size: var(--t-16); line-height: var(--lh-tight); }
+
+/* Sheets (ⓘ guide, upload…) on desktop: a centred dialog instead of a bottom sheet */
+.desk .sheet { left: 50%; right: auto; bottom: auto; top: 50%; width: 560px; max-height: calc(100% - 96px); border-radius: var(--r-xl); overflow: hidden; transform: translate(-50%, calc(-50% + 40px)); opacity: 0; transition: transform .25s, opacity .25s; }
+.desk .sheet-head { padding-top: 16px; }
+/* Narrower desktops (1024–1279px): the header gets a little tighter, same content */
+@media (max-width: 1279px) { .dsearch { width: auto; flex: 1; max-width: 600px; } }
+.d-acc { border-top: 1px solid var(--line); }   /* light lines as everywhere (Cornel, 2026-10-28) */
+.d-acc details { border-bottom: 1px solid var(--line); }
+.d-acc summary { font-weight: 600; list-style: none; display: flex; align-items: center; gap: 16px; justify-content: space-between; padding: 8px 0 8px 8px; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); cursor: pointer; }
+.d-acc summary::-webkit-details-marker { display: none; }
+.d-acc summary img { width: 24px; height: 24px; flex-shrink: 0; transition: transform .2s; }
+.d-acc details[open] summary img { transform: rotate(180deg); }
+.d-acc details p { padding: 0 40px 12px 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.d-rev-nav { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: border-color .15s, opacity .15s; }   /* the same round button as the promo row (Cornel, 2026-10-28) */
+.d-rev-nav:hover { border-color: var(--black); }
+.d-rev-nav svg { width: 16px; height: 16px; }
+.d-rev-nav:disabled { opacity: 0; pointer-events: none; }   /* hidden at the start/end, as the promo arrows */
+.desk .opts { align-items: stretch; }   /* height follows the content; cards in one row stay equally tall */
+/* Option cards fill the 737px column exactly: as many columns as fit at ≥112px (6 at 1512px, each ±116px), no gap on the right */
+.desk .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }
+.desk .opt { width: auto; min-width: 0; }
+/* Desktop accordions (Design Guidelines, FAQ): several rows can be open; titles always semibold, no background when open */
+.d-acc details { position: relative; }
+/* Hover on a closed row: a very light grey (lighter than the open row) and the title in dark green */
+.d-acc details:not([open]) summary:hover { background: #f8f8f8; color: var(--dark-green); }
+.d-acc summary { transition: background .15s, color .15s; }
+
+/* Desktop photos B (prototype switch): thumbnails in a column left of the photo; the photo keeps 501px,
+   so the media column grows to 590px (73 + 16 + 501) and the configuration narrows to 648px */
+.eta small b { display: inline; font-weight: 600; font-size: inherit; line-height: inherit; color: var(--black); }   /* the deadline in the condition line */
+/* Calmer accordions: more air in the rows and between title and text */
+.d-acc summary { padding: 14px 0 14px 8px; line-height: 1.4; }
+.d-acc details p { padding: 0 40px 16px 8px; margin-top: -4px; }
+
+/* Desktop hover on every configuration option: a black outline (the selected one keeps its green border) */
+.desk .opt:not([aria-checked="true"]):hover,
+.desk .qrow:not([aria-checked="true"]):hover,
+.desk .deliv:not([aria-checked="true"]):hover,
+.desk .preset:not([aria-pressed="true"]):hover { border-color: var(--black); }
+.desk .qrow:not([aria-checked="true"]):hover { z-index: 2; }
+.desk body { overflow-x: clip; }   /* full-bleed divider lines may use 100vw */
+/* Our Top Categories: all eight on one row, same card as mobile */
+.desk .cats { overflow: visible; margin: 16px 0 0; padding: 0; gap: 16px; }
+.desk .cats .cat { flex: 1 1 0; min-width: 0; }
+
+/* 5 per row, 10 best sellers = 2 full rows (Cornel, 2026-10-28; 6 per row tried) */
+.desk .home .product, .desk .xsell .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
+/* Desktop PDP: quantities in two columns, filled top to bottom (as on the live site) */
+.desk .qty-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(var(--qrows, 4), auto); grid-auto-flow: column; gap: 8px; }
+
+/* Desktop PDP: delivery options side by side (Niels: one overview of the delivery speeds) */
+.desk [data-option="delivery"] { display: grid; grid-template-columns: repeat(var(--dn, 3), minmax(0, 1fr)); gap: 8px; align-items: stretch; }
+.desk [data-option="delivery"] > .deliv { grid-row: 2; }
+.desk .deliv.d-cal-card { flex-direction: row; align-items: center; gap: 12px; padding: 12px; }
+.desk .deliv.d-cal-card[aria-checked="true"] { padding: 11px; }
+.d-cal-card .cal { flex-shrink: 0; width: 60px; border: 1px solid var(--outline); border-radius: var(--r-s); overflow: hidden; background: var(--white); text-align: center; box-shadow: 0 1px 2px rgba(0, 0, 0, .08); }
+.d-cal-card .cal i { display: block; padding: 3px 0 0; background: var(--white); font-style: normal; font-weight: 700; font-size: var(--t-12); line-height: var(--lh-12); text-transform: uppercase; color: var(--link); }   /* not chosen: white header, green month */
+.d-cal-card[aria-checked="true"] .cal { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* the chosen date: green outline */
+.d-cal-card[aria-checked="true"] .cal i { padding: 2px 0; background: var(--light-green); color: var(--white); }   /* chosen: solid green header */
+.d-cal-card .cal b { display: block; padding-top: 4px; font-weight: 800; font-size: var(--t-24); line-height: 1; }
+.d-cal-card .cal small { display: block; padding: 2px 0 5px; font-size: var(--t-12); line-height: var(--lh-tight); color: var(--dark-grey); }
+.d-cal-card .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.d-cal-card .tx b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
+.d-cal-card .gain { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.d-cal-card .pr { font-weight: 600; font-size: var(--t-14); }
+.ico .art-count { right: -8px; bottom: -8px; }
+/* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
+.opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }
+.desk .opt .mi { width: 50px; height: 50px; }
+.promo-e .pc { position: relative; flex: 0 0 300px; display: flex; flex-direction: column; border-radius: var(--r-l); overflow: hidden; scroll-snap-align: start; background: var(--light-grey); color: var(--white); }
+.promo-e .pc-img { position: relative; display: block; height: 345px; overflow: hidden; }
+.promo-e .pc-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.promo-e .pc:hover .pc-img img { transform: scale(1.04); }   /* hover: the photo grows a little inside the card (the card itself stays put) */
+.promo-e .pc-img::after { content: ''; position: absolute; inset: 0 0 55%; background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0)); }   /* keeps the white title readable on light photos */
+.promo-e .pc-body { position: absolute; inset: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; }
+.promo-e .pc-txt { min-width: 0; }
+.promo-e .pc-t { display: block; font-weight: 800; font-size: var(--t-24); line-height: 1.16; letter-spacing: -.48px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
+.promo-e .pc-cta { display: inline-flex; padding: 6px 16px; border-color: var(--white); }
+.promo-e .pc:hover .pc-cta { border-color: var(--black); }
+.desk .promo-e .pc-img { height: 400px; }
+.dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); color: var(--black); transition: background .15s; }
+.dc-card:hover { background: #e8e8e8; }
+.dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }   /* the card title size (16/22) */
+.dc-img { position: absolute; right: 16px; top: 50%; width: 112px; height: 112px; margin-top: -56px; display: grid; place-items: center; }   /* the image stands free, no circle */
+.dc-img img { width: 100%; height: 100%; object-fit: contain; }
+.dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */
+
+.plp .pc { flex: none; }   /* full width on mobile, not the 300px swipe card */
+.plp .cats { gap: 8px; margin-top: 0; }
+.plp-mats .mat-icon { width: 50px; height: 50px; flex-shrink: 0; }
+.plp-mats .chev { width: 20px; height: 20px; }
+/* Desktop */
+.desk .plp, .desk .help-page { padding: 0; gap: 32px; }
+.desk .plp > :not(.dfoot), .desk .help-page > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+.desk .plp > .hero { gap: 0; }
+.desk .plp .hero .intro p { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; }
+.desk .plp > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
+.desk .plp h2, .desk .help-page h2 { margin-bottom: 8px; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
+.desk .plp .materials { gap: 8px; }
+.desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
+.desk .plp [data-tab-target] { scroll-margin-top: 164px; }
+.desk .plp .pc-t { max-width: 360px; }
+.desk .plp .plp-cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.desk .plp .dc-card { height: 144px; }
+.desk .plp .product { gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; transition: border-color .15s; }
+.desk .plp .product .thumb { border-radius: 0; }
+.desk .plp .product .badge { padding: 4px 8px; }
+.desk .plp .product > :not(.thumb) { padding: 0 16px; }
+.desk .plp .product > :last-child { padding-bottom: 16px; margin-top: auto; }
+.desk .plp .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .plp .product .price { font-weight: 900; }
+.desk .plp .plp-mats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; border: 0; padding: 0; }
+.desk .plp .plp-mats li { border: 0; padding: 0; }
+.desk .plp .plp-mats .mat { height: 100%; flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); transition: border-color .15s; }
+.desk .plp .plp-mats .mat:hover, .desk .hc-card:hover { border-color: var(--outline); }
+.desk .plp .plp-mats .mat-icon { width: 50px; height: 50px; }   /* icons stay 50px on desktop (decision 10-29) */
+.desk .plp .plp-mats .text { gap: 4px; }
+.desk .plp .plp-mats .text .badge { position: absolute; top: 16px; right: 16px; left: auto; margin: 0; }
+.desk .plp .plp-mats .mat { position: relative; }
+.desk .plp .plp-mats strong { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .plp .plp-mats small { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .plp .plp-mats .chev { display: none; }
+/* Product card selling points: the live green check list under the name (business cards page, 2026-10-28) */
+.product .usp-list { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-top: 0; }
+.product .usp-list li { display: flex; align-items: flex-start; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.product .usp-list svg { flex-shrink: 0; margin-top: 1px; color: var(--light-green); }   /* the green of the USP check circles */
+.desk .plp .product .usp-list li { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .plp .product .usp-list svg { margin-top: 3px; }   /* centred on the 22px line */
+/* Ideas beyond business cards: one row of small category cards; desktop all 6 across the content width, square */
+.desk .plp .cats { margin-top: 0; gap: 16px; }
+.desk .plp .cats .cat { aspect-ratio: 1; justify-content: center; }
+.desk .plp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }   /* the image fills the card above the title (less grey) */
+.desk .plp.clp .dc-card { height: 144px; }
+/* Category rows on the category pages (mobile): bigger square cards, the image fills the space above the title */
+html:not(.desk) .plp.clp .cats .cat { flex-basis: 184px; }
+html:not(.desk) .plp.clp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }
+.desk .d-rev-nav { position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
+.desk .plp .cats .cat .title { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title size, as the grey category tiles (16/22) */
+html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh-20) !important; letter-spacing: -0.4px !important; }   /* promo card titles on mobile = the section title size (20/24), on every page (Cornel, 2026-10-28) */
+/* Grey category tiles on desktop: one height everywhere (120px, also in rows of their own). A promo card + categories
+   block: the card stops in the middle (the 50/50 grid, same edge as the 4-column rows), 3 tile rows = 392px, close to
+   the home promo card (400) and on the 8px grid (Cornel, 2026-10-28) */
+.desk .plp .dc-card, .desk .plp.clp .dc-card { height: 120px; }
+.desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
+/* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
+.plp .section-head { align-items: baseline; gap: 16px; }
+.plp .section-head .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .hc-card .link, .ha-back { text-decoration: none; }
+.desk .plp .d-acc details p { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .plp .d-acc summary { font-size: var(--t-16); line-height: var(--lh-16); }   /* FAQ questions = the card titles on the page (16/22 desktop, 14 mobile) */
+.plp .oc-faq summary { font-size: var(--t-14); line-height: var(--lh-tight); }   /* mobile: = the card titles (14px) */
+.plp .hero h1 { line-height: 28px; }
+
+.desk .plp .plp-mats .mat { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }   /* the slight shadow of the PDP option cards, so the material tiles pop a little (Cornel) */
+.desk .plp .product, .desk .home .product, .desk .xsell .product { box-shadow: 0 1px 1.5px rgba(0, 0, 0, .1); }   /* the same slight shadow on the product cards (bestsellers, card types, …) on desktop */
+.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card { border-color: var(--card-line); }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
+/* the soft card shadow only on hover (Cornel, 2026-10-28) */
+.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card, .desk .cart-main .line-item { box-shadow: none; transition: border-color .15s, box-shadow .2s; }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover, .desk .cart-main .line-item:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.desk .d-acc summary, .desk .oc-faq summary { font-size: var(--t-16); line-height: var(--lh-16); }
+/* head */
+.hc-center { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; }
+.hc-center h1 { font-size: var(--t-28); line-height: 32px; }
+.desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
+.desk .hc-center { position: relative; z-index: 1; }
+.desk .hc-center h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
+.desk .ha-body h1, .desk .cart-page h1, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
+/* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
+   question = card title, hover) with the grey list arrow right instead of the fold chevron */
+.hc-rows { list-style: none; border-top: 1px solid var(--line); }
+.hc-rows li { border-bottom: 1px solid var(--line); }
+.hc-rows a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); transition: background .15s, color .15s; }
+.desk .hc-rows a { padding: 14px 0 14px 8px; font-size: var(--t-16); line-height: var(--lh-16); }   /* the product card title size (16/22 desktop, 14 mobile); the PDP FAQ stays 14/20 (Cornel, 2026-10-29) */
+.hc-rows a:hover { background: #f8f8f8; color: var(--dark-green); }
+.hc-rows .chev { width: 24px; height: 24px; flex-shrink: 0; }
+.hc-rows small { display: block; margin-top: 2px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* "In other topics": the topic under the question */
+.hc-rows mark { background: #e6f6ec; color: inherit; border-radius: var(--r-s); }   /* the search match */
+.desk .cart-main { gap: 32px; }
+.desk .cart-side { padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); }   /* the same outline as the cards next to it */
+.desk .cart-side .quote { margin-top: -8px; }   /* 8 under Continue to checkout, as live: the two buttons together */
+.desk .cart-side { position: sticky; top: 124px; }   /* under the sticky desktop header (100) + 24; the extras above it scroll away */
+/* Upsells on desktop (Cornel's design 2026-11-03): inside the Order summary card, each a light grey block (8 from the card edge):
+   switch · title 16/22 semibold · price 16 bold right; under the title a short line (12/18 grey) and the link to the popup.
+   16 under the blocks a line across the whole card, 16 under it the totals. */
+.sum-ups { display: flex; flex-direction: column; gap: 8px; margin: -8px -24px 0; padding: 0 16px 16px; border-bottom: 1px solid var(--line); }   /* 8 under the title; to the card edge, so the line runs across; the blocks 16 in */
+.sum-up { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 8px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }   /* 16 inside, so the price has room on the right */
+.sum-up b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* the size of the summary rows */
+.sum-up .p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); white-space: nowrap; }   /* as the amounts in the totals */
+.sum-up small, .sum-up .link { grid-column: 2 / -1; justify-self: start; }
+.sum-up small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.sum-ups + .totals { margin-top: 0; border-top: 0; padding-top: 0; }   /* the line is the one across the card above */
+.desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* the cart cards: --outline, 24 padding (Cornel, 2026-11-03) */
+.desk .cart-main .line-item { align-items: flex-start; gap: 24px; }
+.desk .cart-main .line-item .img { width: 120px; height: 120px; }
+.desk .cart-main .line-item .t strong, .desk .cart-main .line-item .p { font-size: var(--t-16); line-height: var(--lh-16); }
+/* Cart lines (cart-lines-sketch.html B, Cornel 2026-11-03; mobile the same line: cart-lines-mobile-sketch.html A): one grid, photo | text | price,
+   then the delivery and the quantity row (dropdown, the next step as a hint, the round icon buttons). Label above the name.
+   Mobile: the delivery and the quantity row full width, the hint under the row; desktop: from the name to the right edge. */
+.line-item.cart-line, .desk .cart-main .line-item.cart-line { display: grid; grid-template-columns: 75px minmax(0, 1fr) auto; align-items: start; row-gap: 0; }
+.desk .cart-main .line-item.cart-line { grid-template-columns: 120px minmax(0, 1fr) auto; }
+.cart-line + .cart-line { margin-top: 8px; padding-top: 16px; }   /* mobile: 16 · line · 16 between products */
+.desk .cart-line > .img { grid-row: span 3; }   /* the photo spans the rows next to it, so the right column builds up without waiting for its height */
+.line-item .badge { position: static; align-self: flex-start; margin-bottom: 8px; }
+.cart-design { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* info under the title: dark grey (style guide); mobile the size of the other info lines */
+.desk .cart-design { margin-top: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+/* the delivery text of the PDP / mobile cart (etaHtml) between two lines, from the product name to the right edge under the price
+   (Cornel, 2026-11-02: not edge to edge); title a step under the name (14 vs 16) */
+.cart-line > .eta { grid-column: 1 / -1; margin-top: 16px; padding: 8px 0; border-radius: 0; background: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.desk .cart-line > .eta, .desk .cart-line > .cart-qty { grid-column: 2 / -1; }
+.cart-line > .eta > b { font-size: var(--t-14); line-height: var(--lh-14); }
+.cart-line > .cart-qty { grid-column: 1 / -1; }
+/* B: quantity dropdown with the next step as a hint; round icon buttons under the price */
+.cart-qty { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 16px; }
+.cart-qty .field { width: 144px; }
+/* the quantity dropdown: the open list shows each other quantity with the difference (+€ / −€), the closed field only the quantity (Cornel, 2026-11-03):
+   the select text is hidden and a span shows the quantity on top */
+.qty-field select { color: transparent; }
+.qty-field option { color: var(--black); }
+.qty-val { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); pointer-events: none; }
+.cart-qty .field select { height: 40px; font-size: var(--t-14); }
+.qty-hint { order: 1; width: 100%; text-align: left; font-size: var(--t-12); line-height: var(--lh-12); color: var(--link); }   /* green text that is not a link: --link green (readable), no underline; mobile under the row */
+.qty-hint b { font-weight: 600; }   /* the next quantity: semibold, the emphasis weight of the style guide */
+.qty-hint:hover span { text-decoration: underline; }   /* a button: one tap sets the next quantity; underlined on hover */
+.desk .qty-hint { order: 0; width: auto; font-size: var(--t-14); line-height: var(--lh-14); }
+.cart-qty .icon-btns { margin-left: auto; }
+.icon-btns { display: flex; gap: 8px; }
+.icon-btn { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--dark-green); transition: border-color .15s; }
+.icon-btn:hover { border-color: var(--black); }   /* control outline: grey, black on hover */
+/* Tooltip (Cornel, 2026-11-05): data-tip="…" on an icon-only button; a dark green bubble with an arrow, 12 above it (the arrow tip 6 from the button), on hover (mouse) and
+   keyboard focus. The last button of a row aligns it right, so it never runs off the screen. .tip-on shows it (style guide) */
+[data-tip] { position: relative; }
+[data-tip]::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 4px 8px; border-radius: var(--r-s); background: var(--dark-green); color: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); white-space: nowrap; }
+[data-tip]::before { content: ''; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-bottom: 0; border-top-color: var(--dark-green); }
+[data-tip]:last-child::after { left: auto; right: 0; transform: none; }
+[data-tip]::after, [data-tip]::before { z-index: 5; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity .15s, visibility .15s; }
+[data-tip]:focus-visible::after, [data-tip]:focus-visible::before, .tip-on::after, .tip-on::before { visibility: visible; opacity: 1; }
+@media (hover: hover) { [data-tip]:hover::after, [data-tip]:hover::before { visibility: visible; opacity: 1; } }
+.desk .icon-btn { width: 32px; height: 32px; }   /* mobile 40: the height of the dropdown, a thumb target */
+.totals .info-btn .material-symbols-rounded { font-size: 16px; color: var(--dark-grey); }

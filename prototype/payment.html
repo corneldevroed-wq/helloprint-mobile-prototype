@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
+<link rel="stylesheet" href="pages.css?v=20261114g">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+
+  <!-- Payment (Figma 15725:7440) -->
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Checkout steps">
+      <li class="done"><a href="cart.html">Cart</a></li>
+      <li class="done"><a href="details.html">Details</a></li>
+      <li class="current" aria-current="step">Payment</li>
+      <li>Confirmed</li>
+    </ol>
+
+    <form id="payForm" class="co-extra" novalidate autocomplete="off">
+      <div class="co-head"><h2>When do you want to pay?</h2></div>
+      <!-- Two tabs instead of two big radio cards; the line under them explains the chosen one -->
+      <div class="pay-opts seg" role="radiogroup" aria-label="When to pay">
+        <button type="button" role="radio" aria-checked="true" data-when="now">Pay now</button>
+        <button type="button" role="radio" aria-checked="false" data-when="later">Pay later</button>
+      </div>
+      <p class="pay-note" id="payNote">Fastest option. We start printing as soon as you approve your files.</p>
+
+      <!-- Pay later = Pay by Link (live checkout/payment), optionally sent to someone else -->
+      <div class="pay-later" id="payLater" hidden>
+        <div class="pl-card" aria-checked="true">
+          <span class="radio" aria-hidden="true"></span>
+          <div><b>Pay by Link</b><p>Place your order now, we’ll email you a payment link. Your order starts proofing but won’t go into production until you pay.</p></div>
+        </div>
+        <div class="pl-share">
+          <label class="check"><input type="checkbox" id="shareLink">Send the payment link to someone else (e.g. a colleague)</label>
+          <div class="pl-fields" id="shareFields" hidden>
+            <label class="field" data-field="recName"><input name="recName" placeholder=" " autocomplete="off" aria-label="Recipient name"><span class="fl">Recipient name</span></label>
+            <label class="field" data-field="recEmail"><input name="recEmail" type="email" placeholder=" " autocomplete="off" aria-label="Recipient email"><span class="fl">Recipient email</span></label>
+            <label class="field" data-field="recMsg"><textarea name="recMsg" rows="3" placeholder=" " aria-label="Message (optional)"></textarea><span class="fl">Message (optional)</span></label>
+          </div>
+        </div>
+        <p class="pl-info">Pay on Invoice isn’t available for this order right now. Please choose another payment method.</p>
+      </div>
+
+      <div class="pay-methods" id="payMethods">
+        <p class="secure-line"><img src="assets/checkout/encrypted.svg" alt="">Secure payment</p>
+        <div class="wallets" role="radiogroup" aria-label="Payment method">
+          <button type="button" class="wallet apple" role="radio" aria-checked="false" data-method="Apple Pay" aria-label="Apple Pay">
+            <span class="logo-box" style="width:58px"><img src="assets/checkout/applepay.png" alt="" style="left:.86%;top:-24.36%;width:100%;height:148.72%"></span>
+          </button>
+          <button type="button" class="wallet google" role="radio" aria-checked="false" data-method="Google Pay" aria-label="Google Pay">
+            <span class="logo-box" style="width:58px"><img src="assets/checkout/googlepay.png" alt="" style="inset:0;width:100%;height:100%;object-fit:cover"></span>
+          </button>
+          <button type="button" class="wallet paypal" role="radio" aria-checked="false" data-method="PayPal" aria-label="PayPal">
+            <span class="logo-box" style="width:59px"><img src="assets/checkout/paypal.png" alt="" style="left:-39.83%;top:-33.5%;width:136.79%;height:155.21%"></span>
+          </button>
+        </div>
+
+        <div class="card-box" aria-checked="true" id="cardBox">
+          <button type="button" class="card-head" data-method="Credit card" role="radio" aria-checked="true">
+            <span>Credit card</span>
+            <span class="brands" aria-label="Maestro, Visa, Mastercard and 2 more">
+              <span class="card"><img src="assets/pay-maestro.svg" alt=""></span>
+              <span class="card"><img src="assets/pay-visa.svg" alt=""></span>
+              <span class="card"><img src="assets/pay-mastercard.svg" alt=""></span>
+              <span class="more">+2</span>
+            </span>
+          </button>
+          <div class="card-fields" id="cardFields">
+            <!-- Prototype: card details are only format-checked in the page; nothing is stored or sent -->
+            <p class="test-hint">Prototype: card details are not stored or sent. Use test card <b>4242 4242 4242 4242</b>.</p>
+            <label class="field" data-field="cardNumber"><input name="cardNumber" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Card number" maxlength="23"><span class="fl">Card number</span></label>
+            <div class="co-row">
+              <label class="field" data-field="expiry"><input name="expiry" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Expiry date" maxlength="5"><span class="fl">MM / YY</span></label>
+              <label class="field" data-field="cvc"><input name="cvc" data-lpignore="true" data-1p-ignore data-bwignore inputmode="numeric" placeholder=" " autocomplete="off" aria-label="Security code" maxlength="4"><span class="fl">CVC</span></label>
+            </div>
+            <label class="field" data-field="cardName"><input name="cardName" data-lpignore="true" data-1p-ignore data-bwignore placeholder=" " autocomplete="off" aria-label="Name on card"><span class="fl">Name on card</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="co-head"><h2>Order overview</h2></div>
+      <section class="summary-box">
+        <div id="paySummary"></div>
+      </section>
+
+      <div class="eta" id="eta"></div>
+    </form>
+  </main>
+</div>
+
+<!-- Sticky bar (Figma 15738:4477) -->
+<div class="cart-bar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT</span></div>
+    <button class="btn primary" id="placeOrder" form="payForm" type="submit">Place order</button>
+  </div>
+</div>
+
+<!-- Sheet: Free shipping (the ⓘ after Shipping in the totals, as in the cart) -->
+<div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shipTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="shipTitle">Free shipping</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT. Below that, shipping is €6.00.</p></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261114g"></script>
+<script src="../design-system/components.js?v=20261114g"></script>
+<script>
+  const items = getCart();
+  if (!items.length) location.replace('cart.html');
+  document.body.classList.add('buybar-on');
+  const eur = n => '€' + n.toFixed(2);
+
+  // Order overview + totals (shared maths with the cart)
+  const addons = getAddons(), { check, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons);
+  document.getElementById('paySummary').innerHTML = `
+    ${items.map(it => `
+      <div class="line-item">
+        <span class="img" style="background:var(--light-grey)"><img src="${it.img}" alt=""></span>
+        <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small></div>
+        <span class="p">${eur(it.price)}</span>
+      </div>`).join('')}
+    <div class="totals">
+      <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
+      ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+      <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span>${shipping ? `<span>${eur(shipping)}</span>` : '<span class="free">Free</span>'}</div>
+      ${code ? `<div><span>Discount <small>(${code})</small></span><span>−${eur(discount)}</span></div>` : ''}
+      <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
+      <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>
+      <div class="grand"><span>Total incl. VAT</span><span>${eur(total)}</span></div>
+    </div>`;
+  document.getElementById('barTotal').textContent = eur(total);
+
+  // Delivery promise: files approved by 10:30 the working day before
+  function renderEta() {
+    if (!items[0]) return;
+    const d = items[0].arrives;
+    // Pay later: production only starts once it's paid, so payment is part of the deadline
+    document.getElementById('eta').innerHTML = etaHtml(d, when === 'later'
+      ? `Approve your files and pay by <b>10:30 on ${etaApprove(d)}</b>`
+      : `Approve your files by <b>10:30 on ${etaApprove(d)}</b>`);
+  }
+  const renderButton = () => { document.getElementById('placeOrder').textContent = when === 'later' ? 'Place order' : 'Pay now'; }; // the total already shows on the left
+
+  // Pay now / payment link
+  let when = 'now', method = 'Credit card';
+  renderEta(); renderButton();
+  document.querySelector('.pay-opts').addEventListener('click', e => {
+    const b = e.target.closest('[data-when]'); if (!b) return;
+    when = b.dataset.when;
+    document.querySelectorAll('[data-when]').forEach(x => x.setAttribute('aria-checked', x === b));
+    // Pay later explains itself in the Pay by Link card, so the note line is only for Pay now
+    document.getElementById('payNote').hidden = when === 'later';
+    document.getElementById('payMethods').hidden = when === 'later';
+    document.getElementById('payLater').hidden = when !== 'later';
+    renderEta(); renderButton();
+  });
+
+  // Send the payment link to someone else: name + email needed, message optional
+  const shareLink = document.getElementById('shareLink');
+  shareLink.addEventListener('change', () => {
+    document.getElementById('shareFields').hidden = !shareLink.checked;
+    if (shareLink.checked) document.querySelector('[name=recName]').focus();
+  });
+  const SHARE_RULES = {
+    recName: [v => v.trim().length > 1, 'Enter the recipient’s name'],
+    recEmail: [v => /^\S+@\S+\.\S+$/.test(v.trim()), 'Enter a valid email address'],
+  };
+  const checkShare = n => { const ok = SHARE_RULES[n][0](document.querySelector(`[name=${n}]`).value); setFieldError(document.querySelector(`[data-field="${n}"]`), ok ? '' : SHARE_RULES[n][1]); return ok; };
+  Object.keys(SHARE_RULES).forEach(n => {
+    const i = document.querySelector(`[name=${n}]`);
+    i.addEventListener('blur', () => { if (i.value) checkShare(n); });
+    i.addEventListener('input', () => { if (i.closest('.field').classList.contains('invalid')) checkShare(n); });
+  });
+
+  // Method: a wallet or the card form
+  function setMethod(m) {
+    method = m;
+    document.querySelectorAll('.wallet').forEach(w => w.setAttribute('aria-checked', w.dataset.method === m));
+    const card = m === 'Credit card';
+    document.getElementById('cardBox').setAttribute('aria-checked', card);
+    document.querySelector('.card-head').setAttribute('aria-checked', card);
+    document.getElementById('cardFields').hidden = !card;
+  }
+  document.getElementById('payMethods').addEventListener('click', e => {
+    const b = e.target.closest('[data-method]'); if (b) setMethod(b.dataset.method);
+  });
+
+  // Card input formatting
+  const $ = n => document.querySelector(`[name=${n}]`);
+  $('cardNumber').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 19).replace(/(.{4})/g, '$1 ').trim(); });
+  $('expiry').addEventListener('input', e => { const d = e.target.value.replace(/\D/g, '').slice(0, 4); e.target.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; });
+  $('cvc').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+
+  // Validation (format only)
+  const luhn = num => { let sum = 0; [...num].reverse().forEach((d, i) => { let n = +d; if (i % 2) { n *= 2; if (n > 9) n -= 9; } sum += n; }); return num.length >= 12 && sum % 10 === 0; };
+  const notExpired = v => { const m = v.match(/^(\d{2})\/(\d{2})$/); if (!m || +m[1] < 1 || +m[1] > 12) return false; return new Date(2000 + +m[2], +m[1]) > new Date(); };
+  const RULES = {
+    cardNumber: [v => luhn(v.replace(/\D/g, '')), 'Enter a valid card number'],
+    expiry: [notExpired, 'Enter a valid expiry date'],
+    cvc: [v => /^\d{3,4}$/.test(v), 'Enter the 3 or 4 digit code'],
+    cardName: [v => v.trim().length > 1, 'Enter the name on the card'],
+  };
+  function checkField(name) {
+    const field = document.querySelector(`[data-field="${name}"]`), [ok, msg] = RULES[name];
+    const valid = !!ok($(name).value);
+    setFieldError(field, valid ? '' : msg);
+    return valid;
+  }
+  Object.keys(RULES).forEach(n => {
+    $(n).addEventListener('blur', () => { if ($(n).value) checkField(n); });
+    $(n).addEventListener('input', () => { if (document.querySelector(`[data-field="${n}"]`).classList.contains('invalid')) checkField(n); });
+  });
+
+  document.getElementById('payForm').addEventListener('submit', e => {
+    e.preventDefault();
+    if (when === 'now' && method === 'Credit card') {
+      const bad = Object.keys(RULES).filter(n => !checkField(n));
+      if (bad.length) {
+        $(bad[0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        $(bad[0]).focus({ preventScroll: true });
+        showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+        return;
+      }
+    }
+    if (when === 'later' && shareLink.checked) {
+      const bad = Object.keys(SHARE_RULES).filter(n => !checkShare(n));
+      if (bad.length) {
+        const i = document.querySelector(`[name=${bad[0]}]`);
+        i.scrollIntoView({ behavior: 'smooth', block: 'center' }); i.focus({ preventScroll: true });
+        showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+        return;
+      }
+    }
+    // Keep what was ordered for the confirmation page, then empty the cart (add-ons back to their defaults)
+    let details = {};
+    try { details = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
+    const order = {
+      number: 'HP-IE-' + String(Date.now()).slice(-7), items, addons, check, shipping, total, subtotal, vat,
+      when, method: when === 'later' ? 'Payment link' : method,
+      // Pay by Link sent to a colleague: only their name and email, for the confirmation line
+      linkTo: when === 'later' && shareLink.checked ? { name: document.querySelector('[name=recName]').value.trim(), email: document.querySelector('[name=recEmail]').value.trim() } : null, email: details.email || '', arrives: items[0]?.arrives,
+      // For "Thank you, John" and "Shipping address" (the details form, this browser only)
+      name: [details.first, details.last].filter(Boolean).join(' '), first: details.first || '',
+      address: [details.address1, details.address2, [details.town, details.eircode].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+      addressLines: [details.address1, details.address2, details.town, (details.eircode || '').toUpperCase()].filter(Boolean),
+    };
+    try { localStorage.setItem('hp-last-order', JSON.stringify(order)); localStorage.removeItem('hp-cart-addons'); } catch (e) {}
+    setCart([]);
+    location.href = 'confirmed.html';
+  });
+</script>
+</body>
+</html>

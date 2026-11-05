@@ -1,0 +1,49 @@
+/* Design tokens: colours, corners, type sizes, line heights. Use these, never raw values. */
+/* Shared styles for the HelloPrint mobile prototype */
+:root {
+  --dark-green: #022b07;
+  --light-green: #00a651;
+  --orange: #f36d13;
+  --black: #191919;
+  --dark-grey: #555;
+  --mid-grey: #bbb;
+  --line: #e4e4e4;   /* every line and card outline (Cornel, 2026-10-28: a bit sharper than #f0f0f0) */
+  --light-grey: #f0f0f0;
+  --outline: #cfcfcf;   /* every card outline */
+  --white: #fff;
+  --stage: #d9d9d9;
+  --link: #008539;       /* inline links, breadcrumbs, link hover */
+  --error: #c90e2e;      /* field errors, everywhere (was also #d0021b on login) */
+  --cream: #fef0df;     /* warm block background: the reassurance after an upload (Cornel, 2026-11-05) */
+  --selected: #eefaf3;   /* background of a chosen card (address, payment, tile, the recommended file check) */
+  --tint: rgba(0, 166, 81, .16);   /* light green, see-through: focus ring, the changed flash, the online dot */
+  --control: #9f9f9f;    /* outline of a checkbox and a radio */
+  --r-s: 4px;            /* corners: small (badges, checkbox, flags, tiles inside a card) */
+  --r-m: 8px;            /* control (fields, option cards, quantity rows, menus) */
+  --r-l: 10px;           /* card (cards, photos) */
+  --r-xl: 16px;          /* sheet */
+  --r-pill: 100px;       /* buttons, pills, toggles */
+  /* type scale (Check 12): 10 micro · 12 label/notes, body mobile · 14 body desktop, links, rows · 16 card titles desktop, buttons, inputs
+     · 20 section title mobile, sheet title · 24 page title mobile, section title desktop · 28/48 display · 32 page title desktop */
+  --t-10: 10px;
+  --t-12: 12px;
+  --t-14: 14px;
+  --t-16: 16px;
+  --t-20: 20px;
+  --t-24: 24px;
+  --t-28: 28px;
+  --t-32: 32px;
+  --t-48: 48px;
+  /* line heights (2026-10-30): one per size for text that can wrap; tight for single-line controls (buttons, pills, tabs, chips, badges);
+     1 for icons, counters and big numbers. 24 / 28 / 48 keep 28 or 32 / 32 / 56 in px */
+  --lh-12: 18px;
+  --lh-14: 22px;
+  --lh-16: 22px;
+  --lh-20: 24px;
+  --lh-tight: 1.2;
+}
+/* Phone column: fills the screen on phones (also the bigger ones, e.g. 440 wide), 390 wide and centred on desktop */
+:root { --app-w: 390px; }
+@media (max-width: 500px) { :root { --app-w: 100%; } }
+/* Card outline on desktop a little darker than our light line, so it stays visible with the soft shadow (Cornel) */
+:root { --card-line: var(--line); }

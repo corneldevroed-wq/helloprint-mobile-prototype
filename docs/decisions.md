@@ -89,7 +89,15 @@ Add new decisions here when Cornel makes a final call.
 - **11-02 — `.link` = the style guide's text link:** `--link` green (#008539), underlined, 14/22 (was `--light-green`). The arrow links
   ("All categories →", "View all … articles", Help Centre "Read more") keep light green, matching their green arrow icon.
 
-## Design system / UI kit (`design-system.html`, Oct 30, 2026)
+## Design system / UI kit (`design-system/index.html`, Oct 30, 2026)
+- **11-05 — Split into `design-system/` + `prototype/` (`sketches/split-sketch.html`, option B):** the design system stands on its own
+  (`tokens.css`, `components.css`, `components.js`, `icons/`, the guide), the prototype builds on it (`pages.css`, `app.js`, data, photos).
+  Names: "prototype", not "website" (developers would read that as production code). One repo, not two: the guide's live cut-outs need
+  the pages on the same address. Rule: reusable → design system + a row in the guide; one page → `pages.css`. Old addresses forward.
+  Mirrored to `Helloprint/helloprint-design` (every push goes to both repos). Checked: 110 pages/variants at 390 + 1512 (all products,
+  mobile flows A–J, cart pages empty + filled) have identical computed styles and positions before/after. Shared rules that list page contexts
+  (card border/hover, desktop h1/h2, FAQ summary, tooltip) live in `components.css` because the guide uses them; turning them into plain
+  component classes is a later simplify round. Breadcrumb spacing (`.desk .crumbs` padding) is page layout now (`pages.css`).
 - **11-02 — Decided PDP switches removed (`unused-js-sketch.html`):** Funnel → live funnels, Names → one thickness scale, Specs → links +
   See also, Icons → material icon set, Design → A (cards in Your selection), Rec → D (green bar, now `.desk span.rec`). Code, CSS and switch
   buttons gone; the PDP is identical before/after (8 checks). Cards A/B, Photos A/B, Delivery D/E and the mobile flows stay until Cornel picks.

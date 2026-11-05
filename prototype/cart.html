@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Cart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
+<link rel="stylesheet" href="pages.css?v=20261114g">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cart-page">
+    <h1>Your Cart</h1>
+
+    <div class="cart-main" id="cartContent"></div>
+
+    <!-- Desktop: the right column with the summary card (sticky); mobile: the same blocks under the products -->
+    <div class="cart-col">
+    <aside class="cart-side">
+    <div id="cartSide"></div>
+    <ul class="cart-usps">
+      <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
+      <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
+    </ul>
+
+    <div class="payments" aria-label="Payment methods">
+      <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
+      <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
+      <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
+      <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
+      <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
+      <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
+    </div>
+    </aside>
+    </div>
+  </main>
+  <footer data-shell="footer" data-desk-only></footer>   <!-- desktop only: on mobile the checkout bar sits at the bottom -->
+</div>
+
+<!-- Sheet: your artwork (the files uploaded on the PDP; a thumbnail picks the big one) -->
+<div class="sheet-layer" id="sheet-art" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="artTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="artTitle">Your artwork</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><div class="art-view" id="artView"></div></div></div>
+  </div>
+</div>
+
+<!-- Sheet: Request a free quote (cart-empty-quote-sketch.html B, Cornel 2026-11-03; live "Get your FREE quote by email"): what the quote is for
+     (the cart lines, the extras, the total), then only what we need to send it; Eircode + town optional, for the shipping costs. Logged in: name + email known -->
+<div class="sheet-layer" id="sheet-quote" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="qTitle">Get your free quote by email</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="fc-intro">We email you a quote for the products in your cart.</p>
+        <div class="q-items" id="qItems"></div>
+        <div class="q-who" id="qWho"></div>
+        <div class="q-addr"><p class="q-hint">Shipping to (optional, for the shipping costs)</p>
+          <div class="co-row"><label class="field" data-field="qEircode"><input name="qEircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+          <label class="field"><input name="qTown" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label></div></div>
+        <label class="field"><input name="qCompany" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name (optional)</span></label>
+        <label class="field"><textarea name="qNotes" placeholder=" " aria-label="Questions or special requests"></textarea><span class="fl">Questions or special requests (optional)</span></label>
+        <label class="btn outline q-up"><input type="file" id="qFiles" multiple hidden><span class="material-symbols-rounded" aria-hidden="true">upload</span><span id="qFilesTxt">Upload files (optional)</span></label>
+      </div>
+    </div>
+    <div class="sheet-bar q-bar">
+      <button class="btn primary" id="qSend">Get my free quote by email</button>
+      <p class="q-legal">This site is protected by reCAPTCHA and the Google <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a> apply.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky checkout bar (Figma 15725:7380) -->
+<div class="cart-bar" id="cartBar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span>Incl. VAT &amp; delivery</span></div>
+    <a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>
+  </div>
+</div>
+
+<!-- Sheet: Choose your file check (as live on helloprint.com/basket; euro tiers from Figma 15722:5390) -->
+<div class="sheet-layer" id="sheet-filecheck" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fcTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="fcTitle">Choose your file check</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="fc-intro">Did you know that we find mistakes in 40% of the files?</p>
+        <div class="fc-list" id="fcList" role="radiogroup" aria-label="File check"></div>
+      </div>
+    </div>
+    <div class="sheet-bar fc-bar"><button class="btn primary" id="fcConfirm">Confirm</button></div>
+  </div>
+</div>
+
+<!-- Sheet: Free shipping (the ⓘ after Shipping in the totals; live: "Free delivery on orders over …") -->
+<div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shipTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="shipTitle">Free shipping</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT. Below that, shipping is €6.00.</p></div></div>
+  </div>
+</div>
+
+<!-- Sheet: Secured delivery (as live on helloprint.com/basket, "More info") -->
+<div class="sheet-layer" id="sheet-secured" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sdTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="sdTitle">Peace of mind with Secured Delivery</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body">
+      <div class="pad">
+        <p class="fc-intro">Protect your order and enjoy complete peace of mind with our Secured Delivery option. Here's why you should add it to your basket:</p>
+        <ul class="sd-list">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/><path d="M8.5 9.5c1.2 1.2 5.8 1.2 7 0"/></svg>
+            <div><b>Priority Support &amp; Urgent Handling</b><span>Any delivery issues are handled with top priority, meaning you’ll get faster responses and resolutions for any concern that may arise.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11.5C5 8 8 6 12 6c1.6 0 3 .3 4.2.9L19 5.5v3.2c.8.8 1.3 1.7 1.5 2.8H22v3.5h-1.8c-.5 1-1.3 1.8-2.2 2.4V20h-3v-1.6h-4V20H8v-2.6c-1.9-1.2-3-3.2-3-5.9Z"/><circle cx="16" cy="11" r=".6" fill="currentColor"/><path d="M5 11.5H3.5"/></svg>
+            <div><b>Instant Reprints, No Delays</b><span>Lost or delayed orders? With Secured Delivery, you’ll receive an immediate reprint, ensuring that you don’t wait any longer than necessary to receive your items. We get it sorted, hassle-free.</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="14" cy="12" r="7"/><path d="M14 8.5V12l2.5 1.8"/><path d="M2.5 9h3M1.5 12h3M2.5 15h3"/></svg>
+            <div><b>Money-Back Guarantee</b><span>We believe in delivering on our promises. If your order is delayed beyond the promised date, we’ll refund 20% of the cost, guaranteed.</span></div>
+          </li>
+        </ul>
+        <p class="sd-help"><strong>Questions about this service?</strong> We're here to help! <a href="#cs">Check our Help Centre</a></p>
+      </div>
+    </div>
+    <div class="sheet-bar sd-bar">
+      <button class="btn outline" id="sdNo">No thanks, standard delivery is fine</button>
+      <button class="btn primary" id="sdYes"></button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=20261114g"></script>
+<script src="../design-system/components.js?v=20261114g"></script>
+<script src="products.js?v=20261114g"></script>
+<script>
+  // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
+  // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
+  let addons = getAddons();
+  // Not every product offers secured delivery (prototype: ?secured=off): then no card for it and it never counts in the totals
+  const OFFER_SECURED = new URLSearchParams(location.search).get('secured') !== 'off';
+  if (!OFFER_SECURED) addons.secured = false;
+  const saveAddons = () => { try { localStorage.setItem('hp-cart-addons', JSON.stringify(addons)); } catch (e) {} };
+  const tier = id => CHECK_TIERS.find(t => t.id === id);
+  // Same wording as on the product page (also for items added before the wording changed)
+  const DESIGN_LABEL = { 'I will upload later': 'Upload after checkout', 'My designer will send the file': 'Your designer sends the file' };
+  const eur = n => '€' + n.toFixed(2);
+  const icon = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+  // Line price; with a product discount (it.was = the price before) the old price crossed out and the saving under it
+  const priceHtml = it => `<span class="p">${fmt(it.price)}${it.was ? `<small class="was"><s>${fmt(it.was)}</s> −${fmt(it.was - it.price)}</small>` : ''}</span>`;
+
+  // The product behind a cart line: its label (Most Popular, Eco…) and quantity steps
+  const productOf = it => PRODUCTS[new URLSearchParams(it.href.split('?')[1]).get('p')];
+  const qtySteps = it => { const P = productOf(it); return P ? productQty(P.live || P) : []; };
+  // Another quantity: the price follows the product's price list (price = step price × options)
+  const priceAt = (it, q) => { const steps = qtySteps(it), now = steps.find(([n]) => n === it.qty), to = steps.find(([n]) => n === q);
+    return now && to ? Math.round(it.price * to[1] / now[1] * 100) / 100 : null; };
+  // The quantity hint: the first bigger step that is at least 5% cheaper per piece (750 cards cost about the same each as 500, so not that one)
+  const nextStep = it => { const steps = qtySteps(it), now = steps.find(([n]) => n === it.qty);
+    return now ? (steps.find(([n, p]) => n > it.qty && p / n <= now[1] / now[0] * .95) || [])[0] : null; };
+  // Often ordered with (Cornel, 2026-11-03, like "Vaak samen gekocht"): 4 products from other groups than the first cart item,
+  // not already in the cart; the home / PLP product card. The price is that of the Recommended preset at the product's own quantity,
+  // which is also what "Add to cart" adds (desktop only); the photo and the name open the product page
+  const XSELL = ['standard-flyers', 'roller-banners', 'premium-tote-bags', 'ceramic-mug-330ml', 'eco-flyers', 'basic-cotton-bags', 'banners', 'sols-imperial-tshirt', 'deluxe-business-cards'];
+  const quick = slug => { const B = PRODUCTS[slug], P = B.live || B, preset = P.presets.find(x => x.id === 'recommended') || P.presets[0], qty = P.defaultQty || B.defaultQty || 500;
+    const options = P.groups.filter(g => !g.when || g.when(preset.cfg)).map(g => { const o = g.items.find(x => x.id === preset.cfg[g.key]); return o && (g.key === 'size' && o.sub ? `${o.name} ${o.sub}` : o.name); }).filter(Boolean).join(' · ');
+    return { B, qty, options, price: configPrice(P, preset.cfg, qty), cfg: { ...preset.cfg, qty } }; };   // cfg: Edit opens these choices
+  function xsellHtml(items) {
+    const first = productOf(items[0]), group = (first && first.noun) || 'business cards';
+    const inCart = items.map(it => productOf(it));
+    const picks = XSELL.filter(s => PRODUCTS[s] && !inCart.includes(PRODUCTS[s]) && (PRODUCTS[s].noun || 'business cards') !== group).slice(0, 4);
+    return cardsHtml(`Often ordered with ${group}`, picks, ' desk-only');
+  }
+  // Product cards (the home / PLP card): "Often ordered with" in a full cart (desktop only), "Our best sellers" in the empty cart
+  const BEST = ['classic-business-cards', 'standard-flyers', 'roller-banners', 'premium-tote-bags'];
+  function cardsHtml(title, picks, cls = '') {
+    return `<section class="xsell${cls}"><h2>${title}</h2><div class="grid">${picks.map(slug => { const { B, qty, price } = quick(slug);
+      const body = `<div class="thumb" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</div><p class="name">${B.name}</p>`;
+      const buy = `<p class="from">${qty} ${qty === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price" data-price="${price}">${fmt(price)}</span></p>`;
+      return DESK ? `<div class="product"><a class="thumb" href="${B.href}" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</a><a class="name" href="${B.href}">${B.name}</a>
+        <div>${buy}<button class="pill has-icon" data-quick="${slug}">${icon('add')}Add to cart</button></div></div>`
+        : `<a class="product" href="${B.href}">${body}<div>${buy}</div></a>`; }).join('')}</div></section>`;
+  }
+  // Add a suggestion with its Recommended preset (delivery and date as the first cart line), then change it in the cart
+  function quickAdd(slug) {
+    const { B, qty, options, price, cfg } = quick(slug), items = getCart(), ref = items[0] || {};
+    setCart([...items, { name: B.cartName, img: B.img, bg: B.bg, href: B.href, qty, delivery: ref.delivery || 'Saver', arrives: ref.arrives || 'Tue 29 Sep',
+      options, cfg, design: 'Upload after checkout', designType: 'upload', price }]);
+    render(); showToast(`${B.cartName} added to your cart`);
+  }
+  // Design per line, with a link to the artwork when there is one: an uploaded file or a Canva design (prototype anchors).
+  // Lines added before designType existed: an uploaded file ends in "✓ checked"
+  const designOf = (it, i) => {
+    const type = it.designType || (/✓ checked$/.test(it.design) ? 'file' : 'upload');
+    const link = it.art && it.art.length ? `<button class="link" data-art="${i}">View artwork</button>`   // opens the artwork popup
+      : type === 'file' || type === 'art' ? '<a class="link" href="#artwork">View artwork</a>' : type === 'canva' ? '<a class="link" href="#canva-design">Edit in Canva</a>' : '';
+    return { label: DESIGN_LABEL[it.design] || it.design, link: link && ` · ${link}` };
+  };
+  // Order line (cart-lines-sketch.html B, Cornel 2026-11-03; mobile the same: cart-lines-mobile-sketch.html A): photo | text | price, then the delivery (etaHtml) between two lines
+  // and one row with the quantity dropdown, the next step as a hint and the round icon buttons (Edit, Duplicate, Remove)
+  // Uploaded artwork (cart-artwork-sketch.html C, Cornel 2026-11-05): the first file replaces the product photo, "+N" for the others.
+  // A click / tap (or View artwork) opens it big in a popup (mobile: a sheet) with the others as thumbnails to switch; no hover preview
+  // A file we have no picture of (EPS, AI, DOCX…): light grey in the space a picture would take, with its type (small) or its name (the big one)
+  const artPic = (f, big) => f.thumb ? `<img src="${f.thumb}" alt="">` : `<span class="art-file"><b>${big ? f.name.replace(/</g, '&lt;') : (f.ext || 'file').toUpperCase().slice(0, 4)}</b>${big ? '<small>We can’t display this file type as an image</small>' : ''}</span>`;
+  // All files in a row you can swipe (Cornel, 2026-11-05: swipeable on mobile); a thumbnail scrolls to its file, the swipe moves the thumbnail mark
+  const artView = (it, i) => `<span class="art-track">${it.art.map(f => `<span class="art-big"><span class="art-stage">${artPic(f, true)}</span><small>${f.name.replace(/</g, '&lt;')}${f.page ? ` · ${f.page}` : ''}</small></span>`).join('')}</span>${it.art.length > 1
+    ? `<span class="art-thumbs">${it.art.map((f, j) => `<span class="${j ? '' : 'cur'}" data-art-pick="${j}">${artPic(f)}</span>`).join('')}</span>` : ''}`;
+  const artTile = (it, i) => `<button class="img art-tile" data-art="${i}" aria-label="View your artwork">${artPic(it.art[0])}${it.art.length > 1 ? `<span class="art-count">+${it.art.length - 1}</span>` : ''}</button>`;
+  const artPick = e => { const pick = e.target.closest('[data-art-pick]'); if (!pick) return false;
+    const view = pick.closest('.art-view'), track = view.querySelector('.art-track'), k = +pick.dataset.artPick;
+    view.querySelectorAll('.art-thumbs > span').forEach((t, j) => t.classList.toggle('cur', j === k));
+    track.scrollTo({ left: k * track.clientWidth, behavior: 'smooth' }); return true; };
+  document.getElementById('sheet-art').addEventListener('click', artPick);
+  document.getElementById('artView').addEventListener('scroll', e => {
+    const track = e.target, k = Math.round(track.scrollLeft / track.clientWidth);
+    track.parentElement.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === k));
+  }, true);   // scroll doesn't bubble: listen in the capture phase
+  function lineHtml(it, i) {
+    const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
+    const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
+      <small>${it.qty} pcs · ${it.options}</small><span class="cart-design">Design: ${designOf(it, i).label}${designOf(it, i).link}</span>`;
+    const top = `${it.art && it.art.length ? artTile(it, i) : `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>`}<div class="t">${head}</div>${priceHtml(it)}
+      <div class="eta">${etaHtml(it.arrives, `Approve your files by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
+    const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}${it.href.includes('?') ? '&' : '?'}edit=${i}" data-tip="Change options" aria-label="Change options">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" data-tip="Duplicate product" aria-label="Duplicate product">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" data-tip="Remove from cart" aria-label="Remove from cart">${icon('delete')}</button></div>`;
+    return `<div class="line-item cart-line">${top}
+      <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field qty-field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs${n === it.qty ? '' : (d => ` · ${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`)(priceAt(it, n) - it.price)}</option>`).join('')}</select><span class="qty-val">${it.qty} pcs</span></label>
+        ${np ? `<button class="qty-hint" data-i="${i}" data-up="${nq}"><span>Upgrade to <b>${nq} pcs</b> for just ${fmt(np - it.price)}</span></button>` : ''}` : ''}${icons}</div></div>`;
+  }
+
+
+  function render() {
+    const items = getCart(), box = document.getElementById('cartContent'), side = document.getElementById('cartSide');
+    document.querySelector('.cart-page').classList.toggle('is-empty', !items.length);
+    const bar = !!items.length && !DESK;   // desktop: the sidebar has the total and the button
+    document.getElementById('cartBar').hidden = !bar;
+    document.body.classList.toggle('buybar-on', bar); // lifts toasts above the checkout bar
+    if (!items.length) {
+      // Empty (cart-empty-quote-sketch.html B, Cornel 2026-11-03): the live message with the header's bag icon, then our best sellers
+      box.innerHTML = `<div class="cart-empty"><span class="ico"><i></i></span><h2>Your cart is empty</h2><p>Looks like you haven't added any items to your cart yet.</p>
+        <a class="btn primary" href="index.html">Browse products</a></div>${cardsHtml('Our best sellers', BEST)}`;
+      side.innerHTML = '';
+      return;
+    }
+    const { check, products, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
+    const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
+    // Upsells (Cornel's design, 2026-11-03), each a light grey block: switch, title, price right; a short line and the link to the popup
+    // under the title. Desktop: inside the Order overview card, a line across the card, then the totals. Mobile: on top of the cart (2026-11-03)
+    const dBlock = (id, on, title, price, sub, link) => `<div class="sum-up sum-${id}"><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${title}"></button>
+        <b>${title}</b><span class="p">${price}</span><small>${sub}</small><button class="link" data-open-sheet="${id === 'check' ? 'filecheck' : id}">${link}</button></div>`;
+    const ups = dBlock('check', checkOn, 'Add Premium Artwork Check', fmt(checkOn ? check.price : tier('premium').price), 'For extra peace of mind with your files.', 'See our 3 options') +
+      (OFFER_SECURED ? dBlock('secured', !!addons.secured, SECURED.name, fmt(SECURED.price), 'Priority support and reprint.', 'More info') : '');
+
+    // Continue shopping: desktop under the products (left column), mobile under the delivery date
+    const shop = '<a class="btn outline continue-shopping" href="index.html">Continue shopping</a>';
+    box.innerHTML = `${DESK ? '' : `
+      <section class="addons">
+        ${ups}
+      </section>`}
+
+      ${DESK ? '' : '<h2>Order overview</h2>'}
+      <section class="summary-box">
+        ${items.map(lineHtml).join('')}
+      </section>
+      ${DESK ? xsellHtml(items) + shop : ''}`;
+    side.innerHTML = `
+        ${DESK ? '<h2>Order overview</h2><div class="sum-ups">' + ups + '</div>' : ''}
+        <div class="totals">
+          <div><span>Products (${items.length})</span><span>${eur(gross)}</span></div>
+          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
+          <div><span>${check.line}<button class="info-btn" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
+          ${addons.secured ? `<div><span>${SECURED.line}<button class="info-btn" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/pdp/info.svg" alt=""></button></span><span>${eur(SECURED.price)}</span></div>` : ''}
+          <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span>${shipping ? `<span>${eur(shipping)}</span>` : '<span class="free">Free</span>'}</div>
+          ${code ? `<div><span>Discount <small>(${code})</small><button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button></span><span class="free">−${eur(discount)}</span></div>` : ''}
+          <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>
+          <div><span>VAT ${Math.round(VAT_RATE * 100)}%</span><span>${eur(vat)}</span></div>
+          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
+        </div>
+      ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}<u>Add discount code</u></button>
+        <div class="code-box" hidden><div class="code-row"><label class="field"><input id="codeIn" placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" data-apply-code>Apply</button></div>
+        <p class="field-error" id="codeErr" hidden>This code isn't valid</p></div>` : ''}
+      ${DESK ? '<a class="btn primary" href="#details-shipping" data-proto="details-shipping">Continue to checkout</a>' : ''}<button class="btn outline quote" data-open-sheet="quote">Request a free quote</button>
+      ${DESK ? '' : xsellHtml(items) + shop}`;
+    document.getElementById('barTotal').textContent = eur(total);
+  }
+
+  document.querySelector('.cart-page').addEventListener('click', e => {
+    if (e.target.closest('[data-open-sheet]')) return;
+    const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), up = e.target.closest('[data-up]');
+    if (up) setQty(+up.dataset.i, +up.dataset.up);   // the hint is a button: one tap to the next quantity (as live's DEAL +)
+    const tile = e.target.closest('[data-art]');
+    if (!artPick(e) && tile) { document.getElementById('artView').innerHTML = artView(getCart()[+tile.dataset.art], +tile.dataset.art); openSheet('art'); }
+    if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
+    if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
+    if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
+    if (d) { const items = getCart(); items.splice(+d.dataset.dup + 1, 0, { ...items[+d.dataset.dup] }); setCart(items); render(); showToast('Product duplicated'); }
+    // Discount code: "+ Add discount code" opens the field; Apply checks it; ✕ removes it
+    if (e.target.closest('[data-open-code]')) { e.target.closest('[data-open-code]').hidden = true; document.querySelector('.code-box').hidden = false; document.getElementById('codeIn').focus(); }
+    if (e.target.closest('[data-apply-code]')) applyCode();
+    const qa = e.target.closest('[data-quick]'); if (qa) quickAdd(qa.dataset.quick);
+    if (e.target.closest('[data-rm-code]')) { setCode(null); render(); showToast('Discount code removed'); }
+  });
+  document.querySelector('.cart-page').addEventListener('change', e => { const sel = e.target.closest('select[data-i]'); if (sel) setQty(+sel.dataset.i, +sel.value); });
+  document.querySelector('.cart-page').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'codeIn') applyCode(); });
+  function setQty(i, q) {
+    const items = getCart(), it = items[i], price = priceAt(it, q);
+    if (price == null) return;
+    Object.assign(it, { qty: q, price }); setCart(items); render(); showToast(`Quantity changed to ${q} pcs`);
+  }
+  function applyCode() {
+    const c = document.getElementById('codeIn').value.trim().toUpperCase();
+    if (!DISCOUNTS[c]) { document.getElementById('codeErr').hidden = false; return; }
+    setCode(c); render(); showToast(`${c} applied`);
+  }
+
+  // Quote sheet: the cart lines + extras + total; logged in = "Sending to … · Change", else email + name (+ phone)
+  let qEdit = false;
+  const qUser = () => { try { return JSON.parse(localStorage.getItem('hp-user')); } catch (e) { return null; } };
+  const qField = (name, label, type = 'text', auto = '') => `<label class="field" data-field="${name}"><input name="${name}" type="${type}" placeholder=" " autocomplete="${auto}" aria-label="${label}"><span class="fl">${label}</span></label>`;
+  function renderQuoteWho() {
+    const u = qUser(), who = document.getElementById('qWho');
+    if (u && u.email && !qEdit) {
+      who.innerHTML = `<div class="q-to"><div><small>Sending to</small><b>${[u.first, u.last].filter(Boolean).join(' ') || u.email}</b><br>${u.email}</div><button class="link" data-q-change>Change</button></div>`;
+      return;
+    }
+    who.innerHTML = `${qField('qEmail', 'Email address', 'email', 'email')}<div class="co-row">${qField('qFirst', 'First name', 'text', 'given-name')}${qField('qLast', 'Last name', 'text', 'family-name')}</div>
+      <div class="co-row"><label class="field phone-prefix"><select name="qPrefix" aria-label="Country code"><option value="+353" selected>🇮🇪 +353</option><option value="+44">🇬🇧 +44</option></select></label>${qField('qPhone', 'Phone number (optional)', 'tel', 'tel-national')}</div>`;
+    if (u) { who.querySelector('[name=qEmail]').value = u.email || ''; who.querySelector('[name=qFirst]').value = u.first || ''; who.querySelector('[name=qLast]').value = u.last || ''; }
+  }
+  sheetHooks.quote = () => {
+    const items = getCart(), { check, code, discount, shipping, subtotal } = cartTotals(items, addons);
+    const row = (img, name, sub, price, cls = '') => `<div class="q-item">${img ? `<span class="img"><img src="${img}" alt=""></span>` : '<span></span>'}<div><b>${name}</b>${sub ? `<small>${sub}</small>` : ''}</div><span class="p${cls}">${price}</span></div>`;
+    // excl. VAT, as the rows of the summary, so the lines add up to the total
+    document.getElementById('qItems').innerHTML = items.map(it => row(it.img, it.name, `${it.qty} pcs · ${it.delivery}`, eur(it.price))).join('') +
+      (check.price ? row('', check.line, '', eur(check.price)) : '') + (addons.secured ? row('', SECURED.line, '', eur(SECURED.price)) : '') +
+      (shipping ? row('', 'Shipping', '', eur(shipping)) : '') + (code ? row('', `Discount (${code})`, '', `−${eur(discount)}`, ' free') : '') +
+      `<div class="q-total"><span>Total <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>`;
+    qEdit = false; renderQuoteWho();
+  };
+  document.getElementById('qWho').addEventListener('click', e => { if (e.target.closest('[data-q-change]')) { qEdit = true; renderQuoteWho(); } });
+  document.querySelector('[name=qEircode]').addEventListener('blur', e => { e.target.value = e.target.value.toUpperCase(); });
+  document.getElementById('qFiles').addEventListener('change', e => { const n = e.target.files.length;
+    document.getElementById('qFilesTxt').textContent = n ? `${n} ${n === 1 ? 'file' : 'files'} added` : 'Upload files (optional)'; });
+  document.getElementById('qSend').addEventListener('click', () => {
+    const v = n => document.querySelector(`[name=${n}]`)?.value.trim();
+    const rules = [['qEmail', /^\S+@\S+\.\S+$/.test(v('qEmail') || ''), 'Enter a valid email address'], ['qFirst', !!v('qFirst'), 'Enter your first name'], ['qLast', !!v('qLast'), 'Enter your last name']]
+      .filter(([n]) => document.querySelector(`[data-field=${n}]`))
+      .concat([['qEircode', !v('qEircode') || EIRCODE.test(v('qEircode')), 'Enter a valid Eircode']]);
+    rules.forEach(([n, ok, msg]) => setFieldError(document.querySelector(`[data-field=${n}]`), ok ? '' : msg));
+    const bad = rules.find(([, ok]) => !ok);
+    if (bad) { document.querySelector(`[name=${bad[0]}]`).focus(); return; }
+    const to = v('qEmail') || qUser().email;
+    closeSheet(); showToast(`Your quote is on its way to ${to}`);
+  });
+
+  // File check sheet: opens on the current choice; Confirm applies it
+  let fcPick = 'basic';
+  function renderFileCheck() {
+    document.getElementById('fcList').innerHTML = CHECK_TIERS.map(t => `
+      <button class="fc${t.recommended ? ' rec' : ''}" role="radio" aria-checked="${fcPick === t.id}" data-tier="${t.id}">
+        ${t.recommended ? badgeHtml('Recommended') : ''}
+        <span class="fc-top"><span class="radio"></span><b>${t.name}</b><span class="fc-price">${t.price ? fmt(t.price) : 'Free'}</span></span>
+        ${t.social ? `<span class="fc-social">${t.social}</span>` : ''}
+        ${t.lead ? `<span class="fc-lead">${t.lead}</span>` : ''}
+        <ul>${t.perks.map(p => `<li>${p}</li>`).join('')}</ul>
+      </button>`).join('');
+  }
+  sheetHooks.filecheck = () => { fcPick = addons.check; renderFileCheck(); };
+  document.getElementById('fcList').addEventListener('click', e => {
+    const b = e.target.closest('[data-tier]'); if (b) { fcPick = b.dataset.tier; renderFileCheck(); }
+  });
+  document.getElementById('fcConfirm').addEventListener('click', () => {
+    const changed = fcPick !== addons.check;
+    addons.check = fcPick; saveAddons(); closeSheet(); render();
+    if (changed) {
+      document.querySelector('.sum-check')?.classList.add('changed');
+      showToast(fcPick === 'basic' ? 'Basic check selected' : `${tier(fcPick).name} added`);
+    }
+  });
+
+  // Secured delivery sheet: either choice closes it and sets the switch
+  sheetHooks.secured = () => { document.getElementById('sdYes').textContent = `Keep my order safe  +${fmt(SECURED.price)}`; };
+  function setSecured(on) {
+    const changed = on !== addons.secured;
+    addons.secured = on; saveAddons(); closeSheet(); render();
+    if (changed) {
+      document.querySelector('.sum-secured')?.classList.add('changed');
+      showToast(on ? 'Secured delivery added' : 'Standard delivery kept');
+    }
+  }
+  document.getElementById('sdYes').addEventListener('click', () => setSecured(true));
+  document.getElementById('sdNo').addEventListener('click', () => setSecured(false));
+
+  // Add-on and item prices follow the VAT toggle; the summary always shows excl. / VAT / incl.
+  const baseUpdate = updatePrices;
+  updatePrices = () => { baseUpdate(); render(); };
+  render();
+</script>
+</body>
+</html>

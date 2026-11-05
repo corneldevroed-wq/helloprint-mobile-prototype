@@ -23,7 +23,7 @@ Open the folder with any static web server, for example:
 python3 -m http.server 8765
 ```
 
-Then visit http://localhost:8765 (best viewed at phone width, ~390 px).
+Then visit http://localhost:8765 (forwards to `prototype/`; best viewed at phone width, ~390 px). The UI Style Guide is at http://localhost:8765/design-system/.
 
 ## Notes
 
@@ -34,8 +34,9 @@ Then visit http://localhost:8765 (best viewed at phone width, ~390 px).
 ## Files
 
 - `index.html`, `business-cards.html`, `product.html`, `cart.html`, `details.html`, `payment.html`, `confirmed.html`, `login.html`: the screens
-- `product.html?p=<slug>` shows any business card type; the types, options, prices and texts live in `products.js`
+- `prototype/product.html?p=<slug>` shows any business card type; the types, options, prices and texts live in `products.js`
 - `classic-business-cards.html`: old address, forwards to the classic product page
-- `app.js`: shared header, menu, search, VAT, cart, bottom sheets and toasts
-- `styles.css`: all styles
+- `design-system/`: tokens, component CSS + JS (labels, bottom sheets, toasts), icons and the UI Style Guide
+- `prototype/`: the pages, `pages.css` (page layouts), `app.js` (shared header, menu, search, VAT, cart)
+- `sketches/`: the A/B/C sketch pages behind the decisions
 - `assets/`: images and icons exported from Figma

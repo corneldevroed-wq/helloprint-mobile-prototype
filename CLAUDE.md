@@ -10,7 +10,7 @@ Before building anything, also read:
 - `docs/decisions.md` — what was decided, rejected and why (newest on top)
 - `docs/components.md` — what exists, where it lives, which prototype switches there are
 - `docs/backlog.md` — parked ideas and open points
-- `design-system.html` — the UI Style Guide: every token and component with its rule, live from styles.css
+- `design-system/index.html` — the UI Style Guide: every token and component with its rule, live from the design-system CSS
 
 ## How Cornel works (non-negotiable)
 
@@ -33,7 +33,7 @@ Before building anything, also read:
   Content and images may be taken from the live site (en-ie is the market we build for, en-gb as extra source).
 - **No live-site cart/checkout actions** without asking. Decline non-essential cookies on live pages.
 - **Prototype data only:** login keeps name + email (never the password); card data is never stored.
-- **Ireland**: prices in EUR, Irish VAT 23% (`VAT_RATE` in app.js).
+- **Ireland**: prices in EUR, Irish VAT 23% (`VAT_RATE` in prototype/app.js).
 - **Naming:** "shipping address" (never delivery address), "billing address" (never invoice address);
   "Delivery" is the delivery option (Saver / Standard / Express). Delivery is shown as "Estimated <day> — latest <date>".
 - **8px grid** for spacing (8/16/24/32…). Gaps between config steps 32px on desktop.
@@ -45,26 +45,36 @@ Before building anything, also read:
   dark green pill) instead of copying it. One rule per thing: no duplicate selectors, no repeated sizes per block, one body
   text rule. Remove dead code and unused icons/fields when a choice is final (hidden variants stay only when Cornel says
   "hide"). After a bigger round, do a simplify pass and check before/after with measurements that nothing moved.
-- **Use the tokens, never raw values** (`:root` in styles.css): colours (`--dark-green`, `--light-green`, `--orange`, greys,
+- **Use the tokens, never raw values** (`design-system/tokens.css`): colours (`--dark-green`, `--light-green`, `--orange`, greys,
   `--line`, `--outline`, `--link`, `--error`, `--selected`, `--control`), corners (`--r-s` 4 · `--r-m` 8 · `--r-l` 10 · `--r-xl` 16 ·
   `--r-pill`), type sizes (`--t-10` … `--t-48`), line heights (`--lh-12` 18 · `--lh-14` 22 · `--lh-16` 22 · `--lh-20` 24 ·
   `--lh-tight` 1.2). Labels: `badgeHtml()` (orange commercial, `.eco` light green, `.neutral` grey information).
-- **The UI Style Guide is a living doc** (`design-system.html`, Cornel, 2026-10-30). When you add a component, change one, or change a
+- **The UI Style Guide is a living doc** (`design-system/index.html`, Cornel, 2026-10-30). When you add a component, change one, or change a
   token or rule, update the style guide in the same change: its row (live example with the real classes + the rule), the markup copied
   1:1 from the page that renders it. A choice that makes a "Check" label obsolete removes that label. New tokens go in the
   Foundations sections. Verify the style guide at 390 and 1512 like any page.
 
 ## Tech in 60 seconds
 
-- Static HTML/CSS/JS, no build step. Serve with `python3 -m http.server 8765` → http://localhost:8765
-- `app.js`: shared shells (mobile header + USP ticker, desktop header/footer `SHELL_HEADER_DESK`), menu, search,
+- Static HTML/CSS/JS, no build step. Serve the repo root with `python3 -m http.server 8765` → http://localhost:8765
+  (forwards to `prototype/`; the style guide is http://localhost:8765/design-system/).
+- **Two folders** (split 2026-11-05, Cornel): `design-system/` = `tokens.css`, `components.css` (base + every component,
+  mobile and `.desk`), `components.js` (labels `badgeHtml`, bottom sheets, toast, field errors), `icons/`, the guide as `index.html`.
+  `prototype/` = every page, `pages.css` (page layouts + page-specific tweaks of components), `app.js`, data, `assets/`.
+  `sketches/` = the sketch pages. Old root addresses (`/product.html…`) are tiny pages that forward with the same query.
+  Prototype pages load `../design-system/tokens.css`, `components.css`, then `pages.css`; `app.js`, then `components.js`.
+- **Where new CSS goes:** something that can appear twice (a button, card, label, field) → `design-system/components.css` +
+  a row in the guide, same commit. Only for one page → `prototype/pages.css`. A component that looks different on one page →
+  a scoped rule in `pages.css`; if it becomes the default, move it into the design system. The guide loads only the
+  design-system files: if a component looks wrong there, it is missing from the design system.
+- `prototype/app.js`: shared shells (mobile header + USP ticker, desktop header/footer `SHELL_HEADER_DESK`), menu, search,
   VAT (`setVat` fires `hp-vat`), cart, sheets, toasts, home best sellers (`products`), `deskReviews()`.
-- `products.js`: all product data (`PRODUCTS[slug]`: groups/options/presets/prices/specs, `.live` funnels).
-- `product.html?p=<slug>`: the PDP (mobile flows A–J, desktop always J = options on the page).
-- `styles.css`: everything. Desktop rules start with `.desk`. Page-specific test pages may have inline `<style>`.
+- `prototype/products.js`: all product data (`PRODUCTS[slug]`: groups/options/presets/prices/specs, `.live` funnels).
+- `prototype/product.html?p=<slug>`: the PDP (mobile flows A–J, desktop always J = options on the page).
+- Desktop rules start with `.desk` (in both CSS files). Sketch pages may have inline `<style>`.
 - Desktop opt-in: `<body data-desktop>` → `html.desk` at ≥1024px (reload when crossing).
-- **Cache busting:** every page links `styles.css?v=…`, `app.js?v=…`, `products.js?v=…`. After changing CSS/JS,
-  bump the version in all `*.html` with one sed (e.g. `sed -i '' 's/v=20261029e/v=20261029f/g' *.html`).
+- **Cache busting:** every page links its CSS and JS with `?v=…`. After changing CSS/JS, bump the version in
+  every page with one sed (e.g. `sed -i '' 's/v=20261029e/v=20261029f/g' */*.html`).
   Images have no version → tell Cornel to hard refresh (Cmd+Shift+R) when an image changed.
 - Prototype switches write their value into the URL (`?desk=a&photos=a…`) and localStorage, so a copied link
   opens exactly that version. See `docs/components.md` for the list.
@@ -82,6 +92,6 @@ Before building anything, also read:
 ## Working in parallel
 
 One session per topic (PDP, homepage, checkout, icons…). When several sessions run at the same time, each works in
-its own git worktree/branch; `styles.css`, `app.js` and the cache version are shared hot spots, so merge carefully
+its own git worktree/branch; `components.css`, `pages.css`, `app.js` and the cache version are shared hot spots, so merge carefully
 and bump the cache version once after merging. Write new decisions into `docs/decisions.md` when Cornel says so
 (or when a choice is clearly final), so the next session knows.

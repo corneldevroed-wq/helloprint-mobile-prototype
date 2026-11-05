@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" class="desk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upsell promo sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=fact_check,verified_user&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261114g">
+<!-- Sketch only, not linked from the prototype: friendlier, smaller upsells (design check + secured delivery) in the desktop cart sidebar,
+     a bit like a promo (Cornel, 2026-11-02). Three options side by side in the real 392px sidebar (html.desk, real classes). -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fill, 392px); justify-content: space-between; gap: 56px 32px; margin-top: 32px; }   /* wraps on narrower screens */
+  .sk-label { margin-bottom: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); min-height: 154px; }
+  .sk-label b { display: block; margin-bottom: 4px; font-size: 18px; color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .cols .cart-side { position: static; }
+  .sk-dev { margin: 32px 0 8px; font-size: var(--t-12); font-weight: 600; letter-spacing: .4px; color: var(--mid-grey); text-transform: uppercase; }
+  .m-frame { width: 390px; padding: 16px; outline: 1px solid var(--line); }
+  .ms { font-family: 'Material Symbols Rounded'; font-size: 20px; line-height: 1; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+
+  /* A: two compact rows, no background or outline: icon in front, switch with its price at the end */
+  .tiles { display: flex; flex-direction: column; gap: 8px; }
+  .tile { display: flex; align-items: center; gap: 16px; }
+  .tile .ms { color: var(--light-green); font-size: 24px; }
+  .tile .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .tile b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .tile small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .tile small .link { font-size: var(--t-12); line-height: var(--lh-12); }
+  .tile .p { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); white-space: nowrap; }
+  .tile .end { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }   /* the switch with the price under it */
+
+  /* B: one promo block with a friendly title, two checkbox rows */
+  .worry { padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }   /* the grey of the delivery box */
+  .worry-h { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-green); }
+  .worry-h .ms { color: var(--light-green); }
+  .worry > p { margin-top: 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .worry .wrows { margin-top: 8px; display: flex; flex-direction: column; }
+  .worry .wrow { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; }
+  .worry .wrow + .row { border-top: 1px solid var(--line); }
+  .worry .wrow .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .worry .wrow b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .worry .wrow small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .worry .wrow small .link { font-size: var(--t-12); line-height: var(--lh-12); }
+  .worry .wrow .p { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--light-green); white-space: nowrap; }
+  .worry .wrow input { flex-shrink: 0; margin-top: 1px; }   /* the 20px box on the 22px title line */
+
+  /* C: compact rows, round icon, "+ Add" pill that turns into "Added" */
+  .crow { display: flex; align-items: center; gap: 16px; }
+  .crow + .crow { margin-top: 16px; }
+  .crow .cico { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: var(--light-grey); color: var(--light-green); }
+  .crow .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .crow b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .crow small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .crow small .link { font-size: var(--t-12); line-height: var(--lh-12); }
+  .crow .pill { gap: 4px; }
+  .crow .pill.active { gap: 4px; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Upsell promo sketch</b></nav>
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> the design check and secured delivery in the desktop sidebar friendlier and smaller, a bit like a promo.
+       Three options side by side in the real sidebar (392px). State: Premium Check on, secured delivery off. Below: the totals, as now.</p>
+    <p>One light green everywhere, and no light green backgrounds (Cornel, 11-02): light green only for accents (icons, prices, the switch and the checkbox when on);
+       a block that needs a background gets the light grey of the delivery box (<code>--light-grey</code>); lines are <code>--line</code>.</p>
+    <p>All three: no orange (that stays for labels), 14px titles instead of 16, one short line, the popup behind a small link.
+       Icons: Material Symbols Rounded, line (fact_check, verified_user). New wording (mine, to check): "Worry-free printing", "Optional, for peace of mind", "Added".</p>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="sk-label"><b>A · Two compact rows with an icon <span class="pick">my pick</span></b>
+        No background or outline: an icon in front, the switch with its price at the end, one short line. The smallest calm option
+        (desktop 100 vs 140 now, mobile 100 vs 256), keeps the switch we use everywhere, two separate choices.</div>
+      <p class="sk-dev" style="margin-top:0">Desktop · cart sidebar (392)</p>
+      <aside class="cart-side"><div class="addons"><h2>Order summary</h2>
+        <div class="tiles" data-up>
+          <div class="tile"><span class="ms" aria-hidden="true">fact_check</span><span class="t"><b>Premium Check + Proof</b><small>An expert checks your file · <button class="link">3 options</button></small></span><span class="end"><button class="switch" role="switch" aria-checked="true" aria-label="Design check"></button><span class="p">€10.99</span></span></div>
+          <div class="tile"><span class="ms" aria-hidden="true">verified_user</span><span class="t"><b>Secured delivery</b><small>Priority support and reprint · <button class="link">Info</button></small></span><span class="end"><button class="switch" role="switch" aria-checked="false" aria-label="Secured delivery"></button><span class="p">€5.99</span></span></div>
+        </div></div>
+        <div data-totals></div>
+      </aside>
+      <p class="sk-dev">Mobile · top of the cart (390)</p>
+      <div class="m-frame"><section class="addons"><h2>Do you want a design check?</h2><p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p><div data-m></div></section></div>
+    </div>
+
+    <div>
+      <div class="sk-label"><b>B · One promo block "Worry-free printing"</b>
+        The two extras together in one light grey block with a friendly title, each a checkbox row with its price.
+        Feels most like a promo (one offer, one story) and checkboxes read lighter than switches. But on desktop it's the highest (184 vs 140),
+        and on mobile it gets a second title right under "Do you want a design check?".</div>
+      <p class="sk-dev" style="margin-top:0">Desktop · cart sidebar (392)</p>
+      <aside class="cart-side"><div class="addons"><h2>Order summary</h2>
+        <div class="worry" data-up>
+          <div class="worry-h"><span class="ms" aria-hidden="true">verified_user</span>Worry-free printing</div>
+          <p>Optional, for peace of mind</p>
+          <div class="rows">
+            <label class="wrow check"><input type="checkbox" checked><span class="t"><b>Premium Check + Proof</b><small>An expert checks your file · <button class="link">3 options</button></small></span><span class="p">€10.99</span></label>
+            <label class="wrow check"><input type="checkbox"><span class="t"><b>Secured delivery</b><small>Priority support and reprint · <button class="link">Info</button></small></span><span class="p">€5.99</span></label>
+          </div>
+        </div></div>
+        <div data-totals></div>
+      </aside>
+      <p class="sk-dev">Mobile · top of the cart (390)</p>
+      <div class="m-frame"><section class="addons"><h2>Do you want a design check?</h2><p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p><div data-m></div></section></div>
+    </div>
+
+    <div>
+      <div class="sk-label"><b>C · Compact rows with an "Add" pill</b>
+        No box: a round light green icon, title + line, and a pill "+ €5.99" that becomes a dark green "Added". Clear as an action ("add this"),
+        the smallest (desktop 114, mobile 96), but an "Added" pill is a new pattern next to the switch we use elsewhere.</div>
+      <p class="sk-dev" style="margin-top:0">Desktop · cart sidebar (392)</p>
+      <aside class="cart-side"><div class="addons"><h2>Order summary</h2>
+        <div data-up>
+          <div class="crow"><span class="cico"><span class="ms" aria-hidden="true">fact_check</span></span><span class="t"><b>Premium Check + Proof</b><small>An expert checks your file · <button class="link">3 options</button></small></span><button class="pill active">Added</button></div>
+          <div class="crow"><span class="cico"><span class="ms" aria-hidden="true">verified_user</span></span><span class="t"><b>Secured delivery</b><small>Priority support and reprint · <button class="link">Info</button></small></span><button class="pill">+ €5.99</button></div>
+        </div></div>
+        <div data-totals></div>
+      </aside>
+      <p class="sk-dev">Mobile · top of the cart (390)</p>
+      <div class="m-frame"><section class="addons"><h2>Do you want a design check?</h2><p>Catch print issues before they're printed.<br>Every order gets the free automated check.</p><div data-m></div></section></div>
+    </div>
+  </div>
+</div>
+<script>
+  // The same upsell block on mobile, under the cart's title and intro
+  document.querySelectorAll('.cols > div').forEach(col => { col.querySelector('[data-m]').outerHTML = col.querySelector('[data-up]').outerHTML; });
+  document.querySelectorAll('[data-totals]').forEach(el => el.outerHTML = `<div class="totals">
+    <div><span>Products (1)</span><span>€18.89</span></div>
+    <div><span>Premium Check + Proof</span><span>€10.99</span></div>
+    <div><span>Shipping</span><span class="free">Free</span></div>
+    <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€29.88</span></div>
+    <div><span>VAT 23%</span><span>€6.87</span></div>
+    <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€36.75</span></div></div>
+    <a class="btn primary" href="#">Continue to checkout</a>`);
+</script>
+</body>
+</html>

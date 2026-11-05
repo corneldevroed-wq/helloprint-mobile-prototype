@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Details &amp; Shipping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
+<link rel="stylesheet" href="pages.css?v=20261114g">
+</head>
+<body>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+
+  <!-- Details & shipping (Figma 15738:4488) -->
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Checkout steps">
+      <li class="done"><a href="cart.html">Cart</a></li>
+      <li class="current" aria-current="step">Details</li>
+      <li>Payment</li>
+      <li>Confirmed</li>
+    </ol>
+
+    <form id="coForm" novalidate>
+      <div class="co-extra">
+        <!-- Logged in with a known address: one compact summary (content as on helloprint.com, made scannable) -->
+        <div class="co-extra co-cards" id="userView" hidden>
+          <!-- Same order as helloprint.com/checkout/details (logged in), with the prototype's cards -->
+          <div class="co-head"><h2>Contact Details</h2><button type="button" class="co-logout-link" id="uvLogout">Log out</button></div>
+          <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
+          <div class="co-summary">
+            <section>
+              <div class="h"><p><b id="uvName"></b><span class="row" id="uvEmailRow"><span class="lbl" id="uvEmailLbl" hidden>Email address</span><span id="uvEmail"></span></span><span class="co-biz" id="uvBiz" hidden></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
+              <!-- Edit: only the email (and the business details), not the whole form -->
+              <div class="co-edit-contact" id="contactForm" hidden>
+                <label class="field" data-field="uvEmailField"><input type="email" id="uvEmailInput" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
+                <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
+                <div id="uvBizSlot"></div>
+                <div class="btns"><button type="button" class="btn primary" id="contactSave">Save</button><button type="button" class="co-act" id="contactCancel">Cancel</button></div>
+              </div>
+            </section>
+          </div>
+
+          <div class="co-head"><h2>Shipping Address</h2></div>
+          <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
+          <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
+          <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Shipping address"></div>
+          <button type="button" class="co-act addr-manage" id="manageAddr">Change shipping address</button>
+
+          <!-- Billing: a checkbox as on the live site; checking it opens the addresses sheet to pick the billing address -->
+          <label class="check co-billcheck"><input type="checkbox" id="otherBilling">Use a different billing address</label>
+          <p class="co-inv" id="invText" hidden></p>
+          <button type="button" class="co-link" id="invToggle" hidden>Change billing address</button>
+        </div>
+
+        <div class="co-extra" id="formView">
+        <div class="co-head"><h2>Contact details</h2><a href="login.html?return=details" id="loginLink">Login</a></div>
+        <p class="co-user" id="coUser" hidden></p>
+        <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
+        <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
+        <div class="co-extra" id="businessFields" hidden>
+          <label class="field" data-field="company"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name</span></label>
+          <label class="field"><input name="vatnr" placeholder=" " aria-label="VAT number"><span class="fl">VAT number (optional)</span></label>
+        </div>
+
+        <div class="co-head"><h2>Shipping Address</h2></div>
+        <div class="co-row">
+          <label class="field" data-field="first"><input name="first" placeholder=" " autocomplete="given-name" aria-label="First name"><span class="fl">First name</span></label>
+          <label class="field" data-field="last"><input name="last" placeholder=" " autocomplete="family-name" aria-label="Last name"><span class="fl">Last name</span></label>
+        </div>
+        <div class="co-row">
+          <label class="field phone-prefix">
+            <select name="prefix" aria-label="Country code">
+              <option value="+353" selected>🇮🇪 +353</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+31">🇳🇱 +31</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+33">🇫🇷 +33</option>
+            </select>
+          </label>
+          <label class="field" data-field="phone"><input type="tel" name="phone" placeholder=" " autocomplete="tel-national" aria-label="Phone number"><span class="fl">Phone number</span></label>
+        </div>
+        <label class="field"><input name="country" value="Ireland" readonly aria-label="Country" placeholder=" " autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore tabindex="-1"><span class="fl">Country/Region</span></label>
+        <label class="field" data-field="address1"><input name="address1" placeholder=" " autocomplete="address-line1" aria-label="Address line 1"><span class="fl">Address line 1</span></label>
+        <label class="field"><input name="address2" placeholder=" " autocomplete="address-line2" aria-label="Address line 2"><span class="fl">Address line 2 (optional)</span></label>
+        <div class="co-row">
+          <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+          <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
+        </div>
+        <label class="check"><input type="checkbox" id="sameBilling" checked>Billing address is the same as shipping address</label>
+        </div>
+        <!-- Billing address: the same form as the shipping address -->
+        <div class="co-extra" id="billingFields" hidden>
+          <div class="co-head"><h2>Billing Address</h2></div>
+          <div class="co-row">
+            <label class="field" data-field="billFirst"><input name="billFirst" placeholder=" " autocomplete="billing given-name" aria-label="Billing first name"><span class="fl">First name</span></label>
+            <label class="field" data-field="billLast"><input name="billLast" placeholder=" " autocomplete="billing family-name" aria-label="Billing last name"><span class="fl">Last name</span></label>
+          </div>
+          <div class="co-row">
+            <label class="field phone-prefix">
+              <select name="billPrefix" aria-label="Billing country code">
+                <option value="+353" selected>🇮🇪 +353</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+31">🇳🇱 +31</option>
+                <option value="+32">🇧🇪 +32</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+              </select>
+            </label>
+            <label class="field" data-field="billPhone"><input type="tel" name="billPhone" placeholder=" " autocomplete="billing tel-national" aria-label="Billing phone number"><span class="fl">Phone number</span></label>
+          </div>
+          <label class="field"><input name="billCountry" value="Ireland" readonly aria-label="Billing country" placeholder=" " autocomplete="off" data-lpignore="true" data-1p-ignore data-bwignore tabindex="-1"><span class="fl">Country/Region</span></label>
+          <label class="field" data-field="billAddress"><input name="billAddress" placeholder=" " autocomplete="billing address-line1" aria-label="Billing address line 1"><span class="fl">Address line 1</span></label>
+          <label class="field"><input name="billAddress2" placeholder=" " autocomplete="billing address-line2" aria-label="Billing address line 2"><span class="fl">Address line 2 (optional)</span></label>
+          <div class="co-row">
+            <label class="field" data-field="billEircode"><input name="billEircode" placeholder=" " autocomplete="billing postal-code" aria-label="Billing Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+            <label class="field" data-field="billTown"><input name="billTown" placeholder=" " autocomplete="billing address-level2" aria-label="Billing town or city"><span class="fl">Town / city</span></label>
+          </div>
+        </div>
+
+        <div class="co-head"><h2>Shipping Method</h2></div>
+        <div class="ship"><span class="radio"></span><span class="t"><b>Home delivery</b><small id="shipArrives"></small></span><span class="p">Included</span></div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<!-- Sticky bar (Figma 15738:4724) -->
+<!-- Sheet: all shipping addresses (like bol.com's overview): tap one to deliver there, ⋮ for edit / default / delete -->
+<div class="sheet-layer" id="sheet-addresses" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrListTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="addrListTitle">Your shipping addresses</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><ul class="addr-list" id="addrList"></ul></div>
+    <div class="sheet-bar"><button class="btn primary addr-new" type="button" id="addAddress">New shipping address</button></div>
+  </div>
+</div>
+
+<!-- Sheet: add or edit an address in the address book -->
+<div class="sheet-layer" id="sheet-address" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="addrTitle">Add shipping address</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><form class="pad addr-form" id="addrForm" novalidate>
+      <label class="field" data-field="label"><input name="label" placeholder=" " aria-label="Name for this address"><span class="fl">Name for this address (e.g. Home, Office)</span></label>
+      <div class="co-row">
+        <label class="field" data-field="first"><input name="first" placeholder=" " autocomplete="given-name" aria-label="First name"><span class="fl">First name</span></label>
+        <label class="field" data-field="last"><input name="last" placeholder=" " autocomplete="family-name" aria-label="Last name"><span class="fl">Last name</span></label>
+      </div>
+      <label class="field"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company"><span class="fl">Company (optional)</span></label>
+      <label class="field" data-field="phone"><input type="tel" name="phone" placeholder=" " autocomplete="tel" aria-label="Phone number"><span class="fl">Phone number</span></label>
+      <label class="field" data-field="address1"><input name="address1" placeholder=" " autocomplete="address-line1" aria-label="Address line 1"><span class="fl">Address line 1</span></label>
+      <label class="field"><input name="address2" placeholder=" " autocomplete="address-line2" aria-label="Address line 2"><span class="fl">Address line 2 (optional)</span></label>
+      <div class="co-row">
+        <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
+        <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
+      </div>
+      <label class="check"><input type="checkbox" name="isDefault">Make this my default address</label>
+    </form></div>
+    <div class="sheet-bar"><button class="btn primary addr-save" type="submit" form="addrForm">Save address</button></div>
+  </div>
+</div>
+
+<div class="cart-bar">
+  <div class="sheet-bar">
+    <div class="total"><strong id="barTotal"></strong><span class="bar-sub">Incl. VAT ·<img src="assets/pdp/check.svg" alt=""><span id="barArrives"></span></span></div>
+    <button class="btn primary" id="toPayment" form="coForm" type="submit">Payment</button>
+  </div>
+</div>
+
+<script src="app.js?v=20261114g"></script>
+<script src="../design-system/components.js?v=20261114g"></script>
+<script>
+  // Nothing to check out → back to the cart
+  const items = getCart();
+  if (!items.length) location.replace('cart.html');
+  document.body.classList.add('buybar-on');
+
+  document.getElementById('barTotal').textContent = '€' + cartTotals().total.toFixed(2);
+  if (items[0]) document.getElementById('barArrives').textContent = `arrives ${items[0].arrives}`;
+  if (items[0]) document.getElementById('shipArrives').textContent = `${items[0].delivery} · arrives ${items[0].arrives}`;
+
+  // Logged in (login.html): show who, fill in what we know, offer to log out
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('hp-user')); } catch (e) {}
+  if (user) {
+    document.getElementById('loginLink').hidden = true;
+    const u = document.getElementById('coUser');
+    u.hidden = false;
+    u.innerHTML = `Logged in as <b>${user.email.replace(/</g, '&lt;')}</b> · <button type="button" id="logout">Log out</button>`;
+    document.getElementById('logout').addEventListener('click', () => {
+      try { localStorage.removeItem('hp-user'); } catch (e) {}
+      toastOnNextPage('You’re logged out. You can still check out as a guest');
+      location.reload();
+    });
+  }
+
+  // Optional blocks
+  const toggle = (box, id) => document.getElementById(box).toggleAttribute('hidden', !document.getElementById(id).checked);
+  document.getElementById('isBusiness').addEventListener('change', () => toggle('businessFields', 'isBusiness'));
+  document.getElementById('sameBilling').addEventListener('change', e => document.getElementById('billingFields').toggleAttribute('hidden', e.target.checked));
+
+  // Remember what was typed (this browser only, localStorage) so testers don't have to retype it every time
+  const form = document.getElementById('coForm'), KEY = 'hp-checkout-details';
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY)) || {};
+    form.querySelectorAll('input, select').forEach(el => {
+      if (!(el.name || el.id) || el.readOnly) return;
+      const v = saved[el.name || el.id];
+      if (v === undefined) return;
+      if (el.type === 'checkbox') el.checked = v; else el.value = v;
+    });
+    document.getElementById('businessFields').toggleAttribute('hidden', !document.getElementById('isBusiness').checked);
+    document.getElementById('billingFields').toggleAttribute('hidden', document.getElementById('sameBilling').checked);
+  } catch (e) {}
+  if (user) {
+    const put = (n, v) => { const i = form.querySelector(`[name=${n}]`); if (i && v && !i.value) i.value = v; };
+    put('email', user.email); put('first', user.first); put('last', user.last);
+    if (user.business) { document.getElementById('isBusiness').checked = true; document.getElementById('businessFields').hidden = false; }
+  }
+  // ---------- Logged in: contact card + address book (Cornel's desktop design, as swipeable cards) ----------
+  const val = n => (form.querySelector(`[name=${n}]`)?.value || '').trim();
+  const escA = t => String(t || '').replace(/</g, '&lt;');
+  const known = user && ['first', 'last', 'email', 'phone', 'address1', 'eircode', 'town'].every(n => val(n));
+  // Persist the form after a change made here (the "remember" listeners are attached further down)
+  const persist = () => setTimeout(() => form.dispatchEvent(new Event('change')));
+  // Address book (this browser only). A test account starts with its checkout address plus two examples.
+  const BOOK = 'hp-addresses';
+  let book = [];
+  try { book = JSON.parse(localStorage.getItem(BOOK)) || []; } catch (e) {}
+  if (known && !book.length) {
+    book = [
+      { id: 'a1', label: 'Home', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true },
+      { id: 'a2', label: 'Office', first: val('first'), last: val('last'), company: 'HelloPrint Ltd', phone: '+353 15550199', address1: '12 Grand Canal Square', eircode: 'D02 R590', town: 'Dublin' },
+      { id: 'a3', label: 'Grandma', first: 'Anna', last: 'Murphy', phone: '+353 215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork' },
+    ];
+  }
+  const saveBook = () => { try { localStorage.setItem(BOOK, JSON.stringify(book)); } catch (e) {} };
+  let selected = (book.find(a => a.isDefault) || book[0] || {}).id;
+  try { selected = localStorage.getItem('hp-address-sel') || selected; } catch (e) {}
+  if (!book.some(a => a.id === selected)) selected = (book[0] || {}).id;
+
+  // The chosen address fills the (hidden) form, so validation, payment and the confirmation use it
+  function useAddress(a) {
+    const [prefix, ...rest] = (a.phone || '').split(' ');
+    const set = (n, v) => { const i = form.querySelector(`[name=${n}]`); if (i) i.value = v || ''; };
+    set('first', a.first); set('last', a.last); set('address1', a.address1); set('address2', a.address2); set('eircode', a.eircode); set('town', a.town);
+    if (form.querySelector(`[name=prefix] option[value="${prefix}"]`)) { set('prefix', prefix); set('phone', rest.join(' ')); } else set('phone', a.phone);
+    persist();
+  }
+  const addrLines = a => [`${a.first} ${a.last}`, a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
+  // Overview of all addresses (sheet)
+  // The overview sheet is used for the shipping address and for the billing address
+  let listMode = 'delivery', invoiceSel = 'same';
+  try { invoiceSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
+  if (invoiceSel !== 'same' && !book.some(a => a.id === invoiceSel)) invoiceSel = 'same';
+  function renderList() {
+    const inv = listMode === 'invoice', current = inv ? invoiceSel : selected;
+    document.getElementById('addrListTitle').textContent = inv ? 'Your billing address' : 'Your shipping addresses';
+    document.getElementById('addrList').innerHTML = (inv ? `
+      <li class="${invoiceSel === 'same' ? 'on' : ''}" aria-checked="${invoiceSel === 'same'}">
+        <button type="button" class="ap-pick" data-pick-addr="same"><span class="radio" aria-hidden="true"></span>
+          <span class="t"><b>Same as shipping address</b><span>We use your shipping address for billing</span></span></button>
+      </li>` : '') + book.map(a => `
+      <li class="${a.id === current ? 'on' : ''}" aria-checked="${a.id === current}">
+        <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="radio" aria-hidden="true"></span>
+          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</span></button>
+        <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
+        <div class="menu" hidden>
+          <button type="button" data-edit-addr="${a.id}">Edit</button>
+          ${a.isDefault ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
+          ${book.length > 1 ? `<button type="button" class="del" data-del-addr="${a.id}">Delete</button>` : ''}
+        </div>
+      </li>`).join('');
+  }
+  function renderBook() {
+    document.getElementById('addrRow').innerHTML = book.map(a => `
+      <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
+        <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</div>
+        <p>${addrLines(a).map(escA).join('<br>')}</p>
+      </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span>+</span>New address</button>';
+    renderList();
+  }
+  function selectAddress(id, scroll) {
+    selected = id;
+    try { localStorage.setItem('hp-address-sel', id); } catch (e) {}
+    useAddress(book.find(a => a.id === id));
+    renderBook();
+    if (scroll) document.querySelector(`[data-addr="${id}"]`).scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  }
+
+  if (known) {
+    // Contact = the account; the chosen address card decides who receives it
+    document.getElementById('uvName').textContent = `${user.first || val('first')} ${user.last || val('last')}`.trim();
+    document.getElementById('uvEmail').textContent = val('email');
+    saveBook();
+    document.getElementById('userView').hidden = false;
+    document.getElementById('formView').hidden = true;
+    document.getElementById('coUser').hidden = true;
+    selectAddress(selected);
+    // Business fields and billing fields move into the cards view
+    const biz = document.getElementById('businessFields'), bizCheck = document.getElementById('isBusiness');
+    document.getElementById('uvBizSlot').append(biz);
+    document.getElementById('uvBusiness').checked = bizCheck.checked;
+    document.getElementById('uvBusiness').addEventListener('change', e => { bizCheck.checked = e.target.checked; biz.hidden = !e.target.checked; persist(); });
+  }
+  document.getElementById('addrRow').addEventListener('click', e => {
+    if (e.target.closest('[data-new-addr]')) { listMode = 'delivery'; openAddressSheet(); return; }
+    const c = e.target.closest('[data-addr]'); if (c) selectAddress(c.dataset.addr, true);
+  });
+  document.getElementById('manageAddr').addEventListener('click', () => { listMode = 'delivery'; renderList(); openSheet('addresses'); });
+  // Overview: tap = deliver there; ⋮ = edit / make default / delete
+  document.getElementById('addrList').addEventListener('click', e => {
+    const t = e.target;
+    const menuBtn = t.closest('[data-menu]');
+    document.querySelectorAll('#addrList .menu').forEach(m => { if (!menuBtn || m !== menuBtn.nextElementSibling) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
+    if (menuBtn) { const m = menuBtn.nextElementSibling; m.hidden = !m.hidden; menuBtn.setAttribute('aria-expanded', String(!m.hidden)); return; }
+    const ed = t.closest('[data-edit-addr]'); if (ed) { openAddressSheet(ed.dataset.editAddr); return; }
+    const df = t.closest('[data-default-addr]');
+    if (df) { book.forEach(a => { a.isDefault = a.id === df.dataset.defaultAddr; }); saveBook(); renderBook(); showToast('Default address updated'); return; }
+    const del = t.closest('[data-del-addr]');
+    if (del) {
+      const i = book.findIndex(a => a.id === del.dataset.delAddr), was = book[i];
+      book.splice(i, 1);
+      if (was.isDefault) book[0].isDefault = true;
+      saveBook();
+      if (was.id === selected) selectAddress((book.find(a => a.isDefault) || book[0]).id); else renderBook();
+      showToast('Address deleted');
+      return;
+    }
+    const p = t.closest('[data-pick-addr]');
+    if (p && listMode === 'invoice') { setInvoice(p.dataset.pickAddr); closeSheet(); return; }
+    if (p) { selectAddress(p.dataset.pickAddr); closeSheet(); document.querySelector(`[data-addr="${selected}"]`).scrollIntoView({ inline: 'center', block: 'nearest' }); }
+  });
+  document.getElementById('addrRow').addEventListener('keydown', e => {
+    const c = e.target.closest('[data-addr]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectAddress(c.dataset.addr, true); }
+  });
+
+  // Add / edit an address in a sheet
+  const addrForm = document.getElementById('addrForm');
+  const ADDR_FIELDS = ['label', 'first', 'last', 'company', 'phone', 'address1', 'address2', 'eircode', 'town'];
+  let editing = null;
+  function openAddressSheet(id) {
+    editing = id || null;
+    const a = book.find(x => x.id === id) || { isDefault: !book.length };
+    document.getElementById('addrTitle').textContent = id ? 'Edit address' : 'Add shipping address';
+    ADDR_FIELDS.forEach(n => { addrForm[n].value = a[n] || ''; });
+    if (!id) { addrForm.first.value = user?.first || ''; addrForm.last.value = user?.last || ''; }
+    addrForm.isDefault.checked = !!a.isDefault;
+    addrForm.querySelectorAll('.field').forEach(f => setFieldError(f, ''));
+    openSheet('address');
+  }
+  document.getElementById('addAddress').addEventListener('click', () => openAddressSheet());
+  addrForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const rules = {
+      label: [v => v.trim(), 'Give this address a name'], first: [v => v.trim(), 'Enter a first name'], last: [v => v.trim(), 'Enter a last name'],
+      phone: [v => v.replace(/[^0-9]/g, '').length >= 7, 'Enter a valid phone number'], address1: [v => v.trim().length > 2, 'Enter the address'],
+      eircode: [v => /^[A-Z][0-9][0-9W]\s?[A-Z0-9]{4}$/i.test(v.trim()), 'Enter a valid Eircode'], town: [v => v.trim(), 'Enter the town or city'],
+    };
+    const bad = Object.keys(rules).filter(n => { const ok = !!rules[n][0](addrForm[n].value); setFieldError(addrForm[n].closest('.field'), ok ? '' : rules[n][1]); return !ok; });
+    if (bad.length) { addrForm[bad[0]].focus(); return; }
+    const data = Object.fromEntries(ADDR_FIELDS.map(n => [n, addrForm[n].value.trim()]));
+    data.eircode = data.eircode.toUpperCase();
+    data.isDefault = addrForm.isDefault.checked;
+    if (data.isDefault) book.forEach(a => { a.isDefault = false; });
+    let id = editing;
+    if (editing) Object.assign(book.find(a => a.id === editing), data);
+    else { id = 'a' + Date.now(); book.push({ id, ...data }); }
+    if (!book.some(a => a.isDefault)) book[0].isDefault = true;
+    saveBook();
+    closeSheet();
+    if (listMode === 'invoice' && sheetStack.some(el => el.id === 'sheet-addresses')) { setInvoice(id); renderBook(); renderList(); showToast(editing ? 'Address updated' : 'Address added and used as billing address'); return; }
+    selectAddress(id, !sheetStack.some(el => el.id === 'sheet-addresses'));
+    showToast(editing ? 'Address updated' : 'Address added and selected');
+  });
+
+  // Billing address: same as shipping, or one from the address book
+  function setInvoice(id) {
+    invoiceSel = id;
+    try { localStorage.setItem('hp-invoice-sel', id); } catch (e) {}
+    const same = document.getElementById('sameBilling'), a = book.find(x => x.id === id);
+    same.checked = !a;
+    if (a) { const set = (n, v) => { form.querySelector(`[name=${n}]`).value = v || ''; }; set('billAddress', a.address1); set('billAddress2', a.address2); set('billEircode', a.eircode); set('billTown', a.town); set('billFirst', a.first); set('billLast', a.last);
+      const [pre, ...num] = (a.phone || '').split(' '); if (form.querySelector(`[name=billPrefix] option[value="${pre}"]`)) { set('billPrefix', pre); set('billPhone', num.join(' ')); } else set('billPhone', a.phone); }
+    same.dispatchEvent(new Event('change', { bubbles: true }));
+    document.getElementById('billingFields').hidden = true;   // in the cards view the sheet replaces the billing fields
+    renderInvoice();
+    persist();
+  }
+  function renderInvoice() {
+    const a = book.find(x => x.id === invoiceSel);
+    document.getElementById('otherBilling').checked = !!a;
+    document.getElementById('invText').hidden = document.getElementById('invToggle').hidden = !a;
+    // A short list, one line each (like the shipping address cards), not one long inline line
+    if (a) document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}`;
+  }
+  const openInvoiceSheet = () => { listMode = 'invoice'; renderList(); openSheet('addresses'); };
+  document.getElementById('invToggle').addEventListener('click', openInvoiceSheet);
+  // Checked → pick a billing address in the sheet; unchecked → same as shipping again
+  document.getElementById('otherBilling').addEventListener('change', e => {
+    if (e.target.checked) { e.target.checked = false; openInvoiceSheet(); } else setInvoice('same');
+  });
+  if (known) setInvoice(invoiceSel);
+  // Contact "Edit": an email field (and the business option) in the card, not the whole form
+  const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
+  let emailChanged = false;   // after saving a new email the card shows just that email, with its label
+  // Business details stay visible in the card once filled in (they go on the invoice)
+  function renderBiz() {
+    const on = document.getElementById('isBusiness').checked, company = val('company'), vat = val('vatnr');
+    const el = document.getElementById('uvBiz');
+    el.hidden = !(on && company);
+    // Labels for Company name / VAT number when filled in
+    const row = (label, v) => `<span class="row"><span class="lbl">${label}</span><span>${escA(v)}</span></span>`;
+    el.innerHTML = on && company ? row('Company name', company) + (vat ? row('VAT number', vat.toUpperCase()) : '') : '';
+    // Untouched account details: name with the email under it; once edited or with business details: labels
+    document.getElementById('uvEmailLbl').hidden = !(emailChanged || (on && company));
+
+  }
+  if (known) renderBiz();
+  const toggleContact = open => {
+    cForm.hidden = !open;
+    document.getElementById('contactEdit').hidden = open;
+    document.getElementById('uvEmailRow').hidden = open;
+    document.getElementById('uvName').hidden = open || emailChanged;   // only the email is edited here
+    document.getElementById('uvBiz').hidden = open || !document.getElementById('uvBiz').innerHTML;
+    if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
+  };
+  document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
+  document.getElementById('contactCancel').addEventListener('click', () => toggleContact(false));
+  document.getElementById('contactSave').addEventListener('click', () => {
+    const v = cInput.value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(v)) { setFieldError(cInput.closest('.field'), 'Enter a valid email address'); cInput.focus(); return; }
+    form.querySelector('[name=email]').value = v;
+    document.getElementById('uvEmail').textContent = v;
+    emailChanged = true;
+    renderBiz();
+    persist();
+    toggleContact(false);
+    showToast('Your details are updated');
+  });
+  // Same place as the Login link for guests: an escape back to the guest checkout
+  document.getElementById('uvLogout').addEventListener('click', () => document.getElementById('logout').click());
+  cInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('contactSave').click(); } });
+
+  const remember = () => {
+    const data = {};
+    form.querySelectorAll('input, select').forEach(el => { if ((el.name || el.id) && !el.readOnly) data[el.name || el.id] = el.type === 'checkbox' ? el.checked : el.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  };
+  form.addEventListener('input', remember);
+  form.addEventListener('change', remember);
+
+  // Validation: errors show after leaving a field and when going to Payment
+  const RULES = {
+    email: [v => /^\S+@\S+\.\S+$/.test(v), 'Enter a valid email address'],
+    company: [v => v.trim().length > 1, 'Enter your company name', () => document.getElementById('isBusiness').checked],
+    first: [v => v.trim(), 'Enter your first name'],
+    last: [v => v.trim(), 'Enter your last name'],
+    phone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number'],
+    address1: [v => v.trim().length > 2, 'Enter your address'],
+    eircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode'],
+    town: [v => v.trim(), 'Enter your town or city'],
+    billFirst: [v => v.trim(), 'Enter the first name', () => !document.getElementById('sameBilling').checked],
+    billLast: [v => v.trim(), 'Enter the last name', () => !document.getElementById('sameBilling').checked],
+    billPhone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number', () => !document.getElementById('sameBilling').checked],
+    billAddress: [v => v.trim().length > 2, 'Enter your billing address', () => !document.getElementById('sameBilling').checked],
+    billEircode: [v => EIRCODE.test(v.trim()), 'Enter a valid Eircode', () => !document.getElementById('sameBilling').checked],
+    billTown: [v => v.trim(), 'Enter your town or city', () => !document.getElementById('sameBilling').checked],
+  };
+  function check(name) {
+    const field = document.querySelector(`[data-field="${name}"]`), input = field.querySelector('input');
+    const [ok, msg, applies] = RULES[name];
+    const valid = (applies && !applies()) || !!ok(input.value);
+    setFieldError(field, valid ? '' : msg);
+    return valid;
+  }
+  Object.keys(RULES).forEach(name => {
+    const input = document.querySelector(`[data-field="${name}"] input`);
+    input.addEventListener('blur', () => { if (input.value || input.dataset.touched) check(name); input.dataset.touched = '1'; });
+    input.addEventListener('input', () => { if (document.querySelector(`[data-field="${name}"]`).classList.contains('invalid')) check(name); });
+  });
+  document.querySelectorAll('[name=eircode], [name=billEircode]').forEach(i => i.addEventListener('blur', () => { i.value = i.value.toUpperCase(); }));
+
+  document.getElementById('coForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = Object.keys(RULES).filter(n => !check(n));
+    if (bad.length) {
+      const first = document.querySelector(`[data-field="${bad[0]}"] input`);
+      first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      first.focus({ preventScroll: true });
+      showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
+      return;
+    }
+    location.href = 'payment.html';
+  });
+</script>
+</body>
+</html>

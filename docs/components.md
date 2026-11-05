@@ -1,5 +1,7 @@
 # Components, pages and switches
 
+Pages live in `prototype/`, the components and the UI Style Guide in `design-system/`, sketch and test pages in `sketches/`.
+
 What exists, where it lives, and how to switch between variants. Keep this up to date when you add or remove
 something.
 
@@ -47,7 +49,7 @@ Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketc
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
 Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,
-contact or "Sending to" when logged in via `hp-user`, Eircode + town optional; `EIRCODE` lives in app.js). Decided 2026-11-03 and removed: Lines (B), Upsells (D).
+contact or "Sending to" when logged in via `hp-user`, Eircode + town optional; `EIRCODE` lives in design-system/components.js). Decided 2026-11-03 and removed: Lines (B), Upsells (D).
 
 **Help Centre** (left edge, `.desk-switch`, every help page): Answers `ans` = faq / page (default faq). F = the hub is Getting started: under the head the
 sidebar with all topics + Quick links (`.hc-quick`) + Common questions (FAQ); another topic opens `help-topic.html` (no head, same
@@ -74,7 +76,7 @@ remembered in `hp-hc-ans`.
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets
-- `assets/icons/materials|printing|corners|bundling|banners` — icon set (SVG, 50×50).
+- `design-system/icons/materials|printing|corners|bundling|banners` — icon set (SVG, 50×50).
   Generators live in the session scratchpad (`mat_icons.py`, `banner_icons.py`) — ask before regenerating, some
   icons were hand-tweaked afterwards (no-finishing circle, spot UV bevel).
 - `assets/home/` — home images (team-experts.webp = Cornel's export). Live Contentful images are hotlinked
@@ -82,6 +84,6 @@ remembered in `hp-hc-ans`.
 - `assets/logos/` — Cornel's colour logos for the "Trusted by" bar.
 - `assets/gallery/<slug>-N.webp` — PDP galleries from the live site.
 
-## Design tokens (styles.css `:root`)
+## Design tokens (`design-system/tokens.css`)
 `--dark-green` #022b07, `--light-green` #00a651, `--black` #191919, `--dark-grey` #555, `--mid-grey` #bbb,
 `--light-grey` #f0f0f0 (backgrounds), `--line` #e4e4e4 (every line and card outline), `--outline` #cfcfcf. Font Inter.
