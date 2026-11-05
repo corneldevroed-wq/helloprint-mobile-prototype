@@ -6,7 +6,7 @@
 <title>Payment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261113c">
+<link rel="stylesheet" href="styles.css?v=20261113x">
 </head>
 <body>
 <div class="phone">
@@ -102,7 +102,20 @@
   </div>
 </div>
 
-<script src="app.js?v=20261113c"></script>
+<!-- Sheet: Free shipping (the ⓘ after Shipping in the totals, as in the cart) -->
+<div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shipTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="shipTitle">Free shipping</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT.</p></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261113x"></script>
 <script>
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -121,6 +134,7 @@
     <div class="totals">
       <div><span>${check.line}</span><span>${check.price ? eur(check.price) : 'Free'}</span></div>
       ${addons.secured ? `<div><span>${SECURED.line}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+      <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span><span class="free">Free</span></div>
       ${code ? `<div><span>Discount <small>(${code})</small></span><span>−${eur(discount)}</span></div>` : ''}
       <div><span>Subtotal excl. VAT</span><span>${eur(subtotal)}</span></div>
       <div><span>VAT (${Math.round(VAT_RATE * 100)}%)</span><span>${eur(vat)}</span></div>

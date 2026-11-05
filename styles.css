@@ -13,6 +13,7 @@
   --stage: #d9d9d9;
   --link: #008539;       /* inline links, breadcrumbs, link hover */
   --error: #c90e2e;      /* field errors, everywhere (was also #d0021b on login) */
+  --cream: #fef0df;     /* warm block background: the upload reassurance (Cornel, 2026-11-05, on trial) */
   --selected: #eefaf3;   /* background of a chosen card (address, payment, tile, the recommended file check) */
   --tint: rgba(0, 166, 81, .16);   /* light green, see-through: focus ring, the changed flash, the online dot */
   --control: #9f9f9f;    /* outline of a checkbox and a radio */
@@ -555,6 +556,27 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .cart-empty .ico { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 8px; border-radius: 50%; background: var(--light-grey); }
 .cart-empty .ico i { width: 32px; height: 32px; background: var(--dark-green); -webkit-mask: url(assets/bag.svg) center / contain no-repeat; mask: url(assets/bag.svg) center / contain no-repeat; }   /* the header's bag icon (white svg) as a dark green mask */
 .cart-empty .btn { align-self: center; margin-top: 16px; }
+/* Uploaded artwork in the cart line (cart-artwork-sketch.html C, Cornel 2026-11-05): the first file in its own shape on the grey photo tile,
+   a soft shadow as a printed sheet, "+N" for more files. A click / tap opens it big in a popup (.art-view; mobile a sheet) with the others
+   as thumbnails to switch (no hover preview, Cornel 2026-11-05: confusing). A file without a picture (AI, PSD…) shows its type (.up-ico) */
+.line-item .art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
+.line-item .art-tile > img { width: auto; height: auto; max-width: 78%; max-height: 78%; }
+.line-item .art-tile > img, .art-big img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+/* no picture (EPS, AI…): light grey in the space of a picture, the type (tile, thumbnail) or the file name (popup) in dark green */
+.art-file { display: grid; place-items: center; width: 100%; height: 100%; padding: 8px; background: var(--light-grey); color: var(--dark-green); text-align: center; overflow-wrap: anywhere; }
+.art-file b { font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); }
+.art-big .art-file { aspect-ratio: 3 / 2; border-radius: var(--r-m); }
+.art-big .art-file { align-content: center; gap: 4px; }
+.art-big .art-file b { font-size: var(--t-16); line-height: var(--lh-16); }
+.art-big .art-file small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.art-count { position: absolute; right: 8px; bottom: 8px; padding: 0 8px; border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.art-big { display: flex; flex-direction: column; gap: 8px; }
+.art-big img { align-self: center; max-width: 100%; max-height: 60vh; }   /* our standard popup (desktop 560) and the full width on mobile */
+.art-big small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.art-thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.art-thumbs > span { display: grid; place-items: center; width: 56px; height: 56px; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-s); cursor: pointer; }
+.art-thumbs > span.cur { padding: 2px; border: 2px solid var(--dark-green); }
+.art-thumbs img { max-width: 48px; max-height: 48px; }
 /* Request a free quote sheet (cart-empty-quote-sketch.html B): the cart lines + extras + total, the contact fields, notes, files */
 .q-item { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; column-gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); }
 .q-item:first-child { border-top: 1px solid var(--line); }
@@ -896,11 +918,9 @@ body.flow-d .upload-now { display: flex; }
 body.flow-d .pick-field .chev { display: none; }
 body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22px; color: var(--dark-green); }
 
-/* Upload sheet: small preview in the card's shape, in place of the file-type tile */
-.up-thumb { position: relative; flex-shrink: 0; overflow: hidden; border-radius: var(--r-s); background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.25); }
-.up-thumb img { width: 100%; height: 100%; object-fit: cover; }
-/* A PDF is rendered at 5x size and scaled down, so the viewer fits the thumbnail; the dark viewer edge is cropped */
-.up-thumb iframe { position: absolute; left: -2px; top: -2px; width: calc(500% + 20px); height: calc(500% + 20px); border: 0; transform: scale(.2); transform-origin: 0 0; pointer-events: none; }
+/* Upload sheet: the file in its own shape, centred in a 56 square, in place of the file-type tile (a PDF: its first page as a picture) */
+.up-thumb { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; }
+.up-thumb img { max-width: 56px; max-height: 56px; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
 
 /* Upload your artwork (D, switch "Upload"): one drop zone; when done the files as rows with a thumbnail + reassurance (.art-calm) */
 .up-file.err { border-color: var(--error); }
@@ -914,10 +934,16 @@ body.flow-d .pick-field .d-edit { display: block; flex-shrink: 0; font-size: 22p
 .art-team { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the promise, with the faces of our print experts */
 .art-team b { display: block; font-weight: 600; color: var(--black); }
 .art-note-text { width: 100%; padding: 12px; border: 1px solid var(--outline); border-radius: var(--r-m); font: inherit; font-size: var(--t-14); line-height: var(--lh-14); resize: vertical; }
-.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0; text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* no background (Cornel, 2026-11-04) */
-.art-emoji { font-size: 40px; line-height: 1; }   /* 🎉 instead of a tick */
+.art-calm { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 16px; border-radius: var(--r-m); background: var(--cream); text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }   /* the tick to the 3 promises in one warm block (Cornel, 2026-11-05, on trial; else --light-grey) */
+.art-calm > b { display: flex; align-items: center; gap: 8px; }   /* the tick next to the title (Cornel, 2026-11-05; back from 🎉) */
+.art-calm > b img { width: 32px; height: 32px; }
 .art-calm b { font-size: var(--t-20); line-height: var(--lh-20); }
 .art-calm .up-check { align-self: stretch; margin-top: 8px; text-align: left; }
+.art-calm .sum-up { align-self: stretch; margin-top: 8px; border: 1px solid var(--outline); background: var(--white); text-align: left; }   /* the cart's design check switch, white with our card outline on the cream */
+/* Confetti from the top of the done block: a short fall, then gone */
+.confetti { position: fixed; z-index: 90; overflow: hidden; pointer-events: none; border-radius: var(--r-m); }
+.confetti i { position: absolute; top: -10px; width: 6px; height: 10px; border-radius: 2px; animation: confetti 1.4s ease-in forwards; }
+@keyframes confetti { to { transform: translate(var(--x), 220px) rotate(var(--r)); opacity: 0; } }
 
 /* Version E: two selector fields (Your cards + Your design) and one button */
 .design-pick { display: none !important; }
@@ -1611,6 +1637,22 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-bar-total small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); white-space: nowrap; }
 .d-bar .d-go { width: auto; padding: 0 24px; flex-shrink: 0; }
 .d-go .d-go-ico { filter: brightness(0) invert(1); }   /* the Design online icon in white on the green button */
+/* The bar's split button + drop-up (design-dropup-sketch.html A, Cornel 2026-11-05): the green button stays one click, the chevron opens
+   the three ways above it; the chosen one only gets the tick (no coloured row) */
+.d-split { position: relative; display: flex; flex-shrink: 0; }
+.d-bar .d-split .d-go { padding: 0 20px 0 24px; border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.d-bar .d-more { width: 44px; padding: 0; border-radius: 0 var(--r-pill) var(--r-pill) 0; border-left: 1px solid rgba(255,255,255,.35); }
+.d-more .material-symbols-rounded { font-size: 24px; }
+.d-menu { position: absolute; right: 0; bottom: calc(100% + 8px); width: 360px; padding: 8px; border-radius: var(--r-l); background: var(--white); box-shadow: 0 8px 32px rgba(0,0,0,.18); }
+.d-menu[hidden] { display: none; }
+.d-menu button { display: grid; grid-template-columns: 40px minmax(0, 1fr) 20px; align-items: center; column-gap: 12px; width: 100%; padding: 8px; border-radius: var(--r-m); text-align: left; }
+.d-menu button:hover { background: var(--light-grey); }
+.d-menu .ico { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); }
+.d-menu .ico img { width: 24px; height: 24px; }
+.d-menu .ico img.art-mini { width: auto; height: auto; max-width: 80%; max-height: 80%; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.d-menu b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.d-menu small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.d-menu .tick { width: 20px; height: 20px; }
 .desk body:has(.d-bar) { padding-bottom: 76px; }   /* the footer stays readable above the fixed bar */
 .desk .opts { align-items: stretch; }   /* height follows the content; cards in one row stay equally tall */
 /* Option cards fill the 737px column exactly: as many columns as fit at ≥112px (6 at 1512px, each ±116px), no gap on the right */
@@ -1837,6 +1879,11 @@ html:not(.desk) .desk-only { display: none; }
 .d-dcard.primary { border: 2px solid var(--light-green); padding: 15px; background: var(--white); }
 .d-dcard .ico { width: 50px; height: 50px; margin-bottom: 8px; display: grid; place-items: center; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); }
 .d-dcard .ico img { width: 30px; height: 30px; }
+/* Uploaded files on the Upload your artwork option: the first one in its own shape + "+N" (.art-count, as in the cart) */
+.d-dcard .ico, .design .ico { position: relative; }
+.d-dcard .ico img.art-mini, .design .ico img.art-mini { width: auto; height: auto; max-width: 80%; max-height: 80%; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+b.art-mini { font-weight: 600; font-size: var(--t-10); color: var(--dark-green); }
+.ico .art-count { right: -8px; bottom: -8px; }
 .d-dcard > b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .d-dcard ul { flex: 1; padding-left: 20px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-dcard .d-go { width: 100%; height: 44px; margin-top: 8px; }
@@ -2592,6 +2639,15 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .icon-btns { display: flex; gap: 8px; }
 .icon-btn { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--dark-green); transition: border-color .15s; }
 .icon-btn:hover { border-color: var(--black); }   /* control outline: grey, black on hover */
+/* Tooltip (Cornel, 2026-11-05): data-tip="…" on an icon-only button; a dark green bubble with an arrow, 12 above it (the arrow tip 6 from the button), on hover (mouse) and
+   keyboard focus. The last button of a row aligns it right, so it never runs off the screen. .tip-on shows it (style guide) */
+[data-tip] { position: relative; }
+[data-tip]::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 4px 8px; border-radius: var(--r-s); background: var(--dark-green); color: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); white-space: nowrap; }
+[data-tip]::before { content: ''; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-bottom: 0; border-top-color: var(--dark-green); }
+[data-tip]:last-child::after { left: auto; right: 0; transform: none; }
+[data-tip]::after, [data-tip]::before { z-index: 5; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity .15s, visibility .15s; }
+[data-tip]:focus-visible::after, [data-tip]:focus-visible::before, .tip-on::after, .tip-on::before { visibility: visible; opacity: 1; }
+@media (hover: hover) { [data-tip]:hover::after, [data-tip]:hover::before { visibility: visible; opacity: 1; } }
 .desk .icon-btn { width: 32px; height: 32px; }   /* mobile 40: the height of the dropdown, a thumb target */
 /* Discount code (desktop sidebar): closed by default, a link opens the field + Apply; the code shows in the totals with ✕ */
 .add-code { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; text-decoration: none; }   /* only the words underlined, not the + */

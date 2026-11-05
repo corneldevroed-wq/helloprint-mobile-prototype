@@ -18,6 +18,20 @@ Add new decisions here when Cornel makes a final call.
 - **11-03 — Mobile PDP: flow H is the default.** The Flow switch is hidden, not removed: flows A–J stay in the code and open
   with `?flow=…` for that visit only (no localStorage memory, so testers who had another flow stored now land on H).
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-05 — Uploaded artwork in the cart line** (cart-artwork-sketch.html C): the first file replaces the product photo, "+N" for the others;
+  a click / tap or View artwork opens it big in a popup / sheet with the others as thumbnails to switch. The hover preview was built and removed
+  the same day (confusing next to the popup).
+  The PDP keeps an 800px JPEG per picture on the cart line (`art: [{name, ext, thumb, page}]`): a PDF gives one per page (max 10, via pdf.js
+  from cdnjs, loaded only then), shown as "card.pdf · page 2 of 2" and in the Design line "(1 file · 2 pages)". Not drawn within 8 s, or no picture (EPS, AI, DOCX): light grey with its type (tile, thumbnails) or its name (popup); no icons.
+  The popup is our standard one (560 desktop), the artwork the full width; mobile the full width of the sheet.
+  Rejected: A (a pile with edges peeking out), B (split tile). C also nudges people not to upload many files.
+- **11-05 — Desktop PDP bar: split button with a drop-up** (design-dropup-sketch.html A): the green button stays one click for the chosen way,
+  a chevron segment opens Upload later / Design online with Canva / Upload your artwork above it; picking one changes the button and the card.
+  The chosen row only gets the tick, no coloured row. Rejected: B (a "Design: …" chooser pill), C (the button always opens the menu).
+- **11-05 — Design check upsell in general words** (cart, mobile + desktop, and the PDP upload popup): "Add Premium Artwork Check" /
+  "For extra peace of mind with your files." Never "an expert checks your files" as a promise; the upload popup's promises are only
+  "Every file gets our free automatic check" and "You'll see a proof before we print".
+- **11-05 — Tooltips on the icon buttons** (`data-tip`): dark green bubble 12 above, white 12/18 semibold: Change options, Duplicate product, Remove from cart.
 - **11-03 — Empty cart and the quote popup** (cart-empty-quote-sketch.html B for both): empty = the live message (the header's bag icon in a grey
   circle, "Your cart is empty", Browse products) + "Our best sellers" (4 product cards, Add to cart on desktop). Request a free quote = our popup
   with the cart lines, extras and total excl. VAT first, then email + name (phone, company, notes, files optional); logged in "Sending to … · Change";
