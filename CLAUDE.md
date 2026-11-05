@@ -4,6 +4,8 @@ A clickable HTML prototype of the HelloPrint redesign (mobile + desktop), built 
 (Creative/UX lead, Helloprint). It is used to test ideas, share them with the team (Niels, Derk, …) and
 hand over to development. Live for testers via GitHub Pages:
 https://corneldevroed-wq.github.io/helloprint-mobile-prototype/ (private repo `corneldevroed-wq/helloprint-mobile-prototype`).
+Mirrored to the company repo `Helloprint/helloprint-design` (every `git push` goes to both), live at
+https://helloprint.github.io/helloprint-design/ (style guide: …/design-system/).
 
 Before building anything, also read:
 - `docs/design-principles.md` — how Cornel thinks about design (the "why" behind every choice)
