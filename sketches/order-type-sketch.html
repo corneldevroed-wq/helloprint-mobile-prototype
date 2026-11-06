@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order type sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116q">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116q">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261116q">
+<!-- Sketch only, not linked from the prototype: Personal / Business at the top of Contact details (details page), with the business
+     fields + a reference number. Built from the real parts: .seg (the Pay now / Pay later toggle), .opt (option cards), .field, .check,
+     .co-head, .co-desc, .co-summary. Drawn 390 wide (mobile); on desktop the same block sits in the 544 form column. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; padding-left: 20px; }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 8px; width: 390px; max-width: 100%; }
+  .col > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  .frame { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .frame .co-head:first-child { margin-top: 0; }
+  .opts2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hint { margin-top: -4px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Order type sketch</b><a href="#a">A · Toggle on top</a><a href="#b">B · Two option cards</a><a href="#c">C · Checkbox, as now</a><a href="#d">D · Section tabs</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel, 2026-11-06):</b> we keep guessing whether someone is a consumer or a business. Ask it at the top of the
+      checkout, under Contact details, as bol does (Particulier / Zakelijk). Business adds the fields we have now (company name,
+      VAT number) plus a <b>reference number</b> (PO / reference for their own administration; in the backlog since November).</p>
+    <p>Each option: the Personal state, the Business state, and logged in (Business). Mobile and desktop show the same block.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b class="ttl">A · A toggle on top: Personal | Business <span class="pick">my pick</span></b>
+    The two-way toggle we already use for Pay now | Pay later (<code>.seg</code>), first thing under the title, Personal on by
+    default. Business slides in the three fields under the email; the reference number has one line why.
+    <ul>
+      <li>+ One look, one tap: the question is asked before anything else, and it is the same control as on payment.</li>
+      <li>+ Small: no extra cards, no labels; the page stays calm for the 80% who are consumers.</li>
+      <li>− A toggle doesn't explain what Business gives you; the fields that appear do that.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="a"></div>
+
+  <div class="sk-label" id="b"><b class="ttl">B · Two option cards with a line each</b>
+    Two <code>.opt</code> cards side by side (as the PDP options): <b>Personal</b> "For yourself" and <b>Business</b> "VAT invoice,
+    your reference". Business opens the same fields.
+    <ul>
+      <li>+ Explains the difference before you choose; closest to bol.</li>
+      <li>− Two cards at the top of the form is heavier than the question deserves.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="b"></div>
+
+  <div class="sk-label" id="c"><b class="ttl">C · The checkbox, moved to the top</b>
+    "I'm ordering for a business" stays a checkbox, but now directly under the title (above the email), with the reference number added.
+    <ul>
+      <li>+ The smallest change.</li>
+      <li>− A checkbox reads as an extra, not as a question everyone answers: the guessing stays.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="c"></div>
+
+  <div class="sk-label" id="d"><b class="ttl">D · Section tabs: Personal | Business</b>
+    The section tabs from the UI guide (<code>.tabs</code>): semibold grey, the active one black with the 2px light green line, on the
+    light grey line. Directly under the title, Personal active by default; Business opens the same fields.
+    <ul>
+      <li>+ Light and calm: just two words on a line, no box; the most "web" of the four.</li>
+      <li>− In the guide these tabs jump to a section of a long page (navigation); here they would choose a setting of the order,
+        so the same look gets a second meaning. The login page does the same with Log in | Register, so people know it.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="d"></div>
+
+  <div class="sk-note" style="margin-top:56px">
+    <p><b>My pick: A.</b> It asks the question everyone has to answer, at the top, with a control people already know from the
+      payment step, and it costs one line for consumers. The business fields do the explaining when they appear.
+      D is my second: lighter than A, but those tabs mean "go to a section" everywhere else; A reads as "choose one".</p>
+    <p>The reference number only for business, optional, with "Shown on your invoice and packing slip". If consumers ask for it
+      too, it can move out of the business block later. On payment and confirmed the order type, company and reference come back
+      in the overview.</p>
+  </div>
+</div>
+
+<script>
+  const field = (label, value) => `<label class="field"><input placeholder=" " value="${value || ''}"><span class="fl">${label}</span></label>`;
+  const head = '<div class="co-head"><h2>Contact details</h2><a class="pill" href="#a">Log in</a></div>';
+  const email = field('Email address', 'anna@example.ie');
+  const biz = `${field('Company name', 'Murphy Print Ltd')}${field('VAT number (optional)')}${field('Reference number (optional)', 'PO-2026-118')}<p class="hint">Shown on your invoice and packing slip.</p>`;
+  const seg = on => `<div class="seg" role="radiogroup" aria-label="Order type"><button type="button" role="radio" aria-checked="${!on}">Personal</button><button type="button" role="radio" aria-checked="${on}">Business</button></div>`;
+  const opt = (on, name, sub) => `<div class="opt" role="radio" aria-checked="${on}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${name}</b><small>${sub}</small></span></div>`;
+  const opts = on => `<div class="opts2">${opt(!on, 'Personal', 'For yourself')}${opt(on, 'Business', 'VAT invoice, your reference')}</div>`;
+  const tabs = on => `<nav class="tabs" style="position:static;padding:0" aria-label="Order type"><a href="#d"${on ? '' : ' class="active"'}>Personal</a><a href="#d"${on ? ' class="active"' : ''}>Business</a></nav>`;
+  const check = on => `<label class="check"><input type="checkbox"${on ? ' checked' : ''}>I’m ordering for a business</label>`;
+  const card = '<div class="co-summary"><section><div class="h"><p><b>Anna Murphy</b><span>anna@example.ie</span></p><button type="button" class="co-act">Edit</button></div></section></div>';
+  const frame = html => `<div class="frame co-extra">${html}</div>`;
+  const col = (label, html) => `<div class="col"><small>${label}</small>${frame(html)}</div>`;
+  const logged = ctl => `<div class="co-head"><h2>Contact Details</h2></div><p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>${ctl}${card}${biz}`;
+  const OPT = {
+    a: col('Guest · Personal (default)', head + seg(false) + email) + col('Guest · Business', head + seg(true) + email + biz) + col('Logged in · Business', logged(seg(true))),
+    b: col('Guest · Personal (default)', head + opts(false) + email) + col('Guest · Business', head + opts(true) + email + biz) + col('Logged in · Business', logged(opts(true))),
+    d: col('Guest · Personal (default)', head + tabs(false) + email) + col('Guest · Business', head + tabs(true) + email + biz) + col('Logged in · Business', logged(tabs(true))),
+    c: col('Guest · Personal (default)', head + check(false) + email) + col('Guest · Business', head + check(true) + email + biz) + col('Logged in · Business', logged(check(true))),
+  };
+  document.querySelectorAll('[data-opt]').forEach(r => r.innerHTML = OPT[r.dataset.opt]);
+</script>
+</body>
+</html>

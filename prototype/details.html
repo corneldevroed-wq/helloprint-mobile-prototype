@@ -6,9 +6,10 @@
 <title>Details &amp; Shipping</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261116a">
-<link rel="stylesheet" href="../design-system/components.css?v=20261116a">
-<link rel="stylesheet" href="pages.css?v=20261116a">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116q">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116q">
+<link rel="stylesheet" href="pages.css?v=20261116q">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -28,16 +29,14 @@
         <!-- Logged in with a known address: one compact summary (content as on helloprint.com, made scannable) -->
         <div class="co-extra co-cards" id="userView" hidden>
           <!-- Same order as helloprint.com/checkout/details (logged in), with the prototype's cards -->
-          <div class="co-head"><h2>Contact Details</h2><button type="button" class="co-logout-link" id="uvLogout">Log out</button></div>
+          <div class="co-head"><h2>Contact Details</h2></div>
           <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
           <div class="co-summary">
             <section>
-              <div class="h"><p><b id="uvName"></b><span class="row" id="uvEmailRow"><span class="lbl" id="uvEmailLbl" hidden>Email address</span><span id="uvEmail"></span></span><span class="co-biz" id="uvBiz" hidden></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
-              <!-- Edit: only the email (and the business details), not the whole form -->
+              <div class="h"><p><b id="uvName"></b><span class="row" id="uvEmailRow"><span class="lbl" id="uvEmailLbl" hidden>Email address</span><span id="uvEmail"></span></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
+              <!-- Edit: only the email, not the whole form (the order type and the business fields sit under the card) -->
               <div class="co-edit-contact" id="contactForm" hidden>
                 <label class="field" data-field="uvEmailField"><input type="email" id="uvEmailInput" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
-                <label class="check"><input type="checkbox" id="uvBusiness">Ordering as a business?</label>
-                <div id="uvBizSlot"></div>
                 <div class="btns"><button type="button" class="btn primary" id="contactSave">Save</button><button type="button" class="co-act" id="contactCancel">Cancel</button></div>
               </div>
             </section>
@@ -59,13 +58,19 @@
         </div>
 
         <div class="co-extra" id="formView">
-        <div class="co-head"><h2>Contact details</h2><a class="pill" href="login.html?return=details" id="loginLink">Log in</a></div>
+        <div class="co-head"><h2>Contact Details</h2><a class="pill" href="login.html?return=details" id="loginLink">Log in</a></div>
+        <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
         <p class="co-user" id="coUser" hidden></p>
+        <!-- Order type (Cornel 2026-11-06): asked first, as pills (the chosen one .pill.active); Business opens the company fields
+             and the reference number. The pills set the hidden checkbox, which the form logic and the saved form use -->
+        <div class="co-type" id="orderType" role="group" aria-label="Order type"><button type="button" class="pill active" data-type="personal" aria-pressed="true">Personal</button><button type="button" class="pill" data-type="business" aria-pressed="false">Business</button></div>
+        <input type="checkbox" id="isBusiness" hidden>
         <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
-        <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
         <div class="co-extra" id="businessFields" hidden>
           <label class="field" data-field="company"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name</span></label>
           <label class="field"><input name="vatnr" placeholder=" " aria-label="VAT number"><span class="fl">VAT number (optional)</span></label>
+          <label class="field"><input name="reference" placeholder=" " aria-label="Reference number"><span class="fl">Reference number (optional)</span></label>
+          <p class="co-desc">Shown on your invoice and packing slip.</p>
         </div>
 
         <div class="co-head"><h2>Shipping Address</h2></div>
@@ -179,8 +184,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261116a"></script>
-<script src="../design-system/components.js?v=20261116a"></script>
+<script src="app.js?v=20261116q"></script>
+<script src="../design-system/components.js?v=20261116q"></script>
 <script>
   // Nothing to check out → back to the cart
   const items = getCart();
@@ -192,19 +197,14 @@
   if (items[0]) document.getElementById('barArrives').textContent = `arrives ${items[0].arrives}`;
   if (items[0]) document.getElementById('shipArrives').textContent = `${items[0].delivery} · arrives ${items[0].arrives}`;
 
-  // Logged in (login.html): show who, fill in what we know, offer to log out
+  // Logged in (login.html): show who and fill in what we know. Logging out lives in the header's account menu (to build), not here (Cornel, 2026-11-06)
   let user = null;
   try { user = JSON.parse(localStorage.getItem('hp-user')); } catch (e) {}
   if (user) {
     document.getElementById('loginLink').hidden = true;
     const u = document.getElementById('coUser');
     u.hidden = false;
-    u.innerHTML = `Logged in as <b>${user.email.replace(/</g, '&lt;')}</b> · <button type="button" id="logout">Log out</button>`;
-    document.getElementById('logout').addEventListener('click', () => {
-      try { localStorage.removeItem('hp-user'); } catch (e) {}
-      toastOnNextPage('You’re logged out. You can still check out as a guest');
-      location.reload();
-    });
+    u.innerHTML = `Logged in as <b>${user.email.replace(/</g, '&lt;')}</b>`;
   }
 
   // Optional blocks
@@ -236,6 +236,16 @@
     put('email', user.email); put('first', user.first); put('last', user.last);
     if (user.business) { document.getElementById('isBusiness').checked = true; document.getElementById('businessFields').hidden = false; }
   }
+  // Order type pills: Personal | Business set the business checkbox (and with it the company fields)
+  const typeTabs = document.getElementById('orderType'), isBiz = document.getElementById('isBusiness');
+  const renderType = () => typeTabs.querySelectorAll('[data-type]').forEach(b => { const on = (b.dataset.type === 'business') === isBiz.checked; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+  typeTabs.addEventListener('click', e => {
+    const b = e.target.closest('[data-type]'); if (!b) return;
+    isBiz.checked = b.dataset.type === 'business';
+    isBiz.dispatchEvent(new Event('change', { bubbles: true }));
+    renderType();
+  });
+  renderType();
   // ---------- Logged in: contact card + address book (Cornel's desktop design, as swipeable cards) ----------
   const val = n => (form.querySelector(`[name=${n}]`)?.value || '').trim();
   const escA = t => String(t || '').replace(/</g, '&lt;');
@@ -289,7 +299,7 @@
           ${a.isDefault ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
           ${book.length > 1 ? `<button type="button" class="del" data-del-addr="${a.id}">Delete</button>` : ''}
         </div>
-      </li>`).join('') + '<li class="ap-add"><button type="button" class="ap-pick" data-new-addr><span>+</span>New address</button></li>';
+      </li>`).join('') + '<li class="ap-add"><button type="button" class="ap-pick" data-new-addr><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li>';
   }
   // Desktop: the cards in one row that scrolls, with the round arrows of the reviews row (Cornel, 2026-11-06)
   let syncArrows = () => {};
@@ -304,7 +314,7 @@
       <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
         <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</div>
         <p>${addrLines(a).map(escA).join('<br>')}</p>
-      </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span>+</span>New address</button>';
+      </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button>';
     renderList();
     syncArrows();
   }
@@ -327,11 +337,10 @@
     document.getElementById('formView').hidden = true;
     document.getElementById('coUser').hidden = true;
     selectAddress(selected);
-    // Business fields and billing fields move into the cards view
-    const biz = document.getElementById('businessFields'), bizCheck = document.getElementById('isBusiness');
-    document.getElementById('uvBizSlot').append(biz);
-    document.getElementById('uvBusiness').checked = bizCheck.checked;
-    document.getElementById('uvBusiness').addEventListener('change', e => { bizCheck.checked = e.target.checked; biz.hidden = !e.target.checked; persist(); });
+    // The order type above the contact card, the business fields under it (order-type-sketch.html D)
+    const card = document.querySelector('#userView .co-summary');
+    card.before(typeTabs);
+    card.after(document.getElementById('businessFields'));
   }
   document.getElementById('addrRow').addEventListener('click', e => {
     if (e.target.closest('[data-new-addr]')) { listMode = 'delivery'; openAddressSheet(); return; }
@@ -435,13 +444,13 @@
     renderInvoice();
     persist();
   }
-  // Same as shipping: the checkbox on, no block. Another address: the checkbox off, the Billing Address block (name, the address on one line)
+  // Same as shipping: the checkbox on, no block. Another address: the checkbox off, the Billing Address block (name, the address as a list)
   function renderInvoice() {
     const a = book.find(x => x.id === invoiceId()); if (!a) return;
     const same = a.id === selected;
     document.getElementById('sameInvoice').checked = same;
     document.getElementById('invBlock').hidden = same;
-    document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b><span>${addrLines(a).map(escA).join(' · ')}</span>`;
+    document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}`;   // one line each, as on the address card
   }
   document.getElementById('invToggle').addEventListener('click', () => openList('invoice'));
   // Unchecked: the box stays on until an other address is confirmed in the sheet (✕ = nothing changed); checked again: same as shipping
@@ -454,25 +463,11 @@
   // Contact "Edit": an email field (and the business option) in the card, not the whole form
   const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
   let emailChanged = false;   // after saving a new email the card shows just that email, with its label
-  // Business details stay visible in the card once filled in (they go on the invoice)
-  function renderBiz() {
-    const on = document.getElementById('isBusiness').checked, company = val('company'), vat = val('vatnr');
-    const el = document.getElementById('uvBiz');
-    el.hidden = !(on && company);
-    // Labels for Company name / VAT number when filled in
-    const row = (label, v) => `<span class="row"><span class="lbl">${label}</span><span>${escA(v)}</span></span>`;
-    el.innerHTML = on && company ? row('Company name', company) + (vat ? row('VAT number', vat.toUpperCase()) : '') : '';
-    // Untouched account details: name with the email under it; once edited or with business details: labels
-    document.getElementById('uvEmailLbl').hidden = !(emailChanged || (on && company));
-
-  }
-  if (known) renderBiz();
   const toggleContact = open => {
     cForm.hidden = !open;
     document.getElementById('contactEdit').hidden = open;
     document.getElementById('uvEmailRow').hidden = open;
     document.getElementById('uvName').hidden = open || emailChanged;   // only the email is edited here
-    document.getElementById('uvBiz').hidden = open || !document.getElementById('uvBiz').innerHTML;
     if (open) { cInput.value = val('email'); setFieldError(cInput.closest('.field'), ''); cInput.focus(); }
   };
   document.getElementById('contactEdit').addEventListener('click', () => toggleContact(true));
@@ -483,13 +478,12 @@
     form.querySelector('[name=email]').value = v;
     document.getElementById('uvEmail').textContent = v;
     emailChanged = true;
-    renderBiz();
+    document.getElementById('uvEmailLbl').hidden = false;   // once edited: the email with its label
     persist();
     toggleContact(false);
     showToast('Your details are updated');
   });
   // Same place as the Login link for guests: an escape back to the guest checkout
-  document.getElementById('uvLogout').addEventListener('click', () => document.getElementById('logout').click());
   cInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('contactSave').click(); } });
 
   const remember = () => {

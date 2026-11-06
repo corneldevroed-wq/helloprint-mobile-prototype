@@ -10,6 +10,20 @@ Add new decisions here when Cornel makes a final call.
   form and wording 1:1. The card: products (summary lines), the cart's totals (`totalsHtml()`), the step's button, USPs + payments
   (`SIDE_TRUST`), sticky 24 under the header. Header: only the shop header's 60 top bar (logo in the cart's spot), the checkout steps
   in the middle, Secure Checkout + account + bag right; no search, menu or USP bar. Logged in: the address cards side by side, 3 in a row (no swipe; 4 was too tight once the form became 576).
+- **11-06 — Order type at the top of Contact details: pills Personal | Business** (`.pill` / `.pill.active`, Cornel; first built as
+  section tabs, order-type-sketch.html D, changed to pills the same day; rejected A toggle, B option cards, C the checkbox moved up). Personal by default; Business opens Company name, VAT number (optional) and
+  Reference number (optional, "Shown on your invoice and packing slip"). Guest: under the title, above the email; logged in: above the
+  contact card, the fields under it (no business checkbox in the card's Edit any more, no company line in the card). Logged in, the pills sit 16 under the grey description (8 felt cramped). The pills set the
+  hidden `#isBusiness` checkbox, so validation and the saved form are unchanged. The business fields sit in a light grey block (8 padding, `--r-m`); the note under the reference 12/18.
+- **11-06 — The billing address line uses the shipping card's address style** (dark grey 14/22, mobile and desktop; the 12/18 on desktop
+  was undone the same day, Cornel), as a list of lines like the card, not on one line.
+- **11-06 — Spacing pass on details (8px grid):** title → grey lead line back to 4 (8 made it hard to read, Cornel: a title and its
+  description belong together; now in the style guide), the note under Reference number 8 (was 4), the
+  contact card and the Billing Address block 16 in (was 14), the address cards and the address list items 16 in incl. their border
+  (was 15). Everything else measured on the grid (sections 32, title → block 8, sidebar 16/8, business block 8).
+- **11-06 — Temporary "Log out" link top right in the checkout header** (logged in only, white underlined 14/22, in the place of the account icon) until the account menu exists.
+- **11-06 — No Log out on details:** logging out moves to the account menu in the header (to build, see backlog). Removed:
+  "Log out" next to Contact Details and "· Log out" after "Logged in as …".
 - **11-06 — "Billing Address" is always a section title**, above the checkbox (guest and logged in); the form or the block follows under it.
 - **11-06 — Logged in: the "Billing address is the same as shipping address" checkbox is back** (on by default, as for a guest;
   Cornel). Unchecking opens the address sheet for billing; only a confirmed other address unticks it and shows the Billing Address
@@ -32,8 +46,13 @@ Add new decisions here when Cornel makes a final call.
   card, Payment methods). Tint removed from the address card, Pay by Link (payment), the T-shirt size tiles and the recommended file
   check. `--selected` stays only for the upload field while a file is dragged over it.
 - **11-06 — Logged in (desktop details):** the address cards 240 wide (New address 160) in one row that scrolls sideways, with
-  the round arrows of the reviews row (`.d-rev-nav`, `wireRowArrows()` in app.js; hidden at the start/end); the address 12/18 under
-  the 16 name. The address popups (list + add/edit) are as high as their content, mobile and desktop (no `.tall`). Mobile unchanged (swipe row).
+  the round arrows of the reviews row (`.d-rev-nav`, `wireRowArrows()` in app.js; hidden at the start/end); the address 14/22 under
+  the 16 name (was 12/18, back to the default 11-06). The address popups (list + add/edit) are as high as their content, mobile and desktop (no `.tall`). Mobile unchanged (swipe row).
+- **11-06 — "+ New address" uses the Material Symbols "add" icon in light green** (card row and address sheet; was a text "+").
+- **11-06 — Guest Contact Details gets the same description line** as logged in ("Who’s placing this order — …"), and the same title case.
+- **11-06 — The VAT switch changes the Total** (Cornel): excl. VAT (default) = rows excl., **Total (Excl. VAT)** = the subtotal, under it
+  "Incl. VAT (23%)" with the amount to pay; incl. VAT = rows incl., **Total (Incl. VAT)**, under it "Of which VAT (23%)". The rows
+  always add up to the Total; the Subtotal and VAT rows are gone. Replaces the entry below.
 - **11-06 — The VAT switch works in the totals (cart + checkout):** excl. VAT (default) = Products, Check, Shipping, Subtotal (Excl.
   VAT), VAT 23%, Total. Incl. VAT = the same rows with VAT, no Subtotal, "VAT 23% (included)" above the line, the same Total, so it
   still adds up. The checkout sidebar re-renders on the switch (the products list keeps its open/closed state).

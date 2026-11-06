@@ -839,7 +839,6 @@ body.flow-j .flow-a-only { display: none; }
 /* Checkout: logged-in line, account icon dot */
 .co-user { font-size: var(--t-12); color: var(--dark-grey); }
 .co-user[hidden] { display: none; }
-.co-user button { font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
 .account-link { position: relative; }
 .account-link.logged-in::after { content: ''; position: absolute; right: -2px; top: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--light-green); border: 2px solid var(--dark-green); }
 
@@ -856,8 +855,12 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* Details & shipping, logged in: one compact summary card, small text actions */
 .co-cards[hidden], #formView[hidden], #loginLink[hidden] { display: none; }
+.co-type { display: flex; gap: 8px; }   /* the order type (details): Personal | Business as pills */
+.co-desc ~ .co-type { margin-top: 8px; }   /* 16 under the description, so the pills start a new line of thought (Cornel, 2026-11-06) */
+#businessFields { padding: 8px; border-radius: var(--r-m); background: var(--light-grey); }   /* Business: the company fields stand out as one block (Cornel, 2026-11-06) */
+#businessFields .co-desc { font-size: var(--t-12); line-height: var(--lh-12); }   /* the note under the reference number */
 .co-summary { display: flex; flex-direction: column; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }
-.co-summary section { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; }
+.co-summary section { display: flex; flex-direction: column; gap: 4px; padding: 16px; }
 .co-summary section + section { border-top: 1px solid #ececec; }
 .co-summary .h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .co-summary .h b { font-weight: 700; font-size: var(--t-14); }
@@ -871,23 +874,24 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Details, logged in: address book as swipeable cards (Cornel's desktop design), invoice address */
 .addr-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px; }
 .addr-row::-webkit-scrollbar { display: none; }
-.addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid #cfcfcf; border-radius: var(--r-m); background: var(--white); cursor: pointer; }
-.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; }   /* chosen = the 2px green border on white, as the option cards (Cornel, 2026-11-06: no tint) */
+.addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid #cfcfcf; border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
+.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }   /* chosen = the 2px green border on white, as the option cards (Cornel, 2026-11-06: no tint) */
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
 .addr-card .top b { font-weight: 600; font-size: var(--t-16); }
 .addr-card .top .co-badge { margin: 0 0 0 auto; }
 /* Same radio as everywhere (quantity list): the .radio sits one level deeper here */
 .addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
 .addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
-.addr-card p { flex: 1; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.addr-card p { flex: 1; }
+.addr-card p, #invText > span { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* the address: on the card and in the Billing Address block alike */
 .addr-form { gap: 12px; }
 .addr-save { flex: 1; }
 
 /* Address book: no Edit in the cards; "Change delivery address" opens the overview (as bol.com) */
 .addr-manage { align-self: flex-start; }
 .addr-card.addr-add { flex: 0 0 44%; align-items: center; justify-content: center; gap: 4px; border: 2px dashed #cfcfcf; color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); }
-.addr-add span, .ap-add span { font-size: 26px; line-height: 1; font-weight: 400; }
-.addr-list li.ap-add { border: 2px dashed var(--outline); padding: 13px; }   /* "+ New address", the last item of the address sheet: dashed, as the card on the page */
+.addr-add .material-symbols-rounded, .ap-add .material-symbols-rounded { font-size: 24px; color: var(--light-green); }   /* Material "add", light green (Cornel, 2026-11-06) */
+.addr-list li.ap-add { border: 2px dashed var(--outline); padding: 14px; }   /* "+ New address", the last item of the address sheet: dashed, as the card on the page */
 .addr-list .ap-add .ap-pick { justify-content: center; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .addr-list { list-style: none; padding: 0 16px; }
 .addr-list li { position: relative; display: flex; align-items: flex-start; gap: 4px; padding: 16px 0; }
@@ -908,7 +912,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-new { flex: 1; height: 48px; border-radius: var(--r-pill); }
 
 /* Logged-in details in the live order: Contact Details, Shipping Address, billing checkbox */
-.co-desc { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.co-desc { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.co-head + .co-desc { margin-top: -4px; }   /* a title and its description line belong together: 4 apart (Cornel, 2026-11-06) */
 .co-summary .h p { display: flex; flex-direction: column; font-size: var(--t-14); }
 .co-summary .h p b { font-weight: 600; font-size: var(--t-16); }
 
@@ -926,13 +931,10 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-edit-contact .check { padding: 0; border-top: 0; }
 #uvName[hidden] { display: none; }
 .co-summary .h:has(#contactEdit[hidden]) { display: none; }   /* edit mode: the row with name/email/Edit is empty */
-.co-biz { display: flex; flex-direction: column; margin-top: 4px; font-size: var(--t-12); color: var(--dark-grey); }
-.co-biz[hidden] { display: none; }
 /* Contact card: label above each value when business details are there */
 .co-summary .row { display: flex; flex-direction: column; }
 .co-summary .row[hidden], .co-summary .lbl[hidden] { display: none; }
 .co-summary .lbl { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.co-biz { gap: 6px; margin-top: 6px; font-size: var(--t-14); color: var(--black); }
 .co-summary .h p:has(.lbl:not([hidden])) { gap: 6px; }
 .co-summary .h:has(.lbl:not([hidden])) { align-items: flex-start; }
 
@@ -940,17 +942,18 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-right { display: flex; align-items: center; gap: 14px; }
 .co-right .co-secure { margin-right: 2px; }
 .co-right a { position: relative; display: grid; place-items: center; }
+.co-logout { font-size: var(--t-14); line-height: var(--lh-14); color: var(--white); text-decoration: underline; text-underline-offset: 2px; }
+.co-logout, .co-secure { white-space: nowrap; }   /* logged in, until the account menu exists */
 .co-right .icon { width: 24px; height: 24px; }
-.co-logout-link { font-weight: 700; font-size: var(--t-14); color: var(--link); }
 /* Payment: Apple Pay, Google Pay and PayPal side by side */
 .wallets { grid-template-columns: repeat(3, 1fr); }
 .pay-note { margin-top: -2px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 
 /* Address sheet: cards like the design options (radio, green border when selected) */
 .addr-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
-.addr-list li { padding: 14px 8px 14px 14px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); }
+.addr-list li { padding: 15px 7px 15px 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); }
 .addr-list li + li { border-top: 1px solid var(--outline); }
-.addr-list li.on { border: 2px solid var(--light-green); padding: 13px 7px 13px 13px; }
+.addr-list li.on { border: 2px solid var(--light-green); padding: 14px 6px 14px 14px; }   /* + the border: the content 16 in, ⋮ 8 from the edge */
 .addr-list .ap-pick { align-items: flex-start; }
 .addr-list .ap-pick .radio { margin-top: 1px; }
 .addr-list li.on .radio { border: 0; background: var(--light-green); }
@@ -2067,7 +2070,6 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .addr-row { gap: 16px; margin: 0; padding: 2px 0 4px; }   /* the cards in one row that scrolls sideways, arrows to scroll (Cornel, 2026-11-06) */
 .desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
 .desk .addr-card.addr-add { flex-basis: 160px; }
-.desk .addr-card p { font-size: var(--t-12); line-height: var(--lh-12); }   /* the address smaller than the name */
 /* Discount code (desktop sidebar): closed by default, a link opens the field + Apply; the code shows in the totals with ✕ */
 .add-code { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; text-decoration: none; }   /* only the words underlined, not the + */
 .add-code[hidden], .code-box[hidden] { display: none; }

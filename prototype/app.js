@@ -228,6 +228,16 @@ const headerSlot = document.querySelector('[data-shell="header"]');
 if (headerSlot) headerSlot.outerHTML = DESK ? SHELL_HEADER_DESK : SHELL_HEADER;
 const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
 if (checkoutSlot) checkoutSlot.outerHTML = DESK ? SHELL_CHECKOUT_HEADER_DESK : SHELL_CHECKOUT_HEADER;
+// Logged in: a plain "Log out" link top right in the checkout header, in the place of the account icon (which only leads to the
+// login page), until the account menu exists (Cornel, 2026-11-06)
+if (checkoutSlot && deskUser) {
+  document.querySelector('.co-right .account-link').outerHTML = '<button type="button" class="co-logout">Log out</button>';
+  document.querySelector('.co-logout').addEventListener('click', () => {
+    try { localStorage.removeItem('hp-user'); } catch (e) {}
+    toastOnNextPage('You’re logged out. You can still check out as a guest');
+    location.reload();
+  });
+}
 // Desktop checkout steps (Cornel 2026-11-06, was switch Steps B): the mobile steps and words, centred; a numbered circle per step and a line
 // between. Cart is the way back, not a step: a round back button, so Details is 1.
 if (DESK && document.querySelector('.co-steps')) {
@@ -631,8 +641,8 @@ function cartTotals(items = getCart(), addons = getAddons()) {
 }
 // The order totals (cart sidebar, desktop checkout sidebar): an ⓘ only where its popup is on the page; ✕ on the code only in the cart (edit);
 // fold: "Products (n)" is a link that opens the product lines under it (checkout, where the products aren't on the page),
-// each with its own delivery window (it can differ per product). Follows the VAT switch (Cornel, 2026-11-06): incl. VAT the rows show
-// their price with VAT, the subtotal drops out and the VAT is shown as included, so the overview still adds up to the same total.
+// each with its own delivery window (it can differ per product). Follows the VAT switch (Cornel, 2026-11-06): the rows and the Total are
+// excl. or incl. VAT (they always add up); one line under the Total gives the other side: "Incl. VAT €…" or "Of which VAT €…".
 function totalsHtml(items = getCart(), addons = getAddons(), edit = false, fold = false) {
   const eur = n => '€' + n.toFixed(2), { check, products, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons);
   const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
@@ -646,9 +656,8 @@ function totalsHtml(items = getCart(), addons = getAddons(), edit = false, fold 
           ${addons.secured ? `<div><span>${SECURED.line}${info('secured', 'More info about secured delivery')}</span><span>${fmt(SECURED.price)}</span></div>` : ''}
           <div><span>Shipping${info('shipping', 'About free shipping')}</span>${shipping ? `<span>${fmt(shipping)}</span>` : '<span class="free">Free</span>'}</div>
           ${code ? `<div><span>Discount <small>(${code})</small>${edit ? `<button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button>` : ''}</span><span class="free">−${fmt(discount)}</span></div>` : ''}
-          ${inclVat ? '' : `<div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>`}
-          <div${inclVat ? ' class="sub"' : ''}><span>VAT ${Math.round(VAT_RATE * 100)}%${inclVat ? ' <small>(included)</small>' : ''}</span><span>${eur(vat)}</span></div>
-          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
+          <div class="grand"><span>Total <small>(${inclVat ? 'Incl.' : 'Excl.'} VAT)</small></span><span>${eur(inclVat ? total : subtotal)}</span></div>
+          <div><span>${inclVat ? 'Of which VAT' : 'Incl. VAT'} <small>(${Math.round(VAT_RATE * 100)}%)</small></span><span>${eur(inclVat ? vat : total)}</span></div>
         </div>`;
 }
 // Desktop checkout (details, payment): the cart's sidebar card on the right, with the totals (the products fold open), the step's button
