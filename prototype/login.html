@@ -6,19 +6,20 @@
 <title>Log in</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261116q">
-<link rel="stylesheet" href="../design-system/components.css?v=20261116q">
-<link rel="stylesheet" href="pages.css?v=20261116q">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=credit_card,lock,verified_user&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116w">
+<link rel="stylesheet" href="pages.css?v=20261116w">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
-  <!-- From the checkout (?return=details) the secure checkout header, otherwise the normal one -->
-  <div id="headerSlot" data-shell="header"></div>
-  <script>if (new URLSearchParams(location.search).get('return')) document.getElementById('headerSlot').dataset.shell = 'checkout-header';</script>
+  <!-- Its own page, reached from every flow (shop, product, cart, checkout): no shop around it, no search, menu or footer;
+       just the logo and a way back (Cornel, 2026-11-06) -->
+  <header class="auth-head"><a href="index.html" aria-label="HelloPrint home"><img src="assets/logo.svg" alt="HelloPrint"></a></header>
 
   <!-- Log in / create account (live helloprint.com login page, mobile) -->
   <main class="auth">
-    <a class="auth-back" id="authBack" href="details.html" hidden>Back to checkout</a>
+    <a class="auth-back" id="authBack" href="index.html">Back</a>
 
     <div class="auth-card">
       <div class="auth-tabs" role="tablist">
@@ -67,21 +68,26 @@
     </div>
 
     <ul class="auth-trust">
-      <li><img src="assets/checkout/encrypted.svg" alt="">Secure</li>
-      <li><span class="lock" aria-hidden="true"></span>Encrypted</li>
-      <li><span class="card" aria-hidden="true"></span>Safe checkout</li>
+      <li><span class="material-symbols-rounded" aria-hidden="true">verified_user</span>Secure</li>
+      <li><span class="material-symbols-rounded" aria-hidden="true">lock</span>Encrypted</li>
+      <li><span class="material-symbols-rounded" aria-hidden="true">credit_card</span>Safe checkout</li>
     </ul>
     <p class="auth-proto">Prototype: any email and password work. Only your name and email are kept in this browser, never the password.</p>
   </main>
 </div>
 
-<script src="app.js?v=20261116q"></script>
-<script src="../design-system/components.js?v=20261116q"></script>
+<script src="app.js?v=20261116w"></script>
+<script src="../design-system/components.js?v=20261116w"></script>
 <script>
-  // Where to go after signing in: back to the checkout (?return=details) or home
-  const params = new URLSearchParams(location.search);
-  const back = { details: 'details.html' }[params.get('return')] || 'index.html';
-  if (params.get('return')) { document.getElementById('authBack').hidden = false; document.getElementById('guestLink').hidden = false; }
+  // Where you came from (the page has no menu): the checkout (?return=details), else the prototype page before, else home.
+  // "Back" goes there, and so does signing in. From the checkout also "Continue as guest".
+  const params = new URLSearchParams(location.search), ret = params.get('return');
+  const from = document.referrer && new URL(document.referrer).origin === location.origin && !document.referrer.includes('login.html') ? document.referrer : '';
+  const back = ret === 'details' ? 'details.html' : from || 'index.html';
+  const backLink = document.getElementById('authBack');
+  backLink.href = back;
+  backLink.textContent = ret === 'details' ? 'Back to checkout' : 'Back';
+  if (ret) document.getElementById('guestLink').hidden = false;
 
   // Tabs: Welcome back / Create an account (?tab=register opens the second one)
   function showTab(tab) {

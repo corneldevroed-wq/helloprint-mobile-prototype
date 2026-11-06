@@ -33,7 +33,7 @@ Add new decisions here when Cornel makes a final call.
   address list shows ← (back to the list); ✕ and a tap outside close both. Opened from the page itself: only ✕.
 - **11-06 — Guest billing starts as "same as shipping" (checked)**: a billing choice made while logged in no longer carries over
   into the guest form after logging out. A guest's own unchecking is still remembered.
-- **11-06 — "Log in" on details (guest) is a `.pill`** (the UI system's small button), was a green "Login" link.
+- **11-06 — "Log in" on details (guest) is a `.link`** (the default text link; tried as a `.pill` the same day, Cornel: a link after all).
 - **11-06 — Choosing an address: choose, then confirm (address-flow-sketch.html A).** In the address sheet a tap only moves the radio;
   one primary button confirms (**Use this address** / **Use as billing address**); ✕ = nothing changed. "+ New address" is the last item
   of the list (dashed); a new address comes back chosen in the list, the button confirms it (from the card row on the page it is used at
@@ -48,6 +48,13 @@ Add new decisions here when Cornel makes a final call.
 - **11-06 — Logged in (desktop details):** the address cards 240 wide (New address 160) in one row that scrolls sideways, with
   the round arrows of the reviews row (`.d-rev-nav`, `wireRowArrows()` in app.js; hidden at the start/end); the address 14/22 under
   the 16 name (was 12/18, back to the default 11-06). The address popups (list + add/edit) are as high as their content, mobile and desktop (no `.tall`). Mobile unchanged (swipe row).
+- **11-06 — Login trust line with Material Symbols:** verified_user (Secure), lock (Encrypted), credit_card (Safe checkout), 16px dark grey
+  (were an SVG and two empty CSS squares).
+- **11-06 — The address cards on details get the card hover** of the material / product cards (desktop: soft shadow 0 2px 8px).
+- **11-06 — Login / register: its own page, reachable from every flow** (login-desk-sketch.html A; Cornel: no header, menu or footer).
+  Only a slim dark green bar with the logo (to home), "Back" (to the page before, or "Back to checkout" from details) and the mobile card;
+  desktop: the card 440 wide in the middle. Signing in returns to where you came from. Spacing on the 8px grid (16 between blocks,
+  24 card padding, 16 in the form, 8 label → field). Rejected: B (three paths side by side), C (card + why an account).
 - **11-06 — "+ New address" uses the Material Symbols "add" icon in light green** (card row and address sheet; was a text "+").
 - **11-06 — Guest Contact Details gets the same description line** as logged in ("Who’s placing this order — …"), and the same title case.
 - **11-06 — The VAT switch changes the Total** (Cornel): excl. VAT (default) = rows excl., **Total (Excl. VAT)** = the subtotal, under it

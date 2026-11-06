@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login desktop sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116w">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261116w">
+<!-- Sketch only, not linked from the prototype: login.html (Log in / Create an account) on desktop. Content and wording 1:1 from the
+     mobile page, built from its real parts (.auth-card, .auth-tabs, .auth-google, .auth-field, .auth-submit, .auth-guest, .auth-trust).
+     Shown as opened from the checkout (?return=details): the checkout header and the 1064 frame; from the shop it gets the shop header. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; padding-left: 20px; }
+  .frame { margin-top: 16px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .hdr { display: flex; align-items: center; gap: 24px; height: 60px; padding: 0 32px; background: var(--dark-green); color: var(--white); font-size: var(--t-14); }
+  .hdr img.logo { height: 24px; }
+  .hdr .r { margin-left: auto; display: flex; gap: 16px; }
+  .hdr .r img { width: 24px; height: 24px; }
+  .pg { max-width: 1064px; margin: 0 auto; padding: 32px 24px 64px; }
+  .ftr { height: 56px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: var(--t-12); color: var(--dark-grey); }
+  /* the mobile card, desktop width */
+  .one { max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .two .auth-card, .side .auth-card { width: 100%; }
+  .two h2, .why h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; margin-bottom: 8px; }
+  .col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
+  .col3 .box { padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); display: flex; flex-direction: column; gap: 16px; }
+  .col3 h2 { font-size: var(--t-20); line-height: var(--lh-20); }
+  .col3 p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .side { display: grid; grid-template-columns: 440px 1fr; gap: 64px; align-items: start; }
+  .why { padding: 32px; border-radius: var(--r-l); background: var(--light-grey); }
+  .why ul { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+  .why li { display: flex; gap: 12px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .why li b { display: block; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); font-weight: 600; }
+  .why li img { width: 24px; height: 24px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Login desktop sketch</b><a href="#a">A · The card, centred</a><a href="#b">B · Three paths side by side</a><a href="#c">C · Card + why an account</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> the desktop version of login.html (Log in / Create an account). Mobile is the basis: the same card, tabs, Google,
+      fields and wording. Opened from the checkout ("Log in" on details) it keeps the checkout frame (checkout header, 1064, slim
+      footer) and "Back to checkout" + "Continue as guest"; opened from the shop it gets the shop header and footer.</p>
+    <p>Shown: the Log in tab, from the checkout. Create an account works the same in each option.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b class="ttl">A · The mobile card, centred (440)</b>
+    The card 1:1 from mobile in the middle of the checkout frame, Back to checkout above, Continue as guest and the trust line under it.
+    <ul>
+      <li>+ The least to build, nothing new to learn; a calm, focused page.</li>
+      <li>− A lot of empty white at 1512; nothing tells a new customer why an account is worth it.</li>
+    </ul>
+  </div>
+  <div class="frame"><div class="hdr"><img class="logo" src="../prototype/assets/logo.svg" alt="HelloPrint"><span class="co-secure"><img src="../prototype/assets/checkout/encrypted.svg" alt="">Secure Checkout</span><div class="r"><img src="../prototype/assets/account.svg" alt=""><img src="../design-system/icons/bag.svg" alt=""></div></div>
+    <div class="pg"><div class="one" data-card="login"></div></div><div class="ftr">The slim checkout footer</div></div>
+
+  <div class="sk-label" id="b"><b class="ttl">B · Three paths side by side</b>
+    Desktop has room for every way on: <b>Log in</b>, <b>Create an account</b> and <b>Continue as guest</b> as three boxes, no tabs.
+    <ul>
+      <li>+ Every option in one look, guest is as visible as logging in (good for the checkout).</li>
+      <li>− Three forms at once is a lot; the page no longer matches mobile (tabs there).</li>
+    </ul>
+  </div>
+  <div class="frame"><div class="hdr"><img class="logo" src="../prototype/assets/logo.svg" alt="HelloPrint"><span class="co-secure"><img src="../prototype/assets/checkout/encrypted.svg" alt="">Secure Checkout</span><div class="r"><img src="../prototype/assets/account.svg" alt=""><img src="../design-system/icons/bag.svg" alt=""></div></div>
+    <div class="pg"><div class="col3" id="b3"></div></div><div class="ftr">The slim checkout footer</div></div>
+
+  <div class="sk-label" id="c"><b class="ttl">C · The card left, "why an account" right <span class="pick">my pick</span></b>
+    The mobile card (440) left; right a light grey block with the reasons to have an account (as on live: order history, reorder,
+    invoices, saved addresses). The card is the same as mobile, the block is desktop only.
+    <ul>
+      <li>+ Same card and tabs as mobile; the empty space works for us: it sells the account to new customers.</li>
+      <li>+ Guest stays one click away under the card.</li>
+      <li>− One block more to write and keep true.</li>
+    </ul>
+  </div>
+  <div class="frame"><div class="hdr"><img class="logo" src="../prototype/assets/logo.svg" alt="HelloPrint"><span class="co-secure"><img src="../prototype/assets/checkout/encrypted.svg" alt="">Secure Checkout</span><div class="r"><img src="../prototype/assets/account.svg" alt=""><img src="../design-system/icons/bag.svg" alt=""></div></div>
+    <div class="pg"><div class="side"><div class="one" data-card="login" style="margin:0"></div>
+      <div class="why"><h2>Why create an account?</h2><p style="font-size:var(--t-14);line-height:var(--lh-14);color:var(--dark-grey)">Free, and it makes your next order faster.</p>
+        <ul>
+          <li><img src="../prototype/assets/pdp/check.svg" alt=""><span><b>Reorder in a few clicks</b>Your products, options and files are saved.</span></li>
+          <li><img src="../prototype/assets/pdp/check.svg" alt=""><span><b>Track every order</b>See the status, proofs and shipments in one place.</span></li>
+          <li><img src="../prototype/assets/pdp/check.svg" alt=""><span><b>All your invoices</b>Download them whenever you need them.</span></li>
+          <li><img src="../prototype/assets/pdp/check.svg" alt=""><span><b>Saved addresses</b>Shipping and billing addresses ready at checkout.</span></li>
+        </ul></div></div></div><div class="ftr">The slim checkout footer</div></div>
+
+  <div class="sk-note" style="margin-top:56px">
+    <p><b>My pick: C.</b> The card stays exactly the mobile one (one thing to build and test), and the space next to it does a job:
+      it tells a new customer why an account is worth it, which is the moment they decide. Guest stays under the card, one click.</p>
+    <p>From the shop (not the checkout) the same layout gets the shop header and footer, without Back to checkout and guest.</p>
+  </div>
+</div>
+
+<script>
+  const G = document.querySelector('template#g');
+  const google = `<button class="auth-google" type="button"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continue with Google</button><p class="auth-or"><span>or</span></p>`;
+  const field = (l, t) => `<label class="auth-field"><span>${l} <i>*</i></span><input type="${t || 'text'}"></label>`;
+  const login = `<form class="auth-form"><h1>Sign in to your account</h1>${field('Email address', 'email')}${field('Password', 'password')}<button class="btn primary auth-submit" type="button">Sign in</button><a class="auth-link" href="#c">Forgot your password?</a></form>`;
+  const register = `<form class="auth-form"><h1>Create your account</h1><div class="auth-row">${field('First name')}${field('Last name')}</div>${field('Email address', 'email')}${field('Password', 'password')}<button class="btn primary auth-submit" type="button">Create account</button></form>`;
+  const card = `<a class="auth-back" href="#a">Back to checkout</a><div class="auth-card"><div class="auth-tabs" role="tablist"><button role="tab" aria-selected="true">Welcome back</button><button role="tab" aria-selected="false">Create an account</button></div><div class="auth-body">${google}${login}<a class="auth-guest" href="#a">Continue as guest</a></div></div><ul class="auth-trust"><li><img src="../prototype/assets/checkout/encrypted.svg" alt="">Secure</li><li><span class="lock" aria-hidden="true"></span>Encrypted</li><li><span class="card" aria-hidden="true"></span>Safe checkout</li></ul>`;
+  document.querySelectorAll('[data-card]').forEach(el => el.innerHTML = card);
+  document.getElementById('b3').innerHTML =
+    `<div class="box"><h2>Welcome back</h2>${google}${login}</div>` +
+    `<div class="box"><h2>New here?</h2>${register}</div>` +
+    `<div class="box"><h2>Continue as guest</h2><p>No account needed. You can create one after your order.</p><a class="btn outline" href="#b">Continue as guest</a></div>`;
+</script>
+</body>
+</html>
