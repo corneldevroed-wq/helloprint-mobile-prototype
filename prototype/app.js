@@ -257,6 +257,8 @@ if (DESK && document.querySelector('.co-steps')) {
   const ol = document.querySelector('.co-steps');
   ol.classList.add('co-steps-n');
   [...ol.children].slice(1).forEach((li, i) => (li.querySelector('a') || li).insertAdjacentHTML('afterbegin', `<span class="n">${i + 1}</span>`));
+  // Desktop only: "Details & Shipping" (Cornel 2026-11-06; the steps have the room, mobile keeps "Details")
+  ol.querySelectorAll('li > a, li').forEach(el => el.lastChild?.nodeType === 3 && el.lastChild.textContent.trim() === 'Details' && (el.lastChild.textContent = 'Details & Shipping'));
 }
 document.querySelectorAll('[data-shell="side-trust"]').forEach(s => s.outerHTML = SIDE_TRUST);
 document.querySelectorAll('[data-shell="sheet-shipping"]').forEach(s => s.outerHTML = SHEET_SHIPPING);

@@ -837,7 +837,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Details & shipping, logged in: one compact summary card, small text actions */
 .co-cards[hidden], #formView[hidden], #loginLink[hidden] { display: none; }
 .co-type { display: flex; gap: 8px; }   /* an either / or as pills: the order type (details), Pay now | Pay later (payment) */
-.co-desc ~ .co-type { margin-top: 8px; }   /* 16 under the description, so the pills start a new line of thought (Cornel, 2026-11-06) */
+.co-desc ~ .co-type { margin-block: 8px; }   /* 16 under the description and 16 to what follows (+ the 8 gap), so the pills are a block of their own (Cornel, 2026-11-06) */
 .pay-opts { margin-bottom: 8px; }   /* payment: 16 from the pills to the methods (Cornel, 2026-11-06) */
 #businessFields { padding: 8px; border-radius: var(--r-m); background: var(--light-grey); }   /* Business: the company fields stand out as one block (Cornel, 2026-11-06) */
 #businessFields .co-desc { font-size: var(--t-12); line-height: var(--lh-12); }   /* the note under the reference number */
@@ -1171,7 +1171,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
 .d-card .name { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .d-card .from { font-size: var(--t-12); line-height: var(--lh-12); }
-.d-card .prices .price { font-weight: 900; font-size: var(--t-14); }
+.d-card .prices .price { font-weight: 800; font-size: var(--t-14); }
 /* Reviews (Figma 15937:10023) */
 .d-reviews { display: flex; flex-direction: column; align-items: center; }
 .d-reviews h2 { align-self: stretch; }
@@ -1344,7 +1344,7 @@ html:not(.desk) .desk-only { display: none; }
 .desk .home .product .name, .desk .xsell .product .name, .desk .pm-row b { font-size: var(--t-16); line-height: var(--lh-16); }   /* + the payment method names on payment (Cornel, 2026-11-06) */
 .desk .home .product .prices, .desk .xsell .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: var(--t-14); }
-.desk .home .product .price, .desk .xsell .product .price { font-weight: 900; }
+.desk .home .product .price, .desk .xsell .product .price { font-weight: 800; }
 
 /* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
 .desk .home > .promos { order: 6; }
@@ -2045,7 +2045,7 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .co-review details p { display: flex; flex-direction: column; color: var(--black); }
 .co-review details[open] summary small { display: none; }   /* open: the full details say it */
 .co-review .link { align-self: flex-start; margin-top: 8px; }
-.co-review .kv { display: grid; grid-template-columns: 136px 1fr; gap: 8px; overflow-wrap: anywhere; }   /* Contact: a label column (dark grey) and the value */
+.co-review .kv { display: grid; grid-template-columns: 96px 1fr; gap: 8px; overflow-wrap: anywhere; }   /* Contact: a label column (dark grey) and the value */
 .co-review .kv span { color: var(--dark-grey); }
 .co-dfoot { border-top: 1px solid var(--line); }   /* no newsletter bar on top: a line ends the page */
 .co-dfoot .dfoot-row { padding-top: 24px; }   /* a mini footer (Cornel, 2026-11-06): the line, 24, the logos row, 24, the legal row, 24 */

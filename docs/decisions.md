@@ -5,6 +5,13 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-06 — The pills (Personal | Business, Pay now | Pay later) are a block of their own:** 16 under the description and 16 to the email field / the payment methods (was 8).
+- **11-06 — Desktop steps: "Details & Shipping"** instead of "Details" (desktop only, mobile keeps "Details": its steps have no room).
+- **11-06 — Total: the word semibold (600), the amount extra bold (800)**, as on the PDP (Your selection), so the amount stands out
+  (it was 700 next to 800, hardly different). The UI Style Guide weights now say so: 800 for the big amount (20) and the desktop
+  card prices; no 900 anywhere (Inter is loaded up to 800, three 900s became 800, nothing changed on screen).
+- **11-06 — Payment version B rejected** (the four wallets as big buttons 2 × 2 under the card and an OR line): removed, a strip per method stays.
+- **11-06 — Contact labels on payment 96 wide** (was 136): the widest label is 81, so the values sit closer.
 - **11-05 — Desktop checkout = the cart's frame** (checkout-desk-sketch.html A; Cornel: "the sidebar on the right is a must, keep the cart's
   layout and split"). Same grid as the desktop cart (form in the 862 column, the 392 "Order overview" card right, gap 32), the mobile
   form and wording 1:1. The card: products (summary lines), the cart's totals (`totalsHtml()`), the step's button, USPs + payments
