@@ -6,11 +6,11 @@
 <title>Details &amp; Shipping</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
-<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
-<link rel="stylesheet" href="pages.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116a">
+<link rel="stylesheet" href="pages.css?v=20261116a">
 </head>
-<body>
+<body data-desktop>
 <div class="phone">
   <div data-shell="checkout-header"></div>
 
@@ -46,17 +46,20 @@
           <div class="co-head"><h2>Shipping Address</h2></div>
           <p class="co-desc">Who’s receiving this order and where it’s delivered — delivery updates go to this phone number.</p>
           <!-- Address book (Cornel's desktop design): swipe the cards, tap one to deliver there -->
-          <div class="addr-row" id="addrRow" role="radiogroup" aria-label="Shipping address"></div>
-          <button type="button" class="co-act addr-manage" id="manageAddr">Change shipping address</button>
+          <div class="addr-wrap"><div class="addr-row" id="addrRow" role="radiogroup" aria-label="Shipping address"></div></div>
+          <button type="button" class="link addr-manage" id="manageAddr">Change shipping address</button>
 
-          <!-- Billing: a checkbox as on the live site; checking it opens the addresses sheet to pick the billing address -->
-          <label class="check co-billcheck"><input type="checkbox" id="otherBilling">Use a different billing address</label>
-          <p class="co-inv" id="invText" hidden></p>
-          <button type="button" class="co-link" id="invToggle" hidden>Change billing address</button>
+          <!-- Billing (Cornel 2026-11-06): the guest's checkbox, on by default; unchecking opens the address book to pick the billing
+               address (address-flow-sketch.html A); only then the Billing Address block with Change -->
+          <div class="co-head"><h2>Billing Address</h2></div>
+          <label class="check"><input type="checkbox" id="sameInvoice" checked>Billing address is the same as shipping address</label>
+          <div class="co-extra" id="invBlock" hidden>
+            <div class="co-summary"><section><div class="h"><p id="invText"></p><button type="button" class="co-act" id="invToggle">Change</button></div></section></div>
+          </div>
         </div>
 
         <div class="co-extra" id="formView">
-        <div class="co-head"><h2>Contact details</h2><a href="login.html?return=details" id="loginLink">Login</a></div>
+        <div class="co-head"><h2>Contact details</h2><a class="pill" href="login.html?return=details" id="loginLink">Log in</a></div>
         <p class="co-user" id="coUser" hidden></p>
         <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
         <label class="check"><input type="checkbox" id="isBusiness">I’m ordering for a business</label>
@@ -90,11 +93,12 @@
           <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
           <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
         </div>
+        <!-- Billing: always its own section, the title above the checkbox (Cornel, 2026-11-06) -->
+        <div class="co-head"><h2>Billing Address</h2></div>
         <label class="check"><input type="checkbox" id="sameBilling" checked>Billing address is the same as shipping address</label>
         </div>
         <!-- Billing address: the same form as the shipping address -->
         <div class="co-extra" id="billingFields" hidden>
-          <div class="co-head"><h2>Billing Address</h2></div>
           <div class="co-row">
             <label class="field" data-field="billFirst"><input name="billFirst" placeholder=" " autocomplete="billing given-name" aria-label="Billing first name"><span class="fl">First name</span></label>
             <label class="field" data-field="billLast"><input name="billLast" placeholder=" " autocomplete="billing family-name" aria-label="Billing last name"><span class="fl">Last name</span></label>
@@ -126,26 +130,28 @@
       </div>
     </form>
   </main>
+  <footer data-shell="checkout-footer"></footer>
 </div>
 
 <!-- Sticky bar (Figma 15738:4724) -->
-<!-- Sheet: all shipping addresses (like bol.com's overview): tap one to deliver there, ⋮ for edit / default / delete -->
+<!-- Sheet: the address book, for shipping or billing (address-flow-sketch.html A): tap = choose, the button confirms, ✕ = nothing changed;
+     "+ New address" is the last item; ⋮ for edit / default / delete -->
 <div class="sheet-layer" id="sheet-addresses" aria-hidden="true">
   <div class="sheet-overlay" data-close-sheet></div>
-  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrListTitle">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="addrListTitle">
     <div class="grab" data-grab><span></span></div>
     <div class="sheet-head"><h2 id="addrListTitle">Your shipping addresses</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
     <div class="sheet-body"><ul class="addr-list" id="addrList"></ul></div>
-    <div class="sheet-bar"><button class="btn primary addr-new" type="button" id="addAddress">New shipping address</button></div>
+    <div class="sheet-bar"><button class="btn primary addr-new" type="button" id="useAddress">Use this address</button></div>
   </div>
 </div>
 
 <!-- Sheet: add or edit an address in the address book -->
 <div class="sheet-layer" id="sheet-address" aria-hidden="true">
   <div class="sheet-overlay" data-close-sheet></div>
-  <div class="sheet tall" role="dialog" aria-modal="true" aria-labelledby="addrTitle">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="addrTitle">
     <div class="grab" data-grab><span></span></div>
-    <div class="sheet-head"><h2 id="addrTitle">Add shipping address</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-head"><button type="button" class="sheet-back" id="addrBack" aria-label="Back to your addresses" hidden><img src="assets/menu/back.svg" alt=""></button><h2 id="addrTitle">Add shipping address</h2><button class="close" type="button" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
     <div class="sheet-body"><form class="pad addr-form" id="addrForm" novalidate>
       <label class="field" data-field="label"><input name="label" placeholder=" " aria-label="Name for this address"><span class="fl">Name for this address (e.g. Home, Office)</span></label>
       <div class="co-row">
@@ -173,13 +179,14 @@
   </div>
 </div>
 
-<script src="app.js?v=20261114g"></script>
-<script src="../design-system/components.js?v=20261114g"></script>
+<script src="app.js?v=20261116a"></script>
+<script src="../design-system/components.js?v=20261116a"></script>
 <script>
   // Nothing to check out → back to the cart
   const items = getCart();
   if (!items.length) location.replace('cart.html');
-  document.body.classList.add('buybar-on');
+  if (!DESK) document.body.classList.add('buybar-on');   // desktop: the sidebar card has the total and the button
+  checkoutSide('Continue to payment', 'coForm');
 
   document.getElementById('barTotal').textContent = '€' + cartTotals().total.toFixed(2);
   if (items[0]) document.getElementById('barArrives').textContent = `arrives ${items[0].arrives}`;
@@ -215,6 +222,12 @@
       if (v === undefined) return;
       if (el.type === 'checkbox') el.checked = v; else el.value = v;
     });
+    // The account's billing choice (logged in) isn't the guest's: a guest starts with billing = shipping again (Cornel, 2026-11-06)
+    if (!user && localStorage.getItem('hp-invoice-sel')) {
+      document.getElementById('sameBilling').checked = true;
+      localStorage.setItem(KEY, JSON.stringify({ ...saved, sameBilling: true }));
+      localStorage.removeItem('hp-invoice-sel');
+    }
     document.getElementById('businessFields').toggleAttribute('hidden', !document.getElementById('isBusiness').checked);
     document.getElementById('billingFields').toggleAttribute('hidden', document.getElementById('sameBilling').checked);
   } catch (e) {}
@@ -259,24 +272,32 @@
   let listMode = 'delivery', invoiceSel = 'same';
   try { invoiceSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
   if (invoiceSel !== 'same' && !book.some(a => a.id === invoiceSel)) invoiceSel = 'same';
+  // The billing address in use: a chosen one, or the shipping address ('same')
+  const invoiceId = () => invoiceSel === 'same' ? selected : invoiceSel;
+  let pick = null;   // the address tapped in the sheet, used once the button confirms it
   function renderList() {
-    const inv = listMode === 'invoice', current = inv ? invoiceSel : selected;
+    const inv = listMode === 'invoice', current = pick || (inv ? invoiceId() : selected);
     document.getElementById('addrListTitle').textContent = inv ? 'Your billing address' : 'Your shipping addresses';
-    document.getElementById('addrList').innerHTML = (inv ? `
-      <li class="${invoiceSel === 'same' ? 'on' : ''}" aria-checked="${invoiceSel === 'same'}">
-        <button type="button" class="ap-pick" data-pick-addr="same"><span class="radio" aria-hidden="true"></span>
-          <span class="t"><b>Same as shipping address</b><span>We use your shipping address for billing</span></span></button>
-      </li>` : '') + book.map(a => `
+    document.getElementById('useAddress').textContent = inv ? 'Use as billing address' : 'Use this address';
+    document.getElementById('addrList').innerHTML = book.map(a => `
       <li class="${a.id === current ? 'on' : ''}" aria-checked="${a.id === current}">
         <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="radio" aria-hidden="true"></span>
-          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</span></button>
+          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}${inv && a.id === selected ? '<span class="badge neutral co-badge">Shipping address</span>' : ''}</span></button>
         <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
         <div class="menu" hidden>
           <button type="button" data-edit-addr="${a.id}">Edit</button>
           ${a.isDefault ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
           ${book.length > 1 ? `<button type="button" class="del" data-del-addr="${a.id}">Delete</button>` : ''}
         </div>
-      </li>`).join('');
+      </li>`).join('') + '<li class="ap-add"><button type="button" class="ap-pick" data-new-addr><span>+</span>New address</button></li>';
+  }
+  // Desktop: the cards in one row that scrolls, with the round arrows of the reviews row (Cornel, 2026-11-06)
+  let syncArrows = () => {};
+  if (DESK) {
+    const row = document.getElementById('addrRow');
+    row.insertAdjacentHTML('beforebegin', `<button type="button" class="d-rev-nav prev" aria-label="Previous addresses">${REV_ARROW}</button>`);
+    row.insertAdjacentHTML('afterend', `<button type="button" class="d-rev-nav next" aria-label="Next addresses">${REV_ARROW}</button>`);
+    syncArrows = wireRowArrows(row.parentNode, row);
   }
   function renderBook() {
     document.getElementById('addrRow').innerHTML = book.map(a => `
@@ -285,12 +306,14 @@
         <p>${addrLines(a).map(escA).join('<br>')}</p>
       </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span>+</span>New address</button>';
     renderList();
+    syncArrows();
   }
   function selectAddress(id, scroll) {
     selected = id;
     try { localStorage.setItem('hp-address-sel', id); } catch (e) {}
     useAddress(book.find(a => a.id === id));
     renderBook();
+    renderInvoice();   // "same as shipping" follows the new shipping address
     if (scroll) document.querySelector(`[data-addr="${id}"]`).scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   }
 
@@ -300,6 +323,7 @@
     document.getElementById('uvEmail').textContent = val('email');
     saveBook();
     document.getElementById('userView').hidden = false;
+    syncArrows();   // the row has its width only now
     document.getElementById('formView').hidden = true;
     document.getElementById('coUser').hidden = true;
     selectAddress(selected);
@@ -313,8 +337,17 @@
     if (e.target.closest('[data-new-addr]')) { listMode = 'delivery'; openAddressSheet(); return; }
     const c = e.target.closest('[data-addr]'); if (c) selectAddress(c.dataset.addr, true);
   });
-  document.getElementById('manageAddr').addEventListener('click', () => { listMode = 'delivery'; renderList(); openSheet('addresses'); });
-  // Overview: tap = deliver there; ⋮ = edit / make default / delete
+  const openList = mode => { listMode = mode; pick = null; renderList(); openSheet('addresses'); };
+  document.getElementById('manageAddr').addEventListener('click', () => openList('delivery'));
+  // The button confirms the tapped address (shipping, or billing: the shipping address itself = 'same')
+  document.getElementById('useAddress').addEventListener('click', () => {
+    const id = pick || (listMode === 'invoice' ? invoiceId() : selected);
+    closeSheet();
+    if (listMode === 'invoice') { setInvoice(id === selected ? 'same' : id); return; }
+    selectAddress(id);
+    document.querySelector(`[data-addr="${id}"]`).scrollIntoView({ inline: 'center', block: 'nearest' });
+  });
+  // Overview: tap = choose (the button confirms); + = a new address; ⋮ = edit / make default / delete
   document.getElementById('addrList').addEventListener('click', e => {
     const t = e.target;
     const menuBtn = t.closest('[data-menu]');
@@ -329,13 +362,15 @@
       book.splice(i, 1);
       if (was.isDefault) book[0].isDefault = true;
       saveBook();
+      if (was.id === pick) pick = null;
+      if (was.id === invoiceSel) setInvoice('same');
       if (was.id === selected) selectAddress((book.find(a => a.isDefault) || book[0]).id); else renderBook();
       showToast('Address deleted');
       return;
     }
+    if (t.closest('[data-new-addr]')) { openAddressSheet(); return; }
     const p = t.closest('[data-pick-addr]');
-    if (p && listMode === 'invoice') { setInvoice(p.dataset.pickAddr); closeSheet(); return; }
-    if (p) { selectAddress(p.dataset.pickAddr); closeSheet(); document.querySelector(`[data-addr="${selected}"]`).scrollIntoView({ inline: 'center', block: 'nearest' }); }
+    if (p) { pick = p.dataset.pickAddr; renderList(); }
   });
   document.getElementById('addrRow').addEventListener('keydown', e => {
     const c = e.target.closest('[data-addr]'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectAddress(c.dataset.addr, true); }
@@ -348,14 +383,20 @@
   function openAddressSheet(id) {
     editing = id || null;
     const a = book.find(x => x.id === id) || { isDefault: !book.length };
-    document.getElementById('addrTitle').textContent = id ? 'Edit address' : 'Add shipping address';
+    document.getElementById('addrTitle').textContent = id ? 'Edit address' : listMode === 'invoice' ? 'Add billing address' : 'Add shipping address';
     ADDR_FIELDS.forEach(n => { addrForm[n].value = a[n] || ''; });
     if (!id) { addrForm.first.value = user?.first || ''; addrForm.last.value = user?.last || ''; }
     addrForm.isDefault.checked = !!a.isDefault;
     addrForm.querySelectorAll('.field').forEach(f => setFieldError(f, ''));
+    document.getElementById('addrBack').hidden = !overList();   // from the address list: ← back to it
     openSheet('address');
   }
-  document.getElementById('addAddress').addEventListener('click', () => openAddressSheet());
+  const overList = () => sheetStack.some(el => el.id === 'sheet-addresses');
+  document.getElementById('addrBack').addEventListener('click', () => closeSheet());
+  // Over the list, ✕ and a tap outside close both popups (← is the way back to the list)
+  document.getElementById('sheet-address').addEventListener('click', e => {
+    if (e.target.closest('[data-close-sheet]') && overList()) { e.stopPropagation(); closeSheet(); closeSheet(); }
+  });
   addrForm.addEventListener('submit', e => {
     e.preventDefault();
     const rules = {
@@ -375,12 +416,13 @@
     if (!book.some(a => a.isDefault)) book[0].isDefault = true;
     saveBook();
     closeSheet();
-    if (listMode === 'invoice' && sheetStack.some(el => el.id === 'sheet-addresses')) { setInvoice(id); renderBook(); renderList(); showToast(editing ? 'Address updated' : 'Address added and used as billing address'); return; }
-    selectAddress(id, !sheetStack.some(el => el.id === 'sheet-addresses'));
+    // From the sheet: back in the list with the new address chosen, the button confirms it; from the card row: used at once
+    if (sheetStack.some(el => el.id === 'sheet-addresses')) { if (!editing) pick = id; renderBook(); renderInvoice(); showToast(editing ? 'Address updated' : 'Address added'); return; }
+    selectAddress(id, true);
     showToast(editing ? 'Address updated' : 'Address added and selected');
   });
 
-  // Billing address: same as shipping, or one from the address book
+  // Billing address: the shipping address ('same'), or another one from the address book
   function setInvoice(id) {
     invoiceSel = id;
     try { localStorage.setItem('hp-invoice-sel', id); } catch (e) {}
@@ -393,18 +435,20 @@
     renderInvoice();
     persist();
   }
+  // Same as shipping: the checkbox on, no block. Another address: the checkbox off, the Billing Address block (name, the address on one line)
   function renderInvoice() {
-    const a = book.find(x => x.id === invoiceSel);
-    document.getElementById('otherBilling').checked = !!a;
-    document.getElementById('invText').hidden = document.getElementById('invToggle').hidden = !a;
-    // A short list, one line each (like the shipping address cards), not one long inline line
-    if (a) document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}`;
+    const a = book.find(x => x.id === invoiceId()); if (!a) return;
+    const same = a.id === selected;
+    document.getElementById('sameInvoice').checked = same;
+    document.getElementById('invBlock').hidden = same;
+    document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b><span>${addrLines(a).map(escA).join(' · ')}</span>`;
   }
-  const openInvoiceSheet = () => { listMode = 'invoice'; renderList(); openSheet('addresses'); };
-  document.getElementById('invToggle').addEventListener('click', openInvoiceSheet);
-  // Checked → pick a billing address in the sheet; unchecked → same as shipping again
-  document.getElementById('otherBilling').addEventListener('change', e => {
-    if (e.target.checked) { e.target.checked = false; openInvoiceSheet(); } else setInvoice('same');
+  document.getElementById('invToggle').addEventListener('click', () => openList('invoice'));
+  // Unchecked: the box stays on until an other address is confirmed in the sheet (✕ = nothing changed); checked again: same as shipping
+  document.getElementById('sameInvoice').addEventListener('change', e => {
+    if (e.target.checked) { setInvoice('same'); return; }
+    e.target.checked = true;
+    openList('invoice');
   });
   if (known) setInvoice(invoiceSel);
   // Contact "Edit": an email field (and the business option) in the card, not the whole form

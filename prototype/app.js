@@ -103,17 +103,23 @@ const SHELL_OVERLAYS = `
 </div>
 `;
 // Checkout pages use a reduced header: logo + "Secure Checkout" (Figma 15738:4701)
+const CO_SECURE = `<span class="co-secure"><img src="assets/checkout/encrypted.svg" alt="">Secure Checkout</span>`;
+const CO_ICONS = `
+        <a href="login.html?return=details" aria-label="Account" class="account-link"><img class="icon" src="assets/account.svg" alt=""></a>
+        <a href="cart.html" aria-label="Cart"><img class="icon" src="../design-system/icons/bag.svg" alt=""></a>`;
 const SHELL_CHECKOUT_HEADER = `
   <header class="header co-header">
     <div class="nav co-nav">
       <a href="index.html" aria-label="HelloPrint home"><img class="logo" src="assets/logo.svg" alt="HelloPrint"></a>
-      <div class="co-right">
-        <span class="co-secure"><img src="assets/checkout/encrypted.svg" alt="">Secure Checkout</span>
-        <a href="login.html?return=details" aria-label="Account" class="account-link"><img class="icon" src="assets/account.svg" alt=""></a>
-        <a href="cart.html" aria-label="Cart"><img class="icon" src="../design-system/icons/bag.svg" alt=""></a>
-      </div>
+      <div class="co-right">${CO_SECURE}${CO_ICONS}</div>
     </div>
   </header>`;
+// Desktop: the shop header's top bar, Secure Checkout next to the logo, account and bag right; no search, menu or USP bar
+// (checkout-desk-sketch.html A, Cornel 2026-11-05/06)
+const SHELL_CHECKOUT_HEADER_DESK = `
+  <header class="dhead co-dhead"><div class="dhead-top"><div class="dwrap">
+    <a href="index.html" aria-label="HelloPrint home"><img class="dlogo" src="assets/logo.svg" alt="HelloPrint"></a>${CO_SECURE}<div class="co-right">${CO_ICONS}</div>
+  </div></div></header>`;
 // ---------- Desktop (≥1024px, Figma 15927:9040) for pages that opt in with <body data-desktop> ----------
 // Below 1024px those pages stay the mobile prototype. Crossing the breakpoint reloads, so layout and script agree.
 const DESK_MQ = matchMedia('(min-width: 1024px)');
@@ -124,6 +130,25 @@ const DESK_NAV = [['Promotional Print', 'promotional-printing'], ['Books', 'broc
   ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs', 'panels-and-signs'], ['Stickers', 'all-stickers'], ['Gifts', 'corporate-gifts'], ['Bags', 'promotional-bags'], ['Clothing', 'clothing-printing']];
 const deskUser = (() => { try { return JSON.parse(localStorage.getItem('hp-user')) || null; } catch (e) { return null; } })();
 // Trustpilot service score (header + footer), built in HTML instead of a picture, like the live widget: "See our 35,364 reviews on ★ Trustpilot"
+// Under the totals in the sidebar card (cart, desktop checkout): the satisfaction USPs and the payment methods
+// The payment methods (cart and checkout sidebar, desktop footer)
+const PAYMENTS = `
+    <div class="payments" aria-label="Payment methods">
+      <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
+      <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
+      <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
+      <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
+      <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
+      <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
+      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
+    </div>`;
+const SIDE_TRUST = `
+    <ul class="cart-usps">
+      <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
+      <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
+    </ul>
+    ${PAYMENTS}`;
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 const SHELL_HEADER_DESK = `
   <header class="dhead">
@@ -157,15 +182,27 @@ const SHELL_HEADER_DESK = `
       ${DTRUST}
     </div></div>`;
 const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
-const SHELL_FOOTER_DESK = `
-  <footer class="dfoot">
-    ${SHELL_NEWS}
-    <div class="dwrap">
+// Desktop footer parts: the help row (team faces + Trustpilot) and the bottom (certificates, payments, VAT, legal)
+const FOOT_HELP = `
       <div class="dfoot-help">
         <div class="dhelp"><span class="dfaces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span>
           <p><b>Need help?</b><a href="#chat">Ask our print experts</a></p></div>
         ${DTRUST}
+      </div>`;
+const FOOT_END = `
+      <div class="dfoot-row">
+        <div class="dcerts"><img src="assets/desktop/b-corp.png" alt="Certified B Corporation"><img src="assets/desktop/fsc.svg" alt="FSC"></div>
+        ${PAYMENTS}
+        <label class="dvat">Show VAT <button class="switch" role="switch" aria-checked="false" data-vat-switch aria-label="Show prices including VAT"></button></label>
       </div>
+      <div class="dlegal">
+        <img src="assets/logo-dark.svg" alt="HelloPrint">
+        <a href="#terms-and-conditions">Terms &amp; Conditions</a><a href="#privacy-policy">Privacy Policy</a><a href="#cookie-statement">Cookie Statement</a><a href="#disclaimer">Disclaimer</a>
+      </div>`;
+const SHELL_FOOTER_DESK = `
+  <footer class="dfoot">
+    ${SHELL_NEWS}
+    <div class="dwrap">${FOOT_HELP}
       <div class="dfoot-cols">
         ${deskCol('Our Company', [['About us', 'about-us'], ['Culture', 'our-culture'], ['Sustainability', 'sustainability'], ['Newsroom', 'newsroom'], ['Jobs', 'jobs'], ['Talent &amp; Culture', 'talent'], ['Blog', 'blog'], ['Culture Book', 'culture-book'], ['Contact', 'new2contactform']])}
         ${deskCol('Our Solutions', [['Business Solutions', 'business-solutions'], ['Reseller Solutions', 'reseller-solutions'], ['HelloPrint Connect', 'connect'], ['VIP Loyalty Programme', 'vip'], ['Become a Supplier', 'become-a-supplier'], ['Partnerships', 'become-a-partner'], ['Non-Profit', 'nonprofits']])}
@@ -178,35 +215,33 @@ const SHELL_FOOTER_DESK = `
           <li><a href="#instagram"><img src="assets/s5.svg" alt="">Instagram</a></li>
           <li><a href="#whatsapp"><img src="assets/whatsapp.svg" alt="">Whatsapp</a></li>
         </ul></div>
-      </div>
-      <div class="dfoot-row">
-        <div class="dcerts"><img src="assets/desktop/b-corp.png" alt="Certified B Corporation"><img src="assets/desktop/fsc.svg" alt="FSC"></div>
-        <div class="payments" aria-label="Payment methods">
-          <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
-          <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
-          <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
-          <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
-          <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
-          <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
-          <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
-          <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
-        </div>
-        <label class="dvat">Show VAT <button class="dvat-switch" role="switch" aria-checked="false" data-vat-switch aria-label="Show prices including VAT"><span>OFF</span></button></label>
-      </div>
-      <div class="dlegal">
-        <img src="assets/logo-dark.svg" alt="HelloPrint">
-        <a href="#terms-and-conditions">Terms &amp; Conditions</a><a href="#privacy-policy">Privacy Policy</a><a href="#cookie-statement">Cookie Statement</a><a href="#disclaimer">Disclaimer</a>
-      </div>
+      </div>${FOOT_END}
+    </div>
+  </footer>`;
+// Checkout (desktop): the same footer slimmed down, without the newsletter and the link lists (Cornel, 2026-11-06)
+const SHELL_CHECKOUT_FOOTER_DESK = `
+  <footer class="dfoot co-dfoot">
+    <div class="dwrap">${FOOT_HELP}${FOOT_END}
     </div>
   </footer>`;
 const headerSlot = document.querySelector('[data-shell="header"]');
 if (headerSlot) headerSlot.outerHTML = DESK ? SHELL_HEADER_DESK : SHELL_HEADER;
 const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
-if (checkoutSlot) checkoutSlot.outerHTML = SHELL_CHECKOUT_HEADER;
+if (checkoutSlot) checkoutSlot.outerHTML = DESK ? SHELL_CHECKOUT_HEADER_DESK : SHELL_CHECKOUT_HEADER;
+// Desktop checkout steps (Cornel 2026-11-06, was switch Steps B): the mobile steps and words, centred; a numbered circle per step and a line
+// between. Cart is the way back, not a step: a round back button, so Details is 1.
+if (DESK && document.querySelector('.co-steps')) {
+  const ol = document.querySelector('.co-steps');
+  ol.classList.add('co-steps-n');
+  [...ol.children].slice(1).forEach((li, i) => (li.querySelector('a') || li).insertAdjacentHTML('afterbegin', `<span class="n">${i + 1}</span>`));
+}
+document.querySelectorAll('[data-shell="side-trust"]').forEach(s => s.outerHTML = SIDE_TRUST);
 const footerSlot = document.querySelector('[data-shell="footer"]');
 if (footerSlot && DESK) footerSlot.outerHTML = SHELL_FOOTER_DESK;
 else if (footerSlot && footerSlot.hasAttribute('data-desk-only')) footerSlot.remove();
 else if (footerSlot) footerSlot.innerHTML = SHELL_FOOTER;
+const coFootSlot = document.querySelector('[data-shell="checkout-footer"]');   // desktop only: on mobile the sticky bar sits at the bottom
+if (coFootSlot) { if (DESK) coFootSlot.outerHTML = SHELL_CHECKOUT_FOOTER_DESK; else coFootSlot.remove(); }
 document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
@@ -300,11 +335,15 @@ function deskReviews() {
         </div>
         <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>. Showing our 5 star reviews.</p>`;
 }
-function wireDeskReviews(root) {
-  const row = root.querySelector('.d-rev-row'), prev = root.querySelector('.d-rev-nav.prev'), next = root.querySelector('.d-rev-nav.next');
+function wireDeskReviews(root) { wireRowArrows(root, root.querySelector('.d-rev-row')); }
+// The round arrows next to a scroll row (reviews, the checkout address cards): each scrolls one card + the gap, hidden at the start/end.
+// Returns the check, to run again when the row's content or visibility changes.
+function wireRowArrows(root, row) {
+  const prev = root.querySelector('.d-rev-nav.prev'), next = root.querySelector('.d-rev-nav.next');
   const sync = () => { prev.disabled = row.scrollLeft < 4; next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
-  root.querySelectorAll('[data-rev]').forEach(b => b.addEventListener('click', () => row.scrollBy({ left: +b.dataset.rev * (row.querySelector('.d-rev').getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0)), behavior: 'smooth' })   /* one card + the gap */));
+  [prev, next].forEach((b, i) => b.addEventListener('click', () => row.scrollBy({ left: (i ? 1 : -1) * (row.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0)), behavior: 'smooth' })));
   row.addEventListener('scroll', sync, { passive: true }); sync();
+  return sync;
 }
 
 // Accordions: product categories in "Browse all we offer", site links in the footer.
@@ -342,7 +381,7 @@ function setVat(incl) {
   inclVat = incl;
   try { localStorage.setItem('hp-vat', incl ? 'incl' : 'excl'); } catch (e) {}
   // Desktop: the VAT switches (footer, quantity list) follow the same setting
-  document.querySelectorAll('[data-vat-switch]').forEach(b => { b.setAttribute('aria-checked', incl); const t = b.querySelector('span'); if (t) t.textContent = incl ? 'ON' : 'OFF'; });
+  document.querySelectorAll('[data-vat-switch]').forEach(b => b.setAttribute('aria-checked', incl));
   updatePrices();
   document.dispatchEvent(new Event('hp-vat'));   // pages that render prices themselves (desktop PDP) re-render
 }
@@ -589,6 +628,51 @@ function cartTotals(items = getCart(), addons = getAddons()) {
   const subtotal = products - discount + check.price + (addons.secured ? SECURED.price : 0) + shipping;
   const vat = Math.round(subtotal * VAT_RATE * 100) / 100;
   return { check, products, code, discount, shipping, subtotal, vat, total: subtotal + vat };
+}
+// The order totals (cart sidebar, desktop checkout sidebar): an ⓘ only where its popup is on the page; ✕ on the code only in the cart (edit);
+// fold: "Products (n)" is a link that opens the product lines under it (checkout, where the products aren't on the page),
+// each with its own delivery window (it can differ per product). Follows the VAT switch (Cornel, 2026-11-06): incl. VAT the rows show
+// their price with VAT, the subtotal drops out and the VAT is shown as included, so the overview still adds up to the same total.
+function totalsHtml(items = getCart(), addons = getAddons(), edit = false, fold = false) {
+  const eur = n => '€' + n.toFixed(2), { check, products, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons);
+  const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
+  const info = (sheet, label) => document.getElementById('sheet-' + sheet) ? `<button class="info-btn" data-open-sheet="${sheet}" aria-label="${label}"><img src="assets/pdp/info.svg" alt=""></button>` : '';
+  return `<div class="totals">
+          <div><span>${fold ? `<button class="link sum-toggle" aria-expanded="false" aria-controls="sumLines" data-sum-toggle>Products (${items.length})</button>` : `Products (${items.length})`}</span><span>${fmt(gross)}</span></div>
+          ${fold ? `<ul class="sum-lines" id="sumLines" hidden>${items.map(it => `<li class="line-item"><span class="img" style="background:var(--light-grey)"><img src="${it.img}" alt=""></span>
+            <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small><span>Estimated ${etaShort(etaDate(it.arrives))} —</span> <span>latest ${etaShort(etaLatest(it.arrives))}</span></small></div><span class="p">${fmt(it.price)}</span></li>`).join('')}</ul>` : ''}
+          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${fmt(gross - products)}</span></div>` : ''}
+          <div><span>${check.line}${info('filecheck', 'See our 3 file check options')}</span>${check.price ? `<span>${fmt(check.price)}</span>` : '<span class="free">Free</span>'}</div>
+          ${addons.secured ? `<div><span>${SECURED.line}${info('secured', 'More info about secured delivery')}</span><span>${fmt(SECURED.price)}</span></div>` : ''}
+          <div><span>Shipping${info('shipping', 'About free shipping')}</span>${shipping ? `<span>${fmt(shipping)}</span>` : '<span class="free">Free</span>'}</div>
+          ${code ? `<div><span>Discount <small>(${code})</small>${edit ? `<button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button>` : ''}</span><span class="free">−${fmt(discount)}</span></div>` : ''}
+          ${inclVat ? '' : `<div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>`}
+          <div${inclVat ? ' class="sub"' : ''}><span>VAT ${Math.round(VAT_RATE * 100)}%${inclVat ? ' <small>(included)</small>' : ''}</span><span>${eur(vat)}</span></div>
+          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
+        </div>`;
+}
+// Desktop checkout (details, payment): the cart's sidebar card on the right, with the totals (the products fold open), the step's button
+// (the mobile sticky bar's job). No page title: the steps say where you are, and a title on top of Contact details is two titles in a row. checkout-desk-sketch.html A, Cornel 2026-11-05
+function checkoutSide(cta, form) {
+  if (!DESK) return;
+  const items = getCart();
+  document.querySelector('.co-page').insertAdjacentHTML('beforeend', `<div class="cart-col"><aside class="cart-side">
+    <h2>Order overview</h2>
+    ${totalsHtml(items, getAddons(), false, true)}
+    <button class="btn primary" type="submit" form="${form}">${cta}</button>${SIDE_TRUST}</aside></div>`);
+  const side = document.querySelector('.co-page .cart-side');
+  side.addEventListener('click', e => {
+    const b = e.target.closest('[data-sum-toggle]'); if (!b) return;
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', open);
+    document.getElementById('sumLines').hidden = !open;
+  });
+  // The VAT switch (footer): the totals again, the products list stays open or closed
+  document.addEventListener('hp-vat', () => {
+    const open = side.querySelector('[data-sum-toggle]').getAttribute('aria-expanded') === 'true';
+    side.querySelector('.totals').outerHTML = totalsHtml(getCart(), getAddons(), false, true);
+    if (open) side.querySelector('[data-sum-toggle]').click();
+  });
 }
 
 // Cart: kept in this browser only (localStorage), so it survives moving between prototype pages.

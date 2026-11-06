@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
-<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
-<link rel="stylesheet" href="pages.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116a">
+<link rel="stylesheet" href="pages.css?v=20261116a">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -319,9 +319,9 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261114g"></script>
-<script src="../design-system/components.js?v=20261114g"></script>
-<script src="products.js?v=20261114g"></script>
+<script src="app.js?v=20261116a"></script>
+<script src="../design-system/components.js?v=20261116a"></script>
+<script src="products.js?v=20261116a"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -733,7 +733,7 @@
     if (DESK) deskOverflow();
     if (SIZES_MIX) renderSizeMix(c);
     else document.querySelector('[data-option="qty"]').innerHTML = `
-      <p class="opt-title">${jStep(shownKeys(c).length)}Quantity <span>${c.qty}</span>${DESK ? `<label class="d-vat">Incl VAT<button class="d-vat-switch" role="switch" aria-checked="${inclVat}" data-vat-switch aria-label="Show prices including VAT"></button></label>` : ''}</p>
+      <p class="opt-title">${jStep(shownKeys(c).length)}Quantity <span>${c.qty}</span>${DESK ? `<label class="d-vat">Incl VAT<button class="switch" role="switch" aria-checked="${inclVat}" data-vat-switch aria-label="Show prices including VAT"></button></label>` : ''}</p>
       <div class="qty-list${FLOW_J && !jAllQty ? ' j-short' : ''}" role="radiogroup" aria-label="Quantity" style="--qrows:${Math.ceil((FLOW_J && !jAllQty ? QTY.filter(([q], qi) => qi < 8 || c.qty === q).length : QTY.length) / 2)}">${QTY.map(([q], qi) => {
         const p = productPrice(c, q);
         // J shows the common amounts (+ the chosen one) until "More quantities"

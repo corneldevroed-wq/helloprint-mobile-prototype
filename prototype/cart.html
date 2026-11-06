@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261114g">
-<link rel="stylesheet" href="../design-system/components.css?v=20261114g">
-<link rel="stylesheet" href="pages.css?v=20261114g">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116a">
+<link rel="stylesheet" href="pages.css?v=20261116a">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -24,21 +24,7 @@
     <div class="cart-col">
     <aside class="cart-side">
     <div id="cartSide"></div>
-    <ul class="cart-usps">
-      <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
-      <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
-    </ul>
-
-    <div class="payments" aria-label="Payment methods">
-      <div class="card"><img src="assets/pay-maestro.svg" alt="Maestro"></div>
-      <div class="card"><img src="assets/pay-visa.svg" alt="Visa"></div>
-      <div class="card"><img src="assets/pay-mastercard.svg" alt="Mastercard"></div>
-      <div class="card"><img src="assets/pay-paypal.svg" alt="PayPal"></div>
-      <div class="card"><img src="assets/pay-amex.svg" alt="American Express"></div>
-      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-diners.svg" alt="Diners Club" style="inset:17.64% 22.45% 19.06%;width:55.1%;height:63.3%"></div>
-      <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
-      <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
-    </div>
+    <div data-shell="side-trust"></div>
     </aside>
     </div>
   </main>
@@ -164,9 +150,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261114g"></script>
-<script src="../design-system/components.js?v=20261114g"></script>
-<script src="products.js?v=20261114g"></script>
+<script src="app.js?v=20261116a"></script>
+<script src="../design-system/components.js?v=20261116a"></script>
+<script src="products.js?v=20261116a"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -275,8 +261,7 @@
       side.innerHTML = '';
       return;
     }
-    const { check, products, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
-    const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
+    const { check, code, total } = cartTotals(items, addons), checkOn = check.id !== 'basic';
     // Upsells (Cornel's design, 2026-11-03), each a light grey block: switch, title, price right; a short line and the link to the popup
     // under the title. Desktop: inside the Order overview card, a line across the card, then the totals. Mobile: on top of the cart (2026-11-03)
     const dBlock = (id, on, title, price, sub, link) => `<div class="sum-up sum-${id}"><button class="switch" role="switch" aria-checked="${on}" data-addon="${id}" aria-label="${title}"></button>
@@ -298,17 +283,7 @@
       ${DESK ? xsellHtml(items) + shop : ''}`;
     side.innerHTML = `
         ${DESK ? '<h2>Order overview</h2><div class="sum-ups">' + ups + '</div>' : ''}
-        <div class="totals">
-          <div><span>Products (${items.length})</span><span>${eur(gross)}</span></div>
-          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
-          <div><span>${check.line}<button class="info-btn" data-open-sheet="filecheck" aria-label="See our 3 file check options"><img src="assets/pdp/info.svg" alt=""></button></span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
-          ${addons.secured ? `<div><span>${SECURED.line}<button class="info-btn" data-open-sheet="secured" aria-label="More info about secured delivery"><img src="assets/pdp/info.svg" alt=""></button></span><span>${eur(SECURED.price)}</span></div>` : ''}
-          <div><span>Shipping<button class="info-btn" data-open-sheet="shipping" aria-label="About free shipping"><img src="assets/pdp/info.svg" alt=""></button></span>${shipping ? `<span>${eur(shipping)}</span>` : '<span class="free">Free</span>'}</div>
-          ${code ? `<div><span>Discount <small>(${code})</small><button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button></span><span class="free">−${eur(discount)}</span></div>` : ''}
-          <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>
-          <div><span>VAT ${Math.round(VAT_RATE * 100)}%</span><span>${eur(vat)}</span></div>
-          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
-        </div>
+        ${totalsHtml(items, addons, true)}
       ${DESK && !code ? `<button class="link add-code" data-open-code>${icon('add')}<u>Add discount code</u></button>
         <div class="code-box" hidden><div class="code-row"><label class="field"><input id="codeIn" placeholder="Discount code" aria-label="Discount code"></label><button class="btn outline" data-apply-code>Apply</button></div>
         <p class="field-error" id="codeErr" hidden>This code isn't valid</p></div>` : ''}

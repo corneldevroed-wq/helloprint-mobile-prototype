@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Address flow sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261116a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261116a">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261116a">
+<!-- Sketch only, not linked from the prototype: how choosing a shipping and a billing address works (details, logged in).
+     Built from the real parts: .sheet, .addr-list, .sheet-bar, .co-summary, .co-head, .check. The popups are drawn open,
+     390 wide = the mobile sheet; on desktop the same popup is a 560 dialog in the middle. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p, .sk-note ul { margin-top: 8px; }
+  .sk-note ul, .sk-label ul { padding-left: 20px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 8px; width: 390px; max-width: 100%; }
+  .col > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  /* a popup drawn open, in the flow of the page */
+  .pop { padding: 24px 0 0; border-radius: var(--r-l); background: rgba(0,0,0,.6); }
+  .pop .sheet { position: relative; left: auto; right: auto; bottom: auto; transform: none; opacity: 1; max-height: none; }
+  .pop .sheet-head { padding-top: 16px; }
+  /* "+ New address" as the last item in the list: dashed, as the New address card on the page */
+  .addr-list li.add { justify-content: center; border: 2px dashed var(--outline); padding: 13px; color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .addr-list li.add span { margin-right: 4px; font-weight: 400; font-size: var(--t-20); }
+  .page { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); display: flex; flex-direction: column; gap: 8px; }
+  .page .co-head { margin-top: 0; }
+  .tag { display: block; margin-top: 4px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .flow { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .flow b { color: var(--black); }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Address flow sketch</b><a href="#a">A · Choose, then confirm</a><a href="#b">B · Two buttons</a><a href="#c">C · Tap = done</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel, 2026-11-06):</b> changing the shipping or the billing address feels off. Today a tap on an address
+      chooses it and closes the popup, while the only (green) button is "New shipping address": you look for a button to agree and
+      there isn't one. The billing popup adds a "Same as shipping address" card on top of the same address book, so the address you
+      ship to is in it twice, and its button still says "New shipping address". It has to be flawless and intuitive.</p>
+    <p>Example: shipping to <b>Grandma</b> (the default), billing the same. Same content on mobile (a sheet from the bottom, drawn
+      here 390 wide) and desktop (the same popup, 560, in the middle). Menus (⋮ Edit / Make default / Delete) stay as they are.</p>
+  </div>
+
+  <!-- ===================== A ===================== -->
+  <div class="sk-label" id="a"><b class="ttl">A · Choose in the list, one button confirms <span class="pick">my pick</span></b>
+    A tap only moves the radio; <b>Use this address</b> confirms and closes; ✕ closes without changing anything.
+    "+ New address" is the last item of the list (dashed, like the card on the page), so adding never competes with confirming.
+    Billing works the same from the same address book: no separate "Same as shipping" card, the address you ship to has a
+    small "Shipping address" label. On the page the checkbox goes; a Billing Address block shows the choice with Change.
+    <ul>
+      <li>+ One primary action per popup, as everywhere in the checkout. Shipping and billing are the same pattern.</li>
+      <li>+ No address twice. The page says in words what you chose ("Same as shipping address").</li>
+      <li>− One tap more than today to change the address (choose + confirm). Worth it: nothing changes by accident.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="a"></div>
+
+  <!-- ===================== B ===================== -->
+  <div class="sk-label" id="b"><b class="ttl">B · Two buttons in the footer</b>
+    As A, but the footer has two buttons: <b>New address</b> (outline) and <b>Use this address</b> (primary). Billing keeps the
+    "Same as shipping address" card on top and the checkbox on the page.
+    <ul>
+      <li>+ Both actions always in view.</li>
+      <li>− Two buttons side by side: a choice between two actions at the moment you only want to say "yes, this one".</li>
+      <li>− The double meaning in billing (Same as shipping + Grandma) stays.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="b"></div>
+
+  <!-- ===================== C ===================== -->
+  <div class="sk-label" id="c"><b class="ttl">C · A tap chooses and closes (as today), clearer</b>
+    No footer button: a tap on an address is the choice and closes the popup (as bol). "+ New address" is the last item of the
+    list. Billing as in A (one address book, "Shipping address" label, a Billing Address block on the page).
+    <ul>
+      <li>+ The fewest taps.</li>
+      <li>− Nothing to agree with: a mis-tap changes your address and closes; you only see it on the page.</li>
+      <li>− The popup does two jobs (manage with ⋮ and choose by tapping) without saying which tap does what.</li>
+    </ul>
+  </div>
+  <div class="row" data-opt="c"></div>
+
+  <div class="sk-note" style="margin-top:56px">
+    <p><b>My pick: A.</b> It is the one people know from every good checkout: you choose, you confirm, ✕ means "nothing changed".
+      One green button per popup tells you what it does. And billing stops being a special case: it is the same list, the same
+      button, and "same as shipping" is simply the address you ship to, labelled.</p>
+    <p>On the page nothing else changes: tapping a card in the row still chooses it straight away (you see what you choose).
+      The popup is for more: all addresses, edit, delete, add.</p>
+  </div>
+</div>
+
+<script>
+  const BOOK = [
+    { id: 'home', label: 'Home', lines: ['Test User', '1 Main Street', 'D01 F5P2 Dublin'] },
+    { id: 'grandma', label: 'Grandma', lines: ['Anna Murphy', '8 Harbour Road', 'T12 X7K2 Cork'], isDefault: true },
+  ];
+  const SHIP = 'grandma';
+  const li = (a, on, tag) => `<li class="${on ? 'on' : ''}" aria-checked="${on}"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span>
+      <span class="t"><b>${a.label}</b>${a.lines.map(l => `<span>${l}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}${tag ? `<span class="tag">${tag}</span>` : ''}</span></button>
+      <button type="button" class="kebab" aria-label="More"></button></li>`;
+  const same = on => `<li class="${on ? 'on' : ''}" aria-checked="${on}"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span>
+      <span class="t"><b>Same as shipping address</b><span>We use your shipping address for billing</span></span></button></li>`;
+  const add = '<li class="add"><span>+</span>New address</li>';
+  const pop = (title, items, bar) => `<div class="pop"><div class="sheet" role="dialog"><div class="grab"><span></span></div>
+      <div class="sheet-head"><h2>${title}</h2><button class="close" type="button" aria-label="Close"><img src="../prototype/assets/pdp/close.svg" alt=""></button></div>
+      <div class="sheet-body"><ul class="addr-list">${items}</ul></div>${bar ? `<div class="sheet-bar">${bar}</div>` : ''}</div></div>`;
+  const one = label => `<button class="btn primary" type="button">${label}</button>`;
+  const two = label => `<div class="bar-btns" style="display:flex;gap:8px;width:100%"><button class="btn outline" type="button">New address</button><button class="btn primary" type="button">${label}</button></div>`;
+  const page = billing => `<div class="page"><div class="co-head"><h2>Billing Address</h2></div>${billing}</div>`;
+  const block = `<div class="co-summary"><section><div class="h"><p><b>Grandma</b><span>Anna Murphy · 8 Harbour Road · T12 X7K2 Cork</span><small>Same as shipping address</small></p><button type="button" class="co-act">Change</button></div></section></div>`;
+  const check = `<label class="check co-billcheck" style="margin-top:0;padding-top:0;border:0"><input type="checkbox">Use a different billing address</label>`;
+  const col = (label, html, flow) => `<div class="col"><small>${label}</small>${html}${flow ? `<p class="flow">${flow}</p>` : ''}</div>`;
+
+  const OPT = {
+    a: col('Shipping popup', pop('Your shipping addresses', BOOK.map(a => li(a, a.id === SHIP)).join('') + add, one('Use this address')),
+          'Tap Home → its radio moves, the popup stays. <b>Use this address</b> → closes, the card row shows Home. ✕ → nothing changed.') +
+       col('Billing popup', pop('Your billing address', BOOK.map(a => li(a, a.id === SHIP, a.id === SHIP ? 'Shipping address' : '')).join('') + add, one('Use as billing address')),
+          'Opened with Change. The shipping address is preselected and labelled, so "same as shipping" is one of the addresses, not an extra option.') +
+       col('On the page', page(block), 'Default: the shipping address, "Same as shipping address" under it. No checkbox.'),
+    b: col('Shipping popup', pop('Your shipping addresses', BOOK.map(a => li(a, a.id === SHIP)).join(''), two('Use this address'))) +
+       col('Billing popup', pop('Your billing address', same(true) + BOOK.map(a => li(a, false)).join(''), two('Use as billing address')),
+          'Grandma is in the list twice: as "Same as shipping address" and as Grandma.') +
+       col('On the page', page(check), 'The checkbox opens the billing popup, as today.'),
+    c: col('Shipping popup', pop('Your shipping addresses', BOOK.map(a => li(a, a.id === SHIP)).join('') + add),
+          'Tap Home → chosen and closed at once.') +
+       col('Billing popup', pop('Your billing address', BOOK.map(a => li(a, a.id === SHIP, a.id === SHIP ? 'Shipping address' : '')).join('') + add),
+          'Tap an address → it is the billing address, closed.') +
+       col('On the page', page(block)),
+  };
+  document.querySelectorAll('[data-opt]').forEach(r => r.innerHTML = OPT[r.dataset.opt]);
+</script>
+</body>
+</html>

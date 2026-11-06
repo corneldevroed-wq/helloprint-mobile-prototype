@@ -225,6 +225,7 @@
 .sheet-layer.open { pointer-events: auto; }
 .sheet-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
 .sheet-layer.open .sheet-overlay { opacity: 1; }
+.sheet-layer.open:has(~ .sheet-layer.open) .sheet-overlay { opacity: 0; }   /* a popup over a popup (edit over the address list): one dim, not two (Cornel, 2026-11-06) */
 .sheet-layer.open .sheet { transform: translateY(var(--drag, 0px)); }
 .sheet.tall { height: calc(100% - 48px); }
 .sheet .grab { flex-shrink: 0; height: 23px; display: grid; place-items: center; cursor: grab; touch-action: none; }
@@ -342,7 +343,7 @@ body.buybar-on .toast { bottom: 100px; }
 .line-item .p .was { display: block; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--link); white-space: nowrap; }   /* a product discount: the old price crossed out (grey) and the saving (green) */
 .line-item .p .was s { color: var(--dark-grey); }
 .totals .free, .q-item .p.free { font-weight: 600; color: var(--link); }   /* green text that is not a link: --link green, readable (4.8:1; light green is 3.2:1) */
-.cart-page .payments { padding: 0; justify-content: flex-start; gap: 0; flex-wrap: nowrap; }
+.cart-side .payments { padding: 0; justify-content: flex-start; gap: 0; flex-wrap: nowrap; }   /* the sidebar card (cart, checkout): one row from the left edge */
 /* Empty cart (cart-empty-quote-sketch.html B, Cornel 2026-11-03): the live message centred, the header's bag icon in a grey circle,
    then our best sellers (the product cards); no summary column */
 .cart-page.is-empty .cart-col { display: none; }
@@ -373,7 +374,6 @@ body.buybar-on .toast { bottom: 100px; }
 
 .fc-list { display: flex; flex-direction: column; gap: 12px; }
 .fc { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); text-align: left; }
-.fc.rec { border-color: var(--light-green); background: var(--selected); }
 .fc[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
 .fc .badge { position: static; align-self: flex-start; padding: 4px 8px; }   /* "Recommended" = the shared label (orange: a highlight), was a green uppercase corner tag (2026-10-29) */
 .fc-top { display: flex; align-items: center; gap: 10px; }
@@ -412,7 +412,6 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.done { border-top-color: var(--light-green); color: var(--link); }
 .co-head { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
 .co-head h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
-.co-head a { font-weight: 700; font-size: var(--t-14); color: var(--link); }
 .co-row { display: flex; gap: 8px; }
 .co-row > * { flex: 1; min-width: 0; }
 .phone-prefix { flex: 0 0 auto; }
@@ -856,7 +855,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .spec-rows .chev, body.flow-i .spec-rows .chev { width: 15px; height: 15px; filter: none; opacity: 1; transform: none; }
 
 /* Details & shipping, logged in: one compact summary card, small text actions */
-.co-cards[hidden], #formView[hidden] { display: none; }
+.co-cards[hidden], #formView[hidden], #loginLink[hidden] { display: none; }
 .co-summary { display: flex; flex-direction: column; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }
 .co-summary section { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; }
 .co-summary section + section { border-top: 1px solid #ececec; }
@@ -873,7 +872,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px; }
 .addr-row::-webkit-scrollbar { display: none; }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid #cfcfcf; border-radius: var(--r-m); background: var(--white); cursor: pointer; }
-.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; background: var(--selected); }
+.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 13px; }   /* chosen = the 2px green border on white, as the option cards (Cornel, 2026-11-06: no tint) */
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
 .addr-card .top b { font-weight: 600; font-size: var(--t-16); }
 .addr-card .top .co-badge { margin: 0 0 0 auto; }
@@ -881,19 +880,21 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
 .addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .addr-card p { flex: 1; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.co-link { align-self: flex-start; font-weight: 600; font-size: var(--t-14); color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
-.co-inv { font-size: var(--t-14); color: var(--dark-grey); margin-top: -4px; }
 .addr-form { gap: 12px; }
 .addr-save { flex: 1; }
 
 /* Address book: no Edit in the cards; "Change delivery address" opens the overview (as bol.com) */
 .addr-manage { align-self: flex-start; }
 .addr-card.addr-add { flex: 0 0 44%; align-items: center; justify-content: center; gap: 4px; border: 2px dashed #cfcfcf; color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); }
-.addr-add span { font-size: 26px; line-height: 1; font-weight: 400; }
+.addr-add span, .ap-add span { font-size: 26px; line-height: 1; font-weight: 400; }
+.addr-list li.ap-add { border: 2px dashed var(--outline); padding: 13px; }   /* "+ New address", the last item of the address sheet: dashed, as the card on the page */
+.addr-list .ap-add .ap-pick { justify-content: center; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .addr-list { list-style: none; padding: 0 16px; }
 .addr-list li { position: relative; display: flex; align-items: flex-start; gap: 4px; padding: 16px 0; }
 .addr-list li + li { border-top: 1px solid #ececec; }
 .addr-list .ap-pick { flex: 1; display: flex; gap: 12px; text-align: left; }
+.addr-list .ap-pick::after { content: ''; position: absolute; inset: 0; }   /* the whole item is the tap area, edges included (Cornel, 2026-11-06) */
+.addr-list .kebab { position: relative; z-index: 1; }   /* ⋮ stays above that tap area (its menu is z-index 2) */
 .addr-list .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
 .addr-list .t b { font-weight: 700; }
 .addr-list .t .co-badge { margin-top: 6px; }
@@ -910,8 +911,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-desc { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .co-summary .h p { display: flex; flex-direction: column; font-size: var(--t-14); }
 .co-summary .h p b { font-weight: 600; font-size: var(--t-16); }
-.co-billcheck { margin-top: 8px; padding-top: 14px; border-top: 1px solid #ececec; }
-.co-inv[hidden], #invToggle[hidden] { display: none; }
 
 /* One outline colour for login + logged-in details (the login form's input border) */
 .auth-card, .auth-google, .auth-field input, .co-summary, .addr-card, .co-act { border-color: var(--outline); }
@@ -936,9 +935,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-biz { gap: 6px; margin-top: 6px; font-size: var(--t-14); color: var(--black); }
 .co-summary .h p:has(.lbl:not([hidden])) { gap: 6px; }
 .co-summary .h:has(.lbl:not([hidden])) { align-items: flex-start; }
-#invText { display: flex; flex-direction: column; margin-top: 0; padding: 12px 14px; border: 1px solid var(--outline); border-radius: var(--r-m); font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
-#invText[hidden] { display: none; }
-#invText b { font-weight: 700; }
 
 /* Checkout header: account + cart next to Secure Checkout (always a way out) */
 .co-right { display: flex; align-items: center; gap: 14px; }
@@ -971,7 +967,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* Payment: Pay later = Pay by Link (live checkout), optionally sent to a colleague */
 .pay-later[hidden] { display: none; }
 .pay-later { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
-.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: var(--r-l); background: var(--selected); }
+.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: var(--r-l); }
 .pl-card .radio { margin-top: 1px; }
 .pl-card b { font-size: var(--t-14); }
 .pl-card p { margin: 2px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
@@ -988,7 +984,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
    The input is 16px (smaller makes iOS zoom in on focus), scaled down to 14px */
 .sm-tile input { width: 114%; height: 20px; margin: 0 -7%; padding: 0; border: 0; background: transparent; text-align: center; font: 400 var(--t-16)/var(--lh-16) Inter, sans-serif; color: var(--black); outline: none; font-variant-numeric: tabular-nums; transform: scale(.875); }
 .sm-tile input::placeholder { color: var(--dark-grey); font-weight: 400; }
-.sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; background: var(--selected); }
+.sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; }
 .sm-tile:focus-within { border: 2px solid var(--light-green); padding: 7px 0; }
 #saveUpdate:disabled, #toDesign:disabled { opacity: .45; }
 
@@ -1020,7 +1016,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 .desk .phone { max-width: none; }
 .desk .flow-switch { display: none; }
-.dwrap, .desk .cart-page { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
+.dwrap, .desk .cart-page, .desk .co-page { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
 
 /* Header: top bar 60px + category bar 40px (dark green), USP bar 40px (white) */
 .dhead-top, .dhead-nav { background: var(--dark-green); }
@@ -1087,13 +1083,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dcerts img:last-child { width: 56px; height: 67px; }
 .dfoot-row .payments { margin: 0; }
 .dvat { width: 260px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); color: var(--dark-grey); }
-.dvat-switch { position: relative; width: 66px; height: 26px; border-radius: var(--r-pill); background: var(--black); }
-.dvat-switch::before { content: ''; position: absolute; left: 4px; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--white); transition: left .2s; }
-.dvat-switch::after { content: ''; position: absolute; left: 7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--light-green); transition: left .2s; }
-.dvat-switch span { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); font-weight: 700; font-size: var(--t-10); line-height: 1; color: var(--white); text-transform: uppercase; }
-.dvat-switch[aria-checked="true"]::before { left: 44px; }
-.dvat-switch[aria-checked="true"]::after { left: 47px; }
-.dvat-switch[aria-checked="true"] span { left: 10px; }
 .dlegal { display: flex; align-items: center; justify-content: center; gap: 24px; padding: 32px 0 30px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
 .dlegal img { width: 126px; height: 28px; margin-right: 14px; }
 .dlegal a:hover { text-decoration: underline; }
@@ -1141,10 +1130,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .desk #jConfig .opt-info { display: none; }   /* the ⓘ explains; the page stays calm */
 .desk .presets { margin-right: 0; padding-right: 0; flex-wrap: wrap; }
 .d-vat { margin-left: auto; display: flex; align-items: center; gap: 8px; font-weight: 400; font-size: var(--t-14); color: var(--black); }
-.d-vat-switch { position: relative; width: 36px; height: 20px; border-radius: var(--r-pill); background: var(--mid-grey); transition: background .2s; }
-.d-vat-switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #f8f8f8; transition: left .2s; }
-.d-vat-switch[aria-checked="true"] { background: var(--light-green); }
-.d-vat-switch[aria-checked="true"]::after { left: 19px; }
 .d-viewall { align-self: flex-end; display: inline-flex; align-items: center; gap: 4px; padding: 8px 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); text-decoration: none; }
 .d-viewall img { width: 20px; height: 20px; }
 /* Your selection (Figma 15935:7756) */
@@ -2050,10 +2035,39 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .ht-empty .pill { margin-top: 16px; }
 
 /* ---------- Cart on desktop: products left, sticky sidebar right with the totals and the button (sketch A, Cornel 2026-11-02) ---------- */
-.desk .cart-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0; }   /* + the footer's 64: 96 above the footer, as on the other pages */
+.desk .cart-page, .desk .co-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 8px 32px; align-items: start; padding: 32px 0; }   /* + the footer's 64: 96 above the footer, as on the other pages */
 .desk .cart-page h1 { grid-column: 1 / -1; }
 .cart-col { display: contents; }   /* mobile: its blocks join the page column */
 .desk .cart-col { align-self: stretch; }   /* the full row height, so the summary card can stick */
+/* Desktop checkout (checkout-desk-sketch.html A, Cornel 2026-11-05/06): the cart's frame (grid, sidebar card), the steps on top across
+   the page, the form left; Secure Checkout next to the logo in the header's top bar; the sidebar sticks under that 60 bar */
+.desk .co-steps { grid-column: 1 / -1; margin: 0 0 24px; }   /* 32 to the form */
+/* Desktop steps: a numbered circle and the name per step, a line between, centred; the current and done ones light green.
+   Cart = a round back button (the mobile back arrow in a 32 circle, outlined like the pill buttons) */
+.co-steps-n { display: flex; align-items: center; justify-content: center; gap: 24px; }
+.co-steps-n li, .co-steps-n li.done a { display: flex; align-items: center; gap: 12px; padding: 0; border: 0; font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-grey); }
+.co-steps-n li.current { color: var(--black); }
+.co-steps-n li + li::before { content: ''; width: 96px; height: 1px; margin-right: 12px; background: var(--mid-grey); }   /* 24 from the name, 24 to the circle */
+.co-steps-n li.done a::before { width: 32px; height: 32px; border: 1px solid var(--outline); border-radius: 50%; background-size: 16px; }   /* only the first (Cart): the others have no arrow */
+.co-steps-n li.done a:hover::before { border-color: var(--black); }
+.co-steps-n .n { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--light-grey); font-weight: 600; font-size: var(--t-14); }
+.co-steps-n .current .n, .co-steps-n .done .n { border-color: var(--light-green); background: var(--light-green); color: var(--white); }
+.co-dhead .co-secure { margin-right: auto; font-size: var(--t-14); line-height: var(--lh-14); }   /* left, next to the logo; account and bag stay right */
+.desk .co-page { column-gap: 128px; }   /* 128 between the form and the sidebar, so the fields stay narrow and easy to scan (Cornel, 2026-11-06) */
+.desk .co-page, .co-dhead .dwrap, .co-dfoot .dwrap { max-width: 1064px; }   /* a dedicated checkout, narrower than the shop: the form 544 + 128 + the cart's 392 sidebar; the header lines up with it (Cornel, 2026-11-06) */
+.desk .co-page .cart-side { top: 84px; }
+.co-dfoot { border-top: 1px solid var(--line); }   /* no newsletter bar on top: a line ends the page */
+.co-dfoot .dfoot-help { padding: 16px 0; }   /* thinner than the shop footer (Cornel, 2026-11-06): 16 · 24 · 24 */
+.co-dfoot .dfoot-row { padding-top: 24px; }
+.co-dfoot .dlegal { padding: 24px 0; }
+.desk .co-head { margin-top: 24px; }   /* 32 between the sections, as between the config steps */
+.desk .co-head:first-child { margin-top: 0; }
+.desk .cart-bar { display: none; }   /* the sidebar card has the total and the button */
+.addr-wrap { position: relative; }   /* desktop: holds the round arrows (.d-rev-nav) at the row's edges */
+.desk .addr-row { gap: 16px; margin: 0; padding: 2px 0 4px; }   /* the cards in one row that scrolls sideways, arrows to scroll (Cornel, 2026-11-06) */
+.desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
+.desk .addr-card.addr-add { flex-basis: 160px; }
+.desk .addr-card p { font-size: var(--t-12); line-height: var(--lh-12); }   /* the address smaller than the name */
 /* Discount code (desktop sidebar): closed by default, a link opens the field + Apply; the code shows in the totals with ✕ */
 .add-code { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; text-decoration: none; }   /* only the words underlined, not the + */
 .add-code[hidden], .code-box[hidden] { display: none; }

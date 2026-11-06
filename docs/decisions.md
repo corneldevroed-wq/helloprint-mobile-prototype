@@ -4,6 +4,59 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-05 — Desktop checkout = the cart's frame** (checkout-desk-sketch.html A; Cornel: "the sidebar on the right is a must, keep the cart's
+  layout and split"). Same grid as the desktop cart (form in the 862 column, the 392 "Order overview" card right, gap 32), the mobile
+  form and wording 1:1. The card: products (summary lines), the cart's totals (`totalsHtml()`), the step's button, USPs + payments
+  (`SIDE_TRUST`), sticky 24 under the header. Header: only the shop header's 60 top bar (logo in the cart's spot), the checkout steps
+  in the middle, Secure Checkout + account + bag right; no search, menu or USP bar. Logged in: the address cards side by side, 3 in a row (no swipe; 4 was too tight once the form became 576).
+- **11-06 — "Billing Address" is always a section title**, above the checkbox (guest and logged in); the form or the block follows under it.
+- **11-06 — Logged in: the "Billing address is the same as shipping address" checkbox is back** (on by default, as for a guest;
+  Cornel). Unchecking opens the address sheet for billing; only a confirmed other address unticks it and shows the Billing Address
+  block (with Change); ✕ = nothing changed; ticking it again = same as shipping. Replaces the always-visible block of A below.
+- **11-06 — "Change shipping address" is a text link** (`.link`, the default link colour) under the address cards, was a pill button.
+- **11-06 — A popup over a popup has a back arrow** (`.sheet-back`, top left, the menu's arrow): Edit / Add address opened from the
+  address list shows ← (back to the list); ✕ and a tap outside close both. Opened from the page itself: only ✕.
+- **11-06 — Guest billing starts as "same as shipping" (checked)**: a billing choice made while logged in no longer carries over
+  into the guest form after logging out. A guest's own unchecking is still remembered.
+- **11-06 — "Log in" on details (guest) is a `.pill`** (the UI system's small button), was a green "Login" link.
+- **11-06 — Choosing an address: choose, then confirm (address-flow-sketch.html A).** In the address sheet a tap only moves the radio;
+  one primary button confirms (**Use this address** / **Use as billing address**); ✕ = nothing changed. "+ New address" is the last item
+  of the list (dashed); a new address comes back chosen in the list, the button confirms it (from the card row on the page it is used at
+  once). Billing = the same address book: no "Same as shipping address" card and no checkbox any more; the shipping address has a grey
+  "Shipping address" label. On the page a Billing Address block (`.co-summary`: name, the address on one line, "Same as shipping
+  address", Change). Rejected: B (two buttons in the footer, the shipping address twice in billing), C (a tap chooses and closes).
+- **11-06 — A popup over a popup gets one dim:** the lower popup hides its own overlay, the top one dims the page and the
+  popup under it once (was twice, almost black). E.g. Edit address over Your shipping addresses.
+- **11-06 — A chosen card is white with the 2px light green border, never tinted** (the design-system rule: Radio row, Option
+  card, Payment methods). Tint removed from the address card, Pay by Link (payment), the T-shirt size tiles and the recommended file
+  check. `--selected` stays only for the upload field while a file is dragged over it.
+- **11-06 — Logged in (desktop details):** the address cards 240 wide (New address 160) in one row that scrolls sideways, with
+  the round arrows of the reviews row (`.d-rev-nav`, `wireRowArrows()` in app.js; hidden at the start/end); the address 12/18 under
+  the 16 name. The address popups (list + add/edit) are as high as their content, mobile and desktop (no `.tall`). Mobile unchanged (swipe row).
+- **11-06 — The VAT switch works in the totals (cart + checkout):** excl. VAT (default) = Products, Check, Shipping, Subtotal (Excl.
+  VAT), VAT 23%, Total. Incl. VAT = the same rows with VAT, no Subtotal, "VAT 23% (included)" above the line, the same Total, so it
+  still adds up. The checkout sidebar re-renders on the switch (the products list keeps its open/closed state).
+- **11-06 — A cleaner Order overview in the checkout:** the product lines are folded away; "Products (n)" in the totals is a link
+  with a chevron that opens them under that row (50px photos, 8 · line · 8 between and after the last). Each product with its own
+  "Estimated <day> — latest <date>": the date can differ per product, so no single date for the order (Cornel, 11-06). No line under the title. The cart keeps its own card (products
+  are on the page there). `totalsHtml(…, fold)`; `.totals` rows are now `.totals > div`.
+- **11-06 — Checkout footer (desktop):** the shop footer slimmed down, as Cornel's screenshot without the lists: help row (team
+  faces, Ask our print experts, Trustpilot), certificates + payments + Show VAT, logo + legal. No newsletter, no link columns or social;
+  a line on top, 1064 wide like the checkout, 96 above it. Thinner than the shop footer (11-06): help row 16/16, 24 to the logos row,
+  legal 24/24 (245 high instead of 341). Built from the same parts (`FOOT_HELP`, `FOOT_END`, `PAYMENTS` in app.js).
+- **11-06 — Desktop steps = numbered (was switch Steps B; A, the mobile bars, removed on desktop):** Cornel's reference: a circle with
+  the number, the name, a line to the next. The mobile steps and words; Cart is the way back, so a round back button (the mobile back
+  arrow in a 32 circle, outlined) and Details is 1 · Payment 2 · Confirmed 3. The row is centred on the page. Mobile keeps the bars.
+- **11-06 — Steps out of the header, Secure Checkout left:** the checkout steps on top of the page across both columns (14/22,
+  32 to the form); the header's top bar = logo, Secure Checkout next to it, account and bag right.
+- **11-06 — A dedicated, narrower checkout:** container 1064 (the form 544, fields in pairs 268; 128 between the columns so the fields stay easy to scan;
+  the cart's 392 sidebar unchanged); the checkout header's top bar lines up with it (logo above the form). The shop pages stay 1286.
+- **11-06 — Fine-tuning details (desktop):** checkbox labels 14/22 on every desktop page (design system, desktop body text); 96 under the
+  page (no footer). Tried a "Checkout" page title in the cart's spot: removed, two 24 titles in a row (Checkout + Contact details) and the steps already say it.
+  Rejected: B (mobile column centred, button under the fold), C (details + payment on one page: the flow would differ from mobile).
+  Done: details. Next: payment, confirmed, login.
+
 ## Type weights (all pages, Nov 4, 2026)
 - **11-04 — 16px titles are semibold (600), never bold:** bold (700) only for prices and dates, as the UI Style Guide says.
   Fixed: PDP option titles on desktop, "Your selection" (mobile PDP), "Estimated delivery date", the upsell check title,
@@ -20,6 +73,9 @@ Add new decisions here when Cornel makes a final call.
 - **11-03 — Mobile PDP: flow H is the default.** The Flow switch is hidden, not removed: flows A–J stay in the code and open
   with `?flow=…` for that visit only (no localStorage memory, so testers who had another flow stored now land on H).
 ## Cart desktop (`cart.html`, Nov 2, 2026)
+- **11-06 — 16 between the cart cards on desktop** (was 8), the grid rule from the style guide. Mobile keeps 16 · line · 16.
+- **11-06 — One switch everywhere:** the VAT switches (footer Show VAT, PDP Incl VAT) are the cart's `.switch` (36 × 20, grey / light
+  green); the black ON/OFF footer toggle and the PDP copy (`.d-vat-switch`) are removed.
 - **11-05 — Uploaded artwork in the cart line** (cart-artwork-sketch.html C): the first file replaces the product photo, "+N" for the others;
   a click / tap or View artwork opens it big in a popup / sheet with the others as thumbnails to switch. The hover preview was built and removed
   the same day (confusing next to the popup).

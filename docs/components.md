@@ -17,7 +17,7 @@ something.
 | `help-topic.html?t=<topic>` | Help Centre topic page (mobile + desktop) | Sidebar = hub card with the 6 topics (current one grey), right: icon tile + h1 + count, sub-topic chips, per sub-topic the questions. Questions = rows `.hc-rows` (the FAQ look with the grey arrow right) to `help-article.html` (every answer its own URL) |
 | `promotional.html` | PLP: Promotional Print (mobile + desktop) | Live block order; Figma wireframes 15997:9636 / 16001:11845. Promo card E + categories (`.plp-feature`), product grid 5/row desktop, `.dc-card` tiles desktop / `.cat` swipe row mobile, paper materials with the icon set |
 | `product.html?p=<slug>` | PDP for every product | Data in `products.js`; desktop = flow J |
-| `cart.html`, `details.html`, `payment.html`, `confirmed.html` | Checkout | Guest + logged-in states |
+| `cart.html`, `details.html`, `payment.html`, `confirmed.html` | Checkout | Guest + logged-in states; desktop (cart, details): the cart grid + `.cart-side` card (`checkoutSide()` in app.js); details: slim footer `.co-dfoot` (`data-shell="checkout-footer"`). Logged in: address sheet = choose + confirm, "+ New address" in the list (`.ap-add`), billing from the same book (Billing Address block, Change) |
 | `login.html` | Log in / create account | Prototype: name + email only |
 | `classic-business-cards.html` | Old URL | Forwards to the classic PDP |
 
@@ -46,6 +46,9 @@ a third design option "Upload your artwork" (mobile design sheet + a third `.d-d
 no file check (the promise under the field with the faces of our print experts, `.art-team` + the Help Centre `.faces`): after uploading every file as a row with its thumbnail (no animated preview, 2026-11-04); a PDF shows its page count in the row ("8.2 MB · uploaded ✓ · 16 pages", read from the file, left out when it can't be counted), always "+ Add more files", then reassurance (`.art-calm`);
 only a failed upload (over 200 MB) blocks. Cart line: "Artwork uploaded (n files)" with View artwork (`designType: 'art'`).
 Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketch.html.
+
+**Desktop checkout**: no switches. Steps (since 2026-11-06, was switch Steps B): `.co-steps-n`, centred: Cart = a round back button,
+then 1 Details · 2 Payment · 3 Confirmed (numbered circles, current + done light green, 16/22, 96 line, 24 around it). Built in app.js.
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
 Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,
