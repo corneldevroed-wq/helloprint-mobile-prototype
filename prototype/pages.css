@@ -429,26 +429,7 @@ body.buybar-on .toast { bottom: 100px; }
 .phone-prefix select { padding-left: 12px; width: 116px; }
 
 /* ---------- Checkout: Payment ---------- */
-.secure-line { display: flex; align-items: center; gap: 4px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); }
-.secure-line img { width: 20px; height: 20px; }
-.wallets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.wallet { height: 42px; border-radius: var(--r-m); display: grid; place-items: center; border: 2px solid transparent; transition: box-shadow .15s; }
-.wallet .logo-box { position: relative; height: 26px; overflow: hidden; }
-.wallet .logo-box img { position: absolute; max-width: none; }
-.wallet.apple { background: #222; }
-.wallet.google { background: var(--white); border-color: var(--mid-grey); }
-.wallet.paypal { background: #ffc439; }
-.wallet[aria-checked="true"] { box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--light-green); }
-.card-box { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); }
-.card-box[aria-checked="true"] { border: 2px solid var(--light-green); padding: 15px; }
-.card-box .card-head { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
-.card-box .card-head > span { flex: 1; display: flex; align-items: center; gap: 10px; }
-.card-box .brands { display: flex; gap: 2px; }
-.card-box .brands .card { width: 31.4px; height: 21.8px; }
-.card-box .brands .more { width: 31.4px; height: 21.8px; border: 1px solid #d9d9d9; border-radius: var(--r-s); display: grid; place-items: center; font-size: var(--t-10); font-weight: 400; }
-.card-fields { display: flex; flex-direction: column; gap: 10px; }
-.card-fields[hidden] { display: none; }
-.test-hint { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); background: #fff8e1; border-radius: var(--r-m); padding: 8px 10px; }
+.test-hint { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); background: var(--cream); border-radius: var(--r-m); padding: 8px; }
 .test-hint b { font-weight: 600; color: var(--black); }
 .pay-methods[hidden] { display: none; }
 .pay-methods { display: flex; flex-direction: column; gap: 8px; }
@@ -485,7 +466,6 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.done:not(:first-child) a::before { display: none; }
 
 /* Payment: card logos sit 2px apart (the row rule above gave them 10px) */
-.card-box .card-head > .brands { flex: 0 0 auto; gap: 2px; }
 
 .opt-info { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 body.info-line .info-btn { display: none; }
@@ -810,8 +790,6 @@ body.flow-j .flow-a-only { display: none; }
 .auth-body { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
 .auth-google { display: flex; align-items: center; justify-content: center; gap: 10px; height: 44px; border: 1px solid #d6d6d6; border-radius: var(--r-m); font-weight: 600; font-size: var(--t-14); }
 .auth-google svg { width: 18px; height: 18px; }
-.auth-or { display: flex; align-items: center; gap: 12px; font-size: var(--t-12); color: var(--dark-grey); }
-.auth-or::before, .auth-or::after { content: ''; flex: 1; height: 1px; background: #e3e3e3; }
 .auth-form { display: flex; flex-direction: column; gap: 16px; }
 .auth-form[hidden] { display: none; }
 .auth-form h1 { font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; }   /* same heading style as the other pages, left aligned */
@@ -834,8 +812,10 @@ body.flow-j .flow-a-only { display: none; }
 .auth-terms a { text-decoration: underline; }
 .auth-guest { align-self: center; padding-top: 12px; border-top: 1px solid var(--line); width: 100%; text-align: center; font-weight: 600; font-size: var(--t-14); text-decoration: underline; text-underline-offset: 2px; }
 .auth-trust { list-style: none; display: flex; gap: 16px; font-size: var(--t-12); color: var(--dark-grey); }
-.auth-trust li { display: flex; align-items: center; gap: 4px; }
-.auth-trust .material-symbols-rounded { font-size: 16px; }   /* Material: verified_user, lock, credit_card (Cornel, 2026-11-06) */
+.auth-trust li, .pay-secure { display: flex; align-items: center; gap: 4px; }
+.auth-trust .material-symbols-rounded, .pay-secure .material-symbols-rounded { font-size: 16px; }   /* Material: verified_user, lock, credit_card (Cornel, 2026-11-06) */
+.pay-secure .material-symbols-rounded { color: var(--light-green); }   /* payment: a light green lock before "All payments are secure and encrypted." */
+.pay-trust { justify-content: center; margin-top: 8px; }   /* payment: the trust row from login, centred, 16 under the last method (Cornel, 2026-11-06) */
 .auth-proto { max-width: 320px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--mid-grey); text-align: center; }
 /* Checkout: logged-in line, account icon dot */
 .co-user { font-size: var(--t-12); color: var(--dark-grey); }
@@ -856,8 +836,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* Details & shipping, logged in: one compact summary card, small text actions */
 .co-cards[hidden], #formView[hidden], #loginLink[hidden] { display: none; }
-.co-type { display: flex; gap: 8px; }   /* the order type (details): Personal | Business as pills */
+.co-type { display: flex; gap: 8px; }   /* an either / or as pills: the order type (details), Pay now | Pay later (payment) */
 .co-desc ~ .co-type { margin-top: 8px; }   /* 16 under the description, so the pills start a new line of thought (Cornel, 2026-11-06) */
+.pay-opts { margin-bottom: 8px; }   /* payment: 16 from the pills to the methods (Cornel, 2026-11-06) */
 #businessFields { padding: 8px; border-radius: var(--r-m); background: var(--light-grey); }   /* Business: the company fields stand out as one block (Cornel, 2026-11-06) */
 #businessFields .co-desc { font-size: var(--t-12); line-height: var(--lh-12); }   /* the note under the reference number */
 .co-summary { display: flex; flex-direction: column; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }
@@ -947,8 +928,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-logout, .co-secure { white-space: nowrap; }   /* logged in, until the account menu exists */
 .co-right .icon { width: 24px; height: 24px; }
 /* Payment: Apple Pay, Google Pay and PayPal side by side */
-.wallets { grid-template-columns: repeat(3, 1fr); }
-.pay-note { margin-top: -2px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 
 /* Address sheet: cards like the design options (radio, green border when selected) */
 .addr-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
@@ -970,16 +949,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* Payment: Pay later = Pay by Link (live checkout), optionally sent to a colleague */
 .pay-later[hidden] { display: none; }
-.pay-later { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
-.pl-card { display: flex; gap: 12px; align-items: flex-start; padding: 13px; border: 2px solid var(--light-green); border-radius: var(--r-l); }
-.pl-card .radio { margin-top: 1px; }
-.pl-card b { font-size: var(--t-14); }
-.pl-card p { margin: 2px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.pl-share { padding: 14px; border: 1px solid #cfcfcf; border-radius: var(--r-l); }
-.pl-share .check { font-size: var(--t-14); color: var(--black); }
-.pl-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.pay-later .check { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* Pay by Link: the strip of a Pay now method (.pm), the share option in body text */
+.pl-fields { display: flex; flex-direction: column; gap: 8px; }
 .pl-fields[hidden] { display: none; }
-.pl-info { margin: 0; padding: 12px 14px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 /* T-shirts: pieces per size (the total is the quantity). Tiles like the option cards; a size with pieces is selected */
 .size-mix { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
 .sm-tile { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 8px 0; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: text; }
@@ -1369,7 +1341,7 @@ html:not(.desk) .desk-only { display: none; }
 .desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; }
 .desk .home .product > :not(.thumb), .desk .xsell .product > :not(.thumb) { padding: 0 16px; }
 .desk .home .product > :last-child, .desk .xsell .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
-.desk .home .product .name, .desk .xsell .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .home .product .name, .desk .xsell .product .name, .desk .pm-row b { font-size: var(--t-16); line-height: var(--lh-16); }   /* + the payment method names on payment (Cornel, 2026-11-06) */
 .desk .home .product .prices, .desk .xsell .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: var(--t-14); }
 .desk .home .product .price, .desk .xsell .product .price { font-weight: 900; }
@@ -2045,28 +2017,44 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 .desk .cart-col { align-self: stretch; }   /* the full row height, so the summary card can stick */
 /* Desktop checkout (checkout-desk-sketch.html A, Cornel 2026-11-05/06): the cart's frame (grid, sidebar card), the steps on top across
    the page, the form left; Secure Checkout next to the logo in the header's top bar; the sidebar sticks under that 60 bar */
-.desk .co-steps { grid-column: 1 / -1; margin: 0 0 24px; }   /* 32 to the form */
+.desk .co-steps { grid-column: 1 / -1; margin: -32px 0 24px; padding: 16px 0; background: var(--light-grey); box-shadow: 0 0 0 100vmax var(--light-grey); clip-path: inset(0 -100vmax); }   /* a light grey band over the full width, against the header (as the shop's USP bar; Cornel, 2026-11-06); 32 to the form; 16 + the 24 circles + 16 = 56 */
 /* Desktop steps: a numbered circle and the name per step, a line between, centred; the current and done ones light green.
    Cart = a round back button (the mobile back arrow in a 32 circle, outlined like the pill buttons) */
-.co-steps-n { display: flex; align-items: center; justify-content: center; gap: 24px; }
-.co-steps-n li, .co-steps-n li.done a { display: flex; align-items: center; gap: 12px; padding: 0; border: 0; font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-grey); }
+.co-steps-n { display: flex; align-items: center; gap: 24px; }
+.co-steps-n li, .co-steps-n li.done a { display: flex; align-items: center; gap: 8px; padding: 0; border: 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .co-steps-n li.current { color: var(--black); }
-.co-steps-n li + li::before { content: ''; width: 96px; height: 1px; margin-right: 12px; background: var(--mid-grey); }   /* 24 from the name, 24 to the circle */
-.co-steps-n li.done a::before { width: 32px; height: 32px; border: 1px solid var(--outline); border-radius: 50%; background-size: 16px; }   /* only the first (Cart): the others have no arrow */
+.co-steps-n li + li { flex: 1; }   /* over the full width of the page (Cornel, 2026-11-06): the lines take the room */
+.co-steps-n li + li::before { content: ''; flex: 1; height: 1px; margin-right: 16px; background: var(--mid-grey); }   /* 24 from the name, 24 to the circle */
+.co-steps-n li.done a::before { width: 22px; height: 22px; border: 1px solid var(--outline); border-radius: 50%; background-color: var(--white); background-size: 12px; }   /* only the first (Cart): the others have no arrow */
 .co-steps-n li.done a:hover::before { border-color: var(--black); }
-.co-steps-n .n { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--light-grey); font-weight: 600; font-size: var(--t-14); }
+.co-steps-n .n { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); font-weight: 600; font-size: var(--t-12); }   /* 24 circles, the names 14/22 (Cornel, 2026-11-06: a size smaller) */
 .co-steps-n .current .n, .co-steps-n .done .n { border-color: var(--light-green); background: var(--light-green); color: var(--white); }
 .co-dhead .co-secure { margin-right: auto; font-size: var(--t-14); line-height: var(--lh-14); }   /* left, next to the logo; account and bag stay right */
 .desk .co-page { column-gap: 128px; }   /* 128 between the form and the sidebar, so the fields stay narrow and easy to scan (Cornel, 2026-11-06) */
 .desk .co-page, .co-dhead .dwrap, .co-dfoot .dwrap { max-width: 1064px; }   /* a dedicated checkout, narrower than the shop: the form 544 + 128 + the cart's 392 sidebar; the header lines up with it (Cornel, 2026-11-06) */
 .desk .co-page .cart-side { top: 84px; }
+/* Payment, Your details: the FAQ collapsibles (.d-acc) under the order overview; closed: the title and a one-line summary, open: the details + Change */
+.co-review { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }   /* a new section under the order overview */
+.desk .cart-col:has(.co-review) { display: flex; flex-direction: column; align-self: start; position: sticky; top: 84px; }   /* desktop: under the Order overview card, they stick together */
+.desk .cart-col:has(.co-review) .cart-side { position: static; }
+.desk .cart-col .co-review { margin-top: 32px; padding: 0 25px; }   /* in line with the text in the Order overview card (its 1 border + 24 padding; Cornel, 2026-11-06) */
+.co-review summary span { display: flex; flex-direction: column; }
+.co-review summary, .co-review details p { padding-left: 0; }   /* the text starts in line with the title, not 8 in as the PDP FAQ */
+.co-review details:not([open]) summary:hover { background: none; }   /* no hover tint without the inset: the title turns dark green */
+.co-review summary small, .co-review details p { font-weight: 400; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.co-review details p { display: flex; flex-direction: column; color: var(--black); }
+.co-review details[open] summary small { display: none; }   /* open: the full details say it */
+.co-review .link { align-self: flex-start; margin-top: 8px; }
+.co-review .kv { display: grid; grid-template-columns: 136px 1fr; gap: 8px; overflow-wrap: anywhere; }   /* Contact: a label column (dark grey) and the value */
+.co-review .kv span { color: var(--dark-grey); }
 .co-dfoot { border-top: 1px solid var(--line); }   /* no newsletter bar on top: a line ends the page */
-.co-dfoot .dfoot-help { padding: 16px 0; }   /* thinner than the shop footer (Cornel, 2026-11-06): 16 · 24 · 24 */
-.co-dfoot .dfoot-row { padding-top: 24px; }
+.co-dfoot .dfoot-row { padding-top: 24px; }   /* a mini footer (Cornel, 2026-11-06): the line, 24, the logos row, 24, the legal row, 24 */
 .co-dfoot .dlegal { padding: 24px 0; }
 .desk .co-head { margin-top: 24px; }   /* 32 between the sections, as between the config steps */
 .desk .co-head:first-child { margin-top: 0; }
-.desk .cart-bar { display: none; }   /* the sidebar card has the total and the button */
+.desk .cart-bar, .desk #payOverview { display: none; }
+#paySummary .totals { border-top: 0; padding-top: 0; }   /* mobile payment: the desktop sidebar's totals under the title */
+/* the sidebar card has the total, the order overview and the button */
 .addr-wrap { position: relative; }   /* desktop: holds the round arrows (.d-rev-nav) at the row's edges */
 .desk .addr-row { gap: 16px; margin: -8px; padding: 8px; scroll-padding: 8px; }   /* the cards in one row that scrolls sideways, arrows to scroll; 8 room for the hover shadow, the cards stay in place (Cornel, 2026-11-06) */
 .desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }

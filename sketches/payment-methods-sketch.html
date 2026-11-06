@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment methods sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261119d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261119d">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261119d">
+<!-- Sketch only, not linked from the prototype: the payment methods as one list (Cornel's reference: a radio row per method, the chosen
+     one opens its fields). Methods for Ireland as now: credit card, Apple Pay, Google Pay, PayPal. Built from the real parts: .pill,
+     .co-head, .co-desc, .radio, .field, .co-row, .wallet, .card-box, .or-line, .test-hint. Billing is left out, as asked. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; padding-left: 20px; }
+  .frame { margin-top: 16px; padding: 32px 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .col { max-width: 544px; display: flex; flex-direction: column; gap: 8px; }
+  .col .co-head h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
+  .col .co-head:first-of-type { margin-top: 24px; }
+  /* B: one outlined group, a row per method; the chosen one opens a light grey panel (as the business fields block) */
+  .pm { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
+  .pm-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; cursor: pointer; }
+  .pm-row + .pm-row, .pm-panel + .pm-row { border-top: 1px solid var(--line); }
+  .pm-row b { flex: 1; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .pm-row[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
+  .pm-row[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+  .pm-panel { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: var(--light-grey); border-top: 1px solid var(--line); }
+  .pm-panel p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .lg { display: flex; gap: 4px; }
+  .lg span { width: 40px; height: 26px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: var(--r-s); background: var(--white); overflow: hidden; }
+  .lg img { max-width: 34px; max-height: 18px; }
+  .lg .more { width: 26px; font-size: var(--t-12); color: var(--dark-grey); }
+  /* C: separate cards, the chosen one with the green border (the radio row rule) */
+  .pmc { display: flex; flex-direction: column; gap: 8px; }
+  .pmc .mcard { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
+  .pmc .mcard[aria-checked="true"] { border: 2px solid var(--light-green); }
+  .pmc .pm-panel { background: var(--white); padding-top: 0; border-top: 0; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Payment methods sketch</b><a href="#a">A · Now: wallets + OR + card</a><a href="#b">B · One list, chosen opens</a><a href="#c">C · A card per method</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel):</b> a variant of the payment methods like the reference: every method as a radio row in one list, the chosen one
+      opens its fields under it. Billing is left out here. The methods stay as now for Ireland (credit card, Apple Pay, Google Pay,
+      PayPal); iDEAL / Klarna from the reference are Dutch, they can be added the same way per market.</p>
+    <p>Shown with credit card chosen. The Pay now | Pay later pills stay on top; the sidebar (Pay now) is unchanged.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b class="ttl">A · Now: wallet buttons, OR, the card</b>
+    For comparison: the three wallets as big buttons, the OR line, the credit card block always open.
+  </div>
+  <div class="frame"><div class="col" data-v="a"></div></div>
+
+  <div class="sk-label" id="b"><b class="ttl">B · One list, the chosen method opens <span class="pick">my pick</span></b>
+    One outlined group (as the reference): a row per method with its radio, name and logos. The chosen row opens a light grey panel
+    under it with what that method needs: the card fields, or one line for a wallet ("You'll pay in the Apple Pay window").
+    <ul>
+      <li>+ Every method looks equal and reads as one choice; scales to more methods per market (Klarna, iDEAL) without new buttons.</li>
+      <li>+ Calm: no black / yellow brand buttons on the page, just small logos; the panel uses our light grey block (as Business).</li>
+      <li>− Apple / Google Pay lose their "one tap" button look; the pay button in the sidebar does the job.</li>
+    </ul>
+  </div>
+  <div class="frame"><div class="col" data-v="b"></div></div>
+
+  <div class="sk-label" id="c"><b class="ttl">C · A card per method</b>
+    The same rows as separate cards with 8 between; the chosen card gets the 2px green border (our radio row rule) and opens its fields.
+    <ul>
+      <li>+ Follows the radio row rule to the letter (address cards, quantity rows).</li>
+      <li>− Four boxes plus the field boxes inside: busier than one group.</li>
+    </ul>
+  </div>
+  <div class="frame"><div class="col" data-v="c"></div></div>
+
+  <div class="sk-note" style="margin-top:56px">
+    <p><b>My pick: B.</b> It turns four different-looking things (three brand buttons, an OR, a card box) into one calm choice, with
+      the details only for the method you picked. It also grows per market without changing the layout. The light grey panel is
+      the same block as the business fields on details, so it is nothing new.</p>
+  </div>
+</div>
+
+<script>
+  const A = '../prototype/assets/';
+  const lg = list => `<span class="lg">${list.map(x => x === '+2' ? '<span class="more">+2</span>' : `<span><img src="${x}" alt=""></span>`).join('')}</span>`;
+  const cards = lg([A + 'pay-visa.svg', A + 'pay-maestro.svg', A + 'pay-mastercard.svg', '+2']);
+  const fields = `<p class="test-hint">Prototype: card details are not stored or sent. Use test card <b>4242 4242 4242 4242</b>.</p>
+    <label class="field"><input placeholder=" "><span class="fl">Card number</span></label>
+    <div class="co-row"><label class="field"><input placeholder=" "><span class="fl">MM / YY</span></label><label class="field"><input placeholder=" "><span class="fl">CVC</span></label></div>
+    <label class="field"><input placeholder=" "><span class="fl">Name on card</span></label>`;
+  const intro = `<div class="co-type"><button class="pill active" type="button">Pay now</button><button class="pill" type="button">Pay later</button></div>
+    <div class="co-head"><h2>Payment</h2></div><p class="co-desc">All payments are secure and encrypted.</p>`;
+  const methods = [['Credit card', cards, true], ['Apple Pay', lg([A + 'checkout/applepay.png'])], ['Google Pay', lg([A + 'checkout/googlepay.png'])], ['PayPal', lg([A + 'pay-paypal.svg'])]];
+  const row = ([name, logos, on]) => `<div class="pm-row" role="radio" aria-checked="${!!on}"><span class="radio" aria-hidden="true"></span><b>${name}</b>${logos}</div>`;
+  const V = {
+    a: '',
+    b: intro + `<div class="pm">${methods.map(m => row(m) + (m[2] ? `<div class="pm-panel">${fields}</div>` : '')).join('')}</div>`,
+    c: intro + `<div class="pmc">${methods.map(m => `<div class="mcard" aria-checked="${!!m[2]}">${row(m)}${m[2] ? `<div class="pm-panel">${fields}</div>` : ''}</div>`).join('')}</div>`,
+  };
+  V.a = intro + `<div class="wallets"><button type="button" class="wallet apple"><span class="logo-box" style="width:58px"><img src="${A}checkout/applepay.png" alt="" style="left:.86%;top:-24.36%;width:100%;height:148.72%"></span></button><button type="button" class="wallet google"><span class="logo-box" style="width:58px"><img src="${A}checkout/googlepay.png" alt="" style="inset:0;width:100%;height:100%;object-fit:cover"></span></button><button type="button" class="wallet paypal"><span class="logo-box" style="width:59px"><img src="${A}checkout/paypal.png" alt="" style="left:-39.83%;top:-33.5%;width:136.79%;height:155.21%"></span></button></div>
+    <p class="or-line"><span>or</span></p>
+    <div class="card-box"><div class="card-head"><span>Credit card</span>${cards}</div><div class="card-fields">${fields}</div></div>`;
+  document.querySelectorAll('[data-v]').forEach(el => el.innerHTML = V[el.dataset.v]);
+  // click a row: it becomes the chosen one and opens its panel (B and C)
+  document.addEventListener('click', e => {
+    const r = e.target.closest('.pm-row'); if (!r) return;
+    const box = r.closest('.col'), v = box.dataset.v;
+    const name = r.querySelector('b').textContent;
+    methods.forEach(m => m[2] = m[0] === name);
+    const panel = m => m[0] === 'Credit card' ? fields : `<p>You’ll pay in the ${m[0]} window after "Pay now".</p>`;
+    box.innerHTML = v === 'b'
+      ? intro + `<div class="pm">${methods.map(m => row(m) + (m[2] ? `<div class="pm-panel">${panel(m)}</div>` : '')).join('')}</div>`
+      : intro + `<div class="pmc">${methods.map(m => `<div class="mcard" aria-checked="${!!m[2]}">${row(m)}${m[2] ? `<div class="pm-panel">${panel(m)}</div>` : ''}</div>`).join('')}</div>`;
+  });
+</script>
+</body>
+</html>

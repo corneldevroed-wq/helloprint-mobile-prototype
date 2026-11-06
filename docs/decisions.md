@@ -48,6 +48,10 @@ Add new decisions here when Cornel makes a final call.
 - **11-06 — Logged in (desktop details):** the address cards 240 wide (New address 160) in one row that scrolls sideways, with
   the round arrows of the reviews row (`.d-rev-nav`, `wireRowArrows()` in app.js; hidden at the start/end); the address 14/22 under
   the 16 name (was 12/18, back to the default 11-06). The address popups (list + add/edit) are as high as their content, mobile and desktop (no `.tall`). Mobile unchanged (swipe row).
+- **11-06 — Payment on desktop = the details frame:** the same steps, 544 form + 128 + the 392 sidebar card (folded products,
+  totals, the VAT switch, the button: Pay now / Place order for a payment link), slim footer. The mobile Order overview block and
+  the sticky bar are hidden on desktop; the delivery block stays under the payment methods (32 above it). Spacing on the 8px grid
+  (card box and its fields 8, content 16 in; the card box stays a plain outlined block when chosen, no green line; its "Credit card" title as the product card titles (semibold, 14 mobile / 16 desktop); Pay by Link blocks 16; note under the toggle 8).
 - **11-06 — Login trust line with Material Symbols:** verified_user (Secure), lock (Encrypted), credit_card (Safe checkout), 16px dark grey
   (were an SVG and two empty CSS squares).
 - **11-06 — The address cards on details get the card hover** of the material / product cards (desktop: soft shadow 0 2px 8px).
@@ -57,6 +61,31 @@ Add new decisions here when Cornel makes a final call.
   24 card padding, 16 in the form, 8 label → field). Rejected: B (three paths side by side), C (card + why an account).
 - **11-06 — "+ New address" uses the Material Symbols "add" icon in light green** (card row and address sheet; was a text "+").
 - **11-06 — Guest Contact Details gets the same description line** as logged in ("Who’s placing this order — …"), and the same title case.
+- **11-06 — Pay by Link in the payment strip** (Cornel): Pay later shows the same strip as a Pay now method (.pm-item, chosen: green outline, name 14/16), its panel has the line (14 dark grey), the share checkbox (14 black) and the recipient fields; the separate green card and share box are gone. A light grey background on the chosen strip was tried and removed again: white inside.
+- **11-06 — Mobile payment: the order overview as on desktop** (Cornel): the same totals (totalsHtml): Products (n) as a plain row without the fold-out and without product lines, Check, Shipping, Subtotal (Excl. VAT), VAT 23%, Total (Incl. VAT).
+- **11-06 — Desktop steps smaller** (Cornel): circles 24 (were 32, number 12), names 14/22 (were 16), Cart back button 24; the light grey band 56 high.
+- **11-06 — Checkout mini footer** (Cornel): the Need help bar goes; only the line, the certificates + payment logos + Show VAT row and the legal row.
+- **11-06 — Payment: title, description, pills, options** (Cornel): the order of Contact details on details; the title also stays for Pay later. 16 from the pills to the methods; the panel (card fields, wallet line) left with the radio, not indented under the name. A light green Material "lock" (16) before "All payments are secure and encrypted." Under the last method, centred: "SSL Encrypted · PCI DSS Compliant" (the login trust row, grey). The method logos 30 high with round corners (--r-s); "+2" in the same frame (Cornel). The wallets as their brand buttons (64 × 30): PayPal wordmark on yellow, Apple Pay dark, Google Pay black with the G and a white "Pay", Revolut Pay black.
+- **11-06 — Revolut Pay added** (Cornel: "we bieden deze methoden aan"): Credit card, Apple Pay, Google Pay, PayPal, Revolut Pay, as the live Ireland checkout.
+- **11-06 — Your details on payment** (Cornel): first B as its own card under the Order overview (payment-details-sketch.html), the same day moved under the payment methods in the main column ("iets meer ruimte") as the FAQ collapsibles (.d-acc): Contact, Shipping address, Billing address; closed a one-line summary (name / label, town / "Same as shipping address"), open the full details (Contact as a list with labels: Name, Email, Company, VAT number, Ref. number; no other abbreviations) and a Change link to details. Then (Cornel) under the order overview: desktop under the sidebar card (sticking with it), mobile after the order overview. Hidden when nothing was filled in.
+- **11-06 — Every wallet gets its own pay button** (Cornel): the sidebar and mobile bar button become the brand button: PayPal yellow with its wordmark, Apple Pay / Google Pay / Revolut Pay black with their white mark. Card: "Pay now", Pay later: "Place order" (both green).
+- **11-06 — The pay button follows the method** (Cornel): "Pay now" for the card, "Pay with Apple Pay / Google Pay / PayPal" for a wallet, on the sidebar button and the mobile bar; our own green button, no brand buttons (calm). Pay later stays "Place order". Same day: the method logos bigger, 48 × 32 tiles (were 40 × 24): that is what people look for. No extra frame around the method logos (they have their own). The payment logos leave the Order overview on payment (the method list shows them); cart and details keep them.
+- **11-06 — The chosen payment strip gets an outline** (Cornel): 2px light green (tried the black hover outline the same day, back to green), white inside; desktop hover on the others: the black outline.
+- **11-06 — Payment methods as one list** (payment-methods-sketch.html B; Cornel's reference): `.pm`, a radio row per method (Credit
+  card, Apple Pay, Google Pay, PayPal) with small logos; the chosen one opens under its name (the card fields, or "You'll pay in the
+  … window"). Not one box (the left column stays open as on cart and details): a strip per method, outlined as the contact card, 8 apart (Cornel);
+  the radio shows the choice, no green border. Replaces the three wallet buttons, the OR line and the card box (their CSS removed). Rejected: C (a card per method).
+- **11-06 — Payment starts with the Pay now | Pay later pills:** the title "When do you want to pay?" and the note "Fastest option…" are gone.
+- **11-06 — No "Estimated delivery date" block on payment** (Cornel): the date can differ per order line, so one date for the order is wrong;
+  each line shows its own (cart lines, the folded products in the sidebar).
+- **11-06 — Payment tidy-up (Cornel: 1–5):** Pay now | Pay later as pills (as Personal | Business, was the `.seg` toggle); a
+  **Payment** section title (first "Payment method", shortened the same day) with "All payments are secure and encrypted." as its description (was the "Secure payment" line,
+  a double of the header), 32 above it on desktop; tokens instead of raw colours (`--outline`, `--line`, `--cream` for the test
+  note); desktop body text 14 for the note under the pills and the Pay by Link text; the "Pay on Invoice isn't available" line removed.
+- **11-06 — "or" line between the wallets and the credit card on payment**, the same as on login: now one design-system component `.or-line`
+  (was `.auth-or`), `--line` rules, 16 to the word; "OR" in body text size 14/22, in capitals.
+- **11-06 (later) — The order summary is always an invoice** (Cornel): rows excl. VAT, Subtotal (Excl. VAT), VAT 23%, Total (Incl. VAT),
+  whatever the VAT switch says (the switch changes the prices on the pages). Replaces the two VAT-switch entries below.
 - **11-06 — The VAT switch changes the Total** (Cornel): excl. VAT (default) = rows excl., **Total (Excl. VAT)** = the subtotal, under it
   "Incl. VAT (23%)" with the amount to pay; incl. VAT = rows incl., **Total (Incl. VAT)**, under it "Of which VAT (23%)". The rows
   always add up to the Total; the Subtotal and VAT rows are gone. Replaces the entry below.

@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261116w">
-<link rel="stylesheet" href="../design-system/components.css?v=20261116w">
-<link rel="stylesheet" href="pages.css?v=20261116w">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261119d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261119d">
+<link rel="stylesheet" href="pages.css?v=20261119d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -102,17 +102,7 @@
 </div>
 
 <!-- Sheet: Free shipping (the ⓘ after Shipping in the totals; live: "Free delivery on orders over …") -->
-<div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
-  <div class="sheet-overlay" data-close-sheet></div>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shipTitle">
-    <div class="grab" data-grab><span></span></div>
-    <div class="sheet-head">
-      <h2 id="shipTitle">Free shipping</h2>
-      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
-    </div>
-    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT. Below that, shipping is €6.00.</p></div></div>
-  </div>
-</div>
+<div data-shell="sheet-shipping"></div>
 
 <!-- Sheet: Secured delivery (as live on helloprint.com/basket, "More info") -->
 <div class="sheet-layer" id="sheet-secured" aria-hidden="true">
@@ -150,9 +140,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261116w"></script>
-<script src="../design-system/components.js?v=20261116w"></script>
-<script src="products.js?v=20261116w"></script>
+<script src="app.js?v=20261119d"></script>
+<script src="../design-system/components.js?v=20261119d"></script>
+<script src="products.js?v=20261119d"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)

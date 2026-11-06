@@ -143,12 +143,25 @@ const PAYMENTS = `
       <div class="card"><img src="assets/pay-cardbg2.svg" alt=""><img class="mark" src="assets/pay-discover.svg" alt="Discover" style="inset:39.7% 7.13% 40.63% 9.18%;width:83.69%;height:19.67%"></div>
       <div class="card"><img src="assets/pay-cardbg.svg" alt=""><img class="mark" src="assets/pay-jcb.svg" alt="JCB" style="inset:17.65% 20.41% 16.92%;width:59.18%;height:65.43%"></div>
     </div>`;
-const SIDE_TRUST = `
+const SIDE_USPS = `
     <ul class="cart-usps">
       <li><img src="assets/pdp/check.svg" alt="">100% satisfaction guarantee</li>
       <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
-    </ul>
-    ${PAYMENTS}`;
+    </ul>`;
+const SIDE_TRUST = SIDE_USPS + PAYMENTS;
+// The free shipping popup (the ⓘ after Shipping in the totals: cart, details, payment)
+const SHEET_SHIPPING = `
+<div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shipTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="shipTitle">Free shipping</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><p class="fc-intro">Shipping is free on orders over €60.00 excl. VAT. Below that, shipping is €6.00.</p></div></div>
+  </div>
+</div>`;
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 const SHELL_HEADER_DESK = `
   <header class="dhead">
@@ -218,10 +231,10 @@ const SHELL_FOOTER_DESK = `
       </div>${FOOT_END}
     </div>
   </footer>`;
-// Checkout (desktop): the same footer slimmed down, without the newsletter and the link lists (Cornel, 2026-11-06)
+// Checkout (desktop): a mini footer, without the newsletter, the link lists and the Need help bar (Cornel, 2026-11-06)
 const SHELL_CHECKOUT_FOOTER_DESK = `
   <footer class="dfoot co-dfoot">
-    <div class="dwrap">${FOOT_HELP}${FOOT_END}
+    <div class="dwrap">${FOOT_END}
     </div>
   </footer>`;
 const headerSlot = document.querySelector('[data-shell="header"]');
@@ -246,6 +259,7 @@ if (DESK && document.querySelector('.co-steps')) {
   [...ol.children].slice(1).forEach((li, i) => (li.querySelector('a') || li).insertAdjacentHTML('afterbegin', `<span class="n">${i + 1}</span>`));
 }
 document.querySelectorAll('[data-shell="side-trust"]').forEach(s => s.outerHTML = SIDE_TRUST);
+document.querySelectorAll('[data-shell="sheet-shipping"]').forEach(s => s.outerHTML = SHEET_SHIPPING);
 const footerSlot = document.querySelector('[data-shell="footer"]');
 if (footerSlot && DESK) footerSlot.outerHTML = SHELL_FOOTER_DESK;
 else if (footerSlot && footerSlot.hasAttribute('data-desk-only')) footerSlot.remove();
@@ -641,34 +655,35 @@ function cartTotals(items = getCart(), addons = getAddons()) {
 }
 // The order totals (cart sidebar, desktop checkout sidebar): an ⓘ only where its popup is on the page; ✕ on the code only in the cart (edit);
 // fold: "Products (n)" is a link that opens the product lines under it (checkout, where the products aren't on the page),
-// each with its own delivery window (it can differ per product). Follows the VAT switch (Cornel, 2026-11-06): the rows and the Total are
-// excl. or incl. VAT (they always add up); one line under the Total gives the other side: "Incl. VAT €…" or "Of which VAT €…".
+// each with its own delivery window (it can differ per product). Always as an invoice (Cornel, 2026-11-06): the rows excl. VAT,
+// Subtotal (Excl. VAT), VAT, Total (Incl. VAT); the VAT switch changes the prices on the pages, not this summary.
 function totalsHtml(items = getCart(), addons = getAddons(), edit = false, fold = false) {
   const eur = n => '€' + n.toFixed(2), { check, products, code, discount, shipping, subtotal, vat, total } = cartTotals(items, addons);
   const gross = items.reduce((s, it) => s + (it.was || it.price), 0);   // the products before product discounts (shown with a discount row, as live)
   const info = (sheet, label) => document.getElementById('sheet-' + sheet) ? `<button class="info-btn" data-open-sheet="${sheet}" aria-label="${label}"><img src="assets/pdp/info.svg" alt=""></button>` : '';
   return `<div class="totals">
-          <div><span>${fold ? `<button class="link sum-toggle" aria-expanded="false" aria-controls="sumLines" data-sum-toggle>Products (${items.length})</button>` : `Products (${items.length})`}</span><span>${fmt(gross)}</span></div>
+          <div><span>${fold ? `<button class="link sum-toggle" aria-expanded="false" aria-controls="sumLines" data-sum-toggle>Products (${items.length})</button>` : `Products (${items.length})`}</span><span>${eur(gross)}</span></div>
           ${fold ? `<ul class="sum-lines" id="sumLines" hidden>${items.map(it => `<li class="line-item"><span class="img" style="background:var(--light-grey)"><img src="${it.img}" alt=""></span>
-            <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small><span>Estimated ${etaShort(etaDate(it.arrives))} —</span> <span>latest ${etaShort(etaLatest(it.arrives))}</span></small></div><span class="p">${fmt(it.price)}</span></li>`).join('')}</ul>` : ''}
-          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${fmt(gross - products)}</span></div>` : ''}
-          <div><span>${check.line}${info('filecheck', 'See our 3 file check options')}</span>${check.price ? `<span>${fmt(check.price)}</span>` : '<span class="free">Free</span>'}</div>
-          ${addons.secured ? `<div><span>${SECURED.line}${info('secured', 'More info about secured delivery')}</span><span>${fmt(SECURED.price)}</span></div>` : ''}
-          <div><span>Shipping${info('shipping', 'About free shipping')}</span>${shipping ? `<span>${fmt(shipping)}</span>` : '<span class="free">Free</span>'}</div>
-          ${code ? `<div><span>Discount <small>(${code})</small>${edit ? `<button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button>` : ''}</span><span class="free">−${fmt(discount)}</span></div>` : ''}
-          <div class="grand"><span>Total <small>(${inclVat ? 'Incl.' : 'Excl.'} VAT)</small></span><span>${eur(inclVat ? total : subtotal)}</span></div>
-          <div><span>${inclVat ? 'Of which VAT' : 'Incl. VAT'} <small>(${Math.round(VAT_RATE * 100)}%)</small></span><span>${eur(inclVat ? vat : total)}</span></div>
+            <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small><span>Estimated ${etaShort(etaDate(it.arrives))} —</span> <span>latest ${etaShort(etaLatest(it.arrives))}</span></small></div><span class="p">${eur(it.price)}</span></li>`).join('')}</ul>` : ''}
+          ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
+          <div><span>${check.line}${info('filecheck', 'See our 3 file check options')}</span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
+          ${addons.secured ? `<div><span>${SECURED.line}${info('secured', 'More info about secured delivery')}</span><span>${eur(SECURED.price)}</span></div>` : ''}
+          <div><span>Shipping${info('shipping', 'About free shipping')}</span>${shipping ? `<span>${eur(shipping)}</span>` : '<span class="free">Free</span>'}</div>
+          ${code ? `<div><span>Discount <small>(${code})</small>${edit ? `<button class="info-btn" data-rm-code aria-label="Remove discount code">${icon('close')}</button>` : ''}</span><span class="free">−${eur(discount)}</span></div>` : ''}
+          <div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>
+          <div><span>VAT ${Math.round(VAT_RATE * 100)}%</span><span>${eur(vat)}</span></div>
+          <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${eur(total)}</span></div>
         </div>`;
 }
 // Desktop checkout (details, payment): the cart's sidebar card on the right, with the totals (the products fold open), the step's button
 // (the mobile sticky bar's job). No page title: the steps say where you are, and a title on top of Contact details is two titles in a row. checkout-desk-sketch.html A, Cornel 2026-11-05
-function checkoutSide(cta, form) {
+function checkoutSide(cta, form, trust = SIDE_TRUST) {   // payment passes SIDE_USPS: its method list already shows the logos
   if (!DESK) return;
   const items = getCart();
   document.querySelector('.co-page').insertAdjacentHTML('beforeend', `<div class="cart-col"><aside class="cart-side">
     <h2>Order overview</h2>
     ${totalsHtml(items, getAddons(), false, true)}
-    <button class="btn primary" type="submit" form="${form}">${cta}</button>${SIDE_TRUST}</aside></div>`);
+    <button class="btn primary" type="submit" form="${form}">${cta}</button>${trust}</aside></div>`);
   const side = document.querySelector('.co-page .cart-side');
   side.addEventListener('click', e => {
     const b = e.target.closest('[data-sum-toggle]'); if (!b) return;

@@ -54,6 +54,9 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .acc ul a:hover { color: var(--black); text-decoration: underline; }
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .btn.primary { background: var(--light-green); color: var(--white); }
+.btn.primary.paypal { background: #ffc439; }   /* the pay button for a wallet: its brand button (the brands' colours, not ours): PayPal yellow with its wordmark, */
+.btn.primary.dark { gap: 4px; background: #000; font-weight: 500; }   /* Apple Pay, Google Pay (the G + "Pay"), Revolut Pay black with their white mark */
+.btn.paypal img, .btn.dark img { height: 20px; }
 .btn.outline { background: var(--white); border: 1px solid var(--mid-grey); color: var(--dark-green); }
 body.menu-open { overflow: hidden; }
 
@@ -214,6 +217,30 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .field-error { margin-top: -2px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--error); }
 .check { display: flex; align-items: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); cursor: pointer; padding: 2px 0; }
 .desk .check { font-size: var(--t-14); line-height: var(--lh-14); }   /* desktop body text */
+/* "or" between two ways to do the same thing (Google | the form on login): a line, "or", a line */
+.or-line { display: flex; align-items: center; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); text-transform: uppercase; }   /* "OR" in body text size, capitals (Cornel, 2026-11-06) */
+.or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+/* Payment methods (payment-methods-sketch.html B, Cornel 2026-11-06): a strip per method, outlined as the contact card, 8 apart (not one
+   box); a radio row with its logos; the chosen one opens what it needs under its name */
+.pm { display: flex; flex-direction: column; gap: 8px; }
+.pm-item { padding: 0 15px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* 15 + the border: 16 in */
+.pm-item:has([aria-checked="true"]) { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* the chosen one: 2px light green (the radio row rule), drawn as border + 1 shadow so nothing inside moves; white inside (the grey was tried, Cornel 2026-11-06) */
+.pm-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 54px; text-align: left; }   /* + the 2 border: 56 */
+.pm-row b { flex: 1; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.pm-panel { display: flex; flex-direction: column; gap: 8px; padding: 0 0 15px; }   /* the full width of the strip, left with the radio (Cornel); 15 + the border: 16 */
+.pm-panel[hidden] { display: none; }
+.pm-panel > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.pm-logos { display: flex; gap: 4px; }
+.pm-logos img, .pm-logos .more { height: 30px; border-radius: var(--r-s); }   /* 30 high with round corners, big enough to find your method at a glance (Cornel, 2026-11-06) */
+.pm-logos img { width: auto; }
+.pm-logos .more { display: grid; place-items: center; width: 30px; border: 1px solid var(--line); background: var(--white); font-size: var(--t-12); color: var(--dark-grey); }   /* "+2" in the same frame as the logos */
+/* Wallets as their brand buttons (Cornel, 2026-11-06): one 64 × 30 tile each in the brand colour; the colours are the brands', not ours */
+.pm-brand { display: flex; align-items: center; justify-content: center; gap: 4px; width: 64px; height: 30px; border-radius: var(--r-s); overflow: hidden; background: #000; color: var(--white); font-weight: 500; font-size: var(--t-16); }
+.pm-logos .pm-brand img { width: 100%; height: auto; border-radius: 0; }   /* Revolut Pay: its black logo across the tile */
+.pm-logos .pm-brand.apple img { height: 100%; object-fit: cover; }   /* its dark tile, cropped to the button */
+.pm-logos .pm-brand.google img { width: 14px; }   /* the G, "Pay" in white */
+.pm-brand.paypal { background: #ffc439; }
+.pm-logos .pm-brand.paypal img { width: 46px; }
 .check input { width: 20px; height: 20px; margin: 0; border: 1px solid var(--control); border-radius: var(--r-s); background: var(--white); -webkit-appearance: none; appearance: none; display: grid; place-items: center; cursor: pointer; }
 .check input:checked { background: var(--light-green); border-color: var(--light-green); }
 .check input:checked::after { content: ''; width: 5px; height: 10px; border: solid var(--white); border-width: 0 2px 2px 0; transform: translate(0, -1px) rotate(45deg); }
@@ -363,6 +390,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .desk .opt:not([aria-checked="true"]):hover,
 .desk .qrow:not([aria-checked="true"]):hover,
 .desk .deliv:not([aria-checked="true"]):hover,
+.desk .pm-item:not(:has([aria-checked="true"])):hover,
 .desk .preset:not([aria-pressed="true"]):hover { border-color: var(--black); }
 .desk .qrow:not([aria-checked="true"]):hover { z-index: 2; }
 .desk body { overflow-x: clip; }   /* full-bleed divider lines may use 100vw */
