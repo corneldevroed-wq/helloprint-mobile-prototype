@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmed states sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261119k">
+<link rel="stylesheet" href="../design-system/components.css?v=20261119k">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261119k">
+<!-- Sketch only, not linked from the prototype: every state of the order confirmed page (Cornel, 2026-11-08). Files are per order line,
+     payment is per order (one payment link). One order line: one action block + one timeline. More lines: an order-level to-do on top and a
+     card per line with its own status and delivery date. Drawn 390 wide (mobile); on desktop the same content sits in the 544 column of the
+     checkout frame (confirmed-desk-sketch.html A). Built from .oc-hero, .oc-upload, .oc-status, .oc-info, .btn; new parts are marked NEW. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1700px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p, .sk-note ul { margin-top: 8px; }
+  .sk-note ul { padding-left: 20px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 8px; width: 390px; max-width: 100%; }
+  .col > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  .phone-f { display: flex; flex-direction: column; gap: 24px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .new { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: var(--r-s); background: var(--orange); color: var(--white); font-size: 10px; line-height: 16px; font-weight: 700; vertical-align: middle; }
+  .h2 { font-weight: 700; font-size: var(--t-20); line-height: var(--lh-20); color: var(--dark-green); }
+
+  /* NEW: the to-do block: what the customer still has to do, numbered when more than one */
+  .todo { display: flex; flex-direction: column; gap: 8px; }
+  .todo-item { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .todo-item .h { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .todo-item .n { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--black); color: var(--white); font-size: var(--t-12); font-weight: 600; }
+  .todo-item p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .todo-item p b { color: var(--black); font-weight: 600; }
+  .todo-item .btn { align-self: flex-start; padding: 0 24px; }
+  .todo-item.up { border: 2px dashed var(--mid-grey); padding: 15px; }
+  .todo-item small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .allset { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .allset img { width: 20px; height: 20px; flex-shrink: 0; }
+  .allset b { display: block; font-size: var(--t-16); line-height: var(--lh-16); }
+  .oc-status small b { font-weight: 600; color: var(--black); }
+  .oc-status .wait b { color: var(--black); }
+  .oc-status .wait .dot { border-color: var(--orange); }
+
+  /* NEW: a card per order line (more lines): product, its own delivery date, a compact status and its own upload */
+  .lines { display: flex; flex-direction: column; gap: 8px; }
+  .line { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .line .top { display: flex; gap: 12px; align-items: center; }
+  .line .img { width: 56px; height: 56px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
+  .line .img img { width: 100%; height: 100%; object-fit: cover; }
+  .line .t { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+  .line .t b { font-weight: 600; }
+  .line .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .mini { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .mini span { height: 4px; border-radius: 2px; background: var(--line); }
+  .mini .on { background: var(--light-green); }
+  .mini .wait { background: var(--orange); }
+  .state { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .state b { color: var(--black); font-weight: 600; }
+  .line .act { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: var(--t-14); line-height: var(--lh-14); }
+  .line .act .btn { height: 36px; padding: 0 16px; font-size: var(--t-14); white-space: nowrap; }
+  .line .act .ok { display: flex; align-items: center; gap: 6px; color: var(--dark-grey); }
+  .line .act .ok img { width: 16px; height: 16px; }
+  .line.need { border: 2px solid var(--orange); padding: 15px; }
+  .sum { display: flex; flex-direction: column; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); }
+
+  /* Desktop: the checkout frame (confirmed-desk-sketch.html A): the steps band, the 544 column, the 392 Order overview card */
+  .desk-f { margin-top: 24px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .desk-f > small { display: block; padding: 8px 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--line); }
+  .d-bar { height: 60px; background: var(--dark-green); }
+  .d-band { display: flex; align-items: center; gap: 24px; height: 56px; padding: 0 calc(50% - 532px); background: var(--light-grey); font-size: var(--t-14); }
+  .d-band span { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .d-band span + span { flex: 1; }
+  .d-band span + span::before { content: ''; flex: 1; height: 1px; margin-right: 16px; background: var(--mid-grey); }
+  .d-band i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--light-green); color: var(--white); font-style: normal; font-weight: 600; font-size: var(--t-12); }
+  .d-band .cur { font-weight: 600; }
+  .d-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; column-gap: 128px; align-items: start; max-width: 1064px; margin: 32px auto 64px; }
+  .d-col { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+  .d-col .oc-hero h1 { font-size: 32px; line-height: 40px; }
+  .dk-card { display: flex; flex-direction: column; gap: 16px; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .dk-card h2 { font-weight: 700; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; color: var(--dark-green); }
+  .dk-card .totals { border-top: 0; padding-top: 0; }
+  .dk-card .addr { display: flex; flex-direction: column; gap: 4px; padding-top: 16px; border-top: 1px solid var(--line); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .dk-card .addr b { color: var(--black); font-weight: 600; }
+  /* desktop: the to-do items side by side when there are two; the line cards' action next to the status */
+  .d-col .todo-two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* Variant D (after Shopify's thank you page): an Order details grid 2 × 2 instead of the grey info lines; mobile: the order summary folded on top */
+  .od { display: flex; flex-direction: column; gap: 16px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .od-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .od-grid div { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); overflow-wrap: anywhere; }
+  .od-grid b { margin-bottom: 4px; color: var(--black); font-weight: 600; }
+  .sumbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -16px -16px 0; padding: 16px; border-bottom: 1px solid var(--line); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sumbar span { display: flex; align-items: center; gap: 4px; color: var(--link); text-decoration: underline; }
+  .sumbar span img { width: 16px; height: 16px; }
+  .sumbar b { font-size: var(--t-16); line-height: var(--lh-16); }
+  .od-help { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .od-help a { color: var(--link); text-decoration: underline; }
+  .line .pr { flex-shrink: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .line .img { width: 64px; height: 64px; }
+  /* desktop overview card: the products with their pictures (64), then the totals */
+  .dk-items { list-style: none; display: flex; flex-direction: column; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .dk-items li { display: flex; align-items: center; gap: 12px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .dk-items .img { width: 64px; height: 64px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
+  .dk-items .img img { width: 100%; height: 100%; object-fit: cover; }
+  .dk-items .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .dk-items .t b { font-weight: 600; }
+  .dk-items .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .todo-logos { flex-wrap: wrap; }   /* the payment logos in the Pay to-do: wrap on a narrow column */
+
+  /* Variant E: a positive page. A dark green thank you moment with their product, the next steps as "one last step" (no orange), people, a proud line */
+  .e-hero { display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: var(--r-l); background: var(--dark-green); color: var(--white); }
+  .e-hero .num { font-size: var(--t-12); line-height: var(--lh-12); color: rgba(255,255,255,.7); }
+  .e-hero h1 { font-weight: 700; font-size: var(--t-28); line-height: 34px; letter-spacing: -0.5px; color: var(--white); }
+  .e-hero p { font-size: var(--t-16); line-height: var(--lh-16); }
+  .e-check { width: 48px; height: 48px; }
+  .e-check circle { fill: var(--light-green); }
+  .e-check path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: e-draw .6s .3s ease-out forwards; }
+  @keyframes e-draw { to { stroke-dashoffset: 0; } }
+  .e-date { display: flex; flex-direction: column; padding: 12px 16px; border-radius: var(--r-m); background: rgba(255,255,255,.1); }
+  .e-date small { font-size: var(--t-12); line-height: var(--lh-12); color: rgba(255,255,255,.7); }
+  .e-date b { font-size: var(--t-20); line-height: var(--lh-20); }
+  .e-pics { display: flex; gap: 8px; }
+  .e-pics span { flex: 1; aspect-ratio: 1; max-width: 96px; border-radius: var(--r-l); overflow: hidden; background: var(--white); }
+  .e-pics img { width: 100%; height: 100%; object-fit: cover; }
+  .e-next { display: flex; flex-direction: column; gap: 8px; }
+  .e-next .lead { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); margin-top: -4px; }
+  .e-step { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .e-step .h { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .e-step .n { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
+  .e-step p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .e-step p b { color: var(--black); font-weight: 600; }
+  .e-step .btn { align-self: flex-start; padding: 0 24px; }
+  .e-team { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .e-team .faces { display: flex; flex-shrink: 0; }
+  .e-team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); object-fit: cover; }
+  .e-team .faces img + img { margin-left: -10px; }
+  .e-team a { color: var(--link); text-decoration: underline; font-weight: 600; }
+  .e-proud { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .e-proud img { height: 32px; width: auto; }
+  .oc-status .e-cur .dot { border-color: var(--light-green); }
+  .line.e-need { border: 2px solid var(--light-green); padding: 15px; }
+  .mini .e-on { background: var(--light-green); opacity: .4; }
+  .d-col .e-hero { flex-direction: row; align-items: center; gap: 24px; }
+  .e-txt { display: flex; flex-direction: column; gap: 12px; }
+  .d-col .e-txt { flex: 1; }
+  .d-col .e-pics { flex: 0 0 auto; }
+  .d-col .e-pics span { flex: none; width: 120px; max-width: none; }
+  .d-col .e-pics span + span { margin-left: -48px; box-shadow: -4px 0 12px rgba(0,0,0,.25); }   /* desktop: more products overlap as a little stack */
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Confirmed states sketch</b><a href="#one">1 order line · 4 states</a><a href="#more">More order lines · 3 states</a><a href="#desk">Desktop · all 7</a><a href="#d">D · Order details grid</a><a href="#e">E · Positive page</a><a href="#rules">Rules</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel, 2026-11-08):</b> the confirmed page has several states and has to be strict about them: files still to upload, files
+      and payment, payment only, and with more order lines the situation differs per line. The status timeline can't only sit on top of the
+      page: with more lines it belongs to the line.</p>
+    <p><b>The model:</b> files are <b>per order line</b> (upload later / designed online / uploaded on the PDP). Payment is <b>per order</b>
+      (Pay now, or Pay later = one payment link). Status and delivery date are <b>per order line</b>. Deadline: files approved and the order
+      paid by 10:30 the working day before, to keep each line's date.</p>
+    <p>Example: Anna, order HP-IE-7762447, €44.13 (one line) / €92.40 (three lines). Drawn on mobile; desktop puts the same in the 544 column,
+      with the Order overview card on the right (confirmed-desk-sketch.html A). <span class="new">NEW</span> marks parts that don't exist yet.</p>
+  </div>
+
+  <div class="sk-label" id="one"><b class="ttl">1 order line: one to-do block, then the one timeline</b>
+    The hero says the deadline in one line. Under it the to-do block holds exactly what is still needed, numbered when there are two things
+    (upload first: the check starts as soon as the file is in). The timeline gets a Payment step only when the order is not paid yet;
+    the step that waits on the customer gets an orange ring. When nothing is left: a calm "All set" line instead of the block.
+  </div>
+  <div class="row" data-v="one"></div>
+
+  <div class="sk-label" id="more"><b class="ttl">More order lines: an order-level to-do, then a card per line</b>
+    On top only what concerns the whole order: the count of files still needed and, for Pay later, the payment (one link for the order).
+    Each line is a card: product, its own delivery date, a compact four-part status bar (Check · Production · Shipped · Delivered) with the
+    current step in words, and its own Upload button. A line that waits on the customer has the orange outline; done lines are quiet.
+  </div>
+  <div class="row" data-v="more"></div>
+
+  <div class="sk-label" id="desk"><b class="ttl">Desktop: the same 7 states in the checkout frame</b>
+    The steps band (all done, Confirmed current), the to-do, timeline or product cards in the 544 column, and the Order overview card on the
+    right as on payment (the totals, the shipping address, Continue shopping). Two to-do items sit side by side; everything else is the
+    mobile content 1:1.
+  </div>
+  <div data-v="desk"></div>
+
+  <div class="sk-label" id="d"><b class="ttl">D · Order details as a grid, after Shopify's thank you page</b>
+    Two ideas from Shopify, on states 2 and 5: the grey confirmation lines become an <b>Order details</b> block with a 2 × 2 grid (Contact ·
+    Payment · Shipping address · Billing address), the shipping method under it, then "Need help? Contact us" and Continue shopping. On mobile
+    the order summary sits folded on top ("Show order summary ⌄" with the total), as Shopify does; on desktop the overview card stays right.
+    <ul>
+      <li>+ Everything about the order in one calm block, readable at a glance; the address no longer a loose list.</li>
+      <li>+ Mobile: the total is the first thing you see, the details are one tap away.</li>
+      <li>− The folded summary on top pushes the thank you down 56; the To do stays first after the hero (our part Shopify doesn't have).</li>
+    </ul>
+  </div>
+  <div class="row" data-v="d-mob"></div>
+  <div data-v="d-desk"></div>
+
+  <div class="sk-label" id="e"><b class="ttl">E · A positive page: the thank you moment first</b>
+    For states 2 and 5. The page opens with a dark green thank you block (the header's green): a check that draws itself once, "Thank you,
+    Anna!", the delivery date big and their product photo. The to-do becomes <b>"Almost there"</b>: numbered green steps in a friendly tone,
+    no orange (orange only when the deadline is close, e.g. the last day). The timeline speaks in "next" instead of "waiting". Then the people
+    who check the files, and a small proud line (B Corp · FSC).
+    <ul>
+      <li>+ The first feeling is "it worked, my print is coming"; the tasks follow as the last step, not as a problem.</li>
+      <li>+ Their product and the date are the heroes; the faces make it human.</li>
+      <li>− More height before the tasks (the hero is ±280 on mobile); the to-do still sits in the first screen on desktop.</li>
+    </ul>
+  </div>
+  <div class="row" data-v="e-mob"></div>
+  <div data-v="e-desk"></div>
+
+  <div class="sk-note" id="rules" style="margin-top:56px">
+    <p><b>Rules for the build (my proposal)</b></p>
+    <ul>
+      <li>One template, two layouts: 1 line → to-do + page timeline; 2+ lines → order to-do + line cards. The page picks by the number of lines.</li>
+      <li>The to-do only shows what the customer still has to do; it shrinks as they do it (upload done → that item turns into "File received, we're checking it").</li>
+      <li>Orange = waits on you (the label colour for urgency we already have), green = done, grey = later. No other colours.</li>
+      <li>Payment is never per line: one "Pay €… now" for the order, with "we also emailed you the link". Paying here = the same link.</li>
+      <li>Every deadline in the same words: "by 10:30 on Mon 28 Sep to keep delivery on Tue 29 Sep"; with more lines, each card has its own date.</li>
+      <li>Order overview, shipping address and the questions stay under it as now (desktop: the overview card on the right).</li>
+      <li>No way back into the checkout: the order is placed and the cart is empty, so every step is a plain done step (no back button to Cart, no links to Details or Payment). The only way on is Continue shopping.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const A = '../prototype/assets/';
+  const ck = `<img src="${A}pdp/check.svg" alt="">`;
+  const hero = lead => `<section class="oc-hero"><p class="oc-number">Order HP-IE-7762447</p><h1>Thank you, Anna. Your order is in.</h1><p class="oc-lead">${lead}</p></section>`;
+  const up = (n, deadline = true) => `<div class="todo-item up"><div class="h">${n ? `<span class="n">${n}</span>` : ''}Upload your design</div>
+      ${deadline ? '<p>Approve it by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.</p>' : ''}
+      <button class="btn primary" type="button">Choose files</button><small>PDF, AI, EPS, PSD, TIFF, PNG, JPG · up to 500 MB</small></div>`;
+  // The ways to pay, as on payment (the same .pm-logos and brand tiles; Cornel: "als je nog moet betalen, de payment logos weer zien")
+  const payLogos = `<span class="pm-logos todo-logos"><img src="${A}pay-visa.svg" alt="Visa"><img src="${A}pay-maestro.svg" alt="Maestro"><img src="${A}pay-mastercard.svg" alt="Mastercard">
+      <span class="pm-brand apple"><img src="${A}checkout/applepay.png" alt="Apple Pay"></span><span class="pm-brand google"><img src="${A}checkout/google-g.svg" alt="">Pay</span>
+      <span class="pm-brand paypal"><img src="${A}checkout/paypal-word.png" alt="PayPal"></span><span class="pm-brand"><img src="${A}checkout/revolut.png" alt="Revolut Pay"></span></span>`;
+  const pay = (n, amount = '€44.13', by = 'Mon 28 Sep', what = 'delivery') => `<div class="todo-item"><div class="h">${n ? `<span class="n">${n}</span>` : ''}Pay ${amount}</div>
+      <p>Pay by <b>10:30 on ${by}</b> to keep ${what}. We also emailed you the payment link.</p>
+      ${payLogos}<button class="btn primary" type="button">Pay now</button></div>`;
+  const todo = (...items) => `<section class="todo"><h2 class="h2">To do<span class="new">NEW</span></h2>${items.join('')}</section>`;
+  const allset = text => `<div class="allset">${ck}<div><b>All set</b>${text}</div></div>`;
+  const step = (cls, t, d) => `<li class="${cls}"><span class="dot"></span><div><b>${t}</b>${d ? `<small>${d}</small>` : ''}</div></li>`;
+  const status = steps => `<section><h2 class="h2" style="margin-bottom:12px">Order status</h2><ol class="oc-status">${steps.join('')}</ol></section>`;
+  const info = paid => `<div class="oc-info"><p>${ck}<span>Confirmation sent to <b>anna@example.ie</b></span></p><p>${ck}<span>${paid}</span></p></div>`;
+  const REG = [];   // every state, also drawn on desktop below
+  const frame = (label, html) => { REG.push([label, html]); return `<div class="col"><small>${label}</small><div class="phone-f">${html}</div></div>`; };
+
+  const L = {
+    cards: { img: 'products/bc-1.png', name: 'Classic business cards', sub: '500 pcs · Saver', date: 'Tue 29 Sep', price: '€18.89' },
+    flyers: { img: 'flyers/t-classic.webp', name: 'Flyers A5', sub: '1,000 pcs · Standard', date: 'Mon 28 Sep', price: '€24.49' },
+    roll: { img: 'products/roller-banner.webp', name: 'Roller banner', sub: '1 pc · Express', date: 'Fri 25 Sep', price: '€14.89' },
+  };
+  // One order line: the product itself, with its picture, right above the timeline (Cornel: "wat ik mis zijn de productafbeeldingen")
+  const product = p => `<section class="lines"><h2 class="h2">Your product</h2><div class="line"><div class="top">
+      <span class="img"><img src="${A}${p.img}" alt=""></span><div class="t"><b>${p.name}</b><small>${p.sub}</small><small>Estimated ${p.date}</small></div><b class="pr">${p.price}</b></div></div></section>`;
+  const ONE = [
+    frame('1 · File needed · paid', hero('Upload and approve your files by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.') +
+      todo(up(0, false)) +
+      product(L.cards) + status([step('done', 'Order placed', 'Today'), step('done', 'Paid', 'Credit card · €44.13'), step('current wait', 'Artwork check', '<b>Waiting for your file</b>'), step('', 'Production'), step('', 'Shipped'), step('', 'Delivered', 'Tue 29 Sep')]) +
+      info('Paid with Credit card · €44.13')),
+    frame('2 · File needed · pay later', hero('Upload your files and pay by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.') +
+      todo(up(1, false), pay(2)) +
+      product(L.cards) + status([step('done', 'Order placed', 'Today'), step('current wait', 'Artwork check', '<b>Waiting for your file</b>'), step('wait', 'Payment', '<b>Waiting for your payment</b>'), step('', 'Production'), step('', 'Shipped'), step('', 'Delivered', 'Tue 29 Sep')]) +
+      info('Pay later · payment link sent by email')),
+    frame('3 · Files in · pay later', hero('Pay by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.') +
+      todo(pay(0)) +
+      product(L.cards) + status([step('done', 'Order placed', 'Today'), step('current', 'Artwork check', 'Checking your files'), step('wait', 'Payment', '<b>Waiting for your payment</b>'), step('', 'Production'), step('', 'Shipped'), step('', 'Delivered', 'Tue 29 Sep')]) +
+      info('Pay later · payment link sent by email')),
+    frame('4 · All set (files in, paid)', hero('Your order arrives on <b>Tue 29 Sep</b>.') +
+      allset('<span>We’re checking your files. We’ll email you if anything needs a change.</span>') +
+      product(L.cards) + status([step('done', 'Order placed', 'Today'), step('done', 'Paid', 'Credit card · €44.13'), step('current', 'Artwork check', 'Checking your files'), step('', 'Production'), step('', 'Shipped'), step('', 'Delivered', 'Tue 29 Sep')]) +
+      info('Paid with Credit card · €44.13')),
+  ];
+
+  const line = ({ img, name, sub, date, price, bar, now, need, done }) => `<div class="line${need ? ' need' : ''}"><div class="top">
+      <span class="img"><img src="${A}${img}" alt=""></span><div class="t"><b>${name}</b><small>${sub}</small><small>Estimated ${date}</small></div><b class="pr">${price}</b></div>
+      <div class="mini">${bar.map(c => `<span class="${c}"></span>`).join('')}</div>
+      <div class="state"><span>${now}</span><span>Delivered ${date}</span></div>
+      ${need ? `<div class="act"><span>Upload by <b>10:30 on ${need}</b></span><button class="btn primary" type="button">Upload design</button></div>` : done ? `<div class="act"><span class="ok">${ck}${done}</span></div>` : ''}</div>`;
+  const lines = (...ls) => `<section class="lines"><h2 class="h2">Your products<span class="new">NEW</span></h2>${ls.join('')}</section>`;
+  const orderTodo = (...items) => `<section class="todo"><h2 class="h2">To do<span class="new">NEW</span></h2>${items.join('')}</section>`;
+  const filesTodo = n => `<div class="todo-item"><div class="h">Upload ${n} design${n > 1 ? 's' : ''}</div><p>Each product below has its own upload and its own deadline.</p></div>`;
+  const MORE = [
+    frame('5 · 3 lines · 1 file needed · paid', hero('One product still needs a file. The others are on their way.') +
+      orderTodo(filesTodo(1)) +
+      lines(line({ ...L.cards, bar: ['wait', '', '', ''], now: '<b>Waiting for your file</b>', need: 'Mon 28 Sep' }),
+            line({ ...L.flyers, bar: ['on', '', '', ''], now: '<b>Checking your file</b>', done: 'File received · flyer-a5.pdf' }),
+            line({ ...L.roll, bar: ['on', 'on', '', ''], now: '<b>In production</b>', done: 'Designed online' })) +
+      info('Paid with Credit card · €92.40')),
+    frame('6 · 3 lines · 1 file needed · pay later', hero('Upload one file and pay by <b>10:30 on Thu 24 Sep</b> to keep every delivery date.') +
+      orderTodo(filesTodo(1), pay(0, '€92.40', 'Thu 24 Sep', 'every delivery date (the earliest product sets it)')) +
+      lines(line({ ...L.cards, bar: ['wait', '', '', ''], now: '<b>Waiting for your file</b>', need: 'Mon 28 Sep' }),
+            line({ ...L.flyers, bar: ['on', '', '', ''], now: '<b>Checking your file</b> · then waiting for payment', done: 'File received · flyer-a5.pdf' }),
+            line({ ...L.roll, bar: ['on', '', '', ''], now: '<b>Waiting for your payment</b>', done: 'Designed online' })) +
+      info('Pay later · payment link sent by email')),
+    frame('7 · 3 lines · all set', hero('Everything is in. Your products arrive between <b>Fri 25</b> and <b>Tue 29 Sep</b>.') +
+      allset('<span>We’ll email you when each product ships.</span>') +
+      lines(line({ ...L.cards, bar: ['on', '', '', ''], now: '<b>Checking your file</b>', done: 'File received · cards.pdf' }),
+            line({ ...L.flyers, bar: ['on', 'on', '', ''], now: '<b>In production</b>', done: 'File approved' }),
+            line({ ...L.roll, bar: ['on', 'on', 'on', ''], now: '<b>Shipped</b> · track your parcel', done: 'Designed online' })) +
+      info('Paid with Credit card · €92.40')),
+  ];
+  document.querySelector('[data-v=one]').innerHTML = ONE.join('');
+  document.querySelector('[data-v=more]').innerHTML = MORE.join('');
+
+  // Desktop: each state in the checkout frame, with the Order overview card on the right
+  const band = `<div class="d-bar"></div><div class="d-band"><span><i>✓</i>Cart</span><span><i>✓</i>Details &amp; Shipping</span><span><i>✓</i>Payment</span><span class="cur"><i>3</i>Confirmed</span></div>`;
+  const tot = (n, p, check, ship, sub, vat, total) => `<div class="totals"><div><span>Products (${n})</span><span>${p}</span></div><div><span>Premium Check + Proof</span><span>${check}</span></div>
+      <div><span>Shipping</span><span>${ship}</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${sub}</span></div>
+      <div><span>VAT 23%</span><span>${vat}</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${total}</span></div></div>`;
+  const items = ps => `<ul class="dk-items">${ps.map(p => `<li><span class="img"><img src="${A}${p.img}" alt=""></span><span class="t"><b>${p.name}</b><small>${p.sub}</small></span><span>${p.price}</span></li>`).join('')}</ul>`;
+  const card = (multi, addr = true) => `<aside class="dk-card"><h2>Order overview</h2>${items(multi ? [L.cards, L.flyers, L.roll] : [L.cards])}${multi ? tot(3, '€58.27', '€10.99', '€6.00', '€75.12', '€17.28', '€92.40') : tot(1, '€18.89', '€10.99', '€6.00', '€35.88', '€8.25', '€44.13')}
+      ${addr ? `<div class="addr"><b>Shipping address</b><span>Anna Murphy</span><span>8 Harbour Road</span><span>T12 X7K2 Cork, Ireland</span></div>
+      <a class="btn outline" href="#desk">Continue shopping</a>` : ''}</aside>`;
+  document.querySelector('[data-v=desk]').innerHTML = REG.map(([label, html], i) => `<div class="desk-f"><small>${label}</small>${band}
+      <div class="d-page"><div class="d-col">${html}</div>${card(i > 3)}</div></div>`).join('');
+  // two to-do items side by side on desktop
+  document.querySelectorAll('[data-v=desk] .todo').forEach(t => {
+    const items = t.querySelectorAll(':scope > .todo-item');
+    if (items.length === 2) { const g = document.createElement('div'); g.className = 'todo-two'; items[0].before(g); g.append(...items); }
+  });
+
+  // D: the info lines become an Order details grid (Shopify); mobile gets the folded summary on top
+  const details = pay => `<section class="od"><h2 class="h2">Order details<span class="new">NEW</span></h2><div class="od-grid">
+      <div><b>Contact</b><span>Anna Murphy</span><span>anna@example.ie</span></div>
+      <div><b>Payment</b>${pay}</div>
+      <div><b>Shipping address</b><span>Anna Murphy</span><span>8 Harbour Road</span><span>T12 X7K2 Cork, Ireland</span></div>
+      <div><b>Billing address</b><span>Same as shipping address</span></div>
+      <div><b>Delivery</b><span>Saver · Free</span></div>
+      <div><b>Order number</b><span>HP-IE-7762447</span></div></div></section>
+      <div class="od-help"><span>Need help? <a href="#chat">Contact us</a></span><a class="btn outline" href="#d" style="padding:0 24px;text-decoration:none">Continue shopping</a></div>`;
+  const sumbar = total => `<div class="sumbar"><span>Show order summary <img src="${A}chevron.svg" alt=""></span><b>${total}</b></div>`;
+  const D = [
+    [REG[1], '<span>Pay later · payment link sent</span><span>€44.13 to pay</span>', '€44.13', false],
+    [REG[4], '<span>Credit card · ending 4242</span><span>€92.40 paid</span>', '€92.40', true],
+  ].map(([[label, html], pay, total, multi]) => [label.replace(/^\d/, m => m + 'D'), html.replace(/<div class="oc-info">[\s\S]*$/, details(pay)), total, multi]);
+  document.querySelector('[data-v=d-mob]').innerHTML = D.map(([label, html, total]) => `<div class="col"><small>${label} · mobile</small><div class="phone-f">${sumbar(total)}${html}</div></div>`).join('');
+  document.querySelector('[data-v=d-desk]').innerHTML = D.map(([label, html, , multi]) => `<div class="desk-f"><small>${label} · desktop</small>${band}
+      <div class="d-page"><div class="d-col">${html}</div>${card(multi, false)}</div></div>`).join('');   // D: the address and Continue shopping are in the column
+  // E: the positive page
+  const check = `<svg class="e-check" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-15"/></svg>`;
+  const eHero = (pics, line, date) => `<section class="e-hero"><div class="e-txt">${check}<p class="num">Order HP-IE-7762447</p><h1>Thank you, Anna!</h1><p>${line}</p>
+      <div class="e-date"><small>${date[0]}</small><b>${date[1]}</b></div></div><div class="e-pics">${pics.map(p => `<span><img src="${A}${p.img}" alt=""></span>`).join('')}</div></section>`;
+  const eStep = (n, title, text, btn, extra = '') => `<div class="e-step"><div class="h"><span class="n">${n}</span>${title}</div><p>${text}</p>${extra}${btn ? `<button class="btn primary" type="button">${btn}</button>` : ''}</div>`;
+  const eNext = (lead, ...steps) => `<section class="e-next"><h2 class="h2">Almost there</h2><p class="lead">${lead}</p>${steps.join('')}</section>`;
+  const eTeam = `<div class="e-team"><span class="faces"><img src="${A}help/team/saskia.webp" alt=""><img src="${A}help/team/timo.webp" alt=""><img src="${A}help/team/karen.webp" alt=""></span>
+      <span>Our print experts check every file before it’s printed. Questions? <a href="#chat">Ask us</a></span></div>`;
+  const eProud = `<p class="e-proud"><img src="${A}desktop/b-corp.png" alt="B Corp"><img src="${A}desktop/fsc.svg" alt="FSC">Printed responsibly, on FSC-certified paper</p>`;
+  const eStatus = steps => `<section><h2 class="h2" style="margin-bottom:12px">What happens next</h2><ol class="oc-status">${steps.join('')}</ol></section>`;
+  const eLine = ({ img, name, sub, date, price, bar, now, need, done }) => `<div class="line${need ? ' e-need' : ''}"><div class="top">
+      <span class="img"><img src="${A}${img}" alt=""></span><div class="t"><b>${name}</b><small>${sub}</small><small>Arrives ${date}</small></div><b class="pr">${price}</b></div>
+      <div class="mini">${bar.map(c => `<span class="${c}"></span>`).join('')}</div><div class="state"><span>${now}</span></div>
+      ${need ? `<div class="act"><span>One last step: your design</span><button class="btn primary" type="button">Upload design</button></div>` : `<div class="act"><span class="ok">${ck}${done}</span></div>`}</div>`;
+  const E = [
+    ['2E · 1 line · file needed · pay later', eHero([L.cards], 'Your business cards are on their way.', ['Arrives', 'Tuesday 29 September']) +
+      eNext('Two quick things and we start printing. Do them by <b>10:30 on Mon 28 Sep</b> to keep your date.',
+        eStep(1, 'Upload your design', 'We check it for free and send you a proof.', 'Choose files'),
+        eStep(2, 'Pay €44.13', 'Whenever it suits you; we also emailed you the link.', 'Pay now', payLogos)) +
+      eStatus([step('done', 'Order placed', 'Today'), step('current e-cur', 'We check your file', 'As soon as it’s in'), step('', 'Payment', 'With the link, any time before Mon 28 Sep'), step('', 'We print it'), step('', 'On its way'), step('', 'Arrives', 'Tue 29 Sep')]) +
+      eTeam + eProud, false],
+    ['5E · 3 lines · 1 file needed · paid', eHero([L.cards, L.flyers, L.roll], 'Your 3 products are on their way.', ['Arriving', 'Fri 25 – Tue 29 September']) +
+      eNext('One quick thing: your business cards still need a design.') +
+      `<section class="lines"><h2 class="h2">Your products</h2>${eLine({ ...L.cards, bar: ['e-on', '', '', ''], now: 'Next: we check your design' , need: true })}
+        ${eLine({ ...L.flyers, bar: ['on', '', '', ''], now: '<b>We’re checking your file</b>', done: 'File received · flyer-a5.pdf' })}
+        ${eLine({ ...L.roll, bar: ['on', 'on', '', ''], now: '<b>Being printed</b>', done: 'Designed online' })}</section>` +
+      eTeam + eProud, true],
+  ];
+  document.querySelector('[data-v=e-mob]').innerHTML = E.map(([label, html]) => `<div class="col"><small>${label} · mobile</small><div class="phone-f">${html}</div></div>`).join('');
+  document.querySelector('[data-v=e-desk]').innerHTML = E.map(([label, html, multi]) => `<div class="desk-f"><small>${label} · desktop</small>${band}
+      <div class="d-page"><div class="d-col">${html}</div>${card(multi)}</div></div>`).join('');
+  document.querySelectorAll('[data-v=e-desk] .e-next').forEach(t => {
+    const items = t.querySelectorAll(':scope > .e-step');
+    if (items.length === 2) { const g = document.createElement('div'); g.className = 'todo-two'; items[0].before(g); g.append(...items); }
+  });
+  document.querySelectorAll('[data-v=d-desk] .todo').forEach(t => {
+    const items = t.querySelectorAll(':scope > .todo-item');
+    if (items.length === 2) { const g = document.createElement('div'); g.className = 'todo-two'; items[0].before(g); g.append(...items); }
+  });
+</script>
+</body>
+</html>
