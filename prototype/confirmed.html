@@ -124,7 +124,7 @@
 
     document.getElementById('ocInfo').innerHTML = `
       <p><img src="assets/pdp/check.svg" alt=""><span>${o.email ? `Confirmation sent to <b>${o.email}</b>` : 'Confirmation sent by email'}</span></p>
-      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once you've approved your artwork.` : 'Nothing to pay yet. We email your payment link once you've approved your artwork.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
+      <p><img src="assets/pdp/check.svg" alt=""><span>${later ? (o.linkTo ? `Nothing to pay yet. We email the payment link to ${escC(o.linkTo.name)} (${escC(o.linkTo.email)}) once you’ve approved your artwork.` : 'Nothing to pay yet. We email your payment link once you’ve approved your artwork.') : `Paid with ${o.method} · ${eur(o.total)}`}</span></p>`;
 
     // Address as a short list, one line each (older orders only have the comma version)
     const lines = [o.name, ...(o.addressLines || (o.address || '').split(', ')), 'Ireland'].filter(Boolean);

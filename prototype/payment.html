@@ -157,8 +157,8 @@
   })();
 
   // Order overview (mobile): the desktop sidebar's totals, Products (n) as a plain row, no product lines (Cornel, 2026-11-06)
-  const { total } = cartTotals(items, getAddons());
-  document.getElementById('paySummary').innerHTML = totalsHtml(items, getAddons());
+  const addons = getAddons(), { check, shipping, subtotal, vat, total } = cartTotals(items, addons);   // also kept with the order (confirmed)
+  document.getElementById('paySummary').innerHTML = totalsHtml(items, addons);
   document.getElementById('barTotal').textContent = eur(total);
 
   // No delivery block on payment (Cornel, 2026-11-06): the date can differ per order line; each line shows its own (cart, the sidebar)
