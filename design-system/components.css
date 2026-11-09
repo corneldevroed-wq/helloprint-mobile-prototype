@@ -158,8 +158,8 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .totals { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
 .totals > div { display: flex; justify-content: space-between; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .totals > div.grand, .totals > div.sub { border-top: 1px solid var(--line); padding-top: 8px; }   /* a line before the subtotal and before the total */
-.totals > div.grand { font-weight: 600; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }   /* "Total" semibold, the amount extra bold (as the PDP; Cornel 2026-11-06) */
-.totals > div.grand span:last-child { font-weight: 800; }
+.totals > div.grand { align-items: baseline; }   /* "Total" as Subtotal and VAT (Cornel 2026-11-09), only the amount big and extra bold */
+.totals > div.grand span:last-child { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
 /* Checkout sidebar (Cornel, 2026-11-06): "Products (n)" is a link that folds the product lines open under it, so the card stays clean */
 .sum-toggle { display: inline-flex; align-items: center; text-underline-offset: 2px; }   /* + .link: the default link colour */
 .sum-toggle::after { content: ''; width: 20px; height: 16px; background: currentColor; -webkit-mask: url(icons/chevron-down.svg) no-repeat center / 20px 16px; mask: url(icons/chevron-down.svg) no-repeat center / 20px 16px; transition: transform .2s; }   /* the chevron in the link colour */
