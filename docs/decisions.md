@@ -5,6 +5,13 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-09 — Order confirmed: the action blocks show what's done; "Your products" hidden** (Cornel): after an upload its block stays
+  and refreshes ("Upload successful", the artwork instead of the product photo, which opens the artwork popup, plus View); after paying
+  the pay block says "Payment received". Done: grey outline and a check, to-do: green outline and a number. All done: the title becomes
+  "Your design(s)". Each upload block holds its order line as the cart line (photo 75 / 120 on desktop, or the artwork as the cart's
+  tile; pieces · options, price, its own delivery date and its own deadline "Upload by 10:30 on …"), because those differ per line;
+  the pay block has the earliest deadline. Change (as the PDP) reopens the upload popup with the files already added: remove, replace or add more, then
+  "Update my order". The per-line product cards (status bar Check · Print · Ship · Delivered) are hidden, kept for My account later.
 - **11-09 — The cart's product cards say what they add** (cart-presets-sketch.html A): under the name one grey line with the Recommended
   preset's first 4 choices ("85 x 55 mm · Matt · Thick · Matte lamination"), on "Our best sellers" (empty cart) and "Often ordered with",
   mobile and desktop. Rejected: B (the choices as a ticked list), C (one line + "What you get" link).

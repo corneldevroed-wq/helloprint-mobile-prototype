@@ -549,13 +549,13 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .sum-ups + .totals { margin-top: 0; border-top: 0; padding-top: 0; }   /* the line is the one across the card above */
 .desk .cart-main .line-item { margin: 0; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); }   /* the cart cards: --outline, 24 padding (Cornel, 2026-11-03) */
 .desk .cart-main .line-item { align-items: flex-start; gap: 24px; }
-.desk .cart-main .line-item .img { width: 120px; height: 120px; }
-.desk .cart-main .line-item .t strong, .desk .cart-main .line-item .p { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .cart-main .line-item .img, .desk .oc-act .line-item .img { width: 120px; height: 120px; }
+.desk .cart-main .line-item .t strong, .desk .cart-main .line-item .p, .desk .oc-act .line-item .t strong, .desk .oc-act .line-item .p { font-size: var(--t-16); line-height: var(--lh-16); }
 /* Cart lines (cart-lines-sketch.html B, Cornel 2026-11-03; mobile the same line: cart-lines-mobile-sketch.html A): one grid, photo | text | price,
    then the delivery and the quantity row (dropdown, the next step as a hint, the round icon buttons). Label above the name.
    Mobile: the delivery and the quantity row full width, the hint under the row; desktop: from the name to the right edge. */
 .line-item.cart-line, .desk .cart-main .line-item.cart-line { display: grid; grid-template-columns: 75px minmax(0, 1fr) auto; align-items: start; row-gap: 0; }
-.desk .cart-main .line-item.cart-line { grid-template-columns: 120px minmax(0, 1fr) auto; }
+.desk .cart-main .line-item.cart-line, .desk .oc-act .line-item.cart-line { grid-template-columns: 120px minmax(0, 1fr) auto; }
 .cart-line + .cart-line { margin-top: 8px; padding-top: 16px; }   /* mobile: 16 · line · 16 between products */
 .desk .cart-main .summary-box { gap: 16px; }   /* desktop: 16 between the cards, as inside every grid (Cornel, 2026-11-06) */
 .desk .cart-line > .img { grid-row: span 3; }   /* the photo spans the rows next to it, so the right column builds up without waiting for its height */

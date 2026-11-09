@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261120e">
-<link rel="stylesheet" href="../design-system/components.css?v=20261120e">
-<link rel="stylesheet" href="pages.css?v=20261120e">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261120i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261120i">
+<link rel="stylesheet" href="pages.css?v=20261120i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -58,8 +58,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261120e"></script>
-<script src="../design-system/components.js?v=20261120e"></script>
+<script src="app.js?v=20261120i"></script>
+<script src="../design-system/components.js?v=20261120i"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -68,10 +68,9 @@
 
   function render() {
     const o = order, eur = n => '€' + n.toFixed(2), esc = t => String(t || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-    const lines = o.items.map((it, i) => ({ ...it, i, needs: (it.designType === 'upload' || /upload after checkout|upload later/i.test(it.design || '')) && !o.uploads[i] }));
+    const lines = o.items.map((it, i) => { const up = it.designType === 'upload' || /upload after checkout|upload later/i.test(it.design || ''); return { ...it, i, up, needs: up && !o.uploads[i] }; });
     const todo = lines.filter(l => l.needs), toPay = o.when === 'later' && !o.paid;
     const first = l => l.reduce((a, b) => (etaDate(a.arrives) <= etaDate(b.arrives) ? a : b));   // the earliest date sets the deadline
-    const by = todo.length || toPay ? etaApprove(first(toPay ? lines : todo).arrives) : '';
     const many = lines.length > 1;
     const svg = '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-15"/></svg>';
 
@@ -82,18 +81,34 @@
 
     // 2 · the actions: one upload per product that still needs a file (the PDP's drop field), then the payment
     const n = todo.length + (toPay ? 1 : 0);
-    const what = [todo.length && `${todo.length > 1 ? todo.length + ' designs' : 'your design'}`, toPay && 'payment'].filter(Boolean);
     const logos = `<span class="pm-logos"><img src="assets/pay-visa.svg" alt="Visa"><img src="assets/pay-maestro.svg" alt="Maestro"><img src="assets/pay-mastercard.svg" alt="Mastercard">
       <span class="pm-brand apple"><img src="assets/checkout/applepay.png" alt="Apple Pay"></span><span class="pm-brand google"><img src="assets/checkout/google-g.svg" alt="">Pay</span>
       <span class="pm-brand paypal"><img src="assets/checkout/paypal-word.png" alt="PayPal"></span><span class="pm-brand"><img src="assets/checkout/revolut.png" alt="Revolut Pay"></span></span>`;
-    const actions = n ? `<section class="oc-sec"><h2>${n === 1 ? '1 thing' : n + ' things'} to start printing</h2>
-      <p class="oc-lead">${todo.length && toPay ? 'Do them' : toPay ? 'Pay' : 'Upload'} by <b>10:30 on ${by}</b> to keep ${many ? 'every delivery date' : `delivery on <b>${etaShort(etaDate(lines[0].arrives))}</b>`}.${todo.length ? ' We check every file for free and send you a proof.' : ''}</p>
-      <div class="oc-acts">${todo.map((l, k) => `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${k + 1}</span><span class="img"><img src="${l.img}" alt=""></span>
-          <span class="t"><b>Upload your design</b><small>${esc(l.name)} · ${l.qty.toLocaleString('en-IE')} ${l.qty === 1 ? 'pc' : 'pcs'}</small></span>
-          <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div></div>`).join('')}
-        ${toPay ? `<div class="oc-act"><div class="row"><span class="n">${todo.length + 1}</span>
-          <span class="t"><b>Pay ${eur(o.total)}</b><small>${o.linkTo ? `We also emailed the link to ${esc(o.linkTo.name)}` : 'We also emailed you the link'}</small></span>
-          <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>` : ''}</div></section>` : '';
+    // A block stays after its upload or payment and turns into "done" (Cornel 2026-11-09): the artwork replaces the product photo
+    // and opens the artwork popup. Still to do: green outline + number; done: grey outline + a check
+    const tick = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
+    // Each upload block holds its order line as the cart shows it (Cornel 2026-11-09): photo (or the artwork, as the cart's tile:
+    // opens the artwork popup), name, pieces · options, price, its own delivery date and its own deadline
+    let k = 0;
+    const lineOf = (l, files) => `<div class="line-item cart-line">${files
+        ? `<button class="img art-tile" type="button" data-view-art="${l.i}" data-at="0" aria-label="View your artwork">${artPic(files[0])}${files.length > 1 ? `<span class="art-count">+${files.length - 1}</span>` : ''}</button>`
+        : `<span class="img" style="background:var(--light-grey)"><img src="${l.img}" alt=""></span>`}
+        <div class="t"><strong>${esc(l.name)}</strong><small>${l.qty.toLocaleString('en-IE')} ${l.qty === 1 ? 'pc' : 'pcs'}${l.options ? ' · ' + esc(l.options) : ''}</small></div><span class="p">${eur(l.price)}</span>
+        <div class="eta">${etaHtml(l.arrives, files ? 'We check your file and send you a proof' : `Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date`, l.delivery)}</div></div>`;
+    const upAct = l => { const files = o.uploads[l.i];
+      return files ? `<div class="oc-act done${l.i === justAdded ? ' oc-new' : ''}" id="up-${l.i}"><div class="row">${tick}<span class="t"><b>Upload successful</b></span>
+          <span class="links"><button class="link" type="button" data-view-art="${l.i}" data-at="0">View</button><button class="link" type="button" data-up="${l.i}">Change</button></span></div>${lineOf(l, files)}</div>`
+        : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span></div>${lineOf(l)}
+          <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>`; };
+    const ups = lines.filter(l => l.up), upActs = ups.map(upAct).join('');   // first: the uploads are numbered before the payment
+    const paid = o.when === 'later' && o.paid;
+    const payAct = toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
+          <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by <b>10:30 on ${etaApprove(first(lines).arrives)}</b> · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
+          <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>`
+      : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span></div></div>` : '';
+    const actions = n || ups.length || paid ? `<section class="oc-sec"><h2>${n ? (n === 1 ? '1 thing' : n + ' things') + ' to start printing' : ups.length > 1 ? 'Your designs' : ups.length ? 'Your design' : 'Payment'}</h2>
+      <p class="oc-lead">${[!n && 'We’ve got everything we need.', ups.length && 'We check every file for free and send you a proof.'].filter(Boolean).join(' ')}</p>
+      <div class="oc-acts">${upActs}${payAct}</div></section>` : '';
 
     // 3 · the products, always per order line: photo, specs, price, its own status and date
     const STEP = ['Check', 'Print', 'Ship', 'Delivered'];
@@ -111,7 +126,8 @@
           return `<button class="up-file" type="button" data-view-art="${l.i}" data-at="${files.indexOf(f)}" aria-label="View your artwork">${f.thumb ? `<span class="up-thumb"><img src="${f.thumb}" alt=""></span>` : `<span class="up-ico">${esc(f.ext.toUpperCase().slice(0, 4))}</span>`}
           <span class="t"><b>${esc(f.name)}</b><small>${[f.size && sizeText(f.size), pages > 1 && pages + ' pages', 'added to this product ✓'].filter(Boolean).join(' · ')}</small></span><span class="link">View</span></button>`; }).join('')}</div>` : ''}</div>`;
     };
-    const products = `<section class="oc-sec"><h2>Your product${many ? 's' : ''}</h2>${lines.map(lineHtml).join('')}</section>`;
+    // hidden (Cornel 2026-11-09): kept for My account later; on this page the blocks above show the uploads
+    const products = `<section class="oc-sec" hidden><h2>Your product${many ? 's' : ''}</h2>${lines.map(lineHtml).join('')}</section>`;
 
     // 4 · order details with a map of the shipping address (Shopify)
     let det = {};
@@ -214,7 +230,7 @@
     document.getElementById('artFor').innerHTML = `<span class="img"><img src="${it.img}" alt=""></span><span><small>For</small><b>${it.name.replace(/</g, '&lt;')}</b></span>`;
     const busy = art.some(f => !f.err && f.progress < 100), done = art.length && !busy && !art.some(f => f.err);
     artAdd.disabled = !done;
-    artAdd.textContent = busy ? 'Uploading…' : 'Add to my order';
+    artAdd.textContent = busy ? 'Uploading…' : order.uploads[upFor] ? 'Update my order' : 'Add to my order';
     if (!art.length) {
       artBody.innerHTML = `<p class="up-intro">Upload your design for your <b>${it.name.replace(/</g, '&lt;')}</b>: one file or several, PDF works best.</p>
         <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-art-pick>Choose files</button><small>or drag them here · as many as you like</small></div>${ART_PROMISE}`;
@@ -240,7 +256,14 @@
     const view = e.target.closest('[data-view-art]');
     if (view) openArt(order.uploads[+view.dataset.viewArt], +view.dataset.at);   // the cart's artwork popup
     const up = e.target.closest('[data-up]');
-    if (up) { upFor = +up.dataset.up; art = []; openSheet('artwork'); }
+    if (up) {   // Change (as the PDP): the popup opens with the files already added, to remove, replace or add more
+      upFor = +up.dataset.up;
+      const had = order.uploads[upFor] || [];
+      art = [...new Set(had.map(f => f.name))].map(name => { const pages = had.filter(f => f.name === name), { size, ext } = pages[0], pics = pages.map(f => f.thumb).filter(Boolean);
+        return { name, size, ext, progress: 100, pics, thumb: pics[0] }; });
+      artWasDone = art.length > 0;   // no confetti for files that were already in
+      openSheet('artwork');
+    }
     if (e.target.closest('[data-pay]')) {   // prototype: paying here = the payment link
       order.paid = true; save(); render();
       showToast('Payment received, thank you!');
@@ -261,13 +284,13 @@
   artSheet.addEventListener('dragleave', e => { if (!artSheet.contains(e.relatedTarget)) artSheet.querySelector('.art-drop')?.classList.remove('over'); });
   artSheet.addEventListener('drop', e => { e.preventDefault(); artFiles(e.dataTransfer.files); });
   artAdd.addEventListener('click', () => {
-    const name = order.items[upFor].name;
+    const name = order.items[upFor].name, changed = !!order.uploads[upFor];
     order.uploads[upFor] = art.filter(f => !f.err).flatMap(({ name, size, ext, pics = [] }) => pics.length
       ? pics.map((thumb, k) => ({ name, size, ext, thumb, page: pics.length > 1 ? `page ${k + 1} of ${pics.length}` : '' })) : [{ name, size, ext, thumb: null }]);
     save(); closeSheet(); justAdded = upFor; render();
-    const card = document.getElementById('line-' + upFor);
+    const card = document.getElementById('up-' + upFor);
     card?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    showToast(`Added to your ${name}`);
+    showToast(changed ? `Your files for ${name} are updated` : `Added to your ${name}`);
     justAdded = null;
   });
 
