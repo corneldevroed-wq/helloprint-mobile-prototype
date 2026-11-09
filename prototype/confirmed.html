@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261120w">
-<link rel="stylesheet" href="../design-system/components.css?v=20261120w">
-<link rel="stylesheet" href="pages.css?v=20261120w">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261121c">
+<link rel="stylesheet" href="../design-system/components.css?v=20261121c">
+<link rel="stylesheet" href="pages.css?v=20261121c">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -59,8 +59,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261120w"></script>
-<script src="../design-system/components.js?v=20261120w"></script>
+<script src="app.js?v=20261121c"></script>
+<script src="../design-system/components.js?v=20261121c"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -69,7 +69,7 @@
 
   function render() {
     const o = order, eur = n => '€' + n.toFixed(2), esc = t => String(t || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-    const lines = o.items.map((it, i) => { const up = it.designType === 'upload' || /upload after checkout|upload later/i.test(it.design || ''); return { ...it, i, up, needs: up && !o.uploads[i] }; });
+    const lines = o.items.map((it, i) => { const up = it.designType === 'upload' || /upload after checkout|upload later/i.test(it.design || '') || !!o.uploads[i]; return { ...it, i, up, needs: up && !o.uploads[i] }; });
     const todo = lines.filter(l => l.needs), toPay = o.when === 'later' && !o.paid;
     const first = l => l.reduce((a, b) => (etaDate(a.arrives) <= etaDate(b.arrives) ? a : b));   // the earliest date sets the deadline
     const many = lines.length > 1;
@@ -96,14 +96,16 @@
         : `<span class="img" style="background:var(--light-grey)"><img src="${l.img}" alt=""></span>`}
         <div class="t"><strong>${esc(l.name)}</strong><small>${l.qty.toLocaleString('en-IE')} ${l.qty === 1 ? 'pc' : 'pcs'}${l.options ? ' · ' + esc(l.options) : ''}</small></div><span class="p">${eur(l.price)}</span>
         <div class="eta">${etaHtml(l.arrives, '', l.delivery)}</div></div>`;
+    // the check chosen for the order, named in the done band (Cornel 2026-11-09); the free one isn't named
+    const paidCheck = { premium: 'Premium Artwork Check', deluxe: 'Deluxe Artwork Check' }[(o.addons || {}).check];
     const upAct = l => { const files = o.uploads[l.i];
       return files ? `<div class="oc-act done${l.i === justAdded ? ' oc-new' : ''}" id="up-${l.i}"><div class="row">${tick}<span class="t"><b>Upload successful</b></span>
           <span class="links"><button class="link" type="button" data-view-art="${l.i}" data-at="0">View</button><button class="link" type="button" data-up="${l.i}">Change</button></span></div>${lineOf(l, files)}
-          <p class="oc-foot"><span aria-hidden="true">👍</span>We’re checking your file${new Set(files.map(f => f.name)).size > 1 ? 's' : ''} and you will receive a proof shortly</p></div>`
+          <p class="oc-foot">${paidCheck ? `<b>${paidCheck}</b>` : 'File check'} in progress, proof coming soon</p></div>`
         : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span>
           <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>${lineOf(l)}
           <p class="oc-foot due">Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date</p></div>`; };
-    const ups = lines.filter(l => l.up), upActs = ups.map(upAct).join('');   // first: the uploads are numbered before the payment
+    const ups = lines.filter(l => l.up), todoActs = ups.filter(l => l.needs).map(upAct).join('');   // first: the uploads still to do are numbered before the payment
     const paid = o.when === 'later' && o.paid;
     const payAct = toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
           <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by 10:30 on ${etaApprove(first(lines).arrives)} · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
@@ -111,7 +113,7 @@
       : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span></div></div>` : '';
     const actions = n || ups.length || paid ? `<section class="oc-sec"><h2>${n ? (n === 1 ? '1 thing' : n + ' things') + ' to start printing' : ups.length > 1 ? 'Your designs' : ups.length ? 'Your design' : 'Payment'}</h2>
       <p class="oc-lead">${[!n && 'We’ve got everything we need.', ups.length && 'We check every file for free and send you a proof.'].filter(Boolean).join(' ')}</p>
-      <div class="oc-acts">${upActs}${payAct}</div></section>` : '';
+      <div class="oc-acts">${todoActs}${toPay ? payAct : ''}${ups.filter(l => !l.needs).map(upAct).join('')}${toPay ? '' : payAct}</div></section>` : '';   // what still needs to be done on top, then what's done
 
     // 3 · the products, always per order line: photo, specs, price, its own status and date
     const STEP = ['Check', 'Print', 'Ship', 'Delivered'];
@@ -152,10 +154,9 @@
         <div><b>Order number</b><span>${o.number}</span></div>
       </div></div></section>`;
 
-    // 5 · people, a proud line, the way on
+    // 5 · people, the way on
     const end = `<section class="oc-end"><div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span>
-      <span>Our print experts check every file before it’s printed. If you need help, we’re here: <a href="#chat">Start chat</a></span></div>
-      <p class="oc-proud"><img src="assets/desktop/b-corp.png" alt="B Corp">Printed responsibly</p>
+      <span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
       <a class="btn outline" href="index.html">Continue shopping</a></section>`;
 
     document.getElementById('oc').innerHTML = strip + actions + products + details + end;
@@ -320,6 +321,8 @@
   if (!order) location.replace('index.html');
   else {
     order.uploads = order.uploads || {};
+    // Files uploaded on the PDP before checkout show in their own "Upload successful" block too, so they can still be viewed and changed
+    order.items.forEach((it, i) => { if (!order.uploads[i] && (it.art || []).length) order.uploads[i] = it.art.map(({ name, size, ext, thumb, page }) => ({ name, size, ext, thumb, page })); });
     render();
     renderSide();   // desktop: the totals card on the right (the products are the cards on the left)
   }

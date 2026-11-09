@@ -8,6 +8,8 @@ Add new decisions here when Cornel makes a final call.
 - **11-09 — Order confirmed: the upload deadline in a band the green of the border** (deadline-band-sketch.html A, Cornel): "Upload by
   10:30 on … to keep this date" in white on `--light-green` under each upload still to do, as the grey "We check your file" band under a
   done one. Chosen knowing white on light green is less readable (about 3:1). Rejected: B (`--link`, a shade darker), C (`--tint`, dark text).
+  Later the same day: the band is `--cream` with black text (Cornel), the border stays 2px green. Also: what still needs to be done
+  sits on top (uploads, then pay), done blocks under it; files uploaded on the PDP get a done block too (View / Change).
 - **11-09 — Order confirmed: the action blocks show what's done; "Your products" hidden** (Cornel): after an upload its block stays
   and refreshes ("Upload successful", the artwork instead of the product photo, which opens the artwork popup, plus View); after paying
   the pay block says "Payment received". Done: grey outline and a check, to-do: green outline and a number. All done: the title becomes
