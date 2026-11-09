@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-09 — PDP: the uploaded file stays clickable** (Cornel): once files are uploaded and the popup is closed, on the "Upload your
+  artwork" option (mobile list, desktop card, the bar's drop-up) the thumbnail opens the big artwork popup (as the cart and order
+  confirmed) and the rest of the option opens the upload popup with the files (change, remove, add). Without files it only selects.
 - **11-09 — The artwork check grows with the order** (Cornel): 1 order line = the tier's price (Premium €10.99, Deluxe €21.00), +50% of
   it for every extra line (2 lines €16.49, 3 lines €21.98). One function `checkPrice()` in app.js (`CHECK_EXTRA_LINE = .5`), used by the
   totals, the cart switch, the "See our 3 options" popup, the PDP upload popup (counting the product being added) and order confirmed.
