@@ -5,6 +5,20 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-09 — The cart's product cards say what they add** (cart-presets-sketch.html A): under the name one grey line with the Recommended
+  preset's first 4 choices ("85 x 55 mm · Matt · Thick · Matte lamination"), on "Our best sellers" (empty cart) and "Often ordered with",
+  mobile and desktop. Rejected: B (the choices as a ticked list), C (one line + "What you get" link).
+- **11-09 — Order confirmed: one layout for one or more order lines** (confirmed-combo-sketch.html, Cornel: "hier word ik wel vrolijk van"):
+  a combo of what we need and what Shopify does well. Top to bottom: (1) a dark green strip with a check that draws itself ("Thank you,
+  Anna! Your order is in." / "Everything's in."), (2) the actions with the most attention: green-outlined, numbered blocks, one upload per
+  product that still needs a file (the PDP's drop field) and the payment for Pay later (amount, Pay now, the payment logos), with the
+  earliest deadline in the lead line, (3) the products always per order line (photo, specs, price, a 4-part bar Check · Print · Ship ·
+  Delivered, the state in words, "Upload ↑", the date), (4) order details as Shopify's grid with a Google map of the shipping address,
+  (5) our print experts, B Corp/FSC, Continue shopping. Desktop: the checkout frame, the totals card on the right. No way back to the cart:
+  every step is done. Paying or uploading on the page updates it (prototype). Mobile has no totals block yet (to fine-tune). Same day: the upload is the PDP's "Upload your artwork" popup (progress, thumbnails, "We've got your file", confetti), opened per product;
+  its bar says which product the files go to ("For Classic business cards", button "Add to my order"); no upsell, except the Premium
+  Artwork Check while the order is still to be paid (it changes the amount). After adding, the files show in that product's card ("Your
+  design", added to this product ✓), the card lights up once and the toast says where they went. "Upload ↑" in a product card scrolls smoothly to its action, which lights up once. The Check part of the status bar is light green while it waits for the file, full green once the file is in (Cornel). "Your design" sits on a light grey band attached to the bottom of the product card (as the payment logos), the file rows white on it. The uploaded files in the card open the cart's artwork popup (big, swipeable, a picture per PDF page, 1200px so it is sharp on retina, PDP and confirmed alike; the popup is shared now: SHEET_ART in app.js). The team faces on light green. The strip: "Thank you, Anna!" and "Your order is in." on two lines, the check aligned to the top; the actions always one under the other (also on desktop: easier to scan). Each action one compact row: number, product photo, "Upload your design" + product, the button on the right (Pay: "Pay €…" + the link note, Pay now right, the logos under it, smaller (22) and secondary, centred on a light grey band attached to the bottom of the block); the proof promise moved to the lead line. On mobile the buttons (Upload design, Pay now) are the standard 40 button over the full width under the row (as the cart's; 48 was tried, too heavy); desktop keeps them on the right. When the last action is done (not on opening the page): an "All done" popup, Tikkie style: a big check that pops in and draws, confetti over the whole screen, "All done, Anna!" + "We've got everything we need. Your print goes into production and arrives on …", one button "Great, thanks!"; on the standard popup (the same dim overlay, ✕, Esc, swipe as every popup; Cornel).
 - **11-06 — The pills (Personal | Business, Pay now | Pay later) are a block of their own:** 16 under the description and 16 to the email field / the payment methods (was 8).
 - **11-06 — Desktop steps: "Details & Shipping"** instead of "Details" (desktop only, mobile keeps "Details": its steps have no room).
 - **11-06 — Total: the word semibold (600), the amount extra bold (800)**, as on the PDP (Your selection), so the amount stands out

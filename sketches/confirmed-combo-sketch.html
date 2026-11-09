@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmed combo sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261120e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261120e">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261120e">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-09): the order confirmed page as a combo of what we need and what Shopify
+     does well. One layout for 1 or more order lines: (1) a green strip that says it worked, (2) the actions on top with the most attention
+     (pay and/or upload, the upload as on the PDP: .art-drop), (3) the products, always per order line, with their own status and date,
+     (4) Shopify's order details grid with a Google map of the shipping address, (5) people + a proud line. Mobile 390; desktop: the same in
+     the 544 column of the checkout frame, the totals card on the right. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p, .sk-note ul { margin-top: 8px; }
+  .sk-note ul { padding-left: 20px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 24px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 8px; width: 390px; max-width: 100%; }
+  .col > small, .desk-f > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  .phone-f { display: flex; flex-direction: column; gap: 32px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .h2 { font-weight: 700; font-size: var(--t-20); line-height: var(--lh-20); color: var(--dark-green); }
+  .sec { display: flex; flex-direction: column; gap: 8px; }
+  .sec .lead { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sec .lead b { color: var(--black); font-weight: 600; }
+
+  /* 1 · the green strip: it worked (trust first) */
+  .ok-strip { display: flex; gap: 16px; align-items: center; margin: -16px -16px 0; padding: 24px 16px; background: var(--dark-green); color: var(--white); }
+  .ok-strip svg { width: 48px; height: 48px; flex-shrink: 0; }
+  .ok-strip circle { fill: var(--light-green); }
+  .ok-strip path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .6s .3s ease-out forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .ok-strip h1 { font-weight: 700; font-size: var(--t-24); line-height: 30px; letter-spacing: -0.4px; color: var(--white); }
+  .ok-strip p { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: rgba(255,255,255,.8); }
+  .ok-strip p b { color: var(--white); font-weight: 600; }
+
+  /* 2 · the actions: the most attention on the page (green outline, numbered), the upload as on the PDP (.art-drop) */
+  .act { display: flex; flex-direction: column; gap: 12px; padding: 15px; border: 2px solid var(--light-green); border-radius: var(--r-l); }
+  .act .h { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .act .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
+  .act p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .act .for { display: flex; align-items: center; gap: 12px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .act .for .img, .line .img { width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
+  .act .for img, .line .img img { width: 100%; height: 100%; object-fit: cover; }
+  .act .for small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .act .art-drop { padding: 24px 16px; }
+  .act .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .act .pay-row b { font-size: var(--t-24); line-height: 32px; }
+  .act .btn.primary { padding: 0 24px; }
+  .pm-logos { flex-wrap: wrap; }
+  .acts { display: flex; flex-direction: column; gap: 8px; }
+
+  /* 3 · the products, always per order line */
+  .line { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .line .top { display: flex; gap: 12px; align-items: center; }
+  .line .img { width: 64px; height: 64px; }
+  .line .t { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+  .line .t b { font-weight: 600; }
+  .line .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .line .pr { flex-shrink: 0; font-weight: 600; font-size: var(--t-14); }
+  .bar4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .bar4 span { height: 4px; border-radius: 2px; background: var(--line); }
+  .bar4 .on { background: var(--light-green); }
+  .bar4 .you { background: var(--light-green); opacity: .35; }
+  .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: -8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--mid-grey); }
+  .steps4 .on { color: var(--black); font-weight: 600; }
+  .line .now { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .line .now b { font-weight: 600; }
+  .line .now a { color: var(--link); text-decoration: underline; white-space: nowrap; }
+  .line .now .date { color: var(--dark-grey); white-space: nowrap; }
+
+  /* 4 · order details with the map (Shopify) */
+  .od { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
+  .od iframe { display: block; width: 100%; height: 180px; border: 0; }
+  .od-body { display: flex; flex-direction: column; gap: 16px; padding: 16px; }
+  .od-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+  .od-grid div { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); overflow-wrap: anywhere; }
+  .od-grid b { margin-bottom: 4px; color: var(--black); font-weight: 600; }
+  .od-grid .pm-line { display: flex; align-items: center; gap: 6px; }
+  .od-grid .pm-line img { height: 20px; width: auto; border: 1px solid var(--line); border-radius: var(--r-s); }
+
+  /* 5 · people + proud line */
+  .team { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .team .faces { display: flex; flex-shrink: 0; }
+  .team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); object-fit: cover; }
+  .team .faces img + img { margin-left: -10px; }
+  .team a { color: var(--link); text-decoration: underline; font-weight: 600; }
+  .proud { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .proud img { height: 32px; width: auto; }
+  .end { display: flex; flex-direction: column; gap: 16px; }
+  .end .btn { align-self: stretch; }
+
+  /* desktop: the checkout frame */
+  .desk-f { display: flex; flex-direction: column; gap: 8px; margin-top: 32px; }
+  .desk-in { border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .d-bar { height: 60px; background: var(--dark-green); }
+  .d-band { display: flex; align-items: center; gap: 24px; height: 56px; padding: 0 calc(50% - 532px); background: var(--light-grey); font-size: var(--t-14); }
+  .d-band span { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .d-band span + span { flex: 1; }
+  .d-band span + span::before { content: ''; flex: 1; height: 1px; margin-right: 16px; background: var(--mid-grey); }
+  .d-band i { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--light-green); color: var(--white); font-style: normal; font-weight: 600; font-size: var(--t-12); }
+  .d-band .cur { font-weight: 600; }
+  .d-page { display: grid; grid-template-columns: minmax(0, 1fr) 392px; column-gap: 128px; align-items: start; max-width: 1064px; margin: 32px auto 64px; }
+  .d-col { display: flex; flex-direction: column; gap: 32px; min-width: 0; }
+  .d-col .ok-strip { margin: 0; padding: 24px; border-radius: var(--r-l); }
+  .d-col .ok-strip h1 { font-size: var(--t-28); line-height: 34px; }
+  .d-col .acts-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+  .dk-card { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 16px; padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .dk-card h2 { font-weight: 700; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; color: var(--dark-green); }
+  .dk-card .totals { border-top: 0; padding-top: 0; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Confirmed combo sketch</b><a href="#mob">Mobile · 6 states</a><a href="#desk">Desktop · 3 states</a><a href="#why">Why</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel, 2026-11-09):</b> a combo of what we need and what Shopify does well. First a trusted, good feeling (a green strip on
+      top). Then the actions the customer still has to do, on top and with the most attention: pay, upload files, or both. With more order
+      lines the attention goes to the line and what it still needs. Shopify's order details with a Google map. And: always per order line,
+      so 1 or more lines use the same layout. The upload is the PDP's drop field, nothing new.</p>
+    <p>Order of the page, every state: <b>1</b> green strip · <b>2</b> actions (only when there is something to do) · <b>3</b> your products,
+      one card per line · <b>4</b> order details with the map · <b>5</b> people, proud line, Continue shopping.</p>
+  </div>
+
+  <div class="sk-label" id="mob"><b class="ttl">Mobile · 6 states, one layout</b>
+    1 line and 3 lines side by side. The actions block disappears when nothing is left; the product cards stay the same.
+  </div>
+  <div class="row" data-v="mob"></div>
+
+  <div class="sk-label" id="desk"><b class="ttl">Desktop · the same in the checkout frame</b>
+    The 544 column holds the page; the card on the right only has the totals (the products are already the cards on the left). Two actions
+    side by side.
+  </div>
+  <div data-v="desk"></div>
+
+  <div class="sk-note" id="why" style="margin-top:56px">
+    <p><b>Why this order</b></p>
+    <ul>
+      <li><b>Green strip first:</b> the very first thing is "it worked", in our header green, with the check. Trust before tasks.</li>
+      <li><b>Actions second, loudest:</b> the only green-outlined, numbered blocks on the page, with the deadline in the title line. Money and
+        files come in here: Pay shows the amount big, the logos and one button; Upload is the PDP drop field per product that still needs one.</li>
+      <li><b>Always per order line:</b> 1 line is a list of one. Every card has the photo, the specs, the price, its own 4-step bar and date,
+        and "Upload ↑" when it still waits for a file (it jumps to its action).</li>
+      <li><b>Order details + map:</b> Shopify's calm grid (contact, payment, addresses, delivery, order number) with the map of the shipping
+        address on top (Google Maps embed in the prototype).</li>
+      <li><b>All set:</b> no actions block; the strip says "Everything's in, we'll take it from here".</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const A = '../prototype/assets/';
+  const ck = `<img src="${A}pdp/check.svg" alt="">`;
+  const svg = `<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-15"/></svg>`;
+  const P = {
+    cards: { img: 'products/bc-1.png', name: 'Classic business cards', sub: '500 pcs · Matt · Saver', price: '€18.89', date: 'Tue 29 Sep' },
+    flyers: { img: 'flyers/t-classic.webp', name: 'Flyers A5', sub: '1,000 pcs · Gloss · Standard', price: '€24.49', date: 'Mon 28 Sep' },
+    roll: { img: 'products/roller-banner.webp', name: 'Roller banner', sub: '1 pc · 85 × 200 cm · Express', price: '€14.89', date: 'Fri 25 Sep' },
+  };
+  const strip = (title, sub) => `<section class="ok-strip">${svg}<div><h1>${title}</h1><p>${sub}</p></div></section>`;
+  const thanks = 'Thank you, Anna! Your order is in.';
+  const conf = 'Order HP-IE-7762447 · confirmation sent to <b>anna@example.ie</b>';
+  const logos = `<span class="pm-logos"><img src="${A}pay-visa.svg" alt="Visa"><img src="${A}pay-maestro.svg" alt="Maestro"><img src="${A}pay-mastercard.svg" alt="Mastercard">
+      <span class="pm-brand apple"><img src="${A}checkout/applepay.png" alt="Apple Pay"></span><span class="pm-brand google"><img src="${A}checkout/google-g.svg" alt="">Pay</span>
+      <span class="pm-brand paypal"><img src="${A}checkout/paypal-word.png" alt="PayPal"></span><span class="pm-brand"><img src="${A}checkout/revolut.png" alt="Revolut Pay"></span></span>`;
+  const drop = `<div class="art-drop"><img src="${A}desktop/upload-cloud.svg" alt=""><button class="btn outline" type="button">Choose files</button><small>or drag them here · as many as you like</small></div>`;
+  const upAct = (n, p) => `<div class="act" id="up-${n}"><div class="h"><span class="n">${n}</span>Upload your design</div>
+      <div class="for"><span class="img"><img src="${A}${p.img}" alt=""></span><span><b>${p.name}</b><small>${p.sub}</small></span></div>${drop}
+      <p>We check it for free and send you a proof.</p></div>`;
+  const payAct = (n, amount) => `<div class="act"><div class="h"><span class="n">${n}</span>Pay your order</div>
+      <div class="pay-row"><b>${amount}</b><button class="btn primary" type="button">Pay now</button></div>${logos}
+      <p>We also emailed you the payment link.</p></div>`;
+  const acts = (title, lead, items) => `<section class="sec"><h2 class="h2">${title}</h2><p class="lead">${lead}</p><div class="acts">${items.join('')}</div></section>`;
+  const STEP = ['Check', 'Print', 'Ship', 'Delivered'];
+  const line = (p, at, now, extra = '') => `<div class="line"><div class="top"><span class="img"><img src="${A}${p.img}" alt=""></span>
+      <div class="t"><b>${p.name}</b><small>${p.sub}</small></div><b class="pr">${p.price}</b></div>
+      <div class="bar4">${STEP.map((s, i) => `<span class="${i < at ? 'on' : i === at ? 'you' : ''}"></span>`).join('')}</div>
+      <div class="steps4">${STEP.map((s, i) => `<span class="${i === at ? 'on' : ''}">${s}</span>`).join('')}</div>
+      <div class="now"><span>${now}${extra}</span><span class="date">Arrives ${p.date}</span></div></div>`;
+  const lines = (title, ls) => `<section class="sec"><h2 class="h2">${title}</h2>${ls.join('')}</section>`;
+  const map = `<iframe title="Map of the shipping address" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s8+Harbour+Road,+Cork,+Ireland!6i15"></iframe>`;
+  const details = pay => `<section class="sec"><h2 class="h2">Order details</h2><div class="od">${map}<div class="od-body"><div class="od-grid">
+      <div><b>Contact</b><span>Anna Murphy</span><span>anna@example.ie</span></div>
+      <div><b>Payment</b>${pay}</div>
+      <div><b>Shipping address</b><span>Anna Murphy</span><span>8 Harbour Road</span><span>T12 X7K2 Cork</span><span>Ireland</span></div>
+      <div><b>Billing address</b><span>Same as shipping address</span></div>
+      <div><b>Delivery</b><span>Saver · Free</span></div>
+      <div><b>Order number</b><span>HP-IE-7762447</span></div></div></div></div></section>`;
+  const paidCard = `<span class="pm-line"><img src="${A}pay-visa.svg" alt="Visa">•••• 4242</span>`;
+  const end = `<section class="end"><div class="team"><span class="faces"><img src="${A}help/team/saskia.webp" alt=""><img src="${A}help/team/timo.webp" alt=""><img src="${A}help/team/karen.webp" alt=""></span>
+      <span>Our print experts check every file before it’s printed. Questions? <a href="#chat">Ask us</a></span></div>
+      <p class="proud"><img src="${A}desktop/b-corp.png" alt="B Corp"><img src="${A}desktop/fsc.svg" alt="FSC">Printed responsibly, on FSC-certified paper</p>
+      <a class="btn outline" href="#mob">Continue shopping</a></section>`;
+  const up = n => ` · <a href="#up-${n}">Upload ↑</a>`;
+
+  const S = [
+    ['1 line · file + pay later', false, '€44.13',
+      strip(thanks, conf) +
+      acts('2 things to start printing', 'Do them by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.', [upAct(1, P.cards), payAct(2, '€44.13')]) +
+      lines('Your product', [line(P.cards, 0, '<b>Waiting for your design</b>', up(1))]) +
+      details(`<span>Pay later</span><span>€44.13 to pay</span>`) + end],
+    ['1 line · pay later, file in', false, '€44.13',
+      strip(thanks, conf) +
+      acts('1 thing to start printing', 'Pay by <b>10:30 on Mon 28 Sep</b> to keep delivery on <b>Tue 29 Sep</b>.', [payAct(1, '€44.13')]) +
+      lines('Your product', [line(P.cards, 0, '<b>We’re checking your file</b>')]) +
+      details(`<span>Pay later</span><span>€44.13 to pay</span>`) + end],
+    ['1 line · all set', false, '€44.13',
+      strip('Thank you, Anna! Everything’s in.', 'We’ll take it from here. Order HP-IE-7762447 · confirmation sent to <b>anna@example.ie</b>') +
+      lines('Your product', [line(P.cards, 0, '<b>We’re checking your file</b>')]) +
+      details(`${paidCard}<span>€44.13 paid</span>`) + end],
+    ['3 lines · 2 files needed · paid', true, '€92.40',
+      strip(thanks, conf) +
+      acts('2 designs to start printing', 'Upload by <b>10:30 on Thu 24 Sep</b> to keep every delivery date.', [upAct(1, P.cards), upAct(2, P.roll)]) +
+      lines('Your products', [line(P.cards, 0, '<b>Waiting for your design</b>', up(1)), line(P.flyers, 0, '<b>We’re checking your file</b>'), line(P.roll, 0, '<b>Waiting for your design</b>', up(2))]) +
+      details(`${paidCard}<span>€92.40 paid</span>`) + end],
+    ['3 lines · 1 file + pay later', true, '€92.40',
+      strip(thanks, conf) +
+      acts('2 things to start printing', 'Do them by <b>10:30 on Thu 24 Sep</b> to keep every delivery date.', [upAct(1, P.cards), payAct(2, '€92.40')]) +
+      lines('Your products', [line(P.cards, 0, '<b>Waiting for your design</b>', up(1)), line(P.flyers, 0, '<b>We’re checking your file</b>'), line(P.roll, 1, '<b>Designed online · waiting for payment</b>')]) +
+      details(`<span>Pay later</span><span>€92.40 to pay</span>`) + end],
+    ['3 lines · all set', true, '€92.40',
+      strip('Thank you, Anna! Everything’s in.', 'We’ll take it from here. Order HP-IE-7762447 · confirmation sent to <b>anna@example.ie</b>') +
+      lines('Your products', [line(P.cards, 0, '<b>We’re checking your file</b>'), line(P.flyers, 1, '<b>Being printed</b>'), line(P.roll, 2, '<b>On its way</b> · <a href="#track">Track</a>')]) +
+      details(`${paidCard}<span>€92.40 paid</span>`) + end],
+  ];
+  document.querySelector('[data-v=mob]').innerHTML = S.map(([label, , , html]) => `<div class="col"><small>${label}</small><div class="phone-f">${html}</div></div>`).join('');
+
+  const band = `<div class="d-bar"></div><div class="d-band"><span><i>✓</i>Cart</span><span><i>✓</i>Details &amp; Shipping</span><span><i>✓</i>Payment</span><span class="cur"><i>3</i>Confirmed</span></div>`;
+  const tot = multi => multi
+    ? `<div class="totals"><div><span>Products (3)</span><span>€58.27</span></div><div><span>Premium Check + Proof</span><span>€10.99</span></div><div><span>Shipping</span><span>€6.00</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€75.12</span></div><div><span>VAT 23%</span><span>€17.28</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€92.40</span></div></div>`
+    : `<div class="totals"><div><span>Products (1)</span><span>€18.89</span></div><div><span>Premium Check + Proof</span><span>€10.99</span></div><div><span>Shipping</span><span>€6.00</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€35.88</span></div><div><span>VAT 23%</span><span>€8.25</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€44.13</span></div></div>`;
+  document.querySelector('[data-v=desk]').innerHTML = [S[0], S[4], S[5]].map(([label, multi, , html]) => `<div class="desk-f"><small>${label} · desktop</small><div class="desk-in">${band}
+      <div class="d-page"><div class="d-col">${html}</div><aside class="dk-card"><h2>Order overview</h2>${tot(multi)}</aside></div></div></div>`).join('');
+  document.querySelectorAll('[data-v=desk] .acts').forEach(a => { if (a.children.length === 2) a.classList.add('acts-2'); });
+</script>
+</body>
+</html>

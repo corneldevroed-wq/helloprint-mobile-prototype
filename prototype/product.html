@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261119k">
-<link rel="stylesheet" href="../design-system/components.css?v=20261119k">
-<link rel="stylesheet" href="pages.css?v=20261119k">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261120e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261120e">
+<link rel="stylesheet" href="pages.css?v=20261120e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -319,9 +319,9 @@
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=20261119k"></script>
-<script src="../design-system/components.js?v=20261119k"></script>
-<script src="products.js?v=20261119k"></script>
+<script src="app.js?v=20261120e"></script>
+<script src="../design-system/components.js?v=20261120e"></script>
+<script src="products.js?v=20261120e"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -1340,7 +1340,7 @@
   artSheet.addEventListener('dragleave', e => { if (!artSheet.contains(e.relatedTarget)) artSheet.querySelector('.art-drop')?.classList.remove('over'); });
   artSheet.addEventListener('drop', e => { e.preventDefault(); artFiles(e.dataTransfer.files); });
   // The cart shows the artwork (cart-artwork-sketch.html C): the preview link dies with this page, so every file goes along as a small picture
-  // (800px JPEG, big enough for the popup; a PDF's pages via pdf.js, loaded only then). A file we can't draw (AI, PSD…) goes without one: the cart shows its type
+  // (1200px JPEG, sharp in the popup on a retina screen; a PDF's pages via pdf.js, loaded only then). A file we can't draw (AI, PSD…) goes without one: the cart shows its type
   const loadPdfJs = () => window.pdfjsLib ? Promise.resolve() : new Promise((ok, no) => { const s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
   // A picture per file; a PDF gives one per page (max 10), so a 2-page PDF shows front and back
@@ -1350,19 +1350,19 @@
         await loadPdfJs(); pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         const doc = await pdfjsLib.getDocument(f.url).promise, out = [];
         for (let n = 1; n <= Math.min(doc.numPages, 10); n++) {
-          const page = await doc.getPage(n), v = page.getViewport({ scale: 1 }), vp = page.getViewport({ scale: 800 / Math.max(v.width, v.height) });
+          const page = await doc.getPage(n), v = page.getViewport({ scale: 1 }), vp = page.getViewport({ scale: 1200 / Math.max(v.width, v.height) });
           const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
           await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
-          out.push(cv.toDataURL('image/jpeg', .8));
+          out.push(cv.toDataURL('image/jpeg', .85));
         }
         return out;
       }
       const cv = document.createElement('canvas'), ctx = cv.getContext('2d');
       const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = f.url; });
-      const sc = Math.min(1, 800 / Math.max(img.width, img.height));
+      const sc = Math.min(1, 1200 / Math.max(img.width, img.height));
       cv.width = Math.round(img.width * sc); cv.height = Math.round(img.height * sc);
       ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(img, 0, 0, cv.width, cv.height);
-      return [cv.toDataURL('image/jpeg', .8)];
+      return [cv.toDataURL('image/jpeg', .85)];
     } catch (e) { return []; }
   }
   artAdd.addEventListener('click', async () => {

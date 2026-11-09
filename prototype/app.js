@@ -149,6 +149,34 @@ const SIDE_USPS = `
       <li><img src="assets/pdp/check.svg" alt="">All-inclusive price, no hidden costs</li>
     </ul>`;
 const SIDE_TRUST = SIDE_USPS + PAYMENTS;
+// Your artwork (cart, order confirmed): the uploaded files big in a popup (mobile: a sheet), swipeable, the others as thumbnails to switch
+// (cart-artwork-sketch.html C, Cornel 2026-11-05). A file we have no picture of (EPS, AI, DOCX…): light grey with its type (small) or its name (big)
+const SHEET_ART = `
+<div class="sheet-layer" id="sheet-art" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="artViewTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="artViewTitle">Your artwork</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad"><div class="art-view" id="artView"></div></div></div>
+  </div>
+</div>`;
+const artPic = (f, big) => f.thumb ? `<img src="${f.thumb}" alt="">` : `<span class="art-file"><b>${big ? f.name.replace(/</g, '&lt;') : (f.ext || 'file').toUpperCase().slice(0, 4)}</b>${big ? '<small>We can’t display this file type as an image</small>' : ''}</span>`;
+const artView = art => `<span class="art-track">${art.map(f => `<span class="art-big"><span class="art-stage">${artPic(f, true)}</span><small>${f.name.replace(/</g, '&lt;')}${f.page ? ` · ${f.page}` : ''}</small></span>`).join('')}</span>${art.length > 1
+  ? `<span class="art-thumbs">${art.map((f, j) => `<span class="${j ? '' : 'cur'}" data-art-pick="${j}">${artPic(f)}</span>`).join('')}</span>` : ''}`;
+// a thumbnail scrolls to its file; the swipe moves the thumbnail mark
+const artPick = e => { const pick = e.target.closest('[data-art-pick]'); if (!pick) return false;
+  const view = pick.closest('.art-view'), track = view.querySelector('.art-track'), k = +pick.dataset.artPick;
+  view.querySelectorAll('.art-thumbs > span').forEach((t, j) => t.classList.toggle('cur', j === k));
+  track.scrollTo({ left: k * track.clientWidth, behavior: 'smooth' }); return true; };
+function openArt(art, start = 0) {   // start: the file to show first (the one tapped)
+  const view = document.getElementById('artView');
+  view.innerHTML = artView(art); openSheet('art');
+  if (start) requestAnimationFrame(() => { const t = view.querySelector('.art-track'); t.scrollLeft = start * t.clientWidth;
+    view.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === start)); });
+}
 // The free shipping popup (the ⓘ after Shipping in the totals: cart, details, payment)
 const SHEET_SHIPPING = `
 <div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
@@ -262,6 +290,14 @@ if (DESK && document.querySelector('.co-steps')) {
 }
 document.querySelectorAll('[data-shell="side-trust"]').forEach(s => s.outerHTML = SIDE_TRUST);
 document.querySelectorAll('[data-shell="sheet-shipping"]').forEach(s => s.outerHTML = SHEET_SHIPPING);
+document.querySelectorAll('[data-shell="sheet-art"]').forEach(s => {
+  s.outerHTML = SHEET_ART;
+  document.getElementById('sheet-art').addEventListener('click', artPick);
+  document.getElementById('artView').addEventListener('scroll', e => {   // scroll doesn't bubble: listen in the capture phase
+    const track = e.target, k = Math.round(track.scrollLeft / track.clientWidth);
+    track.parentElement.querySelectorAll('.art-thumbs > span').forEach((t, j) => t.classList.toggle('cur', j === k));
+  }, true);
+});
 const footerSlot = document.querySelector('[data-shell="footer"]');
 if (footerSlot && DESK) footerSlot.outerHTML = SHELL_FOOTER_DESK;
 else if (footerSlot && footerSlot.hasAttribute('data-desk-only')) footerSlot.remove();

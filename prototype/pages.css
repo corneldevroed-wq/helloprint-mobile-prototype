@@ -690,79 +690,116 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .i-btn.outline { border-color: var(--dark-grey); color: var(--black); }
 .i-btn.outline small { color: var(--dark-grey); }
 
-/* Order confirmed (Cornel's wireframe) */
-.oc { gap: 20px; }
-.oc-bar { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 -2px; }
-.oc-bar li { display: flex; align-items: flex-start; gap: 6px; padding-top: 8px; border-top: 4px solid var(--light-green); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); }
-.oc-bar li::before { content: ''; flex-shrink: 0; width: 18px; height: 18px; background: url(assets/pdp/check.svg) no-repeat center / 18px; }
-.oc-hero { display: flex; flex-direction: column; gap: 8px; }
-.oc-number { font-size: var(--t-12); color: var(--dark-grey); }
-.oc-hero h1 { font-size: var(--t-24); line-height: 1.15; letter-spacing: -0.52px; }
-.oc-lead { font-size: var(--t-14); line-height: var(--lh-14); }
-.oc-lead b { font-weight: 700; }
-.oc-upload { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 16px; border: 2px dashed var(--mid-grey); border-radius: var(--r-l); text-align: center; }
-.oc-upload[hidden] { display: none; }
-.oc-upload > b { font-weight: 700; font-size: var(--t-14); }
-.oc-upload .btn { height: 40px; padding: 0 24px; font-weight: 700; }
-.oc-upload small { font-size: var(--t-12); color: var(--dark-grey); }
-.oc-files { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-.oc-files li { display: flex; align-items: center; gap: 6px; font-size: var(--t-14); font-weight: 600; }
-.oc-files img { width: 16px; height: 16px; }
-.oc-h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; margin-bottom: 12px; }
-.oc-status { list-style: none; display: flex; flex-direction: column; }
-.oc-status li { position: relative; display: flex; gap: 12px; padding-bottom: 16px; }
-.oc-status li:not(:last-child)::after { content: ''; position: absolute; left: 10px; top: 24px; bottom: 2px; width: 2px; background: #d9d9d9; }
-.oc-status li.done::after { background: var(--light-green); }
-.oc-status .dot { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #bdbdbd; background: var(--white); }
-.oc-status .done .dot { border: 0; background: url(assets/pdp/check.svg) no-repeat center / 22px; }
-.oc-status .current .dot { border-color: var(--black); }
-.oc-status b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.oc-status .done b, .oc-status .current b { color: var(--black); }
-.oc-status small { display: block; font-size: var(--t-12); color: var(--dark-grey); }
-.oc-info { display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }
-.oc-info p { display: flex; align-items: flex-start; gap: 10px; font-size: var(--t-14); line-height: var(--lh-14); }
-.oc-info img { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
-.oc-deliver { display: flex; flex-direction: column; gap: 6px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.oc-deliver b { font-weight: 700; color: var(--black); }
+/* Order confirmed (confirmed-combo-sketch.html, Cornel 2026-11-09): one layout for one or more order lines.
+   1 the green strip · 2 the actions (pay, upload: the PDP's .art-drop), the most attention · 3 a card per order line · 4 order details + map · 5 people */
+.oc { display: flex; flex-direction: column; gap: 32px; padding-bottom: 32px; }
+.oc-sec { display: flex; flex-direction: column; gap: 8px; }
+.oc-sec > h2 { font-weight: 700; font-size: var(--t-20); line-height: var(--lh-20); color: var(--dark-green); }
+.oc-lead { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.oc-lead b { color: var(--black); font-weight: 600; }
+.oc-strip { display: flex; gap: 16px; align-items: flex-start; margin: 0 -16px; padding: 24px 16px; background: var(--dark-green); color: var(--white); }   /* mobile: edge to edge under the steps */
+.oc-strip svg { width: 48px; height: 48px; flex-shrink: 0; }
+.oc-strip circle { fill: var(--light-green); }
+.oc-strip path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: oc-draw .6s .3s ease-out forwards; }   /* the check draws itself once */
+@keyframes oc-draw { to { stroke-dashoffset: 0; } }
+.oc-strip h1 { font-weight: 700; font-size: var(--t-24); line-height: 30px; letter-spacing: -0.4px; color: var(--white); }
+.oc-strip p { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: rgba(255,255,255,.8); overflow-wrap: anywhere; }
+.oc-strip p b { color: var(--white); font-weight: 600; }
+.oc-acts { display: flex; flex-direction: column; gap: 8px; }
+.oc-act { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 2px solid var(--light-green); border-radius: var(--r-l); }   /* the only green-outlined, numbered blocks: what the customer still has to do; one compact row each, the button right */
+.oc-act .row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.oc-act .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
+.oc-act .t { flex: 1; min-width: 140px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-act .t b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+.oc-act .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.oc-act .img, .oc-line .img { width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
+.oc-act .img img, .oc-line .img img { width: 100%; height: 100%; object-fit: cover; }
+.oc-act .btn { flex: 1 0 100%; }   /* mobile: the standard 40 button over the full width under the row, as the cart's buttons */
+.desk .oc-act .btn { flex: none; margin-left: auto; padding: 0 24px; }   /* desktop: every button on the right of its row */
+.oc-act .pm-logos { flex-wrap: wrap; justify-content: center; margin: 0 -14px -14px; padding: 8px 14px; border-radius: 0 0 8px 8px; background: var(--light-grey); }   /* secondary: smaller, centred on a light grey band attached to the bottom of the block */
+.oc-act .pm-logos img { height: 22px; }
+.oc-act .pm-logos .pm-brand { width: 48px; height: 22px; }
+.oc-act .pm-logos .pm-brand img { height: auto; }
+.oc-act .pm-logos .pm-brand.apple img { height: 100%; }
+.oc-act .pm-logos .pm-brand.google { font-size: var(--t-12); }
+.oc-act .pm-logos .pm-brand.google img { width: 10px; }
+.oc-act .pm-logos .pm-brand.paypal img { width: 34px; }
+.oc-act .btn img { width: 20px; height: 20px; filter: brightness(0) invert(1); }   /* the PDP's upload icon, white on the green button */
+.oc-for { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }   /* the upload popup's bar: which product the files go to */
+.sheet-bar .oc-for + .btn { flex: none; padding: 0 24px; }   /* the button its own size on the right, the product gets the room */
+.oc-for .img { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--r-s); overflow: hidden; background: var(--light-grey); }
+.oc-for .img img { width: 100%; height: 100%; object-fit: cover; }
+.oc-for small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.oc-for b { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.oc-for > span:last-child { min-width: 0; }   /* lets the name shrink, so a long name ends in … next to the button */
+.oc-files { display: flex; flex-direction: column; gap: 8px; margin: 0 -16px -16px; padding: 12px 16px 16px; border-radius: 0 0 9px 9px; background: var(--light-grey); }   /* the product card: the files that went to it, on a light grey band attached to the bottom (as the payment logos) */
+.oc-files .up-file { background: var(--white); }
+.oc-files > b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-files .up-file { width: 100%; text-align: left; }   /* a row opens the artwork popup (as the cart) */
+.desk .oc-files .up-file:hover { border-color: var(--black); }
+/* All done (Tikkie style): the popup when the last action is done; the check pops in with a ring, then the text rises */
+.oc-yay .yay { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-bottom: 24px; text-align: center; }   /* the standard popup (sheet), centred content */
+.desk .oc-yay { width: 440px; }
+.oc-yay svg { width: 96px; height: 96px; overflow: visible; animation: oc-pop .5s .15s cubic-bezier(.2, 1.6, .4, 1) both; }
+.oc-yay circle { fill: var(--light-green); }
+.oc-yay path { fill: none; stroke: var(--white); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: oc-draw .45s .55s ease-out forwards; }
+.oc-yay h2#yayTitle { font-weight: 800; font-size: var(--t-28); line-height: 34px; color: var(--dark-green); }
+.oc-yay .yay p { font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-grey); }
+.oc-yay .yay p b { color: var(--black); font-weight: 600; }
+.oc-yay .yay .btn { align-self: stretch; }
+.oc-yay-confetti { inset: 0; z-index: 81; border-radius: 0; }
+.oc-yay-confetti i { animation: oc-confetti 2.2s ease-in forwards; }   /* over the whole screen */
+@keyframes oc-confetti { to { transform: translate(var(--x), 100vh) rotate(var(--r)); opacity: .6; } }
+@keyframes oc-pop { from { transform: scale(0); } }
+.oc-new { animation: oc-new 1.6s ease-out; }   /* the card the files just went to lights up once */
+@keyframes oc-new { 0%, 40% { box-shadow: 0 0 0 3px var(--tint); border-color: var(--light-green); } 100% { box-shadow: 0 0 0 3px transparent; } }
+.oc-line { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+.oc-line .top { display: flex; gap: 12px; align-items: center; }
+.oc-line .img { width: 64px; height: 64px; }
+.oc-line .t { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-line .t b { font-weight: 600; }
+.oc-line .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.oc-line .pr { flex-shrink: 0; font-weight: 600; font-size: var(--t-14); }
+.oc-line .bar, .oc-line .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.oc-line .bar span { height: 4px; border-radius: 2px; background: var(--line); }
+.oc-line .bar .now { background: var(--light-green); opacity: .4; }   /* Check waits for your file */
+.oc-line .bar .on { background: var(--light-green); }   /* we have the file: Check is on */
+.oc-line .steps { margin-top: -8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--mid-grey); }
+.oc-line .steps .now { color: var(--black); font-weight: 600; }
+.oc-line .state { display: flex; justify-content: space-between; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); overflow-wrap: anywhere; }
+.oc-line .state b { font-weight: 600; }
+.oc-line .state a { color: var(--link); text-decoration: underline; white-space: nowrap; }
+.oc-line .date { flex-shrink: 0; color: var(--dark-grey); }
+.oc-od { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
+.oc-od iframe { display: block; width: 100%; height: 180px; border: 0; }
+.oc-od .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; padding: 16px; }
+.oc-od .grid div { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); overflow-wrap: anywhere; }
+.oc-od .grid b { margin-bottom: 4px; color: var(--black); font-weight: 600; }
+.oc-od .pm-line { display: flex; align-items: center; gap: 6px; }
+.oc-od .pm-line img { height: 20px; width: auto; border: 1px solid var(--line); border-radius: var(--r-s); }
+.oc-end { display: flex; flex-direction: column; gap: 16px; }
+.oc-team { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-team .faces { display: flex; flex-shrink: 0; }
+.oc-team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); background: var(--light-green); object-fit: cover; }   /* team cut-outs on light green, as the team strip */
+.oc-team .faces img + img { margin-left: -10px; }
+.oc-team a { color: var(--link); text-decoration: underline; font-weight: 600; }
+.oc-proud { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.oc-proud img { height: 32px; width: auto; }
+.desk .oc { grid-column: 1; padding-bottom: 0; }
+.desk .oc-strip { margin: 0; padding: 24px; border-radius: var(--r-l); }
+.desk .oc-strip h1 { font-size: var(--t-28); line-height: 34px; }
+.desk .oc-end .btn { align-self: flex-start; padding: 0 24px; }
+.co-steps li:first-child:not(:has(a))::before { content: ''; width: 14px; height: 14px; background: url(assets/pdp/check.svg) no-repeat center / 14px; }   /* confirmed: Cart is done, no way back */
+.co-steps li:first-child:not(:has(a)) { display: flex; align-items: center; justify-content: center; gap: 4px; }
+.co-steps-n li:first-child:not(:has(a))::before { width: 24px; height: 24px; background-size: 24px; }
 .oc-faq { gap: 0; border-top: 1px solid var(--line); }
 .oc-faq summary { padding: 12px 0; font-size: var(--t-14); }
 .oc-faq p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); padding-bottom: 8px; }
-.oc-continue { margin: 4px 0 32px; }
-.oc-hero h1 { color: var(--black); }
-.oc-info b { word-break: break-all; }
-.oc-h2 { color: var(--black); }
 
 /* Version H: same header as I (Your Cards, price | each, state + Edit); the rest of H unchanged */
 body.flow-h .i-head { display: flex; flex-direction: column; padding-bottom: 4px; border-bottom: 0; }   /* the spec list's top line is the divider */
 body.flow-h .price-box > div:first-child, body.flow-h .sr-state { display: none; }
 
-/* Order confirmed: upload per product, collapsed summary, support line */
-.oc-perprod { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 2px dashed var(--mid-grey); border-radius: var(--r-l); }
-.oc-perprod[hidden] { display: none; }
-.oc-perprod > b { font-weight: 700; font-size: var(--t-14); }
-.oc-perprod > small { font-size: var(--t-12); color: var(--dark-grey); text-align: center; }
-.oc-perprod ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.oc-perprod li { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: var(--r-m); background: var(--white); border: 1px solid var(--outline); }
-.oc-perprod .img { width: 44px; height: 44px; flex-shrink: 0; border-radius: var(--r-s); overflow: hidden; }
-.oc-perprod .img img { width: 100%; height: 100%; object-fit: cover; }
-.oc-perprod .t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.oc-perprod .t b { font-weight: 600; font-size: var(--t-14); }
-.oc-perprod .t small { display: flex; align-items: center; gap: 4px; font-size: var(--t-12); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.oc-perprod .todo { color: #b45309; }
-.oc-perprod .ok { color: var(--dark-grey); }
-.oc-perprod .ok img { width: 14px; height: 14px; }
-.oc-perprod .btn { flex-shrink: 0; height: 36px; padding: 0 14px; font-size: var(--t-14); }
-.oc-summary { border-radius: var(--r-m); border: 1px solid var(--outline); padding: 0 16px; }
-.oc-summary summary { list-style: none; display: flex; align-items: center; gap: 8px; padding: 14px 0; cursor: pointer; font-weight: 700; font-size: var(--t-14); }
-.oc-summary summary::-webkit-details-marker { display: none; }
-.oc-summary summary span:nth-child(2) { flex: 1; text-align: right; font-weight: 400; font-size: var(--t-14); color: var(--dark-grey); }
-.oc-summary summary img { width: 22px; height: 22px; transition: transform .2s; }
-.oc-summary[open] summary img { transform: rotate(180deg); }
-.oc-summary > div { display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; }
-.oc-support { margin-top: 12px; font-size: var(--t-12); color: var(--dark-grey); text-align: center; }
-.oc-support a { font-weight: 600; color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
-#ocAddress { display: flex; flex-direction: column; color: var(--black); }
-#ocAddress span:first-child { font-weight: 600; }
 
 /* Version J: every option on the page (no sheet); the sticky bar is always there */
 .j-config { display: none; }
@@ -1336,6 +1373,7 @@ html:not(.desk) .desk-only { display: none; }
 /* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
 .desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 .desk .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }   /* Often ordered with (cart): 4 in the left column, 8 under the title */
+.xsell .product .spec { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the preset the card adds (cart-presets-sketch.html A) */
 .xsell .product .pill { margin-top: 16px; border-color: var(--mid-grey); }   /* desktop: Add to cart with the Recommended preset; the photo and the name open the product page */   
 .desk .home .product .thumb, .desk .xsell .product .thumb { border-radius: 0; }
 .desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; }

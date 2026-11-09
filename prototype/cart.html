@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261119k">
-<link rel="stylesheet" href="../design-system/components.css?v=20261119k">
-<link rel="stylesheet" href="pages.css?v=20261119k">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261120e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261120e">
+<link rel="stylesheet" href="pages.css?v=20261120e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -31,18 +31,7 @@
   <footer data-shell="footer" data-desk-only></footer>   <!-- desktop only: on mobile the checkout bar sits at the bottom -->
 </div>
 
-<!-- Sheet: your artwork (the files uploaded on the PDP; a thumbnail picks the big one) -->
-<div class="sheet-layer" id="sheet-art" aria-hidden="true">
-  <div class="sheet-overlay" data-close-sheet></div>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="artTitle">
-    <div class="grab" data-grab><span></span></div>
-    <div class="sheet-head">
-      <h2 id="artTitle">Your artwork</h2>
-      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
-    </div>
-    <div class="sheet-body"><div class="pad"><div class="art-view" id="artView"></div></div></div>
-  </div>
-</div>
+<div data-shell="sheet-art"></div>
 
 <!-- Sheet: Request a free quote (cart-empty-quote-sketch.html B, Cornel 2026-11-03; live "Get your FREE quote by email"): what the quote is for
      (the cart lines, the extras, the total), then only what we need to send it; Eircode + town optional, for the shipping costs. Logged in: name + email known -->
@@ -140,9 +129,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261119k"></script>
-<script src="../design-system/components.js?v=20261119k"></script>
-<script src="products.js?v=20261119k"></script>
+<script src="app.js?v=20261120e"></script>
+<script src="../design-system/components.js?v=20261120e"></script>
+<script src="products.js?v=20261120e"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -173,8 +162,11 @@
   // which is also what "Add to cart" adds (desktop only); the photo and the name open the product page
   const XSELL = ['standard-flyers', 'roller-banners', 'premium-tote-bags', 'ceramic-mug-330ml', 'eco-flyers', 'basic-cotton-bags', 'banners', 'sols-imperial-tshirt', 'deluxe-business-cards'];
   const quick = slug => { const B = PRODUCTS[slug], P = B.live || B, preset = P.presets.find(x => x.id === 'recommended') || P.presets[0], qty = P.defaultQty || B.defaultQty || 500;
-    const options = P.groups.filter(g => !g.when || g.when(preset.cfg)).map(g => { const o = g.items.find(x => x.id === preset.cfg[g.key]); return o && (g.key === 'size' && o.sub ? `${o.name} ${o.sub}` : o.name); }).filter(Boolean).join(' · ');
-    return { B, qty, options, price: configPrice(P, preset.cfg, qty), cfg: { ...preset.cfg, qty } }; };   // cfg: Edit opens these choices
+    const picked = P.groups.filter(g => !g.when || g.when(preset.cfg)).map(g => [g, g.items.find(x => x.id === preset.cfg[g.key])]).filter(([, o]) => o);
+    const options = picked.map(([g, o]) => g.key === 'size' && o.sub ? `${o.name} ${o.sub}` : o.name).join(' · ');
+    // spec: what the card says it adds (cart-presets-sketch.html A, Cornel 2026-11-09): the first 4 choices, the size as its measurements
+    const spec = picked.slice(0, 4).map(([g, o]) => g.key === 'size' && o.sub ? o.sub : o.name).join(' · ');
+    return { B, qty, options, spec, price: configPrice(P, preset.cfg, qty), cfg: { ...preset.cfg, qty } }; };   // cfg: Edit opens these choices
   function xsellHtml(items) {
     const first = productOf(items[0]), group = (first && first.noun) || 'business cards';
     const inCart = items.map(it => productOf(it));
@@ -184,10 +176,10 @@
   // Product cards (the home / PLP card): "Often ordered with" in a full cart (desktop only), "Our best sellers" in the empty cart
   const BEST = ['classic-business-cards', 'standard-flyers', 'roller-banners', 'premium-tote-bags'];
   function cardsHtml(title, picks, cls = '') {
-    return `<section class="xsell${cls}"><h2>${title}</h2><div class="grid">${picks.map(slug => { const { B, qty, price } = quick(slug);
-      const body = `<div class="thumb" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</div><p class="name">${B.name}</p>`;
+    return `<section class="xsell${cls}"><h2>${title}</h2><div class="grid">${picks.map(slug => { const { B, qty, spec, price } = quick(slug);
+      const body = `<div class="thumb" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</div><p class="name">${B.name}</p><p class="spec">${spec}</p>`;
       const buy = `<p class="from">${qty} ${qty === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price" data-price="${price}">${fmt(price)}</span></p>`;
-      return DESK ? `<div class="product"><a class="thumb" href="${B.href}" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</a><a class="name" href="${B.href}">${B.name}</a>
+      return DESK ? `<div class="product"><a class="thumb" href="${B.href}" style="background:${B.bg}"><img src="${B.thumb}" alt="" loading="lazy">${badgeHtml(B.badge)}</a><a class="name" href="${B.href}">${B.name}</a><p class="spec">${spec}</p>
         <div>${buy}<button class="pill has-icon" data-quick="${slug}">${icon('add')}Add to cart</button></div></div>`
         : `<a class="product" href="${B.href}">${body}<div>${buy}</div></a>`; }).join('')}</div></section>`;
   }
@@ -210,21 +202,8 @@
   // and one row with the quantity dropdown, the next step as a hint and the round icon buttons (Edit, Duplicate, Remove)
   // Uploaded artwork (cart-artwork-sketch.html C, Cornel 2026-11-05): the first file replaces the product photo, "+N" for the others.
   // A click / tap (or View artwork) opens it big in a popup (mobile: a sheet) with the others as thumbnails to switch; no hover preview
-  // A file we have no picture of (EPS, AI, DOCX…): light grey in the space a picture would take, with its type (small) or its name (the big one)
-  const artPic = (f, big) => f.thumb ? `<img src="${f.thumb}" alt="">` : `<span class="art-file"><b>${big ? f.name.replace(/</g, '&lt;') : (f.ext || 'file').toUpperCase().slice(0, 4)}</b>${big ? '<small>We can’t display this file type as an image</small>' : ''}</span>`;
-  // All files in a row you can swipe (Cornel, 2026-11-05: swipeable on mobile); a thumbnail scrolls to its file, the swipe moves the thumbnail mark
-  const artView = (it, i) => `<span class="art-track">${it.art.map(f => `<span class="art-big"><span class="art-stage">${artPic(f, true)}</span><small>${f.name.replace(/</g, '&lt;')}${f.page ? ` · ${f.page}` : ''}</small></span>`).join('')}</span>${it.art.length > 1
-    ? `<span class="art-thumbs">${it.art.map((f, j) => `<span class="${j ? '' : 'cur'}" data-art-pick="${j}">${artPic(f)}</span>`).join('')}</span>` : ''}`;
+  // The artwork popup (artPic, artView, artPick, openArt) is shared with the order confirmed page: app.js (SHEET_ART)
   const artTile = (it, i) => `<button class="img art-tile" data-art="${i}" aria-label="View your artwork">${artPic(it.art[0])}${it.art.length > 1 ? `<span class="art-count">+${it.art.length - 1}</span>` : ''}</button>`;
-  const artPick = e => { const pick = e.target.closest('[data-art-pick]'); if (!pick) return false;
-    const view = pick.closest('.art-view'), track = view.querySelector('.art-track'), k = +pick.dataset.artPick;
-    view.querySelectorAll('.art-thumbs > span').forEach((t, j) => t.classList.toggle('cur', j === k));
-    track.scrollTo({ left: k * track.clientWidth, behavior: 'smooth' }); return true; };
-  document.getElementById('sheet-art').addEventListener('click', artPick);
-  document.getElementById('artView').addEventListener('scroll', e => {
-    const track = e.target, k = Math.round(track.scrollLeft / track.clientWidth);
-    track.parentElement.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === k));
-  }, true);   // scroll doesn't bubble: listen in the capture phase
   function lineHtml(it, i) {
     const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
@@ -287,7 +266,7 @@
     const a = e.target.closest('[data-addon]'), r = e.target.closest('[data-remove]'), d = e.target.closest('[data-dup]'), up = e.target.closest('[data-up]');
     if (up) setQty(+up.dataset.i, +up.dataset.up);   // the hint is a button: one tap to the next quantity (as live's DEAL +)
     const tile = e.target.closest('[data-art]');
-    if (!artPick(e) && tile) { document.getElementById('artView').innerHTML = artView(getCart()[+tile.dataset.art], +tile.dataset.art); openSheet('art'); }
+    if (!artPick(e) && tile) openArt(getCart()[+tile.dataset.art].art);
     if (a && a.dataset.addon === 'check') { addons.check = addons.check === 'basic' ? 'premium' : 'basic'; saveAddons(); render(); }
     if (a && a.dataset.addon === 'secured') { addons.secured = !addons.secured; saveAddons(); render(); }
     if (r) { const items = getCart(); items.splice(+r.dataset.remove, 1); setCart(items); render(); }
