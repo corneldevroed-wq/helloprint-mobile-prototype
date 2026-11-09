@@ -670,6 +670,9 @@ const CHECK_TIERS = [
   { id: 'deluxe', name: 'Deluxe', price: 21.00, line: 'Deluxe Check',
     lead: 'Everything in Premium, plus:', perks: ['Perfect design guaranteed', 'Personal extra file-check, prioritised by our experts'] },
 ];
+// The check grows with the order (Cornel 2026-11-09): 1 order line = the tier's price, +50% of it for every extra line
+const CHECK_EXTRA_LINE = .5;
+const checkPrice = (t, lines = getCart().length) => Math.round(t.price * (1 + CHECK_EXTRA_LINE * Math.max(0, lines - 1)) * 100) / 100;
 const SECURED = { id: 'secured', name: 'Add secured delivery', sub: 'Ensure priority support, fast reprint and delivery guarantees for your order', price: 5.99, line: 'Secured delivery' };
 function getAddons() {
   let a = { check: 'premium', secured: false };   // design check (PAC) is on by default; secured delivery off
@@ -684,7 +687,7 @@ const setCode = c => { try { c ? localStorage.setItem('hp-cart-code', c) : local
 // Shipping (Ireland, Cornel 2026-11-05): free when the products (after a discount code) are €60.00 or more excl. VAT, else €6.00
 const FREE_SHIPPING_FROM = 60, SHIPPING = 6;
 function cartTotals(items = getCart(), addons = getAddons()) {
-  const check = CHECK_TIERS.find(t => t.id === addons.check), code = getCode();
+  const tier = CHECK_TIERS.find(t => t.id === addons.check), check = { ...tier, price: checkPrice(tier, items.length) }, code = getCode();
   const products = items.reduce((s, it) => s + it.price, 0);
   const discount = code ? Math.round(products * DISCOUNTS[code] * 100) / 100 : 0;
   const shipping = items.length && products - discount < FREE_SHIPPING_FROM ? SHIPPING : 0;

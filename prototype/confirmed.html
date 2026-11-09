@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261121c">
-<link rel="stylesheet" href="../design-system/components.css?v=20261121c">
-<link rel="stylesheet" href="pages.css?v=20261121c">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261121d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261121d">
+<link rel="stylesheet" href="pages.css?v=20261121d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -59,8 +59,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261121c"></script>
-<script src="../design-system/components.js?v=20261121c"></script>
+<script src="app.js?v=20261121d"></script>
+<script src="../design-system/components.js?v=20261121d"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -186,7 +186,7 @@
   // The only upsell here: the Premium Artwork Check, and only while the order is still to be paid (it changes the amount to pay)
   const toPay = () => order.when === 'later' && !order.paid;
   const artCheck = () => { const on = (order.addons || {}).check !== 'basic', t = CHECK_TIERS.find(x => x.id === (on ? order.addons.check : 'premium'));
-    return `<div class="sum-up"><button class="switch" role="switch" aria-checked="${on}" data-art-check aria-label="Design check"></button><b>Add Premium Artwork Check</b><span class="p">€${t.price.toFixed(2)}</span><small>For extra peace of mind with your files.</small></div>`; };
+    return `<div class="sum-up"><button class="switch" role="switch" aria-checked="${on}" data-art-check aria-label="Design check"></button><b>Add Premium Artwork Check</b><span class="p">€${checkPrice(t, order.items.length).toFixed(2)}</span><small>For extra peace of mind with your files.</small></div>`; };
   // The pictures of a file, as on the PDP (1200px, sharp in the artwork popup): an image as it is, a PDF one per page (max 10)
   const loadPdfJs = () => window.pdfjsLib ? Promise.resolve() : new Promise((ok, no) => { const sc = document.createElement('script');
     sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });

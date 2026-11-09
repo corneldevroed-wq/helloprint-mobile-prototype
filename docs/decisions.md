@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-09 — The artwork check grows with the order** (Cornel): 1 order line = the tier's price (Premium €10.99, Deluxe €21.00), +50% of
+  it for every extra line (2 lines €16.49, 3 lines €21.98). One function `checkPrice()` in app.js (`CHECK_EXTRA_LINE = .5`), used by the
+  totals, the cart switch, the "See our 3 options" popup, the PDP upload popup (counting the product being added) and order confirmed.
 - **11-09 — Order confirmed: the upload deadline in a band the green of the border** (deadline-band-sketch.html A, Cornel): "Upload by
   10:30 on … to keep this date" in white on `--light-green` under each upload still to do, as the grey "We check your file" band under a
   done one. Chosen knowing white on light green is less readable (about 3:1). Rejected: B (`--link`, a shade darker), C (`--tint`, dark text).
