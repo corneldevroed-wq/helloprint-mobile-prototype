@@ -5,6 +5,8 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Checkout desktop: 64 between the columns** (Cornel; details, payment, order confirmed): 128 (11-06) was too much, the
+  cart's 32 too tight. The page stays 1064 (the header lines up): the left column 608, the sidebar 392.
 - **11-10 — Order status blocks are design system** (Cornel): the thank you bar, the action blocks (to do / done) and the cream band
   moved from pages.css to components.css, with a style guide section "Order status", so My account can reuse them. "Track your
   order" is a calm white outline (not filled) on the dark green.
