@@ -9,37 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css?v=20261122e">
 <link rel="stylesheet" href="components.css?v=20261122e">
+<link rel="stylesheet" href="guide.css?v=20261122e">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
-  html, body { background: var(--white); }
-  html { scroll-behavior: smooth; }   /* the sidebar glides to a topic */
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  .ds-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; height: 64px; padding: 0 24px; background: var(--white); border-bottom: 1px solid var(--line); }
-  .ds-top .logo { height: 24px; }
-  .ds-top b { font-weight: 600; font-size: 14px; color: var(--dark-grey); padding-left: 16px; border-left: 1px solid var(--line); }
   .ds-top .seg { margin-left: auto; display: flex; gap: 8px; }
-  .ds-menu-btn { display: none; }
-  .ds-hero { position: relative; display: grid; place-items: center; height: min(500px, 100vw); overflow: hidden; }   /* full-width banner, max 500px high */
-  .ds-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }   /* the crop keeps the smile in view */
-  .ds-hero::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }   /* overlay, so the title reads */
-  .ds-hero b { position: relative; z-index: 1; font-weight: 800; font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; color: var(--white); }   /* display size */
-  .ds { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1280px; margin: 0 auto; }
-  .ds-side { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow-y: auto; padding: 32px 16px 32px 24px; }
-  .ds-side h4 { margin: 16px 0 8px; padding: 16px 0 0 12px; border-top: 1px solid var(--line); font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); }   /* a light line between the groups */
-  .ds-side h4:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-  .ds-side a { display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 22px; color: var(--black); }
-  .ds-side a:hover { color: var(--link); }
-  .ds-side a[aria-current] { background: var(--light-grey); font-weight: 600; }
-  .ds-side a[hidden] { display: none; }   /* a section hidden for now */
-  .ds-side a.soon { color: var(--mid-grey); pointer-events: none; }
-  .ds-main { padding: 32px 48px 96px; min-width: 0; }
-  .ds-sec { max-width: 880px; padding-bottom: 64px; scroll-margin-top: 96px; }
-  .ds-sec + .ds-sec { padding-top: 64px; border-top: 1px solid var(--line); }
-  .ds-sec > h1 { font-size: 32px; line-height: 40px; letter-spacing: -0.64px; }
-  .ds-lead { margin: 8px 0 24px; max-width: 640px; font-size: 16px; line-height: 24px; color: var(--dark-grey); }
-  .ds-sec h3 { margin: 32px 0 8px; font-weight: 600; font-size: 16px; line-height: 22px; }
-  .ds-stage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; min-height: 104px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--white); overflow-x: auto; }   /* white, as the page: grey tiles and white cards both read */
   .ds-stage .real { flex: none; }
   /* A cut-out: the real component from the real page (live), at its real size; scaled down only when wider than the stage */
   .ds-crop { position: relative; flex: none; width: 100%; height: 120px; overflow: hidden; }
@@ -89,15 +63,6 @@
 
   /* Mobile: sidebar becomes a drawer */
   @media (max-width: 900px) {
-    .ds { grid-template-columns: 1fr; }
-    .ds-top { gap: 8px; padding: 0 16px; }
-    .ds-top .logo { height: 18px; }
-    .ds-top b { display: none; }
-    .ds-hero b { font-size: var(--t-28); line-height: 32px; letter-spacing: -0.56px; }
-    .ds-menu-btn { display: inline-flex; }
-    .ds-side { position: fixed; top: 64px; left: 0; z-index: 25; width: 280px; background: var(--white); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .2s; }
-    .ds-side.open { transform: none; }
-    .ds-main { padding: 24px 16px 64px; }
     .b-row { grid-template-columns: 1fr; gap: 16px; }
     .b-row.wide .ds-stage { margin: 0 -16px; padding: 16px 0; border-width: 1px 0; border-radius: 0; }   /* the full screen width, so a 339 or 390 wide component fits at its real size */
   }
@@ -561,15 +526,7 @@
     b.classList.toggle('active', b.dataset.view === V);
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
-  // Sidebar: current topic follows the scroll; drawer on mobile
-  const links = [...document.querySelectorAll('.ds-side a:not(.soon)')], secs = [...document.querySelectorAll('.ds-sec:not([hidden])')];   // a hidden section has no position, so it never counts
-  const spy = () => { const end = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;   // at the bottom: the last topic
-    const cur = end ? secs[secs.length - 1] : secs.filter(s => s.getBoundingClientRect().top < 120).pop() || secs[0];
-    links.forEach(a => a.toggleAttribute('aria-current', a.hash === '#' + cur.id)); };
-  addEventListener('scroll', spy, { passive: true }); spy();
-  const side = document.getElementById('dsSide');
-  document.getElementById('dsMenu').addEventListener('click', () => side.classList.toggle('open'));
-  side.addEventListener('click', e => { if (e.target.closest('a')) side.classList.remove('open'); });
 </script>
+<script src="guide.js?v=20261122e"></script>
 </body>
 </html>
