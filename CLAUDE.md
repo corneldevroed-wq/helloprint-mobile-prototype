@@ -63,7 +63,8 @@ Before building anything, also read:
 - **Two folders** (split 2026-11-05, Cornel): `design-system/` = `tokens.css`, `components.css` (base + every component,
   mobile and `.desk`), `components.js` (labels `badgeHtml`, bottom sheets, toast, field errors), `icons/`, the guide as `index.html`.
   `prototype/` = every page, `pages.css` (page layouts + page-specific tweaks of components), `app.js`, data, `assets/`.
-  `sketches/` = the sketch pages. Old root addresses (`/product.html…`) are tiny pages that forward with the same query.
+  `sketches/` = the sketch pages. `brand-guidelines/` = the Brand Guidelines (logo, colour, type, imagery, tone of voice;
+  started 2026-11-10, Cornel), its own `index.html` on the design-system tokens, live at …/brand-guidelines/. Old root addresses (`/product.html…`) are tiny pages that forward with the same query.
   Prototype pages load `../design-system/tokens.css`, `components.css`, then `pages.css`; `app.js`, then `components.js`.
 - **Where new CSS goes:** something that can appear twice (a button, card, label, field) → `design-system/components.css` +
   a row in the guide, same commit. Only for one page → `prototype/pages.css`. A component that looks different on one page →
