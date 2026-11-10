@@ -5,6 +5,16 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Order confirmed: "Payment received" also when paid at checkout** (Cornel): a done block with the amount and the logo of
+  the method (card, Apple Pay, Google Pay, PayPal, Revolut Pay), with the done blocks. After a redirect the customer's question is "did
+  it work?"; payment is now always a block (to do with Pay later, else done). Payment in Order details stays (the record).
+- **11-10 — Order confirmed, mobile: no checkout steps** (Cornel): every step is done and there is no way back; the thank you says it
+  and the first to-do comes ~40px higher. Desktop keeps the steps (all checked). Mobile also gets the Order overview (the totals with
+  the shipping ⓘ) as its own section after Order details; desktop has it as the card on the right.
+- **11-10 — Order confirmed: Pay is always the first to-do** (Cornel): number 1, then the uploads still to do, then what's done
+  (uploads, Payment received). Nothing goes to print unpaid and one payment covers the whole order; its deadline is the earliest.
+  The order is fixed once per visit: a block that gets done (upload, payment) changes where it is, no auto scroll, so the page
+  doesn't jump; the next visit sorts again (Cornel: "door de auto scroll gaat de pagina zo heen en weer").
 - **11-10 — Order confirmed: a done upload has one small outline button "Change"** (Cornel, switch Change B): right in its head
   row (32 high, 14px, also on mobile), in the place of the to-do's green Upload button; the artwork tile opens the artwork popup, so no
   separate View. Rejected: View · Change as links (small tap targets) and a full-width button (too heavy for a done block). Same day:

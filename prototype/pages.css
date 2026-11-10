@@ -697,7 +697,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-sec[hidden] { display: none; }   /* Your products: hidden, kept for My account (Cornel 2026-11-09) */
 .oc-lead { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .oc-lead b { color: var(--black); font-weight: 600; }
-.oc-strip { position: relative; display: flex; flex-direction: column; align-items: center; margin: 24px -16px 0; padding: 40px 16px 24px; text-align: center; background: var(--dark-green); color: var(--white); }   /* mobile: edge to edge under the steps; everything centred; the check half over the top edge (Cornel 2026-11-10): 24 extra above, 16 from its bottom to the title */
+.oc-strip { position: relative; display: flex; flex-direction: column; align-items: center; margin: 32px -16px 0; padding: 40px 16px 24px; text-align: center; background: var(--dark-green); color: var(--white); }   /* mobile: edge to edge under the steps; everything centred; the check half over the top edge (Cornel 2026-11-10): 24 extra above, 16 from its bottom to the title */
 .oc-strip svg { position: absolute; top: -24px; left: calc(50% - 24px); width: 48px; height: 48px; }
 .oc-strip circle { fill: var(--light-green); }
 .oc-strip path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: oc-draw .6s .3s ease-out forwards; }   /* the check draws itself once */
@@ -798,8 +798,9 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .desk .oc-top { grid-column: 1 / -1; }   /* desktop: the thank you over both columns (Cornel 2026-11-09) */
 .desk .oc-strip { margin: 24px 0 0; padding: 40px 24px 24px; border-radius: var(--r-l); }
 .desk .oc-end .btn { align-self: flex-start; padding: 0 24px; }
-.co-steps li:first-child:not(:has(a))::before, .co-steps.all-done:not(.co-steps-n) li::before { content: ''; width: 14px; height: 14px; background: url(assets/pdp/check.svg) no-repeat center / 14px; }   /* confirmed: Cart is done, no way back */
-.co-steps:not(.co-steps-n) li:first-child:not(:has(a)), .co-steps.all-done:not(.co-steps-n) li { display: flex; align-items: center; justify-content: center; gap: 4px; }
+.co-steps li:first-child:not(:has(a))::before { content: ''; width: 14px; height: 14px; background: url(assets/pdp/check.svg) no-repeat center / 14px; }   /* confirmed: Cart is done, no way back */
+.co-steps.all-done:not(.co-steps-n) { display: none; }   /* order confirmed, mobile: no steps (Cornel 2026-11-10: all done, the thank you says it; the first to-do comes up). Desktop keeps them */
+.co-steps:not(.co-steps-n) li:first-child:not(:has(a)) { display: flex; align-items: center; justify-content: center; gap: 4px; }
 .co-steps-n li:first-child:not(:has(a))::before { width: 24px; height: 24px; background-size: 24px; }
 .oc-faq { gap: 0; border-top: 1px solid var(--line); }
 .oc-faq summary { padding: 12px 0; font-size: var(--t-14); }

@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261121v">
-<link rel="stylesheet" href="../design-system/components.css?v=20261121v">
-<link rel="stylesheet" href="pages.css?v=20261121v">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261122e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261122e">
+<link rel="stylesheet" href="pages.css?v=20261122e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -33,6 +33,7 @@
      go to; no upsell, except the Premium Artwork Check while the order is still to be paid. Prototype: the files stay in this browser
      (name, size and a small picture), nothing is sent. -->
 <div data-shell="sheet-art"></div>
+<div data-shell="sheet-shipping"></div>
 <!-- All done: the standard popup (same overlay, ✕, Esc, swipe), filled by allDone() -->
 <div class="sheet-layer" id="sheet-yay" aria-hidden="true">
   <!-- closes only with ✕ or the button (Cornel 2026-11-09): no click on the overlay, no swipe down -->
@@ -60,8 +61,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261121v"></script>
-<script src="../design-system/components.js?v=20261121v"></script>
+<script src="app.js?v=20261122e"></script>
+<script src="../design-system/components.js?v=20261122e"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -107,15 +108,20 @@
         : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span>
           <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>${lineOf(l)}
           <p class="oc-foot">Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date</p></div>`; };
-    const ups = lines.filter(l => l.up), todoActs = ups.filter(l => l.needs).map(upAct).join('');   // first: the uploads still to do are numbered before the payment
-    const paid = o.when === 'later' && o.paid;
-    const payAct = toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
+    const paid = o.when === 'later' ? o.paid : true;   // paid at checkout (card, Revolut, PayPal…) shows as done too (Cornel 2026-11-10): did it work? yes
+    const payAct = () => toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
           <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by 10:30 on ${etaApprove(first(lines).arrives)} · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
           <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>`
-      : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span>${PM[o.paidWith] ? `<span class="pm-logos">${PM[o.paidWith]}</span>` : ''}</div></div>` : '';   // the logo of the method it was paid with, on the right (Cornel 2026-11-10)
+      : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span>${PM[o.paidWith || o.method] ? `<span class="pm-logos">${PM[o.paidWith || o.method]}</span>` : ''}</div></div>` : '';   // the logo of the method it was paid with, on the right (Cornel 2026-11-10)
+    // the order of the blocks: what still needs doing on top (pay first, then the uploads), then what's done. Fixed once per visit
+    // (Cornel 2026-11-10): a block that gets done changes in place, nothing jumps; the next visit sorts again
+    const ups = lines.filter(l => l.up);
+    const now = [...(toPay ? ['pay'] : []), ...ups.filter(l => l.needs).map(l => l.i), ...ups.filter(l => !l.needs).map(l => l.i), ...(!toPay && paid ? ['pay'] : [])];
+    seq = seq ? [...seq.filter(x => now.includes(x)), ...now.filter(x => !seq.includes(x))] : now;
+    const acts = seq.map(x => x === 'pay' ? payAct() : upAct(ups.find(l => l.i === x))).join('');   // built in this order, so the numbers follow it
     const actions = n || ups.length || paid ? `<section class="oc-sec"><h2>${n ? (n === 1 ? '1 thing' : n + ' things') + ' to start printing' : ups.length > 1 ? 'Your designs' : ups.length ? 'Your design' : 'Payment'}</h2>
       <p class="oc-lead">${[!n && 'We’ve got everything we need.', ups.length && 'We check every file for free and send you a proof.'].filter(Boolean).join(' ')}</p>
-      <div class="oc-acts">${todoActs}${toPay ? payAct : ''}${ups.filter(l => !l.needs).map(upAct).join('')}${toPay ? '' : payAct}</div></section>` : '';   // what still needs to be done on top, then what's done
+      <div class="oc-acts">${acts}</div></section>` : '';
 
     // 3 · the products, always per order line: photo, specs, price, its own status and date
     const STEP = ['Check', 'Print', 'Ship', 'Delivered'];
@@ -156,13 +162,16 @@
         <div><b>Order number</b><span>${o.number}</span></div>
       </div></div></section>`;
 
+    // mobile: the totals as the payment page shows them (desktop: the card on the right, renderSide)
+    const overview = DESK ? '' : `<section class="oc-sec"><h2>Order overview</h2>${totalsHtml(o.items, o.addons || {})}</section>`;
+
     // 5 · people, the way on
     const end = `<section class="oc-end"><div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span>
       <span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
       <a class="btn outline" href="index.html">Continue shopping</a></section>`;
 
     document.getElementById('ocTop').innerHTML = strip;   // the thank you: on desktop over both columns
-    document.getElementById('oc').innerHTML = actions + products + details + end;
+    document.getElementById('oc').innerHTML = actions + products + details + overview + end;
     // The last thing just got done (not on opening the page): the all-done moment
     if (wasDone === false && done) setTimeout(() => allDone(lines), 400);
     wasDone = done;
@@ -294,15 +303,13 @@
     const name = order.items[upFor].name, changed = !!order.uploads[upFor];
     order.uploads[upFor] = art.filter(f => !f.err).flatMap(({ name, size, ext, pics = [] }) => pics.length
       ? pics.map((thumb, k) => ({ name, size, ext, thumb, page: pics.length > 1 ? `page ${k + 1} of ${pics.length}` : '' })) : [{ name, size, ext, thumb: null }]);
-    save(); closeSheet(); justAdded = upFor; render();
-    const card = document.getElementById('up-' + upFor);
-    card?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    save(); closeSheet(); justAdded = upFor; render();   // the block turns done where it is: no scroll (Cornel 2026-11-10)
     showToast(changed ? `Your files for ${name} are updated` : `Added to your ${name}`);
     justAdded = null;
   });
 
   // All done (Cornel, 2026-11-09, "Tikkie style"): a happy popup with a big check that pops, confetti over the whole screen and one warm line
-  let wasDone = null;
+  let wasDone = null, seq = null;   // seq: the order of the action blocks during this visit
   function allDone(lines) {
     const ups = lines.filter(l => l.up);   // files can still be changed (Change in their block) until the earliest deadline
     const dates = [...new Set(lines.map(l => l.arrives))].sort((a, b) => etaDate(a) - etaDate(b)).map(d => etaShort(etaDate(d)));

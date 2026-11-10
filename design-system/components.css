@@ -169,7 +169,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .sum-lines .line-item .p { font-weight: 400; color: var(--dark-grey); }   /* the prices as the totals around them: regular, dark grey */
 .sum-lines small span { white-space: nowrap; }   /* the delivery window breaks at the dash, never inside a date */
 .sum-lines[hidden] { display: none; }
-.cart-side h2 + .totals { border-top: 0; padding-top: 0; }   /* straight under the title: no line (the cart has its upsells in between) */
+.cart-side h2 + .totals, .oc-sec > h2 + .totals { border-top: 0; padding-top: 0; }   /* straight under the title: no line (the cart has its upsells in between) */
 .totals small { font-weight: 400; font-size: var(--t-12); line-height: 1; color: var(--dark-grey); }   /* (Excl. VAT), (Incl. VAT) */
 .totals .info-btn { width: 22px; height: 22px; margin: 0 0 0 4px; vertical-align: top; }   /* the ⓘ on the line height of the row; opens the popup */
 .cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }

@@ -177,7 +177,7 @@ function openArt(art, start = 0) {   // start: the file to show first (the one t
   if (start) requestAnimationFrame(() => { const t = view.querySelector('.art-track'); t.scrollLeft = start * t.clientWidth;
     view.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === start)); });
 }
-// The free shipping popup (the ⓘ after Shipping in the totals: cart, details, payment)
+// The free shipping popup (the ⓘ after Shipping in the totals: cart, details, payment, order confirmed)
 const SHEET_SHIPPING = `
 <div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
   <div class="sheet-overlay" data-close-sheet></div>
