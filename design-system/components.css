@@ -513,8 +513,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card { border-color: var(--card-line); }
 .desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover { border-color: var(--outline); }
 /* the soft card shadow only on hover (Cornel, 2026-10-28) */
-.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card, .desk .cart-main .line-item, .desk .addr-card { box-shadow: none; transition: border-color .15s, box-shadow .2s; }
-.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover, .desk .cart-main .line-item:hover, .desk .addr-card:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.desk .plp .product, .desk .home .product, .desk .xsell .product, .desk .plp .plp-mats .mat, .desk .hc-card, .desk .cart-main .line-item, .desk .addr-card, .desk .oc-act { box-shadow: none; transition: border-color .15s, box-shadow .2s; }
+.desk .plp .product:hover, .desk .home .product:hover, .desk .xsell .product:hover, .desk .plp .plp-mats .mat:hover, .desk .hc-card:hover, .desk .cart-main .line-item:hover, .desk .addr-card:hover, .desk .oc-act:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
 .desk .d-acc summary, .desk .oc-faq summary { font-size: var(--t-16); line-height: var(--lh-16); }
 /* head */
 .hc-center { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; }

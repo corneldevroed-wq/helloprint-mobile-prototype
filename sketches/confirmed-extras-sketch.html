@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmed extras</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261121v">
+<link rel="stylesheet" href="../design-system/components.css?v=20261121v">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261121v">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-10): what comes under Order details on order confirmed:
+     often bought together, a promo banner, the loyalty programme, socials. Three ways to place them; the to-dos stay on top in all three.
+     Loyalty = the real VIP Program (en-gb/my-vip, read 2026-11-10; tiers in £, no en-ie page yet). The promo, the code and the referral are ideas, not live. -->
+<style>
+  html, body { background: var(--white); }
+  .top { max-width: 1240px; margin: 0 auto; padding: 24px 16px 0; font-size: var(--t-14); line-height: var(--lh-14); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 24px 16px 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 32px; align-items: start; }
+  .sk { display: flex; flex-direction: column; gap: 12px; }
+  .sk h3 { font-size: 18px; line-height: 24px; }
+  .sk h3 .pick { margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk p.why { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .phone { display: flex; flex-direction: column; gap: 32px; padding: 24px 16px 32px; border: 1px solid var(--line); border-radius: var(--r-xl); }
+  .ghost { padding: 12px 16px; border-radius: var(--r-l); background: var(--light-grey); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  /* the pieces, sketch-only */
+  .xs { display: flex; flex-direction: column; gap: 8px; }
+  .xs .row { display: grid; grid-auto-flow: column; grid-auto-columns: 42%; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 0 16px; scrollbar-width: none; }
+  .xs .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .promo { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; padding: 16px; border-radius: var(--r-l); overflow: hidden; color: var(--white); background: var(--dark-green) center / cover; }
+  .promo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 70%); }
+  .promo > * { position: relative; }
+  .promo strong { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); }
+  .promo span { font-size: var(--t-14); line-height: var(--lh-14); }
+  .promo .pill { align-self: flex-start; margin-top: 12px; background: var(--white); color: var(--black); }
+  .loyal { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }
+  .loyal b { font-size: var(--t-16); line-height: var(--lh-16); }
+  .loyal ul { display: flex; flex-direction: column; gap: 8px; list-style: none; padding: 0; margin: 0; font-size: var(--t-14); line-height: var(--lh-14); }
+  .loyal li { display: flex; gap: 8px; }
+  .loyal li::before { content: ''; flex: 0 0 16px; height: 22px; background: url(../prototype/assets/pdp/check.svg) no-repeat center / 16px; }
+  .loyal a, .soc a.l { color: var(--link); text-decoration: underline; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+  .loyal .code { margin: 4px -16px -16px; padding: 12px 16px; border-radius: 0 0 var(--r-l) var(--r-l); background: var(--cream); font-size: var(--t-14); line-height: var(--lh-14); text-align: center; }
+  .loyal .code b { font-size: inherit; letter-spacing: .5px; }
+  .soc { display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; font-size: var(--t-14); line-height: var(--lh-14); }
+  .soc .socials { justify-content: center; }
+  .soc.inline { flex-direction: row; justify-content: space-between; text-align: left; padding-top: 16px; border-top: 1px solid var(--line); }
+  .nps { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .nps b { font-size: var(--t-16); line-height: var(--lh-16); }
+  .nps .sc { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; }
+  .nps .sc button { height: 32px; padding: 0; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); font: inherit; font-size: var(--t-14); cursor: pointer; }
+  .nps .sc button:hover { border-color: var(--black); }
+  .nps .sc button[aria-pressed="true"] { border-color: var(--dark-green); background: var(--dark-green); color: var(--white); }
+  .nps .ends { display: flex; justify-content: space-between; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .nps p.ok { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .ref { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--tint, var(--light-grey)); }
+  .ref b { font-size: var(--t-16); line-height: var(--lh-16); }
+  .ref p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .ref .cp { display: flex; gap: 8px; }
+  .ref .cp .field { flex: 1; }
+  .ref .cp .btn { padding: 0 16px; }
+  .ref .share { display: flex; gap: 8px; }
+  .ref .share a { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: 50%; background: var(--white); font-size: var(--t-12); font-weight: 600; color: var(--black); }
+  .ref .share img { width: 20px; height: 20px; }
+  .ref small { font-size: var(--t-12); line-height: var(--lh-12); }
+  .ref small a { color: var(--link); text-decoration: underline; }
+  /* desktop frames: the real page width 1064 (left column 544, Order overview right, sticky) */
+  .dwrap { max-width: 1240px; margin: 0 auto; padding: 0 16px 96px; display: flex; flex-direction: column; gap: 48px; }
+  .dwrap > h2 { margin-bottom: -24px; }
+  .desk-f { display: flex; flex-direction: column; gap: 32px; width: 1064px; max-width: 100%; padding: 32px; box-sizing: content-box; border: 1px solid var(--line); border-radius: var(--r-xl); }
+  .desk-f .cols { display: grid; grid-template-columns: 544px 1fr; gap: 64px; }
+  .desk-f .cols .ghost { display: grid; place-items: center; min-height: 120px; }
+  .xs .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .desk-f .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .desk-f .three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: stretch; }
+  .desk-f .promo.wide { min-height: 240px; padding: 32px; }
+  .desk-f .promo.wide strong { font-size: var(--t-32, 32px); line-height: 1.2; }
+  .desk-f .nps .sc button { height: 40px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .two .promo { min-height: 0; }
+  .two .promo strong { font-size: var(--t-16); line-height: var(--lh-16); }
+</style>
+</head>
+<body>
+<p class="top"><b>Order confirmed, under "Order details":</b> often bought together, a promo, the loyalty programme, socials and at the bottom the recommend score (0–10). The to-dos stay on top in all three (the grey bars), the extras come after the order. Mobile shown; on desktop it is the left column (product cards 4 in a row). Loyalty is the real <b>VIP Program</b> (from helloprint.com/en-gb/my-vip: from £1,000 excl. VAT a year 2/4/6% off, free delivery, pay on invoice, premium artwork check, priority service; en-ie has no VIP page, so €1,000 is an assumption). The promo, the code THANKYOU10 and the referral are ideas, not live.</p>
+<div class="wrap">
+
+  <div class="sk"><h3>A · Everything its own section</h3>
+    <p class="why">Five blocks after each other: products, a big promo banner, loyalty, referral, socials. Complete, but long and busy: it starts to feel like a home page, and the page is about your order.</p>
+    <div class="phone" data-v="a"></div></div>
+
+  <div class="sk"><h3>B · Products, then one perks block <span class="pick">my pick</span></h3>
+    <p class="why">Referral only after a 9 or 10 on the score (try it): ask the fans, not everybody. Often bought together as a swipeable row of plain product cards (desktop 4 in a row; the card opens the product page). The promo and loyalty together in one calm grey block: the benefits, then the code for your next order in a cream band (same band as the deadline). Socials one quiet line at the end. Three things, not four, and nothing shouts.</p>
+    <div class="phone" data-v="b"></div></div>
+
+  <div class="sk"><h3>C · Promo and loyalty side by side</h3>
+    <p class="why">Two small cards next to each other after the products: the promo as a photo card, loyalty grey. Compact, but on a phone the two cards get narrow (text breaks a lot), and two different looks next to each other feel restless.</p>
+    <div class="phone" data-v="c"></div></div>
+</div>
+<div class="dwrap desk">
+  <h2>Desktop</h2>
+  <div class="sk"><h3>A · Everything its own section</h3><p class="why">After the order, over the full width (the left column is too narrow for 4 product cards): products, a big banner, loyalty and referral side by side, socials, the score.</p><div class="desk-f" data-d="a"></div></div>
+  <div class="sk"><h3>B · Products, then one perks block <span class="pick">my pick</span></h3><p class="why">Full width under the order: 4 plain product cards (as the home: the card opens the product page, no Add to cart), then two equal blocks: your perks (points, benefits, the code in cream) and the score (a 9 or 10 opens the referral in its place). Socials as the quiet last line.</p><div class="desk-f" data-d="b"></div></div>
+  <div class="sk"><h3>C · Promo, loyalty and score side by side</h3><p class="why">Three cards in one row after the products. Fits well on desktop, but three different looks next to each other, and on mobile they stack anyway.</p><div class="desk-f" data-d="c"></div></div>
+</div>
+<script src="../design-system/components.js?v=20261121v"></script>
+<script src="../prototype/products.js?v=20261121v"></script>
+<script>
+  const P = '../prototype/', eur = n => '€' + n.toFixed(2);
+  const picks = ['standard-flyers', 'roller-banners', 'premium-tote-bags', 'ceramic-mug-330ml'];
+  // the home / PLP product card 1:1 (index.html best sellers): photo with label, name, "x pcs from", price; the card opens the product page
+  const card = s => { const B = PRODUCTS[s], p = B.live || B, pr = p.presets.find(x => x.id === 'recommended') || p.presets[0], q = p.defaultQty || B.defaultQty || 500;
+    return `<a class="product" href="#${s}"><div class="thumb" style="background:${B.bg}"><img src="${P + B.thumb}" alt="" loading="lazy">${typeof badgeHtml === 'function' ? badgeHtml(B.badge) : ''}</div>
+      <p class="name">${B.name}</p><div><p class="from">${q} pcs from</p><p class="prices"><span class="price">${eur(configPrice(p, pr.cfg, q))}</span></p></div></a>`; };
+  const xs = (layout) => `<section class="xs"><h2>Often bought together</h2><div class="${layout}">${picks.map(card).join('')}</div></section>`;
+  const promoImg = 'https://images.ctfassets.net/wm1n7oady8a5/589OSX08uUbcR2c85DyEUF/2a49be540a0dbe06d91ffdef0c3702af/cotton_bags.webp?w=800&fm=webp&q=80';
+  const promo = `<a class="promo" href="#promo" style="background-image:url(${promoImg})"><strong>15% off tote bags</strong><span>This week only, with your next order</span><span class="pill">Shop tote bags</span></a>`;
+  // the real VIP Program (helloprint.com/en-gb/my-vip, read 2026-11-10; en-ie has no VIP page yet, amounts are £ there):
+  // every order counts, from £1,000 excl. VAT in 12 months you are VIP: 2% (£1,000–2,500), 4% (£2,500–5,000), 6% (over £5,000), plus pay on invoice, exclusive offers, free delivery, premium artwork check, VIP priority service
+  const benefits = `<ul><li>2 to 6% off everything</li><li>Free delivery and pay on invoice</li><li>Premium Artwork Check and VIP priority service</li></ul>`;
+  const loyal = `<section class="loyal"><b>This order counts towards VIP: spend €1,000 a year</b>${benefits}<a href="#my-vip">How VIP works</a></section>`;
+  const icons = `<nav class="socials" aria-label="Social media">${[['facebook','s1'],['youtube','s3'],['linkedin','s4'],['instagram','s5']].map(([n, i]) => `<a href="#${n}" aria-label="${n}"><img src="${P}assets/${i}.svg" alt=""></a>`).join('')}</nav>`;
+  const head = `<div class="ghost">Thank you · to-dos · Order details (as now)</div>`;
+  const end = `<div class="ghost">Any questions? Start chat · Continue shopping</div>`;
+  const nps = `<section class="nps"><b>How likely are you to recommend Helloprint to a friend?</b><div class="sc">${[...Array(11).keys()].map(n => `<button type="button" data-n="${n}">${n}</button>`).join('')}</div><div class="ends"><span>Not likely</span><span>Very likely</span></div></section>`;
+  // referral (Cornel 2026-11-10, idea after the Glossier example): your own link to copy or share; the friend gets 10% off, you €10 credit
+  const ref = `<section class="ref"><b>Give 10%, get €10</b><p>Your friends get 10% off their first order with your link. You get €10 credit for every friend who orders.</p>
+    <div class="cp"><label class="field"><input readonly value="helloprint.com/r/anna-8846"></label><button class="btn outline" type="button" data-copy>Copy</button></div>
+    <div class="share">${[['whatsapp', P + 'assets/whatsapp.svg'], ['email', ''], ['facebook', P + 'assets/s1.svg'], ['linkedin', P + 'assets/s4.svg']].map(([n, i]) => `<a href="#${n}" aria-label="Share via ${n}">${i ? `<img src="${i}" alt="">` : '@'}</a>`).join('')}</div>
+    <small><a href="#referral-terms">Referral terms</a></small></section>`;
+  const V = {
+    a: head + xs('grid2') + promo + `<section class="xs"><h2>VIP Program</h2>${loyal}</section>` + `` + ref + `<section class="soc"><h2>Show us your print</h2><span>Tag @helloprint and we may share it</span>${icons}</section>` + end + nps,
+    b: head + xs('row') + `<section class="xs"><h2>Your perks</h2><div class="loyal"><b>This order counts towards VIP: spend €1,000 a year</b>${benefits}<a href="#my-vip">How VIP works</a><p class="code">Next order: <b>10% off</b> with code <b>THANKYOU10</b> <span class="badge neutral">Idea</span></p></div></section>`
+      + end + nps + `<div class="soc inline"><span>Show us your print: tag <b>@helloprint</b></span>${icons}</div>`,
+    c: head + xs('row') + `<div class="two"><a class="promo" href="#promo" style="background-image:url(${promoImg})"><strong>15% off tote bags</strong><span>This week only</span></a><section class="loyal"><b>On your way to VIP</b><span style="font-size:var(--t-14);line-height:var(--lh-14)">From €1,000 a year: 2–6% off, free delivery</span><a href="#my-vip">How VIP works</a></section></div>` + end + nps
+  };
+  document.querySelectorAll('[data-v]').forEach(el => el.innerHTML = V[el.dataset.v]);
+  // desktop
+  const dhead = `<div class="ghost" style="padding:24px">Thank you (dark green, over both columns)</div><div class="cols"><div class="ghost">To-dos · Order details · Any questions? Start chat · Continue shopping</div><div class="ghost">Order overview (sticky)</div></div>`;
+  const dxs = `<section class="xs xsell"><h2>Often bought together</h2><div class="grid">${picks.map(card).join('')}</div></section>`;
+  const perks = `<section class="xs"><h2>Your perks</h2><div class="loyal"><b>This order counts towards VIP: spend €1,000 a year</b>${benefits}<a href="#my-vip">How VIP works</a><p class="code">Next order: <b>10% off</b> with code <b>THANKYOU10</b> <span class="badge neutral">Idea</span></p></div></section>`;
+  const D = {
+    a: dhead + dxs + promo.replace('class="promo"', 'class="promo wide"') + `<div class="split"><section class="xs"><h2>VIP Program</h2>${loyal}</section><section class="xs"><h2>Tell a friend</h2>${ref}</section></div>`
+      + `<section class="soc"><h2>Show us your print</h2><span>Tag @helloprint and we may share it</span>${icons}</section>` + nps,
+    b: dhead + dxs + `<div class="split">${perks}<section class="xs"><h2>Your opinion</h2>${nps}</section></div>` + `<div class="soc inline"><span>Show us your print: tag <b>@helloprint</b></span>${icons}</div>`,
+    c: dhead + dxs + `<div class="three"><a class="promo" href="#promo" style="background-image:url(${promoImg})"><strong>15% off tote bags</strong><span>This week only, with your next order</span><span class="pill">Shop tote bags</span></a>${loyal}${nps}</div>`
+  };
+  document.querySelectorAll('[data-d]').forEach(el => el.innerHTML = D[el.dataset.d]);
+
+  document.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (c) { c.textContent = 'Copied ✓'; setTimeout(() => c.textContent = 'Copy', 1500); } });
+  // the score: one tap, then a thank you in its place (a follow-up question could come later)
+  document.addEventListener('click', e => { const b = e.target.closest('.nps [data-n]'); if (!b) return;
+    if (e.target.closest('[data-copy]')) return;
+    b.closest('.nps').innerHTML = `<b>Thanks for your ${b.dataset.n}!</b><p class="ok">${b.dataset.n >= 9 ? 'Great to hear! Share the love:</p>' + ref + '<p hidden>' : 'What could we do better? <a href="#feedback">Tell us</a>'}</p>`; });
+</script>
+</body>
+</html>

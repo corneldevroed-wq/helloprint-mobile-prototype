@@ -5,6 +5,10 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Order confirmed: a done upload has one small outline button "Change"** (Cornel, switch Change B): right in its head
+  row (32 high, 14px, also on mobile), in the place of the to-do's green Upload button; the artwork tile opens the artwork popup, so no
+  separate View. Rejected: View · Change as links (small tap targets) and a full-width button (too heavy for a done block). Same day:
+  the blocks have the cart's hover shadow on desktop; "More info about your order in My account" under Order details.
 - **11-10 — Order confirmed: the thank you stays dark green, over both columns on desktop** (Cornel, switch Thanks A): tried
   light grey in the first column (B) because the green felt busy, but A won; switch and B removed. Same day: the h1 and the section
   h2s are the standard sizes (desktop 24/32, mobile 24/28 and 20/24); the upload bands (deadline and check in progress) both cream,

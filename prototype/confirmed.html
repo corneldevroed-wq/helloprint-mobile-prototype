@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261121q">
-<link rel="stylesheet" href="../design-system/components.css?v=20261121q">
-<link rel="stylesheet" href="pages.css?v=20261121q">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261121v">
+<link rel="stylesheet" href="../design-system/components.css?v=20261121v">
+<link rel="stylesheet" href="pages.css?v=20261121v">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -60,8 +60,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261121q"></script>
-<script src="../design-system/components.js?v=20261121q"></script>
+<script src="app.js?v=20261121v"></script>
+<script src="../design-system/components.js?v=20261121v"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -102,7 +102,7 @@
     const paidCheck = { premium: 'Premium Artwork Check', deluxe: 'Deluxe Artwork Check' }[(o.addons || {}).check];
     const upAct = l => { const files = o.uploads[l.i];
       return files ? `<div class="oc-act done${l.i === justAdded ? ' oc-new' : ''}" id="up-${l.i}"><div class="row">${tick}<span class="t"><b>Upload successful</b></span>
-          <span class="links"><button class="link" type="button" data-view-art="${l.i}" data-at="0">View</button><button class="link" type="button" data-up="${l.i}">Change</button></span></div>${lineOf(l, files)}
+          <button class="btn outline" type="button" data-up="${l.i}">Change</button></div>${lineOf(l, files)}
           <p class="oc-foot">${paidCheck ? `<b>${paidCheck}</b>` : 'File check'} in progress, proof coming soon</p></div>`
         : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span>
           <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>${lineOf(l)}
@@ -145,7 +145,7 @@
     const pay = toPay ? `<span>Pay later</span><span>${eur(o.total)} to pay</span>` : `${o.paid ? '<span>Payment link</span>' : card}<span>${eur(o.total)} paid</span>`;
     const q = encodeURIComponent([det.address1 || (o.addressLines || [])[0], det.town || (o.addressLines || [])[1], det.eircode, 'Ireland'].filter(Boolean).join(', '));   // street, town, Eircode: Google puts a pin on a real Irish address
     const span = a => a.map(x => `<span>${esc(x)}</span>`).join('');
-    const details = `<section class="oc-sec"><h2>Order details</h2><div class="oc-od">
+    const details = `<section class="oc-sec"><h2>Order details</h2><p class="oc-lead">More info about your order in <a href="#my-account">My account</a></p><div class="oc-od">
       ${(o.addressLines || o.address) ? `<iframe title="Map of the shipping address" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s${q}!6i15"></iframe>` : ''}
       <div class="grid">
         <div><b>Contact</b>${span([o.name, o.email].filter(Boolean))}</div>

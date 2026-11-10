@@ -731,7 +731,8 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-act.done .oc-foot { margin: 0 -15px -15px; border-radius: 0 0 9px 9px; }
 .oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .oc-act .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }   /* the cart line without its quantity row: no line under the date */
-.oc-act .links, .oc-act .row > .pm-logos { display: flex; gap: 16px; margin-left: auto; }   /* done upload: View (the artwork popup) and Change (the upload popup with its files, as the PDP); paid: the logo of the method */
+.oc-act .row > .pm-logos { display: flex; gap: 16px; margin-left: auto; }   /* paid: the logo of the method, right in the row */
+.oc-act.done .btn { flex: none; height: 32px; margin-left: auto; padding: 0 16px; font-size: var(--t-14); line-height: var(--lh-14); }   /* a done upload's Change (Cornel 2026-11-10, was View · Change links): small and right in its head row, also mobile, calmer than the to-do's Upload; view = the artwork tile */
 .oc-for { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }   /* the upload popup's bar: which product the files go to */
 .sheet-bar .oc-for + .btn { flex: none; padding: 0 24px; }   /* the button its own size on the right, the product gets the room */
 .oc-for .img { width: 40px; height: 40px; flex-shrink: 0; border-radius: var(--r-s); overflow: hidden; background: var(--light-grey); }
@@ -791,7 +792,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-team .faces { display: flex; flex-shrink: 0; }
 .oc-team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); background: var(--light-green); object-fit: cover; }   /* team cut-outs on light green, as the team strip */
 .oc-team .faces img + img { margin-left: -10px; }
-.oc-team a { color: var(--link); text-decoration: underline; font-weight: 600; }
+.oc-team a, .oc-lead a { color: var(--link); text-decoration: underline; font-weight: 600; }
 .desk .oc { grid-column: 1; padding-bottom: 0; }
 .oc-top { margin-bottom: 24px; }   /* 32 (24 + the page's 8 gap) under the thank you */
 .desk .oc-top { grid-column: 1 / -1; }   /* desktop: the thank you over both columns (Cornel 2026-11-09) */
