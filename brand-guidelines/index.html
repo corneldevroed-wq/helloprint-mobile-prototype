@@ -6,9 +6,9 @@
 <title>HelloPrint Brand Guidelines</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261122e">
-<link rel="stylesheet" href="../design-system/components.css?v=20261122e">
-<link rel="stylesheet" href="../design-system/guide.css?v=20261122e">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261122f">
+<link rel="stylesheet" href="../design-system/components.css?v=20261122f">
+<link rel="stylesheet" href="../design-system/guide.css?v=20261122f">
 <style>
   /* Content 1:1 from the Claude Design deck "Brand Guide" (v.01, 70 slides), one section per slide, in the UI Style Guide's
      layout (guide.css). No design of its own yet: the slideshow comes next (Cornel, 2026-11-10). */
@@ -330,7 +330,7 @@
     <h3>Clear space</h3>
     <p>Always leave at least the height of the <strong>"H"</strong> of clear space around the logo on all sides. Nothing competes with the mark.</p>
     <h3>Minimum size</h3>
-    <p>Never smaller than <strong>24&nbsp;px</strong> on screen or <strong>10&nbsp;mm</strong> in print. Legibility first.</p>
+    <p>Never smaller than <strong>18&nbsp;px</strong> high on screen or <strong>10&nbsp;mm</strong> in print. Legibility first.</p>
     <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
   </section>
   <section class="ds-sec" id="logo-on-backgrounds">
@@ -388,20 +388,20 @@
   </section>
   <section class="ds-sec" id="primary-palette">
     <h1>Primary palette.</h1>
-    <p>Three colours carry the brand. Dark green for trust, bright green for energy, cream for warmth.</p>
-    <p>Backgrounds are dark green or cream. Bright green is reserved for accents — never as a body colour.</p>
+    <p>Three colours carry the brand. Dark green for trust, light green for energy, cream for warmth.</p>
+    <p>On screen the page is white; dark green and cream are for blocks. Light green is for areas (buttons, switches, ticks), never for text: green text is the link green.</p>
     <div class="ds-stage on-dark" style="background:var(--dark-green)"><h3>Dark Green</h3><p>#022B07<br>rgb(2, 43, 7)<br>Pantone 553 C</p></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><h3>Bright Green</h3><p>#049E46<br>rgb(4, 158, 70)<br>Pantone 354 C</p></div>
+    <div class="ds-stage on-dark" style="background:var(--light-green)"><h3>Light Green</h3><p>#00A651<br>rgb(0, 166, 81)<br>Pantone 354 C</p></div>
     <div class="ds-stage" style="background:var(--cream)"><h3>Cream</h3><p>#FEF0DF<br>rgb(254, 240, 223)<br>Pantone 7506 C</p></div>
   </section>
   <section class="ds-sec" id="colour-usage">
     <h1>Colour usage.</h1>
-    <table><tr><th>Colour</th><th>Where</th><th>Never</th></tr><tr><td>Dark Green</td><td>Primary backgrounds, body text on cream</td><td>Body copy on bright green</td></tr><tr><td>Bright Green</td><td>Accent words, CTA buttons, USP blocks</td><td>Long paragraphs, body backgrounds</td></tr><tr><td>Cream</td><td>Primary content backgrounds, text on dark</td><td>Tiny captions where contrast drops</td></tr><tr><td>White</td><td>Editorial cards, product mock backgrounds</td><td>Full-bleed backgrounds — feels generic</td></tr><tr><td>Black</td><td>Reserved for print specs &amp; legal copy</td><td>Headlines and body — use dark green instead</td></tr></table>
+    <table><tr><th>Colour</th><th>Where</th><th>Never</th></tr><tr><td>Dark Green</td><td>Headings, header, active pill, secondary button text</td><td>Body copy on light green</td></tr><tr><td>Light Green</td><td>Areas: primary button, switch, chosen outline, ticks</td><td>Text (use the link green), long paragraphs</td></tr><tr><td>Cream</td><td>Warm blocks (the reassurance after an upload), text on dark</td><td>Page backgrounds, tiny captions where contrast drops</td></tr><tr><td>White</td><td>Page and card background</td><td>—</td></tr><tr><td>Black</td><td>Card titles, body on article pages, labels that carry info</td><td>Page titles — use dark green</td></tr><tr><td>Orange</td><td>Commercial badges only (Most Popular, Best Seller)</td><td>Anything else</td></tr></table>
   </section>
   <section class="ds-sec" id="colour-tints">
     <h1>Tints &amp; shades.</h1>
     <p>Use sparingly for backgrounds, charts, or UI states. Never as a substitute for the brand colour at full strength.</p>
-    <h3>Bright Green</h3>
+    <h3>Light Green</h3>
     <p>50</p>
     <p>100</p>
     <p>200</p>
@@ -416,9 +416,9 @@
   </section>
   <section class="ds-sec" id="colour-accessibility">
     <h1>Accessibility.</h1>
-    <p>Every pairing we ship clears WCAG&nbsp;AA at body sizes and AAA for large text. The three approved combinations are below.</p>
-    <p>Bright green is for accents only — at small sizes on cream, it falls below AA.</p>
-    <table><tr><th>Pairing</th><th>Ratio</th><th>Body</th><th>Large</th></tr><tr><td>Dark Green on Cream</td><td>13.2 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Dark Green</td><td>13.2 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Bright Green</td><td>4.6 : 1</td><td>AA</td><td>AAA</td></tr><tr><td>White on Bright Green</td><td>4.9 : 1</td><td>AA</td><td>AAA</td></tr><tr><td>Bright Green on Cream</td><td>3.2 : 1</td><td>—</td><td>AA</td></tr><tr><td>Bright Green on Dark Green</td><td>4.1 : 1</td><td>—</td><td>AA</td></tr></table>
+    <p>Text pairings clear WCAG&nbsp;AA at body sizes. Light green does not carry text: it stays below AA on cream and white.</p>
+    <p>Light green is for accents only — at small sizes on cream, it falls below AA.</p>
+    <table><tr><th>Pairing</th><th>Ratio</th><th>Body</th><th>Large</th></tr><tr><td>Dark Green on Cream</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Dark Green</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Light Green</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>White on Light Green</td><td>3.2 : 1</td><td>—</td><td>AA</td></tr><tr><td>Light Green on Cream</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>Light Green on Dark Green</td><td>4.9 : 1</td><td>AA</td><td>AAA</td></tr></table>
   </section>
   <section class="ds-sec" id="colour-combinations">
     <h1>Allowed combinations.</h1>
@@ -432,37 +432,38 @@
   <section class="ds-sec" id="colour-forbidden">
     <h1>Never.</h1>
     <p>Combinations to avoid in any context — they break legibility or feel off-brand.</p>
-    <p>Off-brand orange</p>
+    <p>Orange outside a commercial badge</p>
     <p>Low-contrast grey</p>
     <p>Foreign brand blue</p>
     <p>Saturated competitor</p>
     <h3>Why these fail</h3>
-    <p>Bright orange and saturated blue belong to competitors. Mid-grey body text on cream falls below AA contrast. Stick to the three approved combinations.</p>
+    <p>Orange is only for commercial badges; anywhere else it competes with the green. Saturated blue belongs to competitors. Mid-grey body text on cream falls below AA contrast. Stick to the three approved combinations.</p>
   </section>
   <section class="ds-sec" id="typefaces">
     <h1>Our typefaces.</h1>
-    <h3>Arexa</h3>
-    <p>Display · Regular</p>
-    <p>Headlines, dividers, and the cover. One weight only.</p>
+    <h3>Inter</h3>
+    <p>Display · ExtraBold (800)</p>
+    <p>Headlines, dividers, and the cover.</p>
     <p>Aa Bb Cc.</p>
     <h3>Inter</h3>
-    <p>Body · Regular, 500, 700</p>
+    <p>Body · Regular, Semibold, Bold (400, 600, 700)</p>
     <p>Everything else: body, captions, chrome, tables.</p>
     <p>Aa Bb Cc.</p>
   </section>
   <section class="ds-sec" id="type-scale">
     <h1>Type scale.</h1>
-    <p>Display · 240&nbsp;/&nbsp;90%</p>
+    <p>On screen, sizes as in the UI Style Guide (mobile · desktop):</p>
+    <p>Display · 28/32 · 48/56 extra bold</p>
     <p>Positioning.</p>
-    <p>Title · 64&nbsp;/&nbsp;95%</p>
+    <p>Page title · 24/28 · 24/32 extra bold</p>
     <p>Our Values.</p>
-    <p>Subhead · 48&nbsp;/&nbsp;115%</p>
+    <p>Section title · 20/24 · 24/32</p>
     <p>Making print easier.</p>
-    <p>Section · 24&nbsp;/&nbsp;130% bold</p>
+    <p>Card title · 14 · 16/22 semibold</p>
     <p>Always personal</p>
-    <p>Body · 24&nbsp;/&nbsp;130%</p>
+    <p>Body · 12/18 · 14/22</p>
     <p>We make print easier, for everyone, everywhere.</p>
-    <p>Chrome · 10&nbsp;/&nbsp;130%</p>
+    <p>Label · 12/17</p>
     <p>HelloPrint · Brand Guidelines · Page 3</p>
   </section>
   <section class="ds-sec" id="type-in-use">
@@ -489,7 +490,7 @@
   </section>
   <section class="ds-sec" id="type-web-vs-print">
     <h1>Web &amp; print.</h1>
-    <table><tr><th>Use</th><th>Display</th><th>Body</th><th>Note</th></tr><tr><td>Web — large headline</td><td>Arexa · 96–240&nbsp;px</td><td>Inter Regular · 16–18&nbsp;px</td><td>Reduce line-height to 0.95</td></tr><tr><td>Web — body</td><td>Inter Bold · 24–32&nbsp;px</td><td>Inter Regular · 16&nbsp;px</td><td>Min 14&nbsp;px for captions</td></tr><tr><td>App / UI</td><td>Inter Bold · 22–28&nbsp;px</td><td>Inter Regular · 15&nbsp;px</td><td>Stay on-grid, 4&nbsp;px baseline</td></tr><tr><td>Print — large format</td><td>Arexa · 120–400&nbsp;pt</td><td>Inter Regular · 12–14&nbsp;pt</td><td>Min 8&nbsp;pt for legal</td></tr><tr><td>Print — packaging</td><td>Arexa · 40–80&nbsp;pt</td><td>Inter Regular · 10–11&nbsp;pt</td><td>Test on substrate before sign-off</td></tr></table>
+    <table><tr><th>Use</th><th>Display</th><th>Body</th><th>Note</th></tr><tr><td>Web — large headline</td><td>Inter ExtraBold · 28–48&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Display only on the Help Centre head</td></tr><tr><td>Web — page and section titles</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Min 12&nbsp;px for captions</td></tr><tr><td>App / UI</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Stay on the 8&nbsp;px grid</td></tr><tr><td>Print — large format</td><td>Inter ExtraBold · 120–400&nbsp;pt</td><td>Inter Regular · 12–14&nbsp;pt</td><td>Min 8&nbsp;pt for legal</td></tr><tr><td>Print — packaging</td><td>Inter ExtraBold · 40–80&nbsp;pt</td><td>Inter Regular · 10–11&nbsp;pt</td><td>Test on substrate before sign-off</td></tr></table>
   </section>
   <section class="ds-sec" id="photography-style">
     <h1>Our photography.</h1>
@@ -546,13 +547,13 @@
     <h3>Green Block</h3>
     <p>Anchors a headline or USP. Always full-bleed within its container.</p>
     <h3>Outlined Card</h3>
-    <p>Groups information. 20&nbsp;px radius, 1&nbsp;px dark-green border.</p>
+    <p>Groups information. 10&nbsp;px corners, 1&nbsp;px light grey line; on desktop a soft shadow on hover only.</p>
     <h3>Image Slot</h3>
-    <p>Always square or rectangular. Never rounded — let the photography speak.</p>
+    <p>Square or rectangular, with the card corners (10&nbsp;px) — let the photography speak.</p>
   </section>
   <section class="ds-sec" id="iconography">
     <h1>Iconography.</h1>
-    <p>Two-pixel stroke, square ends, no fill. Always dark green on cream — never coloured-in.</p>
+    <p>Google Material Symbols Rounded, line (weight 400, 24&nbsp;px), no fill. Dark green — never coloured-in.</p>
     <p>Use icons to clarify, not decorate. One icon per idea, never two side-by-side.</p>
     <p>Order</p>
     <p>Ship</p>
@@ -644,6 +645,6 @@
   </section>
   </main>
 </div>
-<script src="../design-system/guide.js?v=20261122e"></script>
+<script src="../design-system/guide.js?v=20261122f"></script>
 </body>
 </html>
