@@ -4,7 +4,21 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Menu desktop (Nov 10, 2026)
+- **11-10 — One list style: Browse all we offer** (Cornel: "consistent"): the mega menu and the desktop footer columns use the home rules: title 16/1.2 semibold black, 12 to the list, links 14/1.3 grey 8 apart (the footer was 16/22 + 14/22; its columns 370 → 325 high). The All products groups (left): a standard list too (14, 26 a line, no chevron; was 16 in rows of 48).
+- **11-10 — All products = the live mega menu, 1:1** (Cornel, screenshots of live en-ie): 12 groups left, hover shows the group's sub groups
+  right (photo, name, Popular, the products), "Shop all <group>". Content read from the live page (83 sub groups, 496 links), photos in
+  `assets/menu/all/`. Mobile follows (same content in the drawer); the old 9-group All products tree and its l2 images are gone.
+  Popular is our orange commercial label (live: green). Wording "Shop all" (live: "View all"), as everywhere in our menu.
+- **11-10 — The mobile menu on desktop as a mega menu** (menu-desk-sketch.html B; Cornel: "this is the base", to extend and fine-tune).
+  Hover a category in the green bar: its 6 products as the category page cards (6 in a row, 201) + "Shop all …"; hover or click
+  All products: the 9 groups as link columns. Content and words 1:1 from the mobile drawer (one data source). No promo card (live
+  has one: calmer without). Rejected: A (the mobile drawer on desktop: repeats the bar, feels like a phone), C (the mobile panel as
+  a small dropdown: tall and narrow, needs an All products page).
+
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Order confirmed: a registration mark in the four corners of the thank you bar** (print-marks-sketch.html A; Cornel's print mark,
+  `design-system/icons/print-mark.svg`, 24, 12 in, white 30%). Rejected: 32 (too big), 16 (barely visible), two corners (B), light green (C, too busy next to the check).
 - **11-10 — Checkout desktop: 64 between the columns** (Cornel; details, payment, order confirmed): 128 (11-06) was too much, the
   cart's 32 too tight. The page stays 1064 (the header lines up): the left column 608, the sidebar 392.
 - **11-10 — Order status blocks are design system** (Cornel): the thank you bar, the action blocks (to do / done) and the cream band

@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261122n">
-<link rel="stylesheet" href="components.css?v=20261122n">
-<link rel="stylesheet" href="guide.css?v=20261122n">
+<link rel="stylesheet" href="tokens.css?v=20261122x">
+<link rel="stylesheet" href="components.css?v=20261122x">
+<link rel="stylesheet" href="guide.css?v=20261122x">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -432,7 +432,7 @@
   const ocLogos = `<span class="pm-logos"><img src="${A}pay-visa.svg" alt="Visa"><img src="${A}pay-maestro.svg" alt="Maestro"><img src="${A}pay-mastercard.svg" alt="Mastercard"><span class="pm-brand paypal"><img src="${A}checkout/paypal-word.png" alt="PayPal"></span></span>`;
   const ocReal = h => real(h, [390, 'order confirmed, mobile'], [608, 'order confirmed, desktop (left column)']);
   const orderstatus = row({ name: 'Thank you bar', wide: true, meta: [{ t: '.oc-strip' }, { t: '--dark-green' }, SIZE],
-      use: 'The top of order confirmed (Cornel 2026-11-10): dark green, everything centred, the light green check (48) half over the top edge and drawing itself once, the standard h1 in white (two lines: Thank you, name! / Your order is in. or Everything’s in.), the order number and email 14/22. Mobile edge to edge, desktop a card over both columns (--r-l). Only when nothing is left to do: <b>Track your order</b>, a calm white outline button (40), to the order in My account.',
+      use: 'The top of order confirmed (Cornel 2026-11-10): dark green, everything centred, the light green check (48) half over the top edge and drawing itself once, the standard h1 in white (two lines: Thank you, name! / Your order is in. or Everything’s in.), the order number and email 14/22. In every corner a printer’s registration mark (icons/print-mark.svg, 24, 12 in, white 30%: a detail only a printer has; .oc-strip::before, no extra markup). Mobile edge to edge, desktop a card over both columns (--r-l). Only when nothing is left to do: <b>Track your order</b>, a calm white outline button (40), to the order in My account.',
       ex: stage(ocReal(`<section class="oc-strip" style="margin-top:32px"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"></circle><path d="M14 25l7 7 13-15"></path></svg><div><h1>Thank you, Anna!<br>Everything’s in.</h1><p>We’ll take it from here. Order HP-IE-1234567 · confirmation sent to <b>anna@example.com</b></p></div><a class="btn outline" href="#orderstatus">Track your order</a></section>`)) }) +
     row({ name: 'Action block: to do', wide: true, meta: [{ t: '.oc-act' }, { t: '.oc-foot' }, { t: '--light-green' }, { t: '--cream' }, SIZE],
       use: 'What the customer still has to do, one block each, Pay always first (2px --light-green, --r-l, 14 padding): a number (24, light green), the task 16/22 and the primary button (40; mobile full width under the row, desktop on the right). An upload holds its order line as the cart shows it (photo, specs, price, its own delivery date). The deadline in a cream band at the bottom (12/18, the time bold). The pay block has the payment logos in a light grey band instead. 16 between the blocks.',
@@ -444,6 +444,10 @@
         <div class="oc-act done"><div class="row">${OC_TICK}<span class="t"><b>Payment received</b><small>€112.51 · thank you</small></span><span class="pm-logos"><span class="pm-brand"><img src="${A}checkout/revolut.png" alt="Revolut Pay"></span></span></div></div></div>`)) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
       'Mobile: dark green bar with menu, logo, account and cart, the search under it. Desktop: logo, search, language, account, cart, then the category bar. Checkout (.co-header / .co-dhead): logo, Secure Checkout, account, cart; on desktop only the 60 top bar: logo, Secure Checkout (14/22) next to it, account and cart right (no search, menu or USP bar). Login / register (.auth-head): only a 60 dark green bar with the logo in the middle, no menu or footer, from every flow.') +
+    cut('Mega menu: a category', '.mega', '../prototype/index.html?menu=promo', '||.mega', 'desktop, hover a category in the bar',
+      'Desktop (Cornel 2026-11-10, menu-desk-sketch B): the mobile menu under the category bar, over the page; same content and words as the drawer. Hover a category (150 ms wait, then switching is instant; closes 200 ms after the mouse leaves): its products as category cards (the category page tiles, 6 in a row) and "Shop all …" top right. White, a line and the card hover shadow at the bottom; the open item has the bar hover tint. Mobile keeps the drawer. ?menu=&lt;key&gt; opens it on load. The base: to be extended.') +
+    cut('Mega menu: All products', '.mega-all · .mega-side · .mega-cols', '../prototype/index.html?menu=all', '||.mega', 'desktop, hover or click All products',
+      'As live (Cornel 2026-11-10; content 1:1 from the helloprint.com/en-ie mega menu, 12 groups): the groups left as a standard list (256 wide, 14 grey, 26 a line as the product lists, no chevron; the hovered one --light-grey, semibold black, after an 80 ms wait so crossing the list does not switch), a line, then its sub groups in 4 columns: the photo in the grey menu thumb (96), the name and its products in the style of the lists of Browse all we offer on home (title 16/1.2 semibold black, 12 to the list; links 14/1.3 grey, 8 apart), the name with the orange Popular label. "Shop all &lt;group&gt;" under them. The panel scrolls when it is taller than the screen. Mobile: the same content in the drawer (All products → group → sub group → products). "All categories" on home opens it.') +
     cut('USP bar', '.usp / .dusps', '../prototype/index.html', '.usp||.dusps', 'under the header',
       'Light grey: the Trustpilot reviews first, then the USPs (a ticker on mobile).') +
     cut('Newsletter', '.dnews', '../prototype/index.html', '.dnews', 'on top of the footer',
@@ -547,6 +551,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261122n"></script>
+<script src="guide.js?v=20261122x"></script>
 </body>
 </html>

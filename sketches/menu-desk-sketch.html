@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu desktop sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261122x">
+<link rel="stylesheet" href="../design-system/components.css?v=20261122x">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261122x">
+<!-- Sketch only, not linked from the prototype: the mobile drill-down menu on desktop. Content and wording 1:1 from the
+     mobile menu (prototype/app.js: menu, sub, subAll), images from assets/menu/. The category bar is the real .dhead-nav.
+     Hover (or click) a category in each frame to switch what the menu shows. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; padding-left: 20px; }
+  .frame { position: relative; margin-top: 16px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .frame .dwrap { width: calc(100% - 48px); }
+  .top { height: 60px; display: flex; align-items: center; justify-content: space-between; background: var(--dark-green); }
+  .top .dlogo { width: 117px; height: 26px; }
+  .top .fake { flex: 0 1 560px; height: 40px; border-radius: var(--r-pill); background: var(--white); }
+  .top .r { display: flex; gap: 16px; }
+  .top .r img { width: 24px; height: 24px; }
+  .stage { position: relative; height: 560px; background: var(--light-grey); }
+  .stage .ghost { position: absolute; inset: 32px 24px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+  .stage .ghost span { border-radius: var(--r-l); background: #e8e8e8; }
+  .dim { position: absolute; inset: 0; background: rgba(0,0,0,.2); }
+
+  /* A · the mobile drawer, as is */
+  .sk-a .menu-drawer { position: absolute; transform: none; width: 366px; }
+  .sk-a .menu-drawer .panel { bottom: 0; }
+
+  /* B · mega dropdown: tiles (category) or columns (All products) */
+  .mega { position: absolute; top: 0; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 8px 16px rgba(0,0,0,.08); }
+  .mega .dwrap { padding: 24px 0 32px; }
+  .mega-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .mega-head h3 { font-size: var(--t-20); line-height: var(--lh-20); }
+  .mega-head a, .mega-cols .all { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-green); }
+  .mega .cats { display: flex; margin: 0; gap: 16px; }
+  .mega .cat { flex: 1 1 0; min-width: 0; aspect-ratio: 1; justify-content: center; }
+  .mega .cat img { flex: 1; min-height: 0; width: 100%; object-fit: contain; }
+  .mega-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px 24px; }
+  .mega-cols h4 { margin-bottom: 8px; font-size: var(--t-16); line-height: var(--lh-16); }
+  .mega-cols ul { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+  .mega-cols li a { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .mega-cols li a:hover { color: var(--black); text-decoration: underline; }
+
+  /* C · the mobile panel as a small dropdown under the item */
+  .drop { position: absolute; top: 0; width: 320px; background: var(--white); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--r-l) var(--r-l); box-shadow: 0 8px 16px rgba(0,0,0,.08); padding-bottom: 6px; }
+  .drop .menu-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Menu desktop sketch</b><a href="#a">A · The drawer</a><a href="#b">B · Mega dropdown</a><a href="#c">C · Small dropdown</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief:</b> the mobile menu on desktop. Today the green category bar shows the 11 level-1 categories as plain links and
+      "All products" does nothing. Live (en-ie) every category opens a hover dropdown with 6 image tiles + a promo card; "All products"
+      is a link to an overview page.</p>
+    <p>All three use the mobile content 1:1 (the same 6 products per category, "Shop all …", the same images). Login, country and
+      Help are already in the desktop header, so the drawer's bottom block is not needed on desktop.
+      <b>Hover a category in a frame</b> to see its menu; "All products" shows the second tree.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b class="ttl">A · The mobile drawer, as is</b>
+    "All products" opens the same drill-down from the left (366 wide), over a dimmed page. The bar items stay plain links.
+    <ul>
+      <li>+ Nothing new to build or keep in sync: literally the mobile component.</li>
+      <li>− It repeats the bar that is already on screen; three levels of clicking in a narrow column feels like a phone on a 1512 screen.</li>
+      <li>− Hovering the bar does nothing, while live it does: a step back for returning customers.</li>
+    </ul>
+  </div>
+  <div class="frame sk-a" data-opt="a"></div>
+
+  <div class="sk-label" id="b"><b class="ttl">B · Mega dropdown, the width of the page <span class="pick">My pick</span></b>
+    Hover a category: its 6 products as square image tiles (the home category card, <code>.cat</code>) in one row, "Shop all …" top right.
+    Hover "All products": the 9 groups as columns of text links, each with its "Shop all".
+    <ul>
+      <li>+ Uses the width; the products are seen, not read. Same pattern customers know from live.</li>
+      <li>+ No promo card (calmer than live); "Shop all" does its job.</li>
+      <li>− One new component (the panel); the tiles and links are existing parts.</li>
+    </ul>
+  </div>
+  <div class="frame sk-b" data-opt="b"></div>
+
+  <div class="sk-label" id="c"><b class="ttl">C · The mobile panel as a small dropdown</b>
+    Hover a category: the mobile level-2 list (thumb, name, "Shop all …") drops down under that item, 320 wide.
+    "All products" becomes a link to an overview page (as live).
+    <ul>
+      <li>+ The mobile list 1:1, so mobile and desktop look like one menu.</li>
+      <li>− Tall and narrow (about 550 high for 7 rows), most of the screen stays unused; small thumbs.</li>
+      <li>− Needs an All products page that does not exist yet.</li>
+    </ul>
+  </div>
+  <div class="frame sk-c" data-opt="c"></div>
+</div>
+
+<script>
+// 1:1 from prototype/app.js (menu, sub, subAll); the bar order follows DESK_NAV
+const M = '../prototype/assets/menu/';
+const bar = [['Promotional Print', 'promo'], ['Books', 'booklets'], ['Cards', 'cards'], ['Stationary', 'stationery'], ['Banners', 'banners'], ['Flags', 'flags'],
+  ['Signs', 'signs'], ['Stickers', 'stickers'], ['Gifts', 'gifts'], ['Bags', 'bags'], ['Clothing', 'clothing']];
+const root = [['All products', null, 'all'], ['Promotional Prints', 'l1-promo.png', 'promo'], ['Booklets', 'l1-booklets.png', 'booklets'], ['Cards', 'l1-cards.png', 'cards'],
+  ['Stationary', 'l1-stationary.png', 'stationery'], ['Banners', 'l1-banners.png', 'banners'], ['Flags', 'l1-flags.png', 'flags'], ['Signs', 'l1-signs.png', 'signs'],
+  ['Stickers', 'l1-stickers.png', 'stickers'], ['Gifts', 'l1-promo.png', 'gifts'], ['Bags', 'l1-bags.png', 'bags'], ['Clothing', 'l1-clothing.png', 'clothing']];
+const sub = {
+  promo: ['Promotional Prints', [['Booklets', 'brochure-and-booklet-printing'], ['Posters', 'poster-printing'], ['Flyers', 'flyers'], ['Books', 'book-printing'], ['Folded Leaflets', 'foldedleaflets'], ['Business Cards', 'businesscards-printing']]],
+  booklets: ['Booklets', [['Stapled Booklets', 'booklets'], ['Glued Hardback Books', 'hardcoverbooks'], ['Perfect Bound Brochures', 'perfectboundbrochures'], ['Thread Sewn Hardcover Books', 'threadsewnhardcoverbooks'], ['Wire Bound Brochures', 'wireobooklets'], ['Loop Stitched Brochures', 'loopstitchedbrochures']]],
+  cards: ['Cards', [['Business Cards', 'businesscards-printing'], ['Eco Business Cards', 'recycledbusinesscards'], ['Business Cards with Special Paper Materials', 'specialpaperbusinesscards'], ['Greeting Cards', 'greetingcards'], ['Business Cards with Exclusive Finishes', 'foilbusinesscards'], ['Postcards', 'postcards']]],
+  stationery: ['Stationary', [['Notepads', 'notepads'], ['Letterheads', 'letterheads'], ['Envelopes', 'envelopes'], ['Pens', 'ballpoint-pens'], ['Folders', 'folders'], ['Notebooks', 'notebook-printing']]],
+  banners: ['Banners', [['Custom Banners', 'banners'], ['Cardboard Roller Banners', 'cardboardrollupbanners'], ['Rollup Banners', 'rollupbanners-printing'], ['Fence Banners', 'fencebanners'], ['Construction Fence Banners', 'constructionfencebanners'], ['Banners with X frame', 'xbanners']]],
+  flags: ['Flags', [['Custom Flags', 'flagcustomsize'], ['Feather Flags', 'featherflags'], ['Banner Flags', 'bannerflags'], ['Teardrop Flags', 'teardropflags'], ['Facade Flags', 'facadeflags'], ['Bunting Flags', 'buntingflags']]],
+  signs: ['Signs', [['Outdoor Signs', 'outdoorsigns'], ['Foamex Signs', 'foamexsigns'], ['Indoor Signs', 'indoorsigns'], ['Aluminium Signs', 'aluminiumsigns'], ['Eco Signs', 'ecosigns'], ['Correx Signs', 'correxsigns']]],
+  stickers: ['Stickers', [['Individual Stickers', 'stickers'], ['Stickers on Roll', 'labels'], ['Custom Shape Stickers', 'customsizestickers'], ['Vinyl Stickers', 'vinylstickers'], ['Window Stickers', 'windowstickers'], ['Sticker Sheets', 'stickersonsheet']]],
+  gifts: ['Gifts', [['Notebooks', 'notebook-printing'], ['Water Bottles', 'printed-water-bottles'], ['Pens', 'printed-pens'], ['Mugs', 'personalised-mugs'], ['Umbrellas', 'umbrellas'], ['Top Gifts', 'top-gifts']]],
+  bags: ['Bags', [['Tote Bags', 'printing-cottonbags'], ['Backpacks', 'printed-backpacks'], ['Drawstring Bags', 'printed-drawstringbags'], ['Shopper Bags', 'printed-shopperbags'], ['Travel bags', 'promotional-travel-bags'], ['Cooler Bags', 'cool-bag']]],
+  clothing: ['Clothing', [['T-Shirts', 'tshirt-printing'], ['Hoodies & Sweatshirts', 'personalised-sweatshirts'], ['Polo Shirts', 'personalised-polo-shirts'], ['Caps', 'personalised-caps'], ['Jackets', 'printed-jackets'], ['Workwear', 'workwear-printing']]],
+};
+const all = [
+  ['Promotional Prints', 'promotional-printing', [['Booklets', 'brochure-and-booklet-printing'], ['Flyers', 'flyers'], ['Folded Leaflets', 'foldedleaflets'], ['Business Cards', 'businesscards-printing'], ['Cards & Vouchers', 'cards-and-invites'], ['Large Format', 'outdoor'], ['Promotional Gifts', 'goodies']]],
+  ['Stationary', 'stationery-and-office-supplies', [['Business Cards', 'businesscards-printing'], ['Notes', 'notepad-printing'], ['Envelopes', 'envelopes'], ['Document Organisers', 'printed-folders'], ['Writing Instruments', 'printed-pens'], ['Office Accessories', 'stationery-and-office-supplies'], ['Calendars', 'calendars-printing']]],
+  ['Corporate Gifts', 'corporate-gifts', [['Writing Instruments', 'printed-pens'], ['Office Supplies', 'office-supplies'], ['Drinkware', 'drinkware-printing'], ['Tech & Gadgets', 'personalised-gadgets'], ['Giveaways', 'goodies'], ['Outdoor & Leisure', 'promotional-outdoor-products'], ['Home & Living', 'home-living'], ['Food', 'promotional-food-drink']]],
+  ['Stickers', 'all-stickers', [['Stickers on Roll', 'labels'], ['Labels On Roll', 'labels-on-roll'], ['Custom Size', 'customsizestickers'], ['Large Format', 'large-sticker-printing']]],
+  ['Outdoor', 'outdoor', [['Banners', 'banner-printing'], ['Cafe Barriers', 'cafebarrier'], ['Signs and Panels', 'panels-and-signs'], ['Flags', 'flag-printing'], ['Roller Banner', 'rollupbanners-printing'], ['Beach Flags', 'beachflag-printing'], ['Large Stickers', 'large-sticker-printing'], ['Pavement Signs', 'pavementsigns'], ['Outdoor Furniture', 'outdoor-furniture']]],
+  ['Packaging', 'packaging', [['Food Packaging', 'food-packaging']]],
+  ['Hospitality', 'hospitality', [['Bar & Restaurant', 'industry/hospitality/restaurant'], ['Event & Festival', 'event-festivals-printing']]],
+  ['Events', 'events', [['Festival', 'event-festivals-printing'], ['Wedding', 'industry/wedding'], ['Sport Events', 'sportsproducts'], ['Exhibition & Trade Show', 'exhibitionmaterial']]],
+  ['Interior', 'interior', [['Wall Decoration', 'wall-decoration'], ['Interior Textiles', 'interior-textiles'], ['Home & Living', 'home-living']]],
+];
+const subAll = { promo: 'promotional-printing', booklets: 'brochure-and-booklet-printing', cards: 'cards-and-invites', stationery: 'stationery-and-office-supplies',
+  banners: 'banner-printing', flags: 'flag-printing', signs: 'panels-and-signs', stickers: 'all-stickers', gifts: 'corporate-gifts', bags: 'promotional-bags', clothing: 'clothing-printing' };
+const img = slug => `${M}sub/${slug.replace(/\//g, '-')}.webp`;
+const arrow = `<img class="chev" src="${M}arrow.svg" alt="">`;
+
+const shell = opt => `
+  <div class="top"><div class="dwrap" style="display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <img class="dlogo" src="../prototype/assets/logo.svg" alt="HelloPrint"><span class="fake"></span>
+    <span class="r"><img src="../prototype/assets/account.svg" alt=""><img src="../design-system/icons/bag.svg" alt=""></span></div></div>
+  <nav class="dhead-nav"><div class="dwrap">
+    <a href="#" data-k="all" class="dnav-all"><img src="../prototype/assets/menu.svg" alt="">All products</a>
+    ${bar.map(([l, k]) => `<a href="#" data-k="${k}">${l}</a>`).join('')}
+    <a href="#" class="dnav-help">Help Centre</a>
+  </div></nav>
+  <div class="stage"><div class="ghost"><span></span><span></span><span></span></div><div class="layer"></div></div>`;
+
+// A: the drawer, root level (or a sub level when a bar item is hovered, to show the drill-down)
+function drawA(k) {
+  const head = k === 'root' ? `<span class="label">Menu</span>` : `<button class="back"><img src="${M}back.svg" alt="">${k === 'all' ? 'All Products' : sub[k][0]}</button>`;
+  const rows = k === 'root'
+    ? root.map(([l, im]) => `<li><button class="menu-item">${im ? `<span class="thumb-sm contain"><img src="${M + im}" alt=""></span>` : `<span class="thumb-sm"><span class="letter">A</span></span>`}<span class="label">${l}</span>${arrow}</button></li>`).join('')
+    : k === 'all'
+      ? all.map(([l]) => `<li><button class="menu-item text"><span class="label">${l}</span>${arrow}</button></li>`).join('')
+      : `<li><a class="menu-item shop-all" href="#"><span class="label">Shop all ${sub[k][0]}</span>${arrow}</a></li>` + sub[k][1].map(([l, s]) => `<li><a class="menu-item" href="#"><span class="thumb-sm contain"><img src="${img(s)}" alt=""></span><span class="label">${l}</span></a></li>`).join('');
+  return `<div class="dim"></div><nav class="menu-drawer"><div class="panel"><div class="panel-head">${head}<button class="close"><img src="${M}close.svg" alt=""></button></div><ul class="menu-list">${rows}</ul></div></nav>`;
+}
+// B: full-width panel
+function drawB(k) {
+  if (k === 'all') return `<div class="mega"><div class="dwrap"><div class="mega-cols">${all.map(([l, s, links]) =>
+    `<div><h4>${l}</h4><ul>${links.map(([t]) => `<li><a href="#">${t}</a></li>`).join('')}</ul><a class="all" href="#">Shop all</a></div>`).join('')}</div></div></div>`;
+  const [title, links] = sub[k];
+  return `<div class="mega"><div class="dwrap"><div class="mega-head"><h3>${title}</h3><a href="#">Shop all ${title} →</a></div>
+    <div class="cats">${links.map(([l, s]) => `<a class="cat" href="#"><img src="${img(s)}" alt=""><p class="title">${l}</p></a>`).join('')}</div></div></div>`;
+}
+// C: the mobile list under the hovered item
+function drawC(k, frame) {
+  if (k === 'all') return '';
+  const a = frame.querySelector(`[data-k="${k}"]`), left = a.getBoundingClientRect().left - frame.getBoundingClientRect().left;
+  const [title, links] = sub[k];
+  return `<div class="drop" style="left:${Math.min(left, frame.clientWidth - 336)}px"><ul class="menu-list"><li><a class="menu-item shop-all" href="#"><span class="label">Shop all ${title}</span>${arrow}</a></li>${links.map(([l, s]) =>
+    `<li><a class="menu-item" href="#"><span class="thumb-sm contain"><img src="${img(s)}" alt=""></span><span class="label">${l}</span></a></li>`).join('')}</ul></div>`;
+}
+
+const draw = { a: drawA, b: drawB, c: drawC };
+document.querySelectorAll('[data-opt]').forEach(frame => {
+  const opt = frame.dataset.opt;
+  frame.innerHTML = shell(opt);
+  const layer = frame.querySelector('.layer');
+  const show = k => {
+    layer.innerHTML = draw[opt](k, frame);
+    frame.querySelectorAll('[data-k]').forEach(a => a.dataset.k === k ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+  };
+  frame.querySelectorAll('[data-k]').forEach(a => {
+    a.addEventListener('mouseenter', () => show(a.dataset.k));
+    a.addEventListener('click', e => { e.preventDefault(); show(a.dataset.k); });
+  });
+  show(opt === 'a' ? 'root' : 'promo');
+});
+</script>
+</body>
+</html>

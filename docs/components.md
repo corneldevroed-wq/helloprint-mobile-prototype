@@ -77,6 +77,13 @@ remembered in `hp-hc-ans`.
 - **Trustpilot**: `DTRUST` widget (desktop header/footer), mobile USP ticker line `.usp-tp`, reviews row
   (`deskReviews()` desktop with arrows, `.m-revs` swipe row on mobile).
 - **Category cards**: `.cat` + `.collage` (home "Our Top Categories"), alternative `.d-cats2` (hidden).
+- **Menu**: one data source in app.js (`menu`, `sub`, `subAll`). Mobile: the drill-down drawer (`#menu`, `openMenu`, `pushPanel`).
+  Desktop: the mega menu `.mega` under `.dhead-nav` (2026-11-10, menu-desk-sketch B): hover a bar category = its products as `.cat`
+  cards + Shop all; All products (hover/click, and home "All categories" via `data-open-menu`) = the two-pane panel below
+  (the Browse all we offer list style). `?menu=<key>` (`all`, `promo`, `cards`…) opens it on load. Hover intent 150 ms, close 200 ms.
+  All products (11-10): `ALL_PRODUCTS` in app.js (the live en-ie mega menu: group → sub group → products) drives both the desktop
+  panel (`.mega-all`: `.mega-side` groups + `.mega-main` with `.mega-cols`) and the mobile drawer levels `g-<slug>` / `s-<slug>-<i>`.
+  Photos `assets/menu/all/<group slug>/<sub group name>.webp`.
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets

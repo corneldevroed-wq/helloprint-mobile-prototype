@@ -208,7 +208,7 @@ const SHELL_HEADER_DESK = `
       </div>
     </div></div>
     <nav class="dhead-nav" aria-label="Categories"><div class="dwrap">
-      <a href="#menu" data-proto="menu" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
+      <a href="#all-products" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
       ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
       <a href="#cs" class="dnav-help">Help Centre</a>
     </div></nav>
@@ -469,17 +469,6 @@ const menu = {
     { label: 'Bags', img: 'l1-bags.png', to: 'bags' },
     { label: 'Clothing', img: 'l1-clothing.png', to: 'clothing' },
   ]},
-  all: { title: 'All Products', items: [
-    { label: 'Promotional Prints', img: 'l2-promo.png', pos: 'left:0;top:26.1%;width:100%;height:62.92%', to: 'all-promo' },
-    { label: 'Stationary', img: 'l2-stationary.png', pos: 'left:-12.5%;top:5.52%;width:112.51%;height:75.01%', to: 'all-stationery' },
-    { label: 'Corporate Gifts', img: 'l2-gifts.png', fit: 'contain', to: 'all-gifts' },
-    { label: 'Stickers', img: 'l2-stickers.png', fit: 'contain', to: 'all-stickers' },
-    { label: 'Outdoor', img: 'l2-outdoor.png', fit: 'contain', to: 'all-outdoor' },
-    { label: 'Packaging', img: 'l2-packaging.png', fit: 'contain', to: 'all-packaging' },
-    { label: 'Hospitality', img: 'l2-hospitality.png', fit: 'contain', to: 'all-hospitality' },
-    { label: 'Events', img: 'l2-events.png', pos: 'left:-11.25%;top:6.14%;width:122.51%;height:81.67%', to: 'all-events' },
-    { label: 'Interior', img: 'l2-interior.png', fit: 'contain', to: 'all-interior' },
-  ]},
 };
 // Text-only sub-levels: [title, [label, slug]...]
 const sub = {
@@ -494,35 +483,142 @@ const sub = {
   gifts: ['Gifts', [['Notebooks', 'notebook-printing'], ['Water Bottles', 'printed-water-bottles'], ['Pens', 'printed-pens'], ['Mugs', 'personalised-mugs'], ['Umbrellas', 'umbrellas'], ['Top Gifts', 'top-gifts']]],
   bags: ['Bags', [['Tote Bags', 'printing-cottonbags'], ['Backpacks', 'printed-backpacks'], ['Drawstring Bags', 'printed-drawstringbags'], ['Shopper Bags', 'printed-shopperbags'], ['Travel bags', 'promotional-travel-bags'], ['Cooler Bags', 'cool-bag']]],
   clothing: ['Clothing', [['T-Shirts', 'tshirt-printing'], ['Hoodies & Sweatshirts', 'personalised-sweatshirts'], ['Polo Shirts', 'personalised-polo-shirts'], ['Caps', 'personalised-caps'], ['Jackets', 'printed-jackets'], ['Workwear', 'workwear-printing']]],
-  'all-promo': ['Promotional Prints', [['Booklets', 'brochure-and-booklet-printing'], ['Flyers', 'flyers'], ['Folded Leaflets', 'foldedleaflets'], ['Business Cards', 'businesscards-printing'], ['Cards & Vouchers', 'cards-and-invites'], ['Large Format', 'outdoor'], ['Promotional Gifts', 'goodies']]],
-  'all-stationery': ['Stationary', [['Business Cards', 'businesscards-printing'], ['Notes', 'notepad-printing'], ['Envelopes', 'envelopes'], ['Document Organisers', 'printed-folders'], ['Writing Instruments', 'printed-pens'], ['Office Accessories', 'stationery-and-office-supplies'], ['Calendars', 'calendars-printing']]],
-  'all-gifts': ['Corporate Gifts', [['Writing Instruments', 'printed-pens'], ['Office Supplies', 'office-supplies'], ['Drinkware', 'drinkware-printing'], ['Tech & Gadgets', 'personalised-gadgets'], ['Giveaways', 'goodies'], ['Outdoor & Leisure', 'promotional-outdoor-products'], ['Home & Living', 'home-living'], ['Food', 'promotional-food-drink']]],
-  'all-stickers': ['Stickers', [['Stickers on Roll', 'labels'], ['Labels On Roll', 'labels-on-roll'], ['Custom Size', 'customsizestickers'], ['Large Format', 'large-sticker-printing']]],
-  'all-outdoor': ['Outdoor', [['Banners', 'banner-printing'], ['Cafe Barriers', 'cafebarrier'], ['Signs and Panels', 'panels-and-signs'], ['Flags', 'flag-printing'], ['Roller Banner', 'rollupbanners-printing'], ['Beach Flags', 'beachflag-printing'], ['Large Stickers', 'large-sticker-printing'], ['Pavement Signs', 'pavementsigns'], ['Outdoor Furniture', 'outdoor-furniture']]],
-  'all-packaging': ['Packaging', [['Food Packaging', 'food-packaging']]],
-  'all-hospitality': ['Hospitality', [['Bar & Restaurant', 'industry/hospitality/restaurant'], ['Event & Festival', 'event-festivals-printing']]],
-  'all-events': ['Events', [['Festival', 'event-festivals-printing'], ['Wedding', 'industry/wedding'], ['Sport Events', 'sportsproducts'], ['Exhibition & Trade Show', 'exhibitionmaterial']]],
-  'all-interior': ['Interior', [['Wall Decoration', 'wall-decoration'], ['Interior Textiles', 'interior-textiles'], ['Home & Living', 'home-living']]],
 };
 // Each sub-level opens with a row to its own category page (so the main category is reachable from the drill-down)
 const subAll = {
   promo: 'promotional-printing', booklets: 'brochure-and-booklet-printing', cards: 'cards-and-invites', stationery: 'stationery-and-office-supplies',
   banners: 'banner-printing', flags: 'flag-printing', signs: 'panels-and-signs', stickers: 'all-stickers', gifts: 'corporate-gifts',
-  bags: 'promotional-bags', clothing: 'clothing-printing', 'all-promo': 'promotional-printing', 'all-stationery': 'stationery-and-office-supplies',
-  'all-gifts': 'corporate-gifts', 'all-stickers': 'all-stickers', 'all-outdoor': 'outdoor', 'all-packaging': 'packaging',
-  'all-hospitality': 'hospitality', 'all-events': 'events', 'all-interior': 'interior',
+  bags: 'promotional-bags', clothing: 'clothing-printing',
 };
-// Live images (helloprint.com/en-ie mega menu and category pages) in assets/menu/sub/<slug>.webp; Cafe Barriers has none live
-const NO_SUB_IMG = ['cafebarrier'];
+// Live images (helloprint.com/en-ie mega menu and category pages) in assets/menu/sub/<slug>.webp
 for (const [key, [title, links]] of Object.entries(sub)) {
-  menu[key] = { title, all: subAll[key], items: links.map(([label, slug]) => ({ label, href: '#' + slug, img: NO_SUB_IMG.includes(slug) ? null : `sub/${slug.replace(/\//g, '-')}.webp`, fit: 'contain' })) };
+  menu[key] = { title, all: subAll[key], items: links.map(([label, slug]) => ({ label, href: '#' + slug, img: `sub/${slug}.webp`, fit: 'contain' })) };
+}
+// All products: the helloprint.com/en-ie mega menu 1:1 (read 2026-11-10; Cornel: "this is how All products works").
+// [group, slug, [[sub group, slug, popular, [[product, slug]…]]…]]. Photos: assets/menu/all/<group slug>/<sub group name as slug>.webp
+// (by name: two sub groups can share a link, e.g. Bags: Sports & Travel Bags and Business Bags both go to printed-backpacks)
+const ALL_PRODUCTS = [
+  ['Christmas', 'christmas', [
+    ['Christmas Cards & Invitations', 'christmascards', 1, [['Christmas cards', 'christmascards'], ['Music cards', 'musiccards'], ['Christmas invitations', 'invitations'], ['Envelopes', 'standardenvelopes'], ['Christmas gift vouchers', 'vouchers']]],
+    ['Christmas Gifts', 'christmas-gifts', 0, [['Christmas mugs', 'personalised-mugs'], ['Water bottles', 'printed-water-bottles'], ['Writing sets', 'writing-sets'], ['Notebooks', 'notebook-printing'], ['Cutting boards', 'chopping-board'], ['Tote bags', 'printing-cottonbags']]],
+    ['Chocolate & Treats', 'christmas-chocolate-gifts', 0, [['Chocolate gift boxes', 'chocogiftbox'], ['Chocolate Christmas trees', 'chocoxmastree'], ['Christmas Chocolates', 'personalised-chocolate-gifts'], ['Logo chocolate letters', 'logoletter'], ['Chocolate letters', 'printletter']]],
+    ['Decorations & Hats', 'christmas-ornaments', 0, [['Christmas Ornaments', 'christmas-ornaments'], ['Custom baubles', 'custom-christmas-baubles'], ['Paper bauble', 'snowychristmasbaubleingiftbox'], ['Santa plush', 'gleefulsantaplush'], ['Christmas boot', 'nobochristmasboot'], ['Jingle Ball speaker', 'jingleballspeakerchristmasball'], ['Santa hat', 'bonochristmashat']]],
+    ['Gift Wrapping', 'christmas-bags', 0, [['Christmas Gift Bags', 'christmas-bags'], ['Paper Christmas bags', 'printing-paperbags'], ['Wrapping paper', 'christmaswrappingpaper'], ['Gift boxes', 'gift-boxes'], ['Christmas labels', 'labels-on-roll']]],
+    ['Calendars', 'adventcalendar', 0, [['Advent Calendars', 'adventcalendar'], ['Wall calendars', 'wallcalendars'], ['Diaries', 'diaries']]],
+    ['Christmas Dinner & Party', 'menucards', 0, [['Placemats', 'placemats'], ['Table cards', 'tabletalkers'], ['Coasters', 'coasters'], ['Tablecloths', 'tableclothregular'], ['Pochettos', 'cutlerybags']]],
+    ['Shop & Promotion', 'prepare-your-store-for-christmas', 0, [['Window stickers', 'windowstickers'], ['Christmas posters', 'posters'], ['Roller banners', 'budgetrollupbanners'], ['Flyers', 'standardflyers'], ['Stickers', 'stickers']]],
+  ]],
+  ['Promotion', 'promotional-printing', [
+    ['Booklets', 'brochure-and-booklet-printing', 1, [['Stapled Booklets', 'booklets'], ['Perfect Bound Booklets', 'perfectboundbrochures'], ['Wire-o Booklets', 'wireobooklets'], ['Magazines', 'magazines'], ['Hardback Books', 'hardcoverbooks'], ['Thread Sewn Books', 'threadsewnhardcoverbooks']]],
+    ['Flyers', 'flyers', 0, [['Classic Flyers', 'standardflyers'], ['Eco Flyers', 'ecoflyers'], ['Special Material Flyers', 'specialflyers'], ['Exclusive Finishing Flyers', 'flyersexclusivepaperfinish'], ['A5 Flyers', 'flyera5'], ['A4 Flyers', 'flyera4']]],
+    ['Folded Leaflets', 'foldedleaflets', 0, [['Half-Fold Leaflets', 'halffoldleaflets'], ['Tri-fold Leaflets', 'trifoldleaflets'], ['Z-fold Leaflets', 'zfoldleaflets'], ['Roll-Fold Leaflets', 'rollfoldleaflets8pages'], ['W-Fold Leaflets', 'zfoldleaflets8pages'], ['Cross-Fold Leaflets', 'frenchfoldleaflets']]],
+    ['Posters', 'poster-printing', 0, [['Standard Posters', 'posters'], ['Blueback Posters Paper', 'bluebackposters'], ['Custom Size Posters', 'customsizeposters'], ['Waterproof Posters', 'waterresistantposters'], ['Sticky Posters', 'stickyposters'], ['Abri/Shelter posters', 'abriposters']]],
+    ['Business Cards', 'businesscards-printing', 0, [['Classic Business Cards', 'standardbusinesscards'], ['Eco Friendly Business Cards', 'recycledbusinesscards'], ['PVC Cards white', 'whiteplasticbusinesscards'], ['Business Cards with Exclusive Finishes', 'foilbusinesscards'], ['Business Cards Special Materials', 'specialpaperbusinesscards'], ['Multilayered Business Cards', 'businesscardsmultilayer810']]],
+    ['Cards & Vouchers', 'cards-and-invites', 0, [['Greeting Cards', 'greetingcards'], ['Postcards', 'postcards'], ['Invitations', 'invitations'], ['Exclusive Finishes Greeting Cards', 'greetingcardsexclusivefinishing'], ['Vouchers', 'vouchers'], ['Loyalty Cards', 'loyaltycards']]],
+    ['Large Format', 'outdoor', 0, [['Roller Banners', 'budgetrollupbanners'], ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs and Panels', 'panels-and-signs'], ['Beach Flags', 'beachflag-printing'], ['Large Stickers', 'largestickers']]],
+    ['Promotional Gifts', 'goodies', 0, [['Lanyards', 'lanyards-printing'], ['Balloons', 'balloons-and-accesoires'], ['Cotton Bags', 'printing-cottonbags'], ['Buttons', 'personalised-buttons'], ['Keyrings', 'personalised-keyrings'], ['Stickers', 'stickers']]],
+  ]],
+  ['Stationery & Office', 'stationery-and-office-supplies', [
+    ['Business Cards', 'businesscards-printing', 1, [['Classic Business Cards', 'standardbusinesscards'], ['Eco Friendly Business Cards', 'recycledbusinesscards'], ['PVC Cards white', 'whiteplasticbusinesscards'], ['Business Cards with Exclusive Finishes', 'foilbusinesscards'], ['Business Cards Special Materials', 'specialpaperbusinesscards'], ['Multilayered Business Cards', 'businesscardsmultilayer810']]],
+    ['Notes', 'notepad-printing', 0, [['Notepads', 'notepads'], ['Notebooks', 'notebook-printing'], ['Desk Pads', 'deskpads'], ['Sticky Notes', 'sticky-notes'], ['Conference Folders', 'conference-folders']]],
+    ['Envelopes', 'envelopes', 0, [['Standard Envelopes', 'standardenvelopes'], ['Full Surface Envelopes', 'envelopesallover'], ['Padded Envelopes', 'paddedenvelopes'], ['Monster Envelopes', 'xlenvelopes'], ['Boardback envelopes', 'boardbackenvelopes'], ['Unprinted Envelopes', 'envelopesunprinted']]],
+    ['Document Organisers', 'printed-folders', 0, [['Presentation Folders', 'folders'], ['Ring Binders', 'binders'], ['Conference Folders', 'conference-folders'], ['Paper Clips', 'paper-clips'], ['Loose Leaf Documents', 'looseleaf'], ['Loop Stitched Brochures', 'loopstitchedbrochures']]],
+    ['Writing Instruments', 'printed-pens', 0, [['Pens', 'ballpoint-pens'], ['Standard Pencils', 'promotional-pencils'], ['Highlighter Pens', 'promotional-highlighters'], ['Eco Pens', 'eco-pens'], ['Luxury Pens', 'luxury-pens'], ['Writing Sets', 'writing-sets'], ['BIC Pens', 'bic-pens']]],
+    ['Office Accessories', 'stationery-and-office-supplies', 0, [['Notebooks', 'notebook-printing'], ['Pens', 'ballpoint-pens'], ['Office Stamps', 'officestamps'], ['Standard Sticky notes', 'postits'], ['Whiteboards', 'whiteboards'], ['Calendars', 'calendars-printing'], ['Presentation Folders', 'folders']]],
+    ['Calendars', 'calendars-printing', 0, [['Wall Calendars', 'wallcalendars'], ['Desk Calendars', 'deskcalendars'], ['3 Months Calendars Memo', 'threemonthscalendarsmemo'], ['3 Months Desk Calendars', 'threemonthscalendarsdesk']]],
+    ['More Office Supplies', 'office-supplies', 0, [['NCR pads', 'ncr-pad-printing'], ['Letterheads', 'letterheads'], ['Bookmarks', 'bookmark-printing'], ['Certificates', 'certificates'], ['Envelope Stickers', 'stickersenvelope'], ['Magnets', 'magnets'], ['Name Stickers', 'stickersname']]],
+  ]],
+  ['Signage & Outdoor', 'outdoor', [
+    ['Banners', 'banner-printing', 1, [['Custom Banners', 'banners'], ['Construction Fence Banners', 'constructionfencebanners'], ['Fence Banners', 'fencebanners'], ['Roller Banners', 'budgetrollupbanners'], ['Scaffolding Banners', 'scaffoldingbanners'], ['Backdrops', 'backdrops'], ['Wall Banners', 'wallbanners']]],
+    ['Signs and Panels', 'panels-and-signs', 0, [['Outdoor Panels', 'outdoorsigns'], ['Indoor Panels', 'indoorsigns'], ['Eco Signs', 'ecosigns'], ['Foamex Signs', 'foamexsigns'], ['Aluminium Signs', 'aluminiumsigns'], ['Correx Panels', 'correxsigns'], ['Cardboard Signs', 'cardboardsigns'], ['Trespa Signs', 'trespasigns'], ['Estate Agent Signs', 'vboards']]],
+    ['Flags', 'flag-printing', 0, [['Custom Flags', 'flagcustomsize'], ['Beach Flags', 'beachflag-printing'], ['Banner Flags', 'bannerflags'], ['Facade flags', 'facadeflags'], ['Bunting Flags', 'buntingflags'], ['Window Flags', 'windowflags'], ['Boat flags', 'boatflags'], ['Golf Flags', 'golfflags']]],
+    ['Roller Banner', 'rollupbanners-printing', 0, [['Roller Banners', 'budgetrollupbanners'], ['Cardboard Roller Banners', 'cardboardrollupbanners'], ['Banner with X Frame', 'xbanners'], ['XL Rollup Banners', 'xlrollupbanners'], ['Banner with L Frame', 'lbanners'], ['Double Roller Banners', 'rollupbannersdouble'], ['Mini Roller Banners', 'minirollupbanners'], ['Small stretch frames', 'tubebannerstands'], ['Outdoor Roller Banners', 'rollupbannersoutdoor']]],
+    ['Beach Flags', 'beachflag-printing', 0, [['Custom Feather Flags', 'featherflags'], ['Teardrop Flags', 'teardropflags'], ['Rectangle Beachflags', 'rectanglebeachflags'], ['Black Base Plate', 'lightblackplate'], ['Cross foot', 'crossfootmetal']]],
+    ['Large Stickers', 'largestickers', 0, [['Vinyl Stickers', 'vinylstickers'], ['Window Stickers', 'windowstickers'], ['Floor Stickers', 'floorstickers'], ['Wall Stickers', 'wallstickers'], ['Large Vinyl Stickers', 'largestickers'], ['Magnetic Signs', 'magneticsigns'], ['Reflective Stickers', 'reflectingstickers']]],
+    ['Pavement Signs', 'pavementsigns', 0, [['A-boards', 'aboards'], ['Waterbase Pavement Signs', 'watertank'], ['Swingbases', 'swingbase']]],
+    ['Outdoor Furniture', 'outdoor-furniture', 0, [['Outdoor Chairs', 'chairs'], ['Gazebo Tent', 'gazebotent'], ['High Folding Table', 'highfoldingtable'], ['Parasols', 'rectangularparasol'], ['Outdoor Rug', 'outdoorcarpet']]],
+  ]],
+  ['Stickers & Labels', 'all-stickers', [
+    ['Best Sellers', 'stickers', 1, [['Stickers on Roll', 'labels'], ['Custom Size Stickers', 'customsizestickers'], ['Large Vinyl Stickers', 'vinylstickers'], ['Window Stickers', 'windowstickers'], ['Sticker Sheets', 'stickersonsheet']]],
+    ['Labels On Roll', 'labels-on-roll', 0, [['Labels on Roll', 'labels'], ['Custom Size Labels On Roll', 'customsizestickers'], ['Labels on Roll (without dispenser)', 'labelsonrollnodispenser']]],
+    ['Custom Size', 'customsizestickers', 0, [['Custom Size Small Stickers', 'customsizestickers'], ['Custom Size Stickers on Roll', 'labelsonrollstandardownsize'], ['Custom Size Large Stickers', 'vinylstickers']]],
+    ['Large Format', 'largestickers', 0, [['Vinyl Stickers', 'vinylstickers'], ['Window Stickers', 'windowstickers'], ['Floor Stickers', 'floorstickers'], ['Wall Stickers', 'wallstickers'], ['Large Vinyl Stickers', 'largestickers'], ['Magnetic Signs', 'magneticsigns'], ['Reflective Stickers', 'reflectingstickers']]],
+    ['Surfaces', 'windowstickers', 0, [['Wall Stickers', 'wallstickers'], ['Floor Stickers', 'floorstickers'], ['Car stickers', 'carstickers']]],
+    ['Materials', 'paperstickers', 0, [['Transparent Stickers', 'transparentstickers'], ['White Film Stickers', 'whitefilmstickers'], ['Eco-Friendly Stickers', 'stickerseco'], ['Domed Stickers', 'domedstickers'], ['Neon Stickers', 'neonstickers'], ['Silver Stickers', 'silverstickers'], ['Kraft Stickers', 'kraftstickers']]],
+    ['Usage', 'bottletagsdiecut', 0, [['Laptop stickers', 'laptopstickers'], ['Envelope Stickers', 'stickersenvelope'], ['Name Stickers', 'stickersname'], ['Bumper Sticker', 'bumperstickers'], ['Magnetic Signs', 'magneticsigns'], ['Reflective stickers', 'reflectingstickers']]],
+  ]],
+  ['Gifts & Giveaways', 'corporate-gifts', [
+    ['Writing Instruments', 'printed-pens', 1, [['Pens', 'ballpoint-pens'], ['Standard Pencils', 'promotional-pencils'], ['Highlighter Pens', 'promotional-highlighters'], ['Eco Pens', 'eco-pens'], ['Luxury Pens', 'luxury-pens'], ['Writing Sets', 'writing-sets'], ['BIC Pens', 'bic-pens']]],
+    ['Office Supplies', 'office-supplies', 0, [['Notebooks', 'notebook-printing'], ['Notepads', 'notepad-printing'], ['Calendars', 'calendars-printing'], ['Sticky Notes', 'sticky-notes'], ['Erasable Notebooks', 'erasable-notebooks'], ['Conference Folders', 'conference-folders'], ['Presentation Folders', 'folders']]],
+    ['Drinkware', 'drinkware-printing', 0, [['Water Bottles', 'printed-water-bottles'], ['Thermos Bottles', 'thermos-flasks'], ['Mugs', 'personalised-mugs'], ['Glassware', 'glassware'], ['Sports Bottles', 'personalised-sport-bottles'], ['Paper Cups', 'paper-cups'], ['Reusable Plastic Cups', 'personalised-plastic-cups']]],
+    ['Tech & Gadgets', 'personalised-gadgets', 0, [['Powerbanks', 'printed-powerbanks'], ['Wireless Chargers', 'personalised-wireless-chargers'], ['Speakers', 'personalised-speakers'], ['Charging Cables', 'personalised-charging-cables'], ['USB Sticks', 'personalised-usb-sticks'], ['Phone Holders', 'printed-phone-holders'], ['Earphones', 'personalised-earphones']]],
+    ['Giveaways', 'goodies', 0, [['Lanyards', 'lanyards-printing'], ['Buttons', 'personalised-buttons'], ['Keyrings', 'personalised-keyrings'], ['Magnets', 'magnets'], ['Sunglasses', 'sunglasses'], ['Lighters', 'lighters'], ['Fans', 'personalised-fans']]],
+    ['Outdoor & Leisure', 'promotional-outdoor-products', 0, [['Umbrellas', 'umbrellas'], ['Tools & Multitools', 'personalised-tools-multitools'], ['Travel Accessories', 'custom-printed-travel-accessories'], ['Playing cards', 'cardgames'], ['cuddling toys', 'cuddling-toys'], ['Bike Accessories', 'personalised-bike-accessories'], ['Beach Essentials', 'beach-essentials']]],
+    ['Home & Living', 'home-living', 0, [['Bottle Openers', 'bottle-openers'], ['Chopping Boards', 'chopping-board'], ['Lunch Boxes', 'lunch-boxes'], ['Ambience Lighting', 'ambience-lighting'], ['Kitchen Accessories', 'kitchen-accessories'], ['Wine Accessories', 'wine-accessories'], ['Aprons', 'printed-aprons']]],
+    ['Food', 'promotional-food-drink', 0, [['Chocolate', 'personalised-chocolate-gifts'], ['Sweets', 'personalised-candies'], ['Snacks', 'personalised-snacks'], ['Mints', 'personalised-mints'], ['Gum', 'personalised-gum-gifts'], ['Drinks', 'personalised-drinks'], ['Tony Chocolonely', 'personalised-tonys-chocolonely-chocolates']]],
+  ]],
+  ['Bags', 'printed-bags', [
+    ['Goodie Bags', 'printing-cottonbags', 1, [['Drawstring Bags', 'printed-drawstringbags']]],
+    ['Sports & Travel Bags', 'printed-backpacks', 0, [['Travel bags', 'promotional-travel-bags'], ['Toiletry Bags', 'toiletrybags'], ['Suitcases', 'custom-suitcases']]],
+    ['Shopping Bags', 'printed-shopperbags', 0, [['Shopper Bags', 'printed-shopperbags'], ['Jute bags', 'printing-jutebags'], ['Cotton Gift Pouches', 'cotton-gift-pouches'], ['Shoulder Bags', 'printed-shoulder-bags'], ['Paper Bags', 'printing-paperbags'], ['Cotton Bags', 'printing-cottonbags']]],
+    ['Business Bags', 'printed-backpacks', 0, [['Casual Backpacks', 'casual-backpacks'], ['Laptop Backpacks', 'laptop-backpacks'], ['Anti-theft Backpacks', 'antitheft-backpacks'], ['Shoulder bags', 'printed-shoulder-bags'], ['Laptop Sleeves', 'laptop-sleeves']]],
+    ['Special Bags', 'cool-bag', 0, [['Beach Bags', 'beach-bags'], ['Bum Bags', 'personalised-bum-bags'], ['Toiletry Bags', 'toiletrybags'], ['Wallets', 'personalised-wallets']]],
+    ['Paper Bags', 'printing-paperbags', 0, [['Classic Kraft Paper bags', 'kraftbagsnonrib'], ['Luxury Paper Bags', 'luxurykraftbags'], ['Takeaway Bags', 'takeawaybags'], ['Kraft paper bags with white interior', 'kraftbagswithrib']]],
+  ]],
+  ['Hospitality', 'catering-and-hospitality-printing', [
+    ['Bar & Restaurant', 'industry/hospitality/restaurant', 1, [['Placemats', 'placemats'], ['Menu cards', 'menucards'], ['Coasters', 'coasters'], ['Glassware', 'glassware'], ['Table Accessories', 'food-and-drinks-party'], ['Table cards', 'tabletalkers'], ['Menu Stands', 'menu-stands'], ['Kitchen Accessories', 'kitchen-accessories']]],
+    ['Hotel', 'hotel-print', 0, [['Doorhangers', 'doorhangers'], ['Pillows', 'pillows'], ['Printed Water Bottles', 'waterbottles'], ['Towels', 'towels'], ['Event Mat Budget', 'entrancemat'], ['Hotel Card Holders', 'cardholders'], ['PVC Cards', 'plastic-business-cards'], ['Folded Leaflets', 'foldedleaflets'], ['Promotional Food', 'promotional-food-drink'], ['Workwear', 'workwear-printing']]],
+    ['Kitchen Accessories', 'kitchen-accessories', 0, [['Bottle Openers', 'bottle-openers'], ['Aprons', 'printed-aprons'], ['Chopping Boards', 'chopping-board'], ['Wine Accessories', 'wine-accessories'], ['Wine Coolers', 'personalised-wine-coolers'], ['Wine Gift Sets', 'personalised-wine-gift-sets'], ['Kitchen Knives and Sets', 'kitchen-knives-sets'], ['Pizza Cutters', 'personalised-pizza-cutters'], ['BBQ Accessories', 'personalised-bbq-accessories'], ['Bar Accessories', 'custom-bar-accessories']]],
+    ['Event & Festival', 'event-festivals-printing', 0, [['Reusable Eco Cups', 'ecoplasticcups'], ['Tickets', 'tickets'], ['Wristbands', 'custom-wristbands'], ['Balloons', 'balloons-and-accesoires'], ['Custom Banners', 'banners'], ['Gazebo Tent', 'gazebotent'], ['Breakable coins', 'breakcoins'], ['Consumption vouchers', 'consumptionvouchers'], ['Lanyards', 'lanyards-printing'], ['Table Accessories', 'food-and-drinks-party'], ['Backdrops', 'backdrops']]],
+  ]],
+  ['Exhibition & Trade Show', 'exhibitionmaterial', [
+    ['Exhibition Stands', 'exhibitionstands', 1, [['Zipper Wall Straight', 'zipperwallstraightbasic'], ['Popupimpressstraightl', 'popupbanners'], ['Zipperwallcurved', 'zipperwallcurved'], ['Tube Stands', 'tubebannerstands'], ['Curved Pop-up Wall', 'curvedpopupbanners']]],
+    ['Exhibition Counters', 'exhibitionfurniture', 0, [['Counter Professional Original L Black', 'counterprofessionaloriginall'], ['Counter with Shelf', 'straightcounter'], ['Counter Professional Original M', 'counterprofessionalm'], ['Counter Professional Square', 'counterprofessionalsquare'], ['Counter Professional Round', 'counterprofessionalround'], ['Brightbox Counter', 'brightboxcounter']]],
+    ['Roller Banner', 'rollupbanners-printing', 0, [['Roller Banners', 'budgetrollupbanners'], ['Cardboard Roller Banners', 'cardboardrollupbanners'], ['Banner with X Frame', 'xbanners'], ['XL Rollup Banners', 'xlrollupbanners'], ['Banner with L Frame', 'lbanners'], ['Double Roller Banners', 'rollupbannersdouble'], ['Mini Roller Banners', 'minirollupbanners'], ['Small stretch frames', 'tubebannerstands'], ['Outdoor Roller Banners', 'rollupbannersoutdoor']]],
+    ['Illuminated Displays', 'illuminated-digital-displays', 0, [['Brightbox Single', 'brightboxsingle'], ['Brightbox XL', 'brightboxxl'], ['Brightbox Counter', 'brightboxcounter']]],
+    ['Hanging banners', 'zipupround', 0, [['Zip-up Square M', 'zipupsquarem']]],
+    ['Information Stands', 'menu-stands', 0, [['Black Outdoor Menu', 'blackoutdoormenu'], ['Outdoor Menu Frame Stand Black', 'outdoormenuframestandblack'], ['Black Freestanding Menu Pole', 'blackfreestandingmenupole'], ['Slim Catalogue Stand', 'slimcataloguestand']]],
+    ['Exhibition Gifts', 'goodies', 0, [['Cotton Bags', 'printing-cottonbags'], ['Lanyards', 'lanyards-printing'], ['Drawstring Bags', 'printed-drawstringbags'], ['Notebooks', 'notebook-printing'], ['Pens', 'ballpoint-pens'], ['Keyrings', 'personalised-keyrings'], ['Buttons', 'personalised-buttons']]],
+    ['More Exhibition Essentials', 'exhibitionaccessoires', 0, [['Entrance Tickets', 'entrancetickets'], ['Wristbands', 'custom-wristbands'], ['Paper Bags', 'printing-paperbags'], ['Floor Stickers', 'floorstickers'], ['PVC Cards with circular punch hole', 'businesscardspvcwhitecircularpunchhole']]],
+  ]],
+  ['Packaging', 'all-packaging', [
+    ['Shipping and Postal', 'printed-packaging-boxes', 1, [['Padded Envelopes', 'paddedenvelopes'], ['Boardback Envelopes', 'boardbackenvelopes'], ['Monster Envelopes', 'xlenvelopes'], ['Postal Box with Flap', 'logopostalboxwithflap'], ['Standard Envelopes', 'standardenvelopes']]],
+    ['Paper Bags', 'printing-paperbags', 0, [['Classic Kraft Paper bags', 'kraftbagsnonrib'], ['Kraft Paper Bags Full Colour', 'kraftbagsfullcolour'], ['Luxury Paper Bags', 'luxurykraftbags'], ['Takeaway Bags', 'takeawaybags']]],
+    ['Gift Boxes', 'gift-boxes', 0, [['Pillow packs', 'pillowbox'], ['Gift Box with Flap', 'boxwithflap'], ['Luxury box with lid', 'boxwithlidluxury'], ['Removable lid boxes', 'boxwithlid'], ['Product box with hanger', 'productboxwithhanger']]],
+    ['Packing Accessories', 'packaging-accessories', 0, [['Tape', 'tape-printing'], ['Labels on a Roll', 'labels-on-roll'], ['Tissue Paper', 'tissuepaper'], ['Wrapping Paper Sheets', 'wrappingpaper'], ['Compliment Cards', 'complimentcards'], ['Swing Tags', 'swingtags']]],
+    ['Food Packaging', 'food-packaging', 0, [['Greaseproof Paper', 'greaseproofpaper'], ['Popcorn Box with Plug-in Bottom 9.9 x 9.9 x 19.6 cm', 'popcornbox'], ['Fries cone', 'pointebagsmediumprinted'], ['Takeaway Food Bowl', '1000mlbowl'], ['Snack Box Medium 11 x 19.6 x 5 cm', 'snacktrayswithlid'], ['Paper cups', 'paper-cups']]],
+    ['Bottle Packaging', 'bottlepackaging', 0, [['Wine Boxes', 'wineboxes'], ['Bottle labels', 'bottletagsdiecut'], ['Bottle Neck Labels', 'bottlenecklabels'], ['Wooden Wine Boxes', 'woodenwineboxes']]],
+  ]],
+  ['Photo Products & Cards', 'photo-printing', [
+    ['Wall Decoration', 'wall-decoration', 1, [['Stretched Canvas Prints', 'wallstretchframes'], ['Acrylic Prints', 'photoonplexiglass'], ['Photo on Poster (frame)', 'photoposters'], ['Photo on Aluminium', 'photoonaluminium']]],
+    ['Photo Gifts', 'photo-gifts', 0, [['Mugs with Photo', 'photo-mugs'], ['Puzzles', 'personalised-puzzle'], ['Photo Chocolates', 'chocophoto']]],
+    ['Cards & Invites', 'cards-and-invites', 0, [['Greeting Cards', 'greetingcards'], ['Postcards', 'postcards'], ['Invitations', 'invitations'], ['Christmas Cards', 'christmascards'], ['Vouchers', 'vouchers']]],
+    ['Other Photo Products', 'calendars-printing', 0, [['All Photo Products', 'photo-printing']]],
+  ]],
+  ['Occasions & Events', 'shop-by-occasion', [
+    ['Festival', 'event-festivals-printing', 1, [['Reusable Eco Cups', 'ecoplasticcups'], ['Tickets', 'tickets'], ['Wristbands', 'custom-wristbands'], ['Balloons', 'balloons-and-accesoires'], ['Custom Banners', 'banners'], ['Gazebo Tent', 'gazebotent'], ['Breakable coins', 'breakcoins'], ['Consumption vouchers', 'consumptionvouchers'], ['Lanyards', 'lanyards-printing'], ['Table Accessories', 'food-and-drinks-party'], ['Backdrops', 'backdrops']]],
+    ['Wedding', 'industry/wedding', 0, [['Wedding Invitations', 'weddinginvitations'], ['Table cards', 'tabletalkers'], ['Coasters', 'coasters'], ['Standard Envelopes', 'standardenvelopes'], ['Bottle Neck Labels', 'bottlenecklabels'], ['Bottle labels', 'bottletagsdiecut'], ['Menu cards', 'menucards']]],
+    ['Business Opening', 'business-opening', 0, [['Classic Business Cards', 'standardbusinesscards'], ['Posters', 'poster-printing'], ['Pavement Signs', 'pavementsigns'], ['Feather Flags', 'featherflags'], ['Banners', 'banner-printing'], ['Vinyl Stickers', 'vinylstickers'], ['Loyalty Cards', 'loyaltycards'], ['Flyers', 'flyers'], ['Balloons', 'balloons-and-accesoires']]],
+    ['Elections', 'election-printing', 0, [['Flyers', 'flyers'], ['Posters', 'poster-printing'], ['Folded Leaflets', 'foldedleaflets'], ['Roller Banners', 'budgetrollupbanners'], ['Banners', 'banner-printing'], ['Flags', 'flag-printing'], ['Signs and Panels', 'panels-and-signs'], ['Business Cards', 'businesscards-printing'], ['Clothing & Textile', 'clothing'], ['Buttons', 'personalised-buttons'], ['Pens', 'ballpoint-pens']]],
+    ['Corporate Events', 'budgetrollupbanners', 0, [['Pens', 'ballpoint-pens'], ['Notebooks', 'notebook-printing'], ['Lanyards', 'lanyards-printing'], ['Name Stickers', 'stickersname'], ['Cotton Bags', 'printing-cottonbags'], ['Folded Leaflets', 'foldedleaflets'], ['Cards & invites', 'cards-and-invites']]],
+    ['Welcome Kits', 'lanyards-printing', 0, [['Notebooks', 'notebook-printing'], ['Water Bottles', 'printed-water-bottles'], ['Cotton Bags', 'printing-cottonbags'], ['Backpacks', 'printed-backpacks'], ['Thermos Mugs', 'thermos-mugs'], ['Laptop Sleeves', 'laptop-sleeves'], ['Hoodies', 'personalised-hoodies'], ['T-shirts', 'tshirt-printing']]],
+    ['Sport Events', 'sportsproducts', 0, [['Flags', 'flag-printing'], ['Sport and Gym Accessories', 'sport-accessories'], ['Banners', 'banner-printing'], ['Certificates', 'certificates'], ['Drawstring Bags', 'printed-drawstringbags'], ['Lanyards', 'lanyards-printing'], ['Posters', 'poster-printing'], ['Reusable Plastic Cups', 'personalised-plastic-cups'], ['Sportswear', 'sportswear'], ['Caps', 'personalised-caps']]],
+    ['Marketing Campaign', 'promotional-printing', 0, [['Flyers', 'flyers'], ['Posters', 'poster-printing'], ['Roller Banners', 'budgetrollupbanners'], ['Vinyl Stickers', 'vinylstickers'], ['Banners', 'banner-printing'], ['Packaging accessories', 'packaging-accessories'], ['Stickers', 'stickers'], ['Vouchers', 'vouchers']]],
+  ]],
+];
+// Mobile: All products → the groups → their sub groups (photo) → the products; each level starts with its Shop all row
+const allImg = (g, name) => `all/${g}/${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.webp`;
+menu.all = { title: 'All Products', items: ALL_PRODUCTS.map(([label, g, subs]) => ({ label, img: allImg(g, subs[0][0]), fit: 'contain', to: 'g-' + g })) };
+for (const [title, g, subs] of ALL_PRODUCTS) {
+  menu['g-' + g] = { title, all: g, items: subs.map(([label], i) => ({ label, img: allImg(g, label), fit: 'contain', to: `s-${g}-${i}` })) };
+  subs.forEach(([stitle, s, , links], i) => menu[`s-${g}-${i}`] = { title: stitle, all: s, items: links.map(([label, slug]) => ({ label, href: '#' + slug })) });
 }
 
 const drawer = document.getElementById('menuDrawer'), menuLayer = document.getElementById('menu');
 const stack = [];
 const thumb = it => it.letter
   ? `<span class="thumb-sm"><span class="letter">${it.letter}</span></span>`
-  : it.img ? `<span class="thumb-sm${it.fit === 'contain' ? ' contain' : ''}"><img src="${M + it.img}" alt=""${it.pos ? ` style="${it.pos}"` : ''}></span>` : '';
+  : it.img ? `<span class="thumb-sm${it.fit === 'contain' ? ' contain' : ''}"><img src="${M + it.img}" alt=""></span>` : '';
 function renderPanel(key) {
   const lvl = menu[key], el = document.createElement('div');
   el.className = 'panel';
@@ -565,9 +661,71 @@ function closeMenu() {
   document.body.classList.remove('menu-open');
 }
 document.querySelector('[data-proto="menu"]')?.addEventListener('click', e => { e.preventDefault(); openMenu(); });
+
+// Desktop: the same menu as a mega menu under the category bar (menu-desk-sketch.html B, Cornel 2026-11-10).
+// Hover a category: its products as category cards + Shop all. Hover or click All products: the groups as link columns.
+// ?menu=<key> opens it on load (style guide; a link that shows a menu open). The base: more to come (Cornel).
+const megaNav = DESK && document.querySelector('.dhead-nav');
+let megaOpen = null;
+if (megaNav) {
+  const KEY = Object.fromEntries(menu.root.items.filter(it => it.to !== 'all').map(it => [subAll[it.to], it.to]));   // bar #slug → menu level
+  megaNav.querySelectorAll('a').forEach(a => {
+    const k = a.classList.contains('dnav-all') ? 'all' : KEY[a.getAttribute('href').slice(1)];
+    if (k) { a.dataset.mega = k; a.setAttribute('aria-expanded', 'false'); }
+  });
+  const panel = document.createElement('div');
+  panel.className = 'mega'; panel.hidden = true;
+  megaNav.after(panel);
+  const tile = it => `<a class="cat" href="${it.href}"><div class="collage"><img src="${M + it.img}" alt="" style="inset:0;object-fit:contain"></div><p class="title">${esc(it.label)}</p></a>`;
+  // All products: the groups left, the hovered group's sub groups right (photo, name, its products), Shop all under them
+  const group = i => { const [name, g, subs] = ALL_PRODUCTS[i];
+    return `<div class="mega-cols">${subs.map(([t, s, pop, links]) => `<div><a href="#${s}"><span class="thumb-sm contain"><img src="${M + allImg(g, t)}" alt=""></span><h3>${esc(t)}${pop ? badgeHtml('Popular') : ''}</h3></a>
+        <ul>${links.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('')}</ul></div>`).join('')}</div>
+      <a class="link" href="#${g}">Shop all ${esc(name)}</a>`; };
+  const html = k => k === 'all'
+    ? `<div class="dwrap mega-all"><nav class="mega-side" aria-label="All products">${ALL_PRODUCTS.map(([name, g], i) => `<a href="#${g}" data-group="${i}"${i ? '' : ' aria-current="true"'}>${esc(name)}</a>`).join('')}</nav>
+        <div class="mega-main">${group(0)}</div></div>`
+    : `<div class="dwrap"><div class="section-head"><h2>${esc(menu[k].title)}</h2><a class="link" href="#${menu[k].all}">Shop all ${esc(menu[k].title)}</a></div>
+        <div class="hscroll cats">${menu[k].items.map(tile).join('')}</div></div>`;
+  // Hovering a group shows it (a short wait, so crossing the list on the way to the right does not switch)
+  let groupTimer;
+  panel.addEventListener('mouseover', e => {
+    const a = e.target.closest('[data-group]');
+    clearTimeout(groupTimer);
+    if (a && !a.hasAttribute('aria-current')) groupTimer = setTimeout(() => {
+      panel.querySelector('.mega-side [aria-current]').removeAttribute('aria-current');
+      a.setAttribute('aria-current', 'true');
+      panel.querySelector('.mega-main').innerHTML = group(+a.dataset.group);
+    }, 80);
+  });
+  let cur = null, timer;
+  const expand = () => megaNav.querySelectorAll('[data-mega]').forEach(a => a.setAttribute('aria-expanded', a.dataset.mega === cur));
+  megaOpen = k => { clearTimeout(timer); if (k !== cur) { cur = k; panel.innerHTML = html(k); panel.hidden = false; expand(); } };
+  const close = () => { clearTimeout(timer); cur = null; panel.hidden = true; expand(); };
+  const later = (fn, ms) => { clearTimeout(timer); timer = setTimeout(fn, ms); };
+  // Hover intent: a short wait before the first open (no flash when the mouse only crosses the bar), switching is instant
+  megaNav.addEventListener('mouseover', e => {
+    const a = e.target.closest('[data-mega]');
+    if (a) later(() => megaOpen(a.dataset.mega), cur ? 0 : 150);
+    else if (cur) later(close, 200);   // Help Centre or the empty bar
+  });
+  [megaNav, panel].forEach(el => {
+    el.addEventListener('mouseleave', () => later(close, 200));
+    el.addEventListener('mouseenter', () => cur && clearTimeout(timer));
+  });
+  megaNav.querySelector('.dnav-all').addEventListener('click', e => { e.preventDefault(); cur === 'all' ? close() : megaOpen('all'); });
+  panel.addEventListener('click', e => e.target.closest('a') && close());
+  document.addEventListener('click', e => { if (cur && !megaNav.contains(e.target) && !panel.contains(e.target) && !e.target.closest('[data-open-menu]')) close(); });
+  document.addEventListener('keydown', e => e.key === 'Escape' && close());
+  const q = new URLSearchParams(location.search).get('menu');   // after components.js (badgeHtml)
+  if (q === 'all' || Object.values(KEY).includes(q)) addEventListener('DOMContentLoaded', () => megaOpen(q));
+}
+// "All categories" (home) and other links into the menu: the drawer on mobile, the mega menu on desktop
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-open-menu]'); if (!t) return;
-  e.preventDefault(); openMenu(); pushPanel(t.dataset.openMenu);
+  e.preventDefault();
+  if (megaOpen) return megaOpen(t.dataset.openMenu);
+  openMenu(); pushPanel(t.dataset.openMenu);
 });
 menuLayer.addEventListener('click', e => {
   const to = e.target.closest('[data-menu-to]'), back = e.target.closest('[data-menu-back]'), close = e.target.closest('[data-menu-close]');

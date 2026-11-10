@@ -50,8 +50,8 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary img { width: 24px; height: 24px; transition: transform .2s; }
 .acc details[open] summary img { transform: rotate(180deg); }
-.acc ul { list-style: none; padding: 4px 0 8px; display: flex; flex-direction: column; gap: 8px; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }
-.acc ul a:hover { color: var(--black); text-decoration: underline; }
+.acc ul, .mega-cols ul, .dfoot-cols ul { list-style: none; padding: 4px 0 8px; display: flex; flex-direction: column; gap: 8px; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }
+.acc ul a:hover, .mega-cols ul a:hover, .dfoot-cols ul a:hover { color: var(--black); text-decoration: underline; }
 .btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 40px; border-radius: var(--r-pill); font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .btn.primary { background: var(--light-green); color: var(--white); }
 .btn.primary.paypal { background: #ffc439; }   /* the pay button for a wallet: its brand button (the brands' colours, not ours): PayPal yellow with its wordmark, */
@@ -483,15 +483,15 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .desk .plp .product .usp-list li { font-size: var(--t-14); line-height: var(--lh-14); }
 .desk .plp .product .usp-list svg { margin-top: 3px; }   /* centred on the 22px line */
 /* Ideas beyond business cards: one row of small category cards; desktop all 6 across the content width, square */
-.desk .plp .cats { margin-top: 0; gap: 16px; }
-.desk .plp .cats .cat { aspect-ratio: 1; justify-content: center; }
-.desk .plp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }   /* the image fills the card above the title (less grey) */
+.desk .plp .cats, .mega .cats { margin-top: 0; gap: 16px; }
+.desk .plp .cats .cat, .mega .cat { aspect-ratio: 1; justify-content: center; }
+.desk .plp .cats .cat .collage, .mega .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }   /* the image fills the card above the title (less grey) */
 .desk .plp.clp .dc-card { height: 144px; }
 /* Category rows on the category pages (mobile): bigger square cards, the image fills the space above the title */
 html:not(.desk) .plp.clp .cats .cat { flex-basis: 184px; }
 html:not(.desk) .plp.clp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }
 .desk .d-rev-nav { position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
-.desk .plp .cats .cat .title { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title size, as the grey category tiles (16/22) */
+.desk .plp .cats .cat .title, .mega .cat .title { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title size, as the grey category tiles (16/22) */
 html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh-20) !important; letter-spacing: -0.4px !important; }   /* promo card titles on mobile = the section title size (20/24), on every page (Cornel, 2026-10-28) */
 /* Grey category tiles on desktop: one height everywhere (120px, also in rows of their own). A promo card + categories
    block: the card stops in the middle (the 50/50 grid, same edge as the 4-column rows), 3 tile rows = 392px, close to
@@ -500,9 +500,9 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
-.plp .section-head .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
-.plp .section-head .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
-.plp .section-head .link, .hc-card .link, .ha-back { text-decoration: none; }
+.plp .section-head .link, .mega .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .mega .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .mega .link, .hc-card .link, .ha-back { text-decoration: none; }
 .desk .plp .d-acc details p { font-size: var(--t-14); line-height: var(--lh-14); }
 .desk .plp .d-acc summary { font-size: var(--t-16); line-height: var(--lh-16); }   /* FAQ questions = the card titles on the page (16/22 desktop, 14 mobile) */
 .plp .oc-faq summary { font-size: var(--t-14); line-height: var(--lh-tight); }   /* mobile: = the card titles (14px) */
@@ -601,6 +601,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
    (to do: 2px green + number + the primary button; done: 1px grey + a check + a small Change), the band at their bottom
    (cream: the deadline / check in progress; light grey: the pay logos) */
 .oc-strip { position: relative; display: flex; flex-direction: column; align-items: center; padding: 40px 16px 24px; text-align: center; background: var(--dark-green); color: var(--white); }   /* mobile: edge to edge under the steps; everything centred; the check half over the top edge (Cornel 2026-11-10): 24 extra above, 16 from its bottom to the title */
+.oc-strip::before { content: ''; position: absolute; inset: 12px; background: url(icons/print-mark.svg) no-repeat left top / 24px, url(icons/print-mark.svg) no-repeat right top / 24px, url(icons/print-mark.svg) no-repeat left bottom / 24px, url(icons/print-mark.svg) no-repeat right bottom / 24px; opacity: .3; pointer-events: none; }   /* a printer's registration mark in every corner, 24, 12 in, white 30% (Cornel 2026-11-10, print-marks-sketch.html A) */
 .oc-strip svg { position: absolute; top: -24px; left: calc(50% - 24px); width: 48px; height: 48px; }
 .oc-strip circle { fill: var(--light-green); }
 .oc-strip path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: oc-draw .6s .3s ease-out forwards; }   /* the check draws itself once */

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Print marks sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261122x">
+<link rel="stylesheet" href="../design-system/components.css?v=20261122x">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261122x">
+<!-- Sketch only, not linked from the prototype: a registration mark (the printer's target, Cornel 2026-11-10) in the corners of the
+     thank you bar on order confirmed. The bar is the real .oc-strip; only the marks are new -->
+<style>
+  body { padding: 32px 16px 64px; background: var(--white); }
+  .sk { max-width: 1064px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+  .sk > header h1 { font-size: var(--t-24); line-height: 32px; }
+  .sk > header p { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); max-width: 680px; }
+  .sk-opt { display: flex; flex-direction: column; gap: 16px; }
+  .sk-opt h2 { font-size: var(--t-20); line-height: var(--lh-20); }
+  .sk-opt h2 small { margin-left: 8px; font-size: var(--t-12); font-weight: 600; color: var(--white); background: var(--light-green); padding: 2px 8px; border-radius: var(--r-pill); vertical-align: middle; }
+  .sk-opt > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); max-width: 680px; }
+  .sk-pair { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .sk-pair figure { display: flex; flex-direction: column; gap: 8px; padding-top: 24px; }
+  .sk-pair figcaption { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .sk-m { width: 358px; } .sk-d { width: 608px; max-width: 100%; }
+  .sk-m .oc-strip, .sk-d .oc-strip { margin: 0; }
+  .sk-pair .oc-strip > svg path { animation: none; stroke-dashoffset: 0; }   /* the check drawn, without its one-time animation */
+  .sk-d .oc-strip { border-radius: var(--r-l); padding: 40px 24px 24px; }
+  /* The mark: a circle with a cross through it, thin white lines */
+  .reg { position: absolute; width: 16px; height: 16px; color: var(--white); pointer-events: none; opacity: .3; }
+  .reg svg { position: static; width: 100%; height: 100%; }
+  .reg path { fill: currentColor; stroke: none; stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+  .tl { top: 12px; left: 12px; } .tr { top: 12px; right: 12px; } .bl { bottom: 12px; left: 12px; } .br { bottom: 12px; right: 12px; }
+</style>
+</head>
+<body>
+<main class="sk">
+  <header>
+    <h1>Registration marks on the thank you bar</h1>
+    <p>The printer's target (Cornel’s print mark: a circle with a cross) in the corners of the dark green bar on order confirmed: a detail only a printer has, at the moment the order goes to print. Mobile (edge to edge, 358 here) and desktop (the 608 card) side by side.</p>
+  </header>
+
+  <section class="sk-opt sk-a">
+    <h2>A · Four corners, white 30%<small>My pick</small></h2>
+    <p>A mark in every corner, 16 across, 12 in from the edge, white 30% (Cornel: white, much smaller, 30%): small enough to be a detail you discover, it reads as a print sheet without pulling attention from the title. On mobile the top two sit beside the check, clear of it.</p>
+    <div class="sk-pair" data-marks="tl tr bl br"></div>
+  </section>
+
+  <section class="sk-opt sk-b">
+    <h2>B · Two corners, white 30%</h2>
+    <p>Only top left and bottom right, as on a press sheet that is checked diagonally: calmer, a little less symmetric.</p>
+    <div class="sk-pair" data-marks="tl br"></div>
+  </section>
+
+</main>
+<script>
+  const check = '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-15"/></svg>';
+  const REG = 'M40.6982 19.877C50.8724 20.3781 59.033 28.5387 59.5342 38.7129H79.4121V40.6982H59.5342C59.0333 50.8726 50.8726 59.033 40.6982 59.5342V79.4121H38.7129V59.5332C28.5386 59.0321 20.379 50.8725 19.8779 40.6982H0V38.7129H19.8779C20.3791 28.5386 28.5386 20.378 38.7129 19.877V0H40.6982V19.877ZM21.8662 40.6982C22.3634 49.7758 29.6354 57.0477 38.7129 57.5449V40.6982H21.8662ZM40.6982 40.6982V57.5449C49.7757 57.0476 57.0477 49.7757 57.5449 40.6982H40.6982ZM38.7129 21.8652C29.6354 22.3623 22.3634 29.6354 21.8662 38.7129H38.7129V21.8652ZM40.6982 38.7129H57.5449C57.0477 29.6355 49.7757 22.3625 40.6982 21.8652V38.7129Z';   // Cornel's print mark (print mark.svg, 80 × 80)
+  const reg = c => `<span class="reg ${c}" aria-hidden="true"><svg viewBox="0 0 80 80"><path d="${REG}"/></svg></span>`;
+  const strip = marks => `<section class="oc-strip">${check}${marks.map(reg).join('')}<div><h1>Thank you, Anna!<br>Your order is in.</h1>
+    <p>Order HP-IE-4821937 · confirmation sent to <b>anna.murphy@example.ie</b></p></div></section>`;
+  document.querySelectorAll('.sk-pair').forEach(p => {
+    const m = p.dataset.marks.split(' ');
+    p.innerHTML = `<figure class="sk-m">${strip(m)}<figcaption>Mobile</figcaption></figure><figure class="sk-d">${strip(m)}<figcaption>Desktop</figcaption></figure>`;
+  });
+</script>
+</body>
+</html>
