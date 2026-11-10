@@ -5,6 +5,13 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Order status blocks are design system** (Cornel): the thank you bar, the action blocks (to do / done) and the cream band
+  moved from pages.css to components.css, with a style guide section "Order status", so My account can reuse them. "Track your
+  order" is a calm white outline (not filled) on the dark green.
+- **11-10 — Order confirmed, all done: "Track your order" in the thank you bar** (Cornel): white outline button (40, centred) under
+  "Everything's in", to the order in My account; only when nothing is left to do (a to-do's button comes first). No All done popup on
+  opening an order that was complete at checkout: the bar already says it; the popup stays the reward for finishing on this page.
+  Open: guests have no account (then e.g. "Create an account to track your order").
 - **11-10 — Order confirmed: "Payment received" also when paid at checkout** (Cornel): a done block with the amount and the logo of
   the method (card, Apple Pay, Google Pay, PayPal, Revolut Pay), with the done blocks. After a redirect the customer's question is "did
   it work?"; payment is now always a block (to do with Pay later, else done). Payment in Order details stays (the record).

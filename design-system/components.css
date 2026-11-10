@@ -596,3 +596,45 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 @media (hover: hover) { [data-tip]:hover::after, [data-tip]:hover::before { visibility: visible; opacity: 1; } }
 .desk .icon-btn { width: 32px; height: 32px; }   /* mobile 40: the height of the dropdown, a thumb target */
 .totals .info-btn .material-symbols-rounded { font-size: 16px; color: var(--dark-grey); }
+
+/* Order status (order confirmed, later My account; moved from pages.css 2026-11-10): the thank you bar, the action blocks
+   (to do: 2px green + number + the primary button; done: 1px grey + a check + a small Change), the band at their bottom
+   (cream: the deadline / check in progress; light grey: the pay logos) */
+.oc-strip { position: relative; display: flex; flex-direction: column; align-items: center; padding: 40px 16px 24px; text-align: center; background: var(--dark-green); color: var(--white); }   /* mobile: edge to edge under the steps; everything centred; the check half over the top edge (Cornel 2026-11-10): 24 extra above, 16 from its bottom to the title */
+.oc-strip svg { position: absolute; top: -24px; left: calc(50% - 24px); width: 48px; height: 48px; }
+.oc-strip circle { fill: var(--light-green); }
+.oc-strip path { fill: none; stroke: var(--white); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; animation: oc-draw .6s .3s ease-out forwards; }   /* the check draws itself once */
+@keyframes oc-draw { to { stroke-dashoffset: 0; } }
+.oc-strip h1 { color: var(--white); }   /* the standard h1 (Cornel 2026-11-10), white on the dark green */
+.oc-strip p { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: rgba(255,255,255,.8); overflow-wrap: anywhere; }
+.oc-strip p b { color: var(--white); font-weight: 600; }
+.oc-strip .btn { margin-top: 16px; padding: 0 24px; border-color: var(--white); background: none; color: var(--white); }   /* all done: Track your order (the order in My account), calm: a white outline on the dark green, not a filled button (Cornel 2026-11-10) */
+.oc-acts { display: flex; flex-direction: column; gap: 16px; }   /* 16 between the blocks, as the cart cards (Cornel 2026-11-09) */
+.oc-act { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 2px solid var(--light-green); border-radius: var(--r-l); }   /* the only green-outlined, numbered blocks: what the customer still has to do; one compact row each, the button right */
+.oc-act .row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.oc-act .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
+.oc-act .row .t { flex: 1; min-width: 140px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-act .row .t b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+.oc-act .row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.oc-act .btn { flex: 1 0 100%; }   /* mobile: the standard 40 button over the full width under the row, as the cart's buttons */
+.desk .oc-act .btn { flex: none; margin-left: auto; padding: 0 24px; }   /* desktop: every button on the right of its row */
+.oc-act > .pm-logos, .oc-foot { flex-wrap: wrap; justify-content: center; margin: 0 -14px -14px; padding: 8px 14px; border-radius: 0 0 8px 8px; background: var(--light-grey); }   /* a band attached to the bottom of the block: the pay logos on light grey, the upload notes on cream (below) */
+.oc-foot { display: block; text-align: center; text-wrap: balance; font-size: var(--t-12); line-height: var(--lh-12); background: var(--cream); color: var(--black); }   /* the deadline and the check in progress in a cream band, so it stands out (Cornel 2026-11-10) */
+.oc-foot b { font-weight: 600; }   /* the deadline, the chosen check */
+.oc-act > .pm-logos img { height: 22px; }
+.oc-act > .pm-logos .pm-brand { width: 48px; height: 22px; }
+.oc-act > .pm-logos .pm-brand img { height: auto; }
+.oc-act > .pm-logos .pm-brand.apple img { height: 100%; }
+.oc-act > .pm-logos .pm-brand.google { font-size: var(--t-12); }
+.oc-act > .pm-logos .pm-brand.google img { width: 10px; }
+.oc-act > .pm-logos .pm-brand.paypal img { width: 34px; }
+.oc-act .btn img { width: 20px; height: 20px; filter: brightness(0) invert(1); }   /* the PDP's upload icon, white on the green button */
+.oc-act.done { padding: 15px; border: 1px solid var(--outline); }   /* done (uploaded / paid): 1px grey (the content stays where it was), a check instead of its number; to do: 2px green */
+.oc-act.done .oc-foot { margin: 0 -15px -15px; border-radius: 0 0 9px 9px; }
+.oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.oc-act .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }   /* the cart line without its quantity row: no line under the date */
+.oc-act .row > .pm-logos { display: flex; gap: 16px; margin-left: auto; }   /* paid: the logo of the method, right in the row */
+.oc-act.done .btn { flex: none; height: 32px; margin-left: auto; padding: 0 16px; font-size: var(--t-14); line-height: var(--lh-14); }   /* a done upload's Change (Cornel 2026-11-10, was View · Change links): small and right in its head row, also mobile, calmer than the to-do's Upload; view = the artwork tile */
+.oc-new { animation: oc-new 1.6s ease-out; }   /* the card the files just went to lights up once */
+@keyframes oc-new { 0%, 40% { box-shadow: 0 0 0 3px var(--tint); border-color: var(--light-green); } 100% { box-shadow: 0 0 0 3px transparent; } }
+.desk .oc-strip { padding: 40px 24px 24px; border-radius: var(--r-l); }   /* desktop: a card with round corners */
