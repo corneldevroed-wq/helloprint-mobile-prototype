@@ -12,8 +12,7 @@ html { scroll-behavior: smooth; }   /* the sidebar glides to a topic */
 .ds-hero::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }   /* overlay, so the title reads */
 .ds-hero b { position: relative; z-index: 1; font-weight: 800; font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; color: var(--white); }   /* display size */
 .ds { display: grid; grid-template-columns: 240px minmax(0, 1fr); max-width: 1280px; margin: 0 auto; }
-.ds-side { position: sticky; top: 64px; align-self: start; height: calc(100vh - 64px); overflow-y: auto; padding: 32px 16px 32px 24px; scrollbar-width: none; }
-.ds-side::-webkit-scrollbar { display: none; }   /* the sidebar scrolls, without a scrollbar (Cornel, 2026-11-10) */
+.ds-side { padding: 32px 16px 32px 24px; }   /* scrolls with the page: not sticky, no scrollbar of its own (Cornel, 2026-11-10) */
 .ds-side h4 { margin: 16px 0 8px; padding: 16px 0 0 12px; border-top: 1px solid var(--line); font-weight: 600; font-size: 12px; line-height: 17px; color: var(--dark-grey); }   /* a light line between the groups */
 .ds-side h4:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 .ds-side a { display: block; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 22px; color: var(--black); }
@@ -37,7 +36,7 @@ html { scroll-behavior: smooth; }   /* the sidebar glides to a topic */
   .ds-top b { display: none; }
   .ds-hero b { font-size: var(--t-28); line-height: 32px; letter-spacing: -0.56px; }
   .ds-menu-btn { display: inline-flex; }
-  .ds-side { position: fixed; top: 64px; left: 0; z-index: 25; width: 280px; background: var(--white); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .2s; }
+  .ds-side { position: fixed; top: 64px; left: 0; z-index: 25; width: 280px; height: calc(100vh - 64px); overflow-y: auto; scrollbar-width: none; background: var(--white); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .2s; }
   .ds-side.open { transform: none; }
   .ds-main { padding: 24px 16px 64px; }
 }
