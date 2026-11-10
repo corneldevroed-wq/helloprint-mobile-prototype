@@ -6,9 +6,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261121e">
-<link rel="stylesheet" href="../design-system/components.css?v=20261121e">
-<link rel="stylesheet" href="pages.css?v=20261121e">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261121q">
+<link rel="stylesheet" href="../design-system/components.css?v=20261121q">
+<link rel="stylesheet" href="pages.css?v=20261121q">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -24,6 +24,7 @@
       <li class="done">Payment</li>
       <li class="current" aria-current="step">Confirmed</li>
     </ol>
+    <div class="oc-top" id="ocTop"></div>   <!-- the thank you: desktop over both columns (Cornel 2026-11-09) -->
     <div class="oc" id="oc"></div>
   </main>
   <footer data-shell="checkout-footer"></footer>
@@ -59,8 +60,8 @@
   </div>
 </div>
 
-<script src="app.js?v=20261121e"></script>
-<script src="../design-system/components.js?v=20261121e"></script>
+<script src="app.js?v=20261121q"></script>
+<script src="../design-system/components.js?v=20261121q"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -82,9 +83,10 @@
 
     // 2 · the actions: one upload per product that still needs a file (the PDP's drop field), then the payment
     const n = todo.length + (toPay ? 1 : 0);
-    const logos = `<span class="pm-logos"><img src="assets/pay-visa.svg" alt="Visa"><img src="assets/pay-maestro.svg" alt="Maestro"><img src="assets/pay-mastercard.svg" alt="Mastercard">
-      <span class="pm-brand apple"><img src="assets/checkout/applepay.png" alt="Apple Pay"></span><span class="pm-brand google"><img src="assets/checkout/google-g.svg" alt="">Pay</span>
-      <span class="pm-brand paypal"><img src="assets/checkout/paypal-word.png" alt="PayPal"></span><span class="pm-brand"><img src="assets/checkout/revolut.png" alt="Revolut Pay"></span></span>`;
+    const PM = { 'Credit card': '<img src="assets/pay-visa.svg" alt="Visa">', 'Apple Pay': '<span class="pm-brand apple"><img src="assets/checkout/applepay.png" alt="Apple Pay"></span>',
+      'Google Pay': '<span class="pm-brand google"><img src="assets/checkout/google-g.svg" alt="Google">Pay</span>', PayPal: '<span class="pm-brand paypal"><img src="assets/checkout/paypal-word.png" alt="PayPal"></span>',
+      'Revolut Pay': '<span class="pm-brand"><img src="assets/checkout/revolut.png" alt="Revolut Pay"></span>' };
+    const logos = `<span class="pm-logos">${PM['Credit card']}<img src="assets/pay-maestro.svg" alt="Maestro"><img src="assets/pay-mastercard.svg" alt="Mastercard">${Object.values(PM).slice(1).join('')}</span>`;
     // A block stays after its upload or payment and turns into "done" (Cornel 2026-11-09): the artwork replaces the product photo
     // and opens the artwork popup. Still to do: green outline + number; done: grey outline + a check
     const tick = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
@@ -104,13 +106,13 @@
           <p class="oc-foot">${paidCheck ? `<b>${paidCheck}</b>` : 'File check'} in progress, proof coming soon</p></div>`
         : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span>
           <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>${lineOf(l)}
-          <p class="oc-foot due">Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date</p></div>`; };
+          <p class="oc-foot">Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date</p></div>`; };
     const ups = lines.filter(l => l.up), todoActs = ups.filter(l => l.needs).map(upAct).join('');   // first: the uploads still to do are numbered before the payment
     const paid = o.when === 'later' && o.paid;
     const payAct = toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
           <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by 10:30 on ${etaApprove(first(lines).arrives)} · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
           <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>`
-      : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span></div></div>` : '';
+      : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span>${PM[o.paidWith] ? `<span class="pm-logos">${PM[o.paidWith]}</span>` : ''}</div></div>` : '';   // the logo of the method it was paid with, on the right (Cornel 2026-11-10)
     const actions = n || ups.length || paid ? `<section class="oc-sec"><h2>${n ? (n === 1 ? '1 thing' : n + ' things') + ' to start printing' : ups.length > 1 ? 'Your designs' : ups.length ? 'Your design' : 'Payment'}</h2>
       <p class="oc-lead">${[!n && 'We’ve got everything we need.', ups.length && 'We check every file for free and send you a proof.'].filter(Boolean).join(' ')}</p>
       <div class="oc-acts">${todoActs}${toPay ? payAct : ''}${ups.filter(l => !l.needs).map(upAct).join('')}${toPay ? '' : payAct}</div></section>` : '';   // what still needs to be done on top, then what's done
@@ -159,7 +161,8 @@
       <span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
       <a class="btn outline" href="index.html">Continue shopping</a></section>`;
 
-    document.getElementById('oc').innerHTML = strip + actions + products + details + end;
+    document.getElementById('ocTop').innerHTML = strip;   // the thank you: on desktop over both columns
+    document.getElementById('oc').innerHTML = actions + products + details + end;
     // The last thing just got done (not on opening the page): the all-done moment
     if (wasDone === false && done) setTimeout(() => allDone(lines), 400);
     wasDone = done;
@@ -269,7 +272,7 @@
       openSheet('artwork');
     }
     if (e.target.closest('[data-pay]')) {   // prototype: paying here = the payment link
-      order.paid = true; save(); render();
+      order.paid = true; order.paidWith = 'PayPal'; save(); render();   // prototype: the link is paid with PayPal
       showToast('Payment received, thank you!');
     }
   });
@@ -303,12 +306,17 @@
   function allDone(lines) {
     const ups = lines.filter(l => l.up);   // files can still be changed (Change in their block) until the earliest deadline
     const dates = [...new Set(lines.map(l => l.arrives))].sort((a, b) => etaDate(a) - etaDate(b)).map(d => etaShort(etaDate(d)));
+    // each product keeps its own deadline (Cornel 2026-11-10): one date when they share it, else every date with its products, earliest first
+    const dl = [...new Set([...ups].sort((a, b) => etaDate(a.arrives) - etaDate(b.arrives)).map(l => etaApprove(l.arrives)))]
+      .map(d => [d, ups.filter(l => etaApprove(l.arrives) === d).map(l => esc(l.name))]);
+    const and = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a.at(-1) : a[0];
+    const until = dl.length === 1 ? `<b>10:30 on ${dl[0][0]}</b>` : '10:30 on ' + and(dl.map(([d, names]) => `<b>${d}</b> for ${and(names)}`));
     const when = dates.length > 1 ? `between <b>${dates[0]}</b> and <b>${dates.at(-1)}</b>` : `on <b>${dates[0]}</b>`;
     document.getElementById('yayBody').innerHTML = `<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="48"/><path d="M28 50l14 14 26-30"/></svg>
       <h2 id="yayTitle">All done${order.first ? ', ' + order.first.replace(/</g, '&lt;') : ''}!</h2>
       <p>We’ve got everything we need. Your print goes into production and arrives ${when}.</p>
       <button class="btn primary" type="button" data-close-sheet>Great, thanks!</button>
-      ${ups.length ? `<small>Want to change a file? You can still upload a new one until <b>10:30 on ${etaApprove(ups.reduce((a, b) => (etaDate(a.arrives) <= etaDate(b.arrives) ? a : b)).arrives)}</b>.</small>` : ''}`;
+      ${ups.length ? `<small>Want to change a file? You can still upload a new one until ${until}.</small>` : ''}`;
     openSheet('yay');
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link', '--white'];

@@ -522,7 +522,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
 .desk .hc-center { position: relative; z-index: 1; }
 .desk .hc-center h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
-.desk .ha-body h1, .desk .cart-page h1, .desk .co-head h2, .desk .cart-side h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
+.desk .ha-body h1, .desk .cart-page h1, .desk .oc-strip h1, .desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
 /* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
    question = card title, hover) with the grey list arrow right instead of the fold chevron */
 .hc-rows { list-style: none; border-top: 1px solid var(--line); }

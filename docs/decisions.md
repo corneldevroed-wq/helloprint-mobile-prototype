@@ -5,6 +5,10 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Checkout desktop (`details.html`, `payment.html`, Nov 5, 2026)
+- **11-10 — Order confirmed: the thank you stays dark green, over both columns on desktop** (Cornel, switch Thanks A): tried
+  light grey in the first column (B) because the green felt busy, but A won; switch and B removed. Same day: the h1 and the section
+  h2s are the standard sizes (desktop 24/32, mobile 24/28 and 20/24); the upload bands (deadline and check in progress) both cream,
+  the pay logos stay light grey; "Payment received" shows the logo of the method it was paid with on the right (prototype: PayPal).
 - **11-09 — PDP: the uploaded file stays clickable** (Cornel): once files are uploaded and the popup is closed, on the "Upload your
   artwork" option (mobile list, desktop card, the bar's drop-up) the thumbnail opens the big artwork popup (as the cart and order
   confirmed) and the rest of the option opens the upload popup with the files (change, remove, add). Without files it only selects.
