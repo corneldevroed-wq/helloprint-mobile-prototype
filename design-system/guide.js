@@ -7,3 +7,5 @@ addEventListener('scroll', spy, { passive: true }); spy();
 const side = document.getElementById('dsSide');
 document.getElementById('dsMenu').addEventListener('click', () => side.classList.toggle('open'));
 side.addEventListener('click', e => { if (e.target.closest('a')) side.classList.remove('open'); });
+// A folded chapter opens when the page opens on one of its topics (#hash)
+document.querySelector(`.ds-side a[href="${location.hash}"]`)?.closest('details')?.setAttribute('open', '');

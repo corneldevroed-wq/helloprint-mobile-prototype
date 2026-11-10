@@ -705,7 +705,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-strip h1 { color: var(--white); }   /* the standard h1 (Cornel 2026-11-10), white on the dark green */
 .oc-strip p { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: rgba(255,255,255,.8); overflow-wrap: anywhere; }
 .oc-strip p b { color: var(--white); font-weight: 600; }
-.oc-strip .btn { margin-top: 16px; padding: 0 24px; }   /* all done: Track your order, white on the dark green (the order in My account) */
+.oc-strip .btn { margin-top: 16px; padding: 0 24px; border-color: var(--white); background: none; color: var(--white); }   /* all done: Track your order (the order in My account), calm: a white outline on the dark green, not a filled button (Cornel 2026-11-10) */
 .oc-acts { display: flex; flex-direction: column; gap: 16px; }   /* 16 between the blocks, as the cart cards (Cornel 2026-11-09) */
 .oc-act { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 2px solid var(--light-green); border-radius: var(--r-l); }   /* the only green-outlined, numbered blocks: what the customer still has to do; one compact row each, the button right */
 .oc-act .row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
