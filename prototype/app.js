@@ -192,9 +192,9 @@ const SHEET_SHIPPING = `
 </div>`;
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 // Help in the desktop header (Cornel 2026-11-11, content as live en-ie): the drop menu of the PDP bar, opening downwards
-const HELP_MENU = `<div class="d-menu" role="menu" hidden>
+const HELP_MENU = `<div class="d-menu d-help" role="menu" hidden>
           <p class="d-menu-title">How can we help?</p>
-          <a role="menuitem" href="#chat"><span class="ico"><img src="../design-system/icons/chat.svg" alt=""></span><span><b>Chat with Anna<span class="badge neutral">Instant</span></b><small>Typically replies within a minute</small></span></a>
+          <a role="menuitem" href="#chat"><span class="ico"><img src="../design-system/icons/chat.svg" alt=""></span><span><b>Chat with Anna<span class="badge">Instant</span></b><small>Typically replies within a minute</small></span></a>
           <a role="menuitem" href="help-centre.html"><span class="ico"><img src="../design-system/icons/help.svg" alt=""></span><span><b>Help Centre</b><small>Answers about orders, files and delivery</small></span></a>
           <a role="menuitem" href="#new2contactform"><span class="ico"><img src="../design-system/icons/mail.svg" alt=""></span><span><b>Send a message</b><small>Our print experts reply by email</small></span></a>
           <a role="menuitem" href="tel:+353818882249"><span class="ico"><img src="../design-system/icons/call.svg" alt=""></span><span><b>Prefer to call?</b><small>+353 818 882 249 · Mon–Fri 9:00–17:00</small></span></a>
@@ -211,7 +211,7 @@ const SHELL_HEADER_DESK = `
       <div class="dhead-right">
         <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
         <a class="dbtn" href="login.html">${deskUser ? (deskUser.first || 'My account') : 'Log in'}</a>
-        <div class="dhead-help"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-help>Help<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
+        <div class="dhead-help"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-help>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
       </div>
     </div></div>

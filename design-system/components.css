@@ -649,7 +649,9 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .d-menu button:hover, .d-menu a:hover { background: var(--light-grey); }
 .d-menu .ico { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); }
 .d-menu .ico img { width: 24px; height: 24px; }
+.d-help .ico img { width: 20px; height: 20px; }   /* the Help menu: Material icons fill their box more than the PDP icons, so 20 (Cornel 2026-11-11) */
+.d-help .ico { border: 0; background: var(--light-grey); }   /* the Help menu: a light grey tile, no outline (Cornel 2026-11-11) */
 .d-menu b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
-.d-menu b .badge { position: static; margin-left: 8px; vertical-align: 1px; }
+.d-menu b .badge { position: static; display: inline-block; margin-left: 8px; vertical-align: middle; }   /* centred on the lower case letters, so it does not look too high */
 .d-menu small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-menu .tick { width: 20px; height: 20px; }

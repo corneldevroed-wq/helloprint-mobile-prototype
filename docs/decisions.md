@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-11 — "Instant" at Chat with Anna is the orange label** (Cornel; was grey).
+- **11-11 — The Help menu icons are dark grey** (Cornel: green did not look good there): chat, help, mail, call in --dark-grey (#555), the colour of the sub lines, 20 instead of 24 (.d-help; they looked too big), on a light grey tile without outline (no change on hover).
+- **11-11 — The header Help button says "Need help?"** (Cornel).
 - **11-11 — The tile names in the category menu are one step smaller** (Cornel): 14 semibold (the base .cat title), 16 on the category pages. The menu title stays the 20/24 section title.
 - **11-11 — No chevron at language and Help in the header** (Cornel; hidden in CSS, the markup stays): the pills get 8px on both sides.
 - **11-11 — Help in the header is a drop menu, opened on hover** (Cornel; closes 200 ms after the mouse leaves, a click still toggles for touch): the drop menu of the PDP bar (moved to components.css), opening downwards: How can we help? Chat with Anna (Instant), Help Centre, Send a message, Prefer to call? (live en-ie). Help Centre left the green category bar.
