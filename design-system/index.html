@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261123b">
-<link rel="stylesheet" href="components.css?v=20261123b">
-<link rel="stylesheet" href="guide.css?v=20261123b">
+<link rel="stylesheet" href="tokens.css?v=20261123l">
+<link rel="stylesheet" href="components.css?v=20261123l">
+<link rel="stylesheet" href="guide.css?v=20261123l">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -445,10 +445,13 @@
         <div class="oc-act done"><div class="row">${OC_TICK}<span class="t"><b>Payment received</b><small>€112.51 · thank you</small></span><span class="pm-logos"><span class="pm-brand"><img src="${A}checkout/revolut.png" alt="Revolut Pay"></span></span></div></div></div>`)) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
       'Mobile: dark green bar with menu, logo, account and cart, the search under it. Desktop: logo, search, language, account, cart, then the category bar. Checkout (.co-header / .co-dhead): logo, Secure Checkout, account, cart; on desktop only the 60 top bar: logo, Secure Checkout (14/22) next to it, account and cart right (no search, menu or USP bar). Login / register (.auth-head): only a 60 dark green bar with the logo in the middle, no menu or footer, from every flow.') +
+    row({ name: 'Drop menu', wide: true, meta: [{ t: '.d-menu' }, { t: '.d-menu-title' }],
+      use: 'A few ways to go as rows (Cornel 2026-11-05/11-11): an icon tile (40, --outline, the icon light green), the title 14 semibold, a line 12/18 grey under it (every row has one); light grey on hover; 360 wide, a 1px --line outline (Cornel 2026-11-11), --r-l, a soft shadow. The PDP bar opens it upwards (Upload later / Canva / Upload; the chosen one gets the tick). Help in the desktop header opens it on hover, downwards, with a title (How can we help?: Chat with Anna, Help Centre, Send a message, Prefer to call?; content as live en-ie). Esc or a click outside closes.',
+      ex: stage(`<div class="d-menu" role="menu" style="position:relative;right:auto;flex:none"><p class="d-menu-title">How can we help?</p><a role="menuitem" href="#shell"><span class="ico"><img src="icons/chat.svg" alt=""></span><span><b>Chat with Anna<span class="badge neutral">Instant</span></b><small>Typically replies within a minute</small></span></a><a role="menuitem" href="#shell"><span class="ico"><img src="icons/help.svg" alt=""></span><span><b>Help Centre</b><small>Answers about orders, files and delivery</small></span></a><a role="menuitem" href="#shell"><span class="ico"><img src="icons/mail.svg" alt=""></span><span><b>Send a message</b><small>Our print experts reply by email</small></span></a><a role="menuitem" href="#shell"><span class="ico"><img src="icons/call.svg" alt=""></span><span><b>Prefer to call?</b><small>+353 818 882 249 · Mon–Fri 9:00–17:00</small></span></a></div>`) }) +
     cut('Mega menu: a category', '.mega', '../prototype/index.html?menu=promo', '||.mega', 'desktop, hover a category in the bar',
       'Desktop (Cornel 2026-11-10, menu-desk-sketch B): the mobile menu under the category bar, over the page; same content and words as the drawer. Hover a category (150 ms wait, then switching is instant; closes 200 ms after the mouse leaves): its products as category cards (the category page tiles, 6 in a row) and "Shop all …" top right. White, a line and the card hover shadow at the bottom; the open item has the bar hover tint. The page under it gets the dark layer of the popups (.mega-dim, --overlay, fades in 0.25 s; the header stays clear; a click on it closes). Mobile keeps the drawer. ?menu=&lt;key&gt; opens it on load. The base: to be extended.') +
     cut('Mega menu: All products', '.mega-all · .mega-side · .mega-cols', '../prototype/index.html?menu=all', '||.mega', 'desktop, hover or click All products',
-      'As live (Cornel 2026-11-10; content 1:1 from the helloprint.com/en-ie mega menu, 12 groups): the groups left as a standard list (256 wide, 14 grey, 26 a line as the product lists, no chevron; the hovered one --light-grey, semibold black, after an 80 ms wait so crossing the list does not switch), a line, then its sub groups in 4 columns: the photo in the grey menu thumb (64), the name 14 semibold black (the mobile card title; + the orange Popular label), 8 to its products: 12/18 grey (the mobile body), 4 apart. Smaller than the page lists so it fits a laptop screen (Cornel 2026-11-11). "Shop all &lt;group&gt;" under them. The panel scrolls when it is taller than the screen. Mobile: the same content in the drawer (All products → group → sub group → products). "All categories" on home opens it.') +
+      'As live (Cornel 2026-11-10; content 1:1 from the helloprint.com/en-ie mega menu, 12 groups): the groups left as a standard list (256 wide, 14 grey, 26 a line as the product lists, no chevron; the hovered one --light-grey, semibold black, at once), a line, then its sub groups in 4 columns: the photo in the grey menu thumb (64), the name 14 semibold black (the mobile card title; + the orange Popular label), 8 to its products: 12/18 grey (the mobile body), 4 apart. Smaller than the page lists so it fits a laptop screen (Cornel 2026-11-11). "Shop all &lt;group&gt;" under them. The panel scrolls when it is taller than the screen. Mobile: the same content in the drawer (All products → group → sub group → products). "All categories" on home opens it.') +
     cut('USP bar', '.usp / .dusps', '../prototype/index.html', '.usp||.dusps', 'under the header',
       'Light grey: the Trustpilot reviews first, then the USPs (a ticker on mobile).') +
     cut('Newsletter', '.dnews', '../prototype/index.html', '.dnews', 'on top of the footer',
@@ -552,6 +555,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261123b"></script>
+<script src="guide.js?v=20261123l"></script>
 </body>
 </html>

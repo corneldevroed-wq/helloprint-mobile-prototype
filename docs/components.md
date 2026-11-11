@@ -84,6 +84,8 @@ remembered in `hp-hc-ans`.
   All products (11-10): `ALL_PRODUCTS` in app.js (the live en-ie mega menu: group → sub group → products) drives both the desktop
   panel (`.mega-all`: `.mega-side` groups + `.mega-main` with `.mega-cols`) and the mobile drawer levels `g-<slug>` / `s-<slug>-<i>`.
   Photos `assets/menu/all/<group slug>/<sub group name>.webp`.
+  Dark layer `.mega-dim` (--overlay).
+- **Drop menu** (`.d-menu`, components.css): PDP bar (upwards) and the desktop header Help (`HELP_MENU`, `[data-help]`, downwards).
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets

@@ -639,3 +639,17 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-new { animation: oc-new 1.6s ease-out; }   /* the card the files just went to lights up once */
 @keyframes oc-new { 0%, 40% { box-shadow: 0 0 0 3px var(--tint); border-color: var(--light-green); } 100% { box-shadow: 0 0 0 3px transparent; } }
 .desk .oc-strip { padding: 40px 24px 24px; border-radius: var(--r-l); }   /* desktop: a card with round corners */
+
+/* Drop menu: a few ways to go, as rows with an icon tile, a title and a line under it (design-dropup-sketch A, Cornel 2026-11-05).
+   The PDP bar opens it upwards (Upload later / Canva / Upload), the header Help downwards (2026-11-11). The chosen one gets the tick. */
+.d-menu { position: absolute; right: 0; width: 360px; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); box-shadow: 0 8px 32px rgba(0,0,0,.18); }
+.d-menu[hidden] { display: none; }
+.d-menu-title { padding: 8px 8px 4px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }
+.d-menu button, .d-menu a { display: grid; grid-template-columns: 40px minmax(0, 1fr) 20px; align-items: center; column-gap: 12px; width: 100%; padding: 8px; border-radius: var(--r-m); text-align: left; color: var(--black); }
+.d-menu button:hover, .d-menu a:hover { background: var(--light-grey); }
+.d-menu .ico { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); }
+.d-menu .ico img { width: 24px; height: 24px; }
+.d-menu b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.d-menu b .badge { position: static; margin-left: 8px; vertical-align: 1px; }
+.d-menu small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.d-menu .tick { width: 20px; height: 20px; }

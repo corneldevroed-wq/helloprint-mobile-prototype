@@ -191,6 +191,14 @@ const SHEET_SHIPPING = `
   </div>
 </div>`;
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
+// Help in the desktop header (Cornel 2026-11-11, content as live en-ie): the drop menu of the PDP bar, opening downwards
+const HELP_MENU = `<div class="d-menu" role="menu" hidden>
+          <p class="d-menu-title">How can we help?</p>
+          <a role="menuitem" href="#chat"><span class="ico"><img src="../design-system/icons/chat.svg" alt=""></span><span><b>Chat with Anna<span class="badge neutral">Instant</span></b><small>Typically replies within a minute</small></span></a>
+          <a role="menuitem" href="help-centre.html"><span class="ico"><img src="../design-system/icons/help.svg" alt=""></span><span><b>Help Centre</b><small>Answers about orders, files and delivery</small></span></a>
+          <a role="menuitem" href="#new2contactform"><span class="ico"><img src="../design-system/icons/mail.svg" alt=""></span><span><b>Send a message</b><small>Our print experts reply by email</small></span></a>
+          <a role="menuitem" href="tel:+353818882249"><span class="ico"><img src="../design-system/icons/call.svg" alt=""></span><span><b>Prefer to call?</b><small>+353 818 882 249 · Mon–Fri 9:00–17:00</small></span></a>
+        </div>`;
 const SHELL_HEADER_DESK = `
   <header class="dhead">
     <div class="dhead-top"><div class="dwrap">
@@ -203,14 +211,13 @@ const SHELL_HEADER_DESK = `
       <div class="dhead-right">
         <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
         <a class="dbtn" href="login.html">${deskUser ? (deskUser.first || 'My account') : 'Log in'}</a>
-        <a class="dpill" href="#cs">Help<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></a>
+        <div class="dhead-help"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-help>Help<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
       </div>
     </div></div>
     <nav class="dhead-nav" aria-label="Categories"><div class="dwrap">
       <a href="#all-products" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
       ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
-      <a href="#cs" class="dnav-help">Help Centre</a>
     </div></nav>
   </header>
   <div class="dusps"><div class="dwrap">
@@ -662,6 +669,19 @@ function closeMenu() {
 }
 document.querySelector('[data-proto="menu"]')?.addEventListener('click', e => { e.preventDefault(); openMenu(); });
 
+// Desktop Help: hovering opens its drop menu (Cornel 2026-11-11), it closes 200 ms after the mouse leaves (time to cross the 8px gap);
+// a click still toggles it (touch screens), a click outside or Esc closes
+const helpBtn = document.querySelector('[data-help]');
+if (helpBtn) {
+  const helpWrap = helpBtn.parentElement, helpMenu = helpBtn.nextElementSibling;
+  let helpTimer;
+  const helpOpen = on => { clearTimeout(helpTimer); helpMenu.hidden = !on; helpBtn.setAttribute('aria-expanded', on); };
+  helpWrap.addEventListener('mouseenter', () => helpOpen(true));
+  helpWrap.addEventListener('mouseleave', () => { helpTimer = setTimeout(() => helpOpen(false), 200); });
+  document.addEventListener('click', e => helpOpen(e.target.closest('[data-help]') ? helpMenu.hidden : false));
+  document.addEventListener('keydown', e => e.key === 'Escape' && helpOpen(false));
+}
+
 // Desktop: the same menu as a mega menu under the category bar (menu-desk-sketch.html B, Cornel 2026-11-10).
 // Hover a category: its products as category cards + Shop all. Hover or click All products: the groups as link columns.
 // ?menu=<key> opens it on load (style guide; a link that shows a menu open). The base: more to come (Cornel).
@@ -680,7 +700,7 @@ if (megaNav) {
   const tile = it => `<a class="cat" href="${it.href}"><div class="collage"><img src="${M + it.img}" alt="" style="inset:0;object-fit:contain"></div><p class="title">${esc(it.label)}</p></a>`;
   // All products: the groups left, the hovered group's sub groups right (photo, name, its products), Shop all under them
   const group = i => { const [name, g, subs] = ALL_PRODUCTS[i];
-    return `<div class="mega-cols">${subs.map(([t, s, pop, links]) => `<div><a href="#${s}"><span class="thumb-sm contain"><img src="${M + allImg(g, t)}" alt=""></span><h3>${esc(t)}${pop ? badgeHtml('Popular') : ''}</h3></a>
+    return `<div class="mega-cols">${subs.map(([t, s, pop, links]) => `<div><a href="#${s}"><span class="thumb-sm contain"><img src="${M + allImg(g, t)}" alt=""></span><h3><span>${esc(t)}</span>${pop ? badgeHtml('Popular') : ''}</h3></a>
         <ul>${links.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('')}</ul></div>`).join('')}</div>
       <a class="link" href="#${g}">Shop all ${esc(name)}</a>`; };
   const html = k => k === 'all'
@@ -688,16 +708,13 @@ if (megaNav) {
         <div class="mega-main">${group(0)}</div></div>`
     : `<div class="dwrap"><div class="section-head"><h2>${esc(menu[k].title)}</h2><a class="link" href="#${menu[k].all}">Shop all ${esc(menu[k].title)}</a></div>
         <div class="hscroll cats">${menu[k].items.map(tile).join('')}</div></div>`;
-  // Hovering a group shows it (a short wait, so crossing the list on the way to the right does not switch)
-  let groupTimer;
+  // Hovering a group shows it at once (Cornel 2026-11-11: no delay)
   panel.addEventListener('mouseover', e => {
     const a = e.target.closest('[data-group]');
-    clearTimeout(groupTimer);
-    if (a && !a.hasAttribute('aria-current')) groupTimer = setTimeout(() => {
-      panel.querySelector('.mega-side [aria-current]').removeAttribute('aria-current');
-      a.setAttribute('aria-current', 'true');
-      panel.querySelector('.mega-main').innerHTML = group(+a.dataset.group);
-    }, 80);
+    if (!a || a.hasAttribute('aria-current')) return;
+    panel.querySelector('.mega-side [aria-current]').removeAttribute('aria-current');
+    a.setAttribute('aria-current', 'true');
+    panel.querySelector('.mega-main').innerHTML = group(+a.dataset.group);
   });
   let cur = null, timer;
   const expand = () => megaNav.querySelectorAll('[data-mega]').forEach(a => a.setAttribute('aria-expanded', a.dataset.mega === cur));

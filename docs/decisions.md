@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-11 — Help in the header is a drop menu, opened on hover** (Cornel; closes 200 ms after the mouse leaves, a click still toggles for touch): the drop menu of the PDP bar (moved to components.css), opening downwards: How can we help? Chat with Anna (Instant), Help Centre, Send a message, Prefer to call? (live en-ie). Help Centre left the green category bar.
+- **11-11 — No ad or promo tile in the menu** (Cornel: "dat is niks"): the live photo card with a slogan and our square promo tile (built, then removed) are both rejected. The menu shows products only.
+- **11-11 — Every Help option has a sub line** (Cornel): Chat with Anna (Typically replies within a minute), Help Centre (Answers about orders, files and delivery), Send a message (Our print experts reply by email), Prefer to call? (+353 818 882 249 · Mon–Fri 9:00–17:00).
 - **11-11 — One dark layer: `--overlay` (black 60%)** under every popup, the mobile menu drawer (was 20%) and the desktop mega menu (new: over the page below the header, the header stays clear, a click on it closes). Fades in 0.25 s everywhere (Cornel: consistent).
 - **11-11 — The menu is smaller than the page lists** (Cornel: too tall for smaller screens): sub group names 14 semibold, products 12/18, 4 apart (the mobile sizes of the UI guide). The photos 64 (was 96). Tallest group (Occasions & Events) 907 → 817 → 753 (most groups now 400–640). Home and the footer keep 16 / 14.
 - **11-10 — One list style: Browse all we offer** (Cornel: "consistent"): the mega menu and the desktop footer columns use the home rules: title 16/1.2 semibold black, 12 to the list, links 14/1.3 grey 8 apart (the footer was 16/22 + 14/22; its columns 370 → 325 high). The All products groups (left): a standard list too (14, 26 a line, no chevron; was 16 in rows of 48).
