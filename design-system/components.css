@@ -429,10 +429,11 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .promo-e .pc-img::after { content: ''; position: absolute; inset: 0 0 55%; background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0)); }   /* keeps the white title readable on light photos */
 .promo-e .pc-body { position: absolute; inset: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; }
 .promo-e .pc-txt { min-width: 0; }
-.promo-e .pc-t { display: block; font-weight: 800; font-size: var(--t-24); line-height: 1.16; letter-spacing: -.48px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
+.promo-e .pc-t { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.4px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
 .promo-e .pc-cta { display: inline-flex; padding: 6px 16px; border-color: var(--white); }
 .promo-e .pc:hover .pc-cta { border-color: var(--black); }
 .desk .promo-e .pc-img { height: 400px; }
+.desk .promo-e .pc-body { inset: 24px; }   /* desktop: one 8px step more room around the title and the button (Cornel, 2026-11-11) */
 .dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); color: var(--black); transition: background .15s; }
 .dc-card:hover { background: #e8e8e8; }
 .dc-t { position: relative; z-index: 1; display: block; max-width: 52%; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); color: var(--black); }   /* the card title size (16/22) */

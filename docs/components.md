@@ -37,6 +37,9 @@ All switches write their value into the URL and localStorage, so a copied link o
 **Mobile PDP**: flow H is the default (Cornel, 2026-11-03). The Flow switch is hidden (`.flow-switch { display: none }`), the
 code of flows A–J stays; `?flow=a…j` opens another flow for that visit only (no longer remembered in `hp-flow`).
 
+**Home promo cards** (no switch; decided 2026-11-11): titles 20/24 on mobile and desktop (promo cards + Team + Promises), 24px inside
+the card on desktop (16 on mobile). Tried and removed: titles 24 on desktop, the title above the button.
+
 **Desktop PDP**: no switches any more. Decided 2026-11-02: Funnel (live funnels), Names (one thickness scale), Specs (links +
 See also), Icons (material icon set), Design (A: cards in Your selection), Rec (D: green bar in the card). Decided 2026-11-03:
 Cards A (Figma, image on top), Photos A (thumbnails under the photo), Delivery D (calendar tile left); B / B / E removed.

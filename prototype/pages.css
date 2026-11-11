@@ -1575,6 +1575,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .desk .promo-e .pb-hero { margin-right: 0; }   /* no mobile gutter (.hscroll), so the row ends exactly at the content edge and the arrow sits centred on it (the duo row is centred by the page rule) */
 .desk .promo-e .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .desk .promo-e .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.desk .tb-txt { padding: 24px 8px 24px 24px; }   /* as the promo cards: 24 from the card edge on desktop (Cornel, 2026-11-11) */
 .desk .promo-e .pb-hero > .pc.wide { grid-column: span 2; }
 .desk .promo-e .pb-hero:has(> .pc:nth-child(5)) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
 .desk .promo-e .pb-hero:has(> .pc:nth-child(5))::-webkit-scrollbar { display: none; }
@@ -1620,7 +1621,7 @@ html:not(.desk) .plp > .d-reviews h2 { margin-bottom: 0; }   /* title to row 8px
 .tb-team { background: var(--light-green); }
 .tb-prom { background: var(--dark-green); }
 .tb-txt { position: relative; z-index: 2; display: flex; flex-direction: column; width: 48%; flex-shrink: 0; padding: 16px 8px 16px 16px; }   /* as Figma: 16px from the card edge */
-.tb-txt h3 { font-weight: 800; font-size: var(--t-24); line-height: 28px; letter-spacing: -.48px; }
+.tb-txt h3 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.4px; }   /* = the promo card title (20/24) */
 .tb-txt p { margin-top: 12px; font-size: var(--t-14); line-height: var(--lh-14); }
 .tb-txt ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 12px; font-size: var(--t-14); line-height: var(--lh-14); }   /* same size as the Team description */
 .tb-txt li { display: flex; align-items: center; gap: 12px; }
@@ -1662,7 +1663,6 @@ html:not(.desk) .home > .tb { display: flex; gap: 8px; overflow-x: auto; scroll-
 html:not(.desk) .home > .tb::-webkit-scrollbar { display: none; }
 html:not(.desk) .tb-card { flex: 0 0 300px; scroll-snap-align: start; }
 html:not(.desk) .tb-txt { width: 100%; }
-html:not(.desk) .tb-txt h3 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.4px; }   /* = section title size on mobile, as the promo card titles */
 html:not(.desk) .tb-txt p, html:not(.desk) .tb-txt ul { margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); }   /* description and promises list in one size */
 html:not(.desk) .tb-txt li { gap: 8px; } 
 html:not(.desk) .tb-txt li svg { width: 18px; height: 18px; }
