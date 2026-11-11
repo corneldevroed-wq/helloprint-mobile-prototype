@@ -5,7 +5,7 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
-- **11-11 — The category name in the menu is a card title** (Cornel: one step smaller in the UI guide): 16/22 semibold black, not the 20/24 section title.
+- **11-11 — The tile names in the category menu are one step smaller** (Cornel): 14 semibold (the base .cat title), 16 on the category pages. The menu title stays the 20/24 section title.
 - **11-11 — No chevron at language and Help in the header** (Cornel; hidden in CSS, the markup stays): the pills get 8px on both sides.
 - **11-11 — Help in the header is a drop menu, opened on hover** (Cornel; closes 200 ms after the mouse leaves, a click still toggles for touch): the drop menu of the PDP bar (moved to components.css), opening downwards: How can we help? Chat with Anna (Instant), Help Centre, Send a message, Prefer to call? (live en-ie). Help Centre left the green category bar.
 - **11-11 — No ad or promo tile in the menu** (Cornel: "dat is niks"): the live photo card with a slogan and our square promo tile (built, then removed) are both rejected. The menu shows products only.

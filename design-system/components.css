@@ -491,7 +491,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 html:not(.desk) .plp.clp .cats .cat { flex-basis: 184px; }
 html:not(.desk) .plp.clp .cats .cat .collage { flex: 1; width: 100%; height: auto; min-height: 0; }
 .desk .d-rev-nav { position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
-.desk .plp .cats .cat .title, .mega .cat .title { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title size, as the grey category tiles (16/22) */
+.desk .plp .cats .cat .title { font-size: var(--t-16); line-height: var(--lh-16); }   /* the card title size, as the grey category tiles (16/22) */
 html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh-20) !important; letter-spacing: -0.4px !important; }   /* promo card titles on mobile = the section title size (20/24), on every page (Cornel, 2026-10-28) */
 /* Grey category tiles on desktop: one height everywhere (120px, also in rows of their own). A promo card + categories
    block: the card stops in the middle (the 50/50 grid, same edge as the 4-column rows), 3 tile rows = 392px, close to
