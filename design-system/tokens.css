@@ -18,6 +18,7 @@
   --selected: #eefaf3;   /* the upload field while a file is dragged over it. A chosen card is white with the 2px light green border, no tint (Cornel, 2026-11-06) */
   --tint: rgba(0, 166, 81, .16);   /* light green, see-through: focus ring, the changed flash, the online dot */
   --control: #9f9f9f;    /* outline of a checkbox and a radio */
+  --overlay: rgba(0, 0, 0, .6);   /* the dark layer over the page under every popup and menu (Cornel, 2026-11-11: one for all) */
   --r-s: 4px;            /* corners: small (badges, checkbox, flags, tiles inside a card) */
   --r-m: 8px;            /* control (fields, option cards, quantity rows, menus) */
   --r-l: 10px;           /* card (cards, photos) */

@@ -5,6 +5,8 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-11 — One dark layer: `--overlay` (black 60%)** under every popup, the mobile menu drawer (was 20%) and the desktop mega menu (new: over the page below the header, the header stays clear, a click on it closes). Fades in 0.25 s everywhere (Cornel: consistent).
+- **11-11 — The menu is smaller than the page lists** (Cornel: too tall for smaller screens): sub group names 14 semibold, products 12/18, 4 apart (the mobile sizes of the UI guide). The photos 64 (was 96). Tallest group (Occasions & Events) 907 → 817 → 753 (most groups now 400–640). Home and the footer keep 16 / 14.
 - **11-10 — One list style: Browse all we offer** (Cornel: "consistent"): the mega menu and the desktop footer columns use the home rules: title 16/1.2 semibold black, 12 to the list, links 14/1.3 grey 8 apart (the footer was 16/22 + 14/22; its columns 370 → 325 high). The All products groups (left): a standard list too (14, 26 a line, no chevron; was 16 in rows of 48).
 - **11-10 — All products = the live mega menu, 1:1** (Cornel, screenshots of live en-ie): 12 groups left, hover shows the group's sub groups
   right (photo, name, Popular, the products), "Shop all <group>". Content read from the live page (83 sub groups, 496 links), photos in

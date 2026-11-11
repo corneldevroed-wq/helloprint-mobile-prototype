@@ -676,6 +676,7 @@ if (megaNav) {
   const panel = document.createElement('div');
   panel.className = 'mega'; panel.hidden = true;
   megaNav.after(panel);
+  panel.insertAdjacentHTML('afterend', '<div class="mega-dim"></div>');   // the dark layer over the page, as under our popups; a click on it closes (click outside)
   const tile = it => `<a class="cat" href="${it.href}"><div class="collage"><img src="${M + it.img}" alt="" style="inset:0;object-fit:contain"></div><p class="title">${esc(it.label)}</p></a>`;
   // All products: the groups left, the hovered group's sub groups right (photo, name, its products), Shop all under them
   const group = i => { const [name, g, subs] = ALL_PRODUCTS[i];

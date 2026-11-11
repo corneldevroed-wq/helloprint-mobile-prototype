@@ -65,7 +65,7 @@
 /* Drill-down menu: drawer over a dimmed home screen, levels slide in from the right */
 .menu-layer { position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 100%; max-width: var(--app-w); margin: 0 auto; z-index: 50; pointer-events: none; overflow: hidden; }
 .menu-layer.open { pointer-events: auto; }
-.menu-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.2); opacity: 0; transition: opacity .25s; }
+.menu-overlay { position: absolute; inset: 0; background: var(--overlay); opacity: 0; transition: opacity .25s; }
 .menu-layer.open .menu-overlay { opacity: 1; }
 .menu-drawer { position: absolute; top: 0; bottom: 0; left: 0; width: min(366px, calc(100% - 24px)); background: var(--white); overflow: hidden; transform: translateX(-100%); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
 .menu-layer.open .menu-drawer { transform: none; }
@@ -223,7 +223,7 @@
 /* ---------- Bottom sheets (PDP: customise + design choice) ---------- */
 .sheet-layer { position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 100%; max-width: var(--app-w); margin: 0 auto; z-index: 70; pointer-events: none; overflow: hidden; }
 .sheet-layer.open { pointer-events: auto; }
-.sheet-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
+.sheet-overlay { position: absolute; inset: 0; background: var(--overlay); opacity: 0; transition: opacity .25s; }
 .sheet-layer.open .sheet-overlay { opacity: 1; }
 .sheet-layer.open:has(~ .sheet-layer.open) .sheet-overlay { opacity: 0; }   /* a popup over a popup (edit over the address list): one dim, not two (Cornel, 2026-11-06) */
 .sheet-layer.open .sheet { transform: translateY(var(--drag, 0px)); }
@@ -1026,8 +1026,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
    A category: its products as category cards + Shop all; All products: the groups as link columns (the footer columns) */
 .mega { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 100px); overflow-y: auto; padding: 24px 0 32px; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .mega .section-head { margin-bottom: 16px; }
+/* The page under the open menu gets the popup's dark layer (Cornel 2026-11-11), so the menu reads better; the header stays clear */
+.mega-dim { position: fixed; top: 100px; left: 0; right: 0; bottom: 0; z-index: -1; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+.mega:not([hidden]) + .mega-dim { opacity: 1; visibility: visible; }
 /* All products (Cornel 2026-11-10, as live): the groups left as a standard list (14, 26 a line; the hovered one light grey, semibold), its sub groups right in 4 columns:
-   the photo (the menu thumb, 96), the name (+ Popular), the products: the lists of Browse all we offer (home); Shop all under them */
+   the photo (the menu thumb, 64), the name (+ Popular), the products; Shop all under them */
 .mega-all { display: grid; grid-template-columns: 256px 1fr; gap: 32px; }
 .mega-side { display: flex; flex-direction: column; padding-right: 16px; border-right: 1px solid var(--line); }
 .mega-side a { padding: 4px 16px; border-radius: var(--r-s); font-size: var(--t-14); line-height: 1.3; color: var(--dark-grey); }   /* the list rhythm of Browse all we offer: 26 a line */
@@ -1036,8 +1039,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .mega-main { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
 .mega-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; width: 100%; }
 .mega-cols > div > a { display: flex; flex-direction: column; align-items: flex-start; }
-.mega-cols .thumb-sm { width: 96px; height: 96px; margin-bottom: 16px; }
-.mega-cols h3, .dfoot-cols h3 { display: flex; align-items: center; gap: 8px; padding-bottom: 12px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); color: var(--black); }   /* the titles of Browse all we offer (home); the footer columns too */
+.mega-cols .thumb-sm { width: 64px; height: 64px; margin-bottom: 16px; }
+.dfoot-cols h3 { padding-bottom: 12px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); color: var(--black); }   /* the titles of Browse all we offer (home) */
+/* The menu is smaller, so it fits a laptop screen (Cornel 2026-11-11): the mobile sizes of the UI guide, card title 14 semibold, body 12/18, 4 apart */
+.mega-cols h3 { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); }
+.mega-cols ul { padding: 0; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); }
 .mega-cols h3 .badge { position: static; }
 .mega-cols > div > a:hover h3 { text-decoration: underline; }
 .dusps { background: var(--light-grey); }   /* light grey like the mobile USP bar (Cornel, 2026-10-28) */
@@ -1398,8 +1404,8 @@ html:not(.desk) .desk-only { display: none; }
 .desk .acc-wrap .acc details { border: 0; padding: 0; }
 .desk .acc-wrap .acc summary { padding: 0 0 12px; font-size: var(--t-16); color: var(--black); cursor: default; }
 .desk .acc-wrap .acc summary img { display: none; }
-.desk .acc-wrap .acc ul, .mega-cols ul, .dfoot-cols ul { padding: 0; gap: 8px; }
-.desk .acc-wrap .acc ul a, .mega-cols ul a, .dfoot-cols ul a { line-height: 1.3; }
+.desk .acc-wrap .acc ul, .dfoot-cols ul { padding: 0; gap: 8px; }
+.desk .acc-wrap .acc ul a, .dfoot-cols ul a { line-height: 1.3; }
 
 /* SEO text: open on desktop */
 .desk .seo { gap: 16px; }
@@ -1784,7 +1790,7 @@ html:not(.desk) .plp > section + .plp-feature, html:not(.desk) .plp > .plp-featu
 .plp #faqList ul a { color: var(--link); text-decoration: underline; }
 /* Mobile text rules on the category pages: the "Rated 4.5…" line is body text (12/18); the page title a 28px line */
 html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh-12); }
-/* Desktop footer by the rules (Cornel, 2026-10-28; 11-10: the columns as Browse all we offer, see .mega-cols h3), spacing on the 8px grid */
+/* Desktop footer by the rules (Cornel, 2026-10-28; 11-10: the columns as Browse all we offer, see .dfoot-cols h3), spacing on the 8px grid */
 .dfoot { margin-top: 64px; }
 .dnews .dwrap { height: 88px; }
 .dnews p { line-height: 22px; }
