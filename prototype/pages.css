@@ -1570,7 +1570,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .desk .home.promo-e > section:has(> .cats) { order: 3; }   /* categories right under the promos, then the logo bar (Cornel, 2026-10-28) */
 .desk .home.promo-e > .trusted { order: 4; }
 .desk .home.promo-e > .pb-duo { order: 6; }   /* Team + Promises where the old promos were: after the best sellers, before the reviews; the SEO text stays last */
-.desk .promo-e .pb { display: grid; overflow: visible; gap: 16px; padding: 0; scroll-snap-type: none; }
+.desk .promo-e .pb { display: grid; overflow: visible; gap: 8px; padding: 0; scroll-snap-type: none; }
 .desk .promo-e .pb-hero { margin-right: 0; }   /* no mobile gutter (.hscroll), so the row ends exactly at the content edge and the arrow sits centred on it (the duo row is centred by the page rule) */
 .desk .promo-e .pb-hero { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .desk .promo-e .pb-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1613,7 +1613,7 @@ html:not(.desk) .plp > .d-reviews h2 { margin-bottom: 0; }   /* title to row 8px
 /* Desktop home: Team + Promises as in Figma (desktop home, under Popular products), 400px high, switch Blocks 0|1|2.
    1 = coloured text panel left + photo inset right (8px, rounded); 2 = the photo over the whole card, text on it. */
 .tb { display: none; }
-.desk.tb-1 .home > .tb, .desk.tb-2 .home > .tb, .desk.tb-3 .home > .tb { order: 6; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.desk.tb-1 .home > .tb, .desk.tb-2 .home > .tb, .desk.tb-3 .home > .tb { order: 6; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .desk.tb-1 .home > .pb-duo, .desk.tb-2 .home > .pb-duo, .desk.tb-3 .home > .pb-duo { display: none; }
 .tb-card { position: relative; display: flex; height: 400px; border-radius: var(--r-l); overflow: hidden; color: var(--white); }
 .tb-team { background: var(--light-green); }

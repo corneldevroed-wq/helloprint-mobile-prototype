@@ -23,7 +23,7 @@ Every label, colour, line or badge has to earn its place. When in doubt, leave i
 ## 3. The 8px grid
 Spacing is 8/16/24/32. Applied to gaps between steps, icon–text distance (16px), card gaps.
 Note: he tests it and sometimes reverts (e.g. a full 8px-grid pass on promo cards was reverted; promo gap went
-8 → 16 → 8 → 16). Apply it, show it, accept his eye as final.
+8 → 16 → 8 → 16 → 8; 11-11: 8 on desktop too). Apply it, show it, accept his eye as final.
 
 ## 4. Product is the hero, images must be honest
 - Material icons look like paper: square corners, a crisp 1px border, subtle fluid gradients, a folded corner.
