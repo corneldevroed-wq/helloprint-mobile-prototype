@@ -5,6 +5,8 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-11 — The category name in the menu is a card title** (Cornel: one step smaller in the UI guide): 16/22 semibold black, not the 20/24 section title.
+- **11-11 — No chevron at language and Help in the header** (Cornel; hidden in CSS, the markup stays): the pills get 8px on both sides.
 - **11-11 — Help in the header is a drop menu, opened on hover** (Cornel; closes 200 ms after the mouse leaves, a click still toggles for touch): the drop menu of the PDP bar (moved to components.css), opening downwards: How can we help? Chat with Anna (Instant), Help Centre, Send a message, Prefer to call? (live en-ie). Help Centre left the green category bar.
 - **11-11 — No ad or promo tile in the menu** (Cornel: "dat is niks"): the live photo card with a slogan and our square promo tile (built, then removed) are both rejected. The menu shows products only.
 - **11-11 — Every Help option has a sub line** (Cornel): Chat with Anna (Typically replies within a minute), Help Centre (Answers about orders, files and delivery), Send a message (Our print experts reply by email), Prefer to call? (+353 818 882 249 · Mon–Fri 9:00–17:00).

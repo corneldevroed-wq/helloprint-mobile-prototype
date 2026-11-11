@@ -1011,11 +1011,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dhead-top .dwrap { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .dlogo { width: 117px; height: 26px; }
 .dhead-right { display: flex; align-items: center; gap: 8px; }
-.dpill { display: inline-flex; align-items: center; gap: 4px; height: 31px; padding: 0 4px 0 8px; border-radius: var(--r-pill); background: none; font-weight: 600; transition: background .15s; font-size: var(--t-14); line-height: var(--lh-14); color: var(--white); }
+.dpill { display: inline-flex; align-items: center; gap: 4px; height: 31px; padding: 0 8px; border-radius: var(--r-pill); background: none; font-weight: 600; transition: background .15s; font-size: var(--t-14); line-height: var(--lh-14); color: var(--white); }
 .dhead-right > .dpill:first-child { padding-left: 5px; }   /* the country pill: the round flag needs less */
 .dpill:hover { background: rgba(255, 255, 255, .1); }   /* no fill (Cornel); a light tint only on hover */
 .dflag { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px; }
-.dchev { width: 20px; height: 20px; transition: transform .2s; }
+.dchev { display: none; width: 20px; height: 20px; transition: transform .2s; }   /* hidden (Cornel 2026-11-11): language and Help without a chevron */
 .dhead-help { position: relative; }   /* Help in the header opens the drop menu under it (Cornel 2026-11-11) */
 .dhead-help .d-menu { top: calc(100% + 8px); z-index: 1; }
 .dpill[aria-expanded="true"] .dchev { transform: rotate(180deg); }
@@ -1028,6 +1028,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
    A category: its products as category cards + Shop all; All products: the groups as link columns (the footer columns) */
 .mega { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 100px); overflow-y: auto; padding: 24px 0 32px; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .mega .section-head { margin-bottom: 16px; }
+.mega .section-head h2 { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); letter-spacing: 0; color: var(--black); }   /* one step down in the UI guide: the card title, 16/22 semibold black (Cornel 2026-11-11) */
 /* The page under the open menu gets the popup's dark layer (Cornel 2026-11-11), so the menu reads better; the header stays clear */
 .mega-dim { position: fixed; top: 100px; left: 0; right: 0; bottom: 0; z-index: -1; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
 .mega:not([hidden]) + .mega-dim { opacity: 1; visibility: visible; }
