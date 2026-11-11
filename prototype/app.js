@@ -218,6 +218,7 @@ const SHELL_HEADER_DESK = `
     <nav class="dhead-nav" aria-label="Categories"><div class="dwrap">
       <a href="#all-products" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
       ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
+      <a href="#christmas" class="dnav-season"><img src="../design-system/icons/tree.svg" alt="">Christmas</a>
     </div></nav>
   </header>
   <div class="dusps"><div class="dwrap">
@@ -464,6 +465,7 @@ const M = 'assets/menu/';
 const menu = {
   root: { title: 'Menu', root: true, items: [
     { label: 'All products', letter: 'A', to: 'all' },
+    { label: 'Christmas', img: 'sub/christmascards.webp', fit: 'contain', to: 'xmas' },   // the season, as in the desktop bar (Cornel 2026-11-11)
     { label: 'Promotional Prints', img: 'l1-promo.png', fit: 'contain', to: 'promo' },
     { label: 'Booklets', img: 'l1-booklets.png', to: 'booklets' },
     { label: 'Cards', img: 'l1-cards.png', to: 'cards' },
@@ -490,12 +492,14 @@ const sub = {
   gifts: ['Gifts', [['Notebooks', 'notebook-printing'], ['Water Bottles', 'printed-water-bottles'], ['Pens', 'printed-pens'], ['Mugs', 'personalised-mugs'], ['Umbrellas', 'umbrellas'], ['Top Gifts', 'top-gifts']]],
   bags: ['Bags', [['Tote Bags', 'printing-cottonbags'], ['Backpacks', 'printed-backpacks'], ['Drawstring Bags', 'printed-drawstringbags'], ['Shopper Bags', 'printed-shopperbags'], ['Travel bags', 'promotional-travel-bags'], ['Cooler Bags', 'cool-bag']]],
   clothing: ['Clothing', [['T-Shirts', 'tshirt-printing'], ['Hoodies & Sweatshirts', 'personalised-sweatshirts'], ['Polo Shirts', 'personalised-polo-shirts'], ['Caps', 'personalised-caps'], ['Jackets', 'printed-jackets'], ['Workwear', 'workwear-printing']]],
+  // Christmas: the season dropdown in the green bar, as live en-ie "Xmas" (Cornel 2026-11-11; without the live promo card)
+  xmas: ['Christmas', [['Christmas Cards', 'christmascards'], ['Calendars', 'calendars-printing'], ['Advent Calendars', 'adventcalendar'], ['Christmas Hats', 'christmas-hats'], ['Christmas Decorations', 'other-christmas-gifts'], ['Christmas Gift Bags', 'christmas-bags']]],
 };
 // Each sub-level opens with a row to its own category page (so the main category is reachable from the drill-down)
 const subAll = {
   promo: 'promotional-printing', booklets: 'brochure-and-booklet-printing', cards: 'cards-and-invites', stationery: 'stationery-and-office-supplies',
   banners: 'banner-printing', flags: 'flag-printing', signs: 'panels-and-signs', stickers: 'all-stickers', gifts: 'corporate-gifts',
-  bags: 'promotional-bags', clothing: 'clothing-printing',
+  bags: 'promotional-bags', clothing: 'clothing-printing', xmas: 'christmas',
 };
 // Live images (helloprint.com/en-ie mega menu and category pages) in assets/menu/sub/<slug>.webp
 for (const [key, [title, links]] of Object.entries(sub)) {
@@ -688,7 +692,7 @@ if (helpBtn) {
 const megaNav = DESK && document.querySelector('.dhead-nav');
 let megaOpen = null;
 if (megaNav) {
-  const KEY = Object.fromEntries(menu.root.items.filter(it => it.to !== 'all').map(it => [subAll[it.to], it.to]));   // bar #slug → menu level
+  const KEY = Object.fromEntries(Object.entries(subAll).map(([k, slug]) => [slug, k]));   // bar #slug → menu level
   megaNav.querySelectorAll('a').forEach(a => {
     const k = a.classList.contains('dnav-all') ? 'all' : KEY[a.getAttribute('href').slice(1)];
     if (k) { a.dataset.mega = k; a.setAttribute('aria-expanded', 'false'); }

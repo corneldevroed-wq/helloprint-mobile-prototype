@@ -5,6 +5,7 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-11 — A season link right in the green bar: "Christmas", white with a light green tree** (Cornel; where Help Centre was; light green text looked dull on the dark green, then a dot, then the Material "park" tree, filled (outlined tried), 18 as the All products icon), to #christmas, with its own dropdown as live "Xmas": 6 tiles (Christmas Cards, Calendars, Advent Calendars, Christmas Hats, Christmas Decorations, Christmas Gift Bags; images from live), without the live promo card. On mobile a Christmas row in the drawer, under All products. Change the word and the tiles per season (`sub.xmas`).
 - **11-11 — "Instant" at Chat with Anna is the orange label** (Cornel; was grey).
 - **11-11 — The Help menu icons are dark grey** (Cornel: green did not look good there): chat, help, mail, call in --dark-grey (#555), the colour of the sub lines, 20 instead of 24 (.d-help; they looked too big), on a light grey tile without outline (no change on hover).
 - **11-11 — The header Help button says "Need help?"** (Cornel).

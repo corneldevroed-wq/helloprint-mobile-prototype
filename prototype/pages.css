@@ -1023,7 +1023,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dhead-nav .dwrap { height: 40px; display: flex; align-items: center; gap: 8px; }
 .dhead-nav a { display: inline-flex; align-items: center; gap: 4px; padding: 0 4px 0 8px; border-radius: var(--r-s); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--white); white-space: nowrap; }
 .dhead-nav a[aria-current="page"], .dhead-nav a:hover, .dhead-nav a[aria-expanded="true"] { background: rgba(255, 255, 255, .1); }
-.dhead-nav .dnav-all img { width: 18px; height: 18px; }
+.dhead-nav .dnav-all img, .dhead-nav .dnav-season img { width: 18px; height: 18px; }   /* the icon before All products and the season link */
+.dhead-nav .dnav-season { margin-left: auto; }   /* the season link, right in the bar where Help Centre was (Cornel 2026-11-11): white text, a light green tree (Material park, filled) before it, as the icon of All products */
 /* Mega menu (desktop; menu-desk-sketch.html B, Cornel 2026-11-10): the mobile menu under the category bar, over the page.
    A category: its products as category cards + Shop all; All products: the groups as link columns (the footer columns) */
 .mega { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 100px); overflow-y: auto; padding: 24px 0 32px; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
