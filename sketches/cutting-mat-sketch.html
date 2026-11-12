@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cutting mat sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124t">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124t">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261124t">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-12): a cutting mat pattern behind the thank-you strip on order confirmed,
+     to make it more graphic. The real strip (.oc-strip from components.css: the check over the top edge, the registration marks in the
+     corners), drawn on desktop (the 544 column) and mobile (390, edge to edge). The pattern is CSS only: no picture. -->
+<style>
+  body { background: var(--white); }
+  .sk-top { position: sticky; top: 0; z-index: 30; display: flex; gap: 8px; align-items: center; padding: 8px 16px; background: var(--black); color: var(--white); font-size: var(--t-14); overflow-x: auto; }
+  .sk-top b { margin-right: 8px; white-space: nowrap; }
+  .sk-top a { padding: 4px 12px; border: 1px solid var(--dark-grey); border-radius: var(--r-pill); font-weight: 600; white-space: nowrap; }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 0 24px 96px; }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p, .sk-note ul { margin-top: 8px; }
+  .sk-note ul, .sk-label ul { padding-left: 20px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 48px; margin-top: 32px; align-items: flex-start; }
+  .row > div { display: flex; flex-direction: column; gap: 8px; max-width: 100%; min-width: 0; }
+  .row small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-transform: uppercase; letter-spacing: .5px; }
+  .dframe { width: 544px; max-width: 100%; padding-top: 24px; }
+  .mframe { width: 390px; max-width: 100%; padding-top: 24px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  /* the desktop look of the strip, as .desk .oc-strip does on the page */
+  .dframe .oc-strip { padding: 40px 24px 24px; border-radius: var(--r-l); }
+  .dframe .oc-strip h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }
+  .mframe .oc-strip { margin: 0; }
+
+  /* A · the grid of a cutting mat: thin lines every 8, a clearer line every 40 (5 squares), centred on the strip */
+  .mat-a, .mat-b, .mat-c {
+    background-color: var(--dark-green);
+    background-image:
+      linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.10) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+    background-position: center;
+  }
+  /* B · + a ruler along the top and bottom edge: a short tick every 8, a longer one every 40 (as the cm scale on the mat) */
+  .mat-b, .mat-c {
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 1px, transparent 1px 40px), repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 1px, transparent 1px 8px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.45) 0 1px, transparent 1px 40px), repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 1px, transparent 1px 8px),
+      linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.10) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 100% 10px, 100% 5px, 100% 10px, 100% 5px, 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+    background-position: center top, center top, center bottom, center bottom, center, center, center, center;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat, repeat, repeat;
+  }
+  /* C · + the angle lines of the mat (30° · 45° · 60° · 90° · 120° · 135° · 150°) from the bottom centre, as the reference */
+  .mat-c { position: relative; isolation: isolate; }
+  .mat-c > .angles { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+  .mat-c > .angles line { stroke: rgba(255,255,255,.14); stroke-width: 1; vector-effect: non-scaling-stroke; }
+</style>
+</head>
+<body>
+<nav class="sk-top"><b>Cutting mat sketch</b><a href="#a">A · Grid</a><a href="#b">B · Grid + ruler</a><a href="#c">C · + angle lines</a><a href="#now">Now</a></nav>
+
+<div class="wrap">
+  <div class="sk-note">
+    <p><b>Brief (Cornel, 2026-11-12):</b> something cool behind the green thank-you strip on order confirmed, more graphic: the pattern of a
+      cutting mat (reference: the green A2 cutting mat with its grid, the cm scale and the angle lines).</p>
+    <p>All three keep the strip as it is (the check over the top edge, the registration marks in the corners, the text) and add the pattern
+      in white at a low opacity, so the text stays the hero. CSS only (gradients), one rule; it scales with the strip on mobile.</p>
+  </div>
+
+  <div class="sk-label" id="a"><b class="ttl">A · Only the grid</b>
+    A thin line every 8 (4% white) and a clearer line every 40 (10%), as the squares on the mat.
+    <ul><li>+ The calmest; it reads as texture.</li><li>− Without the scale it is "a grid", less clearly a cutting mat.</li></ul>
+  </div>
+  <div class="row" data-v="mat-a"></div>
+
+  <div class="sk-label" id="b"><b class="ttl">B · Grid + ruler along the edges <span class="pick">my pick</span></b>
+    A plus a ruler along the top and bottom edge: a short tick every 8, a longer one every 40.
+    <ul><li>+ The ruler makes it a cutting mat at a glance, and it fits the registration marks: "ready for print".</li>
+      <li>+ Still quiet: the ticks sit on the edges, away from the text.</li></ul>
+  </div>
+  <div class="row" data-v="mat-b"></div>
+
+  <div class="sk-label" id="c"><b class="ttl">C · Grid + ruler + the angle lines</b>
+    B plus the mat's angle lines from the bottom centre (30° to 150°), as on the reference.
+    <ul><li>+ The most recognisable as the reference.</li><li>− The lines cross the text: busier ("kermis" risk), the title loses a bit of its calm.</li></ul>
+  </div>
+  <div class="row" data-v="mat-c"></div>
+
+  <div class="sk-label" id="now"><b class="ttl">Now · the strip as it is</b>For comparison.</div>
+  <div class="row" data-v=""></div>
+
+  <div class="sk-note" style="margin-top:56px">
+    <p><b>My pick: B.</b> The grid gives the texture, the ruler along the edges makes it unmistakably a cutting mat, and together with the
+      registration marks the strip says "print" without a word. The angle lines (C) are the most literal, but they run through the title.</p>
+  </div>
+</div>
+
+<script>
+  const svg = '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24"/><path d="M14 25l7 7 13-15"/></svg>';
+  // C: lines from the bottom centre at 30° … 150°, long enough to leave the strip (the SVG keeps its angles: slice, anchored bottom centre)
+  const angles = `<svg class="angles" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${[30, 45, 60, 90, 120, 135, 150].map(a => {
+    const r = 1200, x = 500 + r * Math.cos(a * Math.PI / 180), y = 400 - r * Math.sin(a * Math.PI / 180);
+    return `<line x1="500" y1="400" x2="${x.toFixed(0)}" y2="${y.toFixed(0)}"/>`; }).join('')}</svg>`;
+  const strip = cls => `<section class="oc-strip ${cls}">${cls === 'mat-c' ? angles : ''}${svg}<div><h1>Thank you, Anna!<br>Your order is in.</h1>
+    <p>Order HP-IE-5303650 · confirmation sent to <b>anna@example.ie</b></p></div></section>`;
+  document.querySelectorAll('[data-v]').forEach(r => {
+    const cls = r.dataset.v;
+    r.innerHTML = `<div><small>Desktop · 544</small><div class="dframe">${strip(cls)}</div></div><div><small>Mobile · 390</small><div class="mframe">${strip(cls)}</div></div>`;
+  });
+</script>
+</body>
+</html>
