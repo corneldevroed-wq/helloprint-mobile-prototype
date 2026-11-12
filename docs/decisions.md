@@ -5,9 +5,11 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Menu desktop (Nov 10, 2026)
+- **11-12 — Thank-you strip: the grid of a cutting mat** (cutting-mat-sketch.html A, Cornel: "only the grid"): a thin white line every 8 (4%) and a clearer one every 40 (10%) behind the dark green, CSS only. The registration marks in the corners are removed (print-mark.svg deleted); the ruler (B) and the angle lines (C) not taken.
+- **11-12 — Account menu in the header (logged in), the Need help? style** (Cornel; content as live en-ie): the name opens on hover: Hi, <name>, welcome back! then Account Overview, Orders, Invoices, Quotes, Support, Personal Details, Addresses (no sub lines, as live), a line, Log out in red. Logged out: Log in goes straight to the login page, no dropdown (Cornel 2026-11-12: one step, the login page already offers Log in and Create an account). The base: to fine-tune.
 - **11-11 — A season link right in the green bar: "Christmas", white with a light green tree** (Cornel; where Help Centre was; light green text looked dull on the dark green, then a dot, then the Material "park" tree, filled (outlined tried), 18 as the All products icon), to #christmas, with its own dropdown as live "Xmas": 6 tiles (Christmas Cards, Calendars, Advent Calendars, Christmas Hats, Christmas Decorations, Christmas Gift Bags; images from live), without the live promo card. On mobile a Christmas row in the drawer, under All products. Change the word and the tiles per season (`sub.xmas`).
 - **11-11 — "Instant" at Chat with Anna is the orange label** (Cornel; was grey).
-- **11-11 — The Help menu icons are dark grey** (Cornel: green did not look good there): chat, help, mail, call in --dark-grey (#555), the colour of the sub lines, 20 instead of 24 (.d-help; they looked too big), on a light grey tile without outline (no change on hover).
+- **11-11 — The Help menu icons are dark grey** (Cornel: green did not look good there): chat, help, mail, call in --dark-grey (#555), the colour of the sub lines, 20 instead of 24 (.d-head, was .d-help; they looked too big), on a light grey tile without outline (no change on hover).
 - **11-11 — The header Help button says "Need help?"** (Cornel).
 - **11-11 — The tile names in the category menu are one step smaller** (Cornel): 14 semibold (the base .cat title), 16 on the category pages. The menu title stays the 20/24 section title.
 - **11-11 — No chevron at language and Help in the header** (Cornel; hidden in CSS, the markup stays): the pills get 8px on both sides.

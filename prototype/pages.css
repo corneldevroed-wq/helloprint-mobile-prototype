@@ -1016,8 +1016,8 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dpill:hover { background: rgba(255, 255, 255, .1); }   /* no fill (Cornel); a light tint only on hover */
 .dflag { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; margin-right: 4px; }
 .dchev { display: none; width: 20px; height: 20px; transition: transform .2s; }   /* hidden (Cornel 2026-11-11): language and Help without a chevron */
-.dhead-help { position: relative; }   /* Help in the header opens the drop menu under it (Cornel 2026-11-11) */
-.dhead-help .d-menu { top: calc(100% + 8px); z-index: 1; }
+.dhead-drop { position: relative; }   /* Need help? and the account in the header open their drop menu under them (Cornel 2026-11-11/12) */
+.dhead-drop .d-menu { top: calc(100% + 8px); z-index: 1; }
 .dpill[aria-expanded="true"] .dchev { transform: rotate(180deg); }
 .dcart { width: 24px; height: 24px; }
 .dhead-nav .dwrap { height: 40px; display: flex; align-items: center; gap: 8px; }
@@ -1367,6 +1367,7 @@ html:not(.desk) .desk-only { display: none; }
 .xsell .product .spec { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the preset the card adds (cart-presets-sketch.html A) */
 .xsell .product .pill { margin-top: 16px; border-color: var(--mid-grey); }   /* desktop: Add to cart with the Recommended preset; the photo and the name open the product page */   
 .desk .home .product .thumb, .desk .xsell .product .thumb { border-radius: 0; }
+.home .product .thumb img { padding: 16px; }   /* best sellers: the product a step smaller in its grey tile (Cornel, 11-12; the photos are transparent) */
 .desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; }
 .desk .home .product > :not(.thumb), .desk .xsell .product > :not(.thumb) { padding: 0 16px; }
 .desk .home .product > :last-child, .desk .xsell .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */

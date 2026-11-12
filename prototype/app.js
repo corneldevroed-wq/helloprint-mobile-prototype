@@ -191,13 +191,29 @@ const SHEET_SHIPPING = `
   </div>
 </div>`;
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
-// Help in the desktop header (Cornel 2026-11-11, content as live en-ie): the drop menu of the PDP bar, opening downwards
-const HELP_MENU = `<div class="d-menu d-help" role="menu" hidden>
-          <p class="d-menu-title">How can we help?</p>
-          <a role="menuitem" href="#chat"><span class="ico"><img src="../design-system/icons/chat.svg" alt=""></span><span><b>Chat with Anna<span class="badge">Instant</span></b><small>Typically replies within a minute</small></span></a>
-          <a role="menuitem" href="help-centre.html"><span class="ico"><img src="../design-system/icons/help.svg" alt=""></span><span><b>Help Centre</b><small>Answers about orders, files and delivery</small></span></a>
-          <a role="menuitem" href="#new2contactform"><span class="ico"><img src="../design-system/icons/mail.svg" alt=""></span><span><b>Send a message</b><small>Our print experts reply by email</small></span></a>
-          <a role="menuitem" href="tel:+353818882249"><span class="ico"><img src="../design-system/icons/call.svg" alt=""></span><span><b>Prefer to call?</b><small>+353 818 882 249 · Mon–Fri 9:00–17:00</small></span></a>
+// Drop menus in the desktop header (Cornel 2026-11-11/12): Need help? (content as live en-ie) and, logged in, the account menu (as live).
+// A row: [href, icon in design-system/icons, title, sub line]; icons are Material Symbols Rounded, dark grey on a light grey tile (.d-head)
+const dropRow = ([href, icon, title, sub]) => `<a role="menuitem" href="${href}"><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span></a>`;
+const HELP_MENU = `<div class="d-menu d-head" role="menu" hidden>
+          <p class="d-menu-title">How can we help?</p>${[
+            ['#chat', 'chat', 'Chat with Anna<span class="badge">Instant</span>', 'Typically replies within a minute'],
+            ['help-centre.html', 'help', 'Help Centre', 'Answers about orders, files and delivery'],
+            ['#new2contactform', 'mail', 'Send a message', 'Our print experts reply by email'],
+            ['tel:+353818882249', 'call', 'Prefer to call?', '+353 818 882 249 · Mon–Fri 9:00–17:00'],
+          ].map(dropRow).join('')}
+        </div>`;
+const deskFirst = deskUser ? (deskUser.first || 'My account').replace(/&/g, '&amp;').replace(/</g, '&lt;') : '';
+const ACCOUNT_MENU = `<div class="d-menu d-head" role="menu" hidden>
+          <p class="d-menu-title">Hi, ${deskFirst}, welcome back!</p>${[
+            ['#my-account', 'home', 'Account Overview'],
+            ['#orders', 'package-2', 'Orders'],
+            ['#invoices', 'receipt-long', 'Invoices'],
+            ['#quotes', 'request-quote', 'Quotes'],
+            ['help-centre.html', 'support-agent', 'Support'],
+            ['#personal-details', 'person', 'Personal Details'],
+            ['#addresses', 'location-on', 'Addresses'],
+          ].map(dropRow).join('')}
+          <hr><button type="button" class="d-out" data-logout><span class="ico"><img src="../design-system/icons/logout.svg" alt=""></span><span><b>Log out</b></span></button>
         </div>`;
 const SHELL_HEADER_DESK = `
   <header class="dhead">
@@ -210,8 +226,8 @@ const SHELL_HEADER_DESK = `
       </form>
       <div class="dhead-right">
         <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
-        <a class="dbtn" href="login.html">${deskUser ? (deskUser.first || 'My account') : 'Log in'}</a>
-        <div class="dhead-help"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-help>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
+        ${deskUser ? `<div class="dhead-drop"><a class="dbtn" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop>${deskFirst}</a>${ACCOUNT_MENU}</div>` : '<a class="dbtn" href="login.html">Log in</a>'}
+        <div class="dhead-drop"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-drop>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
       </div>
     </div></div>
@@ -673,18 +689,24 @@ function closeMenu() {
 }
 document.querySelector('[data-proto="menu"]')?.addEventListener('click', e => { e.preventDefault(); openMenu(); });
 
-// Desktop Help: hovering opens its drop menu (Cornel 2026-11-11), it closes 200 ms after the mouse leaves (time to cross the 8px gap);
-// a click still toggles it (touch screens), a click outside or Esc closes
-const helpBtn = document.querySelector('[data-help]');
-if (helpBtn) {
-  const helpWrap = helpBtn.parentElement, helpMenu = helpBtn.nextElementSibling;
-  let helpTimer;
-  const helpOpen = on => { clearTimeout(helpTimer); helpMenu.hidden = !on; helpBtn.setAttribute('aria-expanded', on); };
-  helpWrap.addEventListener('mouseenter', () => helpOpen(true));
-  helpWrap.addEventListener('mouseleave', () => { helpTimer = setTimeout(() => helpOpen(false), 200); });
-  document.addEventListener('click', e => helpOpen(e.target.closest('[data-help]') ? helpMenu.hidden : false));
-  document.addEventListener('keydown', e => e.key === 'Escape' && helpOpen(false));
-}
+// Desktop header drop menus (Need help?, the account): hovering opens (Cornel 2026-11-11), they close 200 ms after the mouse leaves (time
+// to cross the 8px gap); a click still toggles (touch screens), a click outside or Esc closes
+document.querySelectorAll('[data-drop]').forEach(btn => {
+  const wrap = btn.parentElement, menu = btn.nextElementSibling;
+  let timer;
+  const open = on => { clearTimeout(timer); menu.hidden = !on; btn.setAttribute('aria-expanded', on); };
+  wrap.addEventListener('mouseenter', () => open(true));
+  wrap.addEventListener('mouseleave', () => { timer = setTimeout(() => open(false), 200); });
+  document.addEventListener('click', e => open(e.target.closest('[data-drop]') === btn ? menu.hidden : false));
+  document.addEventListener('keydown', e => e.key === 'Escape' && open(false));
+});
+// Log out (the account menu): prototype data only, name and email are forgotten
+document.addEventListener('click', e => {
+  if (!e.target.closest('[data-logout]')) return;
+  try { localStorage.removeItem('hp-user'); } catch (err) {}
+  toastOnNextPage('You’re logged out');
+  location.reload();
+});
 
 // Desktop: the same menu as a mega menu under the category bar (menu-desk-sketch.html B, Cornel 2026-11-10).
 // Hover a category: its products as category cards + Shop all. Hover or click All products: the groups as link columns.
