@@ -4,7 +4,12 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Search engines (Nov 12, 2026)
+- **11-12 — Every page noindex, nofollow** (Cornel): the GitHub Pages sites are public, so all 81 HTML pages (prototype, style guide, Brand Guidelines, sketches, the forwarding pages) carry `<meta name="robots" content="noindex, nofollow">` after the charset; new pages too (CLAUDE.md). A robots.txt would not work (it must sit at the domain root, which is not ours).
+
 ## Menu desktop (Nov 10, 2026)
+- **11-12 — The account icon before the name (logged in) and before Log in (logged out)** (Cornel): the white account_circle of the mobile header (20, without its green dot) in the light green pill. A photo avatar was tried and dropped (no real profile photos).
+- **11-12 — The header drop menus are compact** (Cornel: they felt too big as a dropdown): .d-head 320 wide (was 360; 304 wrapped the Help sub lines), rows of 40 (was 56; the tick column dropped), the icon 18 without a tile (was a 40 tile, grey, then 32; Cornel: the grey tile out), the title 14 (was 16). The PDP bar menu keeps its size.
 - **11-12 — Thank-you strip: the grid of a cutting mat** (cutting-mat-sketch.html A, Cornel: "only the grid"): a thin white line every 8 (4%) and a clearer one every 40 (10%) behind the dark green, CSS only. The registration marks in the corners are removed (print-mark.svg deleted); the ruler (B) and the angle lines (C) not taken.
 - **11-12 — Account menu in the header (logged in), the Need help? style** (Cornel; content as live en-ie): the name opens on hover: Hi, <name>, welcome back! then Account Overview, Orders, Invoices, Quotes, Support, Personal Details, Addresses (no sub lines, as live), a line, Log out in red. Logged out: Log in goes straight to the login page, no dropdown (Cornel 2026-11-12: one step, the login page already offers Log in and Create an account). The base: to fine-tune.
 - **11-11 — A season link right in the green bar: "Christmas", white with a light green tree** (Cornel; where Help Centre was; light green text looked dull on the dark green, then a dot, then the Material "park" tree, filled (outlined tried), 18 as the All products icon), to #christmas, with its own dropdown as live "Xmas": 6 tiles (Christmas Cards, Calendars, Advent Calendars, Christmas Hats, Christmas Decorations, Christmas Gift Bags; images from live), without the live promo card. On mobile a Christmas row in the drawer, under All products. Change the word and the tiles per season (`sub.xmas`).

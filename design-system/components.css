@@ -652,8 +652,14 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .d-menu button:hover, .d-menu a:hover { background: var(--light-grey); }
 .d-menu .ico { position: relative; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); }
 .d-menu .ico img { width: 24px; height: 24px; }
-.d-head .ico img { width: 20px; height: 20px; }   /* the header menus (Need help?, account): Material icons fill their box more than the PDP icons, so 20 (Cornel 2026-11-11) */
-.d-head .ico { border: 0; background: var(--light-grey); }   /* the header menus: a light grey tile, no outline (Cornel 2026-11-11) */
+/* The header menus (Need help?, account; Cornel 2026-11-11/12): compact, as a dropdown should feel: 320 wide, rows of 40 (no tick column),
+   the Material icon 18 on its own (no tile: no outline, no grey), the title 14 */
+.d-head { width: 320px; }
+.d-head .d-menu-title { font-size: var(--t-14); line-height: var(--lh-14); }
+.d-head a, .d-head button { grid-template-columns: 20px minmax(0, 1fr); min-height: 40px; padding: 4px 8px; }
+.d-head .ico { width: 20px; height: 20px; border: 0; background: none; }
+.d-head .ico img { width: 18px; height: 18px; }
+.d-head hr { margin: 4px 0; }
 .d-menu hr { margin: 8px 0; border: 0; border-top: 1px solid var(--line); }   /* a line before Log out */
 .d-menu .d-out b { color: var(--error); }   /* Log out in red, as live (the icon too) */
 .d-menu b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }

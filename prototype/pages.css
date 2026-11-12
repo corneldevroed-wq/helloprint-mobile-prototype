@@ -1018,6 +1018,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .dchev { display: none; width: 20px; height: 20px; transition: transform .2s; }   /* hidden (Cornel 2026-11-11): language and Help without a chevron */
 .dhead-drop { position: relative; }   /* Need help? and the account in the header open their drop menu under them (Cornel 2026-11-11/12) */
 .dhead-drop .d-menu { top: calc(100% + 8px); z-index: 1; }
+/* The account button: the account icon of the mobile header before the name or Log in (Cornel 2026-11-12; no photo, no green dot) */
+.dbtn-user { gap: 4px; padding-left: 8px; }
+.dbtn-user img { width: 20px; height: 20px; }
 .dpill[aria-expanded="true"] .dchev { transform: rotate(180deg); }
 .dcart { width: 24px; height: 24px; }
 .dhead-nav .dwrap { height: 40px; display: flex; align-items: center; gap: 8px; }

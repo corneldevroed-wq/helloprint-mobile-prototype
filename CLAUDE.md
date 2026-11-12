@@ -3,7 +3,7 @@
 A clickable HTML prototype of the HelloPrint redesign (mobile + desktop), built with Cornel de Vroed
 (Creative/UX lead, Helloprint). It is used to test ideas, share them with the team (Niels, Derk, …) and
 hand over to development. Live for testers via GitHub Pages:
-https://corneldevroed-wq.github.io/helloprint-mobile-prototype/ (private repo `corneldevroed-wq/helloprint-mobile-prototype`).
+https://corneldevroed-wq.github.io/helloprint-mobile-prototype/ (repo `corneldevroed-wq/helloprint-mobile-prototype`, public on GitHub as of 2026-11-12).
 Mirrored to the company repo `Helloprint/helloprint-design` (every `git push` goes to both), live at
 https://helloprint.github.io/helloprint-design/ (style guide: …/design-system/).
 
@@ -31,6 +31,8 @@ Before building anything, also read:
 
 ## Hard rules for the prototype
 
+- **Not for search engines.** Every HTML page has `<meta name="robots" content="noindex, nofollow">` right after the charset
+  (Cornel, 2026-11-12: the Pages sites are public). A new page gets it too.
 - **Links stay local.** Never link to helloprint.com; unknown targets become `#slug` anchors or local pages.
   Content and images may be taken from the live site (en-ie is the market we build for, en-gb as extra source).
 - **No live-site cart/checkout actions** without asking. Decline non-essential cookies on live pages.

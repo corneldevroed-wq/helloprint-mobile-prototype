@@ -226,7 +226,7 @@ const SHELL_HEADER_DESK = `
       </form>
       <div class="dhead-right">
         <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
-        ${deskUser ? `<div class="dhead-drop"><a class="dbtn" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop>${deskFirst}</a>${ACCOUNT_MENU}</div>` : '<a class="dbtn" href="login.html">Log in</a>'}
+        ${deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : '<a class="dbtn dbtn-user" href="login.html"><img src="assets/account.svg" alt="">Log in</a>'}
         <div class="dhead-drop"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-drop>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
       </div>
