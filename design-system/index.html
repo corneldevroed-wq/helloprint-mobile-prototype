@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261125d">
-<link rel="stylesheet" href="components.css?v=20261125d">
-<link rel="stylesheet" href="guide.css?v=20261125d">
+<link rel="stylesheet" href="tokens.css?v=20261125f">
+<link rel="stylesheet" href="components.css?v=20261125f">
+<link rel="stylesheet" href="guide.css?v=20261125f">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -314,7 +314,7 @@
       ex: stage('<nav class="tabs" style="position:static;width:100%" aria-label="Sections"><a href="#tabs" class="active">Types</a><a href="#tabs">Sizes</a><a href="#tabs">Materials</a><a href="#tabs">Finishes</a><a href="#tabs">Reviews</a></nav>') });
 
   let cards = row({ name: 'Product card', wide: true, meta: [{ t: '.product' }, SIZE],
-      use: 'A product. Square photo (badge top left), title, green ticks for selling points only, "N pieces for" + a real price. Never "Configure & see price". Also in the cart: "Often ordered with …", 4 in a row on desktop (2 × 2 on mobile), the price of the Recommended preset; desktop adds a "+ Add to cart" pill (Pill with icon) that adds that preset.',
+      use: 'A product. Square grey tile with the product photo 16px inside it (badge top left), title, green ticks for selling points only, "N pieces for" + a real price. Never "Configure & see price". Also in the cart: "Often ordered with …", 4 in a row on desktop (2 × 2 on mobile), the price of the Recommended preset; desktop adds a "+ Add to cart" pill (Pill with icon) that adds that preset.',
       ex: stage(real(`<div class="plp clp"><a class="product" href="#cards"><div class="thumb" style="background:#f3f3f3"><img src="../prototype/assets/category/t-classic.png" alt=""><span class="badge">Most Popular</span></div><p class="name">Classic Business Cards</p><ul class="usp-list"><li>${TICK.replace(/24/g, '16')}Our best-selling card</li><li>${TICK.replace(/24/g, '16')}Many paper options</li></ul><div><p class="from">500 pieces for</p><p class="prices"><span class="price">€29.95</span></p></div></a></div>`, [166, 'business cards, 2 per row'], [310, 'business cards, 4 per row (home: 244, 5 per row)'])) }) +
     row({ name: 'Category card', wide: true, meta: [{ t: '.cat' }, SIZE],
       use: 'A category (not a product). Always square: grey, image on top, title under it. Never stretched taller.',
@@ -406,7 +406,7 @@
   cards += cut('Size card', '.size-card', '../prototype/business-cards.html', '.size-card', 'business cards, sizes',
       'A size: the shape to scale, the name, the measurements, one tick with what it is for.') +
     cut('Blog card', '.blog-card', '../prototype/business-cards.html', '.blog-card', 'business cards, blogs',
-      'An article: photo, title, two lines of text, Read more. A swipe row on mobile, 3 in a row on desktop.') +
+      'An article: photo, title, two lines of text, Read more. White with the line outline, hover as the cards. A swipe row on mobile, 3 in a row on desktop, under a section head with an arrow link (business cards; the home above Browse all we offer).') +
     cut('Content row', '.so-row', '../prototype/business-cards.html', '.so-row', 'business cards, Make it stand out',
       'Photo and text side by side on desktop (switching sides per row), stacked on mobile. A content block, not SEO text.');
   options += cut('Quick start', '.presets', '../prototype/product.html?p=classic-business-cards', '||.presets', 'PDP, above the options',
@@ -559,6 +559,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261125d"></script>
+<script src="guide.js?v=20261125f"></script>
 </body>
 </html>

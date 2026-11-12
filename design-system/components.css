@@ -33,7 +33,7 @@ html:not(.desk) .cat { aspect-ratio: 1; justify-content: center; }   /* category
 .collage img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
 .product { display: flex; flex-direction: column; gap: 8px; }
 .product .thumb { position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--r-l); overflow: hidden; }
-.product .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+.product .thumb img { width: 100%; height: 100%; padding: 16px; object-fit: cover; transition: transform .3s; }   /* 16 around the product in its grey tile (Cornel 2026-11-12; the product photos are transparent) */
 .product:hover .thumb img { transform: scale(1.04); }
 .badge { position: absolute; left: 16px; top: 16px; background: var(--orange); color: var(--white); border-radius: var(--r-s); padding: 4px; font-weight: 700; font-size: var(--t-12); line-height: 1; }
 .badge.neutral { background: var(--light-grey); color: var(--dark-grey); }   /* one label, three tones (2026-10-30): orange = commercial (Most Popular, Free design templates…), */
@@ -504,6 +504,22 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .plp .section-head .link, .mega .link, .hc-card .link, .ha-back { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
 .plp .section-head .link::after, .mega .link::after, .hc-card .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
 .plp .section-head .link, .mega .link, .hc-card .link, .ha-back { text-decoration: none; }
+
+/* Blog cards (business cards page, and the home under "Browse all we offer"): photo on top, title, text, "Read more" pill.
+   White with the card outline, hover as the product cards. Mobile: swipe row of 300px cards; desktop: 3 in a row (Cornel, 2026-10-28 / 11-12) */
+.blog-row { gap: 8px; scroll-snap-type: x mandatory; }
+.blog-card { flex: 0 0 300px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; background: var(--white); scroll-snap-align: start; transition: border-color .15s, box-shadow .2s; }
+.blog-card:hover { border-color: var(--outline); }
+.blog-img { aspect-ratio: 16 / 9; overflow: hidden; }
+.blog-img img { width: 100%; height: 100%; object-fit: cover; }
+.blog-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+.blog-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.blog-txt p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.blog-txt .pill { margin-top: auto; padding: 6px 16px; }
+.desk .blog-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
+.desk .blog-card:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.desk .blog-txt h3 { font-size: var(--t-16); line-height: var(--lh-16); }
+.desk .blog-txt p { font-size: var(--t-14); line-height: var(--lh-14); }
 .desk .plp .d-acc details p { font-size: var(--t-14); line-height: var(--lh-14); }
 .desk .plp .d-acc summary { font-size: var(--t-16); line-height: var(--lh-16); }   /* FAQ questions = the card titles on the page (16/22 desktop, 14 mobile) */
 .plp .oc-faq summary { font-size: var(--t-14); line-height: var(--lh-tight); }   /* mobile: = the card titles (14px) */

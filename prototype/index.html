@@ -7,9 +7,9 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261125d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261125d">
-<link rel="stylesheet" href="pages.css?v=20261125d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261125f">
+<link rel="stylesheet" href="../design-system/components.css?v=20261125f">
+<link rel="stylesheet" href="pages.css?v=20261125f">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -172,10 +172,20 @@
       <h2>What our Happy Customers say</h2>
     </section>
 
+    <!-- Blogs (Cornel, 2026-11-12): the blog block of business-cards.html, above "Browse all we offer"; the three newest en-ie posts -->
+    <section>
+      <div class="section-head">
+        <h2>Get inspired by our blog</h2>
+        <a class="link" href="#blog">All blogs</a>
+      </div>
+      <div class="hscroll blog-row" id="blogRows"></div>
+    </section>
+
     <section class="acc-wrap">
       <h2>Browse all we offer</h2>
       <div class="acc" data-acc="browse"></div>
     </section>
+
 
     <section class="seo">
       <h2>Online Printing Services Made Easy with HelloPrint</h2>
@@ -191,8 +201,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261125d"></script>
-<script src="../design-system/components.js?v=20261125d"></script>
+<script src="app.js?v=20261125f"></script>
+<script src="../design-system/components.js?v=20261125f"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -208,6 +218,21 @@
       </div>
     </a>`).join('');
   updatePrices();
+  // Blogs: the three newest posts on the en-ie blog (title, meta description, featured photo), cards as on business-cards.html
+  const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  document.getElementById('blogRows').innerHTML = [
+    { title: 'What to Write in a Christmas Card for Your Business', img: CFI + '6BxJbveplPe4b7RwazeOEv/d628cf33b48c24003d83f698a50ba404/christmas-cards-blog-featured-desk.jpg', href: '#what-to-write-in-a-christmas-card',
+      text: 'Ready-to-use Christmas card messages for clients, partners and your team, plus when to post your cards and whether a New Year card suits you better.' },
+    { title: 'Notebook Sizes and Types: How to Choose One for Your Brand', img: CFI + '6HVTSRUPSgGVAAfC7lHD0U/5e068b062fdf70345d56893d7397268a/notebook-blog-featured-meeting.jpg', href: '#notebook-sizes-and-types',
+      text: 'A5 or A6, spiral or hardcover, lined or dotted? How to choose a notebook with your logo that people keep using, from size and binding to the cover.' },
+    { title: 'How to Make a Calendar That Stays on the Wall', img: CFI + '7vyeHh9IJGnrDRXtA9ELqr/0d31c74223d001f75bec313c43d344e8/calendar-blog-featured-kitchen.jpg', href: '#how-to-make-a-calendar',
+      text: "From the butcher's calendar to the club fundraiser on the fridge: what makes a calendar stay up all year, and how to make one for your business." },
+  ].map(b => `
+    <article class="blog-card">
+      <div class="blog-img"><img src="${b.img}?w=800&fm=webp&q=85" alt="" loading="lazy"></div>
+      <div class="blog-txt"><h3>${b.title}</h3><p>${b.text}</p><a class="pill" href="${b.href}">Read more</a></div>
+    </article>`).join('');
+
   // Desktop: reviews row (shared with the PDP) and "Browse all we offer" as open columns
   // Mobile: the reviews as a swipe row, the same as on the mobile PDP (no arrows)
   if (!DESK) document.querySelector('.home .d-reviews').insertAdjacentHTML('beforeend', `

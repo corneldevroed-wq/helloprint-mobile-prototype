@@ -1366,11 +1366,12 @@ html:not(.desk) .desk-only { display: none; }
 
 /* Best sellers: 5 per row, outlined cards with the text inside (Figma product card) */
 .desk .home .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.home .blog-row { margin-top: 8px; }   /* title to the blog cards as the category row: 8 mobile, 16 desktop */
+.desk .home .blog-row { margin-top: 16px; }
 .desk .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }   /* Often ordered with (cart): 4 in the left column, 8 under the title */
 .xsell .product .spec { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the preset the card adds (cart-presets-sketch.html A) */
 .xsell .product .pill { margin-top: 16px; border-color: var(--mid-grey); }   /* desktop: Add to cart with the Recommended preset; the photo and the name open the product page */   
 .desk .home .product .thumb, .desk .xsell .product .thumb { border-radius: 0; }
-.home .product .thumb img, .xsell .product .thumb img { padding: 16px; }   /* best sellers + cart cross-sell: the product a step smaller in its grey tile (Cornel, 11-12; the photos are transparent) */
 .desk .home .product .badge, .desk .xsell .product .badge { padding: 4px 8px; }
 .desk .home .product > :not(.thumb), .desk .xsell .product > :not(.thumb) { padding: 0 16px; }
 .desk .home .product > :last-child, .desk .xsell .product > :last-child { padding-bottom: 16px; margin-top: auto; }   /* prices line up when a name runs to two lines */
@@ -1382,7 +1383,7 @@ html:not(.desk) .desk-only { display: none; }
 /* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
 .desk .home > .promos { order: 6; }
 .desk .home > .d-reviews { order: 7; }
-.desk .home > .acc-wrap { order: 8; }
+.desk .home > .acc-wrap, .desk .home > section:has(> .blog-row) { order: 8; }   /* the blogs right above Browse all we offer */
 .desk .home > .seo { order: 9; }
 .desk .promos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
 .desk .promo h3 { width: 353px; }
@@ -1415,7 +1416,7 @@ html:not(.desk) .desk-only { display: none; }
 /* Rhythm: 16px between the top blocks (as in Figma); every titled section and the promos get 48px above */
 .desk .home > section:has(> .cats) { margin-top: 8px; }   /* 24px under the logo line, as above it */
 .desk .home > section:has(> .grid), .desk .home > .promos,
-.desk .home > .d-reviews, .desk .home > .acc-wrap, .desk .home > .seo { margin-top: 32px; }
+.desk .home > .d-reviews, .desk .home > .acc-wrap, .desk .home > section:has(> .blog-row), .desk .home > .seo { margin-top: 32px; }
 
 /* Desktop PDP: product review score under the title (placeholder numbers), in Trustpilot's style:
    green squares with a white star, the last square partly green */
@@ -1766,22 +1767,6 @@ html:not(.desk) .plp > section + .plp-feature, html:not(.desk) .plp > .plp-featu
 .cat-lead b { font-weight: 600; color: var(--black); }
 .cat-lead a { color: var(--link); text-decoration: underline; }
 
-/* Blog cards (business cards page; concept C of standout-sketch.html): photo on top, title, text, "Read more" button.
-   Mobile: swipe row of 300px cards; desktop: 3 in a row. Title = material title, text = body text (Cornel, 2026-10-28) */
-.blog-row { gap: 8px; scroll-snap-type: x mandatory; }
-.blog-card { flex: 0 0 300px; display: flex; flex-direction: column; border-radius: var(--r-l); overflow: hidden; background: var(--light-grey); scroll-snap-align: start; }
-.blog-img { aspect-ratio: 16 / 9; overflow: hidden; }
-.blog-img img { width: 100%; height: 100%; object-fit: cover; }
-.blog-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
-.blog-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
-.blog-txt p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.blog-txt .pill { margin-top: auto; padding: 6px 16px; }
-.desk .plp .blog-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }
-.desk .blog-txt h3 { font-size: var(--t-16); line-height: var(--lh-16); }
-.desk .blog-txt p { font-size: var(--t-14); line-height: var(--lh-14); }
-.desk .blog-txt .pill { margin-top: auto; }
-.blog-txt p + .pill { margin-top: auto; }
-/* blog cards: light grey again, no line (Cornel, 2026-10-28; white + line tried) */
 #blogs .cat-lead { margin-bottom: 16px; }   /* intro paragraph to the blog cards: 16px (Cornel) */
 /* FAQ on category pages: the PDP accordion; answers as body text (12/18 mobile, 14/22 desktop), links green */
 .plp .oc-faq p { font-size: var(--t-12); line-height: var(--lh-12); }
@@ -1816,10 +1801,6 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .oc-faq summary { font-size: var(--t-14); line-height: var(--lh-tight); }
 .oc-faq p, .oc-faq li { font-size: var(--t-12); line-height: var(--lh-12); }
 .desk .d-acc details p, .desk .oc-faq p, .desk .oc-faq li { font-size: var(--t-14); line-height: var(--lh-14); }
-/* Blog cards: white with the card outline (now --line #e4e4e4 is visible enough), hover as the product cards (Cornel) */
-.blog-card { background: var(--white); border: 1px solid var(--line); transition: border-color .15s, box-shadow .2s; }
-.blog-card:hover { border-color: var(--outline); }
-.desk .blog-card:hover { box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
 .desk .pdp .d-acc summary { font-size: var(--t-14); line-height: var(--lh-14); }   /* PDP: questions/guidelines back to 14px, in line with the specs and templates (Cornel) */
 
 /* ===== Help Centre (help-centre.html), Oct 28–29 2026 =====
