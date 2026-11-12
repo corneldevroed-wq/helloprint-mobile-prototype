@@ -6,9 +6,9 @@
 <title>HelloPrint Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261124f">
-<link rel="stylesheet" href="../design-system/components.css?v=20261124f">
-<link rel="stylesheet" href="pages.css?v=20261124f">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124p">
+<link rel="stylesheet" href="pages.css?v=20261124p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -190,8 +190,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261124f"></script>
-<script src="../design-system/components.js?v=20261124f"></script>
+<script src="app.js?v=20261124p"></script>
+<script src="../design-system/components.js?v=20261124p"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -221,6 +221,28 @@
   }
   // Team + Promises: Cornel's latest Figma (v3) only; the other setups (1, 2) stay in styles.css as .tb-1 / .tb-2
   if (DESK) document.documentElement.classList.add('tb-3');
+  // Prototype switch "Photos" (mobile + desktop, Cornel, 2026-11-11): A = the live promo cards, B = only the new editorial photos, each with its own title
+  // (?photos=a|b). B replaces the top promo row; the photo is assets/home/editorial/<link slug>.webp.
+  (() => {
+    let ph = new URLSearchParams(location.search).get('photos');
+    try { if (ph) localStorage.setItem('hp-photos-home', ph); else ph = localStorage.getItem('hp-photos-home'); } catch (e) {}
+    if (ph !== 'b') ph = 'a';
+    if (ph === 'b') {
+      document.querySelector('.pb-wrap').classList.add('ed'); document.querySelector('.home h1').hidden = true;   // B: no welcome heading
+      document.querySelector('.pb-hero').innerHTML = [
+      ['brochure-and-booklet-printing', 'Booklets Made<br>to Be Read.'],
+      ['business-cards', 'Business Cards Worth Keeping'],
+      ['printed-bags', 'Tote Bags That Go Places'],
+      ['merch', 'Merch Your Team Will Actually Wear'],
+      ['corporate-gifts', 'Gifts They’ll Carry Every Day']
+    ].map(([s, t]) => `<a class="pc" href="#${s}"><span class="pc-img"><img src="assets/home/editorial/${s}.webp" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">${t}</strong></span><span class="pc-cta pill">Shop now</span></span></a>`).join('');
+    }
+    document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Photos</span>${[['a', 'Live photos'], ['b', 'Editorial photos']].map(([v, t]) => `<button data-photos="${v}" aria-pressed="${v === ph}" title="${t}">${v.toUpperCase()}</button>`).join('')}</div>`);
+    document.querySelector('[data-photos]').parentNode.addEventListener('click', e => {
+      const b = e.target.closest('[data-photos]'); if (!b) return;
+      const u = new URL(location.href); u.searchParams.set('photos', b.dataset.photos); location.href = u.toString();
+    });
+  })();
   // Promo row arrows (desktop, more than 4 promos): one card per click, hidden at the start / end
   (() => {
     const row = document.querySelector('.pb-hero'), wrap = row.closest('.pb-wrap');
