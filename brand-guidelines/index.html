@@ -11,62 +11,63 @@
 <link rel="stylesheet" href="../design-system/components.css?v=20261125m">
 <link rel="stylesheet" href="../design-system/guide.css?v=20261125m">
 <style>
-  /* The brand book (sketch B, Cornel 2026-11-12): the content of the Claude Design deck, aligned with the UI guide, as bands over the
-     full width, one per slide; every chapter opens with a cover band (number, title, two photos). Menu: guide.css + guide.js. */
-  .ds { max-width: none; }   /* the bands run to the right edge */
-  .ds-main { padding: 0; }
-  .band { padding: 96px 48px; scroll-margin-top: 64px; }
-  .band.cream { background: var(--cream); }
-  .band.dark { background: var(--dark-green); color: var(--cream); }
-  .band > .w { max-width: 1040px; margin: 0 auto; }
-  .band h2 { font-weight: 800; font-size: var(--t-32); line-height: 40px; letter-spacing: -.64px; color: var(--dark-green); }
-  .band p, .band blockquote { max-width: 640px; font-size: var(--t-16); line-height: 24px; }
-  .band h2 + p, .band p + p { margin-top: 8px; }
-  .band h3 { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
-  .band h3 + * { margin-top: 4px; }
-  .band blockquote { font-weight: 600; font-size: var(--t-20); line-height: var(--lh-20); }
+  /* The brand book (Cornel 2026-11-12): every slide is a fixed 1920 x 1080 canvas (as the Claude Design deck), stacked as in sketch A
+     and zoomed as one to the width next to the menu (--s, set below). Inside, sizes are canvas pixels, built from the tokens.
+     Content: the deck, aligned with the UI guide. Menu: guide.css + guide.js. */
+  html { scroll-snap-type: y proximity; scroll-padding-top: 96px; }   /* a slide snaps (and a link lands) 32px under the top bar */
+  .ds { max-width: none; }
+  .ds-main { display: flex; flex-direction: column; gap: 32px; padding: 32px 48px 96px; }
+  .band { position: relative; flex: none; width: 1920px; height: 1080px; zoom: var(--s, .5); overflow: hidden; padding: 120px 200px;
+    border-radius: calc(var(--r-l) / var(--s, .5)); background: var(--white); box-shadow: inset 0 0 0 calc(1px / var(--s, .5)) var(--line);
+    scroll-snap-align: start; font-size: var(--t-24); line-height: 1.4; }   /* line and corner stay 1px / 10px on screen */
+  .band.cream { background: var(--cream); box-shadow: none; }
+  .band.dark { background: var(--dark-green); color: var(--cream); box-shadow: none; }
+  .band > .w { height: 100%; }
+  .band h2 { font-weight: 800; font-size: calc(var(--t-32) * 2); line-height: 1.1; letter-spacing: -.02em; color: var(--dark-green); }
+  .band p, .band blockquote { max-width: 1000px; }
+  .band h2 + p, .band p + p { margin-top: 16px; }
+  .band h2 + p { margin-top: 32px; }
+  .band h3 { font-weight: 700; }
+  .band h3 + * { margin-top: 8px; }
+  .band blockquote { font-weight: 700; font-size: var(--t-32); line-height: 1.25; }
   .band.dark h2, .band .stmt { color: inherit; }
-  .band .stmt { max-width: 760px; margin-top: 24px; font-weight: 800; font-size: var(--t-32); line-height: 40px; letter-spacing: -.64px; }   /* a statement slide: the line is the slide */
-  .band table { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
-  .band th, .band td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .band .stmt { max-width: 1300px; margin-top: 48px; font-weight: 800; font-size: calc(var(--t-48) * 1.5); line-height: 1.1; letter-spacing: -.02em; }   /* a statement slide: the line is the slide */
+  .band table { width: 100%; border-collapse: collapse; }
+  .band th, .band td { padding: 16px 32px 16px 0; border-bottom: 2px solid var(--line); text-align: left; vertical-align: top; }
   .band.dark th, .band.dark td { border-bottom-color: var(--dark-grey); }
-  .band th { font-weight: 600; }
-  /* split: visuals left, title + text right (as guidelines.site); stack: title + text, then the points in columns */
-  .b-split { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+  .band th { font-weight: 700; }
+  /* split: visuals left, title + text right; stack: title + text, then the points in columns */
+  .b-split { display: grid; grid-template-columns: 3fr 2fr; gap: 96px; align-items: start; }
   .b-split .b-side { order: 2; }
-  .b-body { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-  .b-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 32px; }
+  .b-body { display: flex; flex-direction: column; gap: 48px; min-width: 0; }
+  .b-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 64px; margin-top: 64px; }
   .b-body .b-items { grid-template-columns: repeat(2, 1fr); margin-top: 0; }
-  .b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-  .b-tile { display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; min-height: 200px; padding: 24px; border-radius: var(--r-l); color: var(--dark-green); }   /* an example from the deck, on its colour */
+  .b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; }
+  .b-tile { display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; min-height: 280px; padding: 40px; border-radius: calc(var(--r-l) * 2); color: var(--dark-green); }   /* an example from the deck, on its colour */
   .b-tile.on-dark { color: var(--cream); }
-  .b-tile.light { border: 1px solid var(--line); }
-  .b-tile .b-tile { min-height: 0; padding: 16px; }
-  .b-sw { min-height: 280px; }
-  .b-sw h3 { font-weight: 800; font-size: var(--t-24); line-height: 32px; }
-  .b-sw p { font-size: var(--t-14); line-height: var(--lh-14); opacity: .8; }
-  /* chapter cover */
-  .b-chap > .w { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .b-chap h2 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
+  .b-tile.light { box-shadow: inset 0 0 0 2px var(--line); }
+  .b-tile .b-tile { min-height: 0; padding: 24px; }
+  .b-sw { min-height: 400px; }
+  .b-sw h3 { font-weight: 800; font-size: calc(var(--t-24) * 1.5); line-height: 1.2; }
+  .b-sw p { opacity: .8; }
+  /* cover and chapter covers */
+  .b-cover { padding: 0; color: var(--white); }
+  .b-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }
+  .b-cover::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .35); }
+  .b-cover h2 { position: absolute; z-index: 1; left: 200px; bottom: 160px; color: var(--white); font-size: calc(var(--t-48) * 3); }
+  .b-chap > .w { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+  .b-chap h2 { font-size: calc(var(--t-48) * 3); line-height: 1; letter-spacing: -.03em; }
   .b-chap .num { display: block; color: var(--light-green); }
-  .b-chap .photos { position: relative; height: 400px; }
-  .b-chap .photos img { position: absolute; object-fit: cover; border-radius: var(--r-l); }
-  .b-chap .photos img:first-child { right: 0; top: 0; width: 70%; height: 260px; }
-  .b-chap .photos img:last-child { left: 0; bottom: 0; width: 50%; height: 240px; }
-  .bg-logo, .bg-mark { display: inline-block; height: 32px; aspect-ratio: 229 / 51; background: currentColor;
+  .b-chap .photos { position: relative; height: 760px; }
+  .b-chap .photos img { position: absolute; object-fit: cover; border-radius: calc(var(--r-l) * 2); }
+  .b-chap .photos img:first-child { right: 0; top: 0; width: 70%; height: 480px; }
+  .b-chap .photos img:last-child { left: 0; bottom: 0; width: 52%; height: 440px; }
+  .bg-logo, .bg-mark { display: inline-block; height: 64px; aspect-ratio: 229 / 51; background: currentColor;
     -webkit-mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; }
   .bg-mark { aspect-ratio: 1; -webkit-mask-image: url('assets/helloprint-vector.svg'); mask-image: url('assets/helloprint-vector.svg'); }
   .bg-mark.badge { -webkit-mask-image: url('assets/helloprint-H-badge.svg'); mask-image: url('assets/helloprint-H-badge.svg'); }
   @media (max-width: 900px) {
-    .band { padding: 48px 16px; }
-    .b-split, .b-chap > .w, .b-items, .b-body .b-items { grid-template-columns: 1fr; gap: 24px; }
-    .b-split .b-side { order: 0; }
-    .b-chap h2 { font-size: var(--t-28); line-height: 32px; letter-spacing: -.56px; }
-    .b-chap .photos { height: 280px; }
-    .b-chap .photos img:first-child { height: 180px; }
-    .b-chap .photos img:last-child { height: 160px; }
-    .band .stmt { font-size: var(--t-24); line-height: 32px; letter-spacing: -.48px; }
-    .b-sw { min-height: 160px; }
+    .ds-main { gap: 16px; padding: 16px 16px 64px; }
   }
 </style>
 </head>
@@ -76,8 +77,6 @@
   <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
   <b>Brand Guidelines</b>
 </header>
-
-<div class="ds-hero"><img src="../design-system/banner.webp" alt="A wide smile with a green HelloPrint tooth gem and two gold teeth"><b>Brand Guidelines</b></div>
 
 <div class="ds">
   <nav class="ds-side acc" id="dsSide">
@@ -169,6 +168,7 @@
     <a href="#close">Now go make print easier</a>
   </nav>
   <main class="ds-main">
+  <section class="band b-cover" id="cover"><img src="../design-system/banner.webp" alt="A wide smile with a green HelloPrint tooth gem and two gold teeth"><h2>Brand Guidelines.</h2></section>
   <section class="band" id="more-than-a-brand"><div class="w"><h2>More than a brand.</h2><p>HelloPrint is on a mission to make print easier, for everyone, everywhere. This brand guide is the key to how we express and strengthen our brand — across every channel, every touchpoint, every market.</p><p>In this guide we define the core of HelloPrint: our vision, values, tone of voice and visual identity. These guidelines ensure that every expression — from marketing campaigns to product visuals — is aligned with the unique character of HelloPrint.</p><p>By following these guidelines, we ensure our brand remains recognisable, professional, and inspiring wherever it appears.</p><p class="stmt">Making print easier,<br>for everyone,<br>everywhere.</p></div></section>
   <section class="band cream b-chap" id="chapter-01"><div class="w">
     <h2><span class="num">01</span>Positioning.</h2>
@@ -266,6 +266,13 @@
   <section class="band dark" id="close"><div class="w"><p class="stmt">Now go make print easier.</p><p>v.01 · Brand &amp; Marketing Team · 2026</p></div></section>
   </main>
 </div>
+<script>
+  // Every slide is 1920 x 1080; --s zooms them as one to the width of the column next to the menu
+  const stage = document.querySelector('.ds-main');
+  const fit = () => { const cs = getComputedStyle(stage); document.documentElement.style.setProperty('--s', (stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 1920); };
+  new ResizeObserver(fit).observe(stage); fit();
+  if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ behavior: 'instant' });   // the jump happened before the zoom: jump again
+</script>
 <script src="../design-system/guide.js?v=20261125m"></script>
 </body>
 </html>
