@@ -226,6 +226,14 @@ const SHEET_ACCOUNT = `
     <div class="sheet-body"><div class="d-menu d-head" role="menu">${ACCOUNT_ROWS}</div></div>
   </div>
 </div>`;
+// The country / language menu in the desktop header (Cornel 2026-11-12, the countries of live; the account menu's style): a round flag,
+// the country in its own language, its code right; Ireland (the market we build for) is the chosen one with the tick
+const LANG_MENU = `<div class="d-menu d-head d-lang" role="menu" hidden>
+          <p class="d-menu-title">Choose your country</p>${[
+            ['be', 'België', 'BE'], ['be', 'Belgique', 'BE'], ['de', 'Deutschland', 'DE'], ['es', 'España', 'ES'], ['fr', 'France', 'FR'], ['ie', 'Ireland', 'IE'],
+            ['it', 'Italia', 'IT'], ['nl', 'Nederland', 'NL'], ['se', 'Sverige', 'SE'], ['gb', 'United Kingdom', 'UK'], ['us', 'United States', 'US'],
+          ].map(([flag, name, code]) => `<a role="menuitemradio" aria-checked="${code === 'IE'}" href="${code === 'IE' ? '#' : '#' + name.toLowerCase().replace(/\W+/g, '-')}"><span class="ico"><img src="assets/flags/${flag}.svg" alt=""></span><span><b>${name}</b></span><small>${code}</small>${code === 'IE' ? '<img class="tick" src="assets/pdp/check.svg" alt="">' : ''}</a>`).join('')}
+        </div>`;
 // The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
 const deskAccount = login => deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : `<a class="dbtn dbtn-user" href="${login}"><img src="assets/account.svg" alt="">Log in</a>`;
 // Desktop: the shop header's top bar, Secure Checkout next to the logo, account and bag right; no search, menu or USP bar
@@ -244,7 +252,7 @@ const SHELL_HEADER_DESK = `
         <button type="submit" class="dbtn">Search</button>
       </form>
       <div class="dhead-right">
-        <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
+        <div class="dhead-drop"><button class="dpill" type="button" aria-label="Country: Ireland" aria-haspopup="menu" aria-expanded="false" data-drop><img class="dflag" src="assets/flag.png" alt="">IE<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${LANG_MENU}</div>
         ${deskAccount('login.html')}
         <div class="dhead-drop"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-drop>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
@@ -707,10 +715,9 @@ document.querySelector('[data-proto="menu"]')?.addEventListener('click', e => { 
 // to cross the 8px gap); a click still toggles (touch screens), a click outside or Esc closes
 document.querySelectorAll('[data-drop]').forEach(btn => {
   const wrap = btn.parentElement, menu = btn.nextElementSibling;
-  let timer;
-  const open = on => { clearTimeout(timer); menu.hidden = !on; btn.setAttribute('aria-expanded', on); };
+  const open = on => { menu.hidden = !on; btn.setAttribute('aria-expanded', on); };
   wrap.addEventListener('mouseenter', () => open(true));
-  wrap.addEventListener('mouseleave', () => { timer = setTimeout(() => open(false), 200); });
+  wrap.addEventListener('mouseleave', () => open(false));   // no delay (Cornel 2026-11-12: it has to be fast); the gap is bridged in CSS
   document.addEventListener('click', e => open(e.target.closest('[data-drop]') === btn ? menu.hidden : false));
   document.addEventListener('keydown', e => e.key === 'Escape' && open(false));
 });

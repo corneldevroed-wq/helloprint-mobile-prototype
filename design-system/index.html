@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261125i">
-<link rel="stylesheet" href="components.css?v=20261125i">
-<link rel="stylesheet" href="guide.css?v=20261125i">
+<link rel="stylesheet" href="tokens.css?v=20261125l">
+<link rel="stylesheet" href="components.css?v=20261125l">
+<link rel="stylesheet" href="guide.css?v=20261125l">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -452,6 +452,9 @@
     row({ name: 'Account menu', wide: true, meta: [{ t: '.d-menu.d-head' }, { t: '.d-out' }, { t: 'hr' }, { t: '#sheet-account' }],
       use: 'Logged in, the name in the header (the light green button, with the account icon of the mobile header before it) opens this drop menu on hover (Cornel 2026-11-12, as live en-ie): the greeting as title (semibold), the account pages as rows without a sub line in regular weight with the arrow of the mobile menu at the end, a line, then Log out in --error red (icon too, no arrow). Logged out the button is Log in (the same icon before it) and goes to the login page. The button gets the hover of the green buttons (.btn: a step darker). The same in the desktop checkout header, next to the bag. Mobile (no hover): the account icon (logged in: the green dot) opens the same rows in a sheet (.sheet .d-menu: the greeting is the sheet title, rows of 48 for a finger); logged out it goes to the login page. Log out forgets the prototype name and email and shows a toast (in the checkout: you can still check out as a guest).',
       ex: stage(`<div class="d-menu d-head" role="menu" style="position:relative;right:auto;flex:none"><p class="d-menu-title">Hi, Anna, welcome back!</p>${[['home', 'Account Overview'], ['package-2', 'Orders'], ['receipt-long', 'Invoices'], ['request-quote', 'Quotes'], ['support-agent', 'Support'], ['person', 'Personal Details'], ['location-on', 'Addresses']].map(([i, t]) => `<a role="menuitem" href="#shell"><span class="ico"><img src="icons/${i}.svg" alt=""></span><span><b>${t}</b></span><img class="chev" src="../prototype/assets/menu/arrow.svg" alt=""></a>`).join('')}<hr><button type="button" class="d-out"><span class="ico"><img src="icons/logout.svg" alt=""></span><span><b>Log out</b></span></button></div>`) }) +
+    row({ name: 'Country menu', wide: true, meta: [{ t: '.d-menu.d-head.d-lang' }, { t: '[aria-checked]' }, { t: '.tick' }],
+      use: 'The flag + IE (the country code, as in the menu) in the desktop header opens it on hover (Cornel 2026-11-12; the countries of live, the style of the account menu): 240 wide, the title Choose your country, rows of 40: a round flag (18, assets/flags), the country in its own language (regular), its code right (12 grey); the chosen one (Ireland) semibold with the light green tick at the end.',
+      ex: stage(`<div class="d-menu d-head d-lang" role="menu" style="position:relative;right:auto;flex:none"><p class="d-menu-title">Choose your country</p>${[['be', 'België', 'BE'], ['be', 'Belgique', 'BE'], ['de', 'Deutschland', 'DE'], ['es', 'España', 'ES'], ['fr', 'France', 'FR'], ['ie', 'Ireland', 'IE'], ['it', 'Italia', 'IT'], ['nl', 'Nederland', 'NL'], ['se', 'Sverige', 'SE'], ['gb', 'United Kingdom', 'UK'], ['us', 'United States', 'US']].map(([f, n, c]) => `<a role="menuitemradio" aria-checked="${c === 'IE'}" href="#shell"><span class="ico"><img src="../prototype/assets/flags/${f}.svg" alt=""></span><span><b>${n}</b></span><small>${c}</small>${c === 'IE' ? '<img class="tick" src="../prototype/assets/pdp/check.svg" alt="">' : ''}</a>`).join('')}</div>`) }) +
     cut('Mega menu: a category', '.mega', '../prototype/index.html?menu=promo', '||.mega', 'desktop, hover a category in the bar',
       'Desktop (Cornel 2026-11-10, menu-desk-sketch B): the mobile menu under the category bar, over the page; same content and words as the drawer. Hover a category (150 ms wait, then switching is instant; closes 200 ms after the mouse leaves): its products as category cards (the category page tiles, 6 in a row; the name one step smaller than on the page: 14, the base card title) and "Shop all …" top right. White, a line and the card hover shadow at the bottom; the open item has the bar hover tint. The page under it gets the dark layer of the popups (.mega-dim, --overlay, fades in 0.25 s; the header stays clear; a click on it closes). Mobile keeps the drawer. ?menu=&lt;key&gt; opens it on load. The base: to be extended.') +
     cut('Mega menu: All products', '.mega-all · .mega-side · .mega-cols', '../prototype/index.html?menu=all', '||.mega', 'desktop, hover or click All products',
@@ -559,6 +562,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261125i"></script>
+<script src="guide.js?v=20261125l"></script>
 </body>
 </html>
