@@ -7,26 +7,67 @@
 <title>HelloPrint Brand Guidelines</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261122n">
-<link rel="stylesheet" href="../design-system/components.css?v=20261122n">
-<link rel="stylesheet" href="../design-system/guide.css?v=20261122n">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261125m">
+<link rel="stylesheet" href="../design-system/components.css?v=20261125m">
+<link rel="stylesheet" href="../design-system/guide.css?v=20261125m">
 <style>
-  /* Content 1:1 from the Claude Design deck "Brand Guide" (v.01, 70 slides), one section per slide, in the UI Style Guide's
-     layout (guide.css). No design of its own yet: the slideshow comes next (Cornel, 2026-11-10). */
-  .ds-sec p, .ds-sec li { max-width: 640px; font-size: var(--t-16); line-height: 24px; }
-  .ds-sec h1 + p, .ds-sec p + p { margin-top: 8px; }
-  .ds-sec > h1 { margin-bottom: 16px; }
-  .ds-sec blockquote { font-weight: 600; font-size: var(--t-20); line-height: var(--lh-20); }
-  .ds-sec table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
-  .ds-sec th, .ds-sec td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-  .ds-sec th { font-weight: 600; }
-  .ds-sec .ds-stage { flex-direction: column; margin-top: 16px; color: var(--dark-green); }   /* an example from the deck: its text, on its colour */
-  .ds-sec .ds-stage.on-dark { color: var(--cream); }
-  .ds-sec .ds-stage h3 { margin: 0; }
+  /* The brand book (sketch B, Cornel 2026-11-12): the content of the Claude Design deck, aligned with the UI guide, as bands over the
+     full width, one per slide; every chapter opens with a cover band (number, title, two photos). Menu: guide.css + guide.js. */
+  .ds { max-width: none; }   /* the bands run to the right edge */
+  .ds-main { padding: 0; }
+  .band { padding: 96px 48px; scroll-margin-top: 64px; }
+  .band.cream { background: var(--cream); }
+  .band.dark { background: var(--dark-green); color: var(--cream); }
+  .band > .w { max-width: 1040px; margin: 0 auto; }
+  .band h2 { font-weight: 800; font-size: var(--t-32); line-height: 40px; letter-spacing: -.64px; color: var(--dark-green); }
+  .band p, .band blockquote { max-width: 640px; font-size: var(--t-16); line-height: 24px; }
+  .band h2 + p, .band p + p { margin-top: 8px; }
+  .band h3 { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .band h3 + * { margin-top: 4px; }
+  .band blockquote { font-weight: 600; font-size: var(--t-20); line-height: var(--lh-20); }
+  .band.dark h2, .band .stmt { color: inherit; }
+  .band .stmt { max-width: 760px; margin-top: 24px; font-weight: 800; font-size: var(--t-32); line-height: 40px; letter-spacing: -.64px; }   /* a statement slide: the line is the slide */
+  .band table { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  .band th, .band td { padding: 8px 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .band.dark th, .band.dark td { border-bottom-color: var(--dark-grey); }
+  .band th { font-weight: 600; }
+  /* split: visuals left, title + text right (as guidelines.site); stack: title + text, then the points in columns */
+  .b-split { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+  .b-split .b-side { order: 2; }
+  .b-body { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+  .b-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 32px; }
+  .b-body .b-items { grid-template-columns: repeat(2, 1fr); margin-top: 0; }
+  .b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .b-tile { display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; min-height: 200px; padding: 24px; border-radius: var(--r-l); color: var(--dark-green); }   /* an example from the deck, on its colour */
+  .b-tile.on-dark { color: var(--cream); }
+  .b-tile.light { border: 1px solid var(--line); }
+  .b-tile .b-tile { min-height: 0; padding: 16px; }
+  .b-sw { min-height: 280px; }
+  .b-sw h3 { font-weight: 800; font-size: var(--t-24); line-height: 32px; }
+  .b-sw p { font-size: var(--t-14); line-height: var(--lh-14); opacity: .8; }
+  /* chapter cover */
+  .b-chap > .w { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .b-chap h2 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
+  .b-chap .num { display: block; color: var(--light-green); }
+  .b-chap .photos { position: relative; height: 400px; }
+  .b-chap .photos img { position: absolute; object-fit: cover; border-radius: var(--r-l); }
+  .b-chap .photos img:first-child { right: 0; top: 0; width: 70%; height: 260px; }
+  .b-chap .photos img:last-child { left: 0; bottom: 0; width: 50%; height: 240px; }
   .bg-logo, .bg-mark { display: inline-block; height: 32px; aspect-ratio: 229 / 51; background: currentColor;
     -webkit-mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; }
   .bg-mark { aspect-ratio: 1; -webkit-mask-image: url('assets/helloprint-vector.svg'); mask-image: url('assets/helloprint-vector.svg'); }
   .bg-mark.badge { -webkit-mask-image: url('assets/helloprint-H-badge.svg'); mask-image: url('assets/helloprint-H-badge.svg'); }
+  @media (max-width: 900px) {
+    .band { padding: 48px 16px; }
+    .b-split, .b-chap > .w, .b-items, .b-body .b-items { grid-template-columns: 1fr; gap: 24px; }
+    .b-split .b-side { order: 0; }
+    .b-chap h2 { font-size: var(--t-28); line-height: 32px; letter-spacing: -.56px; }
+    .b-chap .photos { height: 280px; }
+    .b-chap .photos img:first-child { height: 180px; }
+    .b-chap .photos img:last-child { height: 160px; }
+    .band .stmt { font-size: var(--t-24); line-height: 32px; letter-spacing: -.48px; }
+    .b-sw { min-height: 160px; }
+  }
 </style>
 </head>
 <body>
@@ -42,6 +83,7 @@
   <nav class="ds-side acc" id="dsSide">
     <a href="#more-than-a-brand">More than a brand</a>
     <details><summary>01 Positioning<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-01">Positioning</a>
       <a href="#mission-and-vision">Mission &amp; vision</a>
       <a href="#our-values">Our Values</a>
       <a href="#brand-truth">Brand truth</a>
@@ -49,6 +91,7 @@
       <a href="#differentiators">Differentiators</a>
     </details>
     <details><summary>02 Audience &amp; Segments<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-02">Audience &amp; Segments</a>
       <a href="#segment-overview">Segment Overview</a>
       <a href="#smbs">SMBs</a>
       <a href="#creative-professionals">Creative Professionals</a>
@@ -59,6 +102,7 @@
       <a href="#messaging-matrix">Messaging Matrix</a>
     </details>
     <details><summary>03 Voice &amp; Tone<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-03">Voice &amp; Tone</a>
       <a href="#tone-of-voice">Tone of voice</a>
       <a href="#how-we-speak">How we speak</a>
       <a href="#do-and-dont">Do &amp; don&rsquo;t</a>
@@ -68,6 +112,7 @@
       <a href="#what-we-dont-claim">What we don't claim</a>
     </details>
     <details><summary>04 Our Logo<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-04">Our Logo</a>
       <a href="#logo-primary">Primary logo</a>
       <a href="#clear-space">Clear space &amp; sizing</a>
       <a href="#logo-on-backgrounds">On every background</a>
@@ -77,6 +122,7 @@
       <a href="#logo-misuse">Misuse</a>
     </details>
     <details><summary>05 Colour Palette<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-05">Colour Palette</a>
       <a href="#primary-palette">Primary palette</a>
       <a href="#colour-usage">Colour usage</a>
       <a href="#colour-tints">Tints &amp; shades</a>
@@ -85,6 +131,7 @@
       <a href="#colour-forbidden">Never</a>
     </details>
     <details><summary>06 Typography<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-06">Typography</a>
       <a href="#typefaces">Our typefaces</a>
       <a href="#type-scale">Type scale</a>
       <a href="#type-in-use">In use</a>
@@ -92,6 +139,7 @@
       <a href="#type-web-vs-print">Web &amp; print</a>
     </details>
     <details><summary>07 Photography<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-07">Photography</a>
       <a href="#photography-style">Our photography</a>
       <a href="#photography-do-and-dont">In practice</a>
       <a href="#photography-portraits">Portraits</a>
@@ -100,12 +148,14 @@
       <a href="#photography-art-direction">Art direction</a>
     </details>
     <details><summary>08 Graphic Elements<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-08">Graphic Elements</a>
       <a href="#graphic-system">Building blocks</a>
       <a href="#iconography">Iconography</a>
       <a href="#patterns">Patterns</a>
       <a href="#motion-principles">Motion</a>
     </details>
     <details><summary>09 Executions<img src="../prototype/assets/chevron.svg" alt=""></summary>
+      <a href="#chapter-09">Executions</a>
       <a href="#in-market-ads">In market — Ads</a>
       <a href="#in-product">In product</a>
       <a href="#executions-social">Social</a>
@@ -119,542 +169,103 @@
     <a href="#close">Now go make print easier</a>
   </nav>
   <main class="ds-main">
-  <section class="ds-sec" id="more-than-a-brand">
-    <h1>More than a brand.</h1>
-    <p>HelloPrint is on a mission to make print easier, for everyone, everywhere. This brand guide is the key to how we express and strengthen our brand — across every channel, every touchpoint, every market.</p>
-    <p>In this guide we define the core of HelloPrint: our vision, values, tone of voice and visual identity. These guidelines ensure that every expression — from marketing campaigns to product visuals — is aligned with the unique character of HelloPrint.</p>
-    <p>By following these guidelines, we ensure our brand remains recognisable, professional, and inspiring wherever it appears.</p>
-    <h3>Making print easier,<br>for everyone,<br>everywhere.</h3>
-  </section>
-  <section class="ds-sec" id="mission-and-vision">
-    <h1>Mission &amp; vision.</h1>
-    <h3>Mission</h3>
-    <p>Making print easier,<br>for everyone, everywhere.</p>
-    <h3>Vision</h3>
-    <p>Disrupting the print industry by building Earth's largest infrastructure for customised products.</p>
-  </section>
-  <section class="ds-sec" id="our-values">
-    <h1>Our Values.</h1>
-    <h3>Think Like A Customer</h3>
-    <p>What does it bring to our customers?</p>
-    <h3>Raise the Bar</h3>
-    <p>Ambitious, determined. Fail fast, learn fast.</p>
-    <h3>Own It</h3>
-    <p>Focus on results. The how is up to you.</p>
-    <h3>AI-First Thinking</h3>
-    <p>Technology at the core of everything we do.</p>
-    <h3>Do It Together</h3>
-    <p>Selfless, kind, no ego. One team.</p>
-    <h3>Celebrate Success</h3>
-    <p>Celebrate what's earned. Never mediocrity.</p>
-  </section>
-  <section class="ds-sec" id="brand-truth">
-    <h1>Brand truth</h1>
-    <p>We make print easy,<br>accessible, and trustworthy<br>— for everyone, everywhere.</p>
-  </section>
-  <section class="ds-sec" id="human-truth">
-    <h1>Human Truth.</h1>
-    <p>&ldquo;I need print<br>that's fast,<br>affordable,<br>and easy —<br>without needing<br>to be an expert.&rdquo;</p>
-    <p><strong>Our audience:</strong><br>SMBs, designers, local businesses.</p>
-    <p>Busy, cost-conscious, not print experts. They want results — not a course in print production.</p>
-    <p>They are entrepreneurs themselves: they understand value, speed, and quality.</p>
-  </section>
-  <section class="ds-sec" id="differentiators">
-    <h1>Differentiators.</h1>
-    <h3>Largest Platform</h3>
-    <p>The world's largest infrastructure for customised print products — thousands of products, delivered fast, at the best price.</p>
-    <h3>Always personal</h3>
-    <p>Despite our scale, we never lose the human touch. Real help, real people, every time.</p>
-    <h3>Print made simple</h3>
-    <p>We remove the complexity from print. Ordering with HelloPrint should feel as easy as buying shoes online.</p>
-  </section>
-  <section class="ds-sec" id="segment-overview">
-    <h1>Segment Overview.</h1>
-    <table><tr><th>Segment</th><th>Core need</th><th>HelloPrint's role</th></tr><tr><td>SMBs</td><td>Affordable print + creative guidance</td><td>Accessible partner that makes them look professional</td></tr><tr><td>Creative Professionals</td><td>Speed + quality on tight deadlines</td><td>Reliable production partner that never lets them down</td></tr><tr><td>Heavy Users</td><td>Low prices, white label, volume</td><td>Wholesale-grade solution without enterprise friction</td></tr><tr><td>Producers</td><td>New orders + customer reach</td><td>Distribution channel to grow their pipeline</td></tr><tr><td>Investors</td><td>Scalable model + impact story</td><td>Proven platform with strong growth fundamentals</td></tr><tr><td>Talents &amp; Employees</td><td>Dynamic environment + ownership</td><td>Fast-growing tech company with real impact</td></tr></table>
-  </section>
-  <section class="ds-sec" id="smbs">
-    <h1>SMBs.</h1>
-    <p>Sofia, 34<br>Café owner, Rotterdam</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;Your brand,<br>printed perfectly.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Affordable, easy ordering, visual guidance, no surprises</p>
-    <h3>Pain Points</h3>
-    <p>Hidden costs, confusing file specs, results that don't match preview</p>
-    <h3>Typical orders</h3>
-    <p>Flyers, menu cards, stickers, banners, loyalty cards</p>
-    <h3>How we speak</h3>
-    <p>Warm, simple, reassuring — show the result, no jargon</p>
-    <h3>Tone</h3>
-    <p>Confident and helpful.<br>Lead with outcome, not product.</p>
-  </section>
-  <section class="ds-sec" id="creative-professionals">
-    <h1>Creative Professionals.</h1>
-    <p>Daan, 29<br>Freelance Designer<br>Amsterdam</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;Professional print<br>that ships on time.<br>Every time.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Fast turnaround, reliable colour, correct file handling, proof approval</p>
-    <h3>Pain Points</h3>
-    <p>Colour shifts in print, late delivery, no clear reprints policy</p>
-    <h3>Typical orders</h3>
-    <p>Business cards, brochures, packaging, presentation folders</p>
-    <h3>How we speak</h3>
-    <p>Peer-to-peer, efficient, technically credible — no hand-holding</p>
-    <h3>Tone</h3>
-    <p>Direct and expert.<br>Skip the basics — talk spec, turnaround, guarantee.</p>
-  </section>
-  <section class="ds-sec" id="heavy-users">
-    <h1>Heavy Users.</h1>
-    <p>Marko, 41<br>Print broker / reseller<br>Hamburg</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;White label print<br>at wholesale prices.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Volume pricing, white label fulfilment, quick quotations, bulk ordering</p>
-    <h3>Pain Points</h3>
-    <p>Unclear bulk pricing, no white label, slow quote turnaround</p>
-    <h3>Typical orders</h3>
-    <p>High-volume flyers, business cards, banners — repeat orders</p>
-    <h3>How we speak</h3>
-    <p>B2B, straight to the numbers — lead with margin advantage</p>
-    <h3>Tone</h3>
-    <p>Clinical, benefit-led.<br>Show the numbers.<br>Make the margin argument.</p>
-  </section>
-  <section class="ds-sec" id="producers">
-    <h1>Producers.</h1>
-    <p>Leila, 52<br>Print production facility owner<br>Barcelona</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;Fill your capacity.<br>Reach thousands of<br>new customers.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Order flow, market exposure, scalable partnership model</p>
-    <h3>Pain Points</h3>
-    <p>Uneven capacity utilisation, high cost of acquiring new clients</p>
-    <h3>Typical engagement</h3>
-    <p>Platform partnership, production network participation</p>
-    <h3>How we speak</h3>
-    <p>Partner-first, growth-oriented — speak to scale, not just product</p>
-    <h3>Tone</h3>
-    <p>Strategic, growth-oriented.<br>Speak to outcomes, not product.</p>
-  </section>
-  <section class="ds-sec" id="investors">
-    <h1>Investors.</h1>
-    <p>Thomas, 44<br>Partner at a growth equity fund,<br>London</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;Building Earth's<br>largest infrastructure<br>for custom products.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Growth story, scalability proof, unit economics, differentiated moat</p>
-    <h3>Pain Points</h3>
-    <p>Market fragmentation risk, commoditisation, churn</p>
-    <h3>Engagement</h3>
-    <p>Investor relations, fundraising materials, platform overview</p>
-    <h3>How we speak</h3>
-    <p>Confident and data-led — vision paired with traction</p>
-    <h3>Tone</h3>
-    <p>Bold and substantiated.<br>Lead with vision, follow with numbers.</p>
-  </section>
-  <section class="ds-sec" id="talents-and-employees">
-    <h1>Talents &amp; Employees.</h1>
-    <p>Yara, 26<br>Product designer<br>— agency to in-house</p>
-    <h3>Headline angle</h3>
-    <blockquote>&ldquo;Own it.<br>Build it.<br>Ship it.&rdquo;</blockquote>
-    <h3>Needs</h3>
-    <p>Ownership, fast progression, smart colleagues, real product impact</p>
-    <h3>Pain Points</h3>
-    <p>Slow companies, hierarchy without merit, work that doesn't ship</p>
-    <h3>Engagement</h3>
-    <p>Careers page, LinkedIn, employer brand content</p>
-    <h3>How we speak</h3>
-    <p>Honest and energetic — show real work. No corporate glossiness.</p>
-    <h3>Tone</h3>
-    <p>Bold and substantiated.<br>Lead with vision, follow with numbers.</p>
-  </section>
-  <section class="ds-sec" id="messaging-matrix">
-    <h1>Messaging Matrix.</h1>
-    <table><tr><th>Segment</th><th>Lead message</th><th>Tone</th></tr><tr><td>SMBs</td><td>Make your business look great, affordably</td><td>Warm, simple, inspiring</td></tr><tr><td>Creative Professionals</td><td>Fast, reliable, professionally spec'd</td><td>Direct, expert, efficient</td></tr><tr><td>Heavy Users</td><td>Wholesale pricing, white label, volume</td><td>Clinical, numbers-led</td></tr><tr><td>Producers</td><td>Fill your capacity, reach new customers</td><td>Strategic, growth-oriented</td></tr><tr><td>Investors</td><td>Category-defining platform, massive market</td><td>Confident, data-backed</td></tr><tr><td>Talents &amp; Employees</td><td>Own things. Move fast. Work on hard problems.</td><td>Honest, energetic</td></tr></table>
-  </section>
-  <section class="ds-sec" id="tone-of-voice">
-    <h1>Tone of voice.</h1>
-    <p>HelloPrint's tone of voice is friendly, expert, and human. We speak plainly — no jargon, no watered-down copy, no corporate speak.</p>
-    <p>Our audience are entrepreneurs themselves. We respect their intelligence and their time. We lead with the benefit, keep it short, and always sound like a real person — not a marketing machine.</p>
-    <h3>Friendly.<br>Expert.<br>Human.</h3>
-  </section>
-  <section class="ds-sec" id="how-we-speak">
-    <h1>How we speak.</h1>
-    <h3>Plain &amp; direct</h3>
-    <p>Lead with the message. One idea per section. Clarity always beats cleverness.</p>
-    <h3>Confident, not arrogant</h3>
-    <p>We know our product is great. We don't need to shout about it.</p>
-    <h3>Warm &amp; human</h3>
-    <p>We're talking to real business owners. Sound like one.</p>
-    <h3>Energetic when it counts</h3>
-    <p>Playful in marketing. Calm and clear in transactional content.</p>
-  </section>
-  <section class="ds-sec" id="do-and-dont">
-    <h1>Do &amp; don&rsquo;t.</h1>
-    <p>✓&nbsp;&nbsp;Use plain, everyday language</p>
-    <p>✓&nbsp;&nbsp;Lead with the main benefit</p>
-    <p>✓&nbsp;&nbsp;Be direct — say what you mean</p>
-    <p>✓&nbsp;&nbsp;Keep paragraphs short</p>
-    <p>✗&nbsp;&nbsp;Use print jargon without explaining it</p>
-    <p>✗&nbsp;&nbsp;Sound salesy or overhyped</p>
-    <p>✗&nbsp;&nbsp;Hide key info behind vague language</p>
-    <p>✗&nbsp;&nbsp;Use handwritten font for prices or legal copy</p>
-    <p>✗&nbsp;&nbsp;Write long, dense paragraphs</p>
-  </section>
-  <section class="ds-sec" id="our-6-brand-promises">
-    <h1>Our 6 Brand Promises.</h1>
-    <h3>Best price guaranteed</h3>
-    <p>We match or beat any comparable price. Transparent pricing upfront.</p>
-    <h3>All-inclusive pricing</h3>
-    <p>The price you see is the price you pay — no setup fees, no hidden costs.</p>
-    <h3>100% satisfaction</h3>
-    <p>If it's not right, we make it right. Reprint or refund, no hassle.</p>
-    <h3>Always a perfect design</h3>
-    <p>From blank page to print-ready — free tools, templates, file check, design help.</p>
-    <h3>Fast delivery</h3>
-    <p>Order today, in your hands when you need it. Express options across all markets.</p>
-    <h3>Personal help, always</h3>
-    <p>A real person who knows print — chat, phone, email. Not bots. Actual help.</p>
-  </section>
-  <section class="ds-sec" id="usp-in-copy">
-    <h1>USP in Copy.</h1>
-    <table><tr><th>USP</th><th>Example headline</th><th>Supporting line</th></tr><tr><td>Best price</td><td>"The best price for print — guaranteed."</td><td>"Find it cheaper? We'll match it."</td></tr><tr><td>All-inclusive</td><td>"No surprises at checkout."</td><td>"The price you see is the price you pay."</td></tr><tr><td>Satisfaction guarantee</td><td>"Love it or we'll reprint it."</td><td>"100% satisfaction, or your money back."</td></tr><tr><td>Perfect design</td><td>"Make your walls work for you."</td><td>"Not sure how to design it? We'll help."</td></tr><tr><td>Fast delivery</td><td>"Need it fast? We've got you."</td><td>"Order by 5pm, delivered tomorrow."</td></tr><tr><td>Personal help</td><td>"Got a question? There's a person for that."</td><td>"Real support, when you need it most."</td></tr></table>
-  </section>
-  <section class="ds-sec" id="what-makes-us-different">
-    <h1>What makes us different.</h1>
-    <table><tr><th>Competitor behaviour</th><th>HelloPrint behaviour</th></tr><tr><td>Complex, opaque pricing</td><td>All-inclusive, transparent</td></tr><tr><td>Generic, corporate tone</td><td>Human, direct, warm</td></tr><tr><td>Print expertise required</td><td>No expertise needed — we guide you</td></tr><tr><td>Slow, traditional process</td><td>Fast, digital-first, AI-powered</td></tr><tr><td>Reactive</td><td>Proactive — best price guarantee</td></tr></table>
-  </section>
-  <section class="ds-sec" id="what-we-dont-claim">
-    <h1>What we don't claim.</h1>
-    <p>Guardrails to keep our promises credible.<br>Never overclaim or make unverifiable promises.</p>
-    <table><tr><td>✗&nbsp;&nbsp;"The cheapest in the market"</td><td>We say best price guaranteed, not cheapest everywhere.</td></tr><tr><td>✗&nbsp;&nbsp;"Instant delivery"</td><td>We say fast, tied to a specific lead time.</td></tr><tr><td>✗&nbsp;&nbsp;"Perfect quality every time"</td><td>We say satisfaction guaranteed — not a blanket quality claim.</td></tr><tr><td>✗&nbsp;&nbsp;"The only choice for print"</td><td>Confident, never arrogant.</td></tr><tr><td>✗&nbsp;&nbsp;Exact delivery times in ads</td><td>Only if linked to a live product page with current lead times.</td></tr></table>
-  </section>
-  <section class="ds-sec" id="logo-primary">
-    <h1>Primary logo.</h1>
-    <p>Our wordmark is the primary expression of HelloPrint. Italic, bold, optimistic — it always leans forward.</p>
-    <p>Use it whenever space allows. The mark always sits on either dark green or cream. No outlines, no drop shadows, no gradients.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-  </section>
-  <section class="ds-sec" id="clear-space">
-    <h1>Clear space &amp; sizing.</h1>
-    <h3>Clear space</h3>
-    <p>Always leave at least the height of the <strong>"H"</strong> of clear space around the logo on all sides. Nothing competes with the mark.</p>
-    <h3>Minimum size</h3>
-    <p>Never smaller than <strong>18&nbsp;px</strong> high on screen or <strong>10&nbsp;mm</strong> in print. Legibility first.</p>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-  </section>
-  <section class="ds-sec" id="logo-on-backgrounds">
-    <h1>On every background.</h1>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-  </section>
-  <section class="ds-sec" id="logo-do-and-dont">
-    <h1>Logo do &amp; don&rsquo;t.</h1>
-    <h3>✓ Do</h3>
-    <p>Keep it italic, bold, and tight</p>
-    <p>Use cream on dark, dark on cream</p>
-    <p>Pair with generous clear space</p>
-    <p>Scale uniformly</p>
-    <h3>✗ Don't</h3>
-    <p>Don't outline, recolour, or stylise</p>
-    <p>Don't stretch, skew, or rotate</p>
-    <p>Don't place on low-contrast photos</p>
-    <p>Don't add drop shadows or effects</p>
-    <p>Don't re-typeset the wordmark</p>
-  </section>
-  <section class="ds-sec" id="logo-construction">
-    <h1>Construction.</h1>
-    <p>The wordmark is set in custom italics, kerned by hand. The slope is 12°, the cap-height to x-height ratio is 1.18, and the stroke contrast is held to a single weight.</p>
-    <p>Never re-typeset. Always use the master artwork.</p>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-  </section>
-  <section class="ds-sec" id="logo-monogram">
-    <h1>Monogram &amp; favicon.</h1>
-    <h3>When to use the H</h3>
-    <p>Where the wordmark won't fit: app icons, favicons, social avatars, social ad endcards.</p>
-    <h3>Always italic</h3>
-    <p>The H carries the same slope as the wordmark. Cream on green or green on cream — never inverted.</p>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div>
-  </section>
-  <section class="ds-sec" id="logo-misuse">
-    <h1>Misuse.</h1>
-    <p>Six ways the mark gets ruined. If you spot any of these in market, replace the artwork.</p>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <h3>✗ Skewed</h3>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <h3>✗ Outlined</h3>
-    <h3>✗ Recoloured</h3>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <h3>✗ Stretched</h3>
-    <p>HelloPrint</p>
-    <h3>✗ Re-typeset</h3>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <h3>✗ With effects</h3>
-  </section>
-  <section class="ds-sec" id="primary-palette">
-    <h1>Primary palette.</h1>
-    <p>Three colours carry the brand. Dark green for trust, light green for energy, cream for warmth.</p>
-    <p>On screen the page is white; dark green and cream are for blocks. Light green is for areas (buttons, switches, ticks), never for text: green text is the link green.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><h3>Dark Green</h3><p>#022B07<br>rgb(2, 43, 7)<br>Pantone 553 C</p></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><h3>Light Green</h3><p>#00A651<br>rgb(0, 166, 81)<br>Pantone 354 C</p></div>
-    <div class="ds-stage" style="background:var(--cream)"><h3>Cream</h3><p>#FEF0DF<br>rgb(254, 240, 223)<br>Pantone 7506 C</p></div>
-  </section>
-  <section class="ds-sec" id="colour-usage">
-    <h1>Colour usage.</h1>
-    <table><tr><th>Colour</th><th>Where</th><th>Never</th></tr><tr><td>Dark Green</td><td>Headings, header, active pill, secondary button text</td><td>Body copy on light green</td></tr><tr><td>Light Green</td><td>Areas: primary button, switch, chosen outline, ticks</td><td>Text (use the link green), long paragraphs</td></tr><tr><td>Cream</td><td>Warm blocks (the reassurance after an upload), text on dark</td><td>Page backgrounds, tiny captions where contrast drops</td></tr><tr><td>White</td><td>Page and card background</td><td>—</td></tr><tr><td>Black</td><td>Card titles, body on article pages, labels that carry info</td><td>Page titles — use dark green</td></tr><tr><td>Orange</td><td>Commercial badges only (Most Popular, Best Seller)</td><td>Anything else</td></tr></table>
-  </section>
-  <section class="ds-sec" id="colour-tints">
-    <h1>Tints &amp; shades.</h1>
-    <p>Use sparingly for backgrounds, charts, or UI states. Never as a substitute for the brand colour at full strength.</p>
-    <h3>Light Green</h3>
-    <p>50</p>
-    <p>100</p>
-    <p>200</p>
-    <p>300</p>
-    <p>400</p>
-    <p>500</p>
-    <p>600</p>
-    <p>700</p>
-    <p>800</p>
-    <p>900</p>
-    <h3>Cream &amp; Neutrals</h3>
-  </section>
-  <section class="ds-sec" id="colour-accessibility">
-    <h1>Accessibility.</h1>
-    <p>Text pairings clear WCAG&nbsp;AA at body sizes. Light green does not carry text: it stays below AA on cream and white.</p>
-    <p>Light green is for accents only — at small sizes on cream, it falls below AA.</p>
-    <table><tr><th>Pairing</th><th>Ratio</th><th>Body</th><th>Large</th></tr><tr><td>Dark Green on Cream</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Dark Green</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Light Green</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>White on Light Green</td><td>3.2 : 1</td><td>—</td><td>AA</td></tr><tr><td>Light Green on Cream</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>Light Green on Dark Green</td><td>4.9 : 1</td><td>AA</td><td>AAA</td></tr></table>
-  </section>
-  <section class="ds-sec" id="colour-combinations">
-    <h1>Allowed combinations.</h1>
-    <p>Print easier.</p>
-    <p>Print easier.</p>
-    <p>Print easier.</p>
-    <p>Print easier.</p>
-    <p>Print easier.</p>
-    <p>Print easier.</p>
-  </section>
-  <section class="ds-sec" id="colour-forbidden">
-    <h1>Never.</h1>
-    <p>Combinations to avoid in any context — they break legibility or feel off-brand.</p>
-    <p>Orange outside a commercial badge</p>
-    <p>Low-contrast grey</p>
-    <p>Foreign brand blue</p>
-    <p>Saturated competitor</p>
-    <h3>Why these fail</h3>
-    <p>Orange is only for commercial badges; anywhere else it competes with the green. Saturated blue belongs to competitors. Mid-grey body text on cream falls below AA contrast. Stick to the three approved combinations.</p>
-  </section>
-  <section class="ds-sec" id="typefaces">
-    <h1>Our typefaces.</h1>
-    <h3>Inter</h3>
-    <p>Display · ExtraBold (800)</p>
-    <p>Headlines, dividers, and the cover.</p>
-    <p>Aa Bb Cc.</p>
-    <h3>Inter</h3>
-    <p>Body · Regular, Semibold, Bold (400, 600, 700)</p>
-    <p>Everything else: body, captions, chrome, tables.</p>
-    <p>Aa Bb Cc.</p>
-  </section>
-  <section class="ds-sec" id="type-scale">
-    <h1>Type scale.</h1>
-    <p>On screen, sizes as in the UI Style Guide (mobile · desktop):</p>
-    <p>Display · 28/32 · 48/56 extra bold</p>
-    <p>Positioning.</p>
-    <p>Page title · 24/28 · 24/32 extra bold</p>
-    <p>Our Values.</p>
-    <p>Section title · 20/24 · 24/32</p>
-    <p>Making print easier.</p>
-    <p>Card title · 14 · 16/22 semibold</p>
-    <p>Always personal</p>
-    <p>Body · 12/18 · 14/22</p>
-    <p>We make print easier, for everyone, everywhere.</p>
-    <p>Label · 12/17</p>
-    <p>HelloPrint · Brand Guidelines · Page 3</p>
-  </section>
-  <section class="ds-sec" id="type-in-use">
-    <h1>In use.</h1>
-    <p>Editorial</p>
-    <p>Best price.<br>Period.</p>
-    <p>Find your product, configure it, and we'll match any comparable price. Transparent, upfront, no surprises.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><p>UI</p><p>A2 Posters</p><p>From <strong>€0.42</strong> /print</p><p>Ships <strong>Wed</strong></p><p>Configure</p></div>
-  </section>
-  <section class="ds-sec" id="type-hierarchy">
-    <h1>Hierarchy.</h1>
-    <h3>One idea per slide</h3>
-    <p>Lead with the display. Body explains. Captions support. Never three competing voices.</p>
-    <h3>Always left-aligned</h3>
-    <p>Centred type is reserved for the cover and divider slides only.</p>
-    <h3>Line lengths</h3>
-    <p>Cap body copy at 65 characters per line. Display headlines break by meaning, not by container.</p>
-    <p>Display</p>
-    <p>Print made simple.</p>
-    <p>Sub</p>
-    <p>Order in minutes, delivered tomorrow.</p>
-    <p>Body</p>
-    <p>Thousands of products, all with the best price guaranteed. Real people on chat when you need them.</p>
-  </section>
-  <section class="ds-sec" id="type-web-vs-print">
-    <h1>Web &amp; print.</h1>
-    <table><tr><th>Use</th><th>Display</th><th>Body</th><th>Note</th></tr><tr><td>Web — large headline</td><td>Inter ExtraBold · 28–48&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Display only on the Help Centre head</td></tr><tr><td>Web — page and section titles</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Min 12&nbsp;px for captions</td></tr><tr><td>App / UI</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Stay on the 8&nbsp;px grid</td></tr><tr><td>Print — large format</td><td>Inter ExtraBold · 120–400&nbsp;pt</td><td>Inter Regular · 12–14&nbsp;pt</td><td>Min 8&nbsp;pt for legal</td></tr><tr><td>Print — packaging</td><td>Inter ExtraBold · 40–80&nbsp;pt</td><td>Inter Regular · 10–11&nbsp;pt</td><td>Test on substrate before sign-off</td></tr></table>
-  </section>
-  <section class="ds-sec" id="photography-style">
-    <h1>Our photography.</h1>
-    <h3>Confident close-ups</h3>
-    <p>Real people. Real product. Cropped close enough to feel intimate, but always honest.</p>
-    <h3>Bold use of brand colour</h3>
-    <p>Wardrobe, props, backdrops — pick up the green wherever possible. Cream as the neutral ground.</p>
-    <h3>No corporate stock</h3>
-    <p>No handshakes, no headset call-centres, no laptops-on-tables. We commission, we don't decorate.</p>
-  </section>
-  <section class="ds-sec" id="photography-do-and-dont">
-    <h1>In practice.</h1>
-    <p>✓ Do</p>
-    <p>✗ Don't Generic stock shot</p>
-    <p>✓ Do</p>
-    <p>✗ Don't Over-styled flatlay</p>
-  </section>
-  <section class="ds-sec" id="photography-portraits">
-    <h1>Portraits.</h1>
-    <h3>Look</h3>
-    <p>Tight crop. Direct eye contact. Real customers, real makers, real producers — never agency models.</p>
-    <h3>Light</h3>
-    <p>Soft daylight or single key light. No hard shadows on faces, no studio gradients.</p>
-    <h3>Wardrobe</h3>
-    <p>A nod to the green — a hoodie, a cap, a prop. Never head-to-toe brand colour.</p>
-    <p>+ commission</p>
-  </section>
-  <section class="ds-sec" id="photography-product">
-    <h1>Product.</h1>
-    <h3>Print as object</h3>
-    <p>Photograph the print — its weight, edge, ink. Held by a hand, stacked, mid-fold.</p>
-    <h3>Backgrounds</h3>
-    <p>Cream paper, dark green felt, or the worktop where the product lives. No floating-on-white.</p>
-  </section>
-  <section class="ds-sec" id="photography-lifestyle">
-    <h1>Lifestyle &amp; in-situ.</h1>
-    <p>Show the print where it lives — cafés, studios, market stalls, kitchens. The print earns its place in the scene; the scene doesn't perform for the camera.</p>
-    <p>Market stall</p>
-    <p>Café front</p>
-  </section>
-  <section class="ds-sec" id="photography-art-direction">
-    <h1>Art direction.</h1>
-    <h3>Three rules</h3>
-    <p>01</p>
-    <p>Always anchor on a person. Even product shots include a hand.</p>
-    <p>02</p>
-    <p>Pick up the green — wardrobe, prop, or backdrop. One element, not three.</p>
-    <p>03</p>
-    <p>Crop tighter than feels comfortable. Intimacy beats composition.</p>
-  </section>
-  <section class="ds-sec" id="graphic-system">
-    <h1>Building blocks.</h1>
-    <p>Three shapes, three jobs. Use them sparingly — composition first, decoration never.</p>
-    <h3>Green Block</h3>
-    <p>Anchors a headline or USP. Always full-bleed within its container.</p>
-    <h3>Outlined Card</h3>
-    <p>Groups information. 10&nbsp;px corners, 1&nbsp;px light grey line; on desktop a soft shadow on hover only.</p>
-    <h3>Image Slot</h3>
-    <p>Square or rectangular, with the card corners (10&nbsp;px) — let the photography speak.</p>
-  </section>
-  <section class="ds-sec" id="iconography">
-    <h1>Iconography.</h1>
-    <p>Google Material Symbols Rounded, line (weight 400, 24&nbsp;px), no fill. Dark green — never coloured-in.</p>
-    <p>Use icons to clarify, not decorate. One icon per idea, never two side-by-side.</p>
-    <p>Order</p>
-    <p>Ship</p>
-    <p>Fast</p>
-    <p>Mail</p>
-    <p>Track</p>
-    <p>Save</p>
-  </section>
-  <section class="ds-sec" id="patterns">
-    <h1>Patterns.</h1>
-    <p>Three repeating patterns, derived from the wordmark and the box. Use for endpapers, wrapping, mailers, internal swag.</p>
-    <p>Never behind body copy. Never as a presentation slide background.</p>
-  </section>
-  <section class="ds-sec" id="motion-principles">
-    <h1>Motion.</h1>
-    <p>Movement is energetic, never decorative. Three principles keep motion on-brand.</p>
-    <p>Fast</p>
-    <p>280&nbsp;ms default. Anything longer and it feels slow.</p>
-    <p>Out</p>
-    <p>Ease-out curves. Things land softly, never bounce.</p>
-    <p>Up</p>
-    <p>Type enters from below by 12&nbsp;px. Mirrors how a sheet drops from a press.</p>
-  </section>
-  <section class="ds-sec" id="in-market-ads">
-    <h1>In market — Ads.</h1>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>The best<br>price for<br>print —<br>guaranteed.</p><p>Order today, delivered tomorrow.</p></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>No surprises<br>at checkout.</p><p>The price you see is the price you pay.</p></div>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Make your<br>business<br>look great.</p><p>Affordably.</p></div>
-  </section>
-  <section class="ds-sec" id="in-product">
-    <h1>In product.</h1>
-    <p>The same voice runs through the storefront. Bold benefit, no jargon, transparent price.</p>
-    <div class="ds-stage" style="background:var(--cream)"><p>Best price guaranteed</p><p>A2 Posters,<br>250 g/m² silk.</p><p>From <strong>€0.42</strong> per print at 500&nbsp;copies. Delivered Wednesday.</p><p>Configure &amp; price</p><p>See samples</p></div>
-  </section>
-  <section class="ds-sec" id="executions-social">
-    <h1>Social.</h1>
-    <p>Square 1:1 for the grid, 9:16 for stories. One claim per asset. Logo always top-left.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Order today.<br>Ship tomorrow.</p></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Best price.<br>Guaranteed.</p></div>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <p>"Made my walls work for me."</p>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>No&nbsp;surprises<br>at checkout.</p></div>
-  </section>
-  <section class="ds-sec" id="executions-ooh">
-    <h1>Out of home.</h1>
-    <p>A single bold word. Read in five seconds, from a passing tram.</p>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><p>Print<br>easier.</p><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>helloprint.com</p></div>
-  </section>
-  <section class="ds-sec" id="executions-email">
-    <h1>Email.</h1>
-    <p>Transactional emails stay calm and direct. Subject line carries the news; body confirms.</p>
-    <div class="ds-stage" style="background:var(--cream)"><p><strong>HelloPrint</strong> · noreply@helloprint.com</p><p>Today · 14:32</p><p>Your A2 posters ship tomorrow.</p><p>Hi Sofia — your order <strong>#HP-58412</strong> just left our Rotterdam press. DPD has it; you'll get a delivery window in the morning.</p><p>Track order</p><p>Reorder</p></div>
-  </section>
-  <section class="ds-sec" id="executions-packaging">
-    <h1>Packaging.</h1>
-    <p>Recycled kraft on the outside, dark green on the inside. The first thing customers see is the green flash as they open.</p>
-    <span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span>
-    <p>This way up</p>
-    <p>Order #HP-58412 · 12 kg · Fragile</p>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><p>Hello,<br>Sofia.</p><p>Your posters are inside. If anything's not perfect, just reply to the order email — we'll make it right.</p></div>
-  </section>
-  <section class="ds-sec" id="executions-merch">
-    <h1>Merch &amp; swag.</h1>
-    <p>For customers, partners, and the team. The monogram does the work — restraint over volume.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div>
-    <div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-    <div class="ds-stage" style="background:var(--cream)"><p>Print easier.</p></div>
-    <div class="ds-stage" style="background:var(--cream)"><div class="ds-stage on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div></div>
-  </section>
-  <section class="ds-sec" id="executions-in-store">
-    <h1>In producer showrooms.</h1>
-    <p>Where producers display HelloPrint kit. Bold, navigational, never decorative. One mark per surface.</p>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Showroom</p><p>Rotterdam.</p><div class="ds-stage on-dark" style="background:var(--light-green)"><p>See it.<br>Touch it.<br>Order it.</p></div></div>
-  </section>
-  <section class="ds-sec" id="executions-co-branding">
-    <h1>Co-branding.</h1>
-    <h3>Equal weight</h3>
-    <p>Always set partner logos at the same optical height as our wordmark. Separator is a 1&nbsp;px dark-green rule, never an "×".</p>
-    <h3>Hierarchy</h3>
-    <p>HelloPrint sits left when we host. Right when we're the guest. Never centred.</p>
-    <div class="ds-stage" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Partner</p></div>
-    <div class="ds-stage on-dark" style="background:var(--dark-green)"><p>Partner</p><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div>
-    <h3>Never</h3>
-    <p>Don't shrink the wordmark to fit a partner's logo. Don't centre the lockup. Don't introduce extra colour.</p>
-  </section>
-  <section class="ds-sec" id="close">
-    <h1>Now go make print easier.</h1>
-    <p>v.01 · Brand &amp; Marketing Team · 2026</p>
-  </section>
+  <section class="band" id="more-than-a-brand"><div class="w"><h2>More than a brand.</h2><p>HelloPrint is on a mission to make print easier, for everyone, everywhere. This brand guide is the key to how we express and strengthen our brand — across every channel, every touchpoint, every market.</p><p>In this guide we define the core of HelloPrint: our vision, values, tone of voice and visual identity. These guidelines ensure that every expression — from marketing campaigns to product visuals — is aligned with the unique character of HelloPrint.</p><p>By following these guidelines, we ensure our brand remains recognisable, professional, and inspiring wherever it appears.</p><p class="stmt">Making print easier,<br>for everyone,<br>everywhere.</p></div></section>
+  <section class="band cream b-chap" id="chapter-01"><div class="w">
+    <h2><span class="num">01</span>Positioning.</h2>
+    <div class="photos"><img src="../prototype/assets/help/office-cheer.webp" alt=""><img src="../prototype/assets/help/colleagues.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="mission-and-vision"><div class="w"><h2>Mission &amp; vision.</h2><div class="b-items"><div><h3>Mission</h3><p>Making print easier,<br>for everyone, everywhere.</p></div><div><h3>Vision</h3><p>Disrupting the print industry by building Earth's largest infrastructure for customised products.</p></div></div></div></section>
+  <section class="band cream" id="our-values"><div class="w"><h2>Our Values.</h2><div class="b-items"><div><h3>Think Like A Customer</h3><p>What does it bring to our customers?</p></div><div><h3>Raise the Bar</h3><p>Ambitious, determined. Fail fast, learn fast.</p></div><div><h3>Own It</h3><p>Focus on results. The how is up to you.</p></div><div><h3>AI-First Thinking</h3><p>Technology at the core of everything we do.</p></div><div><h3>Do It Together</h3><p>Selfless, kind, no ego. One team.</p></div><div><h3>Celebrate Success</h3><p>Celebrate what's earned. Never mediocrity.</p></div></div></div></section>
+  <section class="band dark" id="brand-truth"><div class="w"><h2>Brand truth</h2><p class="stmt">We make print easy,<br>accessible, and trustworthy<br>— for everyone, everywhere.</p></div></section>
+  <section class="band dark" id="human-truth"><div class="w"><h2>Human Truth.</h2><p class="stmt">&ldquo;I need print<br>that's fast,<br>affordable,<br>and easy —<br>without needing<br>to be an expert.&rdquo;</p><p><strong>Our audience:</strong><br>SMBs, designers, local businesses.</p><p>Busy, cost-conscious, not print experts. They want results — not a course in print production.</p><p>They are entrepreneurs themselves: they understand value, speed, and quality.</p></div></section>
+  <section class="band" id="differentiators"><div class="w"><h2>Differentiators.</h2><div class="b-items"><div><h3>Largest Platform</h3><p>The world's largest infrastructure for customised print products — thousands of products, delivered fast, at the best price.</p></div><div><h3>Always personal</h3><p>Despite our scale, we never lose the human touch. Real help, real people, every time.</p></div><div><h3>Print made simple</h3><p>We remove the complexity from print. Ordering with HelloPrint should feel as easy as buying shoes online.</p></div></div></div></section>
+  <section class="band cream b-chap" id="chapter-02"><div class="w">
+    <h2><span class="num">02</span>Audience &amp; Segments.</h2>
+    <div class="photos"><img src="../prototype/assets/help/promo-team.webp" alt=""><img src="../prototype/assets/help/smiles.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="segment-overview"><div class="w b-split"><div class="b-side"><h2>Segment Overview.</h2></div><div class="b-body"><table><tr><th>Segment</th><th>Core need</th><th>HelloPrint's role</th></tr><tr><td>SMBs</td><td>Affordable print + creative guidance</td><td>Accessible partner that makes them look professional</td></tr><tr><td>Creative Professionals</td><td>Speed + quality on tight deadlines</td><td>Reliable production partner that never lets them down</td></tr><tr><td>Heavy Users</td><td>Low prices, white label, volume</td><td>Wholesale-grade solution without enterprise friction</td></tr><tr><td>Producers</td><td>New orders + customer reach</td><td>Distribution channel to grow their pipeline</td></tr><tr><td>Investors</td><td>Scalable model + impact story</td><td>Proven platform with strong growth fundamentals</td></tr><tr><td>Talents &amp; Employees</td><td>Dynamic environment + ownership</td><td>Fast-growing tech company with real impact</td></tr></table></div></div></section>
+  <section class="band cream" id="smbs"><div class="w"><h2>SMBs.</h2><p>Sofia, 34<br>Café owner, Rotterdam</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;Your brand,<br>printed perfectly.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Affordable, easy ordering, visual guidance, no surprises</p></div><div><h3>Pain Points</h3><p>Hidden costs, confusing file specs, results that don't match preview</p></div><div><h3>Typical orders</h3><p>Flyers, menu cards, stickers, banners, loyalty cards</p></div><div><h3>How we speak</h3><p>Warm, simple, reassuring — show the result, no jargon</p></div><div><h3>Tone</h3><p>Confident and helpful.<br>Lead with outcome, not product.</p></div></div></div></section>
+  <section class="band" id="creative-professionals"><div class="w"><h2>Creative Professionals.</h2><p>Daan, 29<br>Freelance Designer<br>Amsterdam</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;Professional print<br>that ships on time.<br>Every time.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Fast turnaround, reliable colour, correct file handling, proof approval</p></div><div><h3>Pain Points</h3><p>Colour shifts in print, late delivery, no clear reprints policy</p></div><div><h3>Typical orders</h3><p>Business cards, brochures, packaging, presentation folders</p></div><div><h3>How we speak</h3><p>Peer-to-peer, efficient, technically credible — no hand-holding</p></div><div><h3>Tone</h3><p>Direct and expert.<br>Skip the basics — talk spec, turnaround, guarantee.</p></div></div></div></section>
+  <section class="band cream" id="heavy-users"><div class="w"><h2>Heavy Users.</h2><p>Marko, 41<br>Print broker / reseller<br>Hamburg</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;White label print<br>at wholesale prices.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Volume pricing, white label fulfilment, quick quotations, bulk ordering</p></div><div><h3>Pain Points</h3><p>Unclear bulk pricing, no white label, slow quote turnaround</p></div><div><h3>Typical orders</h3><p>High-volume flyers, business cards, banners — repeat orders</p></div><div><h3>How we speak</h3><p>B2B, straight to the numbers — lead with margin advantage</p></div><div><h3>Tone</h3><p>Clinical, benefit-led.<br>Show the numbers.<br>Make the margin argument.</p></div></div></div></section>
+  <section class="band" id="producers"><div class="w"><h2>Producers.</h2><p>Leila, 52<br>Print production facility owner<br>Barcelona</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;Fill your capacity.<br>Reach thousands of<br>new customers.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Order flow, market exposure, scalable partnership model</p></div><div><h3>Pain Points</h3><p>Uneven capacity utilisation, high cost of acquiring new clients</p></div><div><h3>Typical engagement</h3><p>Platform partnership, production network participation</p></div><div><h3>How we speak</h3><p>Partner-first, growth-oriented — speak to scale, not just product</p></div><div><h3>Tone</h3><p>Strategic, growth-oriented.<br>Speak to outcomes, not product.</p></div></div></div></section>
+  <section class="band cream" id="investors"><div class="w"><h2>Investors.</h2><p>Thomas, 44<br>Partner at a growth equity fund,<br>London</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;Building Earth's<br>largest infrastructure<br>for custom products.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Growth story, scalability proof, unit economics, differentiated moat</p></div><div><h3>Pain Points</h3><p>Market fragmentation risk, commoditisation, churn</p></div><div><h3>Engagement</h3><p>Investor relations, fundraising materials, platform overview</p></div><div><h3>How we speak</h3><p>Confident and data-led — vision paired with traction</p></div><div><h3>Tone</h3><p>Bold and substantiated.<br>Lead with vision, follow with numbers.</p></div></div></div></section>
+  <section class="band" id="talents-and-employees"><div class="w"><h2>Talents &amp; Employees.</h2><p>Yara, 26<br>Product designer<br>— agency to in-house</p><div class="b-items"><div><h3>Headline angle</h3><blockquote>&ldquo;Own it.<br>Build it.<br>Ship it.&rdquo;</blockquote></div><div><h3>Needs</h3><p>Ownership, fast progression, smart colleagues, real product impact</p></div><div><h3>Pain Points</h3><p>Slow companies, hierarchy without merit, work that doesn't ship</p></div><div><h3>Engagement</h3><p>Careers page, LinkedIn, employer brand content</p></div><div><h3>How we speak</h3><p>Honest and energetic — show real work. No corporate glossiness.</p></div><div><h3>Tone</h3><p>Bold and substantiated.<br>Lead with vision, follow with numbers.</p></div></div></div></section>
+  <section class="band cream" id="messaging-matrix"><div class="w b-split"><div class="b-side"><h2>Messaging Matrix.</h2></div><div class="b-body"><table><tr><th>Segment</th><th>Lead message</th><th>Tone</th></tr><tr><td>SMBs</td><td>Make your business look great, affordably</td><td>Warm, simple, inspiring</td></tr><tr><td>Creative Professionals</td><td>Fast, reliable, professionally spec'd</td><td>Direct, expert, efficient</td></tr><tr><td>Heavy Users</td><td>Wholesale pricing, white label, volume</td><td>Clinical, numbers-led</td></tr><tr><td>Producers</td><td>Fill your capacity, reach new customers</td><td>Strategic, growth-oriented</td></tr><tr><td>Investors</td><td>Category-defining platform, massive market</td><td>Confident, data-backed</td></tr><tr><td>Talents &amp; Employees</td><td>Own things. Move fast. Work on hard problems.</td><td>Honest, energetic</td></tr></table></div></div></section>
+  <section class="band cream b-chap" id="chapter-03"><div class="w">
+    <h2><span class="num">03</span>Voice &amp; Tone.</h2>
+    <div class="photos"><img src="../prototype/assets/help/promo-expert.webp" alt=""><img src="../prototype/assets/help/strip-headphones.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="tone-of-voice"><div class="w"><h2>Tone of voice.</h2><p>HelloPrint's tone of voice is friendly, expert, and human. We speak plainly — no jargon, no watered-down copy, no corporate speak.</p><p>Our audience are entrepreneurs themselves. We respect their intelligence and their time. We lead with the benefit, keep it short, and always sound like a real person — not a marketing machine.</p><p class="stmt">Friendly.<br>Expert.<br>Human.</p></div></section>
+  <section class="band cream" id="how-we-speak"><div class="w"><h2>How we speak.</h2><div class="b-items"><div><h3>Plain &amp; direct</h3><p>Lead with the message. One idea per section. Clarity always beats cleverness.</p></div><div><h3>Confident, not arrogant</h3><p>We know our product is great. We don't need to shout about it.</p></div><div><h3>Warm &amp; human</h3><p>We're talking to real business owners. Sound like one.</p></div><div><h3>Energetic when it counts</h3><p>Playful in marketing. Calm and clear in transactional content.</p></div></div></div></section>
+  <section class="band" id="do-and-dont"><div class="w"><h2>Do &amp; don&rsquo;t.</h2><p>✓&nbsp;&nbsp;Use plain, everyday language</p><p>✓&nbsp;&nbsp;Lead with the main benefit</p><p>✓&nbsp;&nbsp;Be direct — say what you mean</p><p>✓&nbsp;&nbsp;Keep paragraphs short</p><p>✗&nbsp;&nbsp;Use print jargon without explaining it</p><p>✗&nbsp;&nbsp;Sound salesy or overhyped</p><p>✗&nbsp;&nbsp;Hide key info behind vague language</p><p>✗&nbsp;&nbsp;Use handwritten font for prices or legal copy</p><p>✗&nbsp;&nbsp;Write long, dense paragraphs</p></div></section>
+  <section class="band cream" id="our-6-brand-promises"><div class="w"><h2>Our 6 Brand Promises.</h2><div class="b-items"><div><h3>Best price guaranteed</h3><p>We match or beat any comparable price. Transparent pricing upfront.</p></div><div><h3>All-inclusive pricing</h3><p>The price you see is the price you pay — no setup fees, no hidden costs.</p></div><div><h3>100% satisfaction</h3><p>If it's not right, we make it right. Reprint or refund, no hassle.</p></div><div><h3>Always a perfect design</h3><p>From blank page to print-ready — free tools, templates, file check, design help.</p></div><div><h3>Fast delivery</h3><p>Order today, in your hands when you need it. Express options across all markets.</p></div><div><h3>Personal help, always</h3><p>A real person who knows print — chat, phone, email. Not bots. Actual help.</p></div></div></div></section>
+  <section class="band" id="usp-in-copy"><div class="w b-split"><div class="b-side"><h2>USP in Copy.</h2></div><div class="b-body"><table><tr><th>USP</th><th>Example headline</th><th>Supporting line</th></tr><tr><td>Best price</td><td>"The best price for print — guaranteed."</td><td>"Find it cheaper? We'll match it."</td></tr><tr><td>All-inclusive</td><td>"No surprises at checkout."</td><td>"The price you see is the price you pay."</td></tr><tr><td>Satisfaction guarantee</td><td>"Love it or we'll reprint it."</td><td>"100% satisfaction, or your money back."</td></tr><tr><td>Perfect design</td><td>"Make your walls work for you."</td><td>"Not sure how to design it? We'll help."</td></tr><tr><td>Fast delivery</td><td>"Need it fast? We've got you."</td><td>"Order by 5pm, delivered tomorrow."</td></tr><tr><td>Personal help</td><td>"Got a question? There's a person for that."</td><td>"Real support, when you need it most."</td></tr></table></div></div></section>
+  <section class="band cream" id="what-makes-us-different"><div class="w b-split"><div class="b-side"><h2>What makes us different.</h2></div><div class="b-body"><table><tr><th>Competitor behaviour</th><th>HelloPrint behaviour</th></tr><tr><td>Complex, opaque pricing</td><td>All-inclusive, transparent</td></tr><tr><td>Generic, corporate tone</td><td>Human, direct, warm</td></tr><tr><td>Print expertise required</td><td>No expertise needed — we guide you</td></tr><tr><td>Slow, traditional process</td><td>Fast, digital-first, AI-powered</td></tr><tr><td>Reactive</td><td>Proactive — best price guarantee</td></tr></table></div></div></section>
+  <section class="band" id="what-we-dont-claim"><div class="w b-split"><div class="b-side"><h2>What we don't claim.</h2><p>Guardrails to keep our promises credible.<br>Never overclaim or make unverifiable promises.</p></div><div class="b-body"><table><tr><td>✗&nbsp;&nbsp;"The cheapest in the market"</td><td>We say best price guaranteed, not cheapest everywhere.</td></tr><tr><td>✗&nbsp;&nbsp;"Instant delivery"</td><td>We say fast, tied to a specific lead time.</td></tr><tr><td>✗&nbsp;&nbsp;"Perfect quality every time"</td><td>We say satisfaction guaranteed — not a blanket quality claim.</td></tr><tr><td>✗&nbsp;&nbsp;"The only choice for print"</td><td>Confident, never arrogant.</td></tr><tr><td>✗&nbsp;&nbsp;Exact delivery times in ads</td><td>Only if linked to a live product page with current lead times.</td></tr></table></div></div></section>
+  <section class="band cream b-chap" id="chapter-04"><div class="w">
+    <h2><span class="num">04</span>Our Logo.</h2>
+    <div class="photos"><img src="../prototype/assets/help/merch-team.webp" alt=""><img src="../prototype/assets/help/strip-thumbs-up.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="logo-primary"><div class="w b-split"><div class="b-side"><h2>Primary logo.</h2><p>Our wordmark is the primary expression of HelloPrint. Italic, bold, optimistic — it always leans forward.</p><p>Use it whenever space allows. The mark always sits on either dark green or cream. No outlines, no drop shadows, no gradients.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div></div></div></div></section>
+  <section class="band cream" id="clear-space"><div class="w b-split"><div class="b-side"><h2>Clear space &amp; sizing.</h2></div><div class="b-body"><div class="b-items"><div><h3>Clear space</h3><p>Always leave at least the height of the <strong>"H"</strong> of clear space around the logo on all sides. Nothing competes with the mark.</p></div><div><h3>Minimum size</h3><p>Never smaller than <strong>18&nbsp;px</strong> high on screen or <strong>10&nbsp;mm</strong> in print. Legibility first.</p></div></div><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div></div></div></div></section>
+  <section class="band" id="logo-on-backgrounds"><div class="w b-split"><div class="b-side"><h2>On every background.</h2></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div></div></div></div></section>
+  <section class="band cream" id="logo-do-and-dont"><div class="w"><h2>Logo do &amp; don&rsquo;t.</h2><div class="b-items"><div><h3>✓ Do</h3><p>Keep it italic, bold, and tight</p><p>Use cream on dark, dark on cream</p><p>Pair with generous clear space</p><p>Scale uniformly</p></div><div><h3>✗ Don't</h3><p>Don't outline, recolour, or stylise</p><p>Don't stretch, skew, or rotate</p><p>Don't place on low-contrast photos</p><p>Don't add drop shadows or effects</p><p>Don't re-typeset the wordmark</p></div></div></div></section>
+  <section class="band" id="logo-construction"><div class="w b-split"><div class="b-side"><h2>Construction.</h2><p>The wordmark is set in custom italics, kerned by hand. The slope is 12°, the cap-height to x-height ratio is 1.18, and the stroke contrast is held to a single weight.</p><p>Never re-typeset. Always use the master artwork.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div></div></div></div></section>
+  <section class="band cream" id="logo-monogram"><div class="w b-split"><div class="b-side"><h2>Monogram &amp; favicon.</h2></div><div class="b-body"><div class="b-items"><div><h3>When to use the H</h3><p>Where the wordmark won't fit: app icons, favicons, social avatars, social ad endcards.</p></div><div><h3>Always italic</h3><p>The H carries the same slope as the wordmark. Cream on green or green on cream — never inverted.</p></div></div><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div><div class="b-tile light" style="background:var(--cream)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div></div></div></div></section>
+  <section class="band" id="logo-misuse"><div class="w"><h2>Misuse.</h2><p>Six ways the mark gets ruined. If you spot any of these in market, replace the artwork.</p><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><div class="b-items"><div><h3>✗ Skewed</h3><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div><h3>✗ Outlined</h3></div><div><h3>✗ Recoloured</h3><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div><h3>✗ Stretched</h3><p>HelloPrint</p></div><div><h3>✗ Re-typeset</h3><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div><h3>✗ With effects</h3></div></div></div></section>
+  <section class="band cream b-chap" id="chapter-05"><div class="w">
+    <h2><span class="num">05</span>Colour Palette.</h2>
+    <div class="photos"><img src="../prototype/assets/help/strip-magazines.webp" alt=""><img src="../prototype/assets/help/strip-booklets.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="primary-palette"><div class="w b-split"><div class="b-side"><h2>Primary palette.</h2><p>Three colours carry the brand. Dark green for trust, light green for energy, cream for warmth.</p><p>On screen the page is white; dark green and cream are for blocks. Light green is for areas (buttons, switches, ticks), never for text: green text is the link green.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark b-sw" style="background:var(--dark-green)"><h3>Dark Green</h3><p>#022B07<br>rgb(2, 43, 7)<br>Pantone 553 C</p></div><div class="b-tile on-dark b-sw" style="background:var(--light-green)"><h3>Light Green</h3><p>#00A651<br>rgb(0, 166, 81)<br>Pantone 354 C</p></div><div class="b-tile b-sw light" style="background:var(--cream)"><h3>Cream</h3><p>#FEF0DF<br>rgb(254, 240, 223)<br>Pantone 7506 C</p></div></div></div></div></section>
+  <section class="band cream" id="colour-usage"><div class="w b-split"><div class="b-side"><h2>Colour usage.</h2></div><div class="b-body"><table><tr><th>Colour</th><th>Where</th><th>Never</th></tr><tr><td>Dark Green</td><td>Headings, header, active pill, secondary button text</td><td>Body copy on light green</td></tr><tr><td>Light Green</td><td>Areas: primary button, switch, chosen outline, ticks</td><td>Text (use the link green), long paragraphs</td></tr><tr><td>Cream</td><td>Warm blocks (the reassurance after an upload), text on dark</td><td>Page backgrounds, tiny captions where contrast drops</td></tr><tr><td>White</td><td>Page and card background</td><td>—</td></tr><tr><td>Black</td><td>Card titles, body on article pages, labels that carry info</td><td>Page titles — use dark green</td></tr><tr><td>Orange</td><td>Commercial badges only (Most Popular, Best Seller)</td><td>Anything else</td></tr></table></div></div></section>
+  <section class="band" id="colour-tints"><div class="w"><h2>Tints &amp; shades.</h2><p>Use sparingly for backgrounds, charts, or UI states. Never as a substitute for the brand colour at full strength.</p><div class="b-items"><div><h3>Light Green</h3><p>50</p><p>100</p><p>200</p><p>300</p><p>400</p><p>500</p><p>600</p><p>700</p><p>800</p><p>900</p></div><div><h3>Cream &amp; Neutrals</h3></div></div></div></section>
+  <section class="band cream" id="colour-accessibility"><div class="w b-split"><div class="b-side"><h2>Accessibility.</h2><p>Text pairings clear WCAG&nbsp;AA at body sizes. Light green does not carry text: it stays below AA on cream and white.</p><p>Light green is for accents only — at small sizes on cream, it falls below AA.</p></div><div class="b-body"><table><tr><th>Pairing</th><th>Ratio</th><th>Body</th><th>Large</th></tr><tr><td>Dark Green on Cream</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Dark Green</td><td>13.9 : 1</td><td>AAA</td><td>AAA</td></tr><tr><td>Cream on Light Green</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>White on Light Green</td><td>3.2 : 1</td><td>—</td><td>AA</td></tr><tr><td>Light Green on Cream</td><td>2.9 : 1</td><td>—</td><td>—</td></tr><tr><td>Light Green on Dark Green</td><td>4.9 : 1</td><td>AA</td><td>AAA</td></tr></table></div></div></section>
+  <section class="band" id="colour-combinations"><div class="w"><h2>Allowed combinations.</h2><p>Print easier.</p><p>Print easier.</p><p>Print easier.</p><p>Print easier.</p><p>Print easier.</p><p>Print easier.</p></div></section>
+  <section class="band cream" id="colour-forbidden"><div class="w"><h2>Never.</h2><p>Combinations to avoid in any context — they break legibility or feel off-brand.</p><p>Orange outside a commercial badge</p><p>Low-contrast grey</p><p>Foreign brand blue</p><p>Saturated competitor</p><div class="b-items"><div><h3>Why these fail</h3><p>Orange is only for commercial badges; anywhere else it competes with the green. Saturated blue belongs to competitors. Mid-grey body text on cream falls below AA contrast. Stick to the three approved combinations.</p></div></div></div></section>
+  <section class="band cream b-chap" id="chapter-06"><div class="w">
+    <h2><span class="num">06</span>Typography.</h2>
+    <div class="photos"><img src="../prototype/assets/help/laptop.webp" alt=""><img src="../prototype/assets/help/strip-focus.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="typefaces"><div class="w"><h2>Our typefaces.</h2><div class="b-items"><div><h3>Inter</h3><p>Display · ExtraBold (800)</p><p>Headlines, dividers, and the cover.</p><p>Aa Bb Cc.</p></div><div><h3>Inter</h3><p>Body · Regular, Semibold, Bold (400, 600, 700)</p><p>Everything else: body, captions, chrome, tables.</p><p>Aa Bb Cc.</p></div></div></div></section>
+  <section class="band cream" id="type-scale"><div class="w"><h2>Type scale.</h2><p>On screen, sizes as in the UI Style Guide (mobile · desktop):</p><p>Display · 28/32 · 48/56 extra bold</p><p>Positioning.</p><p>Page title · 24/28 · 24/32 extra bold</p><p>Our Values.</p><p>Section title · 20/24 · 24/32</p><p>Making print easier.</p><p>Card title · 14 · 16/22 semibold</p><p>Always personal</p><p>Body · 12/18 · 14/22</p><p>We make print easier, for everyone, everywhere.</p><p>Label · 12/17</p><p>HelloPrint · Brand Guidelines · Page 3</p></div></section>
+  <section class="band" id="type-in-use"><div class="w b-split"><div class="b-side"><h2>In use.</h2><p>Editorial</p><p>Best price.<br>Period.</p><p>Find your product, configure it, and we'll match any comparable price. Transparent, upfront, no surprises.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><p>UI</p><p>A2 Posters</p><p>From <strong>€0.42</strong> /print</p><p>Ships <strong>Wed</strong></p><p>Configure</p></div></div></div></div></section>
+  <section class="band cream" id="type-hierarchy"><div class="w"><h2>Hierarchy.</h2><div class="b-items"><div><h3>One idea per slide</h3><p>Lead with the display. Body explains. Captions support. Never three competing voices.</p></div><div><h3>Always left-aligned</h3><p>Centred type is reserved for the cover and divider slides only.</p></div><div><h3>Line lengths</h3><p>Cap body copy at 65 characters per line. Display headlines break by meaning, not by container.</p><p>Display</p><p>Print made simple.</p><p>Sub</p><p>Order in minutes, delivered tomorrow.</p><p>Body</p><p>Thousands of products, all with the best price guaranteed. Real people on chat when you need them.</p></div></div></div></section>
+  <section class="band" id="type-web-vs-print"><div class="w b-split"><div class="b-side"><h2>Web &amp; print.</h2></div><div class="b-body"><table><tr><th>Use</th><th>Display</th><th>Body</th><th>Note</th></tr><tr><td>Web — large headline</td><td>Inter ExtraBold · 28–48&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Display only on the Help Centre head</td></tr><tr><td>Web — page and section titles</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Min 12&nbsp;px for captions</td></tr><tr><td>App / UI</td><td>Inter ExtraBold · 20–24&nbsp;px</td><td>Inter Regular · 12–14&nbsp;px</td><td>Stay on the 8&nbsp;px grid</td></tr><tr><td>Print — large format</td><td>Inter ExtraBold · 120–400&nbsp;pt</td><td>Inter Regular · 12–14&nbsp;pt</td><td>Min 8&nbsp;pt for legal</td></tr><tr><td>Print — packaging</td><td>Inter ExtraBold · 40–80&nbsp;pt</td><td>Inter Regular · 10–11&nbsp;pt</td><td>Test on substrate before sign-off</td></tr></table></div></div></section>
+  <section class="band cream b-chap" id="chapter-07"><div class="w">
+    <h2><span class="num">07</span>Photography.</h2>
+    <div class="photos"><img src="../prototype/assets/help/rooftop.webp" alt=""><img src="../prototype/assets/help/kitchen.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="photography-style"><div class="w"><h2>Our photography.</h2><div class="b-items"><div><h3>Confident close-ups</h3><p>Real people. Real product. Cropped close enough to feel intimate, but always honest.</p></div><div><h3>Bold use of brand colour</h3><p>Wardrobe, props, backdrops — pick up the green wherever possible. Cream as the neutral ground.</p></div><div><h3>No corporate stock</h3><p>No handshakes, no headset call-centres, no laptops-on-tables. We commission, we don't decorate.</p></div></div></div></section>
+  <section class="band cream" id="photography-do-and-dont"><div class="w"><h2>In practice.</h2><p>✓ Do</p><p>✗ Don't Generic stock shot</p><p>✓ Do</p><p>✗ Don't Over-styled flatlay</p></div></section>
+  <section class="band" id="photography-portraits"><div class="w"><h2>Portraits.</h2><div class="b-items"><div><h3>Look</h3><p>Tight crop. Direct eye contact. Real customers, real makers, real producers — never agency models.</p></div><div><h3>Light</h3><p>Soft daylight or single key light. No hard shadows on faces, no studio gradients.</p></div><div><h3>Wardrobe</h3><p>A nod to the green — a hoodie, a cap, a prop. Never head-to-toe brand colour.</p><p>+ commission</p></div></div></div></section>
+  <section class="band cream" id="photography-product"><div class="w"><h2>Product.</h2><div class="b-items"><div><h3>Print as object</h3><p>Photograph the print — its weight, edge, ink. Held by a hand, stacked, mid-fold.</p></div><div><h3>Backgrounds</h3><p>Cream paper, dark green felt, or the worktop where the product lives. No floating-on-white.</p></div></div></div></section>
+  <section class="band" id="photography-lifestyle"><div class="w"><h2>Lifestyle &amp; in-situ.</h2><p>Show the print where it lives — cafés, studios, market stalls, kitchens. The print earns its place in the scene; the scene doesn't perform for the camera.</p><p>Market stall</p><p>Café front</p></div></section>
+  <section class="band dark" id="photography-art-direction"><div class="w"><h2>Art direction.</h2><div class="b-items"><div><h3>Three rules</h3><p>01</p><p>Always anchor on a person. Even product shots include a hand.</p><p>02</p><p>Pick up the green — wardrobe, prop, or backdrop. One element, not three.</p><p>03</p><p>Crop tighter than feels comfortable. Intimacy beats composition.</p></div></div></div></section>
+  <section class="band cream b-chap" id="chapter-08"><div class="w">
+    <h2><span class="num">08</span>Graphic Elements.</h2>
+    <div class="photos"><img src="../prototype/assets/help/strip-laptop.webp" alt=""><img src="../prototype/assets/help/office.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="graphic-system"><div class="w"><h2>Building blocks.</h2><p>Three shapes, three jobs. Use them sparingly — composition first, decoration never.</p><div class="b-items"><div><h3>Green Block</h3><p>Anchors a headline or USP. Always full-bleed within its container.</p></div><div><h3>Outlined Card</h3><p>Groups information. 10&nbsp;px corners, 1&nbsp;px light grey line; on desktop a soft shadow on hover only.</p></div><div><h3>Image Slot</h3><p>Square or rectangular, with the card corners (10&nbsp;px) — let the photography speak.</p></div></div></div></section>
+  <section class="band cream" id="iconography"><div class="w"><h2>Iconography.</h2><p>Google Material Symbols Rounded, line (weight 400, 24&nbsp;px), no fill. Dark green — never coloured-in.</p><p>Use icons to clarify, not decorate. One icon per idea, never two side-by-side.</p><p>Order</p><p>Ship</p><p>Fast</p><p>Mail</p><p>Track</p><p>Save</p></div></section>
+  <section class="band" id="patterns"><div class="w"><h2>Patterns.</h2><p>Three repeating patterns, derived from the wordmark and the box. Use for endpapers, wrapping, mailers, internal swag.</p><p>Never behind body copy. Never as a presentation slide background.</p></div></section>
+  <section class="band dark" id="motion-principles"><div class="w"><h2>Motion.</h2><p>Movement is energetic, never decorative. Three principles keep motion on-brand.</p><p>Fast</p><p>280&nbsp;ms default. Anything longer and it feels slow.</p><p>Out</p><p>Ease-out curves. Things land softly, never bounce.</p><p>Up</p><p>Type enters from below by 12&nbsp;px. Mirrors how a sheet drops from a press.</p></div></section>
+  <section class="band cream b-chap" id="chapter-09"><div class="w">
+    <h2><span class="num">09</span>Executions.</h2>
+    <div class="photos"><img src="../prototype/assets/help/team-night.webp" alt=""><img src="../prototype/assets/help/colleagues.webp" alt=""></div>
+  </div></section>
+  <section class="band" id="in-market-ads"><div class="w b-split"><div class="b-side"><h2>In market — Ads.</h2></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>The best<br>price for<br>print —<br>guaranteed.</p><p>Order today, delivered tomorrow.</p></div><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>No surprises<br>at checkout.</p><p>The price you see is the price you pay.</p></div><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Make your<br>business<br>look great.</p><p>Affordably.</p></div></div></div></div></section>
+  <section class="band cream" id="in-product"><div class="w b-split"><div class="b-side"><h2>In product.</h2><p>The same voice runs through the storefront. Bold benefit, no jargon, transparent price.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><p>Best price guaranteed</p><p>A2 Posters,<br>250 g/m² silk.</p><p>From <strong>€0.42</strong> per print at 500&nbsp;copies. Delivered Wednesday.</p><p>Configure &amp; price</p><p>See samples</p></div></div></div></div></section>
+  <section class="band" id="executions-social"><div class="w b-split"><div class="b-side"><h2>Social.</h2><p>Square 1:1 for the grid, 9:16 for stories. One claim per asset. Logo always top-left.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Order today.<br>Ship tomorrow.</p></div><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Best price.<br>Guaranteed.</p></div></div><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>"Made my walls work for me."</p><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>No&nbsp;surprises<br>at checkout.</p></div></div></div></div></section>
+  <section class="band cream" id="executions-ooh"><div class="w b-split"><div class="b-side"><h2>Out of home.</h2><p>A single bold word. Read in five seconds, from a passing tram.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--light-green)"><p>Print<br>easier.</p><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>helloprint.com</p></div></div></div></div></section>
+  <section class="band" id="executions-email"><div class="w b-split"><div class="b-side"><h2>Email.</h2><p>Transactional emails stay calm and direct. Subject line carries the news; body confirms.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><p><strong>HelloPrint</strong> · noreply@helloprint.com</p><p>Today · 14:32</p><p>Your A2 posters ship tomorrow.</p><p>Hi Sofia — your order <strong>#HP-58412</strong> just left our Rotterdam press. DPD has it; you'll get a delivery window in the morning.</p><p>Track order</p><p>Reorder</p></div></div></div></div></section>
+  <section class="band cream" id="executions-packaging"><div class="w b-split"><div class="b-side"><h2>Packaging.</h2><p>Recycled kraft on the outside, dark green on the inside. The first thing customers see is the green flash as they open.</p></div><div class="b-body"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>This way up</p><p>Order #HP-58412 · 12 kg · Fragile</p><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--light-green)"><p>Hello,<br>Sofia.</p><p>Your posters are inside. If anything's not perfect, just reply to the order email — we'll make it right.</p></div></div></div></div></section>
+  <section class="band" id="executions-merch"><div class="w b-split"><div class="b-side"><h2>Merch &amp; swag.</h2><p>For customers, partners, and the team. The monogram does the work — restraint over volume.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div><div class="b-tile light" style="background:var(--cream)"><p>Print easier.</p></div><div class="b-tile light" style="background:var(--cream)"><div class="b-tile on-dark" style="background:var(--light-green)"><span class="bg-mark" role="img" aria-label="HelloPrint H"></span></div></div></div></div></div></section>
+  <section class="band cream" id="executions-in-store"><div class="w b-split"><div class="b-side"><h2>In producer showrooms.</h2><p>Where producers display HelloPrint kit. Bold, navigational, never decorative. One mark per surface.</p></div><div class="b-body"><div class="b-tiles"><div class="b-tile on-dark" style="background:var(--dark-green)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Showroom</p><p>Rotterdam.</p><div class="b-tile on-dark" style="background:var(--light-green)"><p>See it.<br>Touch it.<br>Order it.</p></div></div></div></div></div></section>
+  <section class="band" id="executions-co-branding"><div class="w b-split"><div class="b-side"><h2>Co-branding.</h2></div><div class="b-body"><div class="b-items"><div><h3>Equal weight</h3><p>Always set partner logos at the same optical height as our wordmark. Separator is a 1&nbsp;px dark-green rule, never an "×".</p></div><div><h3>Hierarchy</h3><p>HelloPrint sits left when we host. Right when we're the guest. Never centred.</p></div></div><div class="b-tiles"><div class="b-tile light" style="background:var(--cream)"><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span><p>Partner</p></div><div class="b-tile on-dark" style="background:var(--dark-green)"><p>Partner</p><span class="bg-logo" role="img" aria-label="HelloPrint wordmark"></span></div></div><div class="b-items"><div><h3>Never</h3><p>Don't shrink the wordmark to fit a partner's logo. Don't centre the lockup. Don't introduce extra colour.</p></div></div></div></div></section>
+  <section class="band dark" id="close"><div class="w"><p class="stmt">Now go make print easier.</p><p>v.01 · Brand &amp; Marketing Team · 2026</p></div></section>
   </main>
 </div>
-<script src="../design-system/guide.js?v=20261122n"></script>
+<script src="../design-system/guide.js?v=20261125m"></script>
 </body>
 </html>

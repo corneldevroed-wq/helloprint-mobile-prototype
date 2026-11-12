@@ -66,9 +66,10 @@ Before building anything, also read:
   mobile and `.desk`), `components.js` (labels `badgeHtml`, bottom sheets, toast, field errors), `icons/`, the guide as `index.html`.
   `prototype/` = every page, `pages.css` (page layouts + page-specific tweaks of components), `app.js`, data, `assets/`.
   `sketches/` = the sketch pages. `brand-guidelines/` = the Brand Guidelines (started 2026-11-10): content 1:1 from Cornel's
-  Claude Design deck "Brand Guide" (export unpacked in `ref/brand-guide/`, not in git), one section per slide, in the UI guide's
-  layout. Both guides share their chrome: `design-system/guide.css` (top bar, hero, sidebar, sections) + `guide.js` (scrollspy, drawer).
-  Live at …/brand-guidelines/. Next step: a nicer HTML slideshow of it. Old root addresses (`/product.html…`) are tiny pages that forward with the same query.
+  Claude Design deck "Brand Guide" (export unpacked in `ref/brand-guide/`, not in git), aligned with the UI guide (the UI guide wins).
+  Since 2026-11-12 a read-only brand book (sketch B, `sketches/brand-slides-sketch.html`): one full-width band per slide, every chapter
+  opens with a cover band (number, title, two photos), menu left with folding chapters. Both guides share their chrome:
+  `design-system/guide.css` (top bar, hero, sidebar) + `guide.js` (scrollspy on `.ds-main > section[id]`, opens the chapter you scroll into, drawer). Old root addresses (`/product.html…`) are tiny pages that forward with the same query.
   Prototype pages load `../design-system/tokens.css`, `components.css`, then `pages.css`; `app.js`, then `components.js`.
 - **Where new CSS goes:** something that can appear twice (a button, card, label, field) → `design-system/components.css` +
   a row in the guide, same commit. Only for one page → `prototype/pages.css`. A component that looks different on one page →
