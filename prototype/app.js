@@ -193,7 +193,8 @@ const SHEET_SHIPPING = `
 const DTRUST = `<a class="dtrust" href="#trustpilot" aria-label="See our 35,364 reviews on Trustpilot">See our <u><b>35,364</b> reviews</u> on <span class="dtrust-logo"><img src="assets/tp-logo-star.svg" alt="">Trustpilot</span></a>`;   // as the live Trustpilot widget (Cornel, 2026-10-28)
 // Drop menus in the desktop header (Cornel 2026-11-11/12): Need help? (content as live en-ie) and, logged in, the account menu (as live).
 // A row: [href, icon in design-system/icons, title, sub line]; icons are Material Symbols Rounded, dark grey on a light grey tile (.d-head)
-const dropRow = ([href, icon, title, sub]) => `<a role="menuitem" href="${href}"><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span></a>`;
+// A row without a sub line is a page to go to: regular weight and the arrow of the mobile menu at the end (Cornel 2026-11-12)
+const dropRow = ([href, icon, title, sub]) => `<a role="menuitem" href="${href}"><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span>${sub ? '' : '<img class="chev" src="assets/menu/arrow.svg" alt="">'}</a>`;
 const HELP_MENU = `<div class="d-menu d-head" role="menu" hidden>
           <p class="d-menu-title">How can we help?</p>${[
             ['#chat', 'chat', 'Chat with Anna<span class="badge">Instant</span>', 'Typically replies within a minute'],

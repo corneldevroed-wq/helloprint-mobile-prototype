@@ -8,6 +8,7 @@ Add new decisions here when Cornel makes a final call.
 - **11-12 — Every page noindex, nofollow** (Cornel): the GitHub Pages sites are public, so all 81 HTML pages (prototype, style guide, Brand Guidelines, sketches, the forwarding pages) carry `<meta name="robots" content="noindex, nofollow">` after the charset; new pages too (CLAUDE.md). A robots.txt would not work (it must sit at the domain root, which is not ours).
 
 ## Menu desktop (Nov 10, 2026)
+- **11-12 — Account menu rows: regular weight with an arrow at the end** (Cornel: bold not needed): only the title is semibold; a row without a sub line (the account pages) gets the arrow of the mobile menu, Log out none. Need help? keeps semibold titles over its grey sub lines.
 - **11-12 — A line under the title of the header drop menus** (Cornel): 1px --line, 8 under the title, 4 above the first row (as the line above Log out); Need help? and the account menu alike.
 - **11-12 — The account icon before the name (logged in) and before Log in (logged out)** (Cornel): the white account_circle of the mobile header (20, without its green dot) in the light green pill. A photo avatar was tried and dropped (no real profile photos).
 - **11-12 — The header drop menus are compact** (Cornel: they felt too big as a dropdown): .d-head 320 wide (was 360; 304 wrapped the Help sub lines), rows of 40 (was 56; the tick column dropped), the icon 18 without a tile (was a 40 tile, grey, then 32; Cornel: the grey tile out), the title 14 (was 16). The PDP bar menu keeps its size.
