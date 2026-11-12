@@ -37,9 +37,10 @@ All switches write their value into the URL and localStorage, so a copied link o
 **Mobile PDP**: flow H is the default (Cornel, 2026-11-03). The Flow switch is hidden (`.flow-switch { display: none }`), the
 code of flows A–J stays; `?flow=a…j` opens another flow for that visit only (no longer remembered in `hp-flow`).
 
-**Home, mobile + desktop: Photos** (`photos` = A / B, `hp-photos-home`, Cornel 2026-11-11): A = the live promo cards, B = only the new
+**Home, mobile + desktop: Photos** (`photos` = A / B / C, `hp-photos-home`, Cornel 2026-11-11): A = the live promo cards, B = only the new
 editorial photos (5 cards with their own titles, list in the switch script in index.html), photo = `prototype/assets/home/editorial/<link slug>.webp`.
 On desktop B is a full-width grid instead of the carousel: one row of 5 cards, 32 at the edges, no arrows; the welcome heading is hidden in B (`.pb-wrap.ed` in pages.css).
+C = the same cards in the normal carousel inside the page container (4 + a peek, arrows), all the same size (no wide card); welcome heading hidden too.
 Mobile keeps the carousel.
 
 **Home promo cards** (no switch; decided 2026-11-11): titles 20/24 on mobile and desktop (promo cards + Team + Promises), 24px inside
