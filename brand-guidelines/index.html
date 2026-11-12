@@ -67,7 +67,8 @@
     -webkit-mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; mask: url('assets/helloprint-wordmark.svg') center / contain no-repeat; }
   .bg-mark { aspect-ratio: 1; -webkit-mask-image: url('assets/helloprint-vector.svg'); mask-image: url('assets/helloprint-vector.svg'); }
   .bg-mark.badge { -webkit-mask-image: url('assets/helloprint-H-badge.svg'); mask-image: url('assets/helloprint-H-badge.svg'); }
-  .bg-kit { margin-left: auto; }   /* top right */
+  .bg-kit { margin-left: auto; gap: 6px; }   /* top right: the grey pill (UI guide) with an icon in front */
+  .bg-kit .material-symbols-rounded { width: 18px; overflow: hidden; }
   @media (max-width: 900px) {
     .bg-kit span + span { display: none; }   /* mobile: the icon only */
     .ds-main { gap: 16px; padding: 16px 16px 64px; }
@@ -79,7 +80,7 @@
   <button class="pill ds-menu-btn" id="dsMenu">Menu</button>
   <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
   <b>Brand Guidelines</b>
-  <a class="pill has-icon bg-kit" href="#brand-kit" aria-label="Download brand kit"><span class="material-symbols-rounded" aria-hidden="true">download</span><span>Download brand kit</span></a>   <!-- the kit's files come later (Cornel, 2026-11-12): a link to nothing for now -->
+  <a class="pill bg-kit" href="#brand-kit" aria-label="Download brand kit"><span class="material-symbols-rounded" aria-hidden="true">download</span><span>Download brand kit</span></a>   <!-- the kit's files come later (Cornel, 2026-11-12): a link to nothing for now -->
 </header>
 
 <div class="ds">
