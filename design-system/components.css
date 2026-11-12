@@ -655,7 +655,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 /* The header menus (Need help?, account; Cornel 2026-11-11/12): compact, as a dropdown should feel: 320 wide, rows of 40 (no tick column),
    the Material icon 18 on its own (no tile: no outline, no grey), the title 14 */
 .d-head { width: 320px; }
-.d-head .d-menu-title { font-size: var(--t-14); line-height: var(--lh-14); }
+.d-head .d-menu-title { margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--line); font-size: var(--t-14); line-height: var(--lh-14); }   /* a line under the title, as the one above Log out (Cornel 2026-11-12) */
 .d-head a, .d-head button { grid-template-columns: 20px minmax(0, 1fr); min-height: 40px; padding: 4px 8px; }
 .d-head .ico { width: 20px; height: 20px; border: 0; background: none; }
 .d-head .ico img { width: 18px; height: 18px; }
