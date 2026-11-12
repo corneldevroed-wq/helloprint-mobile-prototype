@@ -104,9 +104,10 @@ const SHELL_OVERLAYS = `
 `;
 // Checkout pages use a reduced header: logo + "Secure Checkout" (Figma 15738:4701)
 const CO_SECURE = `<span class="co-secure"><img src="assets/checkout/encrypted.svg" alt="">Secure Checkout</span>`;
+const CO_BAG = `<a href="cart.html" aria-label="Cart"><img class="icon" src="../design-system/icons/bag.svg" alt=""></a>`;
 const CO_ICONS = `
         <a href="login.html?return=details" aria-label="Account" class="account-link"><img class="icon" src="assets/account.svg" alt=""></a>
-        <a href="cart.html" aria-label="Cart"><img class="icon" src="../design-system/icons/bag.svg" alt=""></a>`;
+        ${CO_BAG}`;
 const SHELL_CHECKOUT_HEADER = `
   <header class="header co-header">
     <div class="nav co-nav">
@@ -114,12 +115,6 @@ const SHELL_CHECKOUT_HEADER = `
       <div class="co-right">${CO_SECURE}${CO_ICONS}</div>
     </div>
   </header>`;
-// Desktop: the shop header's top bar, Secure Checkout next to the logo, account and bag right; no search, menu or USP bar
-// (checkout-desk-sketch.html A, Cornel 2026-11-05/06)
-const SHELL_CHECKOUT_HEADER_DESK = `
-  <header class="dhead co-dhead"><div class="dhead-top"><div class="dwrap">
-    <a href="index.html" aria-label="HelloPrint home"><img class="dlogo" src="assets/logo.svg" alt="HelloPrint"></a>${CO_SECURE}<div class="co-right">${CO_ICONS}</div>
-  </div></div></header>`;
 // ---------- Desktop (≥1024px, Figma 15927:9040) for pages that opt in with <body data-desktop> ----------
 // Below 1024px those pages stay the mobile prototype. Crossing the breakpoint reloads, so layout and script agree.
 const DESK_MQ = matchMedia('(min-width: 1024px)');
@@ -204,8 +199,8 @@ const HELP_MENU = `<div class="d-menu d-head" role="menu" hidden>
           ].map(dropRow).join('')}
         </div>`;
 const deskFirst = deskUser ? (deskUser.first || 'My account').replace(/&/g, '&amp;').replace(/</g, '&lt;') : '';
-const ACCOUNT_MENU = `<div class="d-menu d-head" role="menu" hidden>
-          <p class="d-menu-title">Hi, ${deskFirst}, welcome back!</p>${[
+// The account pages + Log out: the desktop drop menu and the mobile sheet (Cornel 2026-11-12)
+const ACCOUNT_ROWS = `${[
             ['#my-account', 'home', 'Account Overview'],
             ['#orders', 'package-2', 'Orders'],
             ['#invoices', 'receipt-long', 'Invoices'],
@@ -214,8 +209,31 @@ const ACCOUNT_MENU = `<div class="d-menu d-head" role="menu" hidden>
             ['#personal-details', 'person', 'Personal Details'],
             ['#addresses', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}
-          <hr><button type="button" class="d-out" data-logout><span class="ico"><img src="../design-system/icons/logout.svg" alt=""></span><span><b>Log out</b></span></button>
+          <hr><button type="button" class="d-out" data-logout><span class="ico"><img src="../design-system/icons/logout.svg" alt=""></span><span><b>Log out</b></span></button>`;
+const ACCOUNT_MENU = `<div class="d-menu d-head" role="menu" hidden>
+          <p class="d-menu-title">Hi, ${deskFirst}, welcome back!</p>${ACCOUNT_ROWS}
         </div>`;
+// Mobile: the account icon (logged in) opens the same rows in a bottom sheet; there is no hover on a phone (Cornel 2026-11-12)
+const SHEET_ACCOUNT = `
+<div class="sheet-layer" id="sheet-account" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="accountTitle">Hi, ${deskFirst}, welcome back!</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="d-menu d-head" role="menu">${ACCOUNT_ROWS}</div></div>
+  </div>
+</div>`;
+// The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
+const deskAccount = login => deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : `<a class="dbtn dbtn-user" href="${login}"><img src="assets/account.svg" alt="">Log in</a>`;
+// Desktop: the shop header's top bar, Secure Checkout next to the logo, account and bag right; no search, menu or USP bar
+// (checkout-desk-sketch.html A, Cornel 2026-11-05/06)
+const SHELL_CHECKOUT_HEADER_DESK = `
+  <header class="dhead co-dhead"><div class="dhead-top"><div class="dwrap">
+    <a href="index.html" aria-label="HelloPrint home"><img class="dlogo" src="assets/logo.svg" alt="HelloPrint"></a>${CO_SECURE}<div class="co-right">${deskAccount('login.html?return=details')}${CO_BAG}</div>
+  </div></div></header>`;
 const SHELL_HEADER_DESK = `
   <header class="dhead">
     <div class="dhead-top"><div class="dwrap">
@@ -227,7 +245,7 @@ const SHELL_HEADER_DESK = `
       </form>
       <div class="dhead-right">
         <button class="dpill" aria-label="Country: Ireland"><img class="dflag" src="assets/flag.png" alt="">EN<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>
-        ${deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : '<a class="dbtn dbtn-user" href="login.html"><img src="assets/account.svg" alt="">Log in</a>'}
+        ${deskAccount('login.html')}
         <div class="dhead-drop"><button class="dpill" type="button" aria-haspopup="menu" aria-expanded="false" data-drop>Need help?<img class="dchev" src="assets/desktop/chev-down-white.svg" alt=""></button>${HELP_MENU}</div>
         <a href="cart.html" aria-label="Cart"><img class="dcart" src="../design-system/icons/bag.svg" alt=""></a>
       </div>
@@ -294,15 +312,10 @@ const headerSlot = document.querySelector('[data-shell="header"]');
 if (headerSlot) headerSlot.outerHTML = DESK ? SHELL_HEADER_DESK : SHELL_HEADER;
 const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
 if (checkoutSlot) checkoutSlot.outerHTML = DESK ? SHELL_CHECKOUT_HEADER_DESK : SHELL_CHECKOUT_HEADER;
-// Logged in: a plain "Log out" link top right in the checkout header, in the place of the account icon (which only leads to the
-// login page), until the account menu exists (Cornel, 2026-11-06)
-if (checkoutSlot && deskUser) {
-  document.querySelector('.co-right .account-link').outerHTML = '<button type="button" class="co-logout">Log out</button>';
-  document.querySelector('.co-logout').addEventListener('click', () => {
-    try { localStorage.removeItem('hp-user'); } catch (e) {}
-    toastOnNextPage('You’re logged out. You can still check out as a guest');
-    location.reload();
-  });
+// Mobile, logged in: the account icon opens the account sheet (shop and checkout header); logged out it goes to the login page
+if (deskUser && !DESK && document.querySelector('.account-link')) {
+  document.querySelectorAll('.account-link').forEach(a => { a.href = '#my-account'; a.dataset.openSheet = 'account'; });
+  document.body.insertAdjacentHTML('beforeend', SHEET_ACCOUNT);
 }
 // Desktop checkout steps (Cornel 2026-11-06, was switch Steps B): the mobile steps and words, centred; a numbered circle per step and a line
 // between. Cart is the way back, not a step: a round back button, so Details is 1.
@@ -705,7 +718,7 @@ document.querySelectorAll('[data-drop]').forEach(btn => {
 document.addEventListener('click', e => {
   if (!e.target.closest('[data-logout]')) return;
   try { localStorage.removeItem('hp-user'); } catch (err) {}
-  toastOnNextPage('You’re logged out');
+  toastOnNextPage(checkoutSlot ? 'You’re logged out. You can still check out as a guest' : 'You’re logged out');
   location.reload();
 });
 

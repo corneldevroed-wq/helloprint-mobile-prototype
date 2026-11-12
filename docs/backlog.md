@@ -7,9 +7,6 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
   Still open: the field on the mobile cart, and the code on the details page.
 - **PO / reference number** — built on details (2026-11-06, Business only). Still open: show it (with the company) in the payment
   summary and on confirmed; a field for everyone instead?
-- **Account menu in the header** (Cornel, 2026-11-06): logged in, the header shows the first name; a dropdown from it with Log out
-  (and later the account pages). Logging out lives only there, so the checkout has no Log out any more. Open: the checkout header
-  (now the account icon with a green dot) — show the first name there too?
 - **My account / logged-in pages** beyond checkout (ask for Figma frames first).
 - **Team banner photo**: a real photoshoot of experts at work would be stronger long-term (current: Cornel's export).
 
