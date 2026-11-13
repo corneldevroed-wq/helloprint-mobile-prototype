@@ -1583,10 +1583,6 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .desk .pb-nav.prev svg { transform: scaleX(-1); }
 .desk .promo-e .pb-nav.next { right: -20px; }
 .desk .promo-e .pb-nav[disabled] { opacity: 0; pointer-events: none; }
-/* Switch Photos B (desktop): the editorial cards as a full-width grid of 5, no carousel (C keeps the carousel) */
-.desk .promo-e .pb-wrap.ed { width: auto; max-width: none; margin-inline: 0; padding-inline: 32px; }   /* 32 at the edges (desktop block space, guide) */
-.desk .promo-e .pb-wrap.ed .pb-hero { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow: visible; }   /* one row of 5 */
-.desk .promo-e .pb-wrap.ed:has(.pc:nth-child(5)) .pb-nav { display: none; }
 
 /* Desktop home: alternative category block (Figma second category variant, live "Discover our categories"), right under
    "Our Top Categories" so Cornel can choose. 4 per row, grey card, title top left, round image right, arrow bottom left. */

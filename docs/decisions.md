@@ -4,6 +4,10 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Home (Nov 13, 2026)
+- **11-13 — Home promo row: the live photos (Photos A), the switch removed** (Cornel): the editorial photos (B: a full-width grid of 5 with their own titles, welcome heading hidden; C: the same cards in the carousel) are not taken; their code and CSS are gone. The 5 photos stay in `prototype/assets/home/editorial/` for now.
+- **11-12 — Blogs on the home** (Cornel): the blog block of business cards (title + All blogs, 3 cards: the newest en-ie posts) above "Browse all we offer"; the blog card is now a design-system component.
+
 ## Search engines (Nov 12, 2026)
 - **11-12 — Every page noindex, nofollow** (Cornel): the GitHub Pages sites are public, so all 81 HTML pages (prototype, style guide, Brand Guidelines, sketches, the forwarding pages) carry `<meta name="robots" content="noindex, nofollow">` after the charset; new pages too (CLAUDE.md). A robots.txt would not work (it must sit at the domain root, which is not ours).
 
