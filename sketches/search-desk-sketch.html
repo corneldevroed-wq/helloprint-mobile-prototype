@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search desktop sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126p">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261126p">
+<!-- Sketch only, not linked from the prototype: search on desktop (now the mobile full screen layer opens).
+     Content and wording 1:1 from the mobile search (prototype/app.js: searchCats, searchProducts, popularCats), images from assets/search/.
+     Live en-ie for reference: a dropdown under the field (field wide), empty: Popular searches as chips; typing: categories left,
+     products in 2 columns right (photo, name, From €…), View all results for "…" at the bottom. -->
+<style>
+  body { background: var(--white); }
+  .wrap { max-width: 1334px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: var(--t-32); line-height: var(--lh-tight); }
+  .sk-note { margin-top: 24px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .sk-note p + p { margin-top: 8px; }
+  .sk-label { margin-top: 56px; padding-top: 16px; border-top: 2px dashed var(--outline); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sk-label .ttl { display: block; margin-bottom: 4px; font-size: var(--t-20); line-height: var(--lh-20); color: var(--black); }
+  .sk-label .pick { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk-label ul { margin-top: 8px; padding-left: 20px; }
+  .sk-sub { margin-top: 16px; font-weight: 600; font-size: var(--t-14); color: var(--black); }
+  .frame { position: relative; margin-top: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+  .top { height: 60px; background: var(--dark-green); }
+  .top .in { position: relative; height: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 32px; }
+  .top .dlogo { width: 117px; height: 26px; }
+  .top .dsearch { flex: 0 1 560px; margin: 0 auto 0 0; }
+  .top .dsearch input { cursor: text; }
+  .top .r { display: flex; gap: 16px; }
+  .top .r span { width: 64px; height: 24px; border-radius: var(--r-pill); background: rgba(255,255,255,.15); }
+  .stage { position: relative; height: 640px; background: var(--white); overflow: hidden; }
+  .stage .ghost { position: absolute; inset: 24px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+  .stage .ghost span { border-radius: var(--r-l); background: var(--light-grey); }
+  .stage .dimmed { position: absolute; inset: 0; background: var(--overlay); }
+
+  /* shared bits */
+  .s-list { list-style: none; display: flex; flex-direction: column; }
+  .s-list a { display: block; padding: 4px 8px; border-radius: var(--r-s); font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .s-list a:hover, .s-list a.on { background: var(--light-grey); color: var(--black); }
+  .s-list mark, .s-pr mark { background: none; color: inherit; font-weight: 600; }
+  .s-h { margin-bottom: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .s-all { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-green); }
+  .s-all img { width: 16px; height: 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* A · as live: a dropdown as wide as the field */
+  .sk-a .drop { position: absolute; top: 8px; left: calc(50% - 620px + 24px + 117px + 32px); width: 560px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); box-shadow: 0 8px 32px rgba(0,0,0,.18); }
+  .sk-a .cols { display: grid; grid-template-columns: 168px 1fr; gap: 16px; }
+  .sk-a .prods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .s-pr { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; align-items: center; padding: 4px; border-radius: var(--r-m); }
+  .s-pr:hover { background: var(--light-grey); }
+  .s-pr .thumb-sm { width: 64px; height: 64px; }
+  .s-pr b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+  .s-pr small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .sk-a .foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); text-align: center; }
+
+  /* B · the mega menu panel: full width under the header, the page dimmed */
+  .sk-b .sk-panel { position: absolute; top: 0; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 8px 16px rgba(0,0,0,.08); }
+  .sk-b .sk-panel .in { max-width: 1240px; margin: 0 auto; padding: 24px 24px 32px; display: grid; grid-template-columns: 232px 1fr; gap: 32px; }
+  .sk-b .side { padding-right: 24px; border-right: 1px solid var(--line); }
+  .sk-b .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .sk-b .head h3 { font-size: var(--t-20); line-height: var(--lh-20); }
+  .sk-b .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  .sk-b .grid .product .thumb img { padding: 16px; }
+
+  /* C · the mobile search in a popup */
+  .sk-c .pop { position: absolute; top: 24px; left: 50%; width: 560px; transform: translateX(-50%); padding: 16px 0; border-radius: var(--r-xl); background: var(--white); }
+  .sk-c .pop .search-section + .search-section { margin-top: 16px; }
+  .sk-c .pop .head { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 16px; }
+  .sk-c .pop .head h3 { font-size: var(--t-20); line-height: var(--lh-20); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Search on desktop</h1>
+  <div class="sk-note">
+    <p><b>Now:</b> clicking the search field on desktop opens the mobile full-screen search layer. On desktop you want the results right under the field you typed in, with the page still behind it.</p>
+    <p><b>Same content as mobile</b> (popular categories, best sellers; typing: matching categories + products), same words. Every frame shows the typed state ("business cards"); B also shows the empty state (click in the field).</p>
+  </div>
+
+  <!-- A -->
+  <p class="sk-label"><span class="ttl">A · Dropdown under the field (as live)</span>
+    560 wide, a white card with the drop-menu outline + shadow. Categories left as a short list, products right in 2 columns (photo 64, name, "500 pieces for €18.89"), View all at the bottom.
+    <ul><li>+ Close to live, known pattern, small</li><li>− Cramped: 4–6 products, small photos; a second dropdown style next to the mega menu</li></ul></p>
+  <div class="frame sk-a">
+    <div class="top"><div class="in"><img class="dlogo" src="../prototype/assets/logo.svg" alt="">
+      <form class="dsearch" onsubmit="return false"><img src="../prototype/assets/search/search.svg" alt=""><input type="search" value="business cards"><button class="dbtn" type="submit">Search</button></form>
+      <div class="r"><span></span><span></span><span></span></div></div></div>
+    <div class="stage"><div class="ghost"><span></span><span></span><span></span></div>
+      <div class="drop">
+        <div class="cols">
+          <div><p class="s-h">Categories</p><ul class="s-list"><li><a class="on" href="#"><mark>Business cards</mark></a></li><li><a href="#">Plastic <mark>Business Cards</mark></a></li><li><a href="#">Business opening</a></li></ul></div>
+          <div><p class="s-h">Products</p><div class="prods" data-prods="6"></div></div>
+        </div>
+        <div class="foot"><a class="s-all" href="#">View all results for “business cards”<img src="../prototype/assets/menu/arrow.svg" alt=""></a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B -->
+  <p class="sk-label"><span class="ttl">B · A panel under the header, like the mega menu <span class="pick">my pick</span></span>
+    The same white panel as the mega menu (full width, the page dimmed with --overlay): categories left as the mega menu's list, the products as the real product cards (photo, name, price) 5 in a row, View all top right.
+    <ul><li>+ One system: search and menu open the same panel; the real product cards with prices make it a shop window, not a list</li><li>+ Room for good photos; the dark layer keeps the focus on the results</li><li>− Bigger than live; on a laptop the cards are the first thing cut (2 rows max)</li></ul></p>
+  <p class="sk-sub">Typing “business cards”</p>
+  <div class="frame sk-b">
+    <div class="top"><div class="in"><img class="dlogo" src="../prototype/assets/logo.svg" alt="">
+      <form class="dsearch" onsubmit="return false"><img src="../prototype/assets/search/search.svg" alt=""><input type="search" value="business cards"><button class="dbtn" type="submit">Search</button></form>
+      <div class="r"><span></span><span></span><span></span></div></div></div>
+    <div class="stage"><div class="ghost"><span></span><span></span><span></span></div><div class="dimmed"></div>
+      <div class="sk-panel"><div class="in">
+        <div class="side"><p class="s-h">Categories</p><ul class="s-list"><li><a class="on" href="#"><mark>Business cards</mark></a></li><li><a href="#">Plastic <mark>Business Cards</mark></a></li><li><a href="#">Business opening</a></li></ul></div>
+        <div><div class="head"><h3>Products</h3><a class="s-all" href="#">View all results<img src="../prototype/assets/menu/arrow.svg" alt=""></a></div><div class="grid" data-cards="5"></div></div>
+      </div></div>
+    </div>
+  </div>
+  <p class="sk-sub">Empty (click in the field)</p>
+  <div class="frame sk-b">
+    <div class="top"><div class="in"><img class="dlogo" src="../prototype/assets/logo.svg" alt="">
+      <form class="dsearch" onsubmit="return false"><img src="../prototype/assets/search/search.svg" alt=""><input type="search" placeholder="Search for promo and printed products"><button class="dbtn" type="submit">Search</button></form>
+      <div class="r"><span></span><span></span><span></span></div></div></div>
+    <div class="stage" style="height:520px"><div class="ghost"><span></span><span></span><span></span></div><div class="dimmed"></div>
+      <div class="sk-panel"><div class="in">
+        <div class="side"><p class="s-h">Popular categories</p><ul class="s-list"><li><a href="#">Booklets</a></li><li><a href="#">Business cards</a></li><li><a href="#">Flyers</a></li><li><a href="#">Banners</a></li><li><a href="#">Posters</a></li></ul></div>
+        <div><div class="head"><h3>Best Sellers</h3></div><div class="grid" data-cards="5" data-best></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- C -->
+  <p class="sk-label"><span class="ttl">C · The mobile search in a popup</span>
+    The mobile search as it is (rows with arrow, product rows with price), in the desktop popup (560, centred, the page dimmed). The field moves into the popup.
+    <ul><li>+ Nothing new to build or maintain, 1:1 mobile</li><li>− Feels like an app on a website: you click a field and a different field appears; long rows, few products in view</li></ul></p>
+  <div class="frame sk-c">
+    <div class="top"><div class="in"><img class="dlogo" src="../prototype/assets/logo.svg" alt="">
+      <form class="dsearch" onsubmit="return false"><img src="../prototype/assets/search/search.svg" alt=""><input type="search" placeholder="Search for promo and printed products"><button class="dbtn" type="submit">Search</button></form>
+      <div class="r"><span></span><span></span><span></span></div></div></div>
+    <div class="stage"><div class="ghost"><span></span><span></span><span></span></div><div class="dimmed"></div>
+      <div class="pop">
+        <div class="head"><form class="dsearch" style="flex:1;margin-right:16px;border:1px solid var(--outline)" onsubmit="return false"><img src="../prototype/assets/search/search.svg" alt=""><input type="search" value="business cards"></form><img src="../prototype/assets/pdp/close.svg" alt="" width="19"></div>
+        <section class="search-section"><p class="label">Categories</p><a class="s-cat" href="#"><span>Business cards</span><img src="../prototype/assets/search/arrow.svg" alt=""></a><a class="s-cat" href="#"><span>Plastic Business Cards</span><img src="../prototype/assets/search/arrow.svg" alt=""></a></section>
+        <section class="search-section"><p class="label">Products</p><div class="s-products" data-rows="3"></div></section>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // The products of the mobile search (prototype/app.js searchProducts, the Figma search screen)
+  const S = '../prototype/assets/search/';
+  const P = [['Classic business cards', 'classic.png'], ['Eco business cards', 'eco.png'], ['Plastic business cards', 'plastic.png'], ['Deluxe business cards', 'deluxe.png'], ['Special materials', 'special.png'], ['Multilayer business cards', 'multilayer.png']];
+  const BEST = [['Standard Flyers', '../prototype/assets/p3.png', 1000, '€35.99'], ['Classic Business Cards', S + 'classic.png', 500, '€18.89'], ['Custom Banners', '../prototype/assets/products/banner.webp', 1, '€33.36'], ['Roller Banners', '../prototype/assets/products/roller-banner.webp', 1, '€38.99'], ['Basic Cotton Bags', '../prototype/assets/products/cotton-bag.webp', 100, '€181.99']];
+  const mark = n => n.replace(/business cards/i, m => `<mark>${m}</mark>`);
+  document.querySelectorAll('[data-prods]').forEach(el => el.innerHTML = P.map(([n, i]) => `<a class="s-pr" href="#"><span class="thumb-sm"><img src="${S + i}" alt=""></span><span><b>${mark(n)}</b><small>500 pieces for €18.89</small></span></a>`).join(''));
+  document.querySelectorAll('[data-cards]').forEach(el => el.innerHTML = (el.hasAttribute('data-best') ? BEST : P.slice(0, 5).map(([n, i]) => [n, S + i, 500, '€18.89'])).map(([n, i, q, p]) => `<a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="${i}" alt=""></div><p class="name">${n}</p><div><p class="from">${q} ${q === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price">${p}</span></p></div></a>`).join(''));
+  document.querySelectorAll('[data-rows]').forEach(el => el.innerHTML = P.slice(0, 3).map(([n, i]) => `<a class="s-prod" href="#"><span class="img" style="background:var(--light-grey)"><img src="${S + i}" alt=""></span><span class="info"><strong>${n}</strong><small>€0.038 each</small></span><span class="price"><small>500 pcs</small><b>€18.89</b></span></a>`).join(''));
+</script>
+</body>
+</html>

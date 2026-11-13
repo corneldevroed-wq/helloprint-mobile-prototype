@@ -804,14 +804,15 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuLayer.
 // from the Figma search screen plus the menu. Results stay local to the prototype (#slug).
 const slug = t => t.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const S = 'assets/search/';
+const SC = 'assets/category/';   // the cut-out product photos: every photo on light grey (Cornel 2026-11-13: no coloured backgrounds)
 const searchProducts = [
-  { name: 'Classic business cards', img: S + 'classic.png', bg: 'var(--light-grey)', qty: 500, price: 18.89, proto: 'pdp' },
-  { name: 'Eco business cards', img: S + 'eco.png', qty: 500, price: 18.89 },
-  { name: 'Plastic business cards', img: S + 'plastic.png', qty: 500, price: 18.89 },
-  { name: 'Deluxe business cards', img: S + 'deluxe.png', qty: 500, price: 18.89 },
-  { name: 'Special materials', img: S + 'special.png', qty: 500, price: 18.89, tags: 'business cards' },
-  { name: 'Multilayer business cards', img: S + 'multilayer.png', qty: 500, price: 18.89 },
-  ...products.filter(p => !p.desk).map(p => ({ name: p.name, img: 'assets/' + p.img, bg: p.bg, qty: p.qty, price: p.price })),
+  { name: 'Classic business cards', img: SC + 't-classic.png', qty: 500, price: 18.89, proto: 'pdp' },
+  { name: 'Eco business cards', img: SC + 't-eco.png', qty: 500, price: 18.89 },
+  { name: 'Plastic business cards', img: SC + 't-pvc.png', qty: 500, price: 18.89 },
+  { name: 'Deluxe business cards', img: SC + 't-deluxe.png', qty: 500, price: 18.89 },
+  { name: 'Special materials', img: SC + 't-special.png', qty: 500, price: 18.89, tags: 'business cards' },
+  { name: 'Multilayer business cards', img: SC + 't-multilayer.png', qty: 500, price: 18.89 },
+  ...products.filter(p => !p.desk).map(p => ({ name: p.name, img: 'assets/' + p.img, qty: p.qty, price: p.price })),
   // Products added from the live site (product.html via ROUTES on their slug)
   { name: '330 ml Full Colour Ceramic Mug', img: 'assets/products/mug.webp', qty: 100, price: 412.32, tags: 'mugs gifts drinkware' },
   { name: 'Basic Cotton Bags', img: 'assets/products/cotton-bag.webp', qty: 100, price: 181.99, tags: 'tote bags' },
@@ -828,6 +829,7 @@ const searchCats = (() => {
   for (const lvl of Object.values(menu)) lvl.items.forEach(it => add(it.label, it.href));
   return [...seen.values()];
 })();
+const SEARCH_MAX = 6;   // at most 6 product results, mobile and desktop: the dropdown has to fit the window (Cornel 2026-11-13)
 const popularCats = ['Booklets', 'Business cards', 'Flyers', 'Banners', 'Posters'];
 
 const searchLayer = document.getElementById('searchLayer'), searchInput = document.getElementById('searchInput');
@@ -835,11 +837,13 @@ const searchResults = document.getElementById('searchResults'), searchClear = do
 // Cents for anything from €1 a piece (mugs, t-shirts), a tenth of a cent below that (cards, flyers)
 const each = p => { const u = (inclVat ? p.price * (1 + VAT_RATE) : p.price) / p.qty; return '€' + u.toFixed(u >= 1 ? 2 : 3) + ' each'; };
 const catRow = c => `<a class="s-cat" href="${c.href}"${c.proto ? ` data-proto="${c.proto}"` : ''} data-search-go><span>${esc(c.label)}</span><img src="${S}arrow.svg" alt=""></a>`;
+// A product row (mobile search, desktop dropdown): photo, name, only a from price under it, as live en-ie, and the arrow of the
+// category rows at the end (Cornel 2026-11-13)
 const prodRow = p => `
   <a class="s-prod" href="#${slug(p.name)}"${p.proto ? ` data-proto="${p.proto}"` : ''} data-search-go>
-    <span class="img"${p.bg ? ` style="background:${p.bg}"` : ''}><img src="${p.img}" alt=""></span>
-    <span class="info"><strong>${esc(p.name)}</strong><small>${each(p)}</small></span>
-    <span class="price"><small>${p.qty} pcs</small><b data-price="${p.price}">${fmt(p.price)}</b></span>
+    <span class="img"><img src="${p.img}" alt=""></span>
+    <span class="info"><strong>${esc(p.name)}</strong><small>From <b data-price="${p.price}">${fmt(p.price)}</b></small></span>
+    <img src="${S}arrow.svg" alt="">
   </a>`;
 const section = (label, html) => `<section class="search-section"><p class="label">${label}</p>${html}</section>`;
 function rank(text, q) { const t = text.toLowerCase(); return t.startsWith(q) ? 0 : t.split(/\s+/).some(w => w.startsWith(q)) ? 1 : t.includes(q) ? 2 : -1; }
@@ -848,13 +852,15 @@ function renderSearch() {
   searchClear.hidden = !searchInput.value;
   if (!q) {
     searchResults.innerHTML =
-      section('Popular categories', popularCats.map(l => catRow(searchCats.find(c => c.label.toLowerCase() === l.toLowerCase()) || { label: l, href: '#' + slug(l) })).join('')) +
+      // the popular categories as pills, as the desktop dropdown (Cornel 2026-11-13); results keep the rows
+      section('Popular categories', `<div class="sd-chips">${popularCats.map(l => { const c = searchCats.find(x => x.label.toLowerCase() === l.toLowerCase()) || { label: l, href: '#' + slug(l) };
+        return `<a class="pill" href="${c.href}"${c.proto ? ` data-proto="${c.proto}"` : ''} data-search-go>${esc(c.label)}</a>`; }).join('')}</div>`) +
       section('Best Sellers', `<div class="s-products">${searchProducts.slice(6, 10).map(prodRow).join('')}</div>`);
     return;
   }
   const hit = (items, key) => items.map(it => ({ it, r: rank(key(it), q) })).filter(x => x.r >= 0).sort((a, b) => a.r - b.r).map(x => x.it);
   const cats = hit(searchCats, c => c.label).slice(0, 5);
-  const prods = hit(searchProducts, p => p.name + ' ' + (p.tags || '')).slice(0, 8);
+  const prods = hit(searchProducts, p => p.name + ' ' + (p.tags || '')).slice(0, SEARCH_MAX);
   searchResults.innerHTML = (cats.length || prods.length)
     ? (cats.length ? section('Categories', cats.map(catRow).join('')) : '') +
       (prods.length ? section('Products', `<div class="s-products">${prods.map(prodRow).join('')}</div>`) : '')
@@ -872,7 +878,7 @@ function closeSearch() {
   searchInput.blur();
 }
 const homeSearch = document.querySelector('[data-proto="search"]');
-if (homeSearch) {
+if (homeSearch && !DESK) {
   homeSearch.querySelector('input').readOnly = true;
   homeSearch.addEventListener('click', e => { e.preventDefault(); openSearch(); });
 }
@@ -882,6 +888,57 @@ document.getElementById('searchCancel').addEventListener('click', () => { search
 document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); searchResults.querySelector('[data-search-go]')?.click(); });
 searchResults.addEventListener('click', e => { if (e.target.closest('[data-search-go]')) closeSearch(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && searchLayer.classList.contains('open')) closeSearch(); });
+// Desktop: a dropdown under the header's search field, as live en-ie (Cornel 2026-11-13: "as close to live as possible").
+// Empty: Popular searches as pills, then the popular products as rows (the mobile Best Sellers; after thebrandingclub.com); typing: the categories left (the mega menu side list), the products right as the mobile product rows,
+// View all results at the bottom. The same data and matching as the mobile search.
+const deskSearch = DESK && document.querySelector('.dsearch');
+if (deskSearch) {
+  const input = deskSearch.querySelector('input');
+  input.removeAttribute('style');
+  input.setAttribute('autocomplete', 'off');
+  deskSearch.querySelector('.dbtn').insertAdjacentHTML('beforebegin', '<button type="button" class="sd-clear" aria-label="Clear search" hidden><img src="../design-system/icons/close.svg" alt=""></button>');
+  deskSearch.insertAdjacentHTML('beforeend', '<div class="sd-drop" hidden></div>');
+  const drop = deskSearch.querySelector('.sd-drop'), clear = deskSearch.querySelector('.sd-clear');
+  const proto = x => x.proto ? ` data-proto="${x.proto}"` : '';
+  // Categories only (Cornel 2026-11-13: no products under Categories): the menu's top categories, the groups and sub groups of All products.
+  // Mobile keeps its own list (searchCats)
+  const deskCats = (() => {
+    const seen = new Map(), add = (label, href) => { const k = label.toLowerCase(); if (!seen.has(k)) seen.set(k, { label, href }); };
+    add('Business cards', '#businesscards-printing'); add('Flyers', '#flyers');   // the category pages of the prototype
+    menu.root.items.forEach(it => it.to && subAll[it.to] && add(it.label, '#' + subAll[it.to]));
+    ALL_PRODUCTS.forEach(([name, g, subs]) => { add(name, '#' + g); subs.forEach(([t, s]) => add(t, '#' + s)); });
+    return [...seen.values()];
+  })();
+  // Best sellers that open a product page in the prototype (Cornel 2026-11-13; mobile keeps its own four)
+  const deskBest = ['Standard Flyers', 'Classic business cards', 'Roller Banners', 'Basic Cotton Bags'].map(n => searchProducts.find(p => p.name.toLowerCase() === n.toLowerCase()));
+  const render = () => {
+    const raw = input.value.trim(), q = raw.toLowerCase();
+    clear.hidden = !input.value;
+    if (!q) {
+      drop.innerHTML = `<div class="sd-pop"><p class="sd-label">Popular searches</p><div class="sd-chips">${popularCats.map(l => { const c = searchCats.find(x => x.label.toLowerCase() === l.toLowerCase()) || { label: l, href: '#' + slug(l) }; return `<a class="pill" href="${c.href}"${proto(c)}>${esc(c.label)}</a>`; }).join('')}</div></div>
+        <div class="sd-prods"><p class="sd-label">Best Sellers</p><div class="s-products">${deskBest.map(prodRow).join('')}</div></div>`;
+      return;
+    }
+    const hit = (items, key) => items.map(it => ({ it, r: rank(key(it), q) })).filter(x => x.r >= 0).sort((a, b) => a.r - b.r).map(x => x.it);
+    const cats = hit(deskCats, c => c.label).slice(0, 6), prods = hit(searchProducts, p => p.name + ' ' + (p.tags || ''));
+    const shown = prods.slice(0, SEARCH_MAX), word = esc(raw).replace(/</g, '&lt;');
+    drop.innerHTML = (cats.length || prods.length) ? `<div class="sd-cols">
+        <div class="sd-cats"><p class="sd-label">Categories</p>${cats.map(c => `<a href="${c.href}"${proto(c)}>${esc(c.label)}</a>`).join('') || '<p class="sd-none">No categories</p>'}</div>
+        <div class="sd-prods"><p class="sd-label">Products${prods.length ? `<span>${prods.length} found${prods.length > shown.length ? ` · ${shown.length} best matches` : ''}</span>` : ''}</p>
+          ${shown.length ? `<div class="s-products">${shown.map(prodRow).join('')}</div>` : '<p class="sd-none">No products</p>'}</div>
+      </div>
+      <a class="sd-all" href="#search-${slug(raw)}">View all results for “${word}”</a>`
+      : `<p class="search-empty">No results for <strong>“${word}”</strong>. Try another word, like “flyers” or “stickers”.</p>`;
+  };
+  const open = on => { if (on) render(); drop.hidden = !on; deskSearch.classList.toggle('open', on); };
+  input.addEventListener('focus', () => open(true));
+  input.addEventListener('input', () => open(true));
+  clear.addEventListener('click', () => { input.value = ''; input.focus(); render(); });
+  deskSearch.addEventListener('submit', e => { e.preventDefault(); drop.querySelector('.sd-cats a, .s-prod')?.click(); });
+  drop.addEventListener('click', e => { if (e.target.closest('a')) open(false); });
+  document.addEventListener('click', e => { if (!deskSearch.contains(e.target)) open(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !drop.hidden) { open(false); input.blur(); } });
+}
 
 
 // Order add-ons (cart). Design check is on (Premium) by default, secured delivery off; euro tiers from Figma 15722:5390.
