@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notification Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126v">
+<!-- Sketch (not linked): where the site notification goes (Cornel 2026-11-13). The real home page in frames, the bar put in by script
+     at A (above the header), B (under the category bar / the mobile header) or C (under the USP bar). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 960px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .opt { margin-bottom: 48px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 960px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 360px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 260px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 390px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+  .colors { display: flex; flex-direction: column; gap: 8px; max-width: 960px; }
+  .colors div { display: flex; align-items: center; gap: 16px; padding: 8px 16px; font-size: 14px; line-height: 22px; }
+  .colors small { margin-left: auto; font-size: 12px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Site notification: where?</h1>
+  <p class="note">A service message for the whole site (an outage, a delay at a carrier, a holiday cut-off). One sentence with one link, a × to close;
+    once closed it stays away for the session. It scrolls away with the page (not sticky). The real home page below, mobile 390 and desktop 1512 (shown at 2/3).
+    <b>My pick: A</b>, above the header: a message for the whole site is read first there, it keeps the header (logo, search, categories) one block, and it stays clear of the
+    mega menu and the search dropdown that open under the category bar. Live en-gb has it at the bottom: easy to miss, and on mobile it clashes with the sticky bars (PDP, checkout).</p>
+
+  <section class="opt" data-pos="a">
+    <h2>A · Above the header <em>my pick</em></h2>
+    <p>The first layer. Read first, the header stays one block, nothing opens over it.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-pos="b">
+    <h2>B · Under the header (the category bar)</h2>
+    <p>Close to the navigation, but it splits the header from the page and sits where the mega menu and the search dropdown open.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-pos="c">
+    <h2>C · Under the USP bar</h2>
+    <p>Part of the page: it reads as a promo or a label and is easily skipped.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt">
+    <h2>Colour</h2>
+    <p>White text on --light-green is only 3.2:1 (needs 4.5:1 for 14px text). The sketch uses --link green (the green of our links and your screenshot), 4.8:1.</p>
+    <div class="colors">
+      <div style="background:var(--link);color:var(--white)">Can’t get to your email? Your proof is also in <u><b>My account</b></u>.<small>--link, white · 4.8:1 ✓ my pick</small></div>
+      <div style="background:var(--light-green);color:var(--white)">Can’t get to your email? Your proof is also in <u><b>My account</b></u>.<small>--light-green, white · 3.2:1 ✗</small></div>
+      <div style="background:var(--light-green);color:var(--dark-green)">Can’t get to your email? Your proof is also in <u><b>My account</b></u>.<small>--light-green, dark green · 4.9:1 ✓</small></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // The bar, put into the real home page in each frame
+  const BAR = `<div class="nb"><p>Can’t get to your email because of the Microsoft outage? Your proof is also in <a href="#my-account">My account</a>.</p><button type="button" aria-label="Close"><img src="../design-system/icons/close.svg" alt=""></button></div>`;
+  const CSS = `.nb { position: relative; display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 40px; padding: 8px 56px; background: var(--link); color: var(--white); font-size: var(--t-14); line-height: var(--lh-14); text-align: center; }
+    .nb a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .nb button { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; border: 0; background: none; cursor: pointer; }
+    .nb img { width: 20px; height: 20px; filter: brightness(0) invert(1); }
+    html:not(.desk) .nb { justify-content: flex-start; padding: 8px 48px 8px 16px; text-align: left; }
+    html:not(.desk) .nb button { right: 4px; }`;
+  const place = (doc, pos) => {
+    const head = doc.querySelector('.dhead') || doc.querySelector('header.header');
+    const usp = doc.querySelector('.dusps') || doc.querySelector('.usp');
+    if (!head) return false;
+    const at = pos === 'a' ? [head, 'beforebegin'] : pos === 'b' ? [head, 'afterend'] : [usp, 'afterend'];
+    at[0].insertAdjacentHTML(at[1], BAR);
+    doc.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
+    doc.querySelector('.nb button').onclick = e => e.currentTarget.parentElement.remove();
+    return true;
+  };
+  document.querySelectorAll('.opt[data-pos]').forEach(sec => sec.querySelectorAll('iframe').forEach(f => {
+    f.onload = () => { const t = setInterval(() => { if (place(f.contentDocument, sec.dataset.pos)) clearInterval(t); }, 50); };
+    f.src = '../prototype/index.html';
+  }));
+</script>
+</body>
+</html>

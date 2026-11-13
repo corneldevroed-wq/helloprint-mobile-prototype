@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Notification (Nov 13, 2026)
+- **11-13 — Site notification above the header** (Cornel, notification-sketch A): the first layer, above the header on every shop and checkout page; read first, the header stays one block and the mega menu and search dropdown don't open over it. Rejected: B under the header (splits it, in the way of the drop menus), C under the USP bar (reads as a promo), the bottom as live en-gb (missed, clashes with the sticky bars). --link green with white (white on --light-green is only 3.2:1); desktop 14/22 centred, mobile 12/18 left (smaller on mobile, Cornel). Scrolls away, × closes it for the session.
+
 ## Home (Nov 13, 2026)
 - **11-13 — Home promo row: the live photos (Photos A), the switch removed** (Cornel): the editorial photos (B: a full-width grid of 5 with their own titles, welcome heading hidden; C: the same cards in the carousel) are not taken; their code and CSS are gone. The 5 photos are removed from the repo (the PNG originals stay outside it, in helloprint-editorial-originals).
 - **11-12 — Blogs on the home** (Cornel): the blog block of business cards (title + All blogs, 3 cards: the newest en-ie posts) above "Browse all we offer"; the blog card is now a design-system component.

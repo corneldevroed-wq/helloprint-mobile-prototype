@@ -684,7 +684,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-act > .pm-logos .pm-brand.google { font-size: var(--t-12); }
 .oc-act > .pm-logos .pm-brand.google img { width: 10px; }
 .oc-act > .pm-logos .pm-brand.paypal img { width: 34px; }
-.oc-act .btn img { width: 20px; height: 20px; filter: brightness(0) invert(1); }   /* the PDP's upload icon, white on the green button */
+.oc-act .btn img, .notice-close img { width: 20px; height: 20px; filter: brightness(0) invert(1); }   /* the PDP's upload icon, white on the green button; the close of the notification */
 .oc-act.done { padding: 15px; border: 1px solid var(--outline); }   /* done (uploaded / paid): 1px grey (the content stays where it was), a check instead of its number; to do: 2px green */
 .oc-act.done .oc-foot { margin: 0 -15px -15px; border-radius: 0 0 9px 9px; }
 .oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -744,3 +744,12 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .addr-add .material-symbols-rounded, .ap-add .material-symbols-rounded { font-size: 24px; color: var(--light-green); }   /* also "+ New address" in the address sheet */
 .desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
 .desk .addr-card.addr-add { flex-basis: 160px; }
+
+/* Site notification (Cornel 2026-11-13, notification-sketch A): a message for the whole site (an outage, a carrier delay, a holiday cut-off)
+   as the first layer above the header. --link green with white text (4.8:1; white on --light-green is only 3.2:1), one sentence with one
+   link (semibold, underlined), the rounded close right. Desktop 14/22 centred, 40 high; mobile 12/18 left (Cornel: smaller on mobile). */
+.notice { position: relative; display: flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 56px; background: var(--link); color: var(--white); font-size: var(--t-14); line-height: var(--lh-14); text-align: center; }
+.notice a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.notice-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; }
+html:not(.desk) .notice { justify-content: flex-start; padding: 8px 40px 8px 16px; font-size: var(--t-12); line-height: var(--lh-12); text-align: left; }
+html:not(.desk) .notice-close { right: 4px; }

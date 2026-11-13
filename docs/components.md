@@ -89,6 +89,7 @@ remembered in `hp-hc-ans`.
   Photos `assets/menu/all/<group slug>/<sub group name>.webp`.
   Dark layer `.mega-dim` (--overlay).
 - **Search** (app.js): mobile = the full screen layer `#searchLayer` (`renderSearch`); desktop = `.sd-drop` under the header's `.dsearch` (`deskSearch`, as live en-ie), same data (`searchCats`, `searchProducts`, `popularCats`) and `rank()`.
+- **Notification** (app.js `NOTICE`, `.notice` in components.css): a site message as the first layer above the shop and checkout header; the × closes it for the session (`sessionStorage` `hp-notice`). Edit the sentence in `NOTICE`.
 - **Drop menu** (`.d-menu`, components.css): PDP bar (upwards) and the desktop header (`.dhead-drop` + `[data-drop]`, hover; `.d-head` = the grey icon tiles): the country (`LANG_MENU`, `.d-lang`), Need help? (`HELP_MENU`) and, logged in, the account (`deskAccount()` = button + `ACCOUNT_MENU`, also in the desktop checkout header next to the bag; mobile: the account icon opens the same rows in `#sheet-account` (`SHEET_ACCOUNT`); rows via `dropRow`, Log out `[data-logout]`).
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 

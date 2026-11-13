@@ -316,10 +316,19 @@ const SHELL_CHECKOUT_FOOTER_DESK = `
     <div class="dwrap">${FOOT_END}
     </div>
   </footer>`;
+// Site notification (Cornel 2026-11-13, notification-sketch A): a message for the whole site as the first layer, above the header
+// (shop and checkout); scrolls away with the page, the × closes it for the session
+const noticeClosed = (() => { try { return sessionStorage.getItem('hp-notice') === 'closed'; } catch (e) { return false; } })();
+const NOTICE = noticeClosed ? '' : `
+  <div class="notice" role="status"><p>Can’t get to your email because of the Microsoft outage? Your proof is also in <a href="#my-account">My account</a>.</p><button type="button" class="notice-close" aria-label="Close"><img src="../design-system/icons/close.svg" alt=""></button></div>`;
 const headerSlot = document.querySelector('[data-shell="header"]');
-if (headerSlot) headerSlot.outerHTML = DESK ? SHELL_HEADER_DESK : SHELL_HEADER;
+if (headerSlot) headerSlot.outerHTML = NOTICE + (DESK ? SHELL_HEADER_DESK : SHELL_HEADER);
 const checkoutSlot = document.querySelector('[data-shell="checkout-header"]');
-if (checkoutSlot) checkoutSlot.outerHTML = DESK ? SHELL_CHECKOUT_HEADER_DESK : SHELL_CHECKOUT_HEADER;
+if (checkoutSlot) checkoutSlot.outerHTML = NOTICE + (DESK ? SHELL_CHECKOUT_HEADER_DESK : SHELL_CHECKOUT_HEADER);
+document.querySelector('.notice-close')?.addEventListener('click', e => {
+  e.currentTarget.parentElement.remove();
+  try { sessionStorage.setItem('hp-notice', 'closed'); } catch (err) {}
+});
 // Mobile, logged in: the account icon opens the account sheet (shop and checkout header); logged out it goes to the login page
 if (deskUser && !DESK && document.querySelector('.account-link')) {
   document.querySelectorAll('.account-link').forEach(a => { a.href = '#my-account'; a.dataset.openSheet = 'account'; });
