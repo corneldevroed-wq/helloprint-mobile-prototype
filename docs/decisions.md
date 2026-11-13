@@ -5,7 +5,7 @@ Add new decisions here when Cornel makes a final call.
 
 
 ## Home (Nov 13, 2026)
-- **11-13 — Home promo row: the live photos (Photos A), the switch removed** (Cornel): the editorial photos (B: a full-width grid of 5 with their own titles, welcome heading hidden; C: the same cards in the carousel) are not taken; their code and CSS are gone. The 5 photos stay in `prototype/assets/home/editorial/` for now.
+- **11-13 — Home promo row: the live photos (Photos A), the switch removed** (Cornel): the editorial photos (B: a full-width grid of 5 with their own titles, welcome heading hidden; C: the same cards in the carousel) are not taken; their code and CSS are gone. The 5 photos are removed from the repo (the PNG originals stay outside it, in helloprint-editorial-originals).
 - **11-12 — Blogs on the home** (Cornel): the blog block of business cards (title + All blogs, 3 cards: the newest en-ie posts) above "Browse all we offer"; the blog card is now a design-system component.
 
 ## Search engines (Nov 12, 2026)
