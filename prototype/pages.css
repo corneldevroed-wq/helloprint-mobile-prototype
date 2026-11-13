@@ -104,9 +104,7 @@
 .search-field input::placeholder { font-weight: 400; color: var(--dark-grey); }
 .search-field input::-webkit-search-cancel-button { display: none; }
 .search-field .icon-search { position: absolute; left: 12px; top: 7.4px; width: 19.1px; height: 19.2px; pointer-events: none; }
-.search-field .clear { position: absolute; right: 8px; top: 7.4px; width: 19.1px; height: 19.2px; }
-.search-field .clear[hidden] { display: none; }
-.search-field .clear img { width: 100%; height: 100%; }
+.search-field .clear { position: absolute; right: 0; top: 1px; }   /* the rounded clear of the desktop field (.sd-clear) */
 .search-cancel { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }
 .search-body { flex: 1; overflow-y: auto; padding: 9px 0 24px; display: flex; flex-direction: column; gap: 9px; }
 .search-section { display: flex; flex-direction: column; gap: 6px; }
@@ -1030,6 +1028,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 /* While searching only the field and its results count (Cornel 2026-11-13): the rest of the header blurs and can't be used (no other drop menu) */
 .dhead-top a:has(> .dlogo), .dhead-right, .dhead-nav .dwrap { transition: filter .25s, opacity .25s; }
 .dhead:has(.dsearch.open) :is(.dhead-top a:has(> .dlogo), .dhead-right, .dhead-nav .dwrap) { filter: blur(4px); opacity: .4; pointer-events: none; }
+.dhead:has(.dsearch.open) .dhead-nav .dwrap { clip-path: inset(0); }   /* the blur stays inside the bar: its spill under the header painted a green strip while typing */
 /* All products (Cornel 2026-11-10, as live): the groups left as a standard list (14, 26 a line; the hovered one light grey, semibold), its sub groups right in 4 columns:
    the photo (the menu thumb, 64), the name (+ Popular), the products; Shop all under them */
 .mega-all { display: grid; grid-template-columns: 256px 1fr; gap: 32px; }

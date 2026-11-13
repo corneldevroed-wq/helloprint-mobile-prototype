@@ -95,7 +95,7 @@ const SHELL_OVERLAYS = `
     <form class="search-field" role="search" id="searchForm">
       <img class="icon-search" src="assets/search/search.svg" alt="">
       <input type="search" id="searchInput" placeholder="Search printed products" aria-label="Search" autocomplete="off" enterkeyhint="search">
-      <button type="button" class="clear" id="searchClear" aria-label="Clear search" hidden><img src="assets/search/clear.svg" alt=""></button>
+      <button type="button" class="clear sd-clear" id="searchClear" aria-label="Clear search" hidden><img src="../design-system/icons/close.svg" alt=""></button>
     </form>
     <button class="search-cancel" id="searchCancel">Cancel</button>
   </div>
