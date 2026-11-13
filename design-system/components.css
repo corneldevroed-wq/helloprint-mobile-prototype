@@ -727,3 +727,20 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .d-menu b .badge { position: static; display: inline-block; margin-left: 8px; vertical-align: middle; }   /* centred on the lower case letters, so it does not look too high */
 .d-menu small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-menu .tick { width: 20px; height: 20px; }
+
+/* Address card (Details, signed in: the address book as cards in a swipe row; Cornel, 2026-11-06): white, the --outline,
+   the label 16 semibold with the radio and a Default label, the address 14/22 grey. Chosen = the 2px green border, as the
+   option cards (no tint). New address = the same card, dashed, with the Material "add" in light green. */
+.co-badge { position: static; align-self: flex-start; margin: 2px 0 4px; }   /* a label in the flow of a card (Default on an address), not on its corner */
+.addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
+.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }
+.addr-card .top { display: flex; align-items: center; gap: 8px; }
+.addr-card .top b { font-weight: 600; font-size: var(--t-16); }
+.addr-card .top .co-badge { margin: 0 0 0 auto; }
+.addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }   /* the radio of the quantity list, one level deeper */
+.addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+.addr-card p { flex: 1; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.addr-card.addr-add { flex: 0 0 44%; align-items: center; justify-content: center; gap: 4px; border: 2px dashed var(--outline); color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); }
+.addr-add .material-symbols-rounded, .ap-add .material-symbols-rounded { font-size: 24px; color: var(--light-green); }   /* also "+ New address" in the address sheet */
+.desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
+.desk .addr-card.addr-add { flex-basis: 160px; }

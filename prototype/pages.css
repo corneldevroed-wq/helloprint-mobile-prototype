@@ -853,28 +853,16 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-summary .check { padding: 12px 16px; border-top: 1px solid #ececec; }
 .co-act { flex-shrink: 0; min-height: 36px; padding: 0 18px; border: 1px solid var(--mid-grey); border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-14); color: var(--black); }   /* pill button, same as Edit on the product page: an easy tap target */
 .co-act:hover { border-color: var(--black); }
-.co-badge { position: static; align-self: flex-start; margin: 2px 0 4px; }   /* the orange badge, as "Most Popular" */
 
 /* Details, logged in: address book as swipeable cards (Cornel's desktop design), invoice address */
 .addr-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px; }
 .addr-row::-webkit-scrollbar { display: none; }
-.addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid #cfcfcf; border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
-.addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }   /* chosen = the 2px green border on white, as the option cards (Cornel, 2026-11-06: no tint) */
-.addr-card .top { display: flex; align-items: center; gap: 8px; }
-.addr-card .top b { font-weight: 600; font-size: var(--t-16); }
-.addr-card .top .co-badge { margin: 0 0 0 auto; }
-/* Same radio as everywhere (quantity list): the .radio sits one level deeper here */
-.addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }
-.addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
-.addr-card p { flex: 1; }
-.addr-card p, #invText > span { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* the address: on the card and in the Billing Address block alike */
+#invText > span { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* the billing address: as the address on the card (.addr-card p) */
 .addr-form { gap: 12px; }
 .addr-save { flex: 1; }
 
 /* Address book: no Edit in the cards; "Change delivery address" opens the overview (as bol.com) */
 .addr-manage { align-self: flex-start; }
-.addr-card.addr-add { flex: 0 0 44%; align-items: center; justify-content: center; gap: 4px; border: 2px dashed #cfcfcf; color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); }
-.addr-add .material-symbols-rounded, .ap-add .material-symbols-rounded { font-size: 24px; color: var(--light-green); }   /* Material "add", light green (Cornel, 2026-11-06) */
 .addr-list li.ap-add { border: 2px dashed var(--outline); padding: 14px; }   /* "+ New address", the last item of the address sheet: dashed, as the card on the page */
 .addr-list .ap-add .ap-pick { justify-content: center; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .addr-list { list-style: none; padding: 0 16px; }
@@ -902,9 +890,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-summary .h p b { font-weight: 600; font-size: var(--t-16); }
 
 /* One outline colour for login + logged-in details (the login form's input border) */
-.auth-card, .auth-google, .auth-field input, .co-summary, .addr-card, .co-act { border-color: var(--outline); }
-.addr-card[aria-checked="true"] { border-color: var(--light-green); }
-.addr-card.addr-add { border-color: var(--outline); }
+.auth-card, .auth-google, .auth-field input, .co-summary, .co-act { border-color: var(--outline); }
 .co-act:hover { border-color: var(--black); }
 /* Contact card: inline edit (email + business) */
 .co-edit-contact { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
@@ -2060,8 +2046,6 @@ html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; 
 /* the sidebar card has the total, the order overview and the button */
 .addr-wrap { position: relative; }   /* desktop: holds the round arrows (.d-rev-nav) at the row's edges */
 .desk .addr-row { gap: 16px; margin: -8px; padding: 8px; scroll-padding: 8px; }   /* the cards in one row that scrolls sideways, arrows to scroll; 8 room for the hover shadow, the cards stay in place (Cornel, 2026-11-06) */
-.desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
-.desk .addr-card.addr-add { flex-basis: 160px; }
 /* Discount code (desktop sidebar): closed by default, a link opens the field + Apply; the code shows in the totals with ✕ */
 .add-code { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; text-decoration: none; }   /* only the words underlined, not the + */
 .add-code[hidden], .code-box[hidden] { display: none; }

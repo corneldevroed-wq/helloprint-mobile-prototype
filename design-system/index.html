@@ -7,10 +7,10 @@
 <title>HelloPrint UI Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261126t">
-<link rel="stylesheet" href="components.css?v=20261126t">
-<link rel="stylesheet" href="guide.css?v=20261126t">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=20261126u">
+<link rel="stylesheet" href="components.css?v=20261126u">
+<link rel="stylesheet" href="guide.css?v=20261126u">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -247,6 +247,8 @@
       use: 'The one main action of a view (add to cart, continue, pay). One per screen.' },
     { name: 'Primary, disabled', cls: '.btn.primary:disabled', ex: '<div class="w"><button class="btn primary" disabled>Payment</button></div>', use: 'Until the step is complete.' },
     { name: 'Secondary', cls: '.btn.outline', ex: '<div class="w"><button class="btn outline">Continue shopping</button></div>', use: 'The second action next to a primary (No thanks, Continue shopping, Done). Dark green text. The only secondary button.' },
+    { name: 'Wallet buttons', cls: '.btn.primary.paypal · .btn.primary.dark', ex: '<div class="w" style="display:grid;gap:8px"><button class="btn primary paypal"><img src="../prototype/assets/checkout/paypal-word.png" alt="PayPal"></button><button class="btn primary dark"><img src="../prototype/assets/checkout/applepay-white.png" alt="Apple Pay"></button><button class="btn primary dark"><img src="../prototype/assets/checkout/google-g.svg" alt="">Pay</button><button class="btn primary dark"><img src="../prototype/assets/checkout/revolut-white.png" alt="Revolut Pay"></button></div>',
+      use: 'The pay button when a wallet is chosen on Payment (Pay now; Cornel, 2026-11-06): the primary button in the wallet\'s own brand colours, not ours. PayPal yellow (#ffc439) with its wordmark, Apple Pay, Google Pay (the G + "Pay") and Revolut Pay black with their white mark, 20 high. Only for paying with that wallet; every other pay button stays the green primary.' },
     { name: 'Pill', cls: '.pill', ex: '<a class="pill" href="#buttons">Read more</a>', use: 'Small actions and filters: Read more, chips, Shop X. Grey outline, black on hover.' },
     { name: 'Pill, active', cls: '.pill.active', ex: '<button class="pill active">All</button>', use: 'The chosen filter, or a dark green call to action in a block (Chat with us). Also an either / or in the checkout (.co-type): the order type (Personal | Business) and when to pay (Pay now | Pay later): a block of its own, 16 under the description and 16 to the field or options under it.' },
     { name: 'Pill with icon', cls: '.pill.has-icon', ex: '<button class="pill has-icon"><span class="material-symbols-rounded" aria-hidden="true">edit</span>Edit</button>',
@@ -287,6 +289,9 @@
     row({ name: 'Switch', meta: [{ t: '.switch' }],
       use: 'Switches something on or off right away: the cart upsells and the VAT switch (PDP Incl VAT, footer Show VAT; Cornel 2026-11-06, the footer\'s black ON/OFF toggle is gone). 36 × 20, grey off, light green on. Only the switch toggles, not the card.',
       ex: stage('<button class="switch" role="switch" aria-checked="false" aria-label="Off"></button><button class="switch" role="switch" aria-checked="true" aria-label="On"></button>') }) +
+    row({ name: 'Segmented control', meta: [{ t: '.seg' }],
+      use: 'Two answers to one question, side by side in a grey pill (#e2e2e2, 4 padding and 4 between): the chosen one white with dark green text and a soft shadow, the other dark grey; 36 high, 14 semibold. Used for "Do you have a design?" (Yes, I have one | No, not yet) on the PDP (flow G). For an either / or in the checkout use the pills (Pill, active).',
+      ex: stage('<div class="seg" role="radiogroup" aria-label="Do you have a design?" style="width:320px"><button role="radio" aria-checked="true">Yes, I have one</button><button role="radio" aria-checked="false">No, not yet</button></div>') }) +
     row({ name: 'Or line', meta: [{ t: '.or-line' }, { t: '--line' }],
       use: 'Between two ways to do the same thing: Continue with Google | the login form, A --line rule, "OR" 14/22 (body text, capitals) dark grey in the middle, 16 to the rules.',
       ex: stage('<p class="or-line" style="width:100%"><span>or</span></p>') }) +
@@ -424,6 +429,9 @@
       'Where you are in the checkout: the steps in a row, done steps in link green, the current one black. Desktop: on top of the page across both columns (form + sidebar), 32 to the form. Desktop (2026-11-06): numbered circles (24, the number 12; current and done light green) with the name 14/22 and a line between, over the full width of the page, on a light grey band (as the USP bar) against the header; Cart is a round back button (outlined, the back arrow), so Details & Shipping is 1 · Payment 2 · Confirmed 3 (desktop only says "Details & Shipping", mobile "Details"; Cornel 2026-11-06).', true) +
     cut('Delivery option', '.ship', '../prototype/details.html', '.ship', 'checkout, details',
       'Shipping method as a radio row: name, estimated day, price (Included).', true) +
+    row({ name: 'Address card', wide: true, meta: [{ t: '.addr-card' }, { t: '.addr-add' }, SIZE],
+      use: 'The address book on Details when signed in (Cornel, 2026-11-06): one card per saved address in a row that swipes (mobile 72% wide, desktop 240), the last card New address. White, --outline, --r-m, 16 inside; the radio, the label 16 semibold and a grey Default label right; the address 14/22 grey. Chosen = the 2px light green border, as the option cards (no tint). New address: dashed --outline, the Material add in light green, 14 semibold grey. The whole card is the radio.',
+      ex: stage(real('<div style="display:flex;gap:10px;overflow-x:auto;padding:2px 0 4px"><div class="addr-card" role="radio" tabindex="0" aria-checked="true"><div class="top"><span class="radio"></span><b>Home</b><span class="badge neutral co-badge">Default</span></div><p>Cornel de Vroed<br>1 Main Street<br>D01 F5P2 Dublin</p></div><div class="addr-card" role="radio" tabindex="0" aria-checked="false"><div class="top"><span class="radio"></span><b>Office</b></div><p>Cornel de Vroed<br>HelloPrint Ltd<br>12 Grand Canal Square<br>D02 R590 Dublin</p></div><button type="button" class="addr-card addr-add"><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></div>', [358, 'details, signed in'], [660, 'details, signed in (the row scrolls there)'])) }) +
     cut('Payment methods', '.pm', '../prototype/payment.html', '.pm', 'checkout, payment',
       'A strip per method, outlined as the contact card (--outline, --r-l), 8 apart: a radio row (radio, name 14 / 16 desktop, logos 30 high with --r-s corners, "+2" in the same thin frame; the wallets as their brand buttons (64 × 30, the brand colours), big enough to find your method); the chosen one opens under it, left with the radio: the card fields, or one line for a wallet. The chosen strip gets the 2px light green border (the radio row rule), white inside; desktop hover: the black outline. The pay button follows the method: "Pay now" (card, green); a wallet gets its brand button: PayPal yellow (.btn.primary.paypal), Apple Pay / Google Pay / Revolut Pay black with their white mark (.btn.primary.dark). Grows per market without a new layout.', true);
   // ---------- Order status (order confirmed, later My account; moved into the design system 2026-11-10) ----------
@@ -565,6 +573,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261126t"></script>
+<script src="guide.js?v=20261126u"></script>
 </body>
 </html>
