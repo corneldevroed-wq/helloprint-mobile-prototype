@@ -8,6 +8,7 @@ Add new decisions here when Cornel makes a final call.
 - **11-12 — Every page noindex, nofollow** (Cornel): the GitHub Pages sites are public, so all 81 HTML pages (prototype, style guide, Brand Guidelines, sketches, the forwarding pages) carry `<meta name="robots" content="noindex, nofollow">` after the charset; new pages too (CLAUDE.md). A robots.txt would not work (it must sit at the domain root, which is not ours).
 
 ## Menu desktop (Nov 10, 2026)
+- **11-13 — While searching, the rest of the header is out of play** (Cornel): logo, category bar, country, account, Need help? and bag blur 4px at 40% and take no hover or click, so no other drop menu opens over the search.
 - **11-13 — Search: at most 6 product results** (Cornel, a rule; mobile and desktop, `SEARCH_MAX`): the dropdown has to fit the window; the rest is behind View all results.
 - **11-13 — Mobile search, empty: the popular categories as pills** (Cornel; as the desktop dropdown), then Best Sellers as before. Typing keeps the category rows with arrow.
 - **11-13 — No coloured backgrounds behind product photos** (Cornel): every photo on light grey; the search rows use the cut-out category photos (assets/category/t-*.png) instead of the tinted Figma search images.

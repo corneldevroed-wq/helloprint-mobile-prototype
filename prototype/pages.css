@@ -1025,8 +1025,11 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .mega { position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 100px); overflow-y: auto; padding: 24px 0 32px; background: var(--white); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
 .mega .section-head { margin-bottom: 16px; }
 /* The page under the open menu gets the popup's dark layer (Cornel 2026-11-11), so the menu reads better; the header stays clear */
-.mega-dim { position: fixed; top: 100px; left: 0; right: 0; bottom: 0; z-index: -1; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
+.mega-dim { position: fixed; inset: 0; z-index: -1; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .25s, visibility .25s; }
 .mega:not([hidden]) + .mega-dim, .dhead:has(.dsearch.open) .mega-dim { opacity: 1; visibility: visible; }   /* also under the search dropdown (Cornel 2026-11-13) */
+/* While searching only the field and its results count (Cornel 2026-11-13): the rest of the header blurs and can't be used (no other drop menu) */
+.dhead-top a:has(> .dlogo), .dhead-right, .dhead-nav .dwrap { transition: filter .25s, opacity .25s; }
+.dhead:has(.dsearch.open) :is(.dhead-top a:has(> .dlogo), .dhead-right, .dhead-nav .dwrap) { filter: blur(4px); opacity: .4; pointer-events: none; }
 /* All products (Cornel 2026-11-10, as live): the groups left as a standard list (14, 26 a line; the hovered one light grey, semibold), its sub groups right in 4 columns:
    the photo (the menu thumb, 64), the name (+ Popular), the products; Shop all under them */
 .mega-all { display: grid; grid-template-columns: 256px 1fr; gap: 32px; }
