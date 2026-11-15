@@ -1866,6 +1866,11 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .hc-card > .link { margin-top: 16px; }   /* 16px from the last question */
 .hc-card > .hc-ico + .hc-card-h { margin-top: 16px; }   /* icon above the title (about us, our culture): 16 as the card padding; the Help Centre has it beside the title */
 .hc-card > .hc-card-h + p { margin-top: 4px; }   /* title to its description: 4 (guide, Spacing) */
+/* Marketing pages, mobile: the text card has the icon (or number) left as a 40 tile, title, text and buttons in a column beside it, 16 apart (Cornel 2026-11-15, half the height); desktop keeps the icon on top */
+html:not(.desk) .marketing .hc-card:has(> .hc-ico) { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 16px; align-items: start; }
+html:not(.desk) .marketing .hc-card > :not(.hc-ico) { grid-column: 2; }
+html:not(.desk) .marketing .hc-card > .hc-ico { grid-row: 1 / span 3; width: 40px; height: 40px; }
+html:not(.desk) .marketing .hc-card > .hc-ico + .hc-card-h { margin-top: 0; }
 
 /* image cards in the promo-card size (.promo-e .pc): image only, no title gradient, no hover; mobile swipe row, 32px around (§12) */
 .help-page .pc-img::after { display: none; }

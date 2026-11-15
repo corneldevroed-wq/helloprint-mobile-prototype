@@ -12,6 +12,7 @@ Add new decisions here when Cornel makes a final call.
 - **11-15 — Marketing pages: 64 between sections on desktop, 32 on mobile** (Cornel: more space on this page type; the guide's big page rhythm). The shop keeps 32 / 16.
 - **11-15 — Marketing page section titles 32/40 on desktop** (Cornel): `main.marketing` (about us, our culture) sets every h2 one step up, next to the 48 display title; mobile stays 20/24. The shop keeps 24/32.
 - **11-15 — Marketing page title = Display** (Cornel: much bigger, only on this page type): `.hero.media h1` joins the Help Centre display title, 28/32 mobile, 48/56 desktop. Categories, PDP and checkout keep the page title (24/32).
+- **11-15 — Text cards on marketing pages, mobile: icon left** (Cornel, switch Cards S over T): the icon or number as a 40 tile left, title, text and buttons beside it, 16 apart; cards half as high (our culture: 8 cards 1254 → 696). Desktop keeps the icon on top (cards side by side, no height to win).
 - **11-15 — Text card with an icon on top**: 16 from the icon to the title, 4 from the title to its text (guide spacing). Every text card on a marketing page has an icon, figures included (Cornel: one grid reads better); no icon twice on a page.
 
 ## Pages from a spec (Nov 14, 2026)
