@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promo Landing Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<!-- Sketch (not linked), 2026-11-14: a promo landing page template, first page "Storm damage? New flag".
+     A/B/C = which template; then the page as a mobile mock + the desktop layout, the blocks, the images we still need and the spec.
+     Products, prices and claims from helloprint.com/en-ie/flag-printing (2026-11-14). -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 var(--t-14)/var(--lh-14) Inter, sans-serif; color: var(--black); background: var(--white); }
+  a { color: var(--link); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.3px; color: var(--dark-green); }
+  h2 { margin: 48px 0 8px; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.2px; color: var(--dark-green); }
+  h3 { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .lead, .note { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .note { margin: 0 0 16px; }
+  b { color: var(--black); }
+  code { font-size: var(--t-12); color: var(--dark-green); }
+
+  /* Options */
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .opt { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .opt.pick { border: 2px solid var(--light-green); }
+  .opt p { margin-top: 8px; color: var(--dark-grey); }
+  .tag { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: var(--r-s); background: var(--light-green); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--white); vertical-align: 2px; }
+
+  /* The page: mobile mock + the block list next to it */
+  .page { display: grid; grid-template-columns: 390px 1fr; gap: 32px; align-items: start; }
+  .phone { width: 390px; border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: var(--white); }
+  .m-head { height: 56px; background: var(--dark-green); }
+  .m { padding: 24px 16px; }
+  .m + .m { padding-top: 8px; }
+  .m h4 { margin-bottom: 8px; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.2px; color: var(--dark-green); }
+  .num { float: right; margin-left: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--orange); color: var(--white); font-size: var(--t-12); line-height: 24px; font-weight: 700; text-align: center; }
+
+  .img-need { display: grid; place-items: center; padding: 16px; border: 1px dashed var(--control); border-radius: var(--r-l); background: var(--light-grey); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  .hero .img-need { height: 220px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: var(--r-s); background: var(--orange); color: var(--white); font-weight: 700; font-size: var(--t-12); line-height: var(--lh-12); }
+  .badge.eco { background: var(--light-green); }
+  .hero h3 { margin: 16px 0 8px; font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.4px; color: var(--dark-green); }
+  .hero p { color: var(--dark-grey); }
+  .btn { display: block; margin-top: 16px; padding: 12px 24px; border-radius: var(--r-pill); background: var(--dark-green); color: var(--white); font-weight: 700; text-align: center; text-decoration: none; }
+  .btn.ghost { margin-top: 8px; background: var(--white); border: 1px solid var(--outline); color: var(--black); }
+  .eta { margin-top: 16px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }
+  .eta b { display: block; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .eta p { color: var(--dark-grey); }
+  .stars { margin-top: 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .stars i { font-style: normal; color: var(--light-green); letter-spacing: 1px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .prod { border-radius: var(--r-l); background: var(--light-grey); overflow: hidden; }
+  .prod .th { position: relative; height: 140px; display: grid; place-items: center; }
+  .prod .th img { max-width: 80%; max-height: 120px; }
+  .prod .th .badge { position: absolute; left: 8px; top: 8px; }
+  .prod div:last-child { padding: 8px; background: var(--white); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--r-l) var(--r-l); }
+  .prod b { display: block; }
+  .prod small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .prod span { font-weight: 800; }
+
+  .ticks { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .ticks li { display: flex; gap: 8px; }
+  .ticks li::before { content: "✓"; flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); line-height: 20px; text-align: center; }
+  .steps { display: flex; flex-direction: column; gap: 8px; counter-reset: s; }
+  .steps li { list-style: none; display: flex; gap: 16px; align-items: flex-start; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); counter-increment: s; }
+  .steps li::before { content: counter(s); flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--light-grey); font-weight: 800; line-height: 32px; text-align: center; color: var(--dark-green); }
+  .acc details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .acc summary { font-weight: 600; cursor: pointer; }
+  .acc p { margin-top: 8px; color: var(--dark-grey); }
+  .row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .row > * { flex: 0 0 140px; }
+  .rev { flex-basis: 260px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .team { padding: 24px 16px; border-radius: var(--r-l); background: var(--dark-green); color: var(--white); }
+  .team h4 { color: var(--white); }
+  .team .btn { background: var(--white); color: var(--black); }
+  .sticky { position: sticky; bottom: 0; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-top: 1px solid var(--line); background: var(--white); }
+  .sticky small { flex: 1; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .sticky .btn { margin: 0; padding: 8px 16px; }
+
+  /* Block list */
+  .blocks { display: flex; flex-direction: column; gap: 8px; }
+  .blk { display: grid; grid-template-columns: 24px 1fr; gap: 8px 16px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .blk .num { float: none; margin: 0; }
+  .blk p { color: var(--dark-grey); }
+  .new { color: var(--orange); font-weight: 600; }
+
+  /* Desktop layout */
+  .desk { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 24px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .desk > div { padding: 16px; border-radius: var(--r-m); background: var(--light-grey); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); }
+  .desk .full { grid-column: 1 / -1; }
+  .desk b { display: block; font-size: var(--t-14); line-height: var(--lh-14); }
+
+  /* Images */
+  .imgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .imgs > div { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .imgs p { margin-top: 8px; color: var(--dark-grey); }
+  .imgs small { display: block; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  pre { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font: 400 var(--t-12)/var(--lh-12) ui-monospace, Menlo, monospace; white-space: pre-wrap; }
+  ul.list { max-width: 760px; margin-left: 16px; }
+  ul.list li { margin-bottom: 8px; }
+
+  @media (max-width: 1023px) { .page { grid-template-columns: 1fr; } .opts, .imgs { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 599px) { .opts, .imgs, .desk { grid-template-columns: 1fr; } .phone { width: 100%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Promo landing page: "Storm damage? New flag."</h1>
+  <p class="lead">One message, one action. Someone whose flag tore in the storm wants three things fast: <b>the right flag, the date it arrives,
+    and no hassle</b>. Everything on the page serves that; everything else (menu tabs, other categories, blogs) goes. The same template then
+    carries Christmas, Back to school, Black Friday… only the md changes.</p>
+
+  <h2>Which template</h2>
+  <div class="opts">
+    <div class="opt"><h3>A · The category template</h3>
+      <p>Works already (Hospitality). But tabs, 8 sections and dozens of tiles: lots to browse, no single message. Good for SEO traffic, weak for someone who clicked an ad with one problem.</p></div>
+    <div class="opt pick"><h3>B · A new promo template <span class="tag">My pick</span></h3>
+      <p>Hero with the message + date, one product choice, why it holds, 3 steps, proof, FAQ, the CTA again; a sticky CTA on mobile. Mostly existing components; 3 small new ones. Fits every campaign.</p></div>
+    <div class="opt"><h3>C · Straight to a PDP with a storm banner</h3>
+      <p>Fastest, but it picks the flag for them (and a storm hits mast, facade and feather flags alike). The banner gets skipped. Fine as an ad target for one product, not for the message.</p></div>
+  </div>
+
+  <h2>The page (B), mobile</h2>
+  <p class="note">Copy as I would write it (en-ie). Products and prices from live. Dashed = an image we still need. Numbers match the block list.</p>
+  <div class="page">
+    <div class="phone">
+      <div class="m-head"></div>
+
+      <section class="m hero"><span class="num">1</span>
+        <span class="badge">Storm damage?</span>
+        <h3>Flag torn by the storm? Get a new one up this week.</h3>
+        <p>Same design, new flag. Windproof material, ready in a few clicks.</p>
+        <div class="img-need" style="margin-top:16px">Image 1 · hero: a new flag flying hard in the wind, the sky clearing after a storm</div>
+        <a class="btn" href="#choose">Choose your flag</a>
+        <a class="btn ghost" href="#reorder">Reorder a previous design</a>
+        <div class="eta"><b>Order today</b><p>Estimated Wed 18 Nov — latest Fri 20 Nov</p></div>
+        <p class="stars"><i>★★★★★</i> 4.5 out of 5 on Trustpilot · 35,364 reviews</p>
+      </section>
+
+      <section class="m" id="choose"><span class="num">2</span><h4>Which flag do you need to replace?</h4>
+        <div class="grid2">
+          <div class="prod"><div class="th"><span class="badge">Windproof option</span><img src="https://images.ctfassets.net/wm1n7oady8a5/4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png?w=300&amp;fm=webp" alt=""></div><div><b>Flagpole Flags</b><small>Any size, from</small><span>€2.99</span></div></div>
+          <div class="prod"><div class="th"><img src="https://images.ctfassets.net/wm1n7oady8a5/14oAsvJFQhqAdigx7nD26A/5e06783853916a2a1b400f7b1fa03f61/facadeflags.webp?w=300&amp;fm=webp" alt=""></div><div><b>Facade Flags</b><small>1 pc from</small><span>€41.99</span></div></div>
+          <div class="prod"><div class="th"><span class="badge">Most Popular</span><img src="https://images.ctfassets.net/wm1n7oady8a5/5okLRLSpXyuuMzszlqivME/eb8e546244e22ae1767fe8a4b1f2ee7a/featherflagsus.png?w=300&amp;fm=webp" alt=""></div><div><b>Feather Flags</b><small>1 pc from</small><span>€54.99</span></div></div>
+          <div class="prod"><div class="th"><span class="badge eco">Eco</span><img src="https://images.ctfassets.net/wm1n7oady8a5/6a0Q6tUFeSI5YHHOGTf3Wv/885d6587dfc70db4fc19fd5695a4cfd8/squarebeachflags.png?w=300&amp;fm=webp" alt=""></div><div><b>Rectangle Beach Flags</b><small>1 pc from</small><span>€68.99</span></div></div>
+        </div>
+      </section>
+
+      <section class="m"><span class="num">3</span><h4>Made for Irish weather</h4>
+        <div class="img-need" style="height:140px;margin-bottom:16px">Image 2 · close-up of flag fabric in the wind, stitched hem sharp</div>
+        <ul class="ticks">
+          <li>Windproof flag material available</li>
+          <li>Rectangle beach flags made for rough weather</li>
+          <li>Recycled RPET, colours that stay bright in sun, rain and wind</li>
+          <li>Free design templates, or reuse your old file</li>
+        </ul>
+      </section>
+
+      <section class="m"><span class="num">4</span><h4>A new flag in 3 steps</h4>
+        <ol class="steps">
+          <li><div><b>Choose your flag and size</b><p>Same size as the old one? Pick it, done.</p></div></li>
+          <li><div><b>Upload your design</b><p>Or reorder a previous design from your account.</p></div></li>
+          <li><div><b>We print and deliver</b><p>Estimated Wed 18 Nov — latest Fri 20 Nov.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="m"><span class="num">5</span><h4>Keep the next one standing</h4>
+        <div class="row">
+          <div class="prod"><div class="th"><img src="https://images.ctfassets.net/wm1n7oady8a5/3Ce8inVS2iOThFOJAylt51/cd30338612e408db446241df7c2d09d6/flagaccessorieswaterbase.webp?w=300&amp;fm=webp" alt=""></div><div><b>Parasol Base</b><small>Extreme stability</small><span>€61.99</span></div></div>
+          <div class="prod"><div class="th"><img src="https://images.ctfassets.net/wm1n7oady8a5/5Jsl2vG8O4UW6rmTz6WL6N/0452e494d9f0808f2251a691679c55cd/flagaccessorieswallmountalu.webp?w=300&amp;fm=webp" alt=""></div><div><b>Wall Mount</b><small>From</small><span>€45.99</span></div></div>
+          <div class="prod"><div class="th"><img src="https://images.ctfassets.net/wm1n7oady8a5/5iiPiu79TKpgXDl2O2KpwW/cbb0ffa826a9484817b6c4bbc73ce7ec/Plastic_screw_base___rotator_Copy_3.png?w=300&amp;fm=webp" alt=""></div><div><b>Ground Screw</b><small>For soft ground</small><span>€51.99</span></div></div>
+        </div>
+      </section>
+
+      <section class="m"><span class="num">6</span><h4>What our customers say</h4>
+        <div class="row"><div class="rev"><b>Easy ordering, fast service.</b><p>Faster delivery than what was promised.</p></div><div class="rev"><b>…</b></div></div>
+      </section>
+
+      <section class="m"><span class="num">7</span><h4>Questions</h4>
+        <div class="acc">
+          <details open><summary>How fast do I have a new flag?</summary><p>Order today and it's estimated on Wed 18 Nov, at the latest Fri 20 Nov. The date for your flag shows before you order.</p></details>
+          <details><summary>Can I reuse my old design?</summary><p>Yes: reorder it from your account, or upload the same file again.</p></details>
+          <details><summary>Which flag holds up best in wind?</summary><p>…</p></details>
+          <details><summary>Should I take my flag down in a storm?</summary><p>…</p></details>
+        </div>
+      </section>
+
+      <section class="m"><span class="num">8</span>
+        <div class="team"><h4>Flags at several locations?</h4><p>Our print experts replace them all in one order.</p><a class="btn" href="#quote">Request a quote</a></div>
+      </section>
+
+      <div class="sticky"><small>Order today<br>Estimated Wed 18 Nov</small><a class="btn" href="#choose">Choose your flag</a></div>
+    </div>
+
+    <div>
+      <div class="blocks">
+        <div class="blk"><span class="num">1</span><div><h3>hero <span class="new">new</span></h3><p>Label + headline + one line + image + primary CTA + secondary CTA + delivery date (<code>.eta</code>) + Trustpilot line.
+          The message and the date above the fold: that is what converts. One new component <code>.promo-hero</code> (mobile stacked, desktop text left / image right).</p></div></div>
+        <div class="blk"><span class="num">2</span><div><h3>products</h3><p>The choice, 4 cards: <code>.product</code> + <code>badgeHtml()</code> + from-price with the VAT switch, as everywhere. 2×2 on mobile, 4 in a row on desktop. Each goes to its PDP.</p></div></div>
+        <div class="blk"><span class="num">3</span><div><h3>reasons</h3><p>Why this holds: image + 3–4 ticks (the tick of Team + Promises). Claims only from live.</p></div></div>
+        <div class="blk"><span class="num">4</span><div><h3>steps <span class="new">new</span></h3><p>3 numbered steps; takes away "is this a hassle?". Small new component <code>.steps</code>; also useful for Christmas ("order before…").</p></div></div>
+        <div class="blk"><span class="num">5</span><div><h3>products (cross-sell)</h3><p>The same products block, as a swipe row: accessories that keep a flag standing. Optional per campaign.</p></div></div>
+        <div class="blk"><span class="num">6</span><div><h3>reviews</h3><p>The shared feed (<code>deskReviews()</code> / <code>.m-revs</code>).</p></div></div>
+        <div class="blk"><span class="num">7</span><div><h3>faq</h3><p>The PDP accordion (<code>.acc.oc-faq</code>), 3–5 questions; answers the doubts and is good for SEO.</p></div></div>
+        <div class="blk"><span class="num">8</span><div><h3>team</h3><p>Team block with one line for this campaign and Request a quote: the business with 10 locations.</p></div></div>
+        <div class="blk"><span class="num">+</span><div><h3>sticky CTA <span class="new">new</span></h3><p>Mobile only, appears once the hero CTA scrolls away: date + "Choose your flag". The PDP's sticky bar pattern, new as a page component.</p></div></div>
+      </div>
+
+      <h2 style="margin-top:32px">Desktop</h2>
+      <div class="desk">
+        <div><b>1 · Hero text</b>label, headline (32/40), line, 2 CTAs, delivery date, Trustpilot</div>
+        <div><b>1 · Hero image</b>image 1, same height as the text</div>
+        <div class="full"><b>2 · Products</b>4 cards in one row</div>
+        <div><b>3 · Image 2</b></div>
+        <div><b>3 · Reasons</b>ticks</div>
+        <div class="full"><b>4 · Steps</b>3 next to each other</div>
+        <div class="full"><b>5 · Cross-sell</b> · <b style="display:inline">6 · Reviews</b> · <b style="display:inline">7 · FAQ</b> · <b style="display:inline">8 · Team</b> as on the other pages</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Images we still need</h2>
+  <p class="note">Rule as everywhere: no text in the image, one focal point, flags with a plain logo shape (no real brands). Generated (Weave) or a shoot.</p>
+  <div class="imgs">
+    <div><h3>1 · Hero <span class="new">must</span></h3><p>A new, bright flag flying hard in the wind on a pole, the sky clearing after the storm. The solution, not the damage: the headline already names the problem.</p><small>Landscape 3:2, focal point on the flag (mobile crops to the middle). Alternative: a torn flag next to the new one; test it if we want more urgency.</small></div>
+    <div><h3>2 · Fabric close-up <span class="new">nice</span></h3><p>Flag fabric in the wind, the stitched hem sharp, for "Made for Irish weather".</p><small>Square or 4:3. Without it, the block works with ticks only.</small></div>
+    <div><h3>3 · In use <span class="new">nice</span></h3><p>Facade and feather flags in front of a business (car dealer, hotel, golf club) on a clear day: "this is what yours looks like again".</p><small>Landscape; could replace image 2 or go with the team block.</small></div>
+  </div>
+  <p class="note" style="margin-top:16px">Products and accessories: the live product images, no new ones. Steps: no images (numbers). Team: the photo we have.</p>
+
+  <h2>The spec: <code>pages/storm-flags.md</code> (sketch)</h2>
+  <p class="note">The same format as the Hospitality page, <code>template: promo</code>. For Christmas only this file changes.</p>
+<pre>---
+template: promo
+slug: storm-flags
+title: New Flag After the Storm
+goal: replace a storm-damaged flag fast
+audience: Irish businesses with a flag outside (shops, hotels, car dealers, clubs)
+tone: straight to the point, calm, practical
+cta: Choose your flag → #choose
+---
+
+## hero
+label: Storm damage?
+h1: Flag torn by the storm? Get a new one up this week.
+text: Same design, new flag. Windproof material, ready in a few clicks.
+cta2: Reorder a previous design → #reorder
+image: generate
+prompt: a new bright flag flying hard in the wind on a flagpole, the sky clearing after a storm, no text, plain logo shape
+eta: today
+
+## products
+id: choose
+title: Which flag do you need to replace?
+items:
+- Flagpole Flags | 1 | 2.99 | #flagcustomsize | …/flags_custom-size-flags.png | Windproof option
+- Facade Flags | 1 | 41.99 | #facadeflags | …/facadeflags.webp
+- …
+
+## reasons
+## steps
+## products        (cross-sell, row)
+## reviews
+## faq
+## team</pre>
+
+  <h2>Points to check with you</h2>
+  <ul class="list">
+    <li><b>Flagpole Flags "from €2.99"</b> is the live price of the smallest custom size: true, but it looks odd next to €41.99. Show the price of a common flagpole size instead?</li>
+    <li><b>"Reorder a previous design"</b> needs My account / order history, which the prototype doesn't have yet. Without it: "Upload your design" as the second CTA.</li>
+    <li><b>Where it lives:</b> <code>promo.html?page=storm-flags</code>, not in the menu (an ad / mail / social landing), but on the home as a promo card while the campaign runs?</li>
+  </ul>
+</div>
+</body>
+</html>

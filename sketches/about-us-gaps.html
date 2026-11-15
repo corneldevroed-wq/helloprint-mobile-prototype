@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketing Page Gaps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<!-- Sketch (not linked), 2026-11-15: what the live en-ie about-us page needs from the UI library, measured by rebuilding it
+     (prototype/about-us.html) with library components only. Per live section: the component used, how well it fits, what is lost.
+     Then the gaps, measured, with the earlier guesses from template-gaps-sketch.html next to them. -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 var(--t-14)/var(--lh-14) Inter, sans-serif; color: var(--black); background: var(--white); }
+  a { color: var(--link); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); color: var(--dark-green); }
+  h2 { margin: 48px 0 8px; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); color: var(--dark-green); }
+  .lead { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .tbl { overflow-x: auto; margin-top: 16px; }
+  table { width: 100%; min-width: 720px; border-collapse: collapse; }
+  th, td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { font-weight: 600; color: var(--dark-grey); }
+  code { font-size: var(--t-12); color: var(--dark-green); }
+  .fit { white-space: nowrap; font-weight: 600; }
+  .ok { color: var(--link); } .part { color: var(--orange); } .no { color: var(--error); }
+  .seen { color: var(--dark-grey); font-size: var(--t-12); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>About us + Our culture, rebuilt from the UI library: what's missing</h1>
+  <p class="lead">The live page <a href="https://www.helloprint.com/en-ie/about-us">en-ie/about-us</a> is the marketing page template the GAA proposal is
+    based on. Rebuilt in <a href="../prototype/about-us.html">prototype/about-us.html</a> with library components only, no new CSS, content and images from live.
+    <b>12 sections: 5 fit, 5 fit partly, 2 can't be built.</b> The same for <a href="https://www.helloprint.com/en-ie/our-culture">en-ie/our-culture</a>
+    in <a href="../prototype/our-culture.html">prototype/our-culture.html</a>: <b>8 sections: 2 fit, 5 fit partly, 1 can't be built.</b></p>
+
+  <h2>About us, section by section</h2>
+  <div class="tbl"><table>
+    <tr><th>Live section</th><th>Library component used</th><th>Fit</th><th>What is lost</th></tr>
+    <tr><td>Hero: text, 2 buttons, photo right</td><td>Page title <code>.hero</code> + a pill row (<code>.chips</code>)</td><td class="fit part">partly</td><td>The photo: the page head has no image.</td></tr>
+    <tr><td>4 key figures on a grey band (2016, 1 million+, 10,000+, 4.5 / 5)</td><td>Text cards <code>.hc-card</code>, the figure as card title</td><td class="fit no">no</td><td>The big figures read as small titles; no grey band.</td></tr>
+    <tr><td>Team: 3 people (photo 4:3, name, role, text)</td><td>Blog cards <code>.blog-card</code> without button</td><td class="fit part">partly</td><td>No role line (bold in the text); 16:9 crops the 4:3 photos.</td></tr>
+    <tr><td>The story behind your order: 4 texts + 5 photos</td><td>Content row <code>.so-row</code>: 1 photo + the 4 texts</td><td class="fit part">partly</td><td>4 of the 5 photos (no photo gallery); texts stacked, not 2 × 2.</td></tr>
+    <tr><td>Our story in Ireland: year + text, 2 columns</td><td>Specifications table <code>.spec-table</code> (PDP)</td><td class="fit ok">yes</td><td>One column instead of two: fine.</td></tr>
+    <tr><td>However you buy print: 6 cards (image, title, text, button)</td><td>Blog cards, 3 × 2</td><td class="fit ok">yes</td><td>—</td></tr>
+    <tr><td>Brands: 6 logos</td><td>The home's logo strip <code>.trusted</code></td><td class="fit ok">yes</td><td>— (lives in pages.css, not in the guide)</td></tr>
+    <tr><td>Promises: lead, 4 icon cards, link, grey band</td><td>Text cards + <code>.hc-ico</code>, 4 columns, pill</td><td class="fit part">partly</td><td>No grey band; the 4-column grid only by combining two page grids.</td></tr>
+    <tr><td>Customer story: label, title, quote, text, button, photo right</td><td>Content row <code>.so-row</code></td><td class="fit part">partly</td><td>No label ("Customer stories"); photo always left.</td></tr>
+    <tr><td>Sustainability: lead, 4 figures, 4 icon cards, 2 buttons</td><td>2 × 4 text cards + pills</td><td class="fit no">no</td><td>The figures, as in the key figures above.</td></tr>
+    <tr><td>Read more: 4 cards (image, title, text, button)</td><td>Blog cards in a 4-column grid</td><td class="fit ok">yes</td><td>—</td></tr>
+    <tr><td>FAQ: 7 questions</td><td>Accordion <code>.d-acc</code> / <code>.acc</code></td><td class="fit ok">yes</td><td>—</td></tr>
+  </table></div>
+
+  <h2>Our culture, section by section</h2>
+  <div class="tbl"><table>
+    <tr><th>Live section</th><th>Library component used</th><th>Fit</th><th>What is lost</th></tr>
+    <tr><td>Hero, centred: h1, 2 paragraphs, 2 buttons + a collage of 5 photos</td><td>Page title <code>.hero</code> + pill row</td><td class="fit part">partly</td><td>Centred text; the 5-photo collage.</td></tr>
+    <tr><td>4 key figures on a grey band (100+, 20+, AI-first, B Corp)</td><td>Text cards, figure as title</td><td class="fit no">no</td><td>Big figures, grey band (as on about-us).</td></tr>
+    <tr><td>One international team: text with 2 sub-titles, photo right</td><td>Content row <code>.so-row</code></td><td class="fit part">partly</td><td>Photo right (always left now).</td></tr>
+    <tr><td>Our 6 values: photo, number, title, text</td><td>Blog cards 3 × 2, the number in the title</td><td class="fit part">partly</td><td>The green number badge on the photo.</td></tr>
+    <tr><td>Our culture is our DNA: lead, a video, 4 icon cards on a grey band</td><td>Text cards + <code>.hc-ico</code></td><td class="fit part">partly</td><td>The video; the grey band.</td></tr>
+    <tr><td>Life at HelloPrint, on video: 4 cards</td><td>Blog cards, 4 in a row</td><td class="fit ok">yes</td><td>— (links to the videos)</td></tr>
+    <tr><td>Ready for the next step? Photo left, text, 2 buttons, grey band</td><td>Content row + pill row</td><td class="fit part">partly</td><td>The grey band.</td></tr>
+    <tr><td>Read more: 4 cards</td><td>Blog cards, 4 in a row</td><td class="fit ok">yes</td><td>—</td></tr>
+  </table></div>
+
+  <h2>The gaps, measured</h2>
+  <p class="lead">Both pages together, sorted by how often the template needs them. Right column: whether the GAA guesses (template-gaps-sketch.html) predicted it.</p>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Gap</th><th>Where on about-us</th><th>Smallest fix</th><th>Predicted?</th></tr>
+    <tr><td>1</td><td><b>Text card in the design system</b>: icon or figure, title, text, link; 3 or 4 in a row</td><td>about-us 4×, our-culture 2×</td><td>Move <code>.hc-card</code> + <code>.hc-ico</code> from the Help Centre (pages.css) into the design system, with a grid of 3 or 4</td><td class="seen">yes (gap 4)</td></tr>
+    <tr><td>2</td><td><b>Big figure</b> in that card (2016, −29%)</td><td>about-us 2×, our-culture 1×</td><td>A modifier on the text card: the title at 28/32</td><td class="seen">no, new</td></tr>
+    <tr><td>3</td><td><b>Grey surface</b> behind a section</td><td>about-us 2×, our-culture 3× (figures, DNA, the CTA)</td><td><code>.surface</code></td><td class="seen">yes (gap 5)</td></tr>
+    <tr><td>4</td><td><b>Hero with image</b></td><td>both heroes (about-us: photo right; our-culture: centred, photos under)</td><td><b>Done 11-15:</b> <code>.hero.media</code> in the design system, on about-us and our-culture (our-culture: the first collage photo)</td><td class="seen">yes (gap 1)</td></tr>
+    <tr><td>5</td><td><b>Content row as a section</b>: label, flip</td><td>about-us 2×, our-culture 2× (photo right)</td><td><code>.so-row.section</code>, <code>.flip</code>, a small label</td><td class="seen">yes (gap 3)</td></tr>
+    <tr><td>6</td><td><b>Section lead</b>: the line under a section title</td><td>about-us 4×, our-culture 2×</td><td>Give <code>.cat-lead</code> (business cards) a rule in the design system; now it has none</td><td class="seen">no, new</td></tr>
+    <tr><td>7</td><td><b>Photo collage</b> (1 large + 4)</td><td>about-us (story), our-culture (hero)</td><td>Leave out for now (one photo works), or a simple 2-column photo grid</td><td class="seen">no, new</td></tr>
+    <tr><td>8</td><td><b>Person card</b>: photo, name, role line</td><td>team</td><td>Blog card + a role line (<code>small</code>), photo 4:3</td><td class="seen">partly (advisor)</td></tr>
+    <tr><td>9b</td><td><b>Number on a card</b> (the values)</td><td>our-culture</td><td>A small number tile on the blog card, or the text card with a number (gap 1)</td><td class="seen">yes (gap 6)</td></tr>
+    <tr><td>9c</td><td><b>Video</b> (one embed)</td><td>our-culture</td><td>Leave out, or a photo with a play button that opens the video</td><td class="seen">no, new</td></tr>
+    <tr><td>9</td><td><b>Button row</b> under a text</td><td>about-us 3×, our-culture 2×</td><td>Works with the pill row <code>.chips</code>; name it in the guide</td><td class="seen">yes (gap 1)</td></tr>
+  </table></div>
+  <p class="lead">Not needed after all: <b>products with prices next to a story</b> (gap 2 of the GAA guesses) and the <b>promo duo</b> (gap 7): about-us has neither. They come back only if the GAA page keeps them.</p>
+  <p class="lead">Found on the way: the logo strip's line under it is <code>100vw</code> wide, so the page is 7px wider than the window on desktop (the same on the home; the body clips it).</p>
+</div>
+</body>
+</html>

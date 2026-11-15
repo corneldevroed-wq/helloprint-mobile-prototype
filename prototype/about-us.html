@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About us: the online printing platform | HelloPrint IE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=bar_chart,calendar_month,co2,deployed_code,design_services,eco,groups,handshake,history,inventory_2,local_shipping,location_on,park,sell,sentiment_satisfied,shopping_cart,star,support_agent,trending_down,verified&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+</head>
+<body data-desktop>
+<!-- About us (en-ie), 2026-11-15: the live marketing page helloprint.com/en-ie/about-us rebuilt ONLY with components that are already
+     in the UI library (design-system/index.html), no new CSS. Content, links and images 1:1 from live (2026-11-15).
+     Goal: find the gaps of the marketing page template (Cornel). Per section a comment: live block → library component (gap).
+     The gap list: sketches/about-us-gaps.html. -->
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page plp promo-e marketing">
+
+    <!-- hero (image right, 2 buttons) → Hero with image .hero.media (design system, 2026-11-15): crumbs on top, text + .btn-row, photo -->
+    <section class="hero media">
+      <p class="crumbs"><a href="index.html">Home</a> / About us</p>
+      <div class="intro">
+        <h1>About HelloPrint Ireland</h1>
+        <p>HelloPrint is the online printing platform that makes ordering print quick, affordable and hassle-free. More than 1 million customers worldwide trust us with their print, and businesses, sole traders and organisations all over Ireland order with us.</p>
+        <p>Running a café in Galway, a sports club in Cork or a growing business in Dublin? You’re in good company. Pick what you need from more than 10,000 products, place your order in a few clicks, and one of our print partners prints it and brings it to your door.</p>
+        <div class="btn-row"><a class="btn primary" href="#all-products">Discover our range</a><a class="btn outline" href="#new2contactform">Contact us</a></div>
+      </div>
+      <div class="hero-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4FDz3qVabGddZ8d2WRlSBe/68b9c8a0cbdd1358e8137958c02e1951/about-hero.png?w=1200&amp;fm=webp&amp;q=80" alt="The whole HelloPrint team together"></div>
+    </section>
+
+    <!-- stats (4 big figures on a grey band) → 4 text cards .hc-card in a 4-column grid (gap: no big-figure style, no grey band) -->
+    <section>
+      <div class="hc-topics plp-cats four">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">calendar_month</span><span class="hc-card-h">2016</span><p class="hc-quick-p">the year we started serving Ireland</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">groups</span><span class="hc-card-h">1 million+</span><p class="hc-quick-p">customers have trusted us</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">inventory_2</span><span class="hc-card-h">10,000+</span><p class="hc-quick-p">products on the platform</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">star</span><span class="hc-card-h">4.5 / 5</span><p class="hc-quick-p">Trustpilot · 35,000+ reviews</p></div>
+      </div>
+    </section>
+
+    <!-- team (3 people: 4:3 photo, name, role, text) → Blog cards without a button -->
+    <section>
+      <h2>Real people, honest advice and a team that knows Ireland</h2>
+      <p class="cat-lead">When you order with us, you’re never on your own. Our print and design specialists check your files, talk ideas through with you and give you a straight answer in plain English whenever you need one.</p>
+      <div class="hscroll blog-row" id="team"></div>
+    </section>
+
+    <!-- story (4 text blocks + a gallery of 5 photos) → the centred block with a 3:1 banner .hero.media.center.banner (as Féile on the
+         GAA page, Cornel 2026-11-15): centred title, the photo, the 4 texts as text cards (gap: 4 of the 5 photos) -->
+    <section class="hero media center banner">
+      <div class="intro"><h2>The story behind your order</h2></div>
+      <div class="hero-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/56tQKt82WFDkvsH92M9LkD/bd794525b707d7cd3eb82d47ed248dc6/helloprint-valencia-equipo.jpg?w=1600&amp;fm=webp&amp;q=80" alt="Part of the HelloPrint team" loading="lazy"></div>
+      <div class="hc-topics plp-cats four">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">history</span><span class="hc-card-h">Where it began</span><p class="hc-quick-p">It all started in 2013 in the Benelux, with a simple idea: ordering print shouldn’t be complicated. We grew from there across the rest of Europe and into the US, and that idea still drives everything we do.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">location_on</span><span class="hc-card-h">HelloPrint in Ireland</span><p class="hc-quick-p">We’ve been printing for Irish customers since 2016. Today nearly 5,000 businesses, sole traders and organisations across Ireland order with us, and our print partners deliver right to their door.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">shopping_cart</span><span class="hc-card-h">How it works for you</span><p class="hc-quick-p">You choose what you need from more than 10,000 products, with over 100 million ways to make them your own: business cards, flyers, posters, banners, clothing, packaging and much more. We send your order to the right print partner, who prints it and delivers it to you.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">local_shipping</span><span class="hc-card-h">Printed close to you</span><p class="hc-quick-p">We don’t own printing presses. Instead we work with more than 300 local print partners, so whenever possible your order is printed close to where it needs to go. That means faster delivery for you and fewer miles on the road.</p></div>
+      </div>
+    </section>
+
+    <!-- timeline (year + text in 2 columns) → Specifications table .spec-table (gap: one column, not two) -->
+    <section>
+      <h2>Our story in Ireland</h2>
+      <dl class="spec-table">
+        <div><dt>2016</dt><dd>Our Irish webshop opens and we print our first orders for businesses across Ireland.</dd></div>
+        <div><dt>2018</dt><dd>More than 1,000 businesses across Ireland now order with us.</dd></div>
+        <div><dt>2024</dt><dd>We become a certified B Corp.</dd></div>
+        <div><dt>2026</dt><dd>We renew our B Corp certification.</dd></div>
+        <div><dt>Today</dt><dd>Nearly 5,000 businesses across Ireland choose from more than 10,000 products.</dd></div>
+      </dl>
+    </section>
+
+    <!-- ways to buy (6 cards: image, title, text, button) → Blog cards, 3 × 2 -->
+    <section>
+      <h2>However you buy print, there’s a way that suits you</h2>
+      <p class="cat-lead">Maybe you need flyers once a year. Maybe you order every week for your business, your clients or your own brand. Here’s how we can help in Ireland.</p>
+      <div class="hscroll blog-row" id="ways"></div>
+    </section>
+
+    <!-- brands (6 logos) → the "Trusted by" logo strip of the home -->
+    <section class="trusted" aria-label="Brands that print with HelloPrint">
+      <p>Brands that print with <b>HelloPrint</b></p>
+      <div class="logo-strip"><div class="logo-track" id="logos"></div></div>
+    </section>
+
+    <!-- promises (lead + 4 icon cards + link, grey band) → text cards .hc-card + .hc-ico, 4 columns, and a pill (gap: no grey band) -->
+    <section>
+      <h2>What you can count on with every order</h2>
+      <p class="cat-lead">Every order comes with our four promises, the same ones you see at the top of every page. On top of that, we score 4.5 out of 5 on Trustpilot from more than 35,000 reviews, and we’re a certified B Corp.</p>
+      <div class="hc-topics plp-cats four">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">sell</span><span class="hc-card-h">Competitive market prices</span><p class="hc-quick-p">Fair market prices on everything. Seen the same product cheaper somewhere else? Let us know and we’ll look into matching it with our print partners.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">sentiment_satisfied</span><span class="hc-card-h">Satisfaction promise</span><p class="hc-quick-p">Not completely happy with your order? We’ll find a fair solution together: a reprint, a refund or 10% credit.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">design_services</span><span class="hc-card-h">Always a perfect design</span><p class="hc-quick-p">We check your file for free (bleed, resolution and colour) and help with your design, so everything prints just right.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">support_agent</span><span class="hc-card-h">Always here to help</span><p class="hc-quick-p">Our customer service team is there for you by chat, email or phone, and finds the right print partner for your order.</p></div>
+      </div>
+      <div class="hscroll chips"><a class="pill" href="#our-promises">More about our promises</a></div>
+    </section>
+
+    <!-- customer story (label, title, quote, text, button, image right) → Content row .so-row (gap: no label, image left not right) -->
+    <section>
+      <div class="so-rows">
+        <article class="so-row section">
+          <div class="so-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7HdwpocmXi3cEHRv9HuSam/f5af5b0e677abfa1e29fb580956292dc/helloprint-ireland-magazines.jpg?w=1000&amp;fm=webp&amp;q=80" alt="Printed magazines and booklets"></div>
+          <div class="so-txt">
+            <h2>Booklets ordered on Thursday, in Mayo by Monday</h2>
+            <p>“My first time with Helloprint and I’m delighted to have found them. I placed an order for 200 20-page booklets on Thursday and received my order on the following Monday in perfect order. I will be back.” Bill Godfrey, Co. Mayo, Trustpilot review, November 2025.</p>
+            <p>Booklets are one of the most useful things a business can print, because people take them home. All over Ireland they do a lot of work: the programme for a club’s dinner dance, the menu at a café in Westport, a festival line-up, a parish newsletter or the welcome guide a B&amp;B leaves in every room.</p>
+            <p>When you need 200 of them, two things matter: they have to look right and they have to arrive in time. Upload your design or create it in our online editor, and our print partners deliver across Ireland.</p>
+            <a class="pill active" href="#booklets">Discover booklets</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- sustainability (lead, 4 figures, 4 icon cards, 2 buttons) → one grid of 8 text cards (2 rows of 4) + 2 pills (gap: no big figures) -->
+    <section>
+      <h2>More sustainable print, with real figures</h2>
+      <p class="cat-lead">For us, sustainability isn’t a slogan. It’s something we measure, step by step. As a B Corp, we keep reducing the impact of everything printed through our platform.</p>
+      <div class="hc-topics plp-cats four">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">trending_down</span><span class="hc-card-h">−29%</span><p class="hc-quick-p">CO₂ emissions (2023)</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">co2</span><span class="hc-card-h">Net Zero</span><p class="hc-quick-p">target for 2030</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">verified</span><span class="hc-card-h">B Corp</span><p class="hc-quick-p">certified since 2024</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">handshake</span><span class="hc-card-h">90%</span><p class="hc-quick-p">target for sales through sustainable suppliers</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">eco</span><span class="hc-card-h">Sustainable materials</span><p class="hc-quick-p">Choose FSC-certified paper or recycled and biodegradable materials. 85% of our best-selling products have a more sustainable alternative.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">deployed_code</span><span class="hc-card-h">Local production</span><p class="hc-quick-p">With more than 300 print partners, your order is printed close to you: shorter journeys, lower emissions.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">bar_chart</span><span class="hc-card-h">Transparent CO₂ data</span><p class="hc-quick-p">For some products we show an estimate of their CO₂ emissions, so you can make a better choice.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">park</span><span class="hc-card-h">Net Zero 2030</span><p class="hc-quick-p">We’re working towards Net Zero by 2030, with recycled, plastic-free packaging.</p></div>
+      </div>
+      <div class="hscroll chips"><a class="pill" href="#sustainability">More about sustainability</a><a class="pill" href="#impact-report">Read the impact report</a></div>
+    </section>
+
+    <!-- related (4 cards: image, title, text, button) → Blog cards in a 4-column grid -->
+    <section>
+      <h2>Read more about HelloPrint</h2>
+      <div class="hscroll blog-row plp-cats four" id="more"></div>
+    </section>
+
+    <!-- faq (7) → Accordion .d-acc / .acc, as the business cards FAQ -->
+    <section>
+      <h2>Frequently Asked Questions about HelloPrint</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261127y"></script>
+<script src="../design-system/components.js?v=20261127y"></script>
+<script>
+  const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  // Blog card (the library's card with an image on top): image, title, text, optional button
+  const card = ([title, text, img, cta, href]) => `
+    <article class="blog-card">
+      <div class="blog-img"><img src="${CF + img}?w=800&fm=webp&q=80" alt="" loading="lazy"></div>
+      <div class="blog-txt"><h3>${title}</h3><p>${text}</p>${cta ? `<a class="pill" href="${href}">${cta}</a>` : ''}</div>
+    </article>`;
+
+  document.getElementById('team').innerHTML = [
+    ['Lucy O’Byrne', '<b>Responsible for Resellers and Partners</b><br>Do you resell print or work with lots of clients? Lucy is your person. She helps you get set up, find the right prices and grow your print business with us.', '2G8SqY31KSZgXZSDmBgmi4/8817592471fbdcb4093fc3cc0905efb7/helloprint-lucy-obyrne-4x3.png'],
+    ['Lauren Moore', '<b>Responsible for Customer Experience and Special Orders</b><br>Got a question, or an order that needs a little extra care? Lauren is on it. She stays with you every step of the way, so you get exactly what you had in mind.', '1s4CfoBkm8orJhYOwpL7DY/4547fa23321906ffb49a2e058be0b93d/helloprint-lauren-moore-4x3.png'],
+    ['Ben Groucutt', '<b>Responsible for Supply Partners</b><br>Ben works closely with the print partners who make your orders, so you get the quality, speed and prices you expect from us.', '67O6iJgjzgDhQ6EiwWwAHE/7921b44fa9390bfdd603e41aeafb220f/helloprint-ben-groucutt-4x3.png'],
+  ].map(card).join('');
+
+  document.getElementById('ways').innerHTML = [
+    ['Online shop', 'Pick your product, see the price straight away and order online. More than 10,000 products for your business, delivered fast.', '3tFO47Yjf7ycWtfhYIV2wx/15e7d05d46c8a28907dcbf520ef58ee7/pl_14168_719.png', 'Browse the shop', '#all-products'],
+    ['Reseller solutions', 'Selling print to your own clients? Get tiered prices, white-label shipping, your own shop and an API.', '6JmAJ9gHJpfUps3mnAY0Kg/7f66f063203802ced52bba4a13d52445/pl_14168_735.png', 'For resellers', '#reseller-solutions'],
+    ['Business solutions', 'Ordering print often, or for several locations? One portal with agreed prices, approval flows and full control of your budget.', '3Vd8dQwYMamjaQQFEoYHzV/8b3dbc820eb82a36955fcde5fc2e7d58/pl_14168_752.png', 'For businesses', '#business-solutions'],
+    ['Special projects', 'Can’t find it in the shop? Tell us your idea: special formats, materials and finishes such as hot foil, embossing or die-cutting.', '17oRzbG165JkAEf7o3Z72l/ff1df90755508a6864f118b2faeb00d8/pl_14168_728.png', 'Discuss your project', '#special-projects'],
+    ['Non-profit programme', 'Running a charity or non-profit? You get 10% off, help with your design and support for your campaigns and events.', '5yNDAfHBJxY5aA3Akdti4F/ed186243a81e0d9d6ec58cc1ac123699/helloprint-programa-ong-ilustracion.jpg', 'See the programme', '#nonprofits'],
+    ['Express delivery', 'In a hurry? Order today, get it tomorrow. Every product shows the latest time you can upload your file.', '6imP1mwB5trzFYNQUqMxeL/9a43aa19027787ca19a49651b549b5c8/fast-delivery.png', 'Rush printing', '#express-printing'],
+  ].map(card).join('');
+
+  document.getElementById('more').innerHTML = [
+    ['Our culture', 'Meet the international team in our offices, Irish colleagues included.', '110498afKTs3oxWEKQTfq4/eda0ddbcc2ff1692d9a612a7845c4de9/helloprint-valencia-companeras-trabajando.jpg', 'Read more', '#our-culture'],
+    ['Sustainability', 'How we’re working towards Net Zero by 2030 as a B Corp.', '4yZCMYYgHimCKSLDe0jb3z/4288e098d09af4c40a4db54aaba059c5/soap__14168_2322.png', 'Read more', '#sustainability'],
+    ['Our promises', 'Fair prices, a satisfaction promise and real people to help you.', '16oscbVLgaRaLwf5dT8DUb/c3c1ad025cf7350b42ffc20fa1f956b6/14168_2948.png', 'Read more', '#our-promises'],
+    ['Work with us', 'Want to join the team? Have a look at our vacancies.', '56tQKt82WFDkvsH92M9LkD/bd794525b707d7cd3eb82d47ed248dc6/helloprint-valencia-equipo.jpg', 'See vacancies', '#jobs'],
+  ].map(card).join('');
+
+  // Brands: the home's logo strip (a second copy makes the loop seamless)
+  const LOGOS = [['Ryanair', '1ETrJm0J2qdm4GVEwCfySZ/bde4846b5fcaa71fb1c16d302166e7f9/ryanair.svg'], ['National Museum of Ireland', '6eCBoDF0qp65B94xzeeHLm/ac750ad9d34146b878c5d41ba0ff034c/logo-large__1_.svg'],
+    ['Grant Thornton', '4Y215FzZWImmri1Xj7VRNy/ac199041bae808282acb3b1508969b0d/grant-thornton-logo-500.svg'], ['Deliveroo', '3mP2yO8Nygu8zW1YDhsCTM/c30e5b14d02ecb03d2262241496be12e/Deliveroo.svg'],
+    ['LADbible', '6BHx2zMQi9yHjvGFXtjtxX/60b730444ac12229667c143873c1eb6e/LADbible.svg'], ['Dominos', 'iVRBjoURWkGfegYP5kpNm/0a1136fd42f2a57c6ee6df5cfb99459e/Dominos.svg']];
+  const logo = ([alt, src], copy) => `<img src="${CF + src}" height="32" alt="${copy ? '' : alt}"${copy ? ` data-alt="${alt}"` : ''}>`;
+  document.getElementById('logos').innerHTML = LOGOS.map(l => logo(l)).join('') + `<span aria-hidden="true" class="logo-copy">${LOGOS.map(l => logo(l, true)).join('')}</span>`;
+
+  // FAQ (live): the library accordion, desktop .d-acc, mobile .acc.oc-faq
+  const FAQS = [
+    ['Is HelloPrint a printer?', 'Not quite. We’re an online printing platform: we send your order to the right print partner, who prints it and delivers it to you. We take care of the platform, the tools and the help along the way.'],
+    ['Do you deliver to Ireland?', 'Yes. Our print partners produce your order and carriers such as An Post and DPD bring it to your door in Ireland. You can see the delivery estimate on every product page before you order.'],
+    ['Is HelloPrint a B Corp?', 'Yes, since 2024, and we renewed our certification in 2026. We keep reducing our CO₂ emissions, with Net Zero by 2030 as our goal.'],
+    ['What does HelloPrint do for sustainability?', 'Quite a lot. In 2023 we cut our CO₂ emissions by 29%, to 1,759 tonnes of CO₂e. You can choose FSC-certified, recycled and biodegradable materials, we print close to you with 300+ print partners, and we’re working towards Net Zero by 2030.'],
+    ['How many people work at HelloPrint?', 'More than 100 people from over 20 countries, Irish colleagues included, working together as one AI-first team.'],
+    ['What does HelloPrint offer in Ireland?', 'Everything you need to get your print sorted: our online shop with 10,000+ products, reseller solutions, business solutions, special projects, our non-profit programme and express delivery.'],
+    ['Is HelloPrint trustworthy?', 'We’d like to think so, and our customers agree: we score 4.5 out of 5 on Trustpilot from more than 35,000 reviews. We’re also a certified B Corp and have helped more than 1 million customers with their print.'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+</script>
+</body>
+</html>

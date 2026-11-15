@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bands Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<!-- Sketch (not linked), 2026-11-15: full-width grey bands on marketing pages, to split the kinds of content (Cornel).
+     The real prototype/about-us.html in two frames; this page adds the band CSS and the band class to sections inside each frame,
+     so the prototype itself is untouched. A = as live en-ie (figures, team, promises, sustainability grey),
+     B = my pick (proof and information grey: figures, promises, sustainability, FAQ; never two in a row). -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 var(--t-14)/var(--lh-14) Inter, sans-serif; color: var(--black); background: var(--stage); }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 16px 24px; background: var(--white); }
+  h1 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); color: var(--dark-green); }
+  .bar p { flex: 1 1 400px; color: var(--dark-grey); }
+  .seg { display: inline-flex; border: 1px solid var(--outline); border-radius: var(--r-pill); overflow: hidden; }
+  .seg button { padding: 6px 16px; border: 0; background: var(--white); font: 600 var(--t-14)/var(--lh-14) Inter, sans-serif; cursor: pointer; }
+  .seg button.on { background: var(--dark-green); color: var(--white); }
+  .cols { display: flex; gap: 24px; padding: 24px; }
+  .col { flex: 1; min-width: 0; }
+  .col h2 { margin-bottom: 8px; font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .col h2 span { margin-left: 8px; padding: 2px 8px; border-radius: var(--r-s); background: var(--light-green); color: var(--white); font-size: var(--t-12); }
+  .col p { margin-bottom: 8px; color: var(--dark-grey); }
+  .frame { overflow: hidden; border-radius: var(--r-xl); background: var(--white); box-shadow: 0 2px 12px rgba(0, 0, 0, .12); }
+  .frame iframe { display: block; border: 0; transform-origin: 0 0; }
+  .mobile .frame { width: 390px; } .mobile iframe { width: 390px; height: 844px; }
+  .cols { align-items: flex-start; }
+  .mobile .col { flex: 0 0 auto; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Full-width bands · about us</h1>
+  <p>Grey bands over the full width to split the kinds of content. Content stays at the 1286 width; a band has 64 inside (32 mobile), so the distance between contents stays 64. Each frame scrolls on its own.</p>
+  <span class="seg" id="view"><button class="on" data-v="d">Desktop 1512</button><button data-v="m">Mobile 390</button></span>
+</div>
+<div class="cols" id="cols">
+  <div class="col">
+    <h2>A · As live</h2>
+    <p>Figures + team (one long grey area), promises, sustainability. The team on grey makes the top heavy; the FAQ ends on white.</p>
+    <div class="frame"><iframe src="../prototype/about-us.html" data-bands="a" title="A"></iframe></div>
+  </div>
+  <div class="col">
+    <h2>B · Proof and information grey <span>My pick</span></h2>
+    <p>Figures, promises, sustainability, FAQ: what you check is grey, the story and the people white. Never two bands in a row.</p>
+    <div class="frame"><iframe src="../prototype/about-us.html" data-bands="b" title="B"></iframe></div>
+  </div>
+</div>
+<script>
+  // The sections of about-us.html in order: 0 hero, 1 figures, 2 team, 3 story, 4 timeline, 5 ways to buy, 6 brands,
+  // 7 promises, 8 customer story, 9 sustainability, 10 read more, 11 FAQ
+  const BANDS = { a: [1, 2, 7, 9], b: [1, 7, 9, 11] };
+  // The proposed band (a modifier on a section): grey from edge to edge without widening the page, 64 inside / 32 mobile,
+  // pulled into the gap so the content distance stays 64 / 32; two bands in a row touch and share one padding (the second sits right under the first).
+  const CSS = `
+    .cat-page > .band { background: var(--light-grey); box-shadow: 0 0 0 100vmax var(--light-grey); clip-path: inset(0 -100vmax); margin-top: -32px; margin-bottom: -32px; padding-top: 32px; padding-bottom: 32px; }
+    .desk .plp.marketing > .band { margin-top: -64px; margin-bottom: -64px; padding-top: 64px; padding-bottom: 64px; }
+    .cat-page > .band + .band, .desk .plp.marketing > .band + .band { margin-top: 0; padding-top: 0; }`;
+  const prep = f => {
+    const d = f.contentDocument; if (!d || !d.querySelector('main')) return;
+    if (!d.getElementById('bandCss')) d.head.insertAdjacentHTML('beforeend', `<style id="bandCss">${CSS}</style>`);
+    const secs = [...d.querySelectorAll('main > section')];
+    secs.forEach((s, i) => s.classList.toggle('band', BANDS[f.dataset.bands].includes(i)));
+  };
+  const frames = [...document.querySelectorAll('iframe')];
+  frames.forEach(f => f.addEventListener('load', () => prep(f)));
+
+  // Desktop: a real 1512 viewport scaled to the column; mobile: 390 at full size
+  const fit = () => {
+    const mobile = document.body.classList.contains('mobile');
+    frames.forEach(f => {
+      const col = f.closest('.col'), fr = f.parentElement;
+      if (mobile) { f.style.transform = ''; f.style.width = ''; f.style.height = ''; fr.style.height = ''; return; }
+      const s = Math.min(1, col.clientWidth / 1512);
+      const h = Math.max(400, innerHeight - fr.getBoundingClientRect().top - 24);   // fill the window below the frame's top
+      f.style.width = '1512px'; f.style.height = h / s + 'px'; f.style.transform = `scale(${s})`; fr.style.height = h + 'px';
+    });
+  };
+  document.getElementById('view').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('#view button').forEach(x => x.classList.toggle('on', x === b));
+    document.body.classList.toggle('mobile', b.dataset.v === 'm');
+    fit(); frames.forEach(f => f.contentWindow.location.reload());   // the prototype decides desktop or mobile on load
+  });
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

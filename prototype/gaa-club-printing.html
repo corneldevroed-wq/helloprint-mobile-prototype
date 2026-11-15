@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAA Club Printing: Flags, Banners &amp; Tickets | HelloPrint IE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=badge,design_services,flag,local_shipping,request_quote,sell,signpost,support_agent,volunteer_activism&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+</head>
+<body data-desktop>
+<!-- GAA club printing (en-ie), 2026-11-15: board 2 of Niels' "HelloPrint IE club pages: proposal", built as a marketing page
+     (main.marketing) with what about-us and our-culture gave the template: the hero with image, text cards with an icon or a
+     number, content rows as sections, the centred block, Display title, 32/40 section titles, 64 between sections. No new CSS.
+     Copy 1:1 from the board. Scene images: a grey block where the image goes (the image brief says what comes). Product images:
+     the live catalogue; prices where the live category page shows them, else "€…" (the board: "live price from the block").
+     Per section a comment: board block → the part used (and what is still missing). -->
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page plp promo-e marketing">
+
+    <!-- hero (1 image, 2 CTAs) → Hero with image .hero.media -->
+    <section class="hero media">
+      <p class="crumbs"><a href="index.html">Home</a> / Sports Products / GAA club printing</p>
+      <div class="intro">
+        <h1>GAA Club Printing</h1>
+        <p>When the club does well, the whole parish shows it. Flags on the houses, bunting across the main street, sponsor boards on the rail and posters that get people into the lotto.</p>
+        <p>For football, hurling, camogie and ladies football clubs across Ireland, from the juvenile section to the senior team.</p>
+        <div class="btn-row"><a class="btn primary" href="#club-products">Shop club products</a><a class="btn outline" href="#request-a-quote">Get a quote</a></div>
+      </div>
+      <div class="hero-img" title="Image: a GAA pitch on match day, supporters on the bank in club colours"></div>
+    </section>
+
+    <!-- advantages (usp · cols-4, icon) → 4 text cards with an icon -->
+    <section>
+      <div class="hc-topics plp-cats four">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">local_shipping</span><span class="hc-card-h">Delivery date before you pay</span><p class="hc-quick-p">On every product page, so it arrives before the match.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">sell</span><span class="hc-card-h">Best price guaranteed</span><p class="hc-quick-p">Seen it cheaper? Let us know and we will look into it.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">design_services</span><span class="hc-card-h">Always a perfect design</span><p class="hc-quick-p">Send your crest as you have it and we help get the file right.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">support_agent</span><span class="hc-card-h">Always here to help</span><p class="hc-quick-p">By chat, email or the contact form.</p></div>
+      </div>
+    </section>
+
+    <!-- county final (banner, overlay) → Content row as a section .so-row.section (gap: no overlay banner) -->
+    <section id="county-final">
+      <div class="so-rows">
+        <article class="so-row section">
+          <div class="so-img" title="Image: bunting on an Irish main street"></div>
+          <div class="so-txt">
+            <h2>County Final Flags and Bunting for the Whole Parish</h2>
+            <p>Facade flags on the houses, bunting across the main street, a banner at the crossroads and hand flags for every child in the stand.</p>
+            <a class="pill active" href="#flag-printing">Shop flags</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- club products (homeBlockTypeD, 8, prices on) → Section title + arrow link + 5 product cards (gap: 8 become 5, one row) -->
+    <section id="club-products">
+      <div class="section-head"><h2>What the Parish Needs for the Final</h2><a class="link" href="#flag-printing">See all flags</a></div>
+      <div class="types" id="finalProducts"></div>
+    </section>
+
+    <!-- championship run (cardGrid cols-3, numbered) → 6 text cards with a number in the icon tile -->
+    <section id="road">
+      <h2>The Road to the County Final, Round by Round</h2>
+      <p class="cat-lead">Each round you win, the print gets a bit bigger.</p>
+      <div class="hc-topics" id="road-cards"></div>
+    </section>
+
+    <!-- quote and discount (cardGrid cols-2) → 2 text cards with an icon and a button -->
+    <section id="request-a-quote">
+      <h2>Ordering for the Whole Club?</h2>
+      <p class="cat-lead">For flags for the whole parish, gear for every team: get a price first, then order.</p>
+      <div class="hc-topics plp-cats">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">request_quote</span><span class="hc-card-h">Get a quote within 24 hours</span><p class="hc-quick-p">Ordering for your club? Tell us what you need, attach your crest or a list of items and names, and our team comes back with a tailored price. Handy for the committee or the treasurer to sign off.</p><div class="hscroll chips"><a class="pill active" href="#request-a-quote">Request a quote</a></div></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">volunteer_activism</span><span class="hc-card-h">10% off for charities and non-profits</span><p class="hc-quick-p">Is your club a registered charity or non-profit? Apply once and the discount is added to your account for every order, with help on your design.</p><div class="hscroll chips"><a class="pill" href="#nonprofits">Apply for the discount</a></div></div>
+      </div>
+    </section>
+
+    <!-- fundraising (split) → Content row as a section, the raffle rules in an accordion -->
+    <section>
+      <div class="so-rows">
+        <article class="so-row section">
+          <div class="so-img" title="Image: a lotto poster in a local shop window"></div>
+          <div class="so-txt">
+            <h2>GAA Fundraising Ideas That Get the Parish Into the Lotto</h2>
+            <p>Your lotto probably runs online. What still needs paper is getting people to sign up: a <a class="link" href="#waterresistantposters">waterproof poster</a> with a QR code in the local shop, <a class="link" href="#stickers">QR stickers</a> on the bar and the till, and <a class="link" href="#flyerdl">flyers</a> at the gate on match day.</p>
+            <p>The table quiz, the race night and the Strictly night still sell at the door with printed <a class="link" href="#tickets">tickets</a> and <a class="link" href="#consumptionvouchers">drink vouchers</a>.</p>
+            <div class="acc oc-faq"><details><summary>Running a raffle? Sort this out before you print the tickets<img src="assets/chevron.svg" alt=""></summary>
+              <ul><li>A raffle at your event, with tickets sold and drawn on the night and no cash prizes, does not need a permit.</li><li>Bigger raffles and lotteries need a Garda permit or a District Court licence. With a permit, the prize value goes on every ticket.</li><li>Everyone taking part must be 18 or over.</li></ul>
+              <p>General information, not legal advice. Check the current rules with Citizens Information and the Gambling Regulatory Authority of Ireland.</p></details></div>
+            <a class="pill" href="#poster-printing">See all posters</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- sponsors (split, flip, boxed green) → the split of the hero with image (photo right) (gap: no flip on the content row, no green box) -->
+    <section class="hero media">
+      <div class="intro">
+        <h2>Pitch-Side Sponsor Boards and Banners for Your GAA Club</h2>
+        <p>The local garage, the pub and the builder keep the club going. Give them a <a class="link" href="#fencebanners">fence banner</a> on the rail, an <a class="link" href="#aluminiumsigns">aluminium board</a> in the clubhouse and a thank-you <a class="link" href="#tabletalkers">table card</a> at the dinner dance.</p>
+        <div class="btn-row"><a class="btn outline" href="#panels-and-signs">See all signs and boards</a></div>
+      </div>
+      <div class="hero-img" title="Image: sponsor banners on a GAA pitch rail"></div>
+    </section>
+
+    <!-- club gear (split: image + 4 products) → Section title + arrow link + 5 product cards (gap: the people image) -->
+    <section>
+      <div class="section-head"><h2>GAA Club Gear for Players, Mentors and Supporters</h2><a class="link" href="#sportswear">See all sportswear</a></div>
+      <p class="cat-lead">Your kit comes from your kit supplier. Everything around it, for mentors on the sideline, supporters in the stand and kids at summer camp, can come from us.</p>
+      <div class="types" id="gearProducts"></div>
+    </section>
+
+    <!-- hurling and camogie (split) → Content row as a section -->
+    <section>
+      <div class="so-rows">
+        <article class="so-row section">
+          <div class="so-img" title="Image: a hurling helmet with a club sticker, hurleys against a wall"></div>
+          <div class="so-txt">
+            <h2>Hurling and Camogie: Stickers for Every Helmet and Hurley</h2>
+            <p>Hurling and camogie clubs print what every club prints, and a few things of their own: a club sticker or a name for every helmet and hurley, <a class="link" href="#vinylstickers">weatherproof vinyl stickers</a> for the kit bag and <a class="link" href="#sports-towels">towels</a> and <a class="link" href="#personalised-keyrings">keyrings</a> for the end-of-season night.</p>
+            <p>For the panel and the supporters: <a class="link" href="#fruitoftheloompremiumhoodedsweat">hoodies</a> with a name on each one and <a class="link" href="#flagcustomsize">flags</a> in club colours.</p>
+            <a class="pill" href="#customsizestickers">See custom stickers</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Féile (banner + cardGrid cols-3) → the centred block with a 3:1 banner .hero.media.center.banner: short centred head,
+         the photo, the three jobs as text cards with an icon, the button (Cornel, 2026-11-15: feile-block-sketch A) -->
+    <section class="hero media center banner">
+      <div class="intro">
+        <h2>Hosting Féile? What the Host Club Needs</h2>
+        <p>Visiting teams arrive at a club they have never seen. Make it easy and make it memorable. Hosting a Go Games blitz for the under-7s to under-12s? The same list works, on a smaller scale.</p>
+      </div>
+      <div class="hero-img" title="Image: a Fáilte banner at a club gate with visiting teams arriving"></div>
+      <div class="hc-topics">
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">flag</span><span class="hc-card-h">The welcome</span><p class="hc-quick-p">A Fáilte banner at the gate and a flag for every visiting club: <a class="link" href="#banners">banners</a>, <a class="link" href="#flagcustomsize">flags</a>.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">signpost</span><span class="hc-card-h">Finding the pitch</span><p class="hc-quick-p">Signs from the car park, a programme with the fixtures and the map: <a class="link" href="#correxsigns">correx signs</a>, <a class="link" href="#booklets">programmes</a>.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">badge</span><span class="hc-card-h">Who's who</span><p class="hc-quick-p">Lanyards for host-family parents and mentors, wristbands for the teams: <a class="link" href="#lanyardbuckleandsafetyclip">safety lanyards</a>, <a class="link" href="#tyvekonesheetof10wristbands">wristbands</a>.</p></div>
+      </div>
+      <div class="btn-row"><a class="btn outline" href="#banner-printing">Shop banners</a></div>
+    </section>
+
+    <!-- Cúl Camps (split, flip) → the split of the hero with image (photo right) -->
+    <section class="hero media">
+      <div class="intro">
+        <h2>Hosting a Cúl Camp or Your Own Club Camp?</h2>
+        <p>The official camp brings its own kit. The club still needs a <a class="link" href="#featherflags">flag at the gate</a>, <a class="link" href="#correxsigns">signs to each pitch</a>, <a class="link" href="#lanyardbuckleandsafetyclip">lanyards for coaches</a>, <a class="link" href="#stickersname">name stickers</a> for day one and a <a class="link" href="#booklets">welcome booklet</a> for parents. Running your own week? Add <a class="link" href="#russellchildrensclassictshirt">tees</a> and <a class="link" href="#certificates">certificates</a>.</p>
+        <div class="btn-row"><a class="btn outline" href="#camp-printing">See camp printing</a></div>
+      </div>
+      <div class="hero-img" title="Image: children at a club camp, coaches in lanyards"></div>
+    </section>
+
+    <!-- advisor (team photo, quote form) → Team strip .hc-team -->
+    <section>
+      <div class="hc-team">
+        <div class="txt">
+          <h2>Ordering for the whole club, or a final only two weeks away?</h2>
+          <p>"Send me a message and I will help you get it right." Lauren Moore, Customer Experience and Special Orders.</p>
+          <div class="btns"><a class="pill active" href="#request-a-quote">Send Lauren's team your list</a><a class="pill" href="#chat">Chat with us</a></div>
+        </div>
+        <ul class="people"><li><span class="av"><img src="https://images.ctfassets.net/wm1n7oady8a5/1s4CfoBkm8orJhYOwpL7DY/4547fa23321906ffb49a2e058be0b93d/helloprint-lauren-moore-4x3.png?w=200&amp;fm=webp&amp;q=80" alt=""></span><b>Lauren</b><small>Special Orders</small></li></ul>
+      </div>
+    </section>
+
+    <!-- reviews → Reviews row -->
+    <section class="d-reviews"><h2>What our customers say</h2></section>
+
+    <!-- faq (7) → Accordion -->
+    <section>
+      <h2>Frequently Asked Questions about GAA Club Printing</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <!-- related (cardGrid cols-3) → 4 grey tiles (camps as the 4th, one row) -->
+    <section>
+      <h2>Printing for Other Clubs</h2>
+      <div class="plp-cats four" id="related"></div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261127y"></script>
+<script src="../design-system/components.js?v=20261127y"></script>
+<script>
+  const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  // Product card: live catalogue image; the live "from" price where the category page shows it, else "€…" as on the board
+  const card = ([name, img, href, price, badge]) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)"><img src="${CF + img}?w=400&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(badge)}</div>
+      <p class="name">${name}</p>
+      <div><p class="from">From</p><p class="prices">${price ? `<span class="price" data-price="${price}"></span>` : '<span class="price">€…</span>'}</p></div>
+    </a>`;
+  document.getElementById('finalProducts').innerHTML = [
+    ['Facade Flags', '14oAsvJFQhqAdigx7nD26A/5e06783853916a2a1b400f7b1fa03f61/facadeflags.webp', '#facadeflags', 41.99],
+    ['Bunting Flags', '2YuZI3vuVnjjY8366r3m9J/e5f6a35470d304a42a6f13422bea89db/bunting-flag-new-product-image-transparent__1_.png', '#buntingflags', 45.99],
+    ['Paper Hand Flags', '7Le75uQAaaU6CyVreLVr05/87788367c6731059ee9d6291b2c0ac6f/Paper-flag-product-image-2.png', '#paperflags'],
+    ['Banners', '4JX5aLLKcK8JPpkzT8nfUG/d7d68dfa22429487a36e37af8f37827d/signs-pamels_banner__1_.png', 'product.html?p=banners', 3.99],
+    ['Custom-Size Flags', '4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png', '#flagcustomsize', 2.99],
+  ].map(card).join('');
+  document.getElementById('gearProducts').innerHTML = [
+    ['Hoodies', '6Gp1huLJB6tLgFyFFKIGsK/acb724cfd71b5b8abbcaa818c04c2cb8/fruitoftheloompremiumhoodedsweat.webp', '#fruitoftheloompremiumhoodedsweat'],
+    ['Beanies', '3SoV2jNNwqFX6YpIfwCVlV/2408cc4b3ac3a176c9bddf16e60c7fed/stavangergrsrpetbeaniehat.webp', '#stavangergrsrpetbeaniehat', null, 'Eco'],
+    ['Golf Umbrellas', '4D52abr4SSbIdgXaV1arF4/4a93ce98c686ba37a93d7467d0089f21/yfke.webp', '#yfkegolfumbrella'],
+    ['Sports Tees', '34vmAJV2rNeeibjj1tisCa/6b533459da8221be5521618fa22c2ad4/move.png', '#move'],
+    ['Fleece Scarves', '3kE41jqRqFUCOtBGQsNoF5/e04e48a24d1f4af582ff4914f2378fb3/solsarctic888103u.webp', '#solsarctic888103u'],
+  ].map(card).join('');
+  updatePrices();
+
+  // The road to the final: text cards, the round number in the icon tile, the round's products as links
+  const L = (t, h) => `<a class="link" href="${h}">${t}</a>`;
+  document.getElementById('road-cards').innerHTML = [
+    ['Group stage', `Flags at the gate and a programme for the first home games: ${L('feather flags', '#featherflags')}, ${L('stapled booklets', '#booklets')}.`],
+    ['Quarter-final', `Posters in the shop windows and on the noticeboard: ${L('waterproof posters', '#waterresistantposters')}, ${L('window stickers', '#windowstickers')}.`],
+    ['Semi-final', `Flags and scarves for the stand, a banner for the supporters' bus: ${L('custom-size flags', '#flagcustomsize')}, ${L('fleece scarves', '#solsarctic888103u')}.`],
+    ['County final', `The whole parish in colour, from the houses to the main street: ${L('flags and bunting for the final', '#county-final')}.`],
+    ['Homecoming', `A welcome-home banner at the pitch and flags along the road in: ${L('banners', 'product.html?p=banners')}, ${L('paper hand flags', '#paperflags')}, ${L('car stickers', '#carstickers')}.`],
+    ['Dinner dance', `Tickets, table cards and a booklet with the season in pictures: ${L('tickets', '#tickets')}, ${L('table cards', '#tabletalkers')}.`],
+  ].map(([t, p], i) => `<div class="hc-card"><span class="hc-ico">${i + 1}</span><span class="hc-card-h">${t}</span><p class="hc-quick-p">${p}</p></div>`).join('');
+
+  // Related: grey tiles (desktop .dc-card, mobile the category card in a swipe row), as on the category pages
+  const rel = document.getElementById('related');
+  rel.innerHTML = [
+    ['All Sports Club Printing', '5okLRLSpXyuuMzszlqivME/eb8e546244e22ae1767fe8a4b1f2ee7a/featherflagsus.png', '#sportsproducts'],
+    ['Rugby Clubs', '3eevTLRy2XyrgcRUkTuCPx/f62f1aeb6c134e78abf6db8b55d04a01/entrancetickets.webp', 'rugby-club-printing.html'],
+    ['Soccer Clubs', 'O0lsJqL4UgvQQ3sEMoAl3/8a920b71acb9c1cb0bef18de2466227e/correx_panels.webp', '#soccer-club-printing'],
+    ['Camp Printing', '3VBg2Q0RPyrAjQd5XX22l2/082bce69ce87357a68dd62a53f9c6bf8/buckleandsafetyclip.webp', '#camp-printing'],
+  ].map(([name, img, href]) => DESK
+    ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${CF + img}?w=240&fm=webp&q=80" alt="" loading="lazy"></span></a>`
+    : `<a class="cat" href="${href}"><div class="collage"><img src="${CF + img}?w=240&fm=webp&q=80" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`).join('');
+  if (!DESK) rel.classList.add('hscroll', 'cats');
+
+  // Reviews: the shared feed
+  const revs = document.querySelector('.d-reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `<div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+    <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+      <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+  // FAQ: the board's 7 questions, the library accordion
+  const FAQS = [
+    ['Is there a discount for GAA clubs that are registered charities or non-profits?', `Yes. Registered charities and non-profits get 10% off every product. ${L('Apply here', '#nonprofits')}; once checked, it is added to your account.`],
+    ['Can our club order a single flag or banner?', `Yes. ${L('Facade flags', '#facadeflags')} and ${L('banners', 'product.html?p=banners')} can be ordered from one piece, so one flag for the clubhouse or one banner for a homecoming, an anniversary or a club day is fine. The product page shows the price for each quantity.`],
+    ['Are GAA flags, bunting and banners suitable for outdoors?', 'Yes, they are made for outdoor use, all year round. Facade flags are rain-resistant and washable at 30°C; bring them in when the wind reaches force 6. Bunting is made of a special outdoor material, and banners are waterproof.'],
+    ['How much bunting and how many flags does a club need?', 'Bunting comes in 5-metre lengths: measure the clubhouse, the stand or the street and divide by five. For facade flags on houses and shop fronts, ask who wants one first, then order one each in 100 × 70 cm, 150 × 90 cm or 150 × 100 cm.'],
+    ['Can we use our GAA club crest, or start from a template?', 'Yes, your own club crest. Upload it as you have it and we help you get the file right before it goes to print. The GAA Association crest itself is reserved and is not for club material. No design yet? Every product page has "View all templates & FAQs", and banners have templates to download.'],
+    ['Can a sponsor logo go on our GAA training gear?', 'Sponsor logos on jerseys, tracksuits and kitbags need written approval from your County Committee. Check with your county board before you order.'],
+    ['How quickly can we get flags and banners for a match or club event?', 'Order as soon as the date is known; for a final, as soon as the semi-final is won. Every product page shows the estimated delivery date and the latest date before you pay, so you can pick an option that arrives in time.'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+</script>
+</body>
+</html>

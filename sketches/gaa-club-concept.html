@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="../prototype/">
+<title>GAA Club Printing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=chat&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+<!-- Concept (sketch, not linked), 2026-11-14: the GAA club page (board 2 of "HelloPrint IE club pages: proposal", Cornel's
+     Claude Design artifact) built ONLY from components that are already in the UI library (design-system/index.html), no new
+     blocks and no new CSS. Copy 1:1 from the board. Scene images: a grey block where the image goes (Cornel, 2026-11-15: never coloured placeholder pictures).
+     Product images: the live catalogue images; prices only where the live category page shows them, the rest "€…" as on the
+     board ("live price from the block"). "Blocks" (bottom right, or ?ann=1) shows per section: board block → UI library
+     component, and what is lost (gap). The only CSS on this page is that annotation layer. -->
+<style>
+  /* Concept annotation layer only (not a block) */
+  .ann-note { display: none; margin-bottom: 8px; font: 600 var(--t-12)/var(--lh-12) ui-monospace, Menlo, monospace; color: var(--dark-grey); }
+  .ann-note b { color: var(--link); }
+  .ann-note i { font-style: normal; color: var(--orange); }
+  html.ann .ann-note { display: block; }
+  .plp-feature > .ann-note { grid-column: 1 / -1; }
+  /* Where a scene image goes: a plain grey block (the image boxes without their image) */
+  .blog-img:empty { background: var(--light-grey); }
+  .pc-img:not(:has(img)) { background: var(--mid-grey); }
+  .ann-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 31; }
+  .ann-toggle.on { background: var(--orange); border-color: var(--orange); color: var(--white); }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page plp promo-e">
+
+    <!-- hero → Page title (.hero: crumbs, h1, intro) + Section tabs -->
+    <section class="hero">
+      <p class="ann-note">hero → <b>Page title .hero</b> + <b>Section tabs .tabs</b> · <i>gap: no image, no buttons in the page head (the tabs take the "Shop club products" jump)</i></p>
+      <p class="crumbs"><a href="index.html">Home</a> / Sports Products / GAA club printing</p>
+      <div class="intro">
+        <h1>GAA Club Printing</h1>
+        <p>When the club does well, the whole parish shows it. Flags on the houses, bunting across the main street, sponsor boards on the rail and posters that get people into the lotto.</p>
+        <p>For football, hurling, camogie and ladies football clubs across Ireland, from the juvenile section to the senior team.</p>
+      </div>
+    </section>
+
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#county-final" data-tab-link="county-final" class="active">County final</a>
+      <a href="#road" data-tab-link="road">Road to the final</a>
+      <a href="#quote" data-tab-link="quote">Quote</a>
+      <a href="#jobs" data-tab-link="jobs">Fundraising &amp; sponsors</a>
+      <a href="#gear" data-tab-link="gear">Club gear</a>
+      <a href="#feile" data-tab-link="feile">Féile</a>
+      <a href="#camps" data-tab-link="camps">Camps</a>
+      <a href="#faq" data-tab-link="faq">FAQ</a>
+    </nav>
+
+    <!-- advantages → the USP bar of the shell (already under the header on every page) -->
+
+    <!-- county final (banner) + club products (homeBlockTypeD) → Promo card + 6 Grey tiles (.plp-feature, as on promotional) -->
+    <section id="county-final" class="plp-feature" data-tab-target>
+      <p class="ann-note">banner "county final" + products (8, prices on) → <b>Promo card .pc</b> + 6 <b>Grey tiles .dc-card</b> (.plp-feature) · <i>gap: no prices next to the banner; 8 products become 6 tiles (car stickers and scarves move to gear / the road)</i></p>
+      <a class="pc" href="#flag-printing"><span class="pc-img"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">County Final Flags and Bunting for the Whole Parish</strong></span><span class="pc-cta pill">Shop flags</span></span></a>
+      <div class="plp-cats" id="finalTiles"></div>
+    </section>
+
+    <!-- championship run (cardGrid cols-3, image-top, numbered) → Blog cards -->
+    <section id="road" data-tab-target>
+      <p class="ann-note">cardGrid "championship run" (6, image-top, numbered) → <b>Blog card .blog-card</b> row · <i>gap: no number on the card (in the title); one button, the second product as a text link</i></p>
+      <div class="section-head"><h2>The Road to the County Final, Round by Round</h2></div>
+      <div class="hscroll blog-row" id="road-cards"></div>
+    </section>
+
+    <!-- quote and discount (cardGrid cols-2) → Promo cards (Team + Promises duo) -->
+    <section id="quote" data-tab-target>
+      <p class="ann-note">cardGrid "quote and discount" (cols-2) → 2 <b>Promo cards .pc</b> in the .plp-feature frame (the home duo .pb-duo is not made for mobile) · <i>gap: the discount card needs an image</i></p>
+      <div class="plp-feature">
+      <a class="pc team" href="#request-a-quote"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=800&amp;fm=webp&amp;q=80" alt="" style="object-position:50% 100%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Ordering for the Whole Club? Get a Quote Within 24 Hours</strong><span class="pc-s">Tell us what you need, attach your crest or a list of items and names, and our team comes back with a tailored price. Handy for the committee or the treasurer to sign off.</span></span><span class="pc-cta pill">Request a quote</span></span></a>
+      <a class="pc" href="#nonprofits"><span class="pc-img"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">10% Off for Charities and Non-Profits</strong><span class="pc-s">Is your club a registered charity or non-profit? Apply once and the discount is added to your account for every order.</span></span><span class="pc-cta pill">Apply for the discount</span></span></a>
+      </div>
+    </section>
+
+    <!-- fundraising + sponsors (split, flip) → Content rows -->
+    <section id="jobs" data-tab-target>
+      <p class="ann-note">split "fundraising" + split "sponsors" (flip, boxed, theme-green) → <b>Content rows .so-row</b>, raffle checklist in an <b>Accordion .acc</b> · <i>gap: the row title is a small card title, not a section title; no boxed / green theme</i></p>
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"></div>
+          <div class="so-txt"><h3>GAA Fundraising Ideas That Get the Parish Into the Lotto</h3>
+            <p>Your lotto probably runs online. What still needs paper is getting people to sign up: a <a class="link" href="#waterresistantposters">waterproof poster</a> with a QR code in the local shop, <a class="link" href="#stickers">QR stickers</a> on the bar and the till, and <a class="link" href="#flyerdl">flyers</a> at the gate on match day.</p>
+            <p>The table quiz, the race night and the Strictly night still sell at the door with printed <a class="link" href="#tickets">tickets</a> and <a class="link" href="#consumptionvouchers">drink vouchers</a>.</p>
+            <div class="acc oc-faq"><details><summary>Running a raffle? Sort this out before you print the tickets<img src="assets/chevron.svg" alt=""></summary>
+              <ul><li>A raffle at your event, with tickets sold and drawn on the night and no cash prizes, does not need a permit.</li><li>Bigger raffles and lotteries need a Garda permit or a District Court licence. With a permit, the prize value goes on every ticket.</li><li>Everyone taking part must be 18 or over.</li></ul>
+              <p>General information, not legal advice. Check the current rules with Citizens Information and the Gambling Regulatory Authority of Ireland.</p></details></div>
+            <a class="pill" href="#poster-printing">See all posters</a></div>
+        </article>
+        <article class="so-row">
+          <div class="so-img"></div>
+          <div class="so-txt"><h3>Pitch-Side Sponsor Boards and Banners for Your GAA Club</h3>
+            <p>The local garage, the pub and the builder keep the club going. Give them a <a class="link" href="#fencebanners">fence banner</a> on the rail, an <a class="link" href="#aluminiumsigns">aluminium board</a> in the clubhouse and a thank-you <a class="link" href="#tabletalkers">table card</a> at the dinner dance.</p>
+            <a class="pill" href="#panels-and-signs">See all signs and boards</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- club gear (split: image + homeBlockTypeD 4) → Section title + Product cards -->
+    <section id="gear" data-tab-target>
+      <p class="ann-note">split "club gear" (image + 4 products) → <b>Section title + arrow link</b> + 5 <b>Product cards .product</b> · <i>gap: the people image goes (no split with products); 5 cards to keep one row (scarves joined)</i></p>
+      <div class="section-head"><h2>GAA Club Gear for Players, Mentors and Supporters</h2><a class="link" href="#sportswear">See all sportswear</a></div>
+      <div class="types" id="gearCards"></div>
+    </section>
+
+    <!-- hurling and camogie (split) → Content row -->
+    <section>
+      <p class="ann-note">split "hurling and camogie" → <b>Content row .so-row</b></p>
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"></div>
+          <div class="so-txt"><h3>Hurling and Camogie: Stickers for Every Helmet and Hurley</h3>
+            <p>Hurling and camogie clubs print what every club prints, and a few things of their own: a club sticker or a name for every helmet and hurley, <a class="link" href="#vinylstickers">weatherproof vinyl stickers</a> for the kit bag and <a class="link" href="#sports-towels">towels</a> and <a class="link" href="#personalised-keyrings">keyrings</a> for the end-of-season night.</p>
+            <p>For the panel and the supporters: <a class="link" href="#fruitoftheloompremiumhoodedsweat">hoodies</a> with a name on each one and <a class="link" href="#flagcustomsize">flags</a> in club colours.</p>
+            <a class="pill" href="#customsizestickers">See custom stickers</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Féile (banner + cardGrid cols-3) → Promo card + 6 Grey tiles -->
+    <section id="feile" class="plp-feature" data-tab-target>
+      <p class="ann-note">banner + cardGrid "Féile" (3 text cards with links) → <b>Promo card .pc</b> + 6 <b>Grey tiles .dc-card</b> · <i>gap: the 3 cards (welcome, finding the pitch, who's who) and their lines go; their 6 products stay as tiles</i></p>
+      <a class="pc" href="#banner-printing"><span class="pc-img"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Hosting Féile? What the Host Club Needs</strong></span><span class="pc-cta pill">Shop banners</span></span></a>
+      <div class="plp-cats" id="feileTiles"></div>
+    </section>
+
+    <!-- Cúl Camps (split, flip) → Content row -->
+    <section id="camps" data-tab-target>
+      <p class="ann-note">split "Cúl Camps" (flip) → <b>Content row .so-row</b> · <i>gap: no flip (one row, image always left)</i></p>
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"></div>
+          <div class="so-txt"><h3>Hosting a Cúl Camp or Your Own Club Camp?</h3>
+            <p>The official camp brings its own kit. The club still needs a <a class="link" href="#featherflags">flag at the gate</a>, <a class="link" href="#correxsigns">signs to each pitch</a>, <a class="link" href="#lanyardbuckleandsafetyclip">lanyards for coaches</a>, <a class="link" href="#stickersname">name stickers</a> for day one and a <a class="link" href="#booklets">welcome booklet</a> for parents. Running your own week? Add <a class="link" href="#russellchildrensclassictshirt">tees</a> and <a class="link" href="#certificates">certificates</a>.</p>
+            <a class="pill" href="#camp-printing">See camp printing</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- advisor → Team strip (.hc-team) -->
+    <section>
+      <p class="ann-note">advisor → <b>Team strip .hc-team</b> (Help Centre) · <i>gap: built for a team row, here one person</i></p>
+      <div class="hc-team">
+        <div class="txt">
+          <h2>Ordering for the whole club, or a final only two weeks away?</h2>
+          <p>"Send me a message and I will help you get it right." Lauren Moore, Customer Experience and Special Orders.</p>
+          <div class="btns"><a class="pill active" href="#request-a-quote">Send Lauren's team your list</a><a class="pill" href="#chat">Chat with us</a></div>
+        </div>
+        <ul class="people"><li><span class="av"><img src="../sketches/club-assets/team-lauren.webp" alt=""></span><b>Lauren</b><small>Special Orders</small></li></ul>
+      </div>
+    </section>
+
+    <!-- reviews → Reviews row -->
+    <section class="d-reviews">
+      <p class="ann-note">reviews → <b>Reviews row .d-reviews</b></p>
+      <h2>What our customers say</h2>
+    </section>
+
+    <!-- faq → Accordion (.d-acc desktop / .acc mobile), as the business cards FAQ -->
+    <section id="faq" data-tab-target>
+      <p class="ann-note">faq (muted-surface, 7) → <b>Accordion .d-acc / .acc</b> · <i>gap: no muted surface</i></p>
+      <h2>Frequently Asked Questions about GAA Club Printing</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <!-- related (cardGrid cols-3, image-top) → 4 Grey tiles -->
+    <section>
+      <p class="ann-note">related (cardGrid cols-3, image-top) → 4 <b>Grey tiles .dc-card</b> (.plp-cats.four) · <i>camps added as the 4th (one row, no orphan)</i></p>
+      <h2>Printing for Other Clubs</h2>
+      <div class="plp-cats four" id="related"></div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<button class="pill ann-toggle" id="annToggle" type="button">Blocks</button>
+
+<script src="app.js?v=20261127y"></script>
+<script src="../design-system/components.js?v=20261127y"></script>
+<script>
+  const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  // Grey tile: desktop .dc-card, mobile the category card in a swipe row (as promotional.html)
+  const tile = ([name, img, href]) => DESK
+    ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${CF + img}?w=240&fm=webp&q=80" alt="" loading="lazy"></span></a>`
+    : `<a class="cat" href="${href}"><div class="collage"><img src="${CF + img}?w=240&fm=webp&q=80" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`;
+  const fill = (id, list) => { const el = document.getElementById(id); el.innerHTML = list.map(tile).join(''); if (!DESK) el.classList.add('hscroll', 'cats'); };
+
+  fill('finalTiles', [
+    ['Facade Flags', '14oAsvJFQhqAdigx7nD26A/5e06783853916a2a1b400f7b1fa03f61/facadeflags.webp', '#facadeflags'],
+    ['Bunting Flags', '2YuZI3vuVnjjY8366r3m9J/e5f6a35470d304a42a6f13422bea89db/bunting-flag-new-product-image-transparent__1_.png', '#buntingflags'],
+    ['Paper Hand Flags', '7Le75uQAaaU6CyVreLVr05/87788367c6731059ee9d6291b2c0ac6f/Paper-flag-product-image-2.png', '#paperflags'],
+    ['Banners', '4JX5aLLKcK8JPpkzT8nfUG/d7d68dfa22429487a36e37af8f37827d/signs-pamels_banner__1_.png', 'product.html?p=banners'],
+    ['Custom-Size Flags', '4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png', '#flagcustomsize'],
+    ['Window Stickers', '1Uzr7mpEUikaBjrQfRjmSC/501bec22ca026deaa19ff7f3163fe872/windowstickers.webp', '#windowstickers'],
+  ]);
+  fill('feileTiles', [
+    ['Banners', '4JX5aLLKcK8JPpkzT8nfUG/d7d68dfa22429487a36e37af8f37827d/signs-pamels_banner__1_.png', 'product.html?p=banners'],
+    ['Flags', '4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png', '#flagcustomsize'],
+    ['Correx Signs', 'O0lsJqL4UgvQQ3sEMoAl3/8a920b71acb9c1cb0bef18de2466227e/correx_panels.webp', '#correxsigns'],
+    ['Programmes', '7gSLjNJ9e3zlWJu6puytPW/91c35865f5ca9a6e255cebfc2860d0a9/stapled_booklets_catalog_image.webp', '#booklets'],
+    ['Safety Lanyards', '3VBg2Q0RPyrAjQd5XX22l2/082bce69ce87357a68dd62a53f9c6bf8/buckleandsafetyclip.webp', '#lanyardbuckleandsafetyclip'],
+    ['Wristbands', '6PoTtcBhXuVUsdSRJvFYQr/ad522ec0f5793506accbb3a7b4bbd88f/tyvekwristbands.webp', '#tyvekonesheetof10wristbands'],
+  ]);
+  fill('related', [
+    ['All Sports Club Printing', '5okLRLSpXyuuMzszlqivME/eb8e546244e22ae1767fe8a4b1f2ee7a/featherflagsus.png', '#sportsproducts'],
+    ['Rugby Clubs', '3eevTLRy2XyrgcRUkTuCPx/f62f1aeb6c134e78abf6db8b55d04a01/entrancetickets.webp', '#rugby-club-printing'],
+    ['Soccer Clubs', 'O0lsJqL4UgvQQ3sEMoAl3/8a920b71acb9c1cb0bef18de2466227e/correx_panels.webp', '#soccer-club-printing'],
+    ['Camp Printing', '3VBg2Q0RPyrAjQd5XX22l2/082bce69ce87357a68dd62a53f9c6bf8/buckleandsafetyclip.webp', '#camp-printing'],
+  ]);
+
+  // The road to the final: blog cards (image, title, text with the second product as a link, one button)
+  const L = (t, h) => `<a class="link" href="${h}">${t}</a>`;
+  document.getElementById('road-cards').innerHTML = [
+    ['1 · Group stage', `Flags at the gate and a programme for the first home games: ${L('stapled booklets', '#booklets')}.`, 'Feather flags', '#featherflags'],
+    ['2 · Quarter-final', `Posters in the shop windows and on the noticeboard, and ${L('window stickers', '#windowstickers')}.`, 'Waterproof posters', '#waterresistantposters'],
+    ['3 · Semi-final', `Flags and scarves for the stand, a banner for the supporters' bus: ${L('fleece scarves', '#solsarctic888103u')}.`, 'Custom-size flags', '#flagcustomsize'],
+    ['4 · County final', 'The whole parish in colour, from the houses to the main street.', 'Flags and bunting for the final', '#county-final'],
+    ['5 · Homecoming', `A welcome-home banner at the pitch and flags along the road in: ${L('paper hand flags', '#paperflags')}, ${L('car stickers', '#carstickers')}.`, 'Banners', 'product.html?p=banners'],
+    ['6 · Dinner dance', `Tickets, table cards and a booklet with the season in pictures: ${L('table cards', '#tabletalkers')}.`, 'Tickets', '#tickets'],
+  ].map(([t, p, cta, href]) => `
+    <article class="blog-card">
+      <div class="blog-img"></div>
+      <div class="blog-txt"><h3>${t}</h3><p>${p}</p><a class="pill" href="${href}">${cta}</a></div>
+    </article>`).join('');
+
+  // Club gear: product cards. Prices: the live "from" price only where the category page shows it; else "€…" as on the board
+  document.getElementById('gearCards').innerHTML = [
+    ['Hoodies', '6Gp1huLJB6tLgFyFFKIGsK/acb724cfd71b5b8abbcaa818c04c2cb8/fruitoftheloompremiumhoodedsweat.webp', '#fruitoftheloompremiumhoodedsweat'],
+    ['Beanies', '3SoV2jNNwqFX6YpIfwCVlV/2408cc4b3ac3a176c9bddf16e60c7fed/stavangergrsrpetbeaniehat.webp', '#stavangergrsrpetbeaniehat', 'Eco'],
+    ['Golf Umbrellas', '4D52abr4SSbIdgXaV1arF4/4a93ce98c686ba37a93d7467d0089f21/yfke.webp', '#yfkegolfumbrella'],
+    ['Sports Tees', '34vmAJV2rNeeibjj1tisCa/6b533459da8221be5521618fa22c2ad4/move.png', '#move'],
+    ['Fleece Scarves', '3kE41jqRqFUCOtBGQsNoF5/e04e48a24d1f4af582ff4914f2378fb3/solsarctic888103u.webp', '#solsarctic888103u'],
+  ].map(([name, img, href, badge]) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)"><img src="${CF + img}?w=400&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(badge)}</div>
+      <p class="name">${name}</p>
+      <div><p class="from">From</p><p class="prices"><span class="price">€…</span></p></div>
+    </a>`).join('');
+
+  // Reviews: the shared feed
+  const revs = document.querySelector('.d-reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `<div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+    <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+      <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+  // FAQ: the 7 questions of the board, as the business cards FAQ (desktop .d-acc, mobile .acc.oc-faq)
+  const FAQS = [
+    ['Is there a discount for GAA clubs that are registered charities or non-profits?', `Yes. Registered charities and non-profits get 10% off every product. ${L('Apply here', '#nonprofits')}; once checked, it is added to your account.`],
+    ['Can our club order a single flag or banner?', `Yes. ${L('Facade flags', '#facadeflags')} and ${L('banners', 'product.html?p=banners')} can be ordered from one piece, so one flag for the clubhouse or one banner for a homecoming, an anniversary or a club day is fine. The product page shows the price for each quantity.`],
+    ['Are GAA flags, bunting and banners suitable for outdoors?', 'Yes, they are made for outdoor use, all year round. Facade flags are rain-resistant and washable at 30°C; bring them in when the wind reaches force 6. Bunting is made of a special outdoor material, and banners are waterproof.'],
+    ['How much bunting and how many flags does a club need?', 'Bunting comes in 5-metre lengths: measure the clubhouse, the stand or the street and divide by five. For facade flags on houses and shop fronts, ask who wants one first, then order one each in 100 × 70 cm, 150 × 90 cm or 150 × 100 cm.'],
+    ['Can we use our GAA club crest, or start from a template?', 'Yes, your own club crest. Upload it as you have it and we help you get the file right before it goes to print. The GAA Association crest itself is reserved and is not for club material. No design yet? Every product page has "View all templates & FAQs", and banners have templates to download.'],
+    ['Can a sponsor logo go on our GAA training gear?', 'Sponsor logos on jerseys, tracksuits and kitbags need written approval from your County Committee. Check with your county board before you order.'],
+    ['How quickly can we get flags and banners for a match or club event?', 'Order as soon as the date is known; for a final, as soon as the semi-final is won. Every product page shows the estimated delivery date and the latest date before you pay, so you can pick an option that arrives in time.'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+
+  // Section tabs, as on promotional.html
+  const tabLinks = [...document.querySelectorAll('#tabs a')], targets = [...document.querySelectorAll('[data-tab-target]')];
+  addEventListener('scroll', () => {
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= (DESK ? 200 : 150)) current = t;
+    tabLinks.forEach(a => a.classList.toggle('active', a.dataset.tabLink === current.id));
+  }, { passive: true });
+
+  // <base> points at prototype/: "#…" links scroll on this page, other anchors do nothing
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a) return;
+    e.preventDefault(); document.getElementById((a.dataset.tabLink || a.getAttribute('href').slice(1)))?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Blocks: per section the board block → UI library component and the gap (?ann=1 opens with them on)
+  const annBtn = document.getElementById('annToggle');
+  const setAnn = on => { document.documentElement.classList.toggle('ann', on); annBtn.classList.toggle('on', on); };
+  setAnn(new URLSearchParams(location.search).get('ann') === '1');
+  annBtn.addEventListener('click', () => setAnn(!document.documentElement.classList.contains('ann')));
+</script>
+</body>
+</html>

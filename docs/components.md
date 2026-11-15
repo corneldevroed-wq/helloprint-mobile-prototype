@@ -9,6 +9,12 @@ something.
 | File | What | Notes |
 |---|---|---|
 | `index.html` | Home (mobile + desktop) | Promo cards style E, Team + Promises v3, best sellers 5/row (10) desktop |
+| `about-us.html` | About us (en-ie marketing page, 2026-11-15, test) | The live en-ie/about-us rebuilt with UI library components only (no new CSS), content and images from live, to find the gaps of the marketing page template. Route `#about-us` (footer). Gap list: `sketches/about-us-gaps.html` |
+| `our-culture.html` | Our culture (en-ie marketing page, 2026-11-15, test) | As about-us.html: the live en-ie/our-culture with UI library components only. Route `#our-culture`. Gaps in `sketches/about-us-gaps.html` |
+| `gaa-club-printing.html` | GAA club printing (en-ie marketing page, 2026-11-15, test) | Board 2 of Niels' IE club pages built with the marketing page parts of about-us / our-culture (hero with image, text cards with icon or number, `.so-row.section`, centred block, Display + 32/40 titles, 64 rhythm), no new CSS. Grey blocks for scene images. Route `#gaa-club-printing` |
+| `rugby-club-printing.html` | Rugby club printing (en-ie marketing page, 2026-11-15, template test) | Board 3 of Niels' IE club pages, copied from the GAA page: same parts, new content; the sponsor tiers are the centred block with banner + 3 text cards. No new CSS. Route `#rugby-club-printing` |
+| `storm-flags.html` | Storm-damaged flags (en-ie promo page, 2026-11-15, template test) | The storm concept (sketches/promo-concept.html) built from the marketing parts only: hero, 4 icon USPs, 2 product rows with live from-prices, 3 numbered steps, content row, advisor, reviews, FAQ, related. No new CSS. Route `#storm-flags` |
+| `category.html?page=<slug>` | Category page from a page spec (2026-11-14, test) | Reads `pages/<slug>.md` (front matter + `## block` sections, blocks can repeat; syntax at the top of `pages/hospitality.md`) and builds it with the category template's blocks, the markup of `promotional.html`: hero (crumbs, h1, intro), section tabs (every block with `tab:` + `id:`), feature (promo card + 6 tiles), products (5 or 10, live prices), categories (4 or 5 tiles), seo (paragraphs + folded questions). No CSS of its own (`main.cat-page.plp.promo-e`). First page: `hospitality` (as live en-ie). Sketch: `sketches/marketing-page-sketch.html` |
 | `home-promos.html` | Home copy with promo variants A–F | Switch `?promo=a…f`; test page, not the real home |
 | `business-cards.html` | Category: business cards (mobile + desktop) | `.plp.clp`. Card types 4/row (last 2 over full width), ticks + real prices; reviews row; sizes (size text + use tick, shapes on one base line); materials as icon tiles; "Make it stand out" as alternating photo/text rows (`.so-rows`); "Ideas beyond business cards" as square `.cat` cards; blogs (en-gb) as `.blog-card` row; FAQ (en-gb) in the PDP accordion; made-up SEO text last |
 | `flyers.html` | Category: flyers (mobile + desktop) | `.plp.clp`, order as live: types (4) → folded (5) → reviews → sizes → materials → ideas (product cards, live prices) → "Creative Folds" content row → related (grey tiles, 5 in a row) → made-up SEO text |
@@ -65,6 +71,28 @@ Shared in help-data.js: `helpSide`, `helpFaq`, `helpTopicView`, `HELP_QUICK`, `H
 remembered in `hp-hc-ans`.
 
 **Home test page**: `home-promos.html?promo=a…f`.
+
+## Marketing page template (the basis, Cornel 2026-11-15)
+
+The page type for about, campaign, club and season pages (Contentful marketingPage). Built and fine-tuned on `about-us.html`,
+`our-culture.html` and `gaa-club-printing.html`: copy one of those, keep the blocks, change the content. Only these parts; anything
+else goes through a sketch first.
+
+| Part | Markup | Use |
+|---|---|---|
+| Page type | `<main class="cat-page plp promo-e marketing">` | 64 between sections desktop / 32 mobile, section titles 32/40 desktop, footer 96 below |
+| Hero with image | `section.hero.media` (crumbs, `.intro` h1 + p + `.btn-row`, `.hero-img`) | Page head: Display title 48/56 (28/32 mobile), text left, photo right at promo card height (400 / 345) |
+| Hero, centred | `section.hero.media.center` | Same, centred text (max 760), photo under it 16:9 |
+| Centred block with banner | `section.hero.media.center.banner` + `.hc-topics` cards + `.btn-row` | Lower on a page: short centred head (title + max 2 lines), 3:1 photo, a row of text cards, the button; 32 / 16 apart. Never centred running text with sub-titles |
+| Split, photo right | `section.hero.media` with an `h2` (no crumbs) | Story block with the photo right (until a `.flip` on the content row exists) |
+| Content row as section | `.so-rows > .so-row.section` (`.so-img`, `.so-txt` h2 + p + pill) | Story block with the photo left; h2 is a section title |
+| Text cards | `.hc-topics` (3) / `.hc-topics.plp-cats` (2) / `.hc-topics.plp-cats.four` (4) of `.hc-card` (`.hc-ico` + `.hc-card-h` + `p.hc-quick-p`) | Facts, figures, promises, jobs. Always an icon (Material Symbols Rounded, add the name to the page's font link), or a number in `.hc-ico` when the order matters; no icon twice on a page; 16 icon → title, 4 title → text |
+| Products | `.section-head` (h2 + arrow `.link`) + `.types` of `.product` | 5 or 10 per row group; live from-price via `data-price` |
+| Others as is | reviews `.d-reviews`, FAQ `.d-acc` / `.acc.oc-faq`, blog cards `.blog-row`, grey tiles `.plp-cats.four`, logo strip `.trusted`, team strip `.hc-team`, section lead `p.cat-lead`, button row `.chips` after cards | |
+
+Images: live photos where they exist; a plain grey block where an image still has to come (never coloured placeholders).
+Open: full-width grey bands (`sketches/bands-sketch.html`, A / B not chosen), `.flip` on the content row, the text card into the
+design system + guide, prices for products without a live from-price. Gap history: `sketches/about-us-gaps.html`.
 
 ## Key components
 - **Option cards** (`.opt` in `#jConfig`): desktop Cards A reserves an icon area per row (`--vis-h` = tallest icon,

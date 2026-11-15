@@ -459,7 +459,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }
 .desk .opt .mi { width: 50px; height: 50px; }
 .promo-e .pc { position: relative; flex: 0 0 300px; display: flex; flex-direction: column; border-radius: var(--r-l); overflow: hidden; scroll-snap-align: start; background: var(--light-grey); color: var(--white); }
-.promo-e .pc-img { position: relative; display: block; height: 345px; overflow: hidden; }
+.promo-e .pc-img, .hero-img { position: relative; display: block; height: 345px; overflow: hidden; }   /* the hero photo of marketing pages has the promo card height (Cornel, 2026-11-15) */
 .promo-e .pc-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
 .promo-e .pc:hover .pc-img img { transform: scale(1.04); }   /* hover: the photo grows a little inside the card (the card itself stays put) */
 .promo-e .pc-img::after { content: ''; position: absolute; inset: 0 0 55%; background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0)); }   /* keeps the white title readable on light photos */
@@ -468,7 +468,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .promo-e .pc-t { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.4px; text-shadow: 0 1px 8px rgba(0,0,0,.2); }
 .promo-e .pc-cta { display: inline-flex; padding: 6px 16px; border-color: var(--white); }
 .promo-e .pc:hover .pc-cta { border-color: var(--black); }
-.desk .promo-e .pc-img { height: 400px; }
+.desk .promo-e .pc-img, .desk .hero-img { height: 400px; }
 .desk .promo-e .pc-body { inset: 24px; }   /* desktop: one 8px step more room around the title and the button (Cornel, 2026-11-11) */
 .dc-card { position: relative; display: block; height: 140px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); color: var(--black); transition: background .15s; }
 .dc-card:hover { background: #e8e8e8; }
@@ -486,9 +486,29 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .desk .plp > :not(.dfoot), .desk .help-page > :not(.dfoot) { width: calc(100% - 48px); max-width: 1286px; margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
 .desk .plp > .hero { gap: 0; }
 .desk .plp .hero .intro p { font-size: var(--t-14); line-height: var(--lh-14); }
+.hero.media { display: grid; gap: 16px; }   /* hero with image (marketing pages, Cornel 2026-11-15): crumbs on top over the full width, */
+.hero-img { border-radius: var(--r-l); background: var(--light-grey); }   /* then text + buttons, then the photo (height as the promo card); */
+.hero-img img { display: block; width: 100%; height: 100%; object-fit: cover; }   /* desktop: text left, photo right */
+.btn-row { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }   /* the hero's buttons: full width on mobile, side by side on desktop */
+.btn-row .btn { padding: 0 24px; }
+.desk .plp > .hero.media { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; align-items: center; }
+.desk .hero.media > .crumbs { grid-column: 1 / -1; }
+.desk .btn-row { flex-direction: row; }
+.hero.media.center .intro { align-items: center; max-width: 760px; margin: 0 auto; text-align: center; }   /* centred variant (our culture): title, intro and buttons centred, */
+.hero.media.center .btn-row { align-self: stretch; justify-content: center; }   /* the photo under them over the full width; the crumbs stay top left */
+.desk .plp > .hero.media.center { grid-template-columns: minmax(0, 1fr); }
+.desk .hero.media.center .hero-img { height: auto; aspect-ratio: 16 / 9; margin-top: 32px; }   /* full width: 16:9 (Cornel, 2026-11-15; 2:1 tried first), 32 between blocks; mobile keeps 345 and the hero's 16 */
+.hero.media .intro h2 { margin: 0; }   /* a section title in the block's text (lower on a page): 8 to its text, the intro's gap */
+.desk .hero.media.center.banner .hero-img { aspect-ratio: 3 / 1; }   /* .banner: the centred block lower on a page, the photo as a 3:1 banner (IE image brief); 16:9 stays for the page head */
+.hero.media.center > .btn-row { margin-top: 0; }   /* a row of text cards and the button under the photo: 16 apart on mobile (the hero's gap), */
+.desk .hero.media.center > .hc-topics, .desk .hero.media.center > .btn-row { margin-top: 32px; }   /* 32 on desktop (Cornel, 2026-11-15: Féile, sketch A) */
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; }
 .desk .plp > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
 .desk .plp h2, .desk .help-page h2 { margin-bottom: 8px; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
+.desk .marketing h2:not(.hc-team h2) { font-size: var(--t-32); line-height: 40px; letter-spacing: -0.64px; }   /* marketing pages (main.marketing: about us, our culture): section titles one step up next to the 48 display title; mobile stays 20/24 (Cornel, 2026-11-15); the help strip (.hc-team) keeps its 24/32 as on the Help Centre (Cornel, 2026-11-15) */
+.cat-page.marketing { gap: 32px; }   /* marketing pages: more room between sections, the big page rhythm of the guide: 32 mobile, */
+.desk .plp.marketing { gap: 64px; }   /* 64 desktop (Cornel, 2026-11-15); the shop keeps 16 / 32 */
+.desk .plp.marketing > .dfoot { margin-top: 32px; }   /* the footer stays 96 below the last section, as in the shop (its own 64 + the gap) */
 .desk .plp .materials { gap: 8px; }
 .desk .plp .materials h2 { margin-bottom: 0; }   /* the section gap already spaces the title */
 .desk .plp [data-tab-target] { scroll-margin-top: 164px; }
@@ -537,9 +557,9 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
-.plp .section-head .link, .mega .link, .hc-card .link, .ha-back, .sd-all { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
-.plp .section-head .link::after, .mega .link::after, .hc-card .link::after, .sd-all::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
-.plp .section-head .link, .mega .link, .hc-card .link, .ha-back, .sd-all { text-decoration: none; }
+.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all { text-decoration: none; }
 
 /* Blog cards (business cards page, and the home under "Browse all we offer"): photo on top, title, text, "Read more" pill.
    White with the card outline, hover as the product cards. Mobile: swipe row of 300px cards; desktop: 3 in a row (Cornel, 2026-10-28 / 11-12) */
@@ -571,10 +591,10 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .d-acc summary, .desk .oc-faq summary { font-size: var(--t-16); line-height: var(--lh-16); }
 /* head */
 .hc-center { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; }
-.hc-center h1 { font-size: var(--t-28); line-height: 32px; }
+.hc-center h1, .plp .hero.media h1 { font-size: var(--t-28); line-height: 32px; }   /* Display: the Help Centre head + the hero with image of marketing pages (Cornel, 2026-11-15; not in the shop flow) */
 .desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
 .desk .hc-center { position: relative; z-index: 1; }
-.desk .hc-center h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
+.desk .hc-center h1, .desk .plp .hero.media h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
 .desk .ha-body h1, .desk .cart-page h1, .desk .oc-strip h1, .desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
 /* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
    question = card title, hover) with the grey list arrow right instead of the fold chevron */

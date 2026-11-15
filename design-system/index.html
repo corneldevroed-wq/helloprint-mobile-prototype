@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261126w">
-<link rel="stylesheet" href="components.css?v=20261126w">
-<link rel="stylesheet" href="guide.css?v=20261126w">
+<link rel="stylesheet" href="tokens.css?v=20261127y">
+<link rel="stylesheet" href="components.css?v=20261127y">
+<link rel="stylesheet" href="guide.css?v=20261127y">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -33,6 +33,7 @@
   .ds .d-rev-nav { position: static; }
   /* real page contexts inside a stage keep their text rules but not their page layout */
   .ds .ds-stage .plp, .ds .ds-stage .materials, .ds .ds-stage .hero, .ds .ds-stage .intro, .ds .ds-stage div.product { display: contents; }
+  .ds .ds-stage .hero.media { display: grid; } .ds .ds-stage .hero.media .intro { display: flex; }   /* the hero with image keeps its own layout */
   .ds .ds-stage .plp > *, .ds .ds-stage .materials > *, .ds .ds-stage .hc-rows { width: 100%; margin: 0; }
   .ds .ds-stage .cart-side { position: static; }   /* sticky on the cart page */
 
@@ -165,12 +166,12 @@
 
   // ---------- Typography (sample = real markup in its real context; size, line height, weight and colour are measured) ----------
   const TYPE = [
-    { name: 'Display', ex: '<div class="hc-center"><h1 data-m>How can we help?</h1></div>', meta: '.hc-center h1',
-      use: 'Only the Help Centre head. 28/32 mobile, 48/56 desktop.' },
+    { name: 'Display', ex: '<div class="hc-center"><h1 data-m>How can we help?</h1></div>', meta: '.hc-center h1 · .hero.media h1',
+      use: 'The Help Centre head and the title of the hero with image on marketing pages (about us, our culture). Never in the shop flow (categories, product, checkout keep the page title). 28/32 mobile, 48/56 desktop.' },
     { name: 'Page title', ex: '<div class="plp"><div class="hero"><h1 data-m>Business Card Printing</h1></div></div>', meta: 'h1',
       use: 'One per page, dark green, extra bold: 24/28 mobile, 24/32 desktop (the section title size: the h1 tag, not the size, makes it the page title). Never a full stop.' },
     { name: 'Section title', ex: '<div class="plp"><h2 data-m>Find the perfect paper</h2></div>', meta: 'h2',
-      use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile. In a narrow column it stays 20/24 on desktop: the headings inside a help article (.ha-text h2). The Order overview title in the cart and checkout sidebar is 24/32 like the section titles next to it (Cornel, 2026-11-06).' },
+      use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile. In a narrow column it stays 20/24 on desktop: the headings inside a help article (.ha-text h2). The Order overview title in the cart and checkout sidebar is 24/32 like the section titles next to it (Cornel, 2026-11-06). Marketing pages (main.marketing: about us, our culture): 32/40 desktop, next to the 48 display title; mobile stays 20/24.' },
     { name: 'Card title', ex: '<ul class="hc-rows"><li><a data-m href="#typography">Where is my order?</a></li></ul>', meta: '.hc-rows a, .cat .title, .dc-t',
       use: 'Titles in cards, FAQ questions, question rows: semibold, black. 14 mobile, 16/22 desktop.' },
     { name: 'Body', ex: '<div class="plp"><div class="hero"><div class="intro"><p data-m>Make a lasting first impression with business cards in every size, paper and finish.</p></div></div></div>', meta: '.intro p, .cat-lead',
@@ -195,7 +196,7 @@
   // ---------- Spacing & grid ----------
   const spacing = row({ name: 'The 8px grid', use: 'Every gap, padding and margin is 8, 16, 24 or 32 (48/64 for big page rhythm). 4px only inside small controls.',
       ex: stage([8, 16, 24, 32].map(n => `<div class="sp"><span>${n}</span><i style="width:${n * 4}px"></i></div>`).join(''), 'left') }) +
-    row({ name: 'Between blocks', use: '<b>Desktop:</b> 32 between blocks, 8 from a section title (or lead line) to its block, 4 from a title to its description line (they belong together), 16 inside grids, 8 from the intro to the tab bar.<br><b>Mobile:</b> 16 between blocks, 32 around a promo-card block.',
+    row({ name: 'Between blocks', use: '<b>Marketing pages</b> (main.marketing: about us, our culture): 64 between sections on desktop, 32 on mobile. <b>Desktop:</b> 32 between blocks, 8 from a section title (or lead line) to its block, 4 from a title to its description line (they belong together), 16 inside grids, 8 from the intro to the tab bar.<br><b>Mobile:</b> 16 between blocks, 32 around a promo-card block.',
       ex: stage('<div class="sp"><span>32</span><i style="width:128px"></i>block → block</div><div class="sp"><span>8</span><i style="width:32px"></i>title → block</div><div class="sp"><span>16</span><i style="width:64px"></i>inside a grid</div>', 'left') }) +
     `<h3>Grid</h3>` +
     row({ name: 'Content width', meta: [{ t: 'max-width 1286px' }, { t: '24px each side' }, { t: 'mobile 16px gutter' }],
@@ -330,6 +331,12 @@
     row({ name: 'Promo card', wide: true, meta: [{ t: '.pc' }, { t: 'style E' }, SIZE],
       use: 'A campaign. Title top left in white on the photo (soft gradient), 20/24 on mobile and desktop, one "Shop X" pill; 16 from the edge on mobile, 24 on desktop. No text baked into the image; hover zooms the photo 4%.',
       ex: stage(real('<div class="promo-e"><a class="pc" href="#cards"><span class="pc-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/644jkE0EFWWZITnJfevHsM/58458b07aaa3a855ca8a376cc5df4960/promotional_printing.png?w=900&fm=webp&q=80" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Promotional Printing for all your projects</strong></span><span class="pc-cta pill">Shop top gifts</span></span></a></div>', [300, 'home, swipe row'], [288, 'home (the first card is 591 wide)'])) }) +
+    row({ name: 'Hero with image', wide: true, meta: [{ t: '.hero.media' }, { t: '.hero-img' }, { t: '.btn-row' }, SIZE],
+      use: 'The head of a marketing page (about us; club and campaign pages next). Breadcrumbs on top over the full width, then the title, intro and two buttons (.btn primary + .btn outline), then the photo, as high as a promo card (345 mobile, 400 desktop). Desktop: text left, photo right, 32 apart, vertically centred; mobile: text and buttons first, the photo under them, so the buttons stay above the fold.',
+      ex: stage(real('<div class="plp"><section class="hero media" style="width:100%"><p class="crumbs"><a href="#cards">Home</a> / About us</p><div class="intro"><h1>About HelloPrint Ireland</h1><p>HelloPrint is the online printing platform that makes ordering print quick, affordable and hassle-free.</p><div class="btn-row"><a class="btn primary" href="#cards">Discover our range</a><a class="btn outline" href="#cards">Contact us</a></div></div><div class="hero-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/4FDz3qVabGddZ8d2WRlSBe/68b9c8a0cbdd1358e8137958c02e1951/about-hero.png?w=1200&fm=webp&q=80" alt=""></div></section></div>', [358, 'about us'], [760, 'about us (1286 wide on the page)'])) }) +
+    row({ name: 'Hero with image, centred', wide: true, meta: [{ t: '.hero.media.center' }, SIZE],
+      use: 'The same hero with the text centred (our culture): title, intro (max 760 wide) and buttons centred, the photo under them over the full width: 16:9 on desktop (1286 × 723), the promo card height on mobile (345); 32 under the buttons on desktop, 16 on mobile. The breadcrumbs stay top left. Lower on a page the same block holds a section (an h2 instead of the h1). With .banner (lower on a page) the photo is a 3:1 banner on desktop, and a row of text cards and the button can follow it, 32 apart on desktop, 16 on mobile (GAA: Hosting Féile; about us: The story behind your order). Never centred running text with sub-titles: those become text cards.',
+      ex: stage(real('<div class="plp"><section class="hero media center" style="width:100%"><p class="crumbs"><a href="#cards">Home</a> / Our culture</p><div class="intro"><h1>Our culture is our DNA</h1><p>Anyone can copy a business model. What they can’t copy is the people behind it.</p><div class="btn-row"><a class="btn primary" href="#cards">See vacancies</a><a class="btn outline" href="#cards">About HelloPrint</a></div></div><div class="hero-img"><img src="https://images.ctfassets.net/wm1n7oady8a5/7txevD4qrjtRM2U7n1mtRQ/94afdfeb55752795f43a9405c569350f/14168_1801.png?w=1200&fm=webp&q=80" alt=""></div></section></div>', [358, 'our culture'], [760, 'our culture (1286 wide on the page)'])) }) +
     row({ name: 'Material', wide: true, meta: [{ t: '.mat' }, { t: '.plp-mats' }, SIZE],
       use: 'A paper or material: the material icon, name, points, grey list arrow (a row on mobile, a card on desktop). Opens the product with that material chosen.',
       ex: stage(real('<div class="plp clp"><section class="materials"><ul class="mat-list plp-mats" style="grid-template-columns:1fr"><li><a class="mat" href="#cards"><img class="mat-icon" src="icons/materials/silk-matte.svg" alt=""><span class="text"><span class="badge">Most Popular</span><strong>Silk - Matte</strong><small>Most cost-effective option · Professional appearance · Variety of finishes available</small></span><img class="chev" src="../prototype/assets/category/arrow.svg" alt=""></a></li></ul></section></div>', [339, 'business cards'], [244, 'business cards, 5 per row; in the row every card gets the height of the tallest (214)'])) });
@@ -488,7 +495,7 @@
     cut('Article card', '.hc-card', '../prototype/help-centre.html', '.hc-quick .hc-card', 'Help Centre, popular articles',
       'A popular article: the topic as a grey label, the question, two lines of the answer, Read more. The same card (without the label) under every article: "More help with …", max 3 (one row), the title 14 on desktop.') +
     cut('Team strip', '.hc-team', '../prototype/help-centre.html', '.hc-team', 'Help Centre',
-      'Real people: Anna (our bot) first, then the team with name and role.') +
+      'Real people: Anna (our bot) first, then the team with name and role. One person (the advisor on a marketing page): the photo larger, 96 mobile / 144 desktop, by itself (:only-child).') +
     cut('Your orders (signed in)', '.hc-mine', '../prototype/help-article.html?q=how-do-i-download-my-invoices-and-credit-notes&acc=in', '.hc-mine', 'Help Centre article, under the title',
       'Signed in: the user\'s own proofs, orders, invoices… on ~60 articles. Grey block, a small dark green label, every row a white card (the product photo .thumb-sm, number 14 semibold, detail with the urgent part semibold, one action: the small light green button of the header (.dbtn) to act, the white .pill for a quiet one; mobile: the action under the text), max 3 rows, View all top right to My Account. Nothing relevant: no block. Signed out: one "Sign in to …" line in the same grey block, only on the "my" questions.');
 
@@ -576,6 +583,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261126w"></script>
+<script src="guide.js?v=20261127y"></script>
 </body>
 </html>

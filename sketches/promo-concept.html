@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="../prototype/">
+<title>New Flag After the Storm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=air,eco,local_shipping,palette&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+<!-- Concept (sketch, not linked), 2026-11-14: the marketing / promo page template, worked out for mobile and desktop before it goes
+     into the design system. Proposal: sketches/promo-landing-sketch.html. The sections are the Contentful marketingSection types
+     of the IE club pages (marketingPage: hero, usp, products = homeBlockTypeD, cardGrid, split, banner, advisor, reviews, faq,
+     related), so one template serves a promo (this storm page), a season (Christmas) and the club / school pages.
+     <base> points at prototype/: the real shell, components and prices. Existing components as they are (.product + .badge, .eta,
+     .acc FAQ, reviews, .pill); the section layouts are new and inline here for now. "Blocks" (bottom left, or ?ann=1) shows each
+     section's type and variant. Scene images are placeholders that carry their brief (ratio as in the IE image brief). -->
+<style>
+  /* Page rhythm: 32px between sections on mobile, 48 on desktop; the category page base (.cat-page.plp) gives width and gutters */
+  .mp { gap: 32px; }
+  .desk .mp { gap: 48px; }
+  .mp h2 { margin-bottom: 16px; }
+  .mp .sub { margin: -8px 0 16px; color: var(--dark-grey); }
+  .desk .mp .types { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .more { display: inline-flex; margin-top: 16px; }
+
+  /* Scene image placeholder: grey, the ratio of its block, the brief in it */
+  .scene { position: relative; display: grid; place-items: center; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  .scene::before { content: attr(data-ratio) " scene"; position: absolute; left: 8px; top: 8px; padding: 2px 8px; border-radius: var(--r-s); background: var(--white); font-weight: 600; }
+  .r43 { aspect-ratio: 4 / 3; } .r31 { aspect-ratio: 3 / 1; } .r21 { aspect-ratio: 2 / 1; } .r11 { aspect-ratio: 1; }
+
+  /* hero · media 4:3 · 2 CTAs: mobile image on top, desktop text left / image right */
+  .s-hero { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .s-hero .badge { position: static; align-self: flex-start; }
+  .s-hero .scene { order: 2; }   /* mobile too: the message and the button first, above the fold */
+  .s-hero h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.56px; color: var(--dark-green); }
+  .s-hero .txt { display: flex; flex-direction: column; gap: 16px; }
+  .s-hero .txt > p { font-size: var(--t-16); line-height: var(--lh-16); color: var(--dark-grey); }
+  .ctas { display: flex; flex-direction: column; gap: 8px; }
+  .ctas .pill { justify-content: center; padding: 12px 24px; font-size: var(--t-16); }
+  .rate { display: flex; align-items: center; gap: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .rate img { height: 16px; }
+  .desk .s-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; align-items: center; padding-top: 24px; }
+  .desk .s-hero h1 { font-size: var(--t-48); letter-spacing: -1px; }
+  .desk .s-hero .txt { gap: 24px; }
+  .desk .ctas { flex-direction: row; }
+
+  /* usp · cols-4 · icon · muted-surface */
+  .s-usp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }
+  .s-usp li { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .s-usp .material-symbols-rounded { color: var(--light-green); }
+  .s-usp b { font-size: var(--t-14); line-height: var(--lh-14); }
+  .s-usp p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .desk .s-usp { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; padding: 24px; }
+  .desk .s-usp li { flex-direction: row; align-items: flex-start; }
+
+  /* cardGrid · cols-2/3 · numbered or image-top */
+  .s-cards { display: grid; gap: 8px; }
+  .s-cards > * { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); }
+  .s-cards b { font-size: var(--t-16); line-height: var(--lh-16); }
+  .s-cards p { color: var(--dark-grey); }
+  .s-cards.numbered { counter-reset: n; }
+  .s-cards.numbered > *::before { counter-increment: n; content: counter(n); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--light-grey); font-weight: 800; color: var(--dark-green); }
+  .s-cards.image-top > * { padding: 0 0 16px; overflow: hidden; }
+  .s-cards.image-top > * > :not(.thumb) { padding: 0 16px; }
+  .s-cards .thumb { display: grid; place-items: center; aspect-ratio: 2 / 1; background: var(--light-grey); }
+  .s-cards .thumb img { max-height: 80%; max-width: 50%; object-fit: contain; }
+  .desk .s-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .desk .s-cards > * { padding: 24px; }
+  .desk .s-cards.image-top > * { padding: 0 0 24px; }
+  .desk .s-cards.image-top > * > :not(.thumb) { padding: 0 24px; }
+
+  /* split · media 4:3 + content (text or products) · flip */
+  .s-split { display: flex; flex-direction: column; gap: 16px; }
+  .s-split .types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .desk .s-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: center; }
+  .desk .s-split.flip > .scene { order: 2; }
+  .desk .mp .s-split .types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* banner · overlay · 3:1: the text panel covers 40%, the subject on the other side */
+  .s-banner { position: relative; display: flex; flex-direction: column; border-radius: var(--r-l); overflow: hidden; background: var(--dark-green); color: var(--white); }
+  .s-banner .scene { border-radius: 0; aspect-ratio: 2 / 1; }
+  .s-banner .panel { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+  .s-banner h2 { margin: 0; color: var(--white); }
+  .s-banner .pill { margin-top: 8px; }
+  .desk .s-banner { display: block; aspect-ratio: 3 / 1; }
+  .desk .s-banner .scene { position: absolute; inset: 0; aspect-ratio: auto; padding-left: calc(40% + 32px); }
+  .desk .s-banner .panel { position: absolute; left: 0; top: 0; bottom: 0; width: 40%; justify-content: center; padding: 32px; background: var(--dark-green); }
+
+  /* advisor · team photo · CTA quote form */
+  .s-adv { display: flex; flex-direction: column; gap: 16px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }
+  .s-adv img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; background: var(--light-green); }
+  .s-adv h2 { margin: 0; }
+  .s-adv p { color: var(--dark-grey); }
+  .s-adv .ctas { margin-top: 8px; }
+  .desk .s-adv { flex-direction: row; align-items: center; gap: 32px; padding: 32px; }
+  .desk .s-adv .ctas { flex-direction: row; }
+
+  /* faq · muted-surface */
+  .s-faq { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }
+  .desk .s-faq { padding: 32px; }
+  .desk .s-faq .acc { max-width: 760px; }
+
+  /* Sticky CTA, mobile only: once the hero buttons have scrolled away */
+  .sticky-cta { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; align-items: center; gap: 16px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--white); transform: translateY(100%); transition: transform .2s; }
+  .sticky-cta.on { transform: none; }
+  .sticky-cta p { flex: 1; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .sticky-cta p b { display: block; color: var(--black); }
+  .sticky-cta .pill { padding: 12px 16px; }
+  .desk .sticky-cta { display: none; }
+
+  /* Block annotations (concept only) */
+  .ann-note { display: none; margin-bottom: 8px; font: 600 var(--t-12)/var(--lh-12) ui-monospace, Menlo, monospace; color: var(--orange); }
+  html.ann .ann-note { display: block; }
+  html.ann .mp > section { outline: 1px dashed var(--orange); outline-offset: 4px; }
+  .ann-toggle { position: fixed; right: 16px; bottom: 16px; z-index: 31; }
+  .ann-toggle.on { background: var(--orange); border-color: var(--orange); color: var(--white); }
+  html:not(.desk) .ann-toggle { bottom: 72px; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page plp promo-e mp">
+
+    <section>
+      <p class="ann-note">hero · media 4:3 · 2 CTAs · + delivery date, rating</p>
+      <div class="s-hero">
+        <div class="scene r43" data-ratio="4:3">A new, bright flag flying hard on a pole in front of a business, the sky clearing after the storm. Text beside it, not on it.</div>
+        <div class="txt">
+          <span class="badge">Storm damage?</span>
+          <h1>Flag torn by the storm? Get a new one up this week.</h1>
+          <p>Same design, new flag. Windproof material, ordered in a few clicks.</p>
+          <div class="ctas" id="heroCta">
+            <a class="pill active" href="#choose">Choose your flag</a>
+            <a class="pill" href="#new2contactform?type=inquiry">Talk to an expert</a>
+          </div>
+          <div class="eta"><b>Order today</b><p>Estimated Wed 18 Nov — latest Fri 20 Nov</p></div>
+          <p class="rate"><img src="assets/trustpilot.svg" alt="4.5 stars">4.5 out of 5 on Trustpilot · 35,364 reviews</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="ann-note">usp · cols-4 · icon · muted-surface</p>
+      <ul class="s-usp">
+        <li><span class="material-symbols-rounded" aria-hidden="true">air</span><div><b>Windproof material</b><p>Available on flagpole flags</p></div></li>
+        <li><span class="material-symbols-rounded" aria-hidden="true">local_shipping</span><div><b>Estimated Wed 18 Nov</b><p>The date shows before you order</p></div></li>
+        <li><span class="material-symbols-rounded" aria-hidden="true">eco</span><div><b>Recycled RPET</b><p>Colours stay bright in sun, rain and wind</p></div></li>
+        <li><span class="material-symbols-rounded" aria-hidden="true">palette</span><div><b>Free design templates</b><p>Or upload your old file</p></div></li>
+      </ul>
+    </section>
+
+    <section id="choose">
+      <p class="ann-note">products (homeBlockTypeD) · 4 bundle items · prices on · show all → flag printing</p>
+      <h2>Which flag do you need to replace?</h2>
+      <div class="types" id="flags"></div>
+      <a class="pill more" href="#flag-printing">See all flags</a>
+    </section>
+
+    <section>
+      <p class="ann-note">cardGrid · cols-3 · numbered</p>
+      <h2>A new flag in 3 steps</h2>
+      <div class="s-cards numbered">
+        <div><b>Choose your flag and size</b><p>Same size as the old one? Pick it and you're done.</p></div>
+        <div><b>Upload your design</b><p>Your old file, or start from a free template.</p></div>
+        <div><b>We print and deliver</b><p>Estimated Wed 18 Nov — latest Fri 20 Nov.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="ann-note">split · media 4:3 + products (homeBlockTypeD, 4 items) · flip</p>
+      <div class="s-split flip">
+        <div class="scene r43" data-ratio="4:3">A feather flag on a heavy base standing straight in strong wind at a shop entrance, rain on the pavement.</div>
+        <div>
+          <h2>Keep the next one standing</h2>
+          <p class="sub">A heavier base or a wall mount keeps your flag up in the wind.</p>
+          <div class="types" id="extras"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="ann-note">banner · overlay · media 3:1 · CTA</p>
+      <div class="s-banner">
+        <div class="scene r31" data-ratio="3:1">A row of flags in two colours along a building, one spare folded in a box in the foreground. Subject on the right 60%.</div>
+        <div class="panel">
+          <h2>Order a spare while you're at it</h2>
+          <p>Winter isn't over. A second flag in the cupboard means no gap after the next storm.</p>
+          <a class="pill" href="#choose">Choose your flag</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="ann-note">advisor · team photo · CTA quote form</p>
+      <div class="s-adv">
+        <img src="https://images.ctfassets.net/wm1n7oady8a5/3rYJmshrCYTlAvMisuBjZO/96357c193b66079d3d6723bf2e1db516/pater.webp?w=300&amp;fm=webp&amp;q=80" alt="">
+        <div>
+          <h2>Flags at several locations?</h2>
+          <p>Our print experts replace them all in one order, on time and on brand. You get a quote within 24 hours.</p>
+          <div class="ctas"><a class="pill active" href="#new2contactform?type=inquiry">Request a quote</a><a class="pill" href="#chat">Chat with us</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="d-reviews">
+      <p class="ann-note">reviews · tag trustpilot</p>
+      <h2>What our customers say</h2>
+    </section>
+
+    <section>
+      <p class="ann-note">faq · muted-surface · 4 questions</p>
+      <div class="s-faq">
+        <h2>Questions about replacing your flag</h2>
+        <div class="acc oc-faq">
+          <details open><summary>How fast do I have a new flag?<img src="assets/chevron.svg" alt=""></summary><p>Order today and your flag is estimated on Wed 18 Nov, at the latest Fri 20 Nov. You see the date for your flag and size before you order.</p></details>
+          <details><summary>Can I reuse my old design?<img src="assets/chevron.svg" alt=""></summary><p>Yes. Upload the same file again, or start from a free design template.</p></details>
+          <details><summary>Which flag holds up best in the wind?<img src="assets/chevron.svg" alt=""></summary><p>Choose the windproof flag material for flagpole flags, or a rectangle beach flag, made for rough weather. A heavier base keeps beach and feather flags standing.</p></details>
+          <details><summary>Should I take my flag down in a storm?<img src="assets/chevron.svg" alt=""></summary><p>Yes, when a storm warning is out: a flag lasts much longer when it comes in for the worst wind.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="ann-note">related · cardGrid · cols-3 · image-top</p>
+      <h2>More for outside your door</h2>
+      <div class="s-cards image-top" id="related"></div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<div class="sticky-cta" id="stickyCta"><p><b>Order today</b>Estimated Wed 18 Nov</p><a class="pill active" href="#choose">Choose your flag</a></div>
+<button class="pill ann-toggle" id="annToggle" type="button">Blocks</button>
+
+<script src="app.js?v=20261127y"></script>
+<script src="../design-system/components.js?v=20261127y"></script>
+<script>
+  // Live products (helloprint.com/en-ie/flag-printing, 2026-11-14): name, qty, price, link, image, label
+  const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+  const tile = ([name, qty, price, href, img, badge]) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)"><img src="${CF + img}?w=400&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(badge)}</div>
+      <p class="name">${name}</p>
+      <div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
+    </a>`;
+  document.getElementById('flags').innerHTML = [
+    ['Flagpole Flags', 1, 2.99, '#flagcustomsize', '4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png', 'Windproof option'],
+    ['Facade Flags', 1, 41.99, '#facadeflags', '14oAsvJFQhqAdigx7nD26A/5e06783853916a2a1b400f7b1fa03f61/facadeflags.webp'],
+    ['Feather Flags', 1, 54.99, '#featherflags', '5okLRLSpXyuuMzszlqivME/eb8e546244e22ae1767fe8a4b1f2ee7a/featherflagsus.png', 'Most Popular'],
+    ['Rectangle Beach Flags', 1, 68.99, '#rectanglebeachflags', '6a0Q6tUFeSI5YHHOGTf3Wv/885d6587dfc70db4fc19fd5695a4cfd8/squarebeachflags.png', 'Eco'],
+  ].map(tile).join('');
+  document.getElementById('extras').innerHTML = [
+    ['Parasol Base', 1, 61.99, '#waterbase', '3Ce8inVS2iOThFOJAylt51/cd30338612e408db446241df7c2d09d6/flagaccessorieswaterbase.webp'],
+    ['Ground Screw', 1, 51.99, '#groundscrew', '5iiPiu79TKpgXDl2O2KpwW/cbb0ffa826a9484817b6c4bbc73ce7ec/Plastic_screw_base___rotator_Copy_3.png'],
+    ['Wall Mount', 1, 45.99, '#wallmountalu', '5Jsl2vG8O4UW6rmTz6WL6N/0452e494d9f0808f2251a691679c55cd/flagaccessorieswallmountalu.webp'],
+    ['Flagfix', 1, 47.49, '#flagfix', '3nDU2sk0f9H8j4qY4vBg7E/74ad2779be1660fc88d87e8a7bf1ecc7/flagaccessoriesflagfix.webp'],
+  ].map(tile).join('');
+  document.getElementById('related').innerHTML = [
+    ['Banners', 'For the fence, the facade or the event', 'product.html?p=banners', 'kVyBrcJrcMh15bIZWtTFM/0bd6e6ab6105cd17fc76ef23f2561669/signs-pamels_banner.png'],
+    ['Signs and Panels', 'Weatherproof signs for your door and car park', '#panels-and-signs', '3isGabxYDEKUnXN3jA5Dc0/ea7ecb941cfd6bde972f36cb3d39226f/panelswithframe.png'],
+    ['Pavement Signs', 'Bring people in from the street', '#pavementsigns', '7EKOkxLUUo52TtEimlXW9Y/9ccb2b2a970a9eac75b6ef10c2ac46ef/pavement_signs.webp'],
+  ].map(([t, p, href, img]) => `<a href="${href}"><span class="thumb"><img src="${CF + img}?w=400&fm=webp&q=80" alt="" loading="lazy"></span><b>${t}</b><p>${p}</p></a>`).join('');
+  updatePrices();
+
+  // Reviews: the shared feed, as on the home and the category pages
+  const revs = document.querySelector('.mp .d-reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `<div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+    <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+      <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+  // <base> points at prototype/, so "#…" links would leave this page: scroll to the section here, other anchors do nothing
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a || e.defaultPrevented) return;
+    e.preventDefault(); document.getElementById(a.getAttribute('href').slice(1))?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Sticky CTA (mobile): on once the hero buttons are out of view
+  new IntersectionObserver(([e]) => document.getElementById('stickyCta').classList.toggle('on', !e.isIntersecting && e.boundingClientRect.top < 0))
+    .observe(document.getElementById('heroCta'));
+
+  // Blocks: show each section's marketingSection type and variant (?ann=1 opens with them on)
+  const annBtn = document.getElementById('annToggle');
+  const setAnn = on => { document.documentElement.classList.toggle('ann', on); annBtn.classList.toggle('on', on); };
+  setAnn(new URLSearchParams(location.search).get('ann') === '1');
+  annBtn.addEventListener('click', () => setAnn(!document.documentElement.classList.contains('ann')));
+</script>
+</body>
+</html>

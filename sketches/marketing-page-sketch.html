@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketing Page Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<!-- Sketch (not linked): pages from a prompt. Step 1 = the home as a template with fixed blocks, and one page as an md file
+     (hospitality.md, next to this file). The generator writes the md; a renderer builds the page from design-system blocks. -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 var(--t-14)/var(--lh-14) Inter, sans-serif; color: var(--black); background: var(--white); }
+  a { color: var(--link); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.3px; color: var(--dark-green); }
+  h2 { margin: 48px 0 8px; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -.2px; color: var(--dark-green); }
+  h3 { font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .lead { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .note { max-width: 760px; margin-bottom: 16px; color: var(--dark-grey); }
+  b { color: var(--black); }
+
+  /* The flow: four steps */
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+  .step { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .step small { display: block; margin-bottom: 8px; font-weight: 700; font-size: var(--t-12); line-height: var(--lh-12); color: var(--light-green); }
+  .step p { margin-top: 8px; color: var(--dark-grey); }
+  .step code, li code, .blk code { font-size: var(--t-12); color: var(--dark-green); }
+
+  /* Options A/B/C */
+  .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .opt { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .opt.pick { border: 2px solid var(--light-green); }
+  .opt p { margin-top: 8px; color: var(--dark-grey); }
+  .tag { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: var(--r-s); background: var(--light-green); font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--white); vertical-align: 2px; }
+
+  /* Block inventory */
+  .blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .blk { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .blk p { margin-top: 8px; color: var(--dark-grey); }
+
+  /* The md file + outline */
+  .md { display: grid; grid-template-columns: 1fr 280px; gap: 16px; align-items: start; }
+  pre { max-height: 640px; overflow: auto; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font: 400 var(--t-12)/var(--lh-12) ui-monospace, Menlo, monospace; white-space: pre-wrap; }
+  .outline { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); }
+  .outline ol { margin: 8px 0 0 16px; }
+  .outline li { margin-bottom: 8px; }
+  .outline li span { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+
+  ul.list { max-width: 760px; margin-left: 16px; }
+  ul.list li { margin-bottom: 8px; }
+
+  @media (max-width: 1023px) {
+    .flow, .opts, .blocks { grid-template-columns: 1fr 1fr; }
+    .md { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 599px) { .flow, .opts, .blocks { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pages from a prompt: step 1, a category page</h1>
+  <p class="lead">The test: the <b>Hospitality</b> category page, written as an md spec and built only from the blocks of the
+    category template (<code>promotional.html</code>). First try was the home as template; Cornel (11-14): the category template holds much more,
+    and this is an ordinary category page, not a marketing page. The special marketing page comes next, from Figma, with another subject.</p>
+
+  <h2>How it works</h2>
+  <div class="flow">
+    <div class="step"><small>1 · Brief</small><h3>One line or a short md</h3><p>"Category page Hospitality, en-ie: bars, restaurants, hotels, events."</p></div>
+    <div class="step"><small>2 · Generator (skill)</small><h3>Writes <code>hospitality.md</code></h3><p>Picks blocks from the template, writes the copy, picks real products from live, writes image prompts. Never HTML or CSS.</p></div>
+    <div class="step"><small>3 · Renderer</small><h3>One page, every md</h3><p><code>category.html?page=hospitality</code> builds the page with the design-system classes. Mobile and desktop from the same md.</p></div>
+    <div class="step"><small>4 · Check</small><h3>Ready or not</h3><p>Tokens only, 8px grid, block rules (title ±35 chars…), no helloprint.com links, noindex, measured at 390 and 1512.</p></div>
+  </div>
+
+  <h2>Where the page lives</h2>
+  <p class="note">What the generator writes, and what you and the team read and change.</p>
+  <div class="opts">
+    <div class="opt pick"><h3>A · One md file per page <span class="tag">My pick</span></h3>
+      <p>Front matter (theme, audience, tone) + one <code>## block</code> section per block. Readable for marketers, easy to change by hand,
+        the rules sit as comments next to each block. Small parser in the renderer.</p></div>
+    <div class="opt"><h3>B · JSON per page</h3>
+      <p>Strict and easy to validate, but nobody wants to edit it by hand, and copy in JSON is hard to read. Fine as the parser's output, not as the source.</p></div>
+    <div class="opt"><h3>C · Only the brief, generated on the fly</h3>
+      <p>No file in between: each render asks the model again. Different every time, nothing to review or version. Not for a page we want to hand over.</p></div>
+  </div>
+
+  <h2>The category template's blocks</h2>
+  <p class="note">From <code>prototype/promotional.html</code>. Every block except hero and seo can repeat; a block with a <code>tab:</code> gets a section tab.</p>
+  <div class="blocks">
+    <div class="blk"><h3>hero</h3><p><code>.hero</code>: crumbs, h1 = the category name, intro 1–2 sentences.</p></div>
+    <div class="blk"><h3>tabs</h3><p><code>.tabs</code>, sticky. Built from the blocks with <code>tab:</code> + <code>id:</code>, never written by hand.</p></div>
+    <div class="blk"><h3>feature</h3><p><code>.plp-feature</code>: promo card + exactly 6 tiles (3 rows of 2 on desktop). Card title ±35–60 chars, no text in the image.</p></div>
+    <div class="blk"><h3>products</h3><p><code>.types .product</code>: 5 or 10 (5 per row on desktop). Live products, live "N pieces for €X", badge only from live.</p></div>
+    <div class="blk"><h3>categories</h3><p><code>.plp-cats</code>: 4 or 5 grey tiles in one row (<code>.four</code> / <code>.five</code>); swipe row on mobile.</p></div>
+    <div class="blk"><h3>seo</h3><p><code>.about.cat-about</code>: 1–2 open paragraphs + 2–4 folded questions, 250–500 words.</p></div>
+  </div>
+
+  <h2>The page as md: <a href="../prototype/pages/hospitality.md">pages/hospitality.md</a></h2>
+  <p class="note">Structure, products, prices and photos as the live en-ie hospitality page (2026-11-14); intro, card titles and SEO text rewritten. Rendered: <a href="../prototype/category.html?page=hospitality">category.html?page=hospitality</a>.</p>
+  <div class="md">
+    <pre id="md">Loading pages/hospitality.md…</pre>
+    <div class="outline"><h3>Page order</h3>
+      <ol>
+        <li>Hero<span>"Printed Hospitality Products" + intro</span></li>
+        <li>Tabs<span>8, one per section</span></li>
+        <li>Feature: Bar &amp; Restaurant<span>card + 6 tiles</span></li>
+        <li>Products: Bestsellers<span>10 (the live 8 + 2 menus)</span></li>
+        <li>Products: Takeaway<span>5</span></li>
+        <li>Feature: Hotel<span>card + 6 tiles</span></li>
+        <li>Categories: Outdoor<span>5 tiles</span></li>
+        <li>Feature: Event<span>card + 6 tiles</span></li>
+        <li>Products: Promotions<span>5</span></li>
+        <li>Categories: Workwear<span>5 tiles</span></li>
+        <li>SEO<span>2 paragraphs + 3 questions</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>Left out of live</h2>
+  <ul class="list">
+    <li><b>The 3 promo cards on top</b> (Bar &amp; Restaurant, Hotel, Event): the template has no such row, and the 3 features below show the same.</li>
+    <li><b>"Best Price For Corporate Gift…"</b> under the features on live: copy from another page, left out.</li>
+  </ul>
+
+  <h2>Next steps</h2>
+  <ul class="list">
+    <li><b>1.</b> Done (11-14): <code>prototype/category.html?page=hospitality</code> from <code>pages/hospitality.md</code>, category template only, no new CSS.</li>
+    <li><b>2.</b> Turn it into a skill: brief in → md + check out. Try a second category without help to see if it holds.</li>
+    <li><b>3.</b> The special marketing page: Cornel's Figma design → its own template and blocks, another subject.</li>
+  </ul>
+</div>
+<script>
+  fetch('../prototype/pages/hospitality.md').then(r => r.text()).then(t => { document.getElementById('md').textContent = t; })
+    .catch(() => { document.getElementById('md').textContent = 'Open via the local server to see the file.'; });
+</script>
+</body>
+</html>

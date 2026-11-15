@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="../prototype/">
+<title>Feile Block Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=badge,flag,signpost&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+<!-- Sketch (not linked), 2026-11-15: the "Hosting Féile?" block of the GAA page (prototype/gaa-club-printing.html). Now: title,
+     intro and 3 items with titles all centred, the button under them, the photo last. Three alternatives with the marketing page parts
+     (real CSS via <base>); the only CSS below is the sketch chrome and, for A and C, the spacing of the card row under the head. -->
+<script>if (matchMedia('(min-width: 1024px)').matches) document.documentElement.classList.add('desk');</script>
+<style>
+  body { background: var(--white); }
+  .sk-head { width: calc(100% - 32px); max-width: 1286px; margin: 32px auto 0; }
+  .desk .sk-head { width: calc(100% - 48px); }
+  .sk-head h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); color: var(--dark-green); }
+  .sk-head p { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .sk-opt { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .sk-opt .pick { margin-left: 8px; padding: 2px 8px; border-radius: var(--r-s); background: var(--light-green); color: var(--white); font-size: var(--t-12); }
+  .sk-opt small { display: block; margin-top: 4px; font-weight: 400; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  main.cat-page { padding-top: 32px; padding-bottom: 32px; }
+  /* A and C: the card row and the button under the centred head (and under the photo in A): 16 mobile, 32 desktop */
+  .feile-cards + .btn-row { justify-content: center; margin-top: 0; }   /* mobile: the hero's 16 gap does it */
+  .desk .feile-cards, .desk .feile-cards + .btn-row { margin-top: 32px; }   /* desktop: 32, as the photo under the head */
+  /* A: lower on the page the photo is a banner, 3:1 (the IE image brief's banner ratio); 16:9 stays for the page head */
+  .desk .hero.media.center.banner .hero-img { aspect-ratio: 3 / 1; }
+</style>
+</head>
+<body>
+
+<div class="sk-head">
+  <h1>The Féile block: three better ways</h1>
+  <p>Now: title, intro and three items with their own titles all centred, the button under the list, the photo last. Centred running text has no
+    steady left edge, the three jobs read as one paragraph, and the photo comes after the action.</p>
+</div>
+
+<!-- ═════════ A ═════════ -->
+<div class="sk-head"><p class="sk-opt">A · Short centred head, the photo, then the three jobs as cards <span class="pick">My pick</span>
+  <small>Centre only what is short (title + 2 lines). The photo sets the scene (the welcome at the gate) as a 3:1 banner, the image brief's banner ratio, so the cards stay close. The jobs become a row of three
+  scannable text cards, left-aligned inside, each with its products. The button closes the block, centred, as the head.</small></p></div>
+<main class="cat-page plp promo-e marketing">
+  <section class="hero media center banner">
+    <div class="intro">
+      <h2>Hosting Féile? What the Host Club Needs</h2>
+      <p>Visiting teams arrive at a club they have never seen. Make it easy and make it memorable. Hosting a Go Games blitz for the under-7s to under-12s? The same list works, on a smaller scale.</p>
+    </div>
+    <div class="hero-img" title="Image: a Fáilte banner at a club gate with visiting teams arriving"></div>
+    <div class="hc-topics feile-cards" data-cards></div>
+    <div class="btn-row"><a class="btn outline" href="#banner-printing">Shop banners</a></div>
+  </section>
+</main>
+
+<!-- ═════════ B ═════════ -->
+<div class="sk-head"><p class="sk-opt">B · Split: photo left, everything left-aligned
+  <small>The content row as a section, as fundraising and hurling above it: calm and easy to read, but the page then has four splits
+  in a row and loses rhythm.</small></p></div>
+<main class="cat-page plp promo-e marketing">
+  <section>
+    <div class="so-rows">
+      <article class="so-row section">
+        <div class="so-img" title="Image: a Fáilte banner at a club gate with visiting teams arriving"></div>
+        <div class="so-txt">
+          <h2>Hosting Féile? What the Host Club Needs</h2>
+          <p>Visiting teams arrive at a club they have never seen. Make it easy and make it memorable. Hosting a Go Games blitz for the under-7s to under-12s? The same list works, on a smaller scale.</p>
+          <h3>The welcome</h3><p>A Fáilte banner at the gate and a flag for every visiting club: <a href="#banners">banners</a>, <a href="#flagcustomsize">flags</a>.</p>
+          <h3>Finding the pitch</h3><p>Signs from the car park, a programme with the fixtures and the map: <a href="#correxsigns">correx signs</a>, <a href="#booklets">programmes</a>.</p>
+          <h3>Who's who</h3><p>Lanyards for host-family parents and mentors, wristbands for the teams: <a href="#lanyardbuckleandsafetyclip">safety lanyards</a>, <a href="#tyvekonesheetof10wristbands">wristbands</a>.</p>
+          <a class="pill" href="#banner-printing">Shop banners</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<!-- ═════════ C ═════════ -->
+<div class="sk-head"><p class="sk-opt">C · Centred head and the three cards, no photo
+  <small>The tightest: one look and you know the three jobs. But the block loses its picture, and the board asks for the welcome
+  moment; next to "The road to the final" (also cards, no photo) it would feel repeated.</small></p></div>
+<main class="cat-page plp promo-e marketing">
+  <section class="hero media center">
+    <div class="intro">
+      <h2>Hosting Féile? What the Host Club Needs</h2>
+      <p>Visiting teams arrive at a club they have never seen. Make it easy and make it memorable. Hosting a Go Games blitz for the under-7s to under-12s? The same list works, on a smaller scale.</p>
+    </div>
+    <div class="hc-topics feile-cards" data-cards></div>
+    <div class="btn-row"><a class="btn outline" href="#banner-printing">Shop banners</a></div>
+  </section>
+</main>
+
+<script>
+  // The three jobs as text cards (icon, title, text, the products as links), as the library's text card
+  const L = (t, h) => `<a class="link" href="${h}">${t}</a>`;
+  const CARDS = [
+    ['flag', 'The welcome', `A Fáilte banner at the gate and a flag for every visiting club: ${L('banners', '#banners')}, ${L('flags', '#flagcustomsize')}.`],
+    ['signpost', 'Finding the pitch', `Signs from the car park, a programme with the fixtures and the map: ${L('correx signs', '#correxsigns')}, ${L('programmes', '#booklets')}.`],
+    ['badge', "Who's who", `Lanyards for host-family parents and mentors, wristbands for the teams: ${L('safety lanyards', '#lanyardbuckleandsafetyclip')}, ${L('wristbands', '#tyvekonesheetof10wristbands')}.`],
+  ];
+  document.querySelectorAll('[data-cards]').forEach(el => el.innerHTML = CARDS.map(([i, t, p]) =>
+    `<div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${i}</span><span class="hc-card-h">${t}</span><p class="hc-quick-p">${p}</p></div>`).join(''));
+  // <base> points at prototype/: anchors do nothing here
+  document.addEventListener('click', e => { if (e.target.closest('a[href^="#"]')) e.preventDefault(); });
+</script>
+</body>
+</html>

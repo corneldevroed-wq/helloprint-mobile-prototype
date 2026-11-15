@@ -367,6 +367,10 @@ const ROUTES = {
   'businesscards-printing': 'business-cards.html',
   // Promotional Print hub (home category card, menu, breadcrumbs)
   'promotional-printing': 'promotional.html', 'promotional-products': 'promotional.html',
+  // About us + Our culture (marketing pages, rebuilt from live with library components only)
+  'about-us': 'about-us.html', 'our-culture': 'our-culture.html', 'gaa-club-printing': 'gaa-club-printing.html', 'rugby-club-printing': 'rugby-club-printing.html', 'storm-flags': 'storm-flags.html',
+  // Hospitality category page, built from pages/hospitality.md (home category card, menu, mobile drawer)
+  'catering-and-hospitality-printing': 'category.html?page=hospitality', 'hospitality': 'category.html?page=hospitality',
   // Flyers category page (home chips, menu, search, the flyer product's breadcrumb)
   'flyers': 'flyers.html', 'flyer': 'flyers.html', 'flyers-printing': 'flyers.html', 'leaflet-printing': 'flyers.html',
   // Business card product pages (product.html renders each type from products.js);

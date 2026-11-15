@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HelloPrint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127y">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127y">
+<link rel="stylesheet" href="pages.css?v=20261127y">
+</head>
+<body data-desktop>
+<!-- Category page from a page spec (2026-11-14, test; sketches/marketing-page-sketch.html): category.html?page=<slug> reads
+     pages/<slug>.md and builds it with the category template's blocks (the markup of promotional.html, no CSS of its own).
+     The generator writes the md, never HTML or CSS. A block type the template doesn't know is skipped with a console warning. -->
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="cat-page plp promo-e" id="page">
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261127y"></script>
+<script src="../design-system/components.js?v=20261127y"></script>
+<script>
+  // --- The page spec: front matter + `## block` sections (syntax at the top of pages/hospitality.md) ---
+  function parsePage(md) {
+    md = md.replace(/<!--[\s\S]*?-->/g, '');
+    const page = { meta: {}, blocks: [] };
+    const fm = md.match(/^---\n([\s\S]*?)\n---\n/);
+    if (fm) {
+      fm[1].split('\n').forEach(l => { const i = l.indexOf(':'); if (!/^\s*#/.test(l) && i > 0) page.meta[l.slice(0, i).trim()] = l.slice(i + 1).trim(); });
+      md = md.slice(fm[0].length);
+    }
+    let b = null, list = null, item = null, text = null, m;
+    for (const raw of md.split('\n')) {
+      if (text) { if (raw.startsWith('  ') || !raw.trim()) { b[text].push(raw.slice(2)); continue; } b[text] = b[text].join('\n').trim(); text = null; }
+      const l = raw.trimEnd();
+      if ((m = l.match(/^## (.+)/))) { b = { type: m[1].trim() }; page.blocks.push(b); list = item = null; continue; }
+      if (!b || !l.trim()) continue;
+      if ((m = l.match(/^- (.*)/))) {
+        list = list || (b.items = b.items || []);
+        const kv = m[1].match(/^([\w-]+): (.*)/);
+        item = kv ? { [kv[1]]: kv[2] } : null; list.push(item || m[1]); continue;
+      }
+      if (item && (m = l.match(/^ {2}([\w-]+): (.*)/))) { item[m[1]] = m[2]; continue; }
+      if ((m = l.match(/^([\w-]+):\s*(.*)/))) {
+        item = null;
+        if (m[2] === '|') { text = m[1]; b[text] = []; list = null; }
+        else if (!m[2]) list = b[m[1]] = [];
+        else { b[m[1]] = m[2]; list = null; }
+      }
+    }
+    if (text) b[text] = b[text].join('\n').trim();
+    return page;
+  }
+  const h = t => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const rich = t => h(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');   // **bold** in answers
+  const cf = (src, w) => `${h(src)}?w=${w}&amp;fm=webp&amp;q=80`;   // a live Contentful image at the size the block needs
+  const target = b => b.id ? ` id="${h(b.id)}" data-tab-target` : '';
+
+  // --- The category template's blocks: the markup of promotional.html, filled from the spec ---
+  // Category tile. Desktop: the grey card (title top left, image right, grey arrow); mobile: the home category card, as a swipe row.
+  const catTile = c => DESK
+    ? `<a class="dc-card" href="${h(c.href)}"><span class="dc-t">${h(c.title)}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${cf(c.src, 240)}" alt="" loading="lazy"></span></a>`
+    : `<a class="cat" href="${h(c.href)}"><div class="collage"><img src="${cf(c.src, 240)}" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${h(c.title)}</p></a>`;
+  const cats = (items, mod = '') => `<div class="plp-cats${mod}${DESK ? '' : ' hscroll cats'}">${(items || []).map(catTile).join('')}</div>`;
+  const productTile = s => {
+    const [name, qty, price, href, src, badge] = s.split('|').map(x => x.trim());
+    return `<a class="product" href="${h(href)}">
+      <div class="thumb" style="background:var(--light-grey)"><img src="${cf(src, 400)}" alt="" loading="lazy">${badgeHtml(badge && h(badge))}</div>
+      <p class="name">${h(name)}</p>
+      <div><p class="from">${+qty > 1 ? h(qty) + ' pcs from' : 'From'}</p><p class="prices"><span class="price" data-price="${h(price)}"></span></p></div></a>`;
+  };
+
+  const BLOCKS = {
+    hero: b => `<section class="hero"><p class="crumbs"><a href="index.html">Home</a> / ${h(b.crumb || b.h1)}</p>
+      <div class="intro"><h1>${h(b.h1)}</h1>${b.intro ? `<p>${h(b.intro)}</p>` : ''}</div></section>`,
+
+    feature: b => `<section${target(b)} class="plp-feature">
+      <a class="pc" href="${h(b.href)}"><span class="pc-img"><img src="${cf(b.src, 900)}" alt=""></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">${h(b.title)}</strong></span><span class="pc-cta pill">${h(b.cta || 'Shop now')}</span></span></a>
+      ${cats(b.items)}</section>`,
+
+    products: b => `<section${target(b)}><h2>${h(b.title)}</h2><div class="types">${(b.items || []).map(productTile).join('')}</div></section>`,
+
+    // 4 or 5 tiles: one row on desktop (.four / .five)
+    categories: b => `<section${target(b)}><h2>${h(b.title)}</h2>${cats(b.items, (b.items || []).length === 5 ? ' five' : ' four')}</section>`,
+
+    // SEO: the open paragraphs, then the questions folded (the PDP accordion)
+    seo: b => `<section class="about cat-about"><h2>${h(b.h2)}</h2>${(b.text || '').split(/\n\s*\n/).map(p => `<p>${rich(p.replace(/\s*\n\s*/g, ' '))}</p>`).join('')}
+      ${b.faq ? `<div class="acc oc-faq promo-seo">${b.faq.map(f => `<details><summary>${h(f.q)}<img src="assets/chevron.svg" alt=""></summary><p>${rich(f.a)}</p></details>`).join('')}</div>` : ''}</section>`,
+  };
+
+  // --- Render ---
+  const pageSlug = new URLSearchParams(location.search).get('page') || 'hospitality';
+  const main = document.getElementById('page');
+  fetch(`pages/${encodeURIComponent(pageSlug)}.md`).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(md => {
+    const page = parsePage(md);
+    document.title = page.meta.title || pageSlug;
+    // Section tabs: one per block with a tab, right under the hero
+    const tabs = page.blocks.filter(b => b.tab && b.id);
+    const html = page.blocks.map(b => BLOCKS[b.type] ? BLOCKS[b.type](b) : (console.warn(`category.html: no block "${b.type}" in the category template`), ''));
+    if (tabs.length) html.splice(page.blocks.findIndex(b => b.type === 'hero') + 1, 0,
+      `<nav class="tabs" id="tabs" aria-label="Sections">${tabs.map((b, i) => `<a href="#${h(b.id)}" data-tab-link="${h(b.id)}"${i ? '' : ' class="active"'}>${h(b.tab)}</a>`).join('')}</nav>`);
+    main.insertAdjacentHTML('afterbegin', html.join(''));
+    updatePrices();
+
+    // Section tabs, as on promotional.html: click scrolls to the section, the active tab follows the scroll position
+    const tabLinks = [...main.querySelectorAll('#tabs a')], targets = [...main.querySelectorAll('[data-tab-target]')];
+    if (!targets.length) return;
+    main.addEventListener('click', e => {
+      const a = e.target.closest('[data-tab-link]'); if (!a) return;
+      e.preventDefault(); document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
+    });
+    addEventListener('scroll', () => {
+      const line = DESK ? 200 : 150;
+      let current = targets[0];
+      for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);
+      tabLinks.forEach(a => {
+        const on = a.dataset.tabLink === current.id;
+        if (on && !a.classList.contains('active')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        a.classList.toggle('active', on);
+      });
+    }, { passive: true });
+  }).catch(e => { main.insertAdjacentHTML('afterbegin', `<section class="hero"><div class="intro"><h1>No page "${h(pageSlug)}"</h1><p>pages/${h(pageSlug)}.md could not be loaded (${h(e.message)}).</p></div></section>`); });
+</script>
+</body>
+</html>
