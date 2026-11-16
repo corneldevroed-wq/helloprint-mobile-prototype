@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261128l">
-<link rel="stylesheet" href="components.css?v=20261128l">
-<link rel="stylesheet" href="guide.css?v=20261128l">
+<link rel="stylesheet" href="tokens.css?v=20261128m">
+<link rel="stylesheet" href="components.css?v=20261128m">
+<link rel="stylesheet" href="guide.css?v=20261128m">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -62,6 +62,8 @@
   .icon-grid figure { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
   .icon-grid img { width: 50px; height: 50px; }
   .icon-grid .tick { color: var(--light-green); }
+  .ic-rows { display: flex; flex-direction: column; gap: 16px; width: 100%; } .ic-fam { font-size: 12px; line-height: 17px; font-weight: 600; color: var(--black); }
+  .ic-rows.ui .icon-grid img { width: 40px; height: 40px; padding: 8px; background: var(--light-grey); border-radius: var(--r-s); } .ic-rows.ui img[src$="bag.svg"] { background: var(--dark-green); }   /* the bag is white, it sits on the green header */
 
   /* Mobile: sidebar becomes a drawer */
   @media (max-width: 900px) {
@@ -228,18 +230,20 @@
 
   // ---------- Icons ----------
   const icons = row({ name: 'Material icons', meta: [{ t: 'icons/materials' }, { t: '50px desktop · 40px mobile' }], wide: true,
-      use: 'A sheet with a folded corner, square corners, crisp 1px border, subtle gradient. One kind of icon per row, everywhere instead of swatches. Read live from <code>index.json</code>.',
+      use: 'A sheet with a folded corner, square corners, crisp 1px border, subtle gradient. One kind of icon per row, everywhere instead of swatches. Read live from <code>materials/index.json</code>; every other icon family from <code>icons/index.json</code>.',
       ex: stage('<div class="icon-grid" id="icMats"></div>') }) +
     row({ name: 'Option icons', wide: true, meta: [{ t: 'printing/e-* · pms-*' }, { t: 'corners' }, { t: 'bundling' }, { t: 'folds' }, { t: 'envelopes' }, { t: 'stickers' }],
       use: 'Show what you get: one square "1" or two stacked "2" for printing (spot colours: one round ink dot per PMS colour under the number), the black L corner, a stack with a paper band for bundling, the card opened flat with the fold as a dashed line (its shape as a size), the card alone or the closed envelope, a sticker shape with its corner peeled (the back grey). Films are materials (the sheet with a folded corner): transparent as a checkerboard, eco as a small light-green leaf.',
-      ex: stage('<div class="icon-grid">' + [['printing/e-single', 'Single-sided'], ['printing/e-double', 'Double-sided'], ['printing/pms-1-single', '1 PMS · single'], ['printing/pms-2-double', '2 PMS · double'], ['printing/pms-3-single', '3 PMS · single'],
-        ['corners/straight', 'Straight'], ['corners/rounded', 'Rounded'], ['bundling/not-bundled', 'Not bundled'], ['bundling/per-50', 'Per 50'], ['materials/no-finishing', 'No finishing'],
-        ['folds/portrait', 'Portrait fold'], ['folds/landscape', 'Landscape fold'], ['folds/square', 'Square fold'], ['folds/tent', 'Tent fold'], ['envelopes/without', 'Without envelope'], ['envelopes/with', 'With envelope'], ['stickers/round', 'Round'], ['stickers/oval', 'Oval'], ['stickers/square', 'Square'], ['stickers/rounded', 'Rounded corners'], ['stickers/contour', 'Custom shape']].map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="">${n}</figure>`).join('') + '</div>') }) +
+      ex: stage('<div class="ic-rows" data-g="Option icons"></div>') }) +
     row({ name: 'Product kit icons', wide: true, meta: [{ t: 'rollup' }, { t: 'aboard' }, { t: 'tabletalkers' }, { t: 'folders' }, { t: 'notepads' }, { t: 'napkins' }],
       use: 'The product (or the part you choose) flat and front-on, one dark line, colour only where it is the choice (the stand, the cream napkin). Sizes are the same icon scaled. A glued edge is black; folds are dashed; a print area is grey; the spine width is a U seen from above. Named in the data as <code>icon</code> (path under icons/).',
-      ex: stage('<div class="icon-grid">' + [['rollup/size-85', 'Roller banner'], ['rollup/black', 'Black stand'], ['rollup/premium', 'Premium stand'], ['rollup/cardboard', 'Cardboard stand'], ['aboard/a1', 'A-board'],
-        ['tabletalkers/classic', 'Classic talker'], ['tabletalkers/triangle', 'Triangle talker'], ['folders/a4', 'Folder'], ['folders/spine-10', 'Spine 10 mm'], ['notepads/bind-top', 'Glued on top'], ['notepads/holes-2', '2 holes'],
-        ['napkins/cream', 'Cream napkin'], ['napkins/fold-8', '1/8 fold'], ['napkins/print-corner', 'Print in the corner']].map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="">${n}</figure>`).join('') + '</div>') }) +
+      ex: stage('<div class="ic-rows" data-g="Product kit icons"></div>') }) +
+    row({ name: 'Banner icons', wide: true, meta: [{ t: 'icons/banners' }, { t: '50px desktop · 40px mobile' }],
+      use: 'A landscape banner (grey, 1px border) with what you choose on it: the size scaled, the material as its surface, rings, hems or tunnels, the elastic bands.',
+      ex: stage('<div class="ic-rows" data-g="Banner icons"></div>') }) +
+    row({ name: 'Interface icons', wide: true, meta: [{ t: 'icons/*.svg' }, { t: '24px' }],
+      use: 'The SVG icons of the header, menus and forms (bag, account, help, close…). Line style, dark green or white on green.',
+      ex: stage('<div class="ic-rows ui" data-g="Interface icons"></div>') }) +
     row({ name: 'Line icons', meta: [{ t: 'Material Symbols Rounded' }, { t: '24px · weight 400' }],
       use: 'Google Material Symbols Rounded, line, the stroke of the header cart icon. Dark green on a 56px grey outlined tile (Help Centre topics).',
       ex: stage(['local_mall', 'upload', 'receipt', 'delivery_truck_speed', 'account_circle', 'error'].map(i => `<span class="material-symbols-rounded" style="font-size:24px;color:var(--dark-green)">${i}</span>`).join('')) }) +
@@ -579,6 +583,11 @@
   const cropIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { cropIO.unobserve(e.target); initCrop(e.target); } }), { rootMargin: '800px 0px' });
   document.querySelectorAll('.ds-crop').forEach(b => cropIO.observe(b));
   // Material icons: read the live list
+  // Every icon family, read live from icons/index.json (family → file → label), so a new icon shows up here without editing the guide
+  fetch('icons/index.json').then(r => r.json()).then(m => document.querySelectorAll('.ic-rows').forEach(el => {
+    el.innerHTML = Object.entries(m[el.dataset.g] || {}).map(([fam, files]) => `<p class="ic-fam">${fam}</p><div class="icon-grid">` +
+      Object.entries(files).map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('') + '</div>').join('');
+  }));
   fetch('icons/materials/index.json').then(r => r.json()).then(m => {
     document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
   });
@@ -589,6 +598,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261128l"></script>
+<script src="guide.js?v=20261128m"></script>
 </body>
 </html>

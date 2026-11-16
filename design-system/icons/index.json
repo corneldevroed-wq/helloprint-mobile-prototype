@@ -1,0 +1,142 @@
+{
+ "Option icons": {
+  "Printing": {
+   "printing/e-single": "Single-sided",
+   "printing/e-double": "Double-sided",
+   "printing/pms-1-single": "1 PMS · single",
+   "printing/pms-1-double": "1 PMS · double",
+   "printing/pms-2-single": "2 PMS · single",
+   "printing/pms-2-double": "2 PMS · double",
+   "printing/pms-3-single": "3 PMS · single",
+   "printing/pms-3-double": "3 PMS · double"
+  },
+  "Corners": {
+   "corners/straight": "Straight",
+   "corners/rounded": "Rounded"
+  },
+  "Bundling": {
+   "bundling/not-bundled": "Not bundled",
+   "bundling/per-250": "Per 250",
+   "bundling/per-100": "Per 100",
+   "bundling/per-50": "Per 50",
+   "bundling/per-25": "Per 25"
+  },
+  "Folds": {
+   "folds/portrait": "Portrait",
+   "folds/landscape": "Landscape",
+   "folds/square": "Square",
+   "folds/tent": "Tent"
+  },
+  "Envelopes": {
+   "envelopes/without": "Without envelope",
+   "envelopes/with": "With envelope"
+  },
+  "Sticker shapes": {
+   "stickers/round": "Round",
+   "stickers/oval": "Oval",
+   "stickers/square": "Square",
+   "stickers/rounded": "Rounded corners",
+   "stickers/contour": "Custom shape"
+  }
+ },
+ "Product kit icons": {
+  "Roller banners": {
+   "rollup/size-80": "80 × 200 cm",
+   "rollup/size-85": "85 × 200 cm",
+   "rollup/size-100": "100 × 200 cm",
+   "rollup/size-120": "120 × 200 cm",
+   "rollup/silver": "Silver stand",
+   "rollup/black": "Black stand",
+   "rollup/premium": "Premium stand",
+   "rollup/cardboard": "Cardboard stand"
+  },
+  "A-boards": {
+   "aboard/a2": "A2",
+   "aboard/a1": "A1",
+   "aboard/b2": "B2",
+   "aboard/b1": "B1"
+  },
+  "Table talkers": {
+   "tabletalkers/classic": "Classic",
+   "tabletalkers/triangle": "Triangle, large",
+   "tabletalkers/triangle-m": "Triangle, medium",
+   "tabletalkers/triangle-s": "Triangle, small"
+  },
+  "Presentation folders": {
+   "folders/a4": "A3 folded to A4",
+   "folders/a5": "A4 folded to A5",
+   "folders/spine-1": "Spine 1 mm",
+   "folders/spine-5": "Spine 5 mm",
+   "folders/spine-10": "Spine 10 mm",
+   "folders/spine-15": "Spine 15 mm"
+  },
+  "Notepads and booklets": {
+   "notepads/bind-left": "Glued on the left",
+   "notepads/bind-top": "Glued on top",
+   "notepads/holes-0": "No holes",
+   "notepads/holes-2": "2 holes",
+   "notepads/holes-4": "4 holes",
+   "notepads/self-cover": "Self cover"
+  },
+  "Napkins": {
+   "napkins/white": "White",
+   "napkins/cream": "Cream",
+   "napkins/fold-4": "1/4 fold",
+   "napkins/fold-8": "1/8 fold",
+   "napkins/print-allover": "Print all over",
+   "napkins/print-lower-half": "Lower half",
+   "napkins/print-corner": "Corner",
+   "napkins/print-quarter-aligned": "In the quarter",
+   "napkins/print-quarter": "Quarter"
+  }
+ },
+ "Banner icons": {
+  "Size": {
+   "banners/size-150x100": "150 × 100 cm",
+   "banners/size-200x100": "200 × 100 cm",
+   "banners/size-300x100": "300 × 100 cm"
+  },
+  "Material": {
+   "banners/mat-premium": "Premium PVC",
+   "banners/mat-budget": "Budget PVC",
+   "banners/mat-mesh": "Windproof mesh",
+   "banners/mat-rpet": "Recycled RPET",
+   "banners/mat-blockout": "Blockout PVC"
+  },
+  "Finishing": {
+   "banners/fin-trimmed": "Trimmed",
+   "banners/fin-rings-30": "Rings every 30 cm",
+   "banners/fin-rings-corners": "Rings in the corners",
+   "banners/fin-rings-30-plain": "Rings every 30 cm, plain",
+   "banners/fin-rings-corners-plain": "Rings in corners, plain",
+   "banners/fin-tunnel-left": "Tunnel left",
+   "banners/fin-tunnel-sides": "Tunnel both sides",
+   "banners/fin-tunnel-top": "Tunnel top & bottom"
+  },
+  "Elastic bands": {
+   "banners/bands-without": "Without",
+   "banners/bands-with": "With elastic bands"
+  }
+ },
+ "Interface icons": {
+  "Header and menus": {
+   "arrow-forward-green": "arrow forward green",
+   "bag": "bag",
+   "call": "call",
+   "chat": "chat",
+   "chevron-down": "chevron down",
+   "close": "close",
+   "help": "help",
+   "home": "home",
+   "location-on": "location on",
+   "logout": "logout",
+   "mail": "mail",
+   "package-2": "package 2",
+   "person": "person",
+   "receipt-long": "receipt long",
+   "request-quote": "request quote",
+   "support-agent": "support agent",
+   "tree": "tree"
+  }
+ }
+}

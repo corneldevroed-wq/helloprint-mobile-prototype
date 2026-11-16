@@ -128,8 +128,8 @@ const PRODUCTS = {
     img: 'assets/category/t-pvc.png', priceMult: 3.1,
     groups: [
       { key: 'finish', title: 'Finish', items: [
-        { id: 'glossy', name: 'Glossy white', sub: '760 μ PVC', swatch: 'paper-glossy.svg', mult: 1, info: 'A shiny, white plastic card as sturdy as a credit card. Colours look bright and crisp.' },
-        { id: 'matte', name: 'Matte white', sub: '760 μ PVC', swatch: 'paper-matt.svg', mult: 1, info: 'The same sturdy plastic card with a calm, non-reflective surface. No fingerprints or glare.' },
+        { id: 'glossy', name: 'Glossy white', sub: '760 μ PVC', icon: 'materials/pvc-card-gloss', mult: 1, info: 'A shiny, white plastic card as sturdy as a credit card. Colours look bright and crisp.' },
+        { id: 'matte', name: 'Matte white', sub: '760 μ PVC', icon: 'materials/pvc-card-matt', mult: 1, info: 'The same sturdy plastic card with a calm, non-reflective surface. No fingerprints or glare.' },
       ]},
       cornersGroup('Rounded corners, just like a bank or loyalty card. Nice in the hand and they don\'t bend.'),
     ],

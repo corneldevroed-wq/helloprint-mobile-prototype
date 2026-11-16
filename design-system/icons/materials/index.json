@@ -35,7 +35,7 @@
  "rpet": "Recycled RPET",
  "polyester": "Glossy polyester",
  "blueback": "Blueback (poster paper)",
- "neon": "Neon (fluorescent)",
+ "neon": "Neon yellow (fluorescent)",
  "multilayer": "Multilayer (coloured core)",
  "wood": "Wood",
  "film-white-gloss": "White film, gloss",
@@ -44,5 +44,15 @@
  "film-white-eco": "White film, eco (Natureflex, PVC-free vinyl)",
  "film-clear-eco": "Transparent film, eco (Natureflex)",
  "airlaid": "Airlaid (napkins, feels like textile)",
- "tissue": "Tissue (napkins)"
+ "tissue": "Tissue (napkins)",
+ "neon-green": "Neon green",
+ "neon-orange": "Neon orange",
+ "neon-pink": "Neon pink",
+ "photo-paper": "Photo paper",
+ "dot-foil": "Sticky DOT foil (removable)",
+ "backlit": "Backlit polyester (light through it)",
+ "antique-white": "Off-white paper (antique white)",
+ "paperwise-white": "Paperwise white",
+ "pvc-card-gloss": "White PVC card, glossy",
+ "pvc-card-matt": "White PVC card, matte"
 }
