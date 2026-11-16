@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Christmas Printing: Cards, Gifts & Calendars | HelloPrint IE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261128k">
+<link rel="stylesheet" href="../design-system/components.css?v=20261128k">
+<link rel="stylesheet" href="pages.css?v=20261128k">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- Christmas (PLP), 2026-11-16 (Cornel: "exactly the same as Black Friday"): the recipe of black-friday.html, content from live
+       helloprint.com/en-ie/christmas. One page type, the PLP of promotional.html, no new blocks and no new CSS.
+       Title + intro (the last order date for Christmas) → tabs → 2 promo cards (.pb-duo) → Cards & invitations (5) →
+       Corporate gifts (5) → Calendars & decorations (5) → Your shop at Christmas (content row + 5) → reviews → FAQ → SEO text.
+       Regular prices (no deal). The products carry Christmas: every product a transparent cutout with one design (deep pine
+       green, "Merry Christmas" in a hand-lettered white script, one small gold foil star; wood engraved with the same script;
+       Cornel chose A in sketches/christmas-style-sketch.html), on our grey
+       tile; promo cards as close-ups on deep green (Higgsfield gpt_image_2_6, assets/christmas). -->
+  <main class="cat-page plp promo-e">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / Christmas</p>
+      <div class="intro">
+        <h1>Christmas Printing</h1>
+        <p>Christmas cards, client gifts and calendars with your logo, and everything to get your shop ready for the season. Order by Thursday 17 December for delivery before Christmas.</p>
+      </div>
+    </section>
+
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#cards" data-tab-link="cards" class="active">Cards &amp; invitations</a>
+      <a href="#gifts" data-tab-link="gifts">Gifts</a>
+      <a href="#calendars" data-tab-link="calendars">Calendars &amp; decorations</a>
+      <a href="#shop" data-tab-link="shop">Your shop at Christmas</a>
+    </nav>
+
+    <section class="hscroll pb pb-duo">
+      <a class="pc" href="#cards"><span class="pc-img"><img src="assets/christmas/promo-cards.jpg?v=2" alt="" style="object-position:80% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Send Joy, One Card at a Time</strong><span class="pc-s">Christmas cards with your own design, from 10 pieces.</span></span><span class="pc-cta pill">Shop Christmas cards</span></span></a>
+      <a class="pc" href="#gifts"><span class="pc-img"><img src="assets/christmas/promo-gifts.jpg?v=2" alt="" style="object-position:80% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Gifts That Impress and Last</strong><span class="pc-s">Premium presents for clients and staff, with your logo.</span></span><span class="pc-cta pill">Shop gifts</span></span></a>
+    </section>
+
+    <section id="cards" data-tab-target>
+      <h2>Christmas Cards &amp; Invitations</h2>
+      <div class="types" id="cardGrid"></div>
+    </section>
+
+    <section id="gifts" data-tab-target>
+      <h2>Corporate Christmas Gifts</h2>
+      <div class="types" id="giftGrid"></div>
+    </section>
+
+    <section id="calendars" data-tab-target>
+      <h2>Calendars &amp; Decorations</h2>
+      <div class="types" id="calGrid"></div>
+    </section>
+
+    <section id="shop" data-tab-target>
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"><img src="assets/christmas/shop-window.jpg?v=2" alt="A shop window dressed for Christmas with green window stickers, gift bags and wrapped boxes" loading="lazy"></div>
+          <div class="so-txt">
+            <h2>Get Your Store Ready for Christmas</h2>
+            <p>Wrap every purchase in your brand: gift bags, boxes and labels for the counter, and window stickers that bring the Christmas shoppers in.</p>
+            <a class="pill" href="#packaging">Shop packaging &amp; display</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="packaging">
+      <h2>Christmas Packaging &amp; Display</h2>
+      <div class="types" id="shopGrid"></div>
+    </section>
+
+    <section class="d-reviews"><h2>What our customers say</h2></section>
+
+    <section>
+      <h2>Christmas Printing: Frequently Asked Questions</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <!-- SEO text (live intro): open intro, the rest folded (as promotional.html) -->
+    <section class="about cat-about">
+      <h2>Personalised Christmas Printing</h2>
+      <p>The holiday season has arrived! We have everything you need to make this time extra magical. From Christmas cards to gifts, and from hospitality print to packaging, with your own design or one of our templates.</p>
+      <div class="acc oc-faq promo-seo">
+        <details><summary>Which Christmas products can I personalise?<img src="assets/chevron.svg" alt=""></summary>
+          <p>Christmas cards, invitations and music cards, vouchers, corporate gifts such as wine gift sets, chopping boards, writing sets, backpacks and mugs, wall, desk and advent calendars, Christmas hats and decorations, and gift bags, boxes, labels and window stickers.</p>
+        </details>
+        <details><summary>How early should I order Christmas cards?<img src="assets/chevron.svg" alt=""></summary>
+          <p>Order cards you post to clients by early December, so they arrive with time to spare. Every product page shows the estimated delivery date and the latest date before you pay.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261128k"></script>
+<script src="../design-system/components.js?v=20261128k"></script>
+<script src="products.js?v=20261128k"></script>
+<script>
+  // Every product: its Christmas cutout and a live price; products we have a page for open it with its own price,
+  // the rest stay anchors like everywhere in the prototype.
+  const XM = 'assets/christmas/';
+  const ours = slug => { const p = PRODUCTS[slug]; return { href: p.href, qty: p.defaultQty, price: fromPrice(p) }; };
+  const tile = ({ name, img, href, qty, price, badge }) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)">
+        <img src="${XM + img}.webp?v=2" alt="" loading="lazy">
+        ${badgeHtml(badge)}
+      </div>
+      <p class="name">${name}</p>
+      <div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
+    </a>`;
+  const fill = (id, list) => { document.getElementById(id).innerHTML = list.map(tile).join(''); };
+
+  fill('cardGrid', [
+    { name: 'Christmas Cards', img: 'christmas-cards', href: '#christmascards', qty: 10, price: 22.99, badge: 'Most Popular' },
+    { name: 'Christmas Invitations', img: 'invitations', href: '#christmas-invitations', qty: 10, price: 13.29 },
+    { name: 'Music Cards', img: 'music-card', href: '#musiccards', qty: 10, price: 163.99 },
+    { name: 'Christmas Vouchers', img: 'vouchers', href: '#christmas-vouchers', qty: 1000, price: 33.99 },
+    { name: 'Envelopes', img: 'envelopes', href: '#envelopes', qty: 100, price: 24.99 },
+  ]);
+  fill('giftGrid', [
+    { name: 'Wine Gift Sets', img: 'wine-gift-set', href: '#winegiftsets', qty: 10, price: 289.99 },
+    { name: 'Chopping Boards', img: 'chopping-board', href: '#choppingboards', qty: 25, price: 274.99 },
+    { name: 'Writing Sets', img: 'writing-set', href: '#writingsets', qty: 25, price: 189.99 },
+    { name: 'Backpacks', img: 'backpack', href: '#backpacks', qty: 10, price: 319.99 },
+    { name: 'Ceramic Mugs', img: 'mug', ...ours('ceramic-mug-330ml') },
+  ]);
+  fill('calGrid', [
+    { name: 'Wall Calendars', img: 'wall-calendar', href: '#calendars-printing', qty: 50, price: 114.99 },
+    { name: 'Desk Calendars', img: 'desk-calendar', href: '#deskcalendars', qty: 1, price: 19.29 },
+    { name: 'Advent Calendars', img: 'advent-calendar', href: '#adventcalendar', qty: 50, price: 189.99 },
+    { name: 'Christmas Hats', img: 'christmas-hat', href: '#christmas-hats', qty: 25, price: 64.99 },
+    { name: 'Christmas Baubles', img: 'baubles', href: '#other-christmas-gifts', qty: 50, price: 99.99 },
+  ]);
+  fill('shopGrid', [
+    { name: 'Christmas Gift Bags', img: 'gift-bag', href: '#christmas-bags', qty: 50, price: 89.99 },
+    { name: 'Gift Boxes', img: 'gift-box', href: '#giftboxes', qty: 50, price: 129.99 },
+    { name: 'Labels on Roll', img: 'labels', href: '#labels', qty: 1000, price: 52.99 },
+    { name: 'Tissue Paper', img: 'tissue-paper', href: '#tissuepaper', qty: 250, price: 79.99 },
+    { name: 'Window Stickers', img: 'window-sticker', href: '#windowstickers', qty: 1, price: 19.99 },
+  ]);
+  updatePrices();
+
+  const revs = document.querySelector('.d-reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `<div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+    <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+      <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+  const FAQS = [
+    ['What is the last order date for delivery before Christmas?', 'Thursday 17 December for most products with Standard delivery. Every product page shows the estimated delivery date and the latest date before you pay, so you can choose Express when it gets close.'],
+    ['Can I print my own design on Christmas cards?', 'Yes. Upload your own design, or start from one of our Christmas templates on the product page. Your logo or photo can go on the front, your message inside.'],
+    ['Do you print envelopes with my logo?', 'Yes. Printed envelopes come in the sizes of our cards, so cards and envelopes match.'],
+    ['Can I order corporate gifts in small quantities?', 'Most gifts start from 10 or 25 pieces. Ordering for the whole company? Request a quote and our team comes back with a tailored price.'],
+    ['Can I send Christmas cards straight to my clients?', 'Not yet: we deliver to one shipping address per order. Order a little earlier so there is time to write and post them.'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+
+  // Section tabs, as on promotional.html: click scrolls to the section, the active tab follows the scroll position
+  const main = document.querySelector('main');
+  const tabLinks = [...main.querySelectorAll('#tabs a')], targets = [...main.querySelectorAll('[data-tab-target]')];
+  main.addEventListener('click', e => {
+    const a = e.target.closest('[data-tab-link]'); if (!a) return;
+    e.preventDefault(); document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
+  });
+  addEventListener('scroll', () => {
+    const line = DESK ? 200 : 150;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);
+    tabLinks.forEach(a => {
+      const on = a.dataset.tabLink === current.id;
+      if (on && !a.classList.contains('active')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      a.classList.toggle('active', on);
+    });
+  }, { passive: true });
+</script>
+</body>
+</html>

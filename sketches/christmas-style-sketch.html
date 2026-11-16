@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Christmas Style Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261128i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261128i">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261128i">
+<!-- Sketch (not linked), 2026-11-16: a warmer Christmas design line for every product on christmas.html (Cornel: "more written
+     typography, no bright green bar, more subtle"). Three styles on the same two products (cards + gift bag), as transparent
+     cutouts on our grey product tile (Higgsfield gpt_image_2_6, sketches/assets-xmas). Rendered with the real product card. -->
+<script>if (matchMedia('(min-width: 1024px)').matches) document.documentElement.classList.add('desk');</script>
+<style>
+  body { background: var(--white); }
+  .sk { width: calc(100% - 32px); max-width: 1286px; margin: 0 auto; padding: 32px 0 96px; }
+  .desk .sk { width: calc(100% - 48px); }
+  .sk > h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.3px; color: var(--dark-green); }
+  .lead, .why { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .why b { color: var(--black); }
+  .opt-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 40px 0 16px; font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .opt-h small { font-weight: 400; font-size: var(--t-14); color: var(--dark-grey); }
+  .pick { padding: 2px 8px; border-radius: var(--r-s); background: var(--light-green); color: var(--white); font-size: var(--t-12); line-height: var(--lh-12); }
+  .row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; }
+  .desk .row { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+</style>
+</head>
+<body>
+<div class="sk plp">
+  <h1>Christmas: a warmer design line</h1>
+  <p class="lead">One design for every product on the Christmas page, as with Black Friday. The green "Merry Christmas" in capitals with the bright
+    green bar becomes written: a script or hand-lettered "Merry Christmas" and one small, quiet detail. Same two products per style, on our grey tile.</p>
+
+  <p class="opt-h">A · Pine green, white script, a gold foil star <span class="pick">my pick</span> <small>our green, warm and premium</small></p>
+  <div class="row">
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/a-cards.webp" alt=""><span class="badge">Most Popular</span></div><p class="name">Christmas Cards</p><div><p class="from">10 pcs from</p><p class="prices"><span class="price">€22.99</span></p></div></a>
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/a-bag.webp" alt=""></div><p class="name">Christmas Gift Bags</p><div><p class="from">50 pcs from</p><p class="prices"><span class="price">€89.99</span></p></div></a>
+  </div>
+
+  <p class="opt-h">B · Ivory cream, green brush script, a gold foil pine sprig <small>the softest; light on our light grey tile</small></p>
+  <div class="row">
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/b-cards.webp" alt=""><span class="badge">Most Popular</span></div><p class="name">Christmas Cards</p><div><p class="from">10 pcs from</p><p class="prices"><span class="price">€22.99</span></p></div></a>
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/b-bag.webp" alt=""></div><p class="name">Christmas Gift Bags</p><div><p class="from">50 pcs from</p><p class="prices"><span class="price">€89.99</span></p></div></a>
+  </div>
+
+  <p class="opt-h">C · Kraft paper, handwritten white ink, a drawn pine sprig <small>the most natural and handmade</small></p>
+  <div class="row">
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/c-cards.webp" alt=""><span class="badge">Most Popular</span></div><p class="name">Christmas Cards</p><div><p class="from">10 pcs from</p><p class="prices"><span class="price">€22.99</span></p></div></a>
+    <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-xmas/c-bag.webp" alt=""></div><p class="name">Christmas Gift Bags</p><div><p class="from">50 pcs from</p><p class="prices"><span class="price">€89.99</span></p></div></a>
+  </div>
+
+  <p class="why"><b>Why A:</b> it is the warm version of what we had: the written script and the small gold star make it feel like Christmas instead of
+    a campaign, and the deep green keeps it ours and stands out on the light grey tile, row after row. B is the softest and most elegant, but cream on
+    our light grey tile loses its edges (the same problem as black on black for Black Friday). C is charming, but kraft is a material, not every product
+    has it (mugs, calendars, baubles, backpacks would need another colour), so the line breaks across the page.</p>
+  <p class="why"><b>For every product with A:</b> pine green with the white script and the gold star; wood and bamboo engraved with the same script;
+    the promo cards keep the close-ups on deep green.</p>
+</div>
+</body>
+</html>
