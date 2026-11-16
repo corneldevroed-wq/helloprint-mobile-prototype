@@ -7,10 +7,10 @@
 <title>Rugby Club Printing: Tickets, Banners &amp; Club Gear | HelloPrint IE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=child_care,confirmation_number,design_services,flag,golf_course,handshake,local_shipping,request_quote,restaurant,school,sell,sports_rugby,support_agent,volunteer_activism,woman,workspace_premium&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261128a">
-<link rel="stylesheet" href="../design-system/components.css?v=20261128a">
-<link rel="stylesheet" href="pages.css?v=20261128a">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=design_services,flag,handshake,local_shipping,request_quote,sell,support_agent,volunteer_activism,workspace_premium&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261128e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261128e">
+<link rel="stylesheet" href="pages.css?v=20261128e">
 </head>
 <body data-desktop>
 <!-- Rugby club printing (en-ie), 2026-11-15: board 3 of Niels' "HelloPrint IE club pages: proposal", built ONLY from the marketing
@@ -44,14 +44,14 @@
       </div>
     </section>
 
-    <!-- clubhouse nights (cardGrid cols-3, image-top) → section title + lead + 3 text cards with an icon (gap: the card photos) -->
+    <!-- clubhouse nights (cardGrid cols-3, image-top) → section title + lead + 3 blog cards (photo, title, text), as on about us -->
     <section>
       <h2>Teen Disco Tickets, Sponsors' Lunch and Golf Classic Print</h2>
       <p class="cat-lead">Three nights keep the clubhouse going. In spring the Six Nations fills the bar too: a poster for the screenings and drink vouchers for the night.</p>
-      <div class="hc-topics">
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">confirmation_number</span><span class="hc-card-h">Teen disco</span><p class="hc-quick-p">Printed tickets for the sale evenings, numbered wristbands at the door and posters for the schools: <a class="link" href="#club-products">tickets and wristbands below</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">restaurant</span><span class="hc-card-h">Sponsors' lunch</span><p class="hc-quick-p">A table card for every sponsor and a programme they keep, before the big home game: <a class="link" href="#menucards">menu cards</a>, <a class="link" href="#sponsor-packages">sponsor packages</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">golf_course</span><span class="hc-card-h">Golf classic</span><p class="hc-quick-p">Flags at the first tee and a goodie bag players use long after the day: <a class="link" href="#yfkegolfumbrella">golf umbrellas</a>.</p></div>
+      <div class="hscroll blog-row">
+        <article class="blog-card"><div class="blog-img" title="Image: teenagers with wristbands at a clubhouse disco"></div><div class="blog-txt"><h3>Teen disco</h3><p>Printed tickets for the sale evenings, numbered wristbands at the door and posters for the schools.</p><a class="pill" href="#club-products">Tickets and wristbands</a></div></article>
+        <article class="blog-card"><div class="blog-img" title="Image: a sponsors' lunch table with a table card and a programme"></div><div class="blog-txt"><h3>Sponsors' lunch</h3><p>A table card for every sponsor and a programme they keep, before the big home game.</p><a class="pill" href="#menucards">Menu cards</a></div></article>
+        <article class="blog-card"><div class="blog-img" title="Image: a branded flag and golf umbrella at the first tee"></div><div class="blog-txt"><h3>Golf classic</h3><p>Flags at the first tee and a goodie bag players use long after the day.</p><a class="pill" href="#yfkegolfumbrella">Golf umbrellas</a></div></article>
       </div>
     </section>
 
@@ -72,7 +72,7 @@
     </section>
 
     <!-- sponsor packages (banner + cardGrid cols-3 boxed + 3 products) → centred block with a banner: head, 3:1 photo, the 3 tiers
-         as text cards, the button (gap: the 3 tier products with prices become links in the cards) -->
+         as text cards, the button (packages are an idea: icon stays, one button per card; gap: the tier products with prices) -->
     <section id="sponsor-packages" class="hero media center banner">
       <div class="intro">
         <h2>Rugby Club Sponsorship Packages Your Sponsors Can See</h2>
@@ -80,9 +80,9 @@
       </div>
       <div class="hero-img" title="Image: sponsor banners on a rugby touchline"></div>
       <div class="hc-topics">
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">handshake</span><span class="hc-card-h">Club partner</span><p class="hc-quick-p">Name in the match programme and a table card at the sponsors' lunch: <a class="link" href="#booklets">stapled booklets</a>, <a class="link" href="#tabletalkers">table cards</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">flag</span><span class="hc-card-h">Touchline partner</span><p class="hc-quick-p">Everything in Club partner, and a fence banner on the touchline: <a class="link" href="#fencebanners">fence banners</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">workspace_premium</span><span class="hc-card-h">Main partner</span><p class="hc-quick-p">Everything in Touchline partner, a board in the clubhouse and a banner behind the posts: <a class="link" href="#aluminiumsigns">aluminium signs</a>, <a class="link" href="product.html?p=banners">banners</a>.</p></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">handshake</span><span class="hc-card-h">Club partner</span><p class="hc-quick-p">Name in the match programme and a table card at the sponsors' lunch.</p><div class="hscroll chips"><a class="pill" href="#booklets">Stapled booklets</a></div></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">flag</span><span class="hc-card-h">Touchline partner</span><p class="hc-quick-p">Everything in Club partner, and a fence banner on the touchline.</p><div class="hscroll chips"><a class="pill" href="#fencebanners">Fence banners</a></div></div>
+        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">workspace_premium</span><span class="hc-card-h">Main partner</span><p class="hc-quick-p">Everything in Touchline partner, a board in the clubhouse and a banner behind the posts.</p><div class="hscroll chips"><a class="pill" href="#aluminiumsigns">Aluminium signs</a></div></div>
       </div>
       <div class="btn-row"><a class="btn outline" href="#banner-printing">See all banners</a></div>
     </section>
@@ -104,14 +104,14 @@
       <div class="types" id="gearProducts"></div>
     </section>
 
-    <!-- age grades (cardGrid cols-4, image-top) → 4 text cards with an icon (gap: the card photos) -->
+    <!-- age grades (cardGrid cols-4, image-top) → 4 blog cards (photo, title, text, button), as on about us -->
     <section>
       <h2>Print for Every Age Grade, From Minis to the Firsts</h2>
-      <div class="hc-topics plp-cats four">
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">child_care</span><span class="hc-card-h">Minis</span><p class="hc-quick-p">Bags and bottles for the smallest players on Sunday morning: <a class="link" href="#oriolerpetdrawstring">drawstring bags</a>, <a class="link" href="#sky650mlrecycledplasticwaterbottle">bottles</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">school</span><span class="hc-card-h">Youths</span><p class="hc-quick-p">Training tees from under-13s to under-18s. Playing schools rugby too? Flags and scarves for the cup run: <a class="link" href="#move">sports tees</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">woman</span><span class="hc-card-h">Women's teams</span><p class="hc-quick-p">Launch posters and supporter gear for the women's section: <a class="link" href="#posters">posters</a>, <a class="link" href="#stavangergrsrpetbeaniehat">beanies</a>.</p></div>
-        <div class="hc-card"><span class="hc-ico material-symbols-rounded" aria-hidden="true">sports_rugby</span><span class="hc-card-h">The firsts</span><p class="hc-quick-p">AIL or junior league home games: a programme with every sponsor in it and flags at the gate: <a class="link" href="#booklets">programmes</a>, <a class="link" href="#featherflags">feather flags</a>.</p></div>
+      <div class="hscroll blog-row plp-cats four">
+        <article class="blog-card"><div class="blog-img" title="Image: minis in club colours on a Sunday morning"></div><div class="blog-txt"><h3>Minis</h3><p>Bags and bottles for the smallest players on Sunday morning.</p><a class="pill" href="#oriolerpetdrawstring">Drawstring bags</a></div></article>
+        <article class="blog-card"><div class="blog-img" title="Image: an under-16 squad in matching training tees"></div><div class="blog-txt"><h3>Youths</h3><p>Training tees from under-13s to under-18s. Playing schools rugby too? Flags and scarves for the cup run.</p><a class="pill" href="#move">Sports tees</a></div></article>
+        <article class="blog-card"><div class="blog-img" title="Image: the women's team in front of their launch poster"></div><div class="blog-txt"><h3>Women's teams</h3><p>Launch posters and supporter gear for the women's section.</p><a class="pill" href="#posters">Posters</a></div></article>
+        <article class="blog-card"><div class="blog-img" title="Image: the firsts running out past feather flags at the gate"></div><div class="blog-txt"><h3>The firsts</h3><p>AIL or junior league home games: a programme with every sponsor in it and flags at the gate.</p><a class="pill" href="#booklets">Programmes</a></div></article>
       </div>
     </section>
 
@@ -146,8 +146,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261128a"></script>
-<script src="../design-system/components.js?v=20261128a"></script>
+<script src="app.js?v=20261128e"></script>
+<script src="../design-system/components.js?v=20261128e"></script>
 <script>
   const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
   const card = ([name, img, href, price, badge]) => `

@@ -501,7 +501,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .hero.media .intro h2 { margin: 0; }   /* a section title in the block's text (lower on a page): 8 to its text, the intro's gap */
 .desk .hero.media.center.banner .hero-img { aspect-ratio: 3 / 1; }   /* .banner: the centred block lower on a page, the photo as a 3:1 banner (IE image brief); 16:9 stays for the page head */
 .hero.media.center > .btn-row { margin-top: 0; }   /* a row of text cards and the button under the photo: 16 apart on mobile (the hero's gap), */
-.desk .hero.media.center > .hc-topics, .desk .hero.media.center > .btn-row { margin-top: 32px; }   /* 32 on desktop (Cornel, 2026-11-15: Féile, sketch A) */
+.desk .hero.media.center > .hc-topics, .desk .hero.media.center > .blog-row, .desk .hero.media.center > .btn-row { margin-top: 32px; }   /* 32 on desktop (Cornel, 2026-11-15: Féile, sketch A) */
 .desk .plp > .tabs { position: sticky; top: 100px; z-index: 20; margin-top: -24px; padding: 0; }
 .desk .plp > .tabs a { padding: 12px; }   /* semibold like the mobile tabs (Cornel, 2026-10-28) */
 .desk .plp h2, .desk .help-page h2 { margin-bottom: 8px; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* title to block 8px (Cornel, 2026-10-28) */
@@ -566,7 +566,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .blog-row { gap: 8px; scroll-snap-type: x mandatory; }
 .blog-card { flex: 0 0 300px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; background: var(--white); scroll-snap-align: start; transition: border-color .15s, box-shadow .2s; }
 .blog-card:hover { border-color: var(--outline); }
-.blog-img { aspect-ratio: 16 / 9; overflow: hidden; }
+.blog-img { aspect-ratio: 16 / 9; overflow: hidden; background: var(--light-grey); }   /* grey until the photo is there */
 .blog-img img { width: 100%; height: 100%; object-fit: cover; }
 .blog-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
 .blog-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
