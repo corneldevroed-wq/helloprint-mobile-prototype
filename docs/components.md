@@ -124,7 +124,9 @@ design system + guide, prices for products without a live from-price. Gap histor
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets
-- `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes` — icon set (SVG, 50×50). Option icons (printing, folds, envelopes)
+- `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes|stickers` — icon set (SVG, 50×50). Sticker shapes
+  (`stickers/round|oval|square|rounded|contour`) = the shape with its corner peeled; films are materials (`materials/film-white-gloss|white-matt|clear|white-eco|clear-eco`,
+  the vinyls and PVC-free reuse them, silver film = `metallic-silver`), choice in `sketches/sticker-icons-sketch.html`. Option icons (printing, folds, envelopes)
   outline in #191919 like the size shapes; `printing/pms-<1|2|3>-<single|double>` = the printing icon plus one ink dot per PMS colour
   (orange, light green, dark green). Folds = the card opened flat, the fold dashed; envelopes = the card alone / the closed envelope
   (choice in `sketches/fold-envelope-icons-sketch.html`). Not used yet beyond the folded sizes. Missing icons per product:

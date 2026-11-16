@@ -3,6 +3,8 @@
 Not started unless Cornel says go. Move items to `decisions.md` once decided.
 
 ## Parked by Cornel
+- **Labels on roll icons** (Cornel, 2026-11-16, "pakken we later op"): dispenser without/with, core 40/76 and the roll winding 1–4.
+  Directions in `sketches/sticker-icons-sketch.html` (A flat roll from the side, the A on one big label turns; B a 3/4 cylinder). My pick was A.
 - **Brand Guidelines as PDF** (Cornel, 2026-11-12): once the HTML brand book (`brand-guidelines/`) is done, offer the whole guide
   as a PDF in the right styling too: one 1920×1080 page per slide, same look as the HTML (print CSS / `@page` at 1920×1080, background
   colours and photos printed). Probably next to "Download brand kit". Not started.

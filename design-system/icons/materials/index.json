@@ -37,5 +37,10 @@
  "blueback": "Blueback (poster paper)",
  "neon": "Neon (fluorescent)",
  "multilayer": "Multilayer (coloured core)",
- "wood": "Wood"
+ "wood": "Wood",
+ "film-white-gloss": "White film, gloss",
+ "film-white-matt": "White film, matt (also white vinyl)",
+ "film-clear": "Transparent film (also clear vinyl)",
+ "film-white-eco": "White film, eco (Natureflex, PVC-free vinyl)",
+ "film-clear-eco": "Transparent film, eco (Natureflex)"
 }
