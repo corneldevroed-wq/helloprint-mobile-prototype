@@ -4,8 +4,8 @@
 const SIZES = {
   standard: { id: 'standard', name: 'Standard', sub: '85 x 55 mm', shape: 'width:39px;height:25px', mult: 1, info: 'The standard business-card size, also known as the European format. Fits almost every wallet and card holder.' },
   portrait: { id: 'portrait', name: 'Portrait', sub: '55 x 85 mm', shape: 'width:25px;height:39px', mult: 1, info: 'Same dimensions as 85 x 55 mm, but upright for a striking, vertical design.' },
-  'folded-portrait': { id: 'folded-portrait', name: 'Folded Portrait', sub: '110 x 85 mm', fold: 'portrait', mult: 1.6, info: 'Folds to 55 x 85 mm, with four printable panels when opened. Far more room for information than a single card.' },
-  'folded-landscape': { id: 'folded-landscape', name: 'Folded Landscape', sub: '170 x 55 mm', fold: 'landscape', mult: 1.6, info: 'Folds to 85 x 55 mm, with four printable panels when opened. Works as a mini-leaflet with extra information.' },
+  'folded-portrait': { id: 'folded-portrait', name: 'Folded Portrait', sub: '110 x 85 mm', icon: 'folds/portrait', mult: 1.6, info: 'Folds to 55 x 85 mm, with four printable panels when opened. Far more room for information than a single card.' },
+  'folded-landscape': { id: 'folded-landscape', name: 'Folded Landscape', sub: '170 x 55 mm', icon: 'folds/landscape', mult: 1.6, info: 'Folds to 85 x 55 mm, with four printable panels when opened. Works as a mini-leaflet with extra information.' },
   squared: { id: 'squared', name: 'Squared', sub: '55 x 55 mm', shape: 'width:25px;height:25px', mult: .95, info: 'A compact, square card that stands out among standard rectangular cards. Modern and playful, with a little less room for text.' },
   american: { id: 'american', name: 'American', sub: '90 x 50 mm', shape: 'width:39px;height:25px', mult: 1, info: 'Slightly longer and narrower than the standard size. A sleek, modern look that still fits most card holders.' },
 };
@@ -559,16 +559,16 @@ const PRODUCTS = {
     delivery: FLYER_DELIVERY.filter(d => d.id !== 'express').map((d, i) => ({ ...d, extra: [0, 47][i], info: d.info.replace('flyers', 'roller banners') })),
     groups: [
       { key: 'size', title: 'Size', items: [
-        { id: 's', name: 'Small', sub: '85 x 200 cm', shape: 'width:17px;height:40px', mult: 1, info: 'Our most chosen roller banner size. Fits in any car.' },
-        { id: 'xs', name: 'Extra Small', sub: '80 x 200 cm', shape: 'width:16px;height:40px', mult: .95, info: 'The narrowest roller banner, for tight spaces.' },
-        { id: 'm', name: 'Medium', sub: '100 x 200 cm', shape: 'width:20px;height:40px', mult: 1.25, info: 'A little wider, for more visibility.' },
-        { id: 'l', name: 'Large', sub: '120 x 200 cm', shape: 'width:24px;height:40px', mult: 1.55, info: 'The widest standard roller banner.' },
+        { id: 's', name: 'Small', sub: '85 x 200 cm', icon: 'rollup/size-85', mult: 1, info: 'Our most chosen roller banner size. Fits in any car.' },
+        { id: 'xs', name: 'Extra Small', sub: '80 x 200 cm', icon: 'rollup/size-80', mult: .95, info: 'The narrowest roller banner, for tight spaces.' },
+        { id: 'm', name: 'Medium', sub: '100 x 200 cm', icon: 'rollup/size-100', mult: 1.25, info: 'A little wider, for more visibility.' },
+        { id: 'l', name: 'Large', sub: '120 x 200 cm', icon: 'rollup/size-120', mult: 1.55, info: 'The widest standard roller banner.' },
       ]},
       { key: 'stand', title: 'Stand', items: [
-        { id: 'silver-budget', name: 'Silver budget stand', sub: 'Basic base', color: 'linear-gradient(135deg,#f4f4f4,#a9adb3 55%,#e6e8ea)', mult: 1, info: 'A light aluminium stand with a free carry bag. Our recommended choice.' },
-        { id: 'black-budget', name: 'Black budget stand', sub: 'Basic base', color: '#1c1c1c', mult: 1.05, info: 'The same stand in black.' },
-        { id: 'silver-premium', name: 'Silver premium stand', sub: 'Premium base', color: 'linear-gradient(135deg,#fff,#c7cbd0 55%,#f2f3f5)', mult: 1.6, info: 'A heavier, more stable base that lasts for years of events.' },
-        { id: 'cardboard', name: 'Cardboard stand', sub: 'Eco-friendly', color: '#b58a5c', mult: 1.4, info: 'A stand made from cardboard: a sustainable, eye-catching alternative.' },
+        { id: 'silver-budget', name: 'Silver budget stand', sub: 'Basic base', icon: 'rollup/silver', mult: 1, info: 'A light aluminium stand with a free carry bag. Our recommended choice.' },
+        { id: 'black-budget', name: 'Black budget stand', sub: 'Basic base', icon: 'rollup/black', mult: 1.05, info: 'The same stand in black.' },
+        { id: 'silver-premium', name: 'Silver premium stand', sub: 'Premium base', icon: 'rollup/premium', mult: 1.6, info: 'A heavier, more stable base that lasts for years of events.' },
+        { id: 'cardboard', name: 'Cardboard stand', sub: 'Eco-friendly', icon: 'rollup/cardboard', mult: 1.4, info: 'A stand made from cardboard: a sustainable, eye-catching alternative.' },
       ]},
       { key: 'material', title: 'Material', items: [
         { id: 'pvc', name: 'Standard PVC', sub: '510 gsm', color: '#f4f4f4', mult: 1, info: 'Sturdy, lies flat and doesn’t curl. Our recommended material.' },

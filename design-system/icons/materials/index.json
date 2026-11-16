@@ -42,5 +42,7 @@
  "film-white-matt": "White film, matt (also white vinyl)",
  "film-clear": "Transparent film (also clear vinyl)",
  "film-white-eco": "White film, eco (Natureflex, PVC-free vinyl)",
- "film-clear-eco": "Transparent film, eco (Natureflex)"
+ "film-clear-eco": "Transparent film, eco (Natureflex)",
+ "airlaid": "Airlaid (napkins, feels like textile)",
+ "tissue": "Tissue (napkins)"
 }

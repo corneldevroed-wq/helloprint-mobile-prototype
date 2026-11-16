@@ -99,8 +99,8 @@ design system + guide, prices for products without a live from-price. Gap histor
 ## Key components
 - **Option cards** (`.opt` in `#jConfig`): desktop Cards A reserves an icon area per row (`--vis-h` = tallest icon,
   set in `deskOverflow()`), icons bottom-aligned. "+N more" tile when a row overflows.
-- **Option visuals** (`optVisual()` in product.html): order = thickness line → material icon (`MAT_ICONS`) →
-  printing E → corners → fold (`o.fold` → `icons/folds/<fold>.svg`, the folded business-card sizes) → bundling → banner icons (`BANNER_ICONS`) → photo/shape/swatch/chip.
+- **Option visuals** (`optVisual()` in product.html): order = `o.icon` (an icon path named in the data) → banner icons → thickness line → material icon (`MAT_ICONS`) →
+  printing E → corners → bundling → banner icons (`BANNER_ICONS`) → photo/shape/swatch/chip.
   `.mi.two` = two stacked sheets (finishing both sides), `.mi.three` = Special (three sheets).
 - **ⓘ guide** (`.guide-item`, `.gi-vis`): option visual left, 16px to the text.
 - **Specs table** (`renderSpecs`, `specValue`, `specLink`, `XLINKS`): links only for size + material appearance.
@@ -126,7 +126,11 @@ design system + guide, prices for products without a live from-price. Gap histor
 ## Assets
 - `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes|stickers` — icon set (SVG, 50×50). Sticker shapes
   (`stickers/round|oval|square|rounded|contour`) = the shape with its corner peeled; films are materials (`materials/film-white-gloss|white-matt|clear|white-eco|clear-eco`,
-  the vinyls and PVC-free reuse them, silver film = `metallic-silver`), choice in `sketches/sticker-icons-sketch.html`. Option icons (printing, folds, envelopes)
+  the vinyls and PVC-free reuse them, silver film = `metallic-silver`), choice in `sketches/sticker-icons-sketch.html`.
+  Product kits (`sketches/kit-icons-sketch.html`, all A): `rollup/size-80|85|100|120|silver|black|premium|cardboard`, `aboard/a2|a1|b2|b1`,
+  `tabletalkers/classic|triangle|triangle-m|triangle-s`, `folders/a4|a5|spine-1|5|10|15`, `notepads/bind-left|bind-top|holes-0|2|4|self-cover`,
+  `napkins/white|cream|fold-4|fold-8|print-*`, `materials/airlaid|tissue`. In the data an option names its icon as `icon: 'rollup/silver'`
+  (optVisual checks `o.icon` first); roller banners (Size, Stand) and the folded business-card sizes use it. Option icons (printing, folds, envelopes)
   outline in #191919 like the size shapes; `printing/pms-<1|2|3>-<single|double>` = the printing icon plus one ink dot per PMS colour
   (orange, light green, dark green). Folds = the card opened flat, the fold dashed; envelopes = the card alone / the closed envelope
   (choice in `sketches/fold-envelope-icons-sketch.html`). Not used yet beyond the folded sizes. Missing icons per product:
