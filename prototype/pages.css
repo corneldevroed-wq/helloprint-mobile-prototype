@@ -1875,7 +1875,7 @@ html:not(.desk) .marketing .hc-card > .hc-ico + .hc-card-h { margin-top: 0; }
 /* image cards in the promo-card size (.promo-e .pc): image only, no title gradient, no hover; mobile swipe row, 32px around (§12) */
 .help-page .pc-img::after { display: none; }
 .help-page .pc:hover .pc-img img { transform: none; }
-html:not(.desk) .help-page > .pb { margin: 16px 0; scroll-padding-inline: 16px; }   /* snap to the 16px gutter, not the screen edge */
+html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; scroll-padding-inline: 16px; }   /* a row of promo cards as its own section (Help Centre, Black Friday): snap to the 16px gutter, not the screen edge, and no page overflow */
 
 /* team strip: text + buttons left, Anna (bot) first, then the team; swipe row on mobile */
 .hc-team { display: flex; flex-direction: column; gap: 16px; padding: 24px 16px; }

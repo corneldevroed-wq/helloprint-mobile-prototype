@@ -4,6 +4,11 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Black Friday (Nov 16, 2026)
+- **11-16 — Black Friday is a PLP** (Cornel, black-friday-sketch A; "you may not combine page types"): the PLP of promotional.html, one page for live /black-friday and /deals. Rejected: CLP (one product family), marketing page (made for reading, products halfway down), a marketing hero on a PLP (mixing types).
+- **11-16 — The deal is in the price, no code** (conversion): the card shows the reduced price with the old one crossed out and the saving as the orange label; the end date is one line in the intro, no countdown. Conditions are FAQ questions.
+- **11-16 — The products carry Black Friday** (Cornel: "the products need a Black Friday feel"): every product a new transparent cutout with one design (matte black, white "BLACK FRIDAY", one --orange bar; Christmas products: black with a white star), on our grey tile. Rejected: black tiles (the black products melt into them), black-stage photos baked in (not reusable), a printed "-30%" on the product (clashed with the label). Two promo cards on top (`.pb-duo`, part of the template): desktop 2 columns, mobile a swipe row of 300px cards on the 16px gutter (the Help Centre row rule, now also `.plp > .pb`); the full-width mobile promo card stays only beside the categories (`.plp-feature .pc`).
+
 ## Marketing pages (Nov 15, 2026)
 - **11-15 — Marketing pages are rebuilt from live first** (Cornel): about-us and our-culture (en-ie, the template the IE club pages are based on) in the prototype with UI library components only; the gaps measured on them (sketches/about-us-gaps.html) are filled with as few new things as possible. Never coloured placeholder pictures: a grey block where an image goes.
 - **11-15 — Hero with image `.hero.media`** (Cornel, template-gaps-sketch A): breadcrumbs on top over the full width, then title, intro and `.btn-row` (`.btn primary` + `.btn outline`), then the photo at the promo card height (345 mobile / 400 desktop); desktop text left / photo right 32 apart, mobile the photo under the buttons. In the design system + guide. First on about-us.

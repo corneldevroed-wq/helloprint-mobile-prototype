@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Friday Deals on Print | HelloPrint IE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261128h">
+<link rel="stylesheet" href="../design-system/components.css?v=20261128h">
+<link rel="stylesheet" href="pages.css?v=20261128h">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- Black Friday (PLP), 2026-11-16 (Cornel, sketches/black-friday-sketch.html A): one page type, the PLP of promotional.html,
+       no new blocks and no new CSS. Replaces live /black-friday ("Prepare for Black Friday") and /deals (code SUMMER-15).
+       Title + intro (the offer and the end date) → tabs → 2 promo cards (the home's .pb-duo) → Best deals (10) → Christmas (5) →
+       Your own Black Friday (content row + 5) → Gifts & clothing (5) → reviews → FAQ (the deal conditions) → SEO text.
+       The price is already reduced on the card (old price crossed out, no code); the label shows the saving.
+       The campaign is in the products: every product a transparent cutout with one Black Friday design (matte black, white
+       "BLACK FRIDAY", one orange bar; Christmas: black with a white star), on our grey tile. Made with Higgsfield gpt_image_2_6,
+       the real product photo as shape reference where we have one (assets/black-friday). -->
+  <main class="cat-page plp promo-e">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / Black Friday</p>
+      <div class="intro">
+        <h1>Black Friday Deals</h1>
+        <p>Up to 30% off business cards, flyers, banners and gifts, already taken off the prices below. No code needed, until Monday 30 November, 23:59.</p>
+      </div>
+    </section>
+
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#deals" data-tab-link="deals" class="active">Best deals</a>
+      <a href="#christmas" data-tab-link="christmas">Christmas</a>
+      <a href="#own" data-tab-link="own">Your own Black Friday</a>
+      <a href="#gifts" data-tab-link="gifts">Gifts &amp; clothing</a>
+    </nav>
+
+    <section class="hscroll pb pb-duo">
+      <a class="pc" href="#christmas"><span class="pc-img"><img src="assets/black-friday/promo-christmas-black.jpg" alt="" style="object-position:80% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Christmas Deals</strong><span class="pc-s">Cards, calendars and gift bags for clients and staff.</span></span><span class="pc-cta pill">Shop Christmas</span></span></a>
+      <a class="pc" href="#own"><span class="pc-img"><img src="assets/black-friday/promo-own-black.jpg" alt="" style="object-position:80% 50%"></span><span class="pc-body"><span class="pc-txt"><strong class="pc-t">Prepare Your Own Black Friday</strong><span class="pc-s">Posters, window stickers and flags that bring the crowds in.</span></span><span class="pc-cta pill">Shop the essentials</span></span></a>
+    </section>
+
+    <section id="deals" data-tab-target>
+      <h2>Best Black Friday Deals</h2>
+      <div class="types" id="dealGrid"></div>
+    </section>
+
+    <section id="christmas" data-tab-target>
+      <h2>Christmas Deals</h2>
+      <div class="types" id="xmasGrid"></div>
+    </section>
+
+    <section id="own" data-tab-target>
+      <div class="so-rows">
+        <article class="so-row">
+          <div class="so-img"><img src="assets/black-friday/shop-window.jpg" alt="A shop window with Black Friday posters and window stickers, a beach flag and a pavement sign outside" loading="lazy"></div>
+          <div class="so-txt">
+            <h2>Prepare Your Own Black Friday</h2>
+            <p>Black Friday is your chance to skyrocket sales with irresistible promotions. Stand out in crowded shopping streets with print that guides shoppers straight to your door, so you can focus on the deals.</p>
+            <a class="pill" href="#essentials">Shop the essentials</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="essentials">
+      <h2>Black Friday Essentials for Your Shop</h2>
+      <div class="types" id="ownGrid"></div>
+    </section>
+
+    <section id="gifts" data-tab-target>
+      <h2>Gifts &amp; Clothing Deals</h2>
+      <div class="types" id="giftGrid"></div>
+    </section>
+
+    <section class="d-reviews"><h2>What our customers say</h2></section>
+
+    <section>
+      <h2>Black Friday Deals: Frequently Asked Questions</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <!-- SEO text: open intro, the rest folded (as promotional.html) -->
+    <section class="about cat-about">
+      <h2>Black Friday Printing for Your Business</h2>
+      <p>Black Friday is the biggest shopping weekend of the year, for your customers and for you. Restock your business cards and flyers at a lower price, order your Christmas cards and client gifts early, and get your shop ready for the rush with posters, window stickers and flags.</p>
+      <div class="acc oc-faq promo-seo">
+        <details><summary>Which products are in the Black Friday deals?<img src="assets/chevron.svg" alt=""></summary>
+          <p>Every product on this page: business cards, flyers and leaflets, booklets, stickers, banners and roller banners, posters, flags and signs, Christmas cards and calendars, bags, drinkware, pens and clothing. The discount is already in the price you see.</p>
+        </details>
+        <details><summary>How do I get my Black Friday print in time?<img src="assets/chevron.svg" alt=""></summary>
+          <p>Every product page shows the estimated delivery date and the latest date before you pay. For your own Black Friday on 27 November, order your posters and window stickers early in the week, or choose Express.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<script src="app.js?v=20261128h"></script>
+<script src="../design-system/components.js?v=20261128h"></script>
+<script src="products.js?v=20261128h"></script>
+<script>
+  // Every product: the Black Friday cutout, the price with the discount already off, the old price crossed out, the saving as label.
+  // Products we have a page for open it with its own price; the rest stay anchors like everywhere in the prototype.
+  const BF = 'assets/black-friday/';
+  const ours = slug => { const p = PRODUCTS[slug]; return { href: p.href, qty: p.defaultQty, price: fromPrice(p) }; };
+  const deal = ({ name, img, href, qty, price, off }) => `
+    <a class="product" href="${href}">
+      <div class="thumb" style="background:var(--light-grey)">
+        <img src="${BF + img}.webp" alt="" loading="lazy">
+        ${badgeHtml(`-${off}%`)}
+      </div>
+      <p class="name">${name}</p>
+      <div><p class="from">${qty > 1 ? qty + ' pcs from' : 'From'}</p><p class="prices"><span class="was" data-price="${price}"></span><span class="price" data-price="${Math.round(price * (100 - off)) / 100}"></span></p></div>
+    </a>`;
+  const fillDeals = (id, list) => { document.getElementById(id).innerHTML = list.map(deal).join(''); };
+
+  fillDeals('dealGrid', [
+    { name: 'Classic Business Cards', img: 'business-cards', ...ours('classic-business-cards'), off: 25 },
+    { name: 'Classic Flyers', img: 'flyers', ...ours('standard-flyers'), off: 30 },
+    { name: 'Roller Banners', img: 'roller-banner', ...ours('roller-banners'), off: 25 },
+    { name: 'Ceramic Mugs', img: 'mug', ...ours('ceramic-mug-330ml'), off: 20 },
+    { name: 'Premium Tote Bags', img: 'tote-bag', ...ours('premium-tote-bags'), off: 20 },
+    { name: 'Banners', img: 'banner', ...ours('banners'), off: 25 },
+    { name: 'T-Shirts', img: 't-shirt', ...ours('sols-imperial-tshirt'), off: 20 },
+    { name: 'Stickers on Roll', img: 'stickers', href: '#labels', qty: 1000, price: 52.99, off: 30 },
+    { name: 'Stapled Booklets', img: 'booklet', href: '#booklets', qty: 500, price: 218.99, off: 20 },
+    { name: 'Half-Fold Leaflets', img: 'leaflet', href: 'flyers.html#folded', qty: 500, price: 42.99, off: 25 },
+  ]);
+  fillDeals('xmasGrid', [
+    { name: 'Christmas Cards', img: 'christmas-cards', href: '#christmascards', qty: 25, price: 29.99, off: 20 },
+    { name: 'Wall Calendars', img: 'calendar', href: '#calendars-printing', qty: 25, price: 74.99, off: 20 },
+    { name: 'Advent Calendars', img: 'advent-calendar', href: '#adventcalendar', qty: 50, price: 189.99, off: 15 },
+    { name: 'Christmas Gift Bags', img: 'gift-bag', href: '#christmas-bags', qty: 50, price: 89.99, off: 20 },
+    { name: 'Notebooks', img: 'notebook', href: '#notebook-printing', qty: 50, price: 199.99, off: 20 },
+  ]);
+  fillDeals('ownGrid', [
+    { name: 'Posters', img: 'poster', href: '#posters', qty: 50, price: 28.49, off: 30 },
+    { name: 'Window Stickers', img: 'window-sticker', href: '#windowstickers', qty: 1, price: 19.99, off: 25 },
+    { name: 'Beach Flags', img: 'beach-flag', href: '#beachflags', qty: 1, price: 59.99, off: 20 },
+    { name: 'Pavement Signs', img: 'pavement-sign', href: '#aboards', qty: 1, price: 99.99, off: 20 },
+    { name: 'Paper Bags', img: 'paper-bag', href: '#paperbags', qty: 100, price: 79.99, off: 20 },
+  ]);
+  fillDeals('giftGrid', [
+    { name: 'Hoodies', img: 'hoodie', href: '#hoodies', qty: 10, price: 219.99, off: 20 },
+    { name: 'Ballpoint Pens', img: 'pens', href: '#ballpoint-pens', qty: 100, price: 49.99, off: 25 },
+    { name: 'Water Bottles', img: 'water-bottle', href: '#waterbottles', qty: 50, price: 249.99, off: 20 },
+    { name: 'Cotton Bags', img: 'cotton-bag', ...ours('basic-cotton-bags'), off: 20 },
+    { name: 'Beanies', img: 'beanie', href: '#beanies', qty: 25, price: 124.99, off: 20 },
+  ]);
+  updatePrices();
+
+  const revs = document.querySelector('.d-reviews');
+  if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+  else revs.insertAdjacentHTML('beforeend', `<div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+    <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+      <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+  // The deal conditions, as questions (live /deals had them as small print under the code)
+  const FAQS = [
+    ['Do I need a discount code?', 'No. The Black Friday price is already in the price on every product card and product page, and in your cart.'],
+    ['When do the Black Friday deals end?', 'Monday 30 November at 23:59 (Irish time). Orders placed before then keep the deal price, also when they are delivered later.'],
+    ['Can I combine the deals with another discount?', 'The deal price can be combined with the 10% for charities and non-profits. It cannot be combined with other discount codes.'],
+    ['Is there a minimum order?', 'No. The deal is on every quantity, from one roller banner to 10,000 flyers.'],
+    ['Are quotes included?', 'No. Black Friday prices are for orders placed on the website, not for custom quotes.'],
+  ];
+  const faqEl = document.getElementById('faqList');
+  faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+  faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+
+  // Section tabs, as on promotional.html: click scrolls to the section, the active tab follows the scroll position
+  const main = document.querySelector('main');
+  const tabLinks = [...main.querySelectorAll('#tabs a')], targets = [...main.querySelectorAll('[data-tab-target]')];
+  main.addEventListener('click', e => {
+    const a = e.target.closest('[data-tab-link]'); if (!a) return;
+    e.preventDefault(); document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' });
+  });
+  addEventListener('scroll', () => {
+    const line = DESK ? 200 : 150;
+    let current = targets[0];
+    for (const t of targets) if (t.getBoundingClientRect().top <= line) current = t;
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = targets.at(-1);
+    tabLinks.forEach(a => {
+      const on = a.dataset.tabLink === current.id;
+      if (on && !a.classList.contains('active')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      a.classList.toggle('active', on);
+    });
+  }, { passive: true });
+</script>
+</body>
+</html>

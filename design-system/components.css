@@ -477,7 +477,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .dc-img img { width: 100%; height: 100%; object-fit: contain; }
 .dc-go { position: absolute; left: 16px; bottom: 16px; width: 20px; height: 20px; }   /* the arrow of the "All categories" link, in light grey, free (no circle) */
 
-.plp .pc { flex: none; }   /* full width on mobile, not the 300px swipe card */
+.plp-feature .pc { flex: none; }   /* the promo card beside the categories: full width on mobile, not the 300px swipe card (a row of promo cards, .pb, keeps the swipe card) */
 .plp .cats { gap: 8px; margin-top: 0; }
 .plp-mats .mat-icon { width: 50px; height: 50px; flex-shrink: 0; }
 .plp-mats .chev { width: 20px; height: 20px; }

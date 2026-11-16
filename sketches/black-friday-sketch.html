@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Friday Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261128h">
+<link rel="stylesheet" href="../design-system/components.css?v=20261128h">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261128h">
+<!-- Sketch (not linked), 2026-11-16: the Black Friday page. 1 · the page type (one type, not a mix: Cornel), 2 · which products,
+     3 · one visual style (A/B, my pick marked) with test mockups. Rendered with the real design-system CSS and the PLP blocks of
+     promotional.html (hero, tabs, promo card + categories, product rows). The products carry Black Friday themselves: a transparent cutout per
+     product with a Black Friday design printed on it (Higgsfield gpt_image_2_6, the real product photo as shape reference, sketches/assets-bf).
+     B only adds .bf (the tile black).
+     View at 1512 for desktop and at 390 for mobile. -->
+<script>if (matchMedia('(min-width: 1024px)').matches) document.documentElement.classList.add('desk');   /* as app.js: desktop from 1024 */</script>
+<style>
+  /* Sketch chrome (as template-gaps-sketch) */
+  body { background: var(--white); }
+  .sk { width: calc(100% - 32px); max-width: 1286px; margin: 0 auto; padding: 32px 0 96px; }
+  .desk .sk { width: calc(100% - 48px); }
+  .sk > h1 { font-weight: 800; font-size: var(--t-28); line-height: var(--lh-tight); letter-spacing: -.3px; color: var(--dark-green); }
+  .lead { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .gap-h { margin: 64px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); font-weight: 800; font-size: var(--t-24); line-height: 32px; color: var(--dark-green); }
+  .gap-why { max-width: 760px; margin-top: 8px; color: var(--dark-grey); }
+  .gap-why b { color: var(--black); }
+  .opt-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 32px 0 16px; font-weight: 700; font-size: var(--t-16); line-height: var(--lh-16); }
+  .opt-h small { font-weight: 400; font-size: var(--t-14); color: var(--dark-grey); }
+  .pick { padding: 2px 8px; border-radius: var(--r-s); background: var(--light-green); color: var(--white); font-size: var(--t-12); line-height: var(--lh-12); }
+  .frame { padding: 24px 0; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+  .frame.plp > *, .desk .frame.plp > * { width: 100%; padding-left: 0; padding-right: 0; }
+  .summary { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  .summary th, .summary td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .summary th { font-weight: 600; color: var(--dark-grey); }
+  .summary td:first-child { font-weight: 600; white-space: nowrap; }
+  .outline-list { max-width: 760px; margin-top: 16px; padding-left: 20px; color: var(--dark-grey); }
+  .outline-list li { margin-top: 8px; }
+  .outline-list b { color: var(--black); }
+  .product .was { margin-right: 4px; color: var(--dark-grey); }
+
+  /* ———— The proposal: .bf on the page (only this page) ———— */
+  .bf .product .thumb { background: var(--black); }   /* B: the tile black (the cutouts float on it, the 16 padding stays) */
+</style>
+</head>
+<body>
+<div class="sk">
+  <h1>Black Friday page: page type, products and style</h1>
+  <p class="lead">Black Friday is Friday 27 November, Cyber Monday 30 November. Live en-ie has two pages for it: <b>/black-friday</b>
+    ("Prepare for Black Friday": print for the customer's own Black Friday) and <b>/deals</b> (our own offer with a code, 15% off
+    selected items). One page replaces both.</p>
+
+  <!-- 1 · Page type -->
+  <h2 class="gap-h">1 · Page type: a PLP</h2>
+  <p class="gap-why">A Black Friday visitor comes from an email, an ad or the site notification with one question: <b>what is cheaper and by how much?</b>
+    The PLP answers that fastest: products with their old and new price straight under the intro, tabs to jump to a group, one click to the PDP.
+    It is built exactly as Promotional Print (our PLP): title + intro, tabs, promo card + categories, product rows, a content row, reviews, FAQ, SEO text.
+    No marketing hero, no new block: the campaign lives in the intro, the promo cards and the product photos.</p>
+  <table class="summary">
+    <tr><th>Type</th><th>What it is good at</th><th>Why not for Black Friday</th></tr>
+    <tr><td><b>PLP</b> <span class="pick">my pick</span></td><td>Many products with prices across groups, tabs to jump, the PDP one click away</td><td>(fits)</td></tr>
+    <tr><td>CLP</td><td>One product family explained (types, materials, sizes)</td><td>Black Friday is across the range; a CLP is one family</td></tr>
+    <tr><td>Marketing page</td><td>A story or a theme (about us, rugby clubs, storm flags)</td><td>Long copy, 64px rhythm, products halfway down: made for reading, not for a deal</td></tr>
+  </table>
+  <p class="gap-why"><b>Two conversion choices that go with it:</b> the price is already reduced on the card (old price crossed out), no code to copy at checkout;
+    and the end date in the intro ("until Monday 30 November, 23:59"), no ticking countdown: the same urgency, no kermis.</p>
+
+  <!-- 2 · Products -->
+  <h2 class="gap-h">2 · Products: three groups, by who buys in late November</h2>
+  <table class="summary">
+    <tr><th>Tab / section</th><th>Products</th><th>Why</th></tr>
+    <tr><td>Best deals</td><td>Business cards, flyers, roller banners, stickers, mugs, tote bags, notebooks, T-shirts, banners, posters</td><td>The best sellers with the biggest basket; 10 cards = 2 full rows of 5. Business cards, flyers, mug, cotton and tote bag, T-shirt, banner and roller banner have a working PDP in the prototype</td></tr>
+    <tr><td>Christmas</td><td>Promo card + 6 categories: Christmas cards, calendars, advent calendars, gift bags, mugs, notebooks</td><td>Late November is when companies order cards and gifts for clients and staff</td></tr>
+    <tr><td>Your own Black Friday</td><td>Content row (the live text) + 5 products: posters, window stickers, flyers, beach flags, pavement signs</td><td>The live /black-friday story: shops preparing their own sale, ordered before the 27th</td></tr>
+  </table>
+  <p class="gap-why">Not on the page: products without a discount, and quotes (live excludes them too). Deal conditions go in the FAQ.</p>
+
+  <!-- 3 · Style -->
+  <h2 class="gap-h">3 · Style: the products themselves are Black Friday</h2>
+  <p class="gap-why">Every product gets a <b>new transparent cutout with one Black Friday design printed on it</b>: matte black, "BLACK FRIDAY" in white condensed
+    capitals, one orange (our --orange) price tag. The same design on every product, so the rows read as one campaign, and it shows the customer what
+    their own Black Friday print could look like. Because the cutout is transparent, the tile is a CSS choice: our grey tile (A) or a black one (B).</p>
+
+  <p class="opt-h">A · Black Friday products on our grey tile <span class="pick">my pick</span> <small>new: a cutout per product; no new CSS</small></p>
+  <main class="frame cat-page plp promo-e">
+    <section class="hero">
+      <p class="crumbs"><a href="#">Home</a> / Black Friday</p>
+      <div class="intro">
+        <h1>Black Friday Deals</h1>
+        <p>Up to 30% off business cards, flyers, banners and gifts, already taken off the prices below. No code needed, until Monday 30 November, 23:59.</p>
+      </div>
+    </section>
+    <nav class="tabs" aria-label="Sections"><a href="#" class="active">Best deals</a><a href="#">Christmas</a><a href="#">Your own Black Friday</a><a href="#">Signage</a><a href="#">Gifts &amp; clothing</a></nav>
+    <section>
+      <h2>Best Black Friday Deals</h2>
+      <div class="types">
+        <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-bf/bf-bc.webp" alt=""><span class="badge">-25%</span></div><p class="name">Classic Business Cards</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€17.99</span><span class="price">€13.49</span></p></div></a>
+        <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-bf/bf-flyers.webp" alt=""><span class="badge">-30%</span></div><p class="name">Classic Flyers</p><div><p class="from">1000 pcs from</p><p class="prices"><span class="was">€49.99</span><span class="price">€34.99</span></p></div></a>
+        <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-bf/bf-roller.webp" alt=""><span class="badge">-25%</span></div><p class="name">Roller Banners</p><div><p class="from">From</p><p class="prices"><span class="was">€69.99</span><span class="price">€52.49</span></p></div></a>
+        <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-bf/bf-mug.webp" alt=""><span class="badge">-20%</span></div><p class="name">Ceramic Mugs</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€389.99</span><span class="price">€311.99</span></p></div></a>
+        <a class="product" href="#"><div class="thumb" style="background:var(--light-grey)"><img src="assets-bf/bf-tote.webp" alt=""><span class="badge">-20%</span></div><p class="name">Premium Tote Bags</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€329.99</span><span class="price">€263.99</span></p></div></a>
+      </div>
+    </section>
+  </main>
+
+  <p class="opt-h">B · The same products on a black tile <small>CSS: 1 line (.bf); the black products melt into the black tile</small></p>
+  <main class="frame cat-page plp promo-e bf">
+    <section class="hero">
+      <p class="crumbs"><a href="#">Home</a> / Black Friday</p>
+      <div class="intro">
+        <h1>Black Friday Deals</h1>
+        <p>Up to 30% off business cards, flyers, banners and gifts, already taken off the prices below. No code needed, until Monday 30 November, 23:59.</p>
+      </div>
+    </section>
+    <nav class="tabs" aria-label="Sections"><a href="#" class="active">Best deals</a><a href="#">Christmas</a><a href="#">Your own Black Friday</a><a href="#">Signage</a><a href="#">Gifts &amp; clothing</a></nav>
+    <section>
+      <h2>Best Black Friday Deals</h2>
+      <div class="types">
+        <a class="product" href="#"><div class="thumb"><img src="assets-bf/bf-bc.webp" alt=""><span class="badge">-25%</span></div><p class="name">Classic Business Cards</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€17.99</span><span class="price">€13.49</span></p></div></a>
+        <a class="product" href="#"><div class="thumb"><img src="assets-bf/bf-flyers.webp" alt=""><span class="badge">-30%</span></div><p class="name">Classic Flyers</p><div><p class="from">1000 pcs from</p><p class="prices"><span class="was">€49.99</span><span class="price">€34.99</span></p></div></a>
+        <a class="product" href="#"><div class="thumb"><img src="assets-bf/bf-roller.webp" alt=""><span class="badge">-25%</span></div><p class="name">Roller Banners</p><div><p class="from">From</p><p class="prices"><span class="was">€69.99</span><span class="price">€52.49</span></p></div></a>
+        <a class="product" href="#"><div class="thumb"><img src="assets-bf/bf-mug.webp" alt=""><span class="badge">-20%</span></div><p class="name">Ceramic Mugs</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€389.99</span><span class="price">€311.99</span></p></div></a>
+        <a class="product" href="#"><div class="thumb"><img src="assets-bf/bf-tote.webp" alt=""><span class="badge">-20%</span></div><p class="name">Premium Tote Bags</p><div><p class="from">100 pcs from</p><p class="prices"><span class="was">€329.99</span><span class="price">€263.99</span></p></div></a>
+      </div>
+    </section>
+  </main>
+
+  <p class="gap-why"><b>Why A:</b> the black is in the products, so it stands out most on our light grey tile, the same tile as every other page:
+    the campaign is unmistakable and the shop stays the shop. On a black tile (B) the black products lose their edges and the row turns into one dark block.</p>
+  <p class="gap-why"><b>The cutouts</b> are made with the real product photo as the shape reference (stand, handles, paper, angle stay the product), one prompt for every
+    product with only the product name changed, transparent background (checked: 53–80% of the pixels fully transparent). 0.25 credits each.
+    <b>To check before the build:</b> the mug and tote are shown black; that is only honest if we sell them in black (full-colour print on the mug,
+    a black tote colour). Otherwise: white mug and natural tote with the same black print.</p>
+
+  <!-- 4 · The page -->
+  <h2 class="gap-h">4 · The page, top to bottom (Promotional Print's PLP blocks, with A)</h2>
+  <ol class="outline-list">
+    <li><b>Site notification</b> (exists): "Black Friday: up to 30% off print until Monday 30 November", linking here.</li>
+    <li><b>Title + intro</b>: Black Friday Deals, the offer and the end date in one line.</li>
+    <li><b>Tabs</b>: Best deals · Christmas · Your own Black Friday · Signage · Gifts &amp; clothing.</li>
+    <li><b>Best Black Friday Deals</b>: 10 product cards (2 rows of 5), -% label, old price crossed out.</li>
+    <li><b>Christmas</b>: promo card (a photo of the Black Friday products) + 6 categories.</li>
+    <li><b>Your own Black Friday</b>: content row (photo + the live text) + 5 product cards.</li>
+    <li><b>Signage</b> and <b>Gifts &amp; clothing</b>: 5 product cards each.</li>
+    <li><b>Reviews row</b>, <b>FAQ</b> with the deal conditions (which products, until when, not on quotes), <b>SEO text</b> last.</li>
+  </ol>
+</div>
+</body>
+</html>
