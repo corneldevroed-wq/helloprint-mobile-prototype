@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 
+## Funnel icons (Nov 16, 2026)
+- **11-16 — Option icons: folds, envelopes, PMS printing** (Cornel, sketches/fold-envelope-icons-sketch.html, folds A + envelopes B): a fold = the card opened flat as its size shape with the fold as a dashed line (portrait, landscape, square, tent); envelopes = the card alone (Without) or the closed envelope (With). PMS = the printing icon (1 / 2 stacked) with one ink dot per PMS colour under the number. Rejected: skewed open panels with a grey inside and a card poking out of the envelope (first version, not nice), the card standing as a V (B, stands out in a row of flat shapes), the cover lifted (C, busy at 40), envelope stacked behind the card (A, busy) or open (C, clip art). The folded business-card sizes use them (`o.fold`). Missing icons per product: sketches/icon-gaps-promotional.html.
+
 ## Black Friday (Nov 16, 2026)
 - **11-16 — Black Friday is a PLP** (Cornel, black-friday-sketch A; "you may not combine page types"): the PLP of promotional.html, one page for live /black-friday and /deals. Rejected: CLP (one product family), marketing page (made for reading, products halfway down), a marketing hero on a PLP (mixing types).
 - **11-16 — The deal is in the price, no code** (conversion): the card shows the reduced price with the old one crossed out and the saving as the orange label; the end date is one line in the intro, no countdown. Conditions are FAQ questions.

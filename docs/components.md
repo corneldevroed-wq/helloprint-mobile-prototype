@@ -99,7 +99,7 @@ design system + guide, prices for products without a live from-price. Gap histor
 - **Option cards** (`.opt` in `#jConfig`): desktop Cards A reserves an icon area per row (`--vis-h` = tallest icon,
   set in `deskOverflow()`), icons bottom-aligned. "+N more" tile when a row overflows.
 - **Option visuals** (`optVisual()` in product.html): order = thickness line → material icon (`MAT_ICONS`) →
-  printing E → corners → bundling → banner icons (`BANNER_ICONS`) → photo/shape/swatch/chip.
+  printing E → corners → fold (`o.fold` → `icons/folds/<fold>.svg`, the folded business-card sizes) → bundling → banner icons (`BANNER_ICONS`) → photo/shape/swatch/chip.
   `.mi.two` = two stacked sheets (finishing both sides), `.mi.three` = Special (three sheets).
 - **ⓘ guide** (`.guide-item`, `.gi-vis`): option visual left, 16px to the text.
 - **Specs table** (`renderSpecs`, `specValue`, `specLink`, `XLINKS`): links only for size + material appearance.
@@ -123,7 +123,11 @@ design system + guide, prices for products without a live from-price. Gap histor
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets
-- `design-system/icons/materials|printing|corners|bundling|banners` — icon set (SVG, 50×50).
+- `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes` — icon set (SVG, 50×50). Option icons (printing, folds, envelopes)
+  outline in #191919 like the size shapes; `printing/pms-<1|2|3>-<single|double>` = the printing icon plus one ink dot per PMS colour
+  (orange, light green, dark green). Folds = the card opened flat, the fold dashed; envelopes = the card alone / the closed envelope
+  (choice in `sketches/fold-envelope-icons-sketch.html`). Not used yet beyond the folded sizes. Missing icons per product:
+  `sketches/icon-gaps-promotional.html` (promotional-printing run, 11-16).
   Generators live in the session scratchpad (`mat_icons.py`, `banner_icons.py`) — ask before regenerating, some
   icons were hand-tweaked afterwards (no-finishing circle, spot UV bevel).
 - `assets/home/` — home images (team-experts.webp = Cornel's export). Live Contentful images are hotlinked

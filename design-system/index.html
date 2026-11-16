@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261128h">
-<link rel="stylesheet" href="components.css?v=20261128h">
-<link rel="stylesheet" href="guide.css?v=20261128h">
+<link rel="stylesheet" href="tokens.css?v=20261128k">
+<link rel="stylesheet" href="components.css?v=20261128k">
+<link rel="stylesheet" href="guide.css?v=20261128k">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -230,10 +230,11 @@
   const icons = row({ name: 'Material icons', meta: [{ t: 'icons/materials' }, { t: '50px desktop · 40px mobile' }], wide: true,
       use: 'A sheet with a folded corner, square corners, crisp 1px border, subtle gradient. One kind of icon per row, everywhere instead of swatches. Read live from <code>index.json</code>.',
       ex: stage('<div class="icon-grid" id="icMats"></div>') }) +
-    row({ name: 'Option icons', wide: true, meta: [{ t: 'printing/e-*' }, { t: 'corners' }, { t: 'bundling' }],
-      use: 'Show what you get: one square "1" or two stacked "2" for printing, the black L corner, a stack with a paper band for bundling.',
-      ex: stage('<div class="icon-grid">' + [['printing/e-single', 'Single-sided'], ['printing/e-double', 'Double-sided'], ['corners/straight', 'Straight'], ['corners/rounded', 'Rounded'],
-        ['bundling/not-bundled', 'Not bundled'], ['bundling/per-50', 'Per 50'], ['materials/no-finishing', 'No finishing']].map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="">${n}</figure>`).join('') + '</div>') }) +
+    row({ name: 'Option icons', wide: true, meta: [{ t: 'printing/e-* · pms-*' }, { t: 'corners' }, { t: 'bundling' }, { t: 'folds' }, { t: 'envelopes' }],
+      use: 'Show what you get: one square "1" or two stacked "2" for printing (spot colours: one round ink dot per PMS colour under the number), the black L corner, a stack with a paper band for bundling, the card opened flat with the fold as a dashed line (its shape as a size), the card alone or the closed envelope.',
+      ex: stage('<div class="icon-grid">' + [['printing/e-single', 'Single-sided'], ['printing/e-double', 'Double-sided'], ['printing/pms-1-single', '1 PMS · single'], ['printing/pms-2-double', '2 PMS · double'], ['printing/pms-3-single', '3 PMS · single'],
+        ['corners/straight', 'Straight'], ['corners/rounded', 'Rounded'], ['bundling/not-bundled', 'Not bundled'], ['bundling/per-50', 'Per 50'], ['materials/no-finishing', 'No finishing'],
+        ['folds/portrait', 'Portrait fold'], ['folds/landscape', 'Landscape fold'], ['folds/square', 'Square fold'], ['folds/tent', 'Tent fold'], ['envelopes/without', 'Without envelope'], ['envelopes/with', 'With envelope']].map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="">${n}</figure>`).join('') + '</div>') }) +
     row({ name: 'Line icons', meta: [{ t: 'Material Symbols Rounded' }, { t: '24px · weight 400' }],
       use: 'Google Material Symbols Rounded, line, the stroke of the header cart icon. Dark green on a 56px grey outlined tile (Help Centre topics).',
       ex: stage(['local_mall', 'upload', 'receipt', 'delivery_truck_speed', 'account_circle', 'error'].map(i => `<span class="material-symbols-rounded" style="font-size:24px;color:var(--dark-green)">${i}</span>`).join('')) }) +
@@ -583,6 +584,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261128h"></script>
+<script src="guide.js?v=20261128k"></script>
 </body>
 </html>
