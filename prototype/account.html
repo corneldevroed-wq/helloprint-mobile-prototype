@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
-<link rel="stylesheet" href="../design-system/components.css?v=20261129p">
-<link rel="stylesheet" href="pages.css?v=20261129p">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261130q">
+<link rel="stylesheet" href="../design-system/components.css?v=20261130q">
+<link rel="stylesheet" href="pages.css?v=20261130q">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -36,7 +36,7 @@
 
         <div class="account-two">
           <section><h2>Invoices <a class="link" href="#invoices">All invoices</a></h2><div class="dash-card"><div id="invoices"></div>
-            <p class="dash-foot"><b>€762.70</b> open across 3 invoices · <button class="link" type="button" data-act="soon" data-what="The invoices page">Pay all</button></p></div></section>
+            <p class="dash-foot" id="invoicesFoot"></p></div></section>
           <section><h2>Quotes <a class="link" href="#quotes">All quotes</a></h2><div class="dash-card"><div id="quotes"></div>
             <p class="dash-foot">Custom size, big volume or off-catalogue? <a class="link" href="#new2contactform">Request a quote</a></p></div></section>
         </div>
@@ -48,9 +48,9 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261129p"></script>
-<script src="account.js?v=20261129p"></script>
-<script src="../design-system/components.js?v=20261129p"></script>
+<script src="app.js?v=20261130q"></script>
+<script src="account.js?v=20261130q"></script>
+<script src="../design-system/components.js?v=20261130q"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
@@ -62,7 +62,7 @@
   // Pay happens here (the payment link, as order confirmed); a proof or a file opens its order page with that action.
   function renderTodo() {
     const todo = [
-      ...ORDERS.filter(o => o.pay && !o.paid && !o.cancelled).map(o => [`Pay ${o.pay.amount}`, `Invoice ${o.pay.invoice} · order #${o.no} · due ${o.pay.due}`, `<button class="btn primary small" type="button" data-act="pay" data-o="${o.no}">Pay now</button>`]),
+      ...ORDERS.filter(o => o.pay && !o.paid && !o.cancelled).map(o => [`Pay ${o.pay.amount}`, `Invoice ${o.pay.invoice} · order #${o.no} · due ${o.pay.due}`, `<a class="btn primary small" href="order.html?o=${o.no}#pay">Go to order</a>`]),   // first the order (what you pay for), then Pay now there (Cornel 11-17)
       ...ORDERS.filter(o => !o.cancelled).map(o => o.lines.map((l, i) => ({ o, l, i })).filter(({ l }) => l.btns && l.step < 2)).filter(n => n.length)
         .map(n => { const { o, l, i } = n[0];   // one per order: one product = its action, more = to the order
           return n.length === 1 ? [l.title, `${l.name} · order #${o.no}`, `<a class="btn primary small" href="${l.proof && l.btns[0] === 'Review proof' ? proofUrl(o, i) : `order.html?o=${o.no}#do-${i}`}">${l.btns[0]}</a>`, l.foot]
@@ -73,8 +73,8 @@
     document.getElementById('todo').innerHTML = todo.map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span>
       <span class="t"><b>${t}</b><small>${s}</small></span>${btn}</div>${foot ? `<p class="oc-foot">${foot}</p>` : ''}</div>`).join('');
     // Orders in progress: the photo (+N), the status, and where each order is
-    document.getElementById('orders-now').innerHTML = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3).map(o => `<a class="dash-row go" href="order.html?o=${o.no}">${orderPhoto(o)}
-      <span class="t"><b>${orderTitle(o)}</b><small>${o.sub}</small></span><span class="status ${o.status[0]}">${o.status[1]}</span>${orderTracker(o.step)}<img class="chev" src="assets/menu/arrow.svg" alt=""></a>`).join('');
+    document.getElementById('orders-now').innerHTML = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3).map(o => `<a class="dash-row" href="order.html?o=${o.no}">${orderPhoto(o)}
+      <span class="t"><b>${orderTitle(o)}</b><small>${o.sub}</small></span><span class="status ${o.status[0]}">${o.status[1]}</span>${orderTracker(o.step)}</a>`).join('');
   }
   renderTodo();
   window.addEventListener('hp-orders', renderTodo);
@@ -86,11 +86,12 @@
       <span class="acts"><button class="pill active" type="button" data-act="reorder" data-o="${no}" data-l="${i}" aria-label="Reorder ${l.name}">Reorder</button>${iconBtn('edit', 'Change options and reorder', `href="${PRODUCT_PAGES[l.name] || '#'}"`)}${iconBtn('download', 'Download proof', 'data-act="download"')}</span></div>`; }).join('');
 
   const textRow = href => ([t, s, st, label]) => `<a class="dash-row text" href="${href}"><span class="t"><b>${t}</b><small>${s}</small></span><span class="status ${st}">${label}</span></a>`;
-  document.getElementById('invoices').innerHTML = [
-    ['INV-2026-4471 · €184.20', 'Order #8842119 · €160.20 open · due Tue 24 Nov', 'go', 'Open'],
-    ['INV-2026-4302 · €212.50', 'Order #8830771 · €194.50 open · due Fri 27 Nov', 'go', 'Open'],
-    ['INV-2026-4188 · €96.00', 'Order #8825510 · paid Thu 22 Oct', '', 'Paid'],
-  ].map(textRow('#invoices')).join('');
+  // the invoices of the orders (account.js), the open ones first; the same as each order page shows
+  const renderInvoices = () => { const inv = ORDERS.filter(o => o.inv).sort((a, b) => !!b.inv.open - !!a.inv.open), open = inv.filter(o => o.inv.open);
+    document.getElementById('invoices').innerHTML = inv.slice(0, 3).map(o => textRow(`order.html?o=${o.no}`)([`${o.inv.no} · €${orderSum(o).total.toFixed(2)}`,
+      `Order #${o.no} · ${o.inv.open ? `${o.inv.open} open · due ${o.inv.due}` : `paid ${o.inv.paid}`}`, o.inv.open ? 'go' : '', o.inv.open ? 'Open' : 'Paid'])).join('');
+    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${open[0].inv.open}</b> open · <a class="link" href="order.html?o=${open[0].no}#pay">Go to order</a>` : 'All your invoices are paid'; };
+  renderInvoices(); window.addEventListener('hp-orders', renderInvoices);
   document.getElementById('quotes').innerHTML = [
     ['QT-5567 · €420.00', '50 roller banners, custom size · valid until Mon 30 Nov', 'act', 'Quote ready'],
     ['QT-5540 · Tote bags', '1,000 pcs, bespoke print · we email you when it is ready', 'go', 'Requested'],

@@ -174,15 +174,16 @@ function openArt(art, start = 0) {   // start: the file to show first (the one t
 }
 // All done ("Tikkie style", order confirmed 2026-11-09, My account 2026-11-17): the standard popup with a big check that pops, confetti over the
 // whole screen and one warm line; closes only with ✕ or its button (no overlay click, no swipe). allDonePopup(html): the title, text and button.
+// allDonePopup(html, true): the same popup without the check and the confetti (a cancelled order: no party, Cornel 11-17).
 const SHEET_YAY = `<div class="sheet-layer" id="sheet-yay" aria-hidden="true"><div class="sheet-overlay"></div>
   <div class="sheet oc-yay" role="dialog" aria-modal="true" aria-labelledby="yayTitle"><div class="grab"></div>
     <div class="sheet-head"><span></span><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
     <div class="sheet-body"><div class="pad yay" id="yayBody"></div></div></div></div>`;
-function allDonePopup(html) {
+function allDonePopup(html, calm) {
   if (!document.getElementById('sheet-yay')) document.body.insertAdjacentHTML('beforeend', SHEET_YAY);
-  document.getElementById('yayBody').innerHTML = `<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="48"/><path d="M28 50l14 14 26-30"/></svg>${html}`;
+  document.getElementById('yayBody').innerHTML = `${calm ? '' : '<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="48"/><path d="M28 50l14 14 26-30"/></svg>'}${html}`;
   openSheet('yay');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (calm || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link', '--white'];
   layer.className = 'confetti oc-yay-confetti';
   layer.innerHTML = Array.from({ length: 90 }, (_, k) => `<i style="left:${Math.random() * 100}%;background:var(${colours[k % 5]});animation-delay:${Math.random() * .6}s;--x:${Math.random() * 120 - 60}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
