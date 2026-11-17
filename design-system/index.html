@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,download,edit,error,local_mall,receipt,search,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261201e">
-<link rel="stylesheet" href="components.css?v=20261201e">
-<link rel="stylesheet" href="guide.css?v=20261201e">
+<link rel="stylesheet" href="tokens.css?v=20261201j">
+<link rel="stylesheet" href="components.css?v=20261201j">
+<link rel="stylesheet" href="guide.css?v=20261201j">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -503,8 +503,9 @@
       use: 'Your saved addresses (one book, this browser: the checkout and the order page’s Change, Cornel 2026-11-17): a card per address, the label bold, the lines 14/22, a radio; chosen = the 2px light green border; Default as a grey label; “+ New address” dashed as the last item. Tap = choose, the sheet’s button confirms (Use this address / Use for this order). Where the book is managed (the checkout) a ⋮ per card: Edit, Make default, Delete.',
       ex: stage(accReal(`<ul class="addr-list" style="padding:0"><li class="on" aria-checked="true"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span><span class="t"><b>Office</b><span>Loraine Pijffers</span><span>Merrion Studio</span><span>12 Merrion Square</span><span>D02 X285 Dublin 2</span><span class="badge neutral co-badge">Default</span></span></button></li><li class="" aria-checked="false"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span><span class="t"><b>Home</b><span>Loraine Pijffers</span><span>27 Sandymount Avenue</span><span>D04 K7P3 Dublin 4</span></span></button></li><li class="ap-add"><button type="button" class="ap-pick"><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li></ul>`)) }) +
     row({ name: 'Account card', wide: true, meta: [{ t: '.account-who' }, { t: '.vip-meter' }, { t: '.account-nav' }, SIZE],
-      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the tier as an eco label, the points to the next tier as an 8px bar, one line with the next discount and How VIP works (the tiers of vip.html: Member 2%, Premium 4%, Elite 6%). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
-      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div><small>You get <b>2% off</b> every order<br>18,760 of 25,000 points · 6,240 more for Premium: 4% off · <a class="link" href="#account">How VIP works</a></small></div>
+      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title and the tier as an eco label; the 8px bar; one line under it: your points and what the next tier gives (18,760 of 25,000 points · 6,240 to 4% off, 12/18); How VIP works on its own line (Cornel 2026-11-17: one sentence read badly) (the tiers of vip.html: Member 2%, Premium 4%, Elite 6%). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
+      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div><small>18,760 of 25,000 points · 6,240 to 4% off</small>
+          <small><a class="link" href="#account">How VIP works</a></small></div>
         <nav class="d-menu d-head account-nav" aria-label="My account"><a href="#account" aria-current="page"><span class="ico"><img src="icons/home.svg" alt=""></span><span><b>Account Overview</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/package-2.svg" alt=""></span><span><b>Orders</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/chat.svg" alt=""></span><span><b>Complaints</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a></nav></div>`, [288, 'account overview, desktop (side card)'])) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
       'Mobile: dark green bar with menu, logo, account and cart, the search under it. Desktop: logo, search, language, account, Need help?, cart, then the category bar (All products, the categories, and right the season link: Christmas, white with a light green tree icon (icons/tree.svg), with its own dropdown). Checkout (.co-header / .co-dhead): logo, Secure Checkout, account, cart; on desktop only the 60 top bar: logo, Secure Checkout (14/22) next to it, account and cart right (no search, menu or USP bar). Login / register (.auth-head): only a 60 dark green bar with the logo in the middle, no menu or footer, from every flow.') +
@@ -636,6 +637,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261201e"></script>
+<script src="guide.js?v=20261201j"></script>
 </body>
 </html>

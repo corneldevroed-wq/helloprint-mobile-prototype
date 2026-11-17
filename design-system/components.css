@@ -874,7 +874,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .account-who b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
 /* VIP meter: the tier (eco label), the points to the next tier as an 8px bar, one line under it (the tiers of vip.html) */
 .vip-meter { display: flex; flex-direction: column; gap: 8px; }
-.vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }
+.vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }   /* the title, the tier label right; under the bar one line: points · to the next discount (Cornel 2026-11-17: the layout of the cart's VIP score, our fonts) */
 .vip-meter .top .badge { margin: 0; }
 .vip-meter .bar { height: 8px; overflow: hidden; border-radius: var(--r-pill); background: var(--light-grey); }
 .vip-meter .bar i { display: block; height: 100%; border-radius: inherit; background: var(--light-green); }
