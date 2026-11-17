@@ -29,7 +29,7 @@ const ORDERS = [
   { no: '8825510', name: 'Roller Banner', ref: '', placed: 'Tue 20 Oct', sub: 'Delivered Mon 26 Oct', status: ['', 'Delivered'], step: 4, complaint: 'CMP-1042', inv: { no: 'INV-2026-4188', paid: 'Thu 22 Oct' }, lines: [
     { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', price: 78.05, arrives: 'Mon 26 Oct', step: 4, title: 'Delivered Mon 26 Oct', text: 'Complaint CMP-1042 in progress: damaged on arrival.', btns: ['View complaint'] },
   ] },
-  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', placed: 'Mon 12 Oct', sub: 'From quote QT-5502 · delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, inv: { no: 'INV-2026-4120', paid: 'Mon 12 Oct' }, lines: [
+  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', quote: 'QT-5502', placed: 'Mon 12 Oct', sub: 'From quote QT-5502 · delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, inv: { no: 'INV-2026-4120', paid: 'Mon 12 Oct' }, lines: [
     { img: 'p6.png', name: 'Tote bags', spec: '1,000 pcs · Natural cotton · Bespoke print', price: 341.46, arrives: 'Thu 22 Oct', step: 4, title: 'Delivered Thu 22 Oct', text: 'Signed for by L. Pijffers' },
   ] },
 ];
@@ -54,7 +54,30 @@ const bookLines = a => [`${a.first || ''} ${a.last || ''}`.trim(), a.company, a.
 const bookToOrder = (a, prev) => ({ name: `${a.first || ''} ${a.last || ''}`.trim(), company: a.company, street: [a.address1, a.address2].filter(Boolean).join(', '), code: a.eircode, town: a.town, vat: prev.vat });
 const addrLines = a => [[a.name, a.company].filter(Boolean).join(', '), a.vat && 'VAT ' + a.vat, a.street, `${a.town}, ${a.code}`, 'Ireland'].filter(Boolean);
 // the totals as an invoice (as the checkout): products, the check, shipping free, VAT 23%
-const orderSum = o => { const goods = o.lines.reduce((s, l) => s + l.price, 0), check = 12.20, sub = goods + check, vat = Math.round(sub * VAT_RATE * 100) / 100; return { goods, check, sub, vat, total: sub + vat }; };
+// the VIP discount: Member = 2% off the products of every order (the account card, vip.html)
+const VIP_OFF = .02;
+const orderSum = o => { const goods = o.lines.reduce((s, l) => s + l.price, 0), vip = Math.round(goods * VIP_OFF * 100) / 100, check = 12.20, sub = goods - vip + check, vat = Math.round(sub * VAT_RATE * 100) / 100; return { goods, vip, check, sub, vat, total: sub + vat }; };
+// All specifications of a product (the order page's fold): what you chose, as the PDP's option names; the quantity from the line
+const SPECS = {
+  'Folded Leaflets': [['Size', 'A4 landscape'], ['Pages', '4 (folded in half)'], ['Paper', 'Silk 170 gsm'], ['Printing', 'Double-sided, full colour']],
+  'Standard Flyers': [['Size', 'A5 (148 × 210 mm)'], ['Paper', 'Gloss 170 gsm'], ['Printing', 'Double-sided, full colour']],
+  'Classic Business Cards': [['Size', '85 × 55 mm'], ['Paper', 'Uncoated 400 gsm'], ['Finish', 'Matt laminated'], ['Printing', 'Double-sided, full colour'], ['Corners', 'Square']],
+  'Posters': [['Size', 'A4 (210 × 297 mm)'], ['Paper', 'Gloss 170 gsm'], ['Printing', 'One-sided, full colour']],
+  'Basic Cotton Bags': [['Colour', 'Natural'], ['Print area', 'Front, 25 × 30 cm'], ['Print colours', 'Full colour'], ['Handles', 'Long']],
+  'Roller Banner': [['Size', '85 × 200 cm'], ['Stand', 'Premium, with carry bag'], ['Material', 'Polyester, blockout']],
+  'Tote bags': [['Material', 'Natural cotton, 140 gsm'], ['Print', 'Bespoke, from quote QT-5502']],
+};
+const specRows = l => [['Quantity', l.spec.split(' · ')[0]], ...(SPECS[l.name] || []), ['Delivery', 'Standard'], ['File check', 'Premium Check + Proof']];
+// Questions about this order (the Help Centre's articles), by where it stands: max 4
+const orderHelp = o => [
+  ...(o.cancelled ? [['I have cancelled my order, why have I not received my refund?', 'i-have-cancelled-my-order-why-have-i-not-received-my-refund']] : []),
+  ...(!o.cancelled && o.lines.some(l => l.proof && l.btns && l.step === 1) ? [['How do I approve my proof?', 'how-do-i-approve-my-proof'], ['What happens if I miss my proof approval deadline?', 'what-happens-if-i-miss-my-proof-approval-deadline']] : []),
+  ...(!o.cancelled && o.lines.some(l => l.btns && l.step === 0) ? [['What file type should I use when uploading my design?', 'what-file-type-should-i-use-when-uploading-my-design']] : []),
+  ...(o.pay && !o.paid ? [['How do I pay on invoice?', 'how-do-i-pay-on-invoice']] : []),
+  ...(o.step === 3 ? [['How can I track my order?', 'how-can-i-track-my-order'], ['What should I do if my package hasn’t been delivered?', 'what-should-i-do-if-my-package-hasn-t-been-delivered']] : []),
+  ...(o.step === 4 ? [['My order has been delivered damaged. What should I do?', 'my-order-has-been-delivered-damaged-what-should-i-do'], ['Downloading invoices & credit notes', 'how-do-i-download-my-invoices-and-credit-notes']] : []),
+  ...(o.step < 2 && !o.cancelled ? [['Can I change my order?', 'can-i-change-my-order']] : []),
+].slice(0, 4);
 const proofUrl = (o, i) => `proof.html?o=${o.no}&l=${i}`;
 const orderTitle = o => `#${o.no} · ${o.name}${o.lines.length > 1 ? ` (${o.lines.length} products)` : ''}`;
 // the first photo, "+N" when the order has more products
@@ -65,6 +88,9 @@ const orderTracker = (step, err) => `<ol class="tracker">${ORDER_STEPS.map((s, k
 // Per order: your reference, paid, cancelled, and per product: approved (the proof) or uploaded (a new file). The orders above are rebuilt from it,
 // so the Overview, Orders and the order page always show the same state.
 const ORDERS_BASE = JSON.parse(JSON.stringify(ORDERS));
+// Prototype switch (the Demo tab, ?new=1|0): a new customer, no orders yet, so every block shows its empty state
+const NEW_CUSTOMER = (() => { const v = new URLSearchParams(location.search).get('new');
+  try { if (v !== null) localStorage.setItem('hp-new-customer', v === '1' ? '1' : ''); return localStorage.getItem('hp-new-customer') === '1'; } catch (e) { return v === '1'; } })();
 let ordersDone = {};
 try { ordersDone = JSON.parse(localStorage.getItem('hp-orders')) || {}; } catch (e) {}
 function applyOrders() {
@@ -86,6 +112,7 @@ function applyOrders() {
     else if (base.status[0] === 'act') Object.assign(o, { status: ['go', o.step >= 3 ? 'On its way' : 'In production'], sub: (d => `Estimated ${etaShort(etaDate(d))} — latest ${etaShort(etaLatest(d))}`)(o.lines.map(l => l.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0]) });   // the last product's date
     return o;
   }));
+  if (NEW_CUSTOMER) ORDERS.length = 0;
 }
 // The block that just changed lights up once on the order page (the green glow of order confirmed, .oc-new): set before the save
 const flashLine = (no, li) => { try { sessionStorage.setItem('hp-flash', `${no}:${li}`); } catch (e) {} };
@@ -223,6 +250,9 @@ document.addEventListener('click', e => { const a = e.target.closest('a[href^="#
 // Prototype: back to the start (every to-do open again). The left-edge tab on the account pages (the prototype switches' look), or ?reset in the URL
 const resetDemo = () => { try { localStorage.removeItem('hp-orders'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
 if (new URLSearchParams(location.search).has('reset')) { resetDemo(); history.replaceState(null, '', location.pathname + location.search.replace(/[?&]reset(=[^&]*)?/, '').replace(/^&/, '?')); location.reload(); }
-document.body.insertAdjacentHTML('beforeend', '<div class="flow-switch demo-reset" role="group" aria-label="Prototype"><span>Demo</span><button type="button" title="Reset the demo: every to-do open again" aria-label="Reset the demo">↺</button></div>');
-document.querySelector('.demo-reset button').addEventListener('click', () => { resetDemo(); toastOnNextPage('The demo is back at the start'); location.reload(); });
+document.body.insertAdjacentHTML('beforeend', `<div class="flow-switch demo-reset" role="group" aria-label="Prototype"><span>Demo</span><button type="button" data-demo="reset" title="Reset the demo: every to-do open again" aria-label="Reset the demo">↺</button>
+  <button type="button" data-demo="new" aria-pressed="${NEW_CUSTOMER}" title="New customer: no orders yet (the empty states)" aria-label="New customer">N</button></div>`);
+document.querySelector('[data-demo=reset]').addEventListener('click', () => { resetDemo(); toastOnNextPage('The demo is back at the start'); location.reload(); });
+document.querySelector('[data-demo=new]').addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('new', NEW_CUSTOMER ? '0' : '1');   // in the URL too: a copied link opens this version
+  toastOnNextPage(NEW_CUSTOMER ? 'Back to a customer with orders' : 'A new customer: no orders yet'); location.href = (/order\.html|proof\.html/.test(u.pathname) && !NEW_CUSTOMER) ? 'orders.html?new=1' : u.href; });
 document.getElementById('cancelReason').addEventListener('change', e => document.querySelector('[data-act="cancel-yes"]').disabled = !e.target.value);   // a reason chosen: Yes works

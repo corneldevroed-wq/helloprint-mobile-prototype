@@ -254,10 +254,11 @@ const LANG_MENU = `<div class="d-menu d-head d-lang" role="menu" hidden>
 // The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
 // My account (account.html, orders.html, order.html; Cornel 2026-11-17): the side card = who is logged in, the VIP status (the tiers of
 // vip.html) and the account pages, the current one grey. Desktop: sticky left of the page; mobile: only on the Overview (the rows last)
-const accountSide = current => `<aside class="account-side dash-card">
-        <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>${[deskUser?.first, deskUser?.last].filter(Boolean).join(' ').replace(/</g, '&lt;') || deskFirst}</b><small>Merrion Studio · customer since 2023</small></div>
-        <div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div>
-          <small>You get <b>2% off</b> every order<br>18,760 of 25,000 points · 6,240 more for Premium: 4% off · <a class="link" href="vip.html">How VIP works</a></small></div>
+// fresh: a new customer (account.js, the Demo switch): customer since now, no points yet
+const accountSide = (current, fresh = typeof NEW_CUSTOMER !== 'undefined' && NEW_CUSTOMER) => `<aside class="account-side dash-card">
+        <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>${[deskUser?.first, deskUser?.last].filter(Boolean).join(' ').replace(/</g, '&lt;') || deskFirst}</b><small>Merrion Studio · customer since ${fresh ? 'Nov 2026' : '2023'}</small></div>
+        <div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:${fresh ? 0 : 75}%"></i></div>
+          <small>You get <b>2% off</b> every order<br>${fresh ? '0 of 25,000 points: you earn them with every order' : '18,760 of 25,000 points · 6,240 more for Premium: 4% off'} · <a class="link" href="vip.html">How VIP works</a></small></div>
         ${accountNav(current)}</aside>`;
 const accountNav = current => `<nav class="d-menu d-head account-nav" aria-label="My account">${ACCOUNT_ROWS.replace(/ role="menuitem"/g, '').replace(`href="${current}"`, `href="${current}" aria-current="page"`)}</nav>`;   // in the page: links, not menu items
 const deskAccount = login => deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="account.html" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : `<a class="dbtn dbtn-user" href="${login}"><img src="assets/account.svg" alt="">Log in</a>`;

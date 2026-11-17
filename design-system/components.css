@@ -732,6 +732,12 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-act.done { padding: 15px; border: 1px solid var(--outline); }   /* done (uploaded / paid): 1px grey (the content stays where it was), a check instead of its number; to do: 2px green */
 .oc-act.done .oc-foot { margin: 0 -15px -15px; border-radius: 0 0 9px 9px; }
 .oc-act .n.x { background: var(--mid-grey); }   /* cancelled: a cross in a grey circle, the grey of the Cancelled status dot */
+.spec-fold summary { display: inline-block; margin-top: 4px; list-style: none; cursor: pointer; font-size: var(--t-12); line-height: var(--lh-12); }   /* All specifications under a product's line (the order page): a link that folds open */
+.spec-fold summary::-webkit-details-marker { display: none; }
+.spec-fold-rows { display: grid; grid-template-columns: auto 1fr; gap: 0 16px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* label grey, what you chose black */
+.spec-fold-rows > div { display: contents; }
+.spec-fold-rows span + span { color: var(--black); }
+.dash-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* an account block with nothing in it yet (a new customer): one calm line, at most one button */
 .oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .oc-act .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }   /* the cart line without its quantity row: no line under the date */
 .oc-act .row > .pm-logos { display: flex; gap: 16px; margin-left: auto; }   /* paid: the logo of the method, right in the row */
@@ -883,8 +889,8 @@ html:not(.desk) .notice-close { right: 4px; }
 .filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .filter-row .pill small { margin-left: 4px; font-weight: 400; }
 .filter-row .find { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); color: var(--dark-grey); }
+.desk .filter-row .find { flex: 1 1 240px; max-width: 360px; margin-left: auto; }   /* desktop: on the right of the pills, narrower when they need the room */
 .filter-row .find input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; color: var(--black); }
-.desk .filter-row .find { flex: 0 1 360px; margin-left: auto; }
 .filter-row .find:focus-within { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* focus as the text fields */
 /* Table (desktop lists: orders): column heads 12/18 grey semibold, rows 14/22 with a line between, the first cell a photo + title + grey line; a row opens on hover-grey. Mobile shows the list as .dash-row */
 .dash-table { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }

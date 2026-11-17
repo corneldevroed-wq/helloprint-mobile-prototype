@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261130w">
-<link rel="stylesheet" href="../design-system/components.css?v=20261130w">
-<link rel="stylesheet" href="pages.css?v=20261130w">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201e">
+<link rel="stylesheet" href="pages.css?v=20261201e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -48,13 +48,15 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261130w"></script>
-<script src="account.js?v=20261130w"></script>
-<script src="../design-system/components.js?v=20261130w"></script>
+<script src="app.js?v=20261201e"></script>
+<script src="account.js?v=20261201e"></script>
+<script src="../design-system/components.js?v=20261201e"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
   document.querySelector('[data-first]').textContent = deskUser?.first || '';
+  if (NEW_CUSTOMER) { document.querySelector('.account-main h1').firstChild.textContent = 'Welcome, ';   // a new customer: not "back", and what this page is for
+    document.querySelector('.account-main h1 + .oc-lead').textContent = 'Your orders, invoices and quotes, all in one place.'; }
   // the side card (app.js: who, VIP, the account pages): left on desktop, at the bottom on mobile (the hub)
   document.querySelector('[data-account-side]').outerHTML = accountSide('account.html');
 
@@ -67,13 +69,14 @@
         .map(n => { const { o, l, i } = n[0];   // one per order: one product = its action, more = to the order
           return n.length === 1 ? [l.title, `${l.name} · order #${o.no}`, `<a class="btn primary small" href="${l.proof && l.btns[0] === 'Review proof' ? proofUrl(o, i) : `order.html?o=${o.no}#do-${i}`}">${l.btns[0]}</a>`, l.foot]
             : [`${n.length} products need you`, `${o.name} · order #${o.no} · ${n.map(x => x.l.name).join(', ')}`, `<a class="btn primary small" href="order.html?o=${o.no}">Go to order</a>`, l.foot]; }),
-      ['Your quote is ready: €420', 'Quote QT-5567 · 50 roller banners, custom size', '<button class="btn primary small" type="button" data-act="soon" data-what="The quotes page">View quote</button>', 'Valid until <b>Mon 30 Nov</b>'],
-      ['Send us a few photos', 'Complaint CMP-1031 · flyers, order #8811900', '<button class="btn primary small" type="button" data-act="soon" data-what="The complaints page">Upload photos</button>'],
+      ...(NEW_CUSTOMER ? [] : [['Your quote is ready: €420', 'Quote QT-5567 · 50 roller banners, custom size', '<button class="btn primary small" type="button" data-act="soon" data-what="The quotes page">View quote</button>', 'Valid until <b>Mon 30 Nov</b>'],
+        ['Send us a few photos', 'Complaint CMP-1031 · flyers, order #8811900', '<button class="btn primary small" type="button" data-act="soon" data-what="The complaints page">Upload photos</button>']]),
     ];
-    document.getElementById('todo').innerHTML = todo.map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span>
+    document.getElementById('todo').innerHTML = !todo.length ? `<div class="dash-card"><p class="dash-empty">Nothing needs you right now. When a proof, a file or a payment is waiting, it shows up here.<a class="btn primary small" href="index.html">Start shopping</a></p></div>` : todo.map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span>
       <span class="t"><b>${t}</b><small>${s}</small></span>${btn}</div>${foot ? `<p class="oc-foot">${foot}</p>` : ''}</div>`).join('');
     // Orders in progress: the photo (+N), the status, and where each order is
-    document.getElementById('orders-now').innerHTML = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3).map(o => `<a class="dash-row" href="order.html?o=${o.no}">${orderPhoto(o)}
+    const now = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3);
+    document.getElementById('orders-now').innerHTML = !now.length ? `<p class="dash-empty">${ORDERS.length ? 'Nothing on its way right now.' : 'No orders yet. Once you order, you follow every product here: artwork, proof, printing and delivery.'}</p>` : now.map(o => `<a class="dash-row" href="order.html?o=${o.no}">${orderPhoto(o)}
       <span class="t"><b>${orderTitle(o)}</b><small>${o.sub}</small></span><span class="status ${o.status[0]}">${o.status[1]}</span>${orderTracker(o.step)}</a>`).join('');
   }
   renderTodo();
@@ -81,18 +84,19 @@
 
   // Order again: the last products, one click to the cart (the same specs and design), change the options on the product page, the proof
   const iconBtn = (ic, tip, attrs) => `<${attrs.startsWith('href') ? 'a' : 'button type="button"'} class="icon-btn" ${attrs} data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs.startsWith('href') ? 'a' : 'button'}>`;
-  document.getElementById('again').innerHTML = [['8842119', 0, 'ordered 9 Nov'], ['8830771', 0, 'ordered 3 Nov'], ['8825510', 0, 'ordered 20 Oct']].map(([no, i, when]) => { const l = orderOf(no).lines[i];
+  document.getElementById('again').innerHTML = !ORDERS.length ? `<p class="dash-empty">What you order shows up here, to order it again in one click.<a class="btn primary small" href="index.html">Start shopping</a></p>` : [['8842119', 0, 'ordered 9 Nov'], ['8830771', 0, 'ordered 3 Nov'], ['8825510', 0, 'ordered 20 Oct']].map(([no, i, when]) => { const l = orderOf(no).lines[i];
     return `<div class="dash-row"><span class="img"><img src="assets/${l.img}" alt=""></span><span class="t"><b>${l.name}</b><small>${l.spec} · ${when}</small></span>
       <span class="acts"><button class="pill active" type="button" data-act="reorder" data-o="${no}" data-l="${i}" aria-label="Reorder ${l.name}">Reorder</button>${iconBtn('edit', 'Change options and reorder', `href="${PRODUCT_PAGES[l.name] || '#'}"`)}${iconBtn('download', 'Download proof', 'data-act="download"')}</span></div>`; }).join('');
 
   const textRow = href => ([t, s, st, label]) => `<a class="dash-row text" href="${href}"><span class="t"><b>${t}</b><small>${s}</small></span><span class="status ${st}">${label}</span></a>`;
   // the invoices of the orders (account.js), the open ones first; the same as each order page shows
   const renderInvoices = () => { const inv = ORDERS.filter(o => o.inv).sort((a, b) => !!b.inv.open - !!a.inv.open), open = inv.filter(o => o.inv.open);
-    document.getElementById('invoices').innerHTML = inv.slice(0, 3).map(o => textRow(`order.html?o=${o.no}`)([`${o.inv.no} · €${orderSum(o).total.toFixed(2)}`,
+    document.getElementById('invoices').innerHTML = !inv.length ? `<p class="dash-empty">Your invoices show up here after your first order.</p>` : inv.slice(0, 3).map(o => textRow(`order.html?o=${o.no}`)([`${o.inv.no} · €${orderSum(o).total.toFixed(2)}`,
       `Order #${o.no} · ${o.inv.open ? `${o.inv.open} open · due ${o.inv.due}` : `paid ${o.inv.paid}`}`, o.inv.open ? '' : 'ok', o.inv.open ? 'Open' : 'Paid'])).join('');
-    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${open[0].inv.open}</b> open · <a class="link" href="order.html?o=${open[0].no}#pay">Go to order</a>` : 'All your invoices are paid'; };
+    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${open[0].inv.open}</b> open · <a class="link" href="order.html?o=${open[0].no}#pay">Go to order</a>` : 'All your invoices are paid';
+    document.getElementById('invoicesFoot').hidden = !inv.length; };
   renderInvoices(); window.addEventListener('hp-orders', renderInvoices);
-  document.getElementById('quotes').innerHTML = [
+  document.getElementById('quotes').innerHTML = NEW_CUSTOMER ? `<p class="dash-empty">No quotes yet.</p>` : [
     ['QT-5567 · €420.00', '50 roller banners, custom size · valid until Mon 30 Nov', 'act', 'Quote ready'],
     ['QT-5540 · Tote bags', '1,000 pcs, bespoke print · we email you when it is ready', 'go', 'Requested'],
   ].map(textRow('#quotes')).join('');
