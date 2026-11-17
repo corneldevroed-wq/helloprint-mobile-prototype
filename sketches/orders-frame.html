@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,download,edit,home,local_mall,receipt,search,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261129p">
+<link rel="stylesheet" href="pages.css?v=20261129p">
+<!-- Sketch frame (not linked), loaded by sketches/orders-sketch.html as ?v=a|b&page=list|detail: My account Orders and Order detail
+     in the real account page (account.html's shell). Existing parts: .dash-card/.dash-row/.status/.tracker, .oc-act + .oc-foot, .line-item,
+     .totals, .d-menu rows, .pill. New (sketch CSS below): the filter row, a table (B), the error step of the tracker. -->
+<style>
+  html:not(.desk) .account-side { display: none; }   /* mobile: the account card only on the Overview; a sub page starts with its own title (the breadcrumb leads back) */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .filters .find { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); color: var(--dark-grey); font-size: var(--t-14); }
+  .desk .filters .find { flex: 0 1 360px; margin-left: auto; order: 2; }
+  .filters .pill small { margin-left: 4px; font-weight: 400; }
+  /* list: more products in one order = the first photo + "+N" (.art-count, as the cart's artwork) */
+  .dash-row .img.more { position: relative; overflow: visible; }
+  .dash-row .img.more img { border-radius: inherit; }
+  .dash-row .img .art-count { right: -6px; bottom: -6px; border: 1px solid var(--line); }
+  /* C: the order confirmed page in the account (.oc-strip, .oc-sec, .oc-acts, .oc-line, .oc-od, .cart-side) */
+  .oc-c { display: flex; flex-direction: column; gap: 32px; }
+  .oc-c > .oc-strip { margin: 0 -16px; }
+  .desk .oc-c > .oc-strip { margin: 0; }
+  .oc-pair { display: flex; flex-direction: column; gap: 32px; }   /* Order details with the map, and the order overview next to it (Cornel) */
+  .desk .oc-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+  .oc-tot { padding: 16px; }   /* the totals in the same outlined box as the details */
+  .oc-tot .totals { border-top: 0; padding-top: 0; }
+  .oc-c .oc { padding-bottom: 0; }
+  .oc-line .bar .err { background: var(--error); }
+  .oc-line .steps .err { color: var(--error); font-weight: 600; }
+  .oc-line .bar .done { background: var(--light-green); }
+  .tracker li.err { border-top-color: var(--error); color: var(--error); font-weight: 600; }
+  .dash-row .t .ref { color: var(--dark-grey); }
+  .note-cmp { grid-column: 2 / -1; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .note-cmp a { color: var(--link); text-decoration: underline; }
+  /* B: a table on desktop */
+  .tbl { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  .tbl th { padding: 0 16px 12px 0; text-align: left; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); border-bottom: 1px solid var(--line); }
+  .tbl td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .tbl tr:last-child td { border-bottom: 0; padding-bottom: 0; }
+  .tbl td b { display: block; font-weight: 600; }
+  .tbl td small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and the order details */
+  .tbl .ord { display: flex; align-items: center; gap: 16px; }   /* D: the photo (+N) before the order, as the rows */
+  .tbl .ord .img { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; border-radius: var(--r-m); background: var(--light-grey); }
+  .tbl .ord .img img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+  .tbl .ord .img.more { position: relative; }
+  .tbl .ord .art-count { right: -6px; bottom: -6px; border: 1px solid var(--line); }
+  .tbl tbody tr:hover { background: var(--light-grey); cursor: pointer; }
+  /* detail */
+  .od-head { display: flex; flex-direction: column; gap: 4px; }
+  .od-head p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .od-head .back { font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); text-decoration: underline; margin-bottom: 8px; }
+  .od-grid { display: flex; flex-direction: column; gap: 24px; }
+  .desk .od-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
+  .od-lines, .od-side { display: flex; flex-direction: column; gap: 16px; }
+  .od-line > .dash-row { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* the price stays right, also on mobile */
+  .od-line .amt { font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }
+  .od-line .tracker { margin-top: 4px; }
+  .od-line .msg { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+  .od-line .msg .t { flex: 1; min-width: 200px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+  .od-line .msg .t b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
+  .od-line .msg .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .od-line .msg .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .dash-card.od-line { display: flex; flex-direction: column; gap: 12px; }
+  .oc-act.od-line { gap: 12px; }
+  .od-side h3 { margin-bottom: 8px; font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
+  .od-side .adr { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .od-side .adr b { display: block; margin-top: 12px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); font-weight: 600; }
+  .od-side .adr b:first-of-type { margin-top: 0; }
+  .od-side .d-menu { position: static; width: auto; padding: 0; border: 0; box-shadow: none; }
+  .desk .account-page .od-line .btn { flex: none; height: auto; padding: 4px 16px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .od-line .btn { flex: 1 0 100%; }
+  .desk .od-line .btn { flex: none; }
+  .btn.outline.sm { height: auto; padding: 4px 16px; font-size: var(--t-14); line-height: var(--lh-14); }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="account-page">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <span id="crumb">Orders</span></p>
+    <div class="account-grid">
+      <aside class="account-side dash-card">
+        <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>HelloPrint · customer since 2023</small></div>
+        <div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div>
+          <small>You get <b>2% off</b> every order<br>18,760 of 25,000 points · 6,240 more for Premium: 4% off · <a class="link" href="vip.html">How VIP works</a></small></div>
+      </aside>
+      <div class="account-main" id="main"></div>
+    </div>
+  </main>
+</div>
+<script>
+  window.__tmpUser = !localStorage.getItem('hp-user');
+  if (window.__tmpUser) localStorage.setItem('hp-user', JSON.stringify({ first: 'Loraine', last: 'Pijffers', email: 'loraine@example.com' }));
+</script>
+<script src="app.js?v=20261129p"></script>
+<script src="../design-system/components.js?v=20261129p"></script>
+<script>
+  if (window.__tmpUser) localStorage.removeItem('hp-user');
+  const Q = new URLSearchParams(location.search), V = Q.get('v') || 'a', PAGE = Q.get('page') || 'list';
+  document.querySelector('.account-side').insertAdjacentHTML('beforeend', `<nav class="d-menu d-head account-nav" aria-label="My account">${ACCOUNT_ROWS}</nav>`);
+  document.querySelector('.account-nav a[href="#orders"]').setAttribute('aria-current', 'page');
+  const main = document.getElementById('main');
+  const STEPS = ['Artwork', 'Proof', 'Printing', 'Delivery'];
+  const tracker = (now, err) => `<ol class="tracker">${STEPS.map((s, k) => `<li class="${k < now ? 'done' : k === now ? (err ? 'err' : 'now') : ''}">${s}</li>`).join('')}</ol>`;
+  const photo = img => `<span class="img"><img src="assets/${img}" alt=""></span>`;
+
+  // ---------- Orders list ----------
+  const ORDERS = [
+    ['p6.png', '8847305', 'Launch kit (5 items)', 'PO-2026-118', 'Mon 16 Nov', '3 items need you', 'act', 'Action needed', 0],
+    ['products/roller-banner.webp', '8846210', 'Event pack (3 items)', 'EVENT-NOV', 'Fri 13 Nov', 'Estimated Fri 20 Nov — latest Mon 23 Nov', 'go', 'On its way', 3],
+    ['p4.png', '8842119', 'Classic Business Cards', 'PO-77120', 'Mon 9 Nov', '€160.20 to pay · due Tue 24 Nov', 'act', 'Payment due', 3],
+    ['products/roller-banner.webp', '8839004', 'Roller Banner × 2', '', 'Fri 6 Nov', 'Your proof is ready', 'act', 'Approve proof', 1],
+    ['p3.png', '8830771', 'Standard Flyers', 'PO-76982', 'Tue 3 Nov', 'Estimated Tue 24 Nov — latest Wed 25 Nov', 'go', 'In production', 2],
+    ['products/roller-banner.webp', '8825510', 'Roller Banner', '', 'Tue 20 Oct', 'Delivered Mon 26 Oct', '', 'Delivered', 4, 'CMP-1042'],
+    ['p6.png', '8814402', 'Tote bags (quote QT-5502)', 'MERCH-Q4', 'Mon 12 Oct', 'Delivered Thu 22 Oct', '', 'Delivered', 4],
+  ];
+  const filters = `<div class="filters"><button class="pill active" type="button">All <small>7</small></button><button class="pill" type="button">Action needed <small>3</small></button>
+    <button class="pill" type="button">In progress <small>2</small></button><button class="pill" type="button">Delivered <small>2</small></button>
+    <span class="find"><span class="material-symbols-rounded" aria-hidden="true">search</span>Search order, product or your reference</span></div>`;
+  const guest = `<div class="dash-card" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><span class="t" style="flex:1;min-width:240px;display:flex;flex-direction:column;font-size:var(--t-14);line-height:var(--lh-14)"><b style="font-weight:600">2 orders placed as a guest</b><small style="font-size:var(--t-12);line-height:var(--lh-12);color:var(--dark-grey)">Placed with loraine@example.com before you had an account. Add them to see them here.</small></span><button class="pill active" type="button">Add my orders</button></div>`;
+  const more = name => { const n = +(name.match(/\((\d+) items\)/) || [])[1]; return n > 1 ? n - 1 : 0; };
+  const photoN = (img, n) => n ? `<span class="img more"><img src="assets/${img}" alt=""><span class="art-count">+${n}</span></span>` : photo(img);
+  const rowsA = ORDERS.map(([img, no, name, ref, placed, sub, st, label, now, cmp]) => `<a class="dash-row" href="#detail">${photoN(img, more(name))}<span class="t"><b>#${no} · ${name}</b><small>Placed ${placed}${ref ? ` · <span class="ref">${ref}</span>` : ''} · ${sub}</small></span>
+    <span class="status ${st}">${label}</span>${now < 4 ? tracker(now) : ''}${cmp ? `<span class="note-cmp">Complaint ${cmp} in progress · <u>View complaint</u></span>` : ''}</a>`).join('');
+  const table = `<table class="tbl"><thead><tr><th>Order</th><th>Your reference</th><th>Placed</th><th>Status</th></tr></thead><tbody>${ORDERS.map(([img, no, name, ref, placed, sub, st, label, now, cmp]) =>
+    `<tr><td>${V === 'd' ? `<span class="ord">${photoN(img, more(name))}<span>` : ''}<b>#${no} · ${name}</b><small>${sub}${cmp ? ` · complaint ${cmp}` : ''}</small>${V === 'd' ? '</span></span>' : ''}</td><td>${ref || '—'}</td><td>${placed}</td><td><span class="status ${st}">${label}</span></td></tr>`).join('')}</tbody></table>`;
+  const listHead = `<div><h1>Orders</h1><p class="lead">Every order, where it is, and what it needs from you.</p></div>`;
+
+  // ---------- Order detail (#8847305, five products in different states) ----------
+  const LINES = [
+    ['products/roller-banner.webp', 'Roller Banner', '2 pcs · 85 × 200 cm · Premium base', '€95.93', 1, false, 'Your proof is ready', 'Look at it and approve it, or upload a new design.', ['Review proof', 'Upload new design'], 'Approve by <b>14:00 on Wed 18 Nov</b> to keep Tue 24 Nov — latest Wed 25 Nov'],
+    ['p3.png', 'Standard Flyers', '1,000 pcs · A5 · Gloss', '€43.90', 0, false, 'Upload your design', 'We need your artwork to start.', ['Upload design'], 'Upload by <b>14:00 on Wed 18 Nov</b> to keep Tue 24 Nov — latest Wed 25 Nov'],
+    ['p4.png', 'Classic Business Cards', '500 pcs · Matt laminated · Double-sided', '€25.61', 0, true, 'Small fix needed', 'The text sits too close to the cut edge. Please upload a corrected file.', ['Upload new file'], 'Upload by <b>14:00 on Wed 18 Nov</b> to keep Tue 24 Nov — latest Wed 25 Nov'],
+    ['p8.png', 'Stickers', '250 pcs · Round 5 cm · Gloss', '€17.89', 1, false, 'Your proof is ready', 'The deadline has passed (14:00 Mon 16 Nov): approve now for Fri 27 Nov — latest Tue 1 Dec.', ['Review proof']],
+    ['p6.png', 'Basic Cotton Bags', '100 pcs · Natural · Full colour', '€195.12', 2, false, 'Printing has started', 'Estimated Thu 26 Nov — latest Fri 27 Nov', null],
+  ];
+  const lineTop = (img, name, spec, price) => `<div class="dash-row">${photo(img)}<span class="t"><b>${name}</b><small>${spec}</small></span><span class="amt">${price}</span></div>`;
+  const btns = (b, primary = true) => b ? `<span class="btns">${b.map((x, i) => `<button class="btn ${i === 0 && primary ? 'primary' : 'outline sm'}" type="button">${x}</button>`).join('')}</span>` : '';
+  // A: every product its own card; a product that needs you is a to-do block (green outline), the deadline in the cream band
+  const linesA = LINES.map(([img, name, spec, price, now, err, title, text, b, foot]) => `<div class="${b ? 'oc-act' : 'dash-card'} od-line">${lineTop(img, name, spec, price)}${tracker(now, err)}
+    <div class="msg"><span class="t"><b>${title}</b><small>${text}</small></span>${btns(b)}</div>${foot ? `<p class="oc-foot">${foot}</p>` : ''}</div>`).join('');
+  // B: what needs you on top (the Overview's to-do blocks), then all products in one card with a status each
+  const todoB = `<section><h2>Needs your attention</h2><div class="oc-acts">${LINES.filter(l => l[8]).map((l, i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span><span class="t"><b>${l[6]}: ${l[1]}</b><small>${l[2]}</small></span><button class="btn primary" type="button">${l[8][0]}</button></div>${l[9] ? `<p class="oc-foot">${l[9]}</p>` : ''}</div>`).join('')}</div></section>`;
+  const linesB = `<section><h2>Products</h2><div class="dash-card">${LINES.map(([img, name, spec, price, now, err, title]) => `<div class="dash-row">${photo(img)}<span class="t"><b>${name} · ${price}</b><small>${spec}</small></span><span class="status ${now < 2 ? 'act' : 'go'}">${title}</span>${tracker(now, err)}</div>`).join('')}</div></section>`;
+  const side = `<div class="od-side">
+    <div class="dash-card"><h3>Order summary</h3><div class="totals"><div><span>Products (5)</span><span>€378.45</span></div><div><span>Premium Check + Proof</span><span>€12.20</span></div><div><span>Shipping</span><span>Free</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€390.65</span></div><div><span>VAT 23%</span><span>€89.85</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€480.50</span></div></div></div>
+    <div class="dash-card"><h3>Payment</h3><p class="adr">Pay by invoice · 14 days<br>We invoice when your order ships. Nothing to pay yet.</p></div>
+    <div class="dash-card"><h3>Addresses</h3><p class="adr"><b>Shipping address</b>Loraine Pijffers, HelloPrint<br>12 Merrion Square, Dublin 2, D02 X285<b>Billing address</b>HelloPrint, VAT IE 1234567 X<br>12 Merrion Square, Dublin 2, D02 X285</p></div>
+    <div class="dash-card"><h3>Need something?</h3><div class="d-menu d-head">${[['#reorder', 'package-2', 'Order again', 'The same products, one click'], ['#cancel', 'close', 'Cancel order', 'Before it goes to print'], ['#complaint', 'chat', 'Report a problem', 'Damaged, wrong or late'], ['#chat', 'support-agent', 'Chat with Anna', 'The fastest way to sort it']].map(dropRow).join('')}</div></div>
+  </div>`;
+  const detailHead = `<div class="od-head"><a class="back" href="#list">← All orders</a><h1>Order #8847305</h1><p>Launch kit · 5 products · placed Mon 16 Nov · your reference <b>PO-2026-118</b> · <a class="link" href="#ref">Change</a></p></div>`;
+
+  // C (Cornel 2026-11-17: B, in the style of order confirmed, with the address, the details and the map at the bottom)
+  const ocLine = ([img, name, spec, price]) => `<div class="line-item cart-line"><span class="img" style="background:var(--light-grey)"><img src="assets/${img}" alt=""></span><div class="t"><strong>${name}</strong><small>${spec}</small></div><span class="p">${price}</span>
+    <div class="eta"><b>Estimated delivery date</b><p>Tuesday 24 November — latest Wed 25 Nov (Standard)</p></div></div>`;
+  const todoLines = LINES.filter(l => l[8]);
+  const actsC = todoLines.map((l, i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span><span class="t"><b>${l[6]}</b><small>${l[7]}</small></span><button class="btn primary" type="button">${l[8][0]}</button></div>${ocLine(l)}${l[9] ? `<p class="oc-foot">${l[9].replace(/ to keep .*/, ' to keep this date')}</p>` : '<p class="oc-foot">Deadline passed: approve now for <b>Fri 27 Nov — latest Tue 1 Dec</b></p>'}</div>`).join('');
+  const STATE = ['Waiting for your design', 'Waiting for your approval', 'Printing has started'];
+  const ocLines = LINES.map(([img, name, spec, price, now, err, title, text, b]) => `<div class="oc-line"><div class="top"><span class="img"><img src="assets/${img}" alt=""></span><div class="t"><b>${name}</b><small>${spec}</small></div><b class="pr">${price}</b></div>
+    <div class="bar">${STEPS.map((x, k) => `<span class="${k < now ? 'done' : k === now ? (err ? 'err' : b ? 'now' : 'on') : ''}"></span>`).join('')}</div>
+    <div class="steps">${STEPS.map((x, k) => `<span class="${k === now ? (err ? 'err' : 'now') : ''}">${x}</span>`).join('')}</div>
+    <div class="state"><span><b>${err ? 'Small fix needed' : b ? STATE[now] : title}</b>${b ? ' · <a href="#todo">Go to it ↑</a>' : ''}</span><span class="date">Arrives ${name === 'Stickers' ? 'Fri 27 Nov' : name === 'Basic Cotton Bags' ? 'Thu 26 Nov' : 'Tue 24 Nov'}</span></div></div>`).join('');
+  const TOT = side.match(/<div class="totals">[\s\S]*?<\/div><\/div><\/div>/)[0].replace(/<\/div>$/, '');
+  const q = encodeURIComponent('12 Merrion Square, Dublin 2, D02 X285, Ireland');
+  const detailC = `<div class="oc-c">
+    <section class="oc-strip"><div><h1>Order #8847305</h1><p>Launch kit · 5 products · placed Mon 16 Nov · your reference <b>PO-2026-118</b></p></div><a class="btn outline" href="#reorder">Order again</a></section>
+    <div class="oc">
+      <section class="oc-sec" id="todo"><h2>4 things to keep your delivery date</h2><p class="oc-lead">Do them before <b>14:00 on Wed 18 Nov</b> and your order arrives Tue 24 Nov — latest Wed 25 Nov.</p><div class="oc-acts">${actsC}</div></section>
+      <section class="oc-sec"><h2>Your products</h2><p class="oc-lead">Each product goes its own way: where it is, and when it arrives.</p>${ocLines}</section>
+      <div class="oc-pair"><section class="oc-sec"><h2>Order details</h2><div class="oc-od"><iframe title="Map of the shipping address" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s${q}!6i15"></iframe><div class="grid">
+        <div><b>Contact</b><span>Loraine Pijffers</span><span>loraine@example.com</span></div>
+        <div><b>Payment</b><span>Pay by invoice · 14 days</span><span>We invoice when it ships</span></div>
+        <div><b>Shipping address</b><span>Loraine Pijffers, HelloPrint</span><span>12 Merrion Square</span><span>Dublin 2, D02 X285</span><span>Ireland</span></div>
+        <div><b>Billing address</b><span>HelloPrint · VAT IE 1234567 X</span><span>12 Merrion Square</span><span>Dublin 2, D02 X285</span></div>
+        <div><b>Delivery</b><span>Standard</span><span>Free</span></div>
+        <div><b>Your reference</b><span>PO-2026-118 · <a class="link" href="#ref">Change</a></span></div>
+      </div></div></section>
+      <section class="oc-sec"><h2>Order overview</h2><div class="oc-od oc-tot">${TOT}</div></section></div>
+      <section class="oc-end"><div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span>
+        <span>Something wrong or a question about this order? <a href="#chat">Start chat</a> or <a href="#complaint">report a problem</a></span></div>
+        <a class="btn outline" href="#cancel">Cancel order</a></section>
+    </div>
+  </div>`;
+
+  // D (Cornel 2026-11-17): the cards of A, and under them in the middle column the map + Order details and the team line of order confirmed
+  const detailsD = `<section class="oc-sec"><h2>Order details</h2><div class="oc-od"><iframe title="Map of the shipping address" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s${encodeURIComponent('12 Merrion Square, Dublin 2, D02 X285, Ireland')}!6i15"></iframe><div class="grid">
+      <div><b>Contact</b><span>Loraine Pijffers</span><span>loraine@example.com</span></div>
+      <div><b>Payment</b><span>Pay by invoice · 14 days</span><span>We invoice when it ships</span></div>
+      <div><b>Shipping address</b><span>Loraine Pijffers, HelloPrint</span><span>12 Merrion Square</span><span>Dublin 2, D02 X285</span><span>Ireland</span></div>
+      <div><b>Billing address</b><span>HelloPrint · VAT IE 1234567 X</span><span>12 Merrion Square</span><span>Dublin 2, D02 X285</span></div>
+      <div><b>Delivery</b><span>Standard</span><span>Free</span></div>
+      <div><b>Order number</b><span>#8847305</span></div>
+    </div></div></section>
+    <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
+  const sideD = side.replace(/<div class="dash-card"><h3>Payment<\/h3>[\s\S]*?<\/p><\/div>\s*/, '').replace(/<div class="dash-card"><h3>Addresses<\/h3>[\s\S]*?<\/p><\/div>\s*/, '');
+
+  if (PAGE === 'list') main.innerHTML = listHead + filters + ((V === 'b' || V === 'd') && DESK ? `<div class="dash-card">${table}</div>` : `<div class="dash-card">${rowsA}</div>`) + guest;
+  else { document.getElementById('crumb').textContent = 'Order #8847305';
+    main.innerHTML = V === 'd' ? detailHead + `<div class="od-grid"><div class="od-lines">${linesA}${detailsD}</div>${sideD}</div>` : V === 'c' ? `<a class="back" href="#list" style="font-size:var(--t-14);color:var(--link);text-decoration:underline">← All orders</a>` + detailC : detailHead + `<div class="od-grid"><div class="od-lines">${V === 'a' ? linesA : todoB + linesB}</div>${side}</div>`; }
+</script>
+</body>
+</html>

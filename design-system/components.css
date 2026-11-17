@@ -99,6 +99,9 @@ body.menu-open { overflow: hidden; }
 .sheet-bar .total { flex: 1; padding: 8px 16px; }
 .sheet-bar .total strong { display: block; font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
 .sheet-bar .total span { display: flex; align-items: center; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); }
+.bar-btns { flex: 0 0 100%; display: flex; gap: 8px; }   /* two buttons in a sheet bar: the outline its own size, the primary the rest (PDP, the account popups) */
+.sheet-bar .bar-btns .btn.outline { flex: 0 0 auto; padding: 0 24px; }
+.sheet-bar .bar-btns .btn.primary { flex: 1; }
 .sheet-bar .total img { width: 20px; height: 20px; }
 .sheet-bar .btn { flex: 1; padding: 0 16px; white-space: nowrap; }
 
@@ -169,7 +172,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .sum-lines .line-item .p { font-weight: 400; color: var(--dark-grey); }   /* the prices as the totals around them: regular, dark grey */
 .sum-lines small span { white-space: nowrap; }   /* the delivery window breaks at the dash, never inside a date */
 .sum-lines[hidden] { display: none; }
-.cart-side h2 + .totals, .oc-sec > h2 + .totals { border-top: 0; padding-top: 0; }   /* straight under the title: no line (the cart has its upsells in between) */
+.cart-side h2 + .totals, .oc-sec > h2 + .totals, .od-side h2 + .totals { border-top: 0; padding-top: 0; }   /* straight under the title: no line (the cart has its upsells in between) */
 .totals small { font-weight: 400; font-size: var(--t-12); line-height: 1; color: var(--dark-grey); }   /* (Excl. VAT), (Incl. VAT) */
 .totals .info-btn { width: 22px; height: 22px; margin: 0 0 0 4px; vertical-align: top; }   /* the ⓘ on the line height of the row; opens the popup */
 .cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
@@ -185,7 +188,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
    a soft shadow as a printed sheet, "+N" for more files. A click / tap opens it big in a popup (.art-view; mobile a sheet) with the others
    as thumbnails to switch (no hover preview, Cornel 2026-11-05: confusing). A file without a picture (AI, PSD…) shows its type (.up-ico) */
 .line-item .art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
-.line-item .art-tile > img { width: auto; height: auto; max-width: 78%; max-height: 78%; }
+.line-item .art-tile > img { position: absolute; inset: 0; width: auto; height: auto; max-width: 78%; max-height: 78%; margin: auto; }   /* centred in the tile, also a tall file (a roller banner proof): a % max-height needs the absolute box */
 .line-item .art-tile > img, .art-stage img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
 .art-count { position: absolute; right: 8px; bottom: 8px; padding: 0 8px; border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
 /* Request a free quote sheet (cart-empty-quote-sketch.html B): the cart lines + extras + total, the contact fields, notes, files */
@@ -454,7 +457,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .d-cal-card .tx b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .d-cal-card .gain { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-cal-card .pr { font-weight: 600; font-size: var(--t-14); }
-.ico .art-count { right: -8px; bottom: -8px; }
+.ico .art-count, .img.more .art-count { right: -8px; bottom: -8px; }   /* "+N" on the corner of a small photo or artwork */
 /* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
 .opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }
 .desk .opt .mi { width: 50px; height: 50px; }
@@ -557,9 +560,11 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
-.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
-.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
-.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all { text-decoration: none; }
+.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { text-decoration: none; }
+.ha-back { margin-bottom: 16px; }   /* the back link: the green arrow in front, pointing left (help article, the proof page) */
+.ha-back::before { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 
 /* Blog cards (business cards page, and the home under "Browse all we offer"): photo on top, title, text, "Read more" pill.
    White with the card outline, hover as the product cards. Mobile: swipe row of 300px cards; desktop: 3 in a row (Cornel, 2026-10-28 / 11-12) */
@@ -595,7 +600,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
 .desk .hc-center { position: relative; z-index: 1; }
 .desk .hc-center h1, .desk .plp .hero.media h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
-.desk .ha-body h1, .desk .cart-page h1, .desk .oc-strip h1, .desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
+.desk .ha-body h1, .desk .cart-page h1, .desk .oc-strip h1, .desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .account-page h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
 /* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
    question = card title, hover) with the grey list arrow right instead of the fold chevron */
 .hc-rows { list-style: none; border-top: 1px solid var(--line); }
@@ -609,7 +614,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .cart-main { gap: 32px; }
 .desk .cart-side { padding: 24px; border: 1px solid var(--outline); border-radius: var(--r-l); }   /* the same outline as the cards next to it */
 .desk .cart-side .quote { margin-top: -8px; }   /* 8 under Continue to checkout, as live: the two buttons together */
-.desk .cart-side { position: sticky; top: 124px; }   /* under the sticky desktop header (100) + 24; the extras above it scroll away */
+.desk .cart-side, .desk .account-side, .desk .od-side { position: sticky; top: 124px; }   /* under the sticky desktop header (100) + 24; the extras above it scroll away */
 /* Upsells on desktop (Cornel's design 2026-11-03): inside the Order summary card, each a light grey block (8 from the card edge):
    switch · title 16/22 semibold · price 16 bold right; under the title a short line (12/18 grey) and the link to the popup.
    16 under the blocks a line across the whole card, 16 under it the totals. */
@@ -687,9 +692,26 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-strip .btn { margin-top: 16px; padding: 0 24px; border-color: var(--white); background: none; color: var(--white); }   /* all done: Track your order (the order in My account), calm: a white outline on the dark green, not a filled button (Cornel 2026-11-10) */
 .oc-acts { display: flex; flex-direction: column; gap: 16px; }   /* 16 between the blocks, as the cart cards (Cornel 2026-11-09) */
 .oc-act { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 2px solid var(--light-green); border-radius: var(--r-l); }   /* the only green-outlined, numbered blocks: what the customer still has to do; one compact row each, the button right */
+/* A section of order confirmed and the order page in My account: title, a grey lead under it; Order details = the map of the shipping
+   address + a 2-column grid (contact, payment, the addresses, delivery, order number); the team line (moved from pages.css 2026-11-17) */
+.oc-sec { display: flex; flex-direction: column; gap: 8px; }
+.oc-lead { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.oc-lead b { color: var(--black); font-weight: 600; }
+.oc-od { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
+.oc-od iframe { display: block; width: 100%; height: 180px; border: 0; }
+.oc-od .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; padding: 16px; }
+.oc-od .grid div { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); overflow-wrap: anywhere; }
+.oc-od .grid b { margin-bottom: 4px; color: var(--black); font-weight: 600; }
+.oc-od .pm-line { display: flex; align-items: center; gap: 6px; }
+.oc-od .pm-line img { height: 20px; width: auto; border: 1px solid var(--line); border-radius: var(--r-s); }
+.oc-team { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-team .faces { display: flex; flex-shrink: 0; }
+.oc-team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); background: var(--light-green); object-fit: cover; }   /* team cut-outs on light green, as the team strip */
+.oc-team .faces img + img { margin-left: -10px; }
+.oc-team a, .oc-lead a { color: var(--link); text-decoration: underline; font-weight: 600; }
 .oc-act .row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .oc-act .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
-.oc-act .row .t { flex: 1; min-width: 140px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+.oc-act .row .t { flex: 1; min-width: 200px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
 .oc-act .row .t b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .oc-act .row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .oc-act .btn { flex: 1 0 100%; }   /* mobile: the standard 40 button over the full width under the row, as the cart's buttons */
@@ -710,7 +732,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .oc-act .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }   /* the cart line without its quantity row: no line under the date */
 .oc-act .row > .pm-logos { display: flex; gap: 16px; margin-left: auto; }   /* paid: the logo of the method, right in the row */
-.oc-act.done .btn { flex: none; height: 32px; margin-left: auto; padding: 0 16px; font-size: var(--t-14); line-height: var(--lh-14); }   /* a done upload's Change (Cornel 2026-11-10, was View · Change links): small and right in its head row, also mobile, calmer than the to-do's Upload; view = the artwork tile */
+.oc-act.done .btn, .btn.small { flex: none; height: 32px; padding: 0 16px; font-size: var(--t-14); line-height: var(--lh-14); }   /* the small button, mobile and desktop: a done upload's Change and .btn.small (the account to-dos and order lines: the primary is one per screen) */
+.oc-act.done .btn, .oc-act .btn.small { margin-left: auto; }   /* right in its row */   /* a done upload's Change (Cornel 2026-11-10, was View · Change links): small and right in its head row, also mobile, calmer than the to-do's Upload; view = the artwork tile */
 .oc-new { animation: oc-new 1.6s ease-out; }   /* the card the files just went to lights up once */
 @keyframes oc-new { 0%, 40% { box-shadow: 0 0 0 3px var(--tint); border-color: var(--light-green); } 100% { box-shadow: 0 0 0 3px transparent; } }
 .desk .oc-strip { padding: 40px 24px 24px; border-radius: var(--r-l); }   /* desktop: a card with round corners */
@@ -741,7 +764,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .d-head .chev { width: 20px; height: 20px; }
 .d-menu hr { margin: 8px 0; border: 0; border-top: 1px solid var(--line); }   /* a line before Log out */
 .d-menu .d-out b { color: var(--error); }   /* Log out in red, as live (the icon too) */
-.sheet .d-menu { position: static; width: auto; padding: 0 8px 16px; border: 0; box-shadow: none; }   /* mobile: the account menu's rows in a sheet (the title is the sheet's) */
+.sheet .d-menu, .account-nav.d-menu { position: static; width: auto; padding: 0 8px 16px; border: 0; box-shadow: none; }   /* mobile: the account menu's rows in a sheet (the title is the sheet's) */
 .sheet .d-head a, .sheet .d-head button { min-height: 48px; }   /* a finger, not a mouse */
 .d-menu b { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .d-menu b .badge { position: static; display: inline-block; margin-left: 8px; vertical-align: middle; }   /* centred on the lower case letters, so it does not look too high */
@@ -773,3 +796,83 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .notice-close { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; }
 html:not(.desk) .notice { justify-content: flex-start; padding: 8px 40px 8px 16px; font-size: var(--t-12); line-height: var(--lh-12); text-align: left; }
 html:not(.desk) .notice-close { right: 4px; }
+
+/* My account (Cornel 2026-11-17, sketches/account-sketch.html A2): the parts of a dashboard, reusable on every account page.
+   Dashboard card: white, 1px line, r-l (16 padding, 24 on desktop). Rows inside: a 56 photo, title 14/22 semibold, a grey line,
+   something on the right (a status, the buttons); a line between the rows. */
+.dash-card { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
+.desk .dash-card { padding: 24px; }
+.dash-row { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 16px; row-gap: 8px; align-items: center; padding: 16px 0; color: inherit; }
+.dash-row:first-child { padding-top: 0; }
+.dash-row:last-child { padding-bottom: 0; }
+.dash-row + .dash-row { border-top: 1px solid var(--line); }
+.dash-row.text { grid-template-columns: minmax(0, 1fr) auto; }   /* without a photo (an invoice, a quote) */
+.desk .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* desktop: the status or the buttons on the right */
+.dash-row .img, .dash-table .img { display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border-radius: var(--r-m); background: var(--light-grey); }
+.dash-row .img img, .dash-table .img img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.img.more { position: relative; overflow: visible; }   /* an order with more products: the first photo + "+N" on its corner (.art-count, as the cart's artwork) */
+.img.more .art-count { border: 1px solid var(--line); }
+.dash-row .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+.dash-row .t b { font-weight: 600; }
+.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
+.dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
+.dash-row.text .status, .desk .dash-row .status { grid-column: auto; justify-self: end; }
+.dash-row .acts { grid-column: 2 / -1; display: flex; align-items: center; gap: 8px; }
+/* A row that opens a page (an order): the menu's arrow on the right (.chev, 20) over the rows; the status and the tracker stay in the text column */
+.dash-row.go { grid-template-columns: 56px minmax(0, 1fr) 20px; }
+.desk .dash-row.go { grid-template-columns: 56px minmax(0, 1fr) auto 20px; }
+.dash-row.go .chev { grid-column: -2; grid-row: 1 / span 3; width: 20px; height: 20px; }
+.dash-row.go .tracker { grid-column: 2; }
+.desk .dash-row.go .tracker { grid-column: 2 / 4; }   /* Reorder (.pill.active) + icon buttons */
+.desk .dash-row .acts { grid-column: auto; }
+.dash-foot { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: var(--t-14); line-height: var(--lh-14); }   /* a total or one more way to go under the rows */
+/* Status: a dot + grey 12/18 semibold; only "action needed" in colour (light green pill, white text), in progress a link-green dot */
+.status { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
+.status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--mid-grey); }
+.status.go::before { background: var(--link); }
+.status.act { padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); }
+.status.act::before { background: var(--white); }
+/* Tracker: where an order is, Artwork · Proof · Printing · Delivery (the look of the checkout steps, 3px bars) */
+.tracker { grid-column: 2 / -1; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+.tracker li { padding-top: 4px; border-top: 3px solid var(--light-grey); font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* still to come: the light grey bar, the text readable */
+.tracker li.done { border-top-color: var(--light-green); }
+.tracker li.now { border-top-color: var(--light-green); color: var(--black); font-weight: 600; }
+.tracker li.err { border-top-color: var(--error); color: var(--error); font-weight: 600; }   /* a step that needs a fix (Small fix needed) */
+/* The account holder: the header's account icon grey on light grey (Cornel: enough green), name 16/22 semibold, company under it */
+.account-who { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; }
+.account-who .av { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--light-grey); }
+.account-who .av img { width: 24px; height: 24px; }   /* the header's account icon in grey (an image, not a mask: it also shows when a page is opened from disk) */
+.account-who b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
+/* VIP meter: the tier (eco label), the points to the next tier as an 8px bar, one line under it (the tiers of vip.html) */
+.vip-meter { display: flex; flex-direction: column; gap: 8px; }
+.vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }
+.vip-meter .top .badge { margin: 0; }
+.vip-meter .bar { height: 8px; overflow: hidden; border-radius: var(--r-pill); background: var(--light-grey); }
+.vip-meter .bar i { display: block; height: 100%; border-radius: inherit; background: var(--light-green); }
+.vip-meter small b { font-weight: 600; color: var(--black); }
+.account-who + .vip-meter, .vip-meter + .account-nav { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.vip-meter + .account-nav { padding-top: 8px; }
+/* The account menu's rows (.d-menu.d-head) in the page, not floating: the account pages, and Need something? on the order page */
+.account-nav.d-menu { padding: 0; background: none; }   /* the account menu's rows in the page (the reset: with .sheet .d-menu) */
+.account-nav a[aria-current] { background: var(--light-grey); }
+.account-nav a[aria-current] b { font-weight: 600; }
+/* Filters over a list: pills (.pill, .pill.active = the chosen one, the count in regular) and a search field; desktop: the search on the right */
+.filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.filter-row .pill small { margin-left: 4px; font-weight: 400; }
+.filter-row .find { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); color: var(--dark-grey); }
+.filter-row .find input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; color: var(--black); }
+.desk .filter-row .find { flex: 0 1 360px; margin-left: auto; }
+.filter-row .find:focus-within { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* focus as the text fields */
+/* Table (desktop lists: orders): column heads 12/18 grey semibold, rows 14/22 with a line between, the first cell a photo + title + grey line; a row opens on hover-grey. Mobile shows the list as .dash-row */
+.dash-table { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+.dash-table th { padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
+.dash-table td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.dash-table tr:last-child td { padding-bottom: 0; border-bottom: 0; }
+.dash-table tbody tr { cursor: pointer; }
+.dash-table tbody tr:hover td { background: var(--light-grey); }
+.dash-table .first { display: flex; align-items: center; gap: 16px; }
+.dash-table .first b { display: block; font-weight: 600; }
+/* The order page in My account: every product as order confirmed's block (.oc-act / .oc-act.done) with the cart line, the tracker under it.
+   Two buttons in its head row: together on the right (.btns) */
+.oc-act .row .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.oc-act .row .btns .btn { margin-left: 0; }

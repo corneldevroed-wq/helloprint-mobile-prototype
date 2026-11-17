@@ -480,9 +480,6 @@ body.info-guide .opt-info { display: none; }
 /* Customise sheet bar: recap, price, then Save (secondary) + Add your design (primary) */
 .bar-two-btn .total { flex: 0 0 100%; display: flex; align-items: center; gap: 10px; padding: 2px 16px 8px; }
 .bar-two-btn .total strong { display: inline; }
-.bar-btns { flex: 0 0 100%; display: flex; gap: 8px; }
-.sheet-bar .bar-btns .btn.outline { flex: 0 0 auto; padding: 0 22px; }
-.sheet-bar .bar-btns .btn.primary { flex: 1; }
 /* Design sheet: way back to the options */
 .back-link { flex-shrink: 0; align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; margin: -4px 0 4px 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
 .back-link::before { content: ''; width: 14px; height: 14px; background: url(assets/menu/back.svg) no-repeat center / 14px; transform: scaleX(-1); }
@@ -684,10 +681,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 /* Order confirmed (confirmed-combo-sketch.html, Cornel 2026-11-09): one layout for one or more order lines.
    1 the green strip · 2 the actions (pay, upload: the PDP's .art-drop), the most attention · 3 a card per order line · 4 order details + map · 5 people */
 .oc { display: flex; flex-direction: column; gap: 32px; padding-bottom: 32px; }
-.oc-sec { display: flex; flex-direction: column; gap: 8px; }
 .oc-sec[hidden] { display: none; }   /* Your products: hidden, kept for My account (Cornel 2026-11-09) */
-.oc-lead { margin-top: -4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.oc-lead b { color: var(--black); font-weight: 600; }
 .oc-line .img { width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
 .oc-line .img img { width: 100%; height: 100%; object-fit: cover; }
 .oc-for { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }   /* the upload popup's bar: which product the files go to */
@@ -735,19 +729,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-line .state b { font-weight: 600; }
 .oc-line .state a { color: var(--link); text-decoration: underline; white-space: nowrap; }
 .oc-line .date { flex-shrink: 0; color: var(--dark-grey); }
-.oc-od { border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
-.oc-od iframe { display: block; width: 100%; height: 180px; border: 0; }
-.oc-od .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; padding: 16px; }
-.oc-od .grid div { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); overflow-wrap: anywhere; }
-.oc-od .grid b { margin-bottom: 4px; color: var(--black); font-weight: 600; }
-.oc-od .pm-line { display: flex; align-items: center; gap: 6px; }
-.oc-od .pm-line img { height: 20px; width: auto; border: 1px solid var(--line); border-radius: var(--r-s); }
 .oc-end { display: flex; flex-direction: column; gap: 16px; }
-.oc-team { display: flex; align-items: center; gap: 12px; padding: 16px; border-radius: var(--r-l); background: var(--light-grey); font-size: var(--t-14); line-height: var(--lh-14); }
-.oc-team .faces { display: flex; flex-shrink: 0; }
-.oc-team .faces img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--light-grey); background: var(--light-green); object-fit: cover; }   /* team cut-outs on light green, as the team strip */
-.oc-team .faces img + img { margin-left: -10px; }
-.oc-team a, .oc-lead a { color: var(--link); text-decoration: underline; font-weight: 600; }
 .desk .oc { grid-column: 1; padding-bottom: 0; }
 .oc-strip { margin: 32px -16px 0; }   /* order confirmed, mobile: edge to edge, 32 under the header (the check overhangs 24) */
 .desk .oc-strip { margin: 24px 0 0; }   /* desktop: 24 under the steps */
@@ -980,7 +962,9 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 .desk .phone { max-width: none; }
 .desk .flow-switch { display: none; }
-.dwrap, .desk .cart-page, .desk .co-page { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
+.flow-switch.demo-reset, .desk .flow-switch.demo-reset { display: flex; }   /* My account: reset the demo (the to-dos open again), mobile and desktop */
+.desk .flow-switch.demo-reset { left: 0; }
+.dwrap, .desk .cart-page, .desk .co-page, .desk .account-page { width: calc(100% - 48px); max-width: 1286px; margin: 0 auto; }
 
 /* Header: top bar 60px + category bar 40px (dark green), USP bar 40px (white) */
 .dhead-top, .dhead-nav { background: var(--dark-green); }
@@ -1917,8 +1901,6 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .desk .ha-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 64px; align-items: start; }
 .desk .ha-side { order: 0; position: sticky; top: 116px; }
 .ha-body { max-width: 760px; }
-.ha-back { margin-bottom: 16px; }   /* the green "All categories" link, arrow in front pointing left */
-.ha-back::before { content: ""; width: 20px; height: 20px; background: url(../design-system/icons/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
 .ha-body h1 { font-size: var(--t-24); line-height: 28px; }
 /* article text: body 12/18 mobile, 14/22 desktop; headings (all h2, help-content.js) = h2 20/24; emphasis semibold; inline links green underlined */
 .ha-text { margin-top: 16px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); }   /* article body in black for reading (Cornel, 2026-10-29) */
@@ -2076,3 +2058,69 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 @keyframes logo-glide-desk { to { transform: translateX(calc(-50% - 32px)); } }
 
 @keyframes hc-drift { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+/* ===== My account: Account Overview (account.html, Cornel 2026-11-17, sketches/account-sketch.html A2) =====
+   Desktop: the account card left (who, VIP, the account pages; sticky), the Overview right: Needs your attention and Order again
+   side by side, then Orders in progress, Invoices + Quotes side by side, Previously viewed. Mobile: one column, the account pages last. */
+.account-page { display: flex; flex-direction: column; gap: 16px; padding: 16px 16px 48px; }   /* the breadcrumb 16 under the header and 16 to the page, as the other pages */
+.desk .account-page { gap: 0; padding: 0 0 64px; }   /* desktop: the breadcrumb's own 16 / 24 (.desk .crumbs) */
+.desk .account-grid { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 32px; align-items: start; }
+.account-main, .account-grid { display: flex; flex-direction: column; gap: 24px; }
+.desk .account-main { gap: 32px; }
+.account-two { display: flex; flex-direction: column; gap: 24px; }
+.desk .account-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.account-page h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* the section title (24/32 desktop, components.css), its arrow link right, 8 to its block */
+.desk .account-two .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */
+.desk .account-two .dash-row .acts { grid-column: 2; }
+.account-page .xsell .grid { margin-top: 0; }
+.desk .account-page .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+html:not(.desk) .account-side { order: 1; }   /* mobile: the account card (who, VIP, the account pages) last, as the hub (Cornel 2026-11-17: the desktop choices on mobile) */
+
+/* ===== My account: Orders (orders.html) and the order page (order.html), Cornel 2026-11-17 (sketches/orders-sketch.html, the combo) =====
+   Sub pages: on mobile without the side card (only the Overview has it); the breadcrumb leads back. Orders: the table on desktop, the rows on mobile.
+   Order: the head (← All orders, title, your reference), the order lines and under them Order details + the team line; right the summary and Need something?. */
+html:not(.desk) .account-sub .account-side { display: none; }
+.account-page .od-head { display: flex; flex-direction: column; }
+.account-page h1 + .oc-lead { margin-top: 8px; }   /* 8 between the page title and the line under it, as the heroes and the Help Centre */
+.od-grid { display: flex; flex-direction: column; gap: 24px; }
+.desk .od-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
+.od-lines, .od-side { display: flex; flex-direction: column; gap: 16px; }
+.od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
+.desk .orders-rows, html:not(.desk) .orders-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
+
+/* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====
+   The proof is always a PDF: a PDF viewer (pdf.js) with a dark toolbar and canvas, the white page with a shadow; low, so the file check and
+   the buttons stay close. Approve / Upload new design fixed at the bottom (desktop the PDP's .d-bar, mobile the sticky .cart-bar). */
+.proof-band { margin: 0; border-radius: var(--r-m); }
+.proof-page .account-main > .proof-band, .proof-page .account-main > .pdf-viewer, .proof-page .account-main > .file-check, .proof-page .account-main > .proof-acts { margin-top: -8px; }   /* title, deadline, the proof, the file check and the buttons as one block: 16 apart (the page gap is 24) */
+.desk .proof-page .account-main > .proof-band, .desk .proof-page .account-main > .pdf-viewer, .desk .proof-page .account-main > .file-check, .desk .proof-page .account-main > .proof-acts { margin-top: -16px; }   /* desktop: 16 (the page gap is 32) */
+.pdf-viewer { overflow: hidden; border-radius: var(--r-l); background: var(--dark-grey); }
+.pdf-viewer .bar { position: relative; display: flex; align-items: center; justify-content: center; gap: 16px; height: 48px; padding: 0 8px; background: var(--black); color: var(--white); font-size: var(--t-14); line-height: var(--lh-14); }   /* as the browser's PDF viewer: the pages and the zoom in the middle, download right */
+.pdf-viewer .group { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.pdf-viewer .box { min-width: 56px; padding: 4px 8px; border-radius: var(--r-s); background: rgba(255,255,255,.1); text-align: center; }   /* the page and the zoom in a dark field */
+.pdf-viewer .sep { width: 1px; height: 24px; background: rgba(255,255,255,.2); }
+.pdf-viewer .end { position: absolute; right: 8px; top: 8px; display: flex; gap: 4px; }
+.pdf-btn { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--white); }
+.pdf-btn:hover { background: rgba(255,255,255,.1); }
+.pdf-btn:disabled { opacity: .4; cursor: default; background: none; }
+.pdf-btn .material-symbols-rounded { font-size: 20px; }
+html:not(.desk) .pdf-viewer .bar { justify-content: flex-start; }
+html:not(.desk) .pdf-viewer a[target] { display: none; }   /* mobile: download only (it opens the PDF there anyway) */
+.pdf-viewer .stage { height: 320px; overflow: auto; padding: 16px; text-align: center; color: var(--white); }
+.desk .pdf-viewer .stage { height: 400px; }
+.pdf-viewer canvas, .pdf-viewer .pdf-page { display: inline-block; vertical-align: top; max-height: 100%; background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.file-check ul { display: flex; flex-direction: column; gap: 16px; }
+.file-check li { display: grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 8px; list-style: none; font-size: var(--t-14); line-height: var(--lh-14); }
+.file-check li img { width: 20px; height: 20px; margin-top: 1px; }
+.file-check .dot { width: 8px; height: 8px; margin: 7px 6px; border-radius: 50%; background: var(--orange); }   /* a point to look at */
+.file-check b { font-weight: 600; }
+.file-check small { grid-column: 2; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.proof-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }   /* the actions in the page; the fixed bar takes over while they are out of view */
+.proof-acts .btn { flex: 1 0 100%; }   /* mobile: full width */
+.desk .proof-acts .btn { flex: none; padding: 0 24px; }
+.proof-acts .link { margin: 0 auto; }
+.desk .proof-acts .link { margin: 0 0 0 8px; }   /* 16 to the link, 8 between the buttons */
+.d-bar .link[data-act="note"] { font-size: var(--t-14); white-space: nowrap; }
+.d-bar .bar-btns { flex: none; width: auto; }
+.d-bar .bar-btns .btn { padding: 0 24px; }   /* as wide as their text, as the PDP bar's button */
+.d-bar-sub { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }

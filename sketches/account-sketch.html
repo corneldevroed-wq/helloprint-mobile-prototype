@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<!-- Sketch (not linked): My account, the shell + Account Overview (Cornel 2026-11-17, from the wishes artifact, analysis in
+     docs/my-account-analysis.md). The real header and our components in account-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1100px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1680px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 2520px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: the shell + Account Overview</h1>
+  <p class="note"><b>Cornel chose A2 (2026-11-17), built as prototype/account.html.</b></p>
+  <div class="note">Same content in all three, only the way around differs. The Overview, in this order: <b>Needs your attention</b> (our to-do blocks of order confirmed, Pay always first),
+    <b>Order again</b> second (Cornel 2026-11-17: re-orders matter most to us; only what has a deadline goes above it: Reorder, change options, download proof),
+    <b>Orders in progress</b> (status + where it is: Artwork · Proof · Printing · Delivery),
+    <b>Invoices</b> and <b>Quotes</b> side by side (the last ones with their status, the open total + Pay all, Request a quote),
+    and <b>Previously viewed</b> (our product cards, 4 in a row).
+    Everything of the wishes' Overview is in; Recent orders became Orders in progress (with where each order is). Complaints is its own page (Cornel), the VIP score stays.
+    <br><b>My pick: A.</b> The sidebar gives a fixed place on desktop and shows where you are on every account page; on mobile there is no room for it, so the Overview
+    ends in the same rows (the account menu of the header) and every sub page gets ← Account Overview. B's tabs get crowded with 7 pages and scroll on mobile;
+    C is calm but costs a click to reach your orders.
+    <ul>
+      <li>Reused as is: the to-do block (<code>.oc-act</code>), the account menu rows (<code>.d-menu.d-head</code>), <code>.pill</code>, <code>.icon-btn</code> + tooltip, <code>.tabs</code>, <code>.crumbs</code>, the label (<code>.badge.eco</code>).</li>
+      <li>New (to the design system once chosen): the account card, the <b>status chip</b> (only "Action needed" in colour, the rest a dot + grey text),
+        the <b>progress tracker</b> (the look of the checkout steps; <code>.co-steps</code> itself is too tied to the checkout), the <b>VIP bar</b>, and in C the tiles.</li>
+      <li>The account menu in the header gets Complaints in place of Support (Support stays under Need help?).</li>
+    </ul></div>
+
+  <section class="opt" data-v="a">
+    <h2>A · Sidebar (desktop), the Overview as hub (mobile) <em>my pick</em></h2>
+    <p>Desktop: name, VIP and the account pages left (sticky), the Overview right. Mobile: name + VIP on top, the account rows at the bottom.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="d">
+    <h2>A2 · As A, with Needs your attention and Order again side by side (desktop)</h2>
+    <p>As in the wishes: the two first things next to each other, so Order again is at the top of the page on desktop. Mobile is A (stacked, attention first).</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="b">
+    <h2>B · Tabs under the title</h2>
+    <p>The account pages as section tabs (as on the category pages); two columns: attention, reorder and orders left, VIP, invoices and quotes right. Mobile: the tabs scroll sideways.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="c">
+    <h2>C · Hub with tiles</h2>
+    <p>Only what waits on you and Order again, then a tile per account page with one live line (3 in progress, €762.70 open…), and Previously viewed. Orders, invoices and quotes as lists live on their own pages.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+</div>
+<script>
+  document.querySelectorAll('.opt').forEach(o => o.querySelectorAll('iframe').forEach(f => f.src = 'account-frame.html?v=' + o.dataset.v));
+</script>
+</body>
+</html>

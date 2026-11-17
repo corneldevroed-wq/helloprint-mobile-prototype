@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your proof</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,chevron_left,chevron_right,download,open_in_new,remove&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261129p">
+<link rel="stylesheet" href="pages.css?v=20261129p">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, a proof (proof.html?o=<order>&l=<product>; Cornel 2026-11-17, sketches/proof-sketch.html B): a page of its own, so a reminder
+       email or a colleague can open it (not logged in: the login page brings you back here). The proof is always a PDF: a PDF viewer (pdf.js).
+       Under it what we did with the file, Leave a note (a popup), our team. Approve and Upload new design fixed at the bottom, as the PDP's bars. -->
+  <main class="account-page account-sub proof-page">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="orders.html">Orders</a> / <a id="crumbOrder" href="orders.html"></a> / Proof</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="proof"></div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<div data-shell="sheet-art"></div>
+<script src="app.js?v=20261129p"></script>
+<script src="account.js?v=20261129p"></script>
+<script src="upload.js?v=20261129p"></script>
+<script src="../design-system/components.js?v=20261129p"></script>
+<script>
+{ // its own scope: no clash with app.js names
+  if (!deskUser) location.replace('login.html');   // the login page brings you back here (from a reminder email)
+  window.yayLater = true;   // all done after Approve or a new file: the popup on the order page
+  document.querySelector('[data-account-side]').outerHTML = accountSide('orders.html');
+  const q = new URLSearchParams(location.search), o = orderOf(q.get('o')) || ORDERS[0], li = +(q.get('l') || 0), l = o.lines[li] || o.lines[0];
+  const order = `order.html?o=${o.no}`, PDF = `assets/proofs/${l.proof || 'business-cards'}.pdf`, waiting = l.step === 1 && l.btns && !o.cancelled;
+  document.title = `Your proof · ${l.name}`;
+  Object.assign(document.getElementById('crumbOrder'), { href: order, textContent: `Order #${o.no}` });
+  const ib = (ic, tip, attrs = '') => `<${attrs ? 'a' : 'button type="button"'} class="icon-btn" ${attrs} data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs ? 'a' : 'button'}>`;
+  const check = PROOFS[l.proof] || PROOFS['business-cards'];
+  const pb = (ic, tip, attrs = '') => `<${attrs ? 'a' : 'button type="button"'} class="pdf-btn" ${attrs} title="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs ? 'a' : 'button'}>`;   // the browser's PDF viewer: a white icon, no circle
+  const NOTE = `<button class="link" type="button" data-act="note" data-o="${o.no}" data-l="${li}">Leave a note for our team</button>`;
+  const ACTS = `<button class="btn primary" type="button" data-proof="approve">Approve proof</button><button class="btn outline" type="button" data-proof="upload">Upload new design</button>${NOTE}`;
+
+  document.getElementById('proof').innerHTML = `<div><a class="ha-back" href="${order}">Back to order #${o.no}</a><h1>Your proof: ${l.name}</h1><p class="oc-lead">Order #${o.no} · ${l.spec}</p></div>
+    ${waiting && l.foot ? `<p class="oc-foot proof-band">${l.foot}</p>` : !waiting ? `<p class="oc-foot proof-band">${o.cancelled ? 'This order is cancelled.' : `${l.title}. <a class="link" href="${order}">Back to your order</a>`}</p>` : ''}
+    <div class="pdf-viewer"><div class="bar">
+        <span class="group"><span data-p="-1">${pb('chevron_left', 'Previous page')}</span><span class="box" id="pdfPages">1 / 1</span><span data-p="1">${pb('chevron_right', 'Next page')}</span></span>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="group"><span data-z="-1">${pb('remove', 'Zoom out')}</span><span class="box" id="pdfZoom">100%</span><span data-z="1">${pb('add', 'Zoom in')}</span></span>
+        <span class="end">${pb('open_in_new', 'Open the PDF in a new tab', `href="${PDF}" target="_blank"`)}${pb('download', 'Download the proof (PDF)', `href="${PDF}" download`)}</span></div>
+      <div class="stage" id="pdfStage"><canvas id="pdfCanvas" aria-label="Your proof, page 1"></canvas></div></div>
+    <div class="dash-card file-check"><ul aria-label="What we did with your file">${check.map(([st, t, s]) => `<li>${st === 'ok' ? '<img src="assets/pdp/check.svg" alt="">' : '<span class="dot" aria-hidden="true"></span>'}<b>${t}</b><small>${s}</small></li>`).join('')}</ul></div>
+    ${waiting ? `<div class="proof-acts" id="proofActs">${ACTS}</div>` : ''}
+    <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Not sure? Our team checks it with you. <a href="#chat">Start chat</a></span></div>`;
+
+  // Approve, Upload new design and Leave a note fixed at the bottom while the ones in the page are out of view, as the PDP's bars:
+  // desktop the white bar (the product, the deadline), mobile the sticky bar with the note as its link row
+  if (waiting) {
+    const btns = `<button class="btn outline" type="button" data-proof="upload">Upload new design</button><button class="btn primary" type="button" data-proof="approve">Approve proof</button>`;
+    document.body.insertAdjacentHTML('beforeend', DESK
+      ? `<div class="d-bar" id="proofBar" aria-hidden="true"><div class="dwrap"><span class="d-bar-prod"><span class="thumb" style="background:var(--light-grey)"><img src="assets/proofs/${l.proof || 'business-cards'}.png" alt=""></span><span class="t"><b>${l.name}</b><span class="d-bar-sub">${l.foot ? l.foot.replace(/ to keep.*/, '') : 'Your proof is ready'}</span></span></span>${NOTE}<span class="bar-btns">${btns}</span></div></div>`
+      : `<div class="buy-bar" id="proofBar" aria-hidden="true"><div class="sheet-bar"><div class="bar-btns">${btns}</div></div><p class="bar-link">${NOTE}</p></div>`);
+    const bar = document.getElementById('proofBar'), acts = document.getElementById('proofActs');
+    const toggle = show => { bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', String(!show)); };
+    toggle(acts.getBoundingClientRect().top > innerHeight);   // on load: the page's buttons are below the screen
+    new IntersectionObserver(([e]) => toggle(!e.isIntersecting && e.boundingClientRect.top > 0)).observe(acts);   // then: shown while they are further down
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-proof]'); if (!b) return;
+    if (b.dataset.proof === 'approve') { orderSave(o.no, d => d.lines[li] = 'approved'); toastOnNextPage(`Proof approved: we print your ${l.name} next`); location.href = order; }
+    if (b.dataset.proof === 'upload') openUpload({ name: l.name, img: 'assets/' + l.img,
+      onAdd: files => { orderSave(o.no, d => d.lines[li] = files); toastOnNextPage(`Added to your ${l.name}: we check it and send you a new proof`); location.href = order; } });
+  });
+
+  // The PDF (pdf.js, as the upload popup): fit to the viewer, zoom in steps of 25%
+  let pdfDoc = null, pdfPage = null, pageNo = 1, zoom = 1;
+  const draw = async () => {
+    pdfPage = await pdfDoc.getPage(pageNo);
+    document.getElementById('pdfPages').textContent = `${pageNo} / ${pdfDoc.numPages}`;
+    document.querySelectorAll('[data-p]').forEach(p => { p.hidden = pdfDoc.numPages === 1;   // one page: no arrows
+      p.querySelector('.pdf-btn').disabled = p.dataset.p < 0 ? pageNo === 1 : pageNo === pdfDoc.numPages; });
+    const stage = document.getElementById('pdfStage'), cv = document.getElementById('pdfCanvas'), v1 = pdfPage.getViewport({ scale: 1 });
+    const fit = Math.min((stage.clientWidth - 32) / v1.width, (stage.clientHeight - 32) / v1.height), vp = pdfPage.getViewport({ scale: fit * zoom * devicePixelRatio });
+    cv.width = vp.width; cv.height = vp.height; cv.style.width = vp.width / devicePixelRatio + 'px'; cv.style.height = vp.height / devicePixelRatio + 'px';
+    await pdfPage.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+    document.getElementById('pdfZoom').textContent = Math.round(zoom * 100) + '%';   // 100% = the page fits
+  };
+  upPdfJs().then(async () => { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfDoc = await pdfjsLib.getDocument(new URL(PDF, location.href).href).promise; await draw(); }).catch(() => {   // the PDF did not load (e.g. a page opened from disk): the proof as a picture, the PDF still to open
+    document.getElementById('pdfCanvas').outerHTML = `<img class="pdf-page" src="assets/proofs/${l.proof || 'business-cards'}.png" alt="Your proof">`; document.getElementById('pdfZoom').textContent = '100%'; document.querySelectorAll('[data-p]').forEach(p => p.hidden = true); });   // page 1 only: no arrows
+  document.addEventListener('click', e => { if (!pdfDoc) return;   // zoom in steps of 25% from Fit; the pages one by one (a business card: front and back)
+    const z = e.target.closest('[data-z]'), pg = e.target.closest('[data-p]');
+    if (z) { zoom = Math.max(1, Math.min(4, zoom + +z.dataset.z * .25)); draw(); }
+    if (pg) { const n = pageNo + +pg.dataset.p; if (n >= 1 && n <= pdfDoc.numPages) { pageNo = n; draw(); } } });
+}
+</script>
+</body>
+</html>

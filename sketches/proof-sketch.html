@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<!-- Sketch (not linked): the proof page in My account (Cornel 2026-11-17: a page instead of a popup, so a reminder email can link to it).
+     The real account shell and our components in proof-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1000px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1100px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1650px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: the proof page</h1>
+  <p class="note"><b>Cornel chose B (2026-11-17): built as prototype/proof.html, with the buttons fixed as on the PDP and a lower viewer.</b></p>
+  <div class="note">A page of its own per product (<code>proof.html?o=8839004&amp;l=0</code>), so the reminder email (“Your proof is waiting”) and a colleague
+    who has to approve can open it directly; not logged in = the login page, then straight back here. In the account shell (the card left on desktop,
+    ← to the order in the breadcrumb). Each has: the proof in a <b>PDF viewer</b> (the proof is always a PDF, rendered with pdf.js: a dark toolbar with page, zoom −/+ from Fit, open and download; the page white on a dark canvas; a prototype proof in assets/proofs/ with the cut line and the safe area), the deadline in the cream band, <b>What we did with your file</b>
+    (the file check: CMYK, resolution, a warning when text sits near the cut), Approve / Upload new design / Leave a note, and our team.
+    After Approve: back to the order (or the next proof that waits). The Review proof buttons (order page, Overview) go here; the popup goes.
+    <br><b>My pick: A.</b> The proof gets the room, and the decision (deadline, check, buttons) stays next to it while you zoom and scroll; on mobile
+    the buttons sit in the sticky bar, always in reach. B (the wishes) puts the buttons under a big viewer, out of sight on desktop. C adds three ticks
+    before Approve works: safer, but one more step every time; worth it only if reprints after "I didn't look well" are a real cost.
+    <ul>
+      <li>Reused: the account card, <code>.oc-foot</code> (the band), <code>.dash-card</code>, <code>.btn</code>, <code>.icon-btn</code> + tooltip, <code>.check</code>, <code>.oc-team</code>, the cart's sticky bar (<code>.cart-bar</code> + <code>.bar-btns</code>).</li>
+      <li>New: the PDF viewer (dark toolbar + canvas, pdf.js), the file check list (a check or an orange dot per point).</li>
+    </ul></div>
+
+  <section class="opt" data-v="a">
+    <h2>A · The proof left, the decision right <em>my pick</em></h2>
+    <p>Desktop: the viewer big, on the right (sticky) the deadline, the file check and the buttons. Mobile: viewer, check, the buttons in the sticky bar.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="b">
+    <h2>B · Everything under the proof (as the wishes)</h2>
+    <p>The viewer over the full width, the check and the buttons under it.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="c">
+    <h2>C · As A, with three ticks before you approve</h2>
+    <p>Text and spelling, colours and pictures, nothing near the cut: Approve works once all three are ticked.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+</div>
+<script>
+  document.querySelectorAll('.opt').forEach(o => o.querySelectorAll('iframe').forEach(f => f.src = 'proof-frame.html?v=' + o.dataset.v));
+</script>
+</body>
+</html>

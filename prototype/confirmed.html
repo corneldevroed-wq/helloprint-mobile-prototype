@@ -7,9 +7,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261128o">
-<link rel="stylesheet" href="../design-system/components.css?v=20261128o">
-<link rel="stylesheet" href="pages.css?v=20261128o">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261129p">
+<link rel="stylesheet" href="pages.css?v=20261129p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -30,40 +30,12 @@
   </main>
   <footer data-shell="checkout-footer"></footer>
 </div>
-<!-- Upload your artwork: the PDP's popup (product.html #sheet-artwork), for one product of the order. The head says which product the files
-     go to; no upsell, except the Premium Artwork Check while the order is still to be paid. Prototype: the files stay in this browser
-     (name, size and a small picture), nothing is sent. -->
 <div data-shell="sheet-art"></div>
 <div data-shell="sheet-shipping"></div>
-<!-- All done: the standard popup (same overlay, ✕, Esc, swipe), filled by allDone() -->
-<div class="sheet-layer" id="sheet-yay" aria-hidden="true">
-  <!-- closes only with ✕ or the button (Cornel 2026-11-09): no click on the overlay, no swipe down -->
-  <div class="sheet-overlay"></div>
-  <div class="sheet oc-yay" role="dialog" aria-modal="true" aria-labelledby="yayTitle">
-    <div class="grab"></div>   <!-- the space of the swipe handle, without the handle -->
-    <div class="sheet-head"><span></span><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
-    <div class="sheet-body"><div class="pad yay" id="yayBody"></div></div>
-  </div>
-</div>
-<input type="file" id="artInput" multiple hidden>
-<div class="sheet-layer" id="sheet-artwork" aria-hidden="true">
-  <div class="sheet-overlay" data-close-sheet></div>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="artTitle">
-    <div class="grab" data-grab><span></span></div>
-    <div class="sheet-head">
-      <h2 id="artTitle">Upload your artwork</h2>
-      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
-    </div>
-    <div class="sheet-body"><div class="pad" id="artBody"></div></div>
-    <div class="sheet-bar">
-      <div class="oc-for" id="artFor"></div>
-      <button class="btn primary" id="artAdd" disabled>Add to my order</button>
-    </div>
-  </div>
-</div>
 
-<script src="app.js?v=20261128o"></script>
-<script src="../design-system/components.js?v=20261128o"></script>
+<script src="app.js?v=20261129p"></script>
+<script src="upload.js?v=20261129p"></script>   <!-- Upload your artwork, shared with My account -->
+<script src="../design-system/components.js?v=20261129p"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -138,7 +110,7 @@
         <div class="state"><span>${now}${toPay && !l.needs ? ' · then payment' : ''}</span><span class="date">Arrives ${etaShort(etaDate(l.arrives))}</span></div>
         ${files ? `<div class="oc-files"><b>Your design</b>${files.filter((f, k) => !k || f.name !== files[k - 1].name).map(f => { const pages = files.filter(x => x.name === f.name).length;
           return `<button class="up-file" type="button" data-view-art="${l.i}" data-at="${files.indexOf(f)}" aria-label="View your artwork">${f.thumb ? `<span class="up-thumb"><img src="${f.thumb}" alt=""></span>` : `<span class="up-ico">${esc(f.ext.toUpperCase().slice(0, 4))}</span>`}
-          <span class="t"><b>${esc(f.name)}</b><small>${[f.size && sizeText(f.size), pages > 1 && pages + ' pages', 'added to this product ✓'].filter(Boolean).join(' · ')}</small></span><span class="link">View</span></button>`; }).join('')}</div>` : ''}</div>`;
+          <span class="t"><b>${esc(f.name)}</b><small>${[f.size && upSize(f.size), pages > 1 && pages + ' pages', 'added to this product ✓'].filter(Boolean).join(' · ')}</small></span><span class="link">View</span></button>`; }).join('')}</div>` : ''}</div>`;
     };
     // hidden (Cornel 2026-11-09): kept for My account later; on this page the blocks above show the uploads
     const products = `<section class="oc-sec" hidden><h2>Your product${many ? 's' : ''}</h2>${lines.map(lineHtml).join('')}</section>`;
@@ -185,83 +157,12 @@
     document.querySelector('.co-page').insertAdjacentHTML('beforeend', `<div class="cart-col"><aside class="cart-side"><h2>Order overview</h2>${totalsHtml(order.items, order.addons || {})}</aside></div>`);
   }
 
-  // Upload your artwork: the PDP's popup for one product (upFor); the files show with progress, then "We've got your file" (no confetti on repeat).
-  // "Add to my order" puts them on that product: its card shows them, the action goes, the page scrolls to the card and it lights up once.
-  const P = 'assets/pdp/', artInput = document.getElementById('artInput'), artBody = document.getElementById('artBody'), artAdd = document.getElementById('artAdd');
-  let upFor = null, art = [], justAdded = null;
-  const sizeText = n => n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' KB';
-  const fileThumb = f => f.progress === 100 && f.thumb ? `<span class="up-thumb"><img src="${f.thumb}" alt=""></span>` : `<span class="up-ico">${f.ext.toUpperCase().slice(0, 4)}</span>`;
-  const artRow = (f, i) => `<div class="up-file${f.err ? ' err' : ''}">${fileThumb(f)}
-      <div class="t"><b>${f.name.replace(/</g, '&lt;')}</b><small>${f.err ? `Didn’t upload: ${sizeText(f.size)}, max 200 MB` : [sizeText(f.size), f.progress === 100 && 'uploaded ✓'].filter(Boolean).join(' · ')}</small>
-        ${f.err || f.progress === 100 ? '' : `<span class="up-bar"><i style="width:${f.progress}%"></i></span>`}</div>
-      ${f.err || f.progress === 100 ? `<button class="up-replace" data-art-remove="${i}">Remove</button>` : ''}</div>`;
-  const ART_PROMISE = `<div class="art-team"><span class="faces">${['saskia', 'timo', 'karen'].map(n => `<img src="assets/help/team/${n}.webp" alt="">`).join('')}</span><p><b>Any questions?</b>Our team is ready to help</p></div>`;
-  // The only upsell here: the Premium Artwork Check, and only while the order is still to be paid (it changes the amount to pay)
+  // Upload your artwork: the shared popup (upload.js) for one product (upFor). "Add to my order" puts the files on that product: its block turns done
+  // where it is (no scroll, Cornel 2026-11-10) and lights up once. The only upsell: the Premium Artwork Check, while the order is still to be paid.
+  let upFor = null, justAdded = null;
   const toPay = () => order.when === 'later' && !order.paid;
   const artCheck = () => { const on = (order.addons || {}).check !== 'basic', t = CHECK_TIERS.find(x => x.id === (on ? order.addons.check : 'premium'));
     return `<div class="sum-up"><button class="switch" role="switch" aria-checked="${on}" data-art-check aria-label="Design check"></button><b>Add Premium Artwork Check</b><span class="p">€${checkPrice(t, order.items.length).toFixed(2)}</span><small>For extra peace of mind with your files.</small></div>`; };
-  // The pictures of a file, as on the PDP (1200px, sharp in the artwork popup): an image as it is, a PDF one per page (max 10)
-  const loadPdfJs = () => window.pdfjsLib ? Promise.resolve() : new Promise((ok, no) => { const sc = document.createElement('script');
-    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
-  async function picsOf(file, ext) {
-    try {
-      const url = URL.createObjectURL(file), out = [];
-      if (ext === 'pdf') {
-        await loadPdfJs(); pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        const doc = await pdfjsLib.getDocument(url).promise;
-        for (let n = 1; n <= Math.min(doc.numPages, 10); n++) {
-          const page = await doc.getPage(n), v = page.getViewport({ scale: 1 }), vp = page.getViewport({ scale: 1200 / Math.max(v.width, v.height) });
-          const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
-          await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
-          out.push(cv.toDataURL('image/jpeg', .85));
-        }
-        return out;
-      }
-      const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = url; });
-      const cv = document.createElement('canvas'), ctx = cv.getContext('2d'), k = Math.min(1, 1200 / Math.max(img.width, img.height));
-      cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
-      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.drawImage(img, 0, 0, cv.width, cv.height);
-      return [cv.toDataURL('image/jpeg', .85)];
-    } catch (e) { return []; }
-  }
-  function artFiles(list) {
-    [...list].forEach(file => {
-      const ext = (file.name.split('.').pop() || '').toLowerCase(), f = { name: file.name, size: file.size, ext, progress: 0, err: file.size > 200e6 };
-      art.push(f);
-      if (f.err) return;
-      if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'].includes(ext)) picsOf(file, ext).then(p => { f.pics = p; f.thumb = p[0]; renderArt(); });
-      const timer = setInterval(() => { f.progress = Math.min(100, f.progress + 20); renderArt(); if (f.progress === 100) clearInterval(timer); }, 180);
-    });
-    renderArt();
-  }
-  let artWasDone = false;
-  function artConfetti() {
-    const block = artBody.querySelector('.art-calm'); if (!block || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const r = block.getBoundingClientRect(), layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link'];
-    layer.className = 'confetti'; Object.assign(layer.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-    layer.innerHTML = Array.from({ length: 28 }, (_, i) => `<i style="left:${Math.random() * 100}%;background:var(${colours[i % 4]});animation-delay:${Math.random() * .3}s;--x:${Math.random() * 60 - 30}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
-    document.body.appendChild(layer); setTimeout(() => layer.remove(), 1800);
-  }
-  function renderArt() {
-    const it = order.items[upFor];
-    document.getElementById('artFor').innerHTML = `<span class="img"><img src="${it.img}" alt=""></span><span><small>For</small><b>${it.name.replace(/</g, '&lt;')}</b></span>`;
-    const busy = art.some(f => !f.err && f.progress < 100), done = art.length && !busy && !art.some(f => f.err);
-    artAdd.disabled = !done;
-    artAdd.textContent = busy ? 'Uploading…' : order.uploads[upFor] ? 'Update my order' : 'Add to my order';
-    if (!art.length) {
-      artBody.innerHTML = `<p class="up-intro">Upload your design for your <b>${it.name.replace(/</g, '&lt;')}</b>: one file or several, PDF works best.</p>
-        <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-art-pick>Choose files</button><small>or drag them here · as many as you like</small></div>${ART_PROMISE}`;
-      artWasDone = false;
-      return;
-    }
-    artBody.innerHTML = `<div class="up-files">${art.map(artRow).join('')}</div><button class="up-add" data-art-pick>+ Add more files</button>
-      ${!done ? ART_PROMISE : `<div class="art-calm"><b><img src="${P}check.svg" alt="">We’ve got your file${art.length > 1 ? 's' : ''}</b>
-        <span>Add ${art.length > 1 ? 'them' : 'it'} to your order and we start checking.</span>
-        <div class="up-check"><p class="ok"><img src="${P}check.svg" alt="">Every file gets our free automatic check</p><p class="ok"><img src="${P}check.svg" alt="">You’ll see a proof before we print</p></div>${toPay() ? artCheck() : ''}</div>`}`;
-    if (done && !artWasDone) setTimeout(artConfetti);
-    artWasDone = !!done;
-  }
-  sheetHooks.artwork = renderArt;
   document.addEventListener('click', e => {
     const jump = e.target.closest('a[href^="#up-"]');   // "Upload ↑": a smooth scroll to its action, which lights up once
     if (jump) {
@@ -275,38 +176,18 @@
     const up = e.target.closest('[data-up]');
     if (up) {   // Change (as the PDP): the popup opens with the files already added, to remove, replace or add more
       upFor = +up.dataset.up;
-      const had = order.uploads[upFor] || [];
-      art = [...new Set(had.map(f => f.name))].map(name => { const pages = had.filter(f => f.name === name), { size, ext } = pages[0], pics = pages.map(f => f.thumb).filter(Boolean);
-        return { name, size, ext, progress: 100, pics, thumb: pics[0] }; });
-      artWasDone = art.length > 0;   // no confetti for files that were already in
-      openSheet('artwork');
+      const it = order.items[upFor], changed = !!order.uploads[upFor];
+      openUpload({ name: it.name, img: it.img, files: order.uploads[upFor] || [], extra: () => toPay() ? artCheck() : '',
+        onClick: e => { if (!e.target.closest('[data-art-check]')) return;   // the order changes: the check, and with it the totals and the amount to pay
+          order.addons = { ...(order.addons || {}), check: order.addons?.check === 'basic' ? 'premium' : 'basic' };
+          Object.assign(order, cartTotals(order.items, order.addons)); save(); upRender(); render(); renderSide(); },
+        onAdd: files => { order.uploads[upFor] = files; save(); justAdded = upFor; render(); justAdded = null;
+          showToast(changed ? `Your files for ${it.name} are updated` : `Added to your ${it.name}`); } });
     }
     if (e.target.closest('[data-pay]')) {   // prototype: paying here = the payment link
       order.paid = true; order.paidWith = 'PayPal'; save(); render();   // prototype: the link is paid with PayPal
       showToast('Payment received, thank you!');
     }
-  });
-  artInput.addEventListener('change', () => { artFiles(artInput.files); artInput.value = ''; });
-  const artSheet = document.getElementById('sheet-artwork');
-  artSheet.addEventListener('click', e => {
-    const t = e.target;
-    if (t.closest('[data-art-pick]')) artInput.click();
-    if (t.closest('[data-art-remove]')) { art.splice(+t.closest('[data-art-remove]').dataset.artRemove, 1); renderArt(); }
-    if (t.closest('[data-art-check]')) {   // the order changes: the check, and with it the totals and the amount to pay
-      order.addons = { ...(order.addons || {}), check: order.addons?.check === 'basic' ? 'premium' : 'basic' };
-      Object.assign(order, cartTotals(order.items, order.addons)); save(); renderArt(); render(); renderSide();
-    }
-  });
-  artSheet.addEventListener('dragover', e => { e.preventDefault(); artSheet.querySelector('.art-drop')?.classList.add('over'); });
-  artSheet.addEventListener('dragleave', e => { if (!artSheet.contains(e.relatedTarget)) artSheet.querySelector('.art-drop')?.classList.remove('over'); });
-  artSheet.addEventListener('drop', e => { e.preventDefault(); artFiles(e.dataTransfer.files); });
-  artAdd.addEventListener('click', () => {
-    const name = order.items[upFor].name, changed = !!order.uploads[upFor];
-    order.uploads[upFor] = art.filter(f => !f.err).flatMap(({ name, size, ext, pics = [] }) => pics.length
-      ? pics.map((thumb, k) => ({ name, size, ext, thumb, page: pics.length > 1 ? `page ${k + 1} of ${pics.length}` : '' })) : [{ name, size, ext, thumb: null }]);
-    save(); closeSheet(); justAdded = upFor; render();   // the block turns done where it is: no scroll (Cornel 2026-11-10)
-    showToast(changed ? `Your files for ${name} are updated` : `Added to your ${name}`);
-    justAdded = null;
   });
 
   // All done (Cornel, 2026-11-09, "Tikkie style"): a happy popup with a big check that pops, confetti over the whole screen and one warm line
@@ -320,17 +201,10 @@
     const and = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a.at(-1) : a[0];
     const until = dl.length === 1 ? `<b>10:30 on ${dl[0][0]}</b>` : '10:30 on ' + and(dl.map(([d, names]) => `<b>${d}</b> for ${and(names)}`));
     const when = dates.length > 1 ? `between <b>${dates[0]}</b> and <b>${dates.at(-1)}</b>` : `on <b>${dates[0]}</b>`;
-    document.getElementById('yayBody').innerHTML = `<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="48"/><path d="M28 50l14 14 26-30"/></svg>
-      <h2 id="yayTitle">All done${order.first ? ', ' + order.first.replace(/</g, '&lt;') : ''}!</h2>
+    allDonePopup(`<h2 id="yayTitle">All done${order.first ? ', ' + order.first.replace(/</g, '&lt;') : ''}!</h2>
       <p>We’ve got everything we need. Your print goes into production and arrives ${when}.</p>
       <button class="btn primary" type="button" data-close-sheet>Great, thanks!</button>
-      ${ups.length ? `<small>Want to change a file? You can still upload a new one until ${until}.</small>` : ''}`;
-    openSheet('yay');
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link', '--white'];
-    layer.className = 'confetti oc-yay-confetti';
-    layer.innerHTML = Array.from({ length: 90 }, (_, k) => `<i style="left:${Math.random() * 100}%;background:var(${colours[k % 5]});animation-delay:${Math.random() * .6}s;--x:${Math.random() * 120 - 60}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
-    document.body.appendChild(layer); setTimeout(() => layer.remove(), 2600);
+      ${ups.length ? `<small>Want to change a file? You can still upload a new one until ${until}.</small>` : ''}`);   // the shared popup (app.js)
   }
 
   // Start: after everything above exists

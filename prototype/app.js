@@ -172,6 +172,22 @@ function openArt(art, start = 0) {   // start: the file to show first (the one t
   if (start) requestAnimationFrame(() => { const t = view.querySelector('.art-track'); t.scrollLeft = start * t.clientWidth;
     view.querySelectorAll('.art-thumbs > span').forEach((s, j) => s.classList.toggle('cur', j === start)); });
 }
+// All done ("Tikkie style", order confirmed 2026-11-09, My account 2026-11-17): the standard popup with a big check that pops, confetti over the
+// whole screen and one warm line; closes only with ✕ or its button (no overlay click, no swipe). allDonePopup(html): the title, text and button.
+const SHEET_YAY = `<div class="sheet-layer" id="sheet-yay" aria-hidden="true"><div class="sheet-overlay"></div>
+  <div class="sheet oc-yay" role="dialog" aria-modal="true" aria-labelledby="yayTitle"><div class="grab"></div>
+    <div class="sheet-head"><span></span><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><div class="pad yay" id="yayBody"></div></div></div></div>`;
+function allDonePopup(html) {
+  if (!document.getElementById('sheet-yay')) document.body.insertAdjacentHTML('beforeend', SHEET_YAY);
+  document.getElementById('yayBody').innerHTML = `<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="48"/><path d="M28 50l14 14 26-30"/></svg>${html}`;
+  openSheet('yay');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link', '--white'];
+  layer.className = 'confetti oc-yay-confetti';
+  layer.innerHTML = Array.from({ length: 90 }, (_, k) => `<i style="left:${Math.random() * 100}%;background:var(${colours[k % 5]});animation-delay:${Math.random() * .6}s;--x:${Math.random() * 120 - 60}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
+  document.body.appendChild(layer); setTimeout(() => layer.remove(), 2600);
+}
 // The free shipping popup (the ⓘ after Shipping in the totals: cart, details, payment, order confirmed)
 const SHEET_SHIPPING = `
 <div class="sheet-layer" id="sheet-shipping" aria-hidden="true">
@@ -201,11 +217,11 @@ const HELP_MENU = `<div class="d-menu d-head" role="menu" hidden>
 const deskFirst = deskUser ? (deskUser.first || 'My account').replace(/&/g, '&amp;').replace(/</g, '&lt;') : '';
 // The account pages + Log out: the desktop drop menu and the mobile sheet (Cornel 2026-11-12)
 const ACCOUNT_ROWS = `${[
-            ['#my-account', 'home', 'Account Overview'],
-            ['#orders', 'package-2', 'Orders'],
+            ['account.html', 'home', 'Account Overview'],
+            ['orders.html', 'package-2', 'Orders'],
             ['#invoices', 'receipt-long', 'Invoices'],
             ['#quotes', 'request-quote', 'Quotes'],
-            ['help-centre.html', 'support-agent', 'Support'],
+            ['#complaints', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
             ['#personal-details', 'person', 'Personal Details'],
             ['#addresses', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}
@@ -235,7 +251,15 @@ const LANG_MENU = `<div class="d-menu d-head d-lang" role="menu" hidden>
           ].map(([flag, name, code]) => `<a role="menuitemradio" aria-checked="${code === 'IE'}" href="${code === 'IE' ? '#' : '#' + name.toLowerCase().replace(/\W+/g, '-')}"><span class="ico"><img src="assets/flags/${flag}.svg" alt=""></span><span><b>${name}</b></span><small>${code}</small>${code === 'IE' ? '<img class="tick" src="assets/pdp/check.svg" alt="">' : ''}</a>`).join('')}
         </div>`;
 // The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
-const deskAccount = login => deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="#my-account" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : `<a class="dbtn dbtn-user" href="${login}"><img src="assets/account.svg" alt="">Log in</a>`;
+// My account (account.html, orders.html, order.html; Cornel 2026-11-17): the side card = who is logged in, the VIP status (the tiers of
+// vip.html) and the account pages, the current one grey. Desktop: sticky left of the page; mobile: only on the Overview (the rows last)
+const accountSide = current => `<aside class="account-side dash-card">
+        <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>${[deskUser?.first, deskUser?.last].filter(Boolean).join(' ').replace(/</g, '&lt;') || deskFirst}</b><small>Merrion Studio · customer since 2023</small></div>
+        <div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div>
+          <small>You get <b>2% off</b> every order<br>18,760 of 25,000 points · 6,240 more for Premium: 4% off · <a class="link" href="vip.html">How VIP works</a></small></div>
+        ${accountNav(current)}</aside>`;
+const accountNav = current => `<nav class="d-menu d-head account-nav" aria-label="My account">${ACCOUNT_ROWS.replace(/ role="menuitem"/g, '').replace(`href="${current}"`, `href="${current}" aria-current="page"`)}</nav>`;   // in the page: links, not menu items
+const deskAccount = login => deskUser ? `<div class="dhead-drop"><a class="dbtn dbtn-user" href="account.html" aria-haspopup="menu" aria-expanded="false" data-drop><img src="assets/account.svg" alt="">${deskFirst}</a>${ACCOUNT_MENU}</div>` : `<a class="dbtn dbtn-user" href="${login}"><img src="assets/account.svg" alt="">Log in</a>`;
 // Desktop: the shop header's top bar, Secure Checkout next to the logo, account and bag right; no search, menu or USP bar
 // (checkout-desk-sketch.html A, Cornel 2026-11-05/06)
 const SHELL_CHECKOUT_HEADER_DESK = `
@@ -399,6 +423,8 @@ const ROUTES = {
   'payment': 'payment.html',
   'order-confirmed': 'confirmed.html',
   'login': 'login.html',
+  // My account (account.html, 2026-11-17): the Overview; the other account pages stay anchors for now
+  'my-account': 'account.html', 'orders': 'orders.html',
   // Help Centre hub (header Help, desktop nav, footer, mobile footer Helpdesk)
   'cs': 'help-centre.html', 'help-centre': 'help-centre.html',
 };

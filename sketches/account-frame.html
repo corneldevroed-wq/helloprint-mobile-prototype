@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,download,edit,home,local_mall,receipt,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261129p">
+<link rel="stylesheet" href="pages.css?v=20261129p">
+<!-- Sketch frame (not linked), loaded by sketches/account-sketch.html as ?v=a|b|c: the real shop header + the My account Overview.
+     Existing parts as they are: .oc-act (to do), .d-menu.d-head rows (account menu), .pill, .icon-btn, .tabs, .crumbs, .badge.
+     New parts (still sketch CSS below, to the design system once chosen): the account card, the status chip, the VIP bar, the tiles. -->
+<style>
+  .acc { padding: 16px 16px 48px; display: flex; flex-direction: column; gap: 24px; }
+  html:not(.desk) .acc { width: auto; }   /* .dwrap is the desktop column; mobile keeps the 16 gutter */
+  .desk .acc { padding: 16px 0 64px; gap: 32px; }
+  .acc h1 { margin: 0; }
+  .acc .lead { margin-top: 4px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .acc h2 { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 16px; font-size: var(--t-20); line-height: var(--lh-20); }
+  .desk .acc .xsell h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: 0; }   /* Previously viewed: the same section title as the rest of the Overview */
+  .acc .xsell .grid { margin-top: 0; }
+  .desk .acc .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .two { display: flex; flex-direction: column; gap: 24px; }
+  .desk .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+  .desk .duo .orow { grid-template-columns: 56px minmax(0, 1fr); }   /* D: in the half column the reorder buttons go under the text */
+  .desk .duo .orow .acts { grid-column: 2; }
+  .desk .oc-act .dbtn { flex: none; margin-left: auto; }
+  .orow .amt { font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; text-align: right; }
+  .acard .more { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: var(--t-14); line-height: var(--lh-14); }
+  .acc h2 .link { font-size: var(--t-14); font-weight: 600; }
+  /* new: the account card (white, 1px line, r-l) */
+  .acard { padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
+  .desk .acard { padding: 24px; }
+  /* new: who + VIP */
+  .who { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; }   /* the header's account icon before the name, on light grey (Cornel 2026-11-17: grey, there is enough green) */
+  .who .av { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--light-grey); }
+  .who .av i { width: 24px; height: 24px; background: var(--dark-grey); -webkit-mask: url(assets/account.svg) center / contain no-repeat; mask: url(assets/account.svg) center / contain no-repeat; }   /* the same icon, in grey */
+  .who b { display: block; font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
+  .who small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .vip { display: flex; flex-direction: column; gap: 8px; }
+  .vip .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }
+  .vip .bar { height: 8px; border-radius: var(--r-pill); background: var(--light-grey); overflow: hidden; }
+  .vip .bar i { display: block; height: 100%; width: 94%; border-radius: inherit; background: var(--light-green); }
+  .vip small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .vip small b { color: var(--black); font-weight: 600; }
+  .who + .vip { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  /* the account menu rows, in the page instead of a dropdown */
+  .acc-nav.d-menu { position: static; width: auto; padding: 0; border: 0; box-shadow: none; background: none; }
+  .acc-nav a.on { background: var(--light-grey); }
+  .acc-nav a.on b { font-weight: 600; }
+  .vip + .acc-nav { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .acc-nav hr { margin: 4px 0; border: 0; border-top: 1px solid var(--line); }
+  /* rows in a card (orders in progress, reorder) */
+  .rows { display: flex; flex-direction: column; }
+  .rows > * + * { border-top: 1px solid var(--line); }
+  .orow { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 16px; row-gap: 8px; align-items: center; padding: 16px 0; color: inherit; text-decoration: none; }
+  .rows > :first-child { padding-top: 0; } .rows > :last-child { padding-bottom: 0; }
+  .orow .img { width: 56px; height: 56px; border-radius: var(--r-m); background: var(--light-grey); display: grid; place-items: center; overflow: hidden; }
+  .orow .img img { width: 100%; height: 100%; object-fit: cover; }
+  .orow .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
+  .desk .orow { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* desktop: the chip or the buttons on the right */
+  .orow .st { grid-column: 2; justify-self: start; }   /* mobile: the chip under the text */
+  .desk .orow .st { grid-column: auto; justify-self: end; }
+  .orow .t b { font-weight: 600; }
+  .orow .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  /* new: the progress tracker (the look of the checkout steps, .co-steps is too tied to the checkout to reuse) */
+  .trk { grid-column: 2 / -1; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 0; padding: 0; }
+  .trk li { padding-top: 4px; border-top: 3px solid var(--light-grey); font-size: var(--t-12); line-height: var(--lh-12); color: var(--mid-grey); }
+  .trk li.done { border-top-color: var(--light-green); color: var(--dark-grey); }
+  .trk li.current { border-top-color: var(--light-green); color: var(--black); font-weight: 600; }
+  .orow .acts { grid-column: 2 / -1; display: flex; align-items: center; gap: 8px; }
+  .desk .orow .acts { grid-column: auto; }
+  .orow .acts .pill { margin-right: 4px; }
+  /* new: status chip (only "action needed" in colour) */
+  .st { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
+  .st::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--mid-grey); }
+  .st.go::before { background: var(--link); }
+  .st.act { padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); }
+  .st.act::before { background: var(--white); }
+  /* layouts */
+  .desk .lay-a { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .desk .lay-a .side { position: sticky; top: 124px; }
+  .lay-a .main, .col { display: flex; flex-direction: column; gap: 24px; }
+  .desk .lay-a .main, .desk .col { gap: 32px; }
+  .desk .lay-b { display: grid; grid-template-columns: minmax(0, 1fr) 384px; gap: 32px; align-items: start; }
+  .lay-b { display: flex; flex-direction: column; gap: 24px; }
+  .acc > .tabs { position: static; margin: -8px -16px 0; }
+  .desk .acc > .tabs { margin: -16px 0 0; padding: 0; }
+  .desk .acc > .tabs a { padding: 12px; }
+  /* new: tiles (C) */
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .desk .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tile { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); color: inherit; text-decoration: none; }
+  .desk .tile:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .tile img { width: 24px; height: 24px; }
+  .tile b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
+  .tile small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .tile small.hot { color: var(--link); font-weight: 600; }
+  .desk .lay-c { display: grid; grid-template-columns: minmax(0, 1fr) 384px; gap: 32px; align-items: start; }
+  .lay-c { display: flex; flex-direction: column; gap: 24px; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="acc dwrap" id="acc"></main>
+</div>
+<script>
+  // logged in for the sketch only: put a prototype user in, and take it out again if it wasn't there
+  window.__tmpUser = !localStorage.getItem('hp-user');
+  if (window.__tmpUser) localStorage.setItem('hp-user', JSON.stringify({ first: 'Loraine', last: 'Pijffers', email: 'loraine@example.com' }));
+</script>
+<script src="app.js?v=20261129p"></script>
+<script src="../design-system/components.js?v=20261129p"></script>
+<script>
+  if (window.__tmpUser) localStorage.removeItem('hp-user');
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  const I = '../design-system/icons/';
+  const NAV = [['#my-account', 'home', 'Account Overview'], ['#orders', 'package-2', 'Orders'], ['#invoices', 'receipt-long', 'Invoices'],
+    ['#quotes', 'request-quote', 'Quotes'], ['#complaints', 'chat', 'Complaints'], ['#personal-details', 'person', 'Personal Details'], ['#addresses', 'location-on', 'Addresses']];
+  const nav = () => `<nav class="d-menu d-head acc-nav" aria-label="My account">${NAV.map(([h, i, t], k) =>
+    `<a href="${h}"${k === 0 ? ' class="on" aria-current="page"' : ''}><span class="ico"><img src="${I}${i}.svg" alt=""></span><span><b>${t}</b></span><img class="chev" src="assets/menu/arrow.svg" alt=""></a>`).join('')}
+    <hr><button type="button" class="d-out"><span class="ico"><img src="${I}logout.svg" alt=""></span><span><b>Log out</b></span></button></nav>`;
+  const who = `<div class="who"><span class="av"><i></i></span><b>Loraine Pijffers</b><small>HelloPrint · customer since 2023</small></div>`;
+  const vip = `<div class="vip"><div class="top"><span>VIP score</span><span class="badge eco co-badge">VIP 2</span></div><div class="bar"><i></i></div>
+    <small><b>€1,876</b> of €2,000 · €124 more for 4% off every order</small></div>`;
+  const head = `<p class="crumbs"><a href="index.html">Home</a> / My account</p>`;
+  const title = `<div><h1>Welcome back, Loraine</h1><p class="lead">Order again in one click, and everything waiting on you.</p></div>`;
+
+  // desktop: the to-do buttons one step smaller, the header's light green .dbtn (as the Help Centre's 'your orders' blocks); mobile keeps the full-width .btn
+  const CTA = document.documentElement.classList.contains('desk') ? 'dbtn' : 'btn primary';
+  const todo = `<section><h2>Needs your attention</h2><div class="oc-acts">
+    <div class="oc-act"><div class="row"><span class="n">1</span><span class="t"><b>Pay €160.20</b><small>Invoice INV-2026-4471 · order #8842119 · due Tue 24 Nov</small></span><button class="${CTA}" type="button">Pay now</button></div></div>
+    <div class="oc-act"><div class="row"><span class="n">2</span><span class="t"><b>Approve your proof</b><small>Roller banner × 2 · order #8839004</small></span><button class="${CTA}" type="button">Review proof</button></div><p class="oc-foot">Approve by <b>14:00 on Wed 18 Nov</b> to keep your delivery date</p></div>
+    <div class="oc-act"><div class="row"><span class="n">3</span><span class="t"><b>Your quote is ready: €420</b><small>Quote QT-5567 · 50 roller banners, custom size</small></span><button class="${CTA}" type="button">View quote</button></div><p class="oc-foot">Valid until <b>Mon 30 Nov</b></p></div>
+    <div class="oc-act"><div class="row"><span class="n">4</span><span class="t"><b>Send us a few photos</b><small>Complaint CMP-1031 · flyers, order #8811900</small></span><button class="${CTA}" type="button">Upload photos</button></div></div>
+  </div></section>`;
+
+  const steps = now => `<ol class="trk">${['Artwork', 'Proof', 'Printing', 'Delivery'].map((s, k) => `<li class="${k < now ? 'done' : k === now ? 'current' : ''}">${s}</li>`).join('')}</ol>`;
+  const orders = `<section><h2>Orders in progress <a class="link" href="#orders">View all orders</a></h2><div class="acard rows">
+    <a class="orow" href="#o1"><span class="img"><img src="assets/p6.png" alt=""></span><span class="t"><b>#8847305 · Launch kit (5 items)</b><small>Placed Mon 16 Nov · 3 items need you</small></span><span class="st act">Action needed</span>${steps(0)}</a>
+    <a class="orow" href="#o2"><span class="img"><img src="assets/products/roller-banner.webp" alt=""></span><span class="t"><b>#8846210 · Event pack (3 items)</b><small>Estimated Fri 20 Nov — latest Mon 23 Nov</small></span><span class="st go">On its way</span>${steps(3)}</a>
+    <a class="orow" href="#o3"><span class="img"><img src="assets/p3.png" alt=""></span><span class="t"><b>#8830771 · Flyers</b><small>Estimated Tue 24 Nov — latest Wed 25 Nov</small></span><span class="st go">In production</span>${steps(2)}</a>
+  </div></section>`;
+
+  const ib = (ic, tip) => `<button class="icon-btn" type="button" data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></button>`;
+  const reorder = `<section><h2>Order again <a class="link" href="#orders">All orders</a></h2><div class="acard rows">
+    ${[['p4.png', 'Classic Business Cards', '500 pcs · Matt laminated · ordered 28 Oct'], ['p3.png', 'Standard Flyers', '2,500 pcs · A5 · Gloss · ordered 24 Oct'], ['products/roller-banner.webp', 'Roller Banner', '1 pc · 85 × 200 cm · Premium · ordered 12 Oct']]
+      .map(([img, n, s]) => `<div class="orow"><span class="img"><img src="assets/${img}" alt=""></span><span class="t"><b>${n}</b><small>${s}</small></span>
+        <span class="acts"><button class="pill active" type="button">Reorder</button>${ib('edit', 'Change options and reorder')}${ib('download', 'Download proof')}</span></div>`).join('')}
+  </div></section>`;
+
+  const TILES = [['package-2', 'Orders', '3 in progress', 1], ['receipt-long', 'Invoices', '€762.70 open', 1], ['request-quote', 'Quotes', '1 ready to review', 1],
+    ['chat', 'Complaints', '1 needs your photos', 1], ['person', 'Personal Details', 'Name, email, company, e-invoicing'], ['location-on', 'Addresses', '6 shipping and billing addresses']];
+  const tiles = `<section><h2>Your account</h2><div class="tiles">${TILES.map(([i, t, s, hot]) =>
+    `<a class="tile" href="#${t.toLowerCase().replace(/ /g, '-')}"><img src="${I}${i}.svg" alt=""><b>${t}</b><small${hot ? ' class="hot"' : ''}>${s}</small></a>`).join('')}</div></section>`;
+
+  // back from the wishes (Cornel 2026-11-17: "ik mis toch ook wat info op het overview"): invoices, quotes, previously viewed
+  const line = (t, sub, right) => `<a class="orow" href="#x" style="grid-template-columns:minmax(0,1fr) auto"><span class="t"><b>${t}</b><small>${sub}</small></span>${right}</a>`;
+  const invoices = `<section><h2>Invoices <a class="link" href="#invoices">View all invoices</a></h2><div class="acard"><div class="rows">
+    ${line('INV-2026-4471 · €184.20', 'Order #8842119 · €160.20 open · due Tue 24 Nov', '<span class="st go">Open</span>')}
+    ${line('INV-2026-4302 · €212.50', 'Order #8830771 · €194.50 open · due Fri 27 Nov', '<span class="st go">Open</span>')}
+    ${line('INV-2026-4188 · €96.00', 'Order #8825510 · paid Thu 22 Oct', '<span class="st">Paid</span>')}
+  </div><p class="more"><b>€762.70</b> open across 3 invoices · <a class="link" href="#settle">Pay all</a></p></div></section>`;
+  const quotes = `<section><h2>Quotes <a class="link" href="#quotes">View all quotes</a></h2><div class="acard"><div class="rows">
+    ${line('QT-5567 · €420.00', '50 roller banners, custom size · valid until Mon 30 Nov', '<span class="st act">Quote ready</span>')}
+    ${line('QT-5540 · Tote bags', '1,000 pcs, bespoke print · we email you when it is ready', '<span class="st go">Requested</span>')}
+  </div><p class="more">Custom size, big volume or off-catalogue? <a class="link" href="#quote">Request a quote</a></p></div></section>`;
+  const viewed = `<section class="xsell"><h2>Previously viewed</h2><div class="grid">${[['p4.png', 'Classic Business Cards', 500, '€18.89'], ['p3.png', 'Standard Flyers', 1000, '€35.99'], ['products/roller-banner.webp', 'Roller Banners', 1, '€38.99'], ['p8.png', 'Stickers on Roll', 500, '€54.59']]
+    .map(([img, n, q, pr]) => `<a class="product" href="#p"><div class="thumb" style="background:var(--light-grey)"><img src="assets/${img}" alt=""></div><p class="name">${n}</p><div><p class="from">${q} ${q === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price">${pr}</span></p></div></a>`).join('')}</div></section>`;
+  const money = `<div class="two">${invoices}${quotes}</div>`;
+
+  const desk = document.documentElement.classList.contains('desk');
+  const tabs = `<nav class="tabs" aria-label="My account">${NAV.map(([h, , t], k) => `<a href="${h}"${k === 0 ? ' class="active"' : ''}>${t.replace('Account ', '')}</a>`).join('')}</nav>`;
+  const L = {
+    a: desk ? `${head}<div class="lay-a"><aside class="side acard">${who}${vip}${nav()}</aside><div class="main">${title}${todo}${reorder}${orders}${money}${viewed}</div></div>`
+            : `${head}${title}<div class="acard">${who}${vip}</div>${todo}${reorder}${orders}${invoices}${quotes}${viewed}<section><h2>Your account</h2><div class="acard">${nav()}</div></section>`,
+    d: desk ? `${head}<div class="lay-a"><aside class="side acard">${who}${vip}${nav()}</aside><div class="main">${title}<div class="two duo">${todo}${reorder}</div>${orders}${money}${viewed}</div></div>`
+            : `${head}${title}<div class="acard">${who}${vip}</div>${todo}${reorder}${orders}${invoices}${quotes}${viewed}<section><h2>Your account</h2><div class="acard">${nav()}</div></section>`,
+    b: `${head}${title}${tabs}<div class="lay-b"><div class="col">${todo}${reorder}${orders}</div><div class="col"><div class="acard">${who}${vip}</div>${invoices}${quotes}</div></div>${viewed}`,
+    c: `${head}${title}<div class="lay-c"><div class="col">${todo}</div><div class="col"><div class="acard">${who}${vip}</div></div></div>${reorder}${tiles}${viewed}`,
+  };
+  document.getElementById('acc').innerHTML = L[V];
+</script>
+</body>
+</html>

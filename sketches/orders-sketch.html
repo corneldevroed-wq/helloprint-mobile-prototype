@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261129p">
+<!-- Sketch (not linked): My account, Orders + Order detail (Cornel 2026-11-17, after the Overview A2). The real account shell and
+     our components in orders-frame.html?v=a|b&page=list|detail, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt h3 { margin: 24px 0 8px; font-size: 15px; }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1000px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1100px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box.tall { height: 2340px; }
+  .desk-box.tall iframe { height: 3510px; }
+  .desk-box iframe { width: 1512px; height: 1650px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: Orders + Order detail</h1>
+  <p class="note"><b>Cornel chose the combo (2026-11-17), built as prototype/orders.html and order.html.</b></p>
+  <div class="note">In the account shell of the Overview (A2). The list: all orders with the status, where each one is and your reference; filters
+    All · Action needed · In progress · Delivered and a search (order, product or your reference); orders placed as a guest can be added.
+    The detail (#8847305, five products in five states): the order head with your reference (Change), the products, and on the right the
+    order summary (as the checkout), payment, the shipping and billing address and Need something? (Order again, Cancel, Report a problem, Chat with Anna).
+    <br><b>My pick: A.</b> The list as the Overview's rows: one look on mobile and desktop, the tracker shows at a glance where every order is.
+    In the detail every product is its own card, and a product that needs you is a to-do block (green outline, the deadline in the cream band),
+    so what to do sits with the product it is about. B splits that: a table only works on desktop, and the to-dos on top repeat the products under them.
+    On mobile the account card (who, VIP, the pages) is only on the Overview; a sub page starts with its own title, the breadcrumb leads back.
+    <ul>
+      <li>Reused: <code>.dash-card</code>, <code>.dash-row</code>, <code>.status</code>, <code>.tracker</code>, <code>.oc-act</code> + <code>.oc-foot</code>, <code>.totals</code>, the menu rows (<code>.d-menu</code>), <code>.pill</code>.</li>
+      <li>New: the filter row (pills + search), the tracker's error step (red: "Small fix needed"), and in B a table.</li>
+    </ul></div>
+
+  <section class="opt" data-v="d">
+    <h2>Combo · Cornel 2026-11-17</h2>
+    <p>Orders: B's table on desktop, with the photo before each order and "+N" when it has more products (mobile: the rows of A).
+      Order detail: A's card per product (a product that needs you is a to-do block), and under them in the middle column the map + Order details and the team line,
+      as on order confirmed. Right: the order summary and Need something?; Payment and Addresses left the right column, they are in Order details now.</p>
+    <h3>Orders</h3>
+    <div class="row" data-page="list"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+    <h3>Order detail</h3>
+    <div class="row" data-page="detail"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box tall"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="a">
+    <h2>A · Rows + a card per product <em>my pick</em></h2>
+    <p>List: the Overview's order rows. Detail: each product a card; one that needs you is a green to-do block with its buttons and deadline.</p>
+    <h3>Orders</h3>
+    <div class="row" data-page="list"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+    <h3>Order detail</h3>
+    <div class="row" data-page="detail"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+
+  <section class="opt" data-v="b">
+    <h2>B · A table + the to-dos on top</h2>
+    <p>List: a table on desktop (Order · Your reference · Placed · Status, as in the wishes), the rows on mobile. Detail: Needs your attention on top, then all products in one card with a status each.</p>
+    <h3>Orders</h3>
+    <div class="row" data-page="list"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+    <h3>Order detail</h3>
+    <div class="row" data-page="detail"><div class="mob"><p class="lbl">Mobile 390</p><iframe></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe></iframe></div></div></div>
+  </section>
+</div>
+<script>
+  document.querySelectorAll('.opt').forEach(o => o.querySelectorAll('[data-page]').forEach(r => r.querySelectorAll('iframe').forEach(f => f.src = `orders-frame.html?v=${r.dataset.list || o.dataset.v}&page=${r.dataset.page}`)));
+</script>
+</body>
+</html>
