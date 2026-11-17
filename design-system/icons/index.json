@@ -8,7 +8,20 @@
    "printing/pms-2-single": "2 PMS · single",
    "printing/pms-2-double": "2 PMS · double",
    "printing/pms-3-single": "3 PMS · single",
-   "printing/pms-3-double": "3 PMS · double"
+   "printing/pms-3-double": "3 PMS · double",
+   "printing/pms-4-single": "4 PMS · single",
+   "printing/black-single": "Black · single",
+   "printing/black-double": "Black · double",
+   "printing/full-front-black-back": "Full colour front, black back"
+  },
+  "Print colours (inks)": {
+   "inks/none": "Unprinted",
+   "inks/1": "1 colour",
+   "inks/2": "2 colours",
+   "inks/3": "3 colours",
+   "inks/4": "4 colours",
+   "inks/5": "5 colours",
+   "inks/full": "Full colour"
   },
   "Corners": {
    "corners/straight": "Straight",

@@ -134,7 +134,10 @@ design system + guide, prices for products without a live from-price. Gap histor
   `napkins/white|cream|fold-4|fold-8|print-*`, `materials/airlaid|tissue`. In the data an option names its icon as `icon: 'rollup/silver'`
   (optVisual checks `o.icon` first); roller banners (Size, Stand), the folded business-card sizes and the PVC cards (Finish) use it.
   One-off materials (`sketches/oneoff-icons-sketch.html`): `neon` (yellow) / `neon-green|orange|pink` with a soft glow, `photo-paper`, `dot-foil`,
-  `backlit`, `antique-white`, `paperwise-white`, `pvc-card-gloss|matt` (a plastic card, rounded corners). Option icons (printing, folds, envelopes)
+  `backlit`, `antique-white`, `paperwise-white`, `pvc-card-gloss|matt` (a plastic card, rounded corners).
+  Print colours (`sketches/print-colour-icons-sketch.html`, A): `inks/none|1|2|3|4|5|full` (one dot per colour: orange, light green, dark green,
+  blue, dark grey; full = the CMYK square), `printing/pms-4-single|black-single|black-double|full-front-black-back`. Basic cotton bags use the inks.
+  All-categories gap report (289 products, the waves): `sketches/icon-gaps-all-categories.html`. Option icons (printing, folds, envelopes)
   outline in #191919 like the size shapes; `printing/pms-<1|2|3>-<single|double>` = the printing icon plus one ink dot per PMS colour
   (orange, light green, dark green). Folds = the card opened flat, the fold dashed; envelopes = the card alone / the closed envelope
   (choice in `sketches/fold-envelope-icons-sketch.html`). Not used yet beyond the folded sizes. Missing icons per product:

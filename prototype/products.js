@@ -428,10 +428,10 @@ const PRODUCTS = {
         { id: 'double', name: 'Double-sided', sub: 'Same design', shape: 'width:30px;height:32px', mult: 1.45, info: 'The same design on the front and the back.' },
       ]},
       { key: 'inks', title: 'Colours in design', items: [
-        { id: '1', name: '1 colour', sub: 'Screen print', mult: 1, info: 'One ink colour. Ideal for a logo; the most affordable choice.' },
-        { id: '2', name: '2 colours', sub: 'Screen print', mult: 1.18, info: 'Two ink colours.' },
-        { id: '3', name: '3 colours', sub: 'Screen print', mult: 1.34, info: 'Three ink colours.' },
-        { id: '4', name: '4 colours', sub: 'Screen print', mult: 1.5, info: 'Four ink colours.' },
+        { id: '1', name: '1 colour', sub: 'Screen print', icon: 'inks/1', mult: 1, info: 'One ink colour. Ideal for a logo; the most affordable choice.' },
+        { id: '2', name: '2 colours', sub: 'Screen print', icon: 'inks/2', mult: 1.18, info: 'Two ink colours.' },
+        { id: '3', name: '3 colours', sub: 'Screen print', icon: 'inks/3', mult: 1.34, info: 'Three ink colours.' },
+        { id: '4', name: '4 colours', sub: 'Screen print', icon: 'inks/4', mult: 1.5, info: 'Four ink colours.' },
       ]},
     ],
     presets: [
