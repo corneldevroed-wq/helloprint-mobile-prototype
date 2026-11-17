@@ -138,6 +138,45 @@ function quoteList() {
 const quoteOf = no => quoteList().find(q => q.no === no);
 const quoteUrl = no => `quote.html?q=${no}`;
 const quoteSave = (no, state) => { quotesDone[no] = state; try { localStorage.setItem('hp-quotes', JSON.stringify(quotesDone)); } catch (e) {} window.dispatchEvent(new Event('hp-orders')); };
+// ---------- Complaints (complaints.html, complaint.html; the wishes artifact's three cases, dates moved to our November) ----------
+// A case: the order (+ your reference), the issue, submitted, its steps (the progress bar) and what happened (dated), what it is about, the products,
+// what we need from you. You: photos sent (kept in this browser, 'hp-complaints').
+const COMPLAINTS = [
+  { no: 'CMP-1031', order: '8811900', ref: 'PO-76810', issue: 'Print quality', submitted: 'Thu 12 Nov', state: 'info',
+    about: 'You reported on Thu 12 Nov that the colours printed duller than your file and some text looked blurry.',
+    lines: [{ img: 'p3.png', name: 'Standard Flyers', spec: '1,000 pcs · A5 · Gloss · Full colour, double-sided', gross: 92 }],
+    events: [['Complaint submitted', 'Thu 12 Nov · print quality'], ['Reviewed by our team', 'Fri 13 Nov']] },
+  { no: 'CMP-1042', order: '8825510', ref: '', issue: 'Damaged on arrival', submitted: 'Tue 27 Oct', state: 'progress',
+    about: 'You reported on Tue 27 Oct that the banner base arrived bent, and uploaded photos of the damage.',
+    events: [['Complaint submitted', 'Tue 27 Oct · damaged on arrival'], ['Photos received', 'Tue 27 Oct'], ['Case accepted', 'Wed 28 Oct · confirmed valid']] },
+  { no: 'CMP-1009', order: '8790233', ref: 'PO-75544', issue: 'Wrong quantity', submitted: 'Mon 19 Oct', state: 'resolved',
+    about: 'You reported on Mon 19 Oct that the box held fewer cards than the 1,000 ordered.',
+    lines: [{ img: 'p4.png', name: 'Classic Business Cards', spec: '1,000 pcs · Soft-touch · Double-sided', gross: 128 }],
+    events: [['Complaint submitted', 'Mon 19 Oct · wrong quantity'], ['Case accepted', 'Tue 20 Oct · confirmed valid'], ['Missing items reprinted', 'Thu 22 Oct'], ['Resolved', 'Mon 26 Oct · delivered']] },
+];
+let complaintsDone = {};
+try { complaintsDone = JSON.parse(localStorage.getItem('hp-complaints')) || {}; } catch (e) {}
+const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['ok', 'Resolved'] };
+// the case's progress bar: Submitted · In review · Solution · Resolved, and where it is
+const COMPLAINT_STEPS = ['Submitted', 'In review', 'Solution', 'Resolved'];
+function complaintList() {
+  if (NEW_CUSTOMER) return [];
+  return COMPLAINTS.map(c => { const v = { ...c, events: [...c.events] }, o = ORDERS.find(o => o.no === c.order);
+    const sent = complaintsDone[c.no];   // your photos (the upload popup's files), as an upload on the order page
+    if (sent && c.state === 'info') { v.photos = Array.isArray(sent) ? sent : []; v.state = 'progress'; v.events.push(['Photos received', 'Tue 17 Nov · thank you']); }
+    v.o = o; v.lines = c.lines || (o ? o.lines.map(l => ({ img: l.img, name: l.name, spec: l.spec, gross: l.gross })) : []);
+    v.step = { info: 1, progress: v.events.some(e => /accepted/i.test(e[0])) ? 2 : 1, resolved: 4 }[v.state];
+    // what is happening now and what comes next (the artifact's case timeline: done · now · still to come)
+    v.now = { info: ['Waiting for your photos', 'Needed to assess the issue'], progress: v.step === 2 ? ['Arranging the solution', 'A reprint is being scheduled'] : ['Assessment', 'We decide within 2 working days'], resolved: null }[v.state];
+    v.next = { info: [['Assessment', 'We decide once your photos are in'], ['Resolution', 'Reprint, refund or credit']], progress: v.step === 2 ? [['Resolved', 'Replacement dispatched']] : [['Resolution', 'Reprint, refund or credit']], resolved: [] }[v.state];
+    v.status = COMPLAINT_STATES[v.state]; return v; });
+}
+const complaintOf = no => complaintList().find(c => c.no === no);
+const complaintUrl = no => `complaint.html?c=${no}`;
+const complaintSave = (no, state) => { complaintsDone[no] = state; try { localStorage.setItem('hp-complaints', JSON.stringify(complaintsDone)); } catch (e) {} window.dispatchEvent(new Event('hp-orders')); };
+// the grey line of a case in the lists
+const complaintNote = c => ({ info: 'We need a few photos from you', progress: c.now?.[0] || 'In progress', resolved: `Resolved ${c.events.at(-1)[1].split(' · ')[0]}` })[c.state];
+
 // the grey line of a quote in the lists
 const quoteNote = q => ({ ready: `${accEur(q.sum?.gross || 0)} · valid until ${q.valid}`, requested: 'We email you when it’s ready', accepted: `Became order #${q.order || '—'}`, expired: `Expired ${q.valid}`, declined: 'You declined it' })[q.state];
 // the grey line of an invoice in the lists: what is open and when it is due, or when it was paid; a credit note: what it is for and its state
@@ -328,20 +367,24 @@ document.addEventListener('click', e => {
   if (act === 'note-send') { const v = document.getElementById('noteInput').value.trim(); if (!v) { document.getElementById('noteInput').focus(); return; }
     closeSheet(); showToast('Thanks! Your note is with our team, we reply by email'); }
   if (act === 'reorder') reorder(l ? [l] : o.lines, o.no);   // a product, or the whole order
+  if (act === 'complaint-photos') { const c = complaintOf(b.dataset.c), changed = !!c.photos?.length;   // the upload popup for the case's photos (Change: the photos already in)
+    openUpload({ name: `Complaint ${c.no}`, img: 'assets/' + c.lines[0].img, files: c.photos || [], onAdd: files => { complaintSave(c.no, files); showToast(changed ? 'Your photos are updated' : 'Thanks! Your photos are with our team, we assess your case now'); } }); }
+  if (act === 'complaint-art') openArt(complaintOf(b.dataset.c).photos);   // your photos big, as the artwork in the cart
   if (act === 'quote-accept') { quoteSave(b.dataset.q, 'accepted'); showToast('Quote accepted: we turn it into an order and email you the confirmation'); }
   if (act === 'quote-decline') { quoteSave(b.dataset.q, 'declined'); showToast('Quote declined'); }
-  if (act === 'quote-ask') { const t = document.getElementById('askInput'); if (!t.value.trim()) { t.focus(); return; } t.value = ''; showToast('Thanks! Your question is with our team, we reply by email within one working day'); }
+  if (act === 'quote-ask') { const t = document.getElementById('askInput'); if (!t.value.trim()) { t.focus(); return; }   // the confirmation replaces the form (the wishes artifact)
+    t.closest('.ask-card').innerHTML = '<p class="dash-empty"><span><b>Message sent to our team.</b> Thanks! One of our agents replies by email, usually within one working day.</span></p>'; }
   if (act === 'soon') showToast(`${b.dataset.what || 'This page'} comes next in the prototype`);
   if (act === 'download') showToast('Your proof is downloading (prototype)');
 });
 
 // The account pages still to build: a toast instead of nothing (the account menu, Invoices, Quotes…)
-const SOON = { '#complaints': 'The complaints page', '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
+const SOON = { '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
 document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'), what = a && SOON[a.getAttribute('href')];
   if (what) { e.preventDefault(); showToast(`${what} comes next in the prototype`); } });
 
 // Prototype: back to the start (every to-do open again). The left-edge tab on the account pages (the prototype switches' look), or ?reset in the URL
-const resetDemo = () => { try { localStorage.removeItem('hp-orders'); localStorage.removeItem('hp-quotes'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
+const resetDemo = () => { try { localStorage.removeItem('hp-orders'); localStorage.removeItem('hp-quotes'); localStorage.removeItem('hp-complaints'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
 if (new URLSearchParams(location.search).has('reset')) { resetDemo(); history.replaceState(null, '', location.pathname + location.search.replace(/[?&]reset(=[^&]*)?/, '').replace(/^&/, '?')); location.reload(); }
 document.body.insertAdjacentHTML('beforeend', `<div class="flow-switch demo-reset" role="group" aria-label="Prototype"><span>Demo</span><button type="button" data-demo="reset" title="Reset the demo: every to-do open again" aria-label="Reset the demo">↺</button>
   <button type="button" data-demo="new" aria-pressed="${NEW_CUSTOMER}" title="New customer: no orders yet (the empty states)" aria-label="New customer">N</button></div>`);

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261201u">
-<link rel="stylesheet" href="../design-system/components.css?v=20261201u">
-<link rel="stylesheet" href="pages.css?v=20261201u">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202a">
+<link rel="stylesheet" href="pages.css?v=20261202a">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- the uploaded artwork big (app.js), as in the cart -->
-<script src="app.js?v=20261201u"></script>
-<script src="account.js?v=20261201u"></script>
-<script src="upload.js?v=20261201u"></script>
-<script src="../design-system/components.js?v=20261201u"></script>
+<script src="app.js?v=20261202a"></script>
+<script src="account.js?v=20261202a"></script>
+<script src="upload.js?v=20261202a"></script>
+<script src="../design-system/components.js?v=20261202a"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
@@ -43,7 +43,7 @@
   if (location.hash === '#pay') flashLine(NO, 'pay');   // from the Overview's Pay block: the pay block lights up and comes into view   // the all-done popup (account.js) shows on this order's page only
   const eur = n => (n < 0 ? '−€' : '€') + Math.abs(n).toFixed(2), esc = t => String(t).replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]);
   // what a button does (account.js): approve a proof, upload a file, track the parcel, see the complaint
-  const ACT = { 'Review proof': 'proof', 'Upload new design': 'upload', 'Upload design': 'upload', 'Upload new file': 'upload', 'Track parcel': 'track', 'View complaint': 'soon" data-what="The complaints page' };
+  const ACT = { 'Review proof': 'proof', 'Upload new design': 'upload', 'Upload design': 'upload', 'Upload new file': 'upload', 'Track parcel': 'track', 'View complaint': 'complaint' };
   const actRow = ([act, icon, title, sub, what]) => `<button type="button" data-act="${act}" data-o="${NO}"${what ? ` data-what="${what}"` : ''}><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b><small>${sub}</small></span></button>`;
 
   function render() {
@@ -58,7 +58,7 @@
     const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
     const CROSS = '<span class="n x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span>';   // cancelled (Cornel 11-17)
     let k = 0;   // the numbers of what needs you, pay first
-    const btn = (label, act, i, primary) => act === 'proof' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${proofUrl(o, i)}">${label}</a>`   // the proof is a page
+    const btn = (label, act, i, primary) => act === 'proof' || act === 'complaint' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${act === 'proof' ? proofUrl(o, i) : complaintUrl(o.complaint)}">${label}</a>`   // the proof and the complaint are pages
       : `<button class="btn small ${primary ? 'primary' : 'outline'}" type="button" data-act="${act}" data-o="${o.no}"${i === undefined ? '' : ` data-l="${i}"`}>${label}</button>`;
     const btns = (l, i) => o.cancelled ? '' : l.btns ? `<span class="btns">${l.btns.map((b, n) => btn(b, ACT[b], i, n === 0 && todo(l))).join('')}</span>`
       : l.files?.length ? `<span class="btns">${btn('Change', 'upload', i)}</span>` : '';

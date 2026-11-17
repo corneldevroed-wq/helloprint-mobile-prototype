@@ -222,7 +222,7 @@ const ACCOUNT_ROWS = `${[
             ['orders.html', 'package-2', 'Orders'],
             ['invoices.html', 'receipt-long', 'Invoices'],
             ['quotes.html', 'request-quote', 'Quotes'],
-            ['#complaints', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
+            ['complaints.html', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
             ['#personal-details', 'person', 'Personal Details'],
             ['#addresses', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}

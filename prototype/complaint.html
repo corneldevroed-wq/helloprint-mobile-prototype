@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Complaint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202a">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202a">
+<link rel="stylesheet" href="pages.css?v=20261202a">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, one complaint (complaint.html?c=<case>; Cornel 2026-11-17: as the order and quote pages, the wishes artifact's content): where the case
+       stands with its progress bar (Submitted · In review · Solution · Resolved) and what we need from you (Upload photos), what it is about, the products,
+       what happened (dated), Ask us a question. Right: Case details and Need something?. Data: account.js (complaintList). -->
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="complaints.html">Complaints</a> / <span id="crumb"></span></p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="complaint"></div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<div data-shell="sheet-art"></div>   <!-- your photos big (app.js), as the artwork on the order page -->
+<script src="app.js?v=20261202a"></script>
+<script src="account.js?v=20261202a"></script>
+<script src="upload.js?v=20261202a"></script>
+<script src="../design-system/components.js?v=20261202a"></script>
+<script>
+{ // its own scope: no clash with app.js names
+  if (!deskUser) location.replace('login.html');
+  if (!complaintList().length) location.replace('complaints.html');   // a new customer (the Demo switch): no complaints
+  document.querySelector('[data-account-side]').outerHTML = accountSide('complaints.html');
+  const NO = new URLSearchParams(location.search).get('c') || complaintList()[0].no;
+  const esc = t => String(t).replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]), e = accEur;
+  const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
+  const linkRow = ([href, icon, title, sub]) => dropRow([href, icon, title, sub]).replace(' role="menuitem"', '');
+
+  function render() {
+    const c = complaintOf(NO) || complaintList()[0], o = c.o;
+    document.title = `Complaint ${c.no}`;
+    document.getElementById('crumb').textContent = c.no;
+
+    // where it stands (the artifact's status box) as the order page's block, with the case's progress bar; we need photos: Upload photos + Chat with Anna
+    const tracker = `<ol class="tracker">${COMPLAINT_STEPS.map((t, k) => `<li class="${k < c.step ? 'done' : k === c.step ? 'now' : ''}">${t}</li>`).join('')}</ol>`;
+    // the photos we need = an upload as on the order page and order confirmed (Cornel): a number, Upload your photos, the button; once they are in
+    // "We've got your photos" with them on the tile (+N, a click shows them big) and Change
+    const photos = c.photos || [], tile = photos.length ? `<div class="line-item cart-line"><button class="img art-tile" type="button" data-act="complaint-art" data-c="${c.no}" aria-label="View your photos">${artPic(photos[0])}${photos.length > 1 ? `<span class="art-count">+${photos.length - 1}</span>` : ''}</button>
+        <div class="t"><strong>Your photos</strong><small>${[...new Set(photos.map(f => f.name))].length} file${[...new Set(photos.map(f => f.name))].length > 1 ? 's' : ''} · for ${esc(c.lines[0].name)}</small></div></div>` : '';
+    const head = {
+      info: ['<span class="n">1</span>', 'Upload your photos', 'To assess the print quality, our team needs clear photos of the affected items. Upload them and we pick this back up straight away.',
+        `<span class="btns"><button class="btn small primary" type="button" data-act="complaint-photos" data-c="${c.no}">Upload photos</button></span>`],
+      progress: [TICK, photos.length ? 'We’ve got your photos' : c.step === 2 ? 'Your case is accepted' : 'Thanks, your photos are in', photos.length || c.step < 2 ? 'We assess your case and get back to you within 2 working days.' : 'Our team is arranging the solution. You don’t need to do anything right now.',
+        photos.length ? `<span class="btns"><button class="btn small outline" type="button" data-act="complaint-photos" data-c="${c.no}">Change</button></span>` : ''],
+      resolved: [TICK, `Resolved ${c.events.at(-1)[1].split(' · ')[0]}`, 'The case was accepted and resolved: the missing items were reprinted and delivered. Nothing more to do, thanks for your patience.', ''],
+    }[c.state];
+    const block = `<div class="oc-act${c.state === 'info' ? '' : ' done'}" id="line-status"><div class="row">${head[0]}<span class="t"><b>${head[1]}</b><small>${head[2]}</small></span>${head[3]}</div>${tile}${tracker}</div>`;
+
+    // what it is about, then the order's contents as the order page shows its products (photo, name, specs, All specifications, price excl. VAT) and the totals
+    const sum = sumRows(c.lines);
+    const about = `<section class="oc-sec"><h2>What this is about</h2><div class="dash-card"><p class="oc-lead"><b>${c.issue}</b> on order #${c.order}. ${esc(c.about)}</p></div></section>
+      <section class="oc-sec"><h2>Order #${c.order} · contents</h2><div class="dash-card inv-lines">${c.lines.map(l => `<div class="line-item cart-line"><span class="img" style="background:var(--light-grey)"><img src="assets/${l.img}" alt=""></span>
+          <div class="t"><strong>${esc(l.name)}</strong><small>${esc(l.spec)}</small><details class="spec-fold"><summary class="link">All specifications</summary><div class="spec-fold-rows">${specRows({ ...l, price: vatSplit(l.gross).net }).map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('')}</div></details></div>
+          <span class="p">${e(vatSplit(l.gross).net)}</span></div>`).join('')}
+        <div class="totals"><div><span>Subtotal <small>(Excl. VAT)</small></span><span>${e(sum.net)}</span></div><div><span>VAT 23%</span><span>${e(sum.vat)}</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(sum.gross)}</span></div></div></div></section>`;
+    // Case progress: what happened (dated), what is happening now, what comes next (grey)
+    const progress = `<section class="oc-sec"><h2>Case progress</h2><div class="dash-card">${[...c.events.map(([t, m]) => [t, m, '<span class="status ok">Done</span>']), ...(c.now ? [[c.now[0], c.now[1], '<span class="status go">Now</span>']] : []), ...c.next.map(([t, m]) => [t, m, '<span class="status">Next</span>'])]
+      .map(([t, m, st]) => `<div class="dash-row text"><span class="t"><b>${t}</b><small>${m}</small></span>${st}</div>`).join('')}</div></section>`;
+
+    // Ask us a question (the artifact's form), the team line
+    const ask = `<section class="oc-sec"><h2>Ask us a question</h2><div class="dash-card ask-card"><label class="field"><textarea id="askInput" placeholder=" " maxlength="600" aria-label="Your question"></textarea><span class="fl">Message our team</span></label>
+        <small>We reply by email, usually within one working day. Up to 5 files · 10 MB each · JPEG, PNG, HEIC, PDF, DOCX or TXT</small>
+        <span class="btns"><button class="btn small outline" type="button" data-act="soon" data-what="Adding files">Attach files</button><button class="btn small primary" type="button" data-act="quote-ask">Send</button></span></div></section>
+      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
+
+    // Case details (the artifact's side card) and Need something? (the artifact's three: chat about it, the order, its invoice)
+    const row = ([t, v]) => `<div><span>${t}</span><span>${v}</span></div>`, inv = o && orderInvoice(o);
+    const details = `<div class="totals">${[['Case', c.no], ['Order', o ? `<a class="link" href="order.html?o=${o.no}">#${o.no}</a>` : `#${c.order}`], ...(c.ref ? [['Your reference', esc(c.ref)]] : []), ['Issue', c.issue], ['Submitted', c.submitted], ['Status', `<span class="status ${c.status[0]}">${c.status[1]}</span>`]].map(row).join('')}</div>`;
+    const need = [linkRow(['#chat', 'support-agent', 'Chat with Anna about this complaint', 'The fastest way to get an answer']),
+      linkRow([o ? `order.html?o=${o.no}` : 'orders.html', 'package-2', 'View the order', 'See the order this case is about']),
+      inv ? linkRow([invoiceUrl(inv.no), 'receipt-long', 'Invoice & receipt', `${inv.no} · download the PDF`])
+        : `<button type="button" data-act="invoice" data-doc="The invoice of order #${c.order}"><span class="ico"><img src="../design-system/icons/receipt-long.svg" alt=""></span><span><b>Invoice &amp; receipt</b><small>Download the PDF</small></span></button>`].join('');
+    const side = `<div class="od-side"><div class="dash-card"><h2>Case details</h2>${details}</div>
+      <div class="dash-card"><h2>Need something?</h2><div class="d-menu d-head account-nav">${need}</div></div></div>`;
+
+    document.getElementById('complaint').innerHTML = `<div class="od-head"><h1>Complaint ${c.no}</h1><p class="oc-lead">${c.issue} · order #${c.order} · submitted ${c.submitted}${c.ref ? ` · your reference <b>${esc(c.ref)}</b>` : ''}</p></div>
+      <div class="od-grid"><div class="od-lines">${block}${about}${progress}${ask}</div>${side}</div>`;
+  }
+  render();
+  window.addEventListener('hp-orders', render);   // photos sent: draw again
+}
+</script>
+</body>
+</html>
