@@ -2060,8 +2060,8 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .od-lines, .od-side { display: flex; flex-direction: column; gap: 16px; }
 .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
 .od-inv { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }   /* the invoice row, under it the small Download button */
-.od-inv .dash-row { align-self: stretch; padding: 0; }   /* one row: without the list's 16 under it, so the button sits 8 under the text */
-.desk .orders-rows, html:not(.desk) .orders-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
+.od-inv .dash-row { align-self: stretch; padding: 0; }
+.desk .orders-rows, html:not(.desk) .orders-table, .desk .invoices-rows, html:not(.desk) .invoices-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
 
 /* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====
    The proof is always a PDF: a PDF viewer (pdf.js) with a dark toolbar and canvas, the white page with a shadow; low, so the file check and

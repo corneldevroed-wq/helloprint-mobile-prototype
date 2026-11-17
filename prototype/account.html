@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261201j">
-<link rel="stylesheet" href="../design-system/components.css?v=20261201j">
-<link rel="stylesheet" href="pages.css?v=20261201j">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201r">
+<link rel="stylesheet" href="pages.css?v=20261201r">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -35,7 +35,7 @@
         <section><h2>Orders in progress <a class="link" href="orders.html">All orders</a></h2><div class="dash-card" id="orders-now"></div></section>
 
         <div class="account-two">
-          <section><h2>Invoices <a class="link" href="#invoices">All invoices</a></h2><div class="dash-card"><div id="invoices"></div>
+          <section><h2>Invoices <a class="link" href="invoices.html">All invoices</a></h2><div class="dash-card"><div id="invoices"></div>
             <p class="dash-foot" id="invoicesFoot"></p></div></section>
           <section><h2>Quotes <a class="link" href="#quotes">All quotes</a></h2><div class="dash-card"><div id="quotes"></div>
             <p class="dash-foot">Custom size, big volume or off-catalogue? <a class="link" href="#new2contactform">Request a quote</a></p></div></section>
@@ -48,9 +48,9 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261201j"></script>
-<script src="account.js?v=20261201j"></script>
-<script src="../design-system/components.js?v=20261201j"></script>
+<script src="app.js?v=20261201r"></script>
+<script src="account.js?v=20261201r"></script>
+<script src="../design-system/components.js?v=20261201r"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
@@ -89,11 +89,11 @@
       <span class="acts"><button class="pill active" type="button" data-act="reorder" data-o="${no}" data-l="${i}" aria-label="Reorder ${l.name}">Reorder</button>${iconBtn('edit', 'Change options and reorder', `href="${PRODUCT_PAGES[l.name] || '#'}"`)}${iconBtn('download', 'Download proof', 'data-act="download"')}</span></div>`; }).join('');
 
   const textRow = href => ([t, s, st, label]) => `<a class="dash-row text" href="${href}"><span class="t"><b>${t}</b><small>${s}</small></span><span class="status ${st}">${label}</span></a>`;
-  // the invoices of the orders (account.js), the open ones first; the same as each order page shows
-  const renderInvoices = () => { const inv = ORDERS.filter(o => o.inv).sort((a, b) => !!b.inv.open - !!a.inv.open), open = inv.filter(o => o.inv.open);
-    document.getElementById('invoices').innerHTML = !inv.length ? `<p class="dash-empty">Your invoices show up here after your first order.</p>` : inv.slice(0, 3).map(o => textRow(`order.html?o=${o.no}`)([`${o.inv.no} · €${orderSum(o).total.toFixed(2)}`,
-      `Order #${o.no} · ${o.inv.open ? `${o.inv.open} open · due ${o.inv.due}` : `paid ${o.inv.paid}`}`, o.inv.open ? '' : 'ok', o.inv.open ? 'Open' : 'Paid'])).join('');
-    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${open[0].inv.open}</b> open · <a class="link" href="order.html?o=${open[0].no}#pay">Go to order</a>` : 'All your invoices are paid';
+  // the invoices (account.js), the open ones first; under them what is open across them (the wishes artifact: "€762.70 open across 3 invoices")
+  const renderInvoices = () => { const inv = invoiceList().filter(v => !v.credit).sort((a, b) => (b.open > .005) - (a.open > .005)), open = inv.filter(v => v.open > .005);
+    document.getElementById('invoices').innerHTML = !inv.length ? `<p class="dash-empty">Your invoices show up here after your first order.</p>` : inv.slice(0, 3).map(v => textRow(invoiceUrl(v.no))([`${v.no} · ${accEur(v.total)}`,
+      `Order #${v.o.no} · ${invNote(v)}`, v.status[0], v.status[1]])).join('');
+    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${accEur(open.reduce((s, v) => s + v.open, 0))}</b> open across ${open.length} invoice${open.length > 1 ? 's' : ''} · <a class="link" href="invoices.html">View invoices</a>` : 'All your invoices are paid';
     document.getElementById('invoicesFoot').hidden = !inv.length; };
   renderInvoices(); window.addEventListener('hp-orders', renderInvoices);
   document.getElementById('quotes').innerHTML = NEW_CUSTOMER ? `<p class="dash-empty">No quotes yet.</p>` : [

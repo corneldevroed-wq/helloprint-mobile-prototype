@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,search&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201r">
+<link rel="stylesheet" href="pages.css?v=20261201r">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, Invoices (Cornel 2026-11-17: as close to Orders as possible): every invoice and credit note with its order, the date,
+       the amount and its status; desktop a table, mobile the same content as rows. Filters and a search. Data: account.js (invoiceList). -->
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / Invoices</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main">
+        <div><h1>Invoices</h1><p class="oc-lead">Every invoice and credit note: what’s open, what’s paid, and the PDF.</p></div>
+        <div class="filter-row" id="filters"></div>
+        <div class="dash-card invoices-table"><table class="dash-table"><thead><tr><th>Invoice</th><th>Your reference</th><th>Date</th><th class="num">Amount</th><th>Status</th><th aria-label="PDF"></th></tr></thead><tbody id="rows-table"></tbody></table></div>
+        <div class="dash-card invoices-rows" id="rows"></div>
+        <p class="oc-lead" id="none" hidden>No invoices match. Try another word or filter.</p>
+        <div class="dash-card" id="empty" hidden><p class="dash-empty">No invoices yet. After your first order, every invoice and credit note shows up here, with the PDF.<a class="btn primary small" href="index.html">Start shopping</a></p></div>
+      </div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261201r"></script>
+<script src="account.js?v=20261201r"></script>
+<script src="../design-system/components.js?v=20261201r"></script>
+<script>
+{ // its own scope: no clash with app.js names (products, sub…)
+  if (!deskUser) location.replace('login.html');
+  document.querySelector('[data-account-side]').outerHTML = accountSide('invoices.html');
+
+  // Filters as on Orders: All · Open · Paid, then Credit notes only when there are any; the search (invoice, order or your reference)
+  const GROUPS = [['all', 'All', () => true], ['open', 'Open', i => i.open > .005], ['paid', 'Paid', i => !i.credit && !(i.open > .005)], ['credit', 'Credit notes', i => !!i.credit]]
+    .filter(([, , f], n) => n < 3 || invoiceList().some(f));
+  let group = 'all', q = '';
+  const eur = accEur, sub = i => `Order #${i.o.no} · ${invNote(i)}`;
+  function render() {
+    const all = invoiceList();
+    document.getElementById('filters').innerHTML = GROUPS.map(([k, label, f]) => `<button class="pill${k === group ? ' active' : ''}" type="button" data-g="${k}">${label}<small>${all.filter(f).length}</small></button>`).join('')
+      + `<label class="find"><span class="material-symbols-rounded" aria-hidden="true">search</span><input type="search" placeholder="Search invoice, order or your reference" aria-label="Search invoices" value="${q.replace(/"/g, '&quot;')}"></label>`;
+    const f = GROUPS.find(g => g[0] === group)[2], hit = i => !q || [i.no, i.o.no, i.o.name, i.o.ref].join(' ').toLowerCase().includes(q);
+    const list = all.filter(i => f(i) && hit(i));
+    document.getElementById('rows-table').innerHTML = list.map(i => `<tr data-href="${invoiceUrl(i.no)}"><td><a class="first" href="${invoiceUrl(i.no)}"><span><b>${i.no}</b><small>${sub(i)}</small></span></a></td>
+      <td>${i.o.ref || '—'}</td><td>${i.date}</td><td class="num">${eur(i.total)}</td><td><span class="status ${i.status[0]}">${i.status[1]}</span></td>
+      <td><button type="button" class="icon-btn" data-act="invoice" data-o="${i.o.no}" data-doc="${i.credit ? 'Credit note' : 'Invoice'} ${i.no}" data-tip="Download PDF" aria-label="Download ${i.no} (PDF)"><span class="material-symbols-rounded" aria-hidden="true">download</span></button></td></tr>`).join('');
+    // mobile: the table's content as rows (as Orders): number, the line, your reference · date, the amount and the status
+    document.getElementById('rows').innerHTML = list.map(i => `<a class="dash-row text go" href="${invoiceUrl(i.no)}"><span class="t"><b>${i.no} · ${eur(i.total)}</b><small>${sub(i)}</small><small>${i.o.ref ? i.o.ref + ' · ' : ''}${i.date}</small></span>
+      <span class="status ${i.status[0]}">${i.status[1]}</span><img class="chev" src="assets/menu/arrow.svg" alt=""></a>`).join('');
+    document.querySelectorAll('.invoices-table, .invoices-rows').forEach(el => el.hidden = !list.length);
+    document.getElementById('none').hidden = !!list.length || !all.length;
+    if (!all.length) { document.getElementById('filters').style.display = 'none'; document.getElementById('empty').hidden = false; }   // a new customer
+  }
+  document.getElementById('filters').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (!b) return; group = b.dataset.g; render(); });
+  document.getElementById('filters').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(); const inp = document.querySelector('.find input'); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); });
+  document.getElementById('rows-table').addEventListener('click', e => { const tr = e.target.closest('tr[data-href]'); if (tr && !e.target.closest('a, button')) location.href = tr.dataset.href; });
+  render();
+  window.addEventListener('hp-orders', render);
+}
+</script>
+</body>
+</html>

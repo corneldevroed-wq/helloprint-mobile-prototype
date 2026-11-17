@@ -1,36 +1,37 @@
 // My account (account.html, orders.html, order.html; Cornel 2026-11-17): the orders, what you did with them (kept in this browser), the popups and actions.
 // An order: number, name, your reference, placed, the line under it in the list, its status ([class, label]: act = needs you, go = on its way),
 // the tracker step (0 Artwork · 1 Proof · 2 Printing · 3 Delivery · 4 delivered), a payment to do, a complaint, and its products.
-// A product: photo, name, specs, price excl. VAT, its delivery date (arrives; delivered: the day it came), its step, err (a fix needed), what happens now (title + line), the buttons (first = primary) and the deadline band.
+// x: what is on its invoice besides the products (the wishes artifact, Cornel 2026-11-17): the artwork check, shipping (+ its line), a discount (+ its name), how it is paid.
+// A product: photo, name, specs, price incl. VAT (gross, as the artifact; price = excl. VAT, worked out below), its delivery date (arrives; delivered: the day it came), its step, err (a fix needed), what happens now (title + line), the buttons (first = primary) and the deadline band.
 const ORDER_STEPS = ['Artwork', 'Proof', 'Printing', 'Delivery'];
 const KEEP = 'to keep your date: Estimated Tue 24 Nov — latest Wed 25 Nov';
 const ORDERS = [
-  { no: '8847305', name: 'Launch kit', ref: 'PO-2026-118', placed: 'Mon 16 Nov', sub: '3 products need you', status: ['act', 'Action needed'], step: 0, lines: [
-    { img: 'p2.png', name: 'Folded Leaflets', spec: '250 pcs · A4 landscape · 4 pages · Silk', price: 95.93, arrives: 'Tue 24 Nov', step: 1, proof: 'leaflet', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: `Approve by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
-    { img: 'p3.png', name: 'Standard Flyers', spec: '1,000 pcs · A5 · Gloss', price: 43.90, arrives: 'Tue 24 Nov', step: 0, title: 'Upload your design', text: 'We need your artwork to start.', btns: ['Upload design'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
-    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', price: 25.61, arrives: 'Tue 24 Nov', step: 0, err: true, title: 'Small fix needed', text: 'The text sits too close to the cut edge. Please upload a corrected file.', btns: ['Upload new file'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
-    { img: 'p5.png', name: 'Posters', spec: '50 pcs · A4 · Gloss', price: 17.89, arrives: 'Fri 27 Nov', step: 1, proof: 'poster-a4', title: 'Your proof is ready', text: 'The deadline has passed (14:00 Mon 16 Nov): approve now for Estimated Fri 27 Nov — latest Mon 30 Nov.', btns: ['Review proof'] },
-    { img: 'p6.png', name: 'Basic Cotton Bags', spec: '100 pcs · Natural · Full colour', price: 195.12, arrives: 'Thu 26 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
+  { no: '8847305', name: 'Launch kit', ref: 'PO-2026-118', placed: 'Mon 16 Nov', sub: '3 products need you', status: ['act', 'Action needed'], step: 0, x: { art: 15, shipLbl: 'Free delivery (order over €250)', method: 'Pay by invoice · 14 days' }, lines: [
+    { img: 'p2.png', name: 'Folded Leaflets', spec: '250 pcs · A4 landscape · 4 pages · Silk', gross: 118.00, arrives: 'Tue 24 Nov', step: 1, proof: 'leaflet', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: `Approve by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
+    { img: 'p3.png', name: 'Standard Flyers', spec: '1,000 pcs · A5 · Gloss', gross: 54.00, arrives: 'Tue 24 Nov', step: 0, title: 'Upload your design', text: 'We need your artwork to start.', btns: ['Upload design'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
+    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', gross: 31.50, arrives: 'Tue 24 Nov', step: 0, err: true, title: 'Small fix needed', text: 'The text sits too close to the cut edge. Please upload a corrected file.', btns: ['Upload new file'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
+    { img: 'p5.png', name: 'Posters', spec: '50 pcs · A4 · Gloss', gross: 22.00, arrives: 'Fri 27 Nov', step: 1, proof: 'poster-a4', title: 'Your proof is ready', text: 'The deadline has passed (14:00 Mon 16 Nov): approve now for Estimated Fri 27 Nov — latest Mon 30 Nov.', btns: ['Review proof'] },
+    { img: 'p6.png', name: 'Basic Cotton Bags', spec: '100 pcs · Natural · Full colour', gross: 240.00, arrives: 'Thu 26 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
   ] },
-  { no: '8846210', name: 'Event pack', ref: 'EVENT-NOV', placed: 'Fri 13 Nov', sub: 'Estimated Fri 20 Nov — latest Mon 23 Nov', status: ['go', 'On its way'], step: 3, inv: { no: 'INV-2026-4490', paid: 'Fri 13 Nov' }, lines: [
-    { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', price: 59.00, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
-    { img: 'p4.png', name: 'Classic Business Cards', spec: '250 pcs · Matt', price: 18.89, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
-    { img: 'p3.png', name: 'Standard Flyers', spec: '500 pcs · A5 · Gloss', price: 26.00, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
+  { no: '8846210', name: 'Event pack', ref: 'EVENT-NOV', placed: 'Fri 13 Nov', sub: 'Estimated Fri 20 Nov — latest Mon 23 Nov', status: ['go', 'On its way'], step: 3, x: { art: 15, ship: 14.90, shipLbl: 'DPD Ireland · standard', disc: 26.25, discLbl: 'Volume discount (10%)', method: 'Card · Visa •••• 4242' }, lines: [
+    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', gross: 48.00, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
+    { img: 'p3.png', name: 'Standard Flyers', spec: '2,500 pcs · A5 · Gloss · Full colour', gross: 96.50, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
+    { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '2 pcs · 85 × 200 cm · Premium', gross: 118.00, arrives: 'Fri 20 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8846210IE', btns: ['Track parcel'] },
   ] },
-  { no: '8842119', name: 'Classic Business Cards', ref: 'PO-77120', placed: 'Mon 9 Nov', sub: '€160.20 to pay · due Tue 24 Nov', status: ['act', 'Payment due'], step: 3, pay: { amount: '€160.20', due: 'Tue 24 Nov', invoice: 'INV-2026-4471' }, inv: { no: 'INV-2026-4471', open: '€160.20', due: 'Tue 24 Nov' }, lines: [
-    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', price: 137.56, arrives: 'Thu 19 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8842119IE', btns: ['Track parcel'] },
+  { no: '8842119', name: 'Classic Business Cards', ref: 'PO-77120', placed: 'Mon 9 Nov', sub: '', status: ['go', 'On its way'], step: 3, x: { art: 12, ship: 24.20, shipLbl: 'DPD Ireland · standard', disc: 2, discLbl: 'Returning customer discount', method: 'Pay by invoice · 14 days' }, lines: [
+    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', gross: 150.00, arrives: 'Thu 19 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8842119IE', btns: ['Track parcel'] },
   ] },
-  { no: '8839004', name: 'Classic Business Cards', ref: '', placed: 'Fri 6 Nov', sub: 'Your proof is ready', status: ['act', 'Approve proof'], step: 1, lines: [
-    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · 85 × 55 mm · Double-sided · Matt', price: 95.93, arrives: 'Mon 23 Nov', step: 1, proof: 'business-cards', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: 'Approve by <b>14:00 on Wed 18 Nov</b> to keep your date: Estimated Mon 23 Nov — latest Tue 24 Nov' },
+  { no: '8839004', name: 'Classic Business Cards', ref: 'PO-77131', placed: 'Fri 6 Nov', sub: 'Your proof is ready', status: ['act', 'Approve proof'], step: 1, x: { shipLbl: 'Free delivery', method: 'Card · Visa •••• 4242' }, lines: [
+    { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · 85 × 55 mm · Double-sided · Matt', gross: 96.00, arrives: 'Mon 23 Nov', step: 1, proof: 'business-cards', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: 'Approve by <b>14:00 on Wed 18 Nov</b> to keep your date: Estimated Mon 23 Nov — latest Tue 24 Nov' },
   ] },
-  { no: '8830771', name: 'Standard Flyers', ref: 'PO-76982', placed: 'Tue 3 Nov', sub: 'Estimated Tue 24 Nov — latest Wed 25 Nov', status: ['go', 'In production'], step: 2, lines: [
-    { img: 'p3.png', name: 'Standard Flyers', spec: '2,500 pcs · A5 · Gloss', price: 172.76, arrives: 'Tue 24 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
+  { no: '8830771', name: 'Standard Flyers', ref: 'PO-76982', placed: 'Tue 3 Nov', sub: 'Estimated Tue 24 Nov — latest Wed 25 Nov', status: ['go', 'In production'], step: 2, x: { ship: 24.50, shipLbl: 'DPD Ireland · standard', method: 'Pay by invoice · 14 days' }, lines: [
+    { img: 'p3.png', name: 'Standard Flyers', spec: '2,500 pcs · A5 · Gloss · Full colour, double-sided', gross: 188.00, arrives: 'Tue 24 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
   ] },
-  { no: '8825510', name: 'Roller Banner', ref: '', placed: 'Tue 20 Oct', sub: 'Delivered Mon 26 Oct', status: ['', 'Delivered'], step: 4, complaint: 'CMP-1042', inv: { no: 'INV-2026-4188', paid: 'Thu 22 Oct' }, lines: [
-    { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', price: 78.05, arrives: 'Mon 26 Oct', step: 4, title: 'Delivered Mon 26 Oct', text: 'Complaint CMP-1042 in progress: damaged on arrival.', btns: ['View complaint'] },
+  { no: '8825510', name: 'Roller Banner', ref: '', placed: 'Tue 20 Oct', sub: 'Delivered Mon 26 Oct', status: ['', 'Delivered'], step: 4, complaint: 'CMP-1042', x: { shipLbl: 'Free delivery', method: 'Bank transfer (SEPA)' }, lines: [
+    { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', gross: 96.00, arrives: 'Mon 26 Oct', step: 4, title: 'Delivered Mon 26 Oct', text: 'Complaint CMP-1042 in progress: damaged on arrival.', btns: ['View complaint'] },
   ] },
-  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', quote: 'QT-5502', placed: 'Mon 12 Oct', sub: 'From quote QT-5502 · delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, inv: { no: 'INV-2026-4120', paid: 'Mon 12 Oct' }, lines: [
-    { img: 'p6.png', name: 'Tote bags', spec: '1,000 pcs · Natural cotton · Bespoke print', price: 341.46, arrives: 'Thu 22 Oct', step: 4, title: 'Delivered Thu 22 Oct', text: 'Signed for by L. Pijffers' },
+  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', quote: 'QT-5502', placed: 'Mon 12 Oct', sub: 'From quote QT-5502 · delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, x: { shipLbl: 'Included in your quote', method: 'Pay by invoice · due on receipt' }, lines: [
+    { img: 'p6.png', name: 'Tote bags', spec: '1,000 pcs · Natural cotton · Bespoke print, 1 colour', gross: 420.00, arrives: 'Thu 22 Oct', step: 4, title: 'Delivered Thu 22 Oct', text: 'Signed for by L. Pijffers' },
   ] },
 ];
 // The proofs (always a PDF, prototype files in assets/proofs/) and what we did with each file (the file check)
@@ -53,10 +54,63 @@ const bookOf = () => { let b = []; try { b = JSON.parse(localStorage.getItem('hp
 const bookLines = a => [`${a.first || ''} ${a.last || ''}`.trim(), a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
 const bookToOrder = (a, prev) => ({ name: `${a.first || ''} ${a.last || ''}`.trim(), company: a.company, street: [a.address1, a.address2].filter(Boolean).join(', '), code: a.eircode, town: a.town, vat: prev.vat });
 const addrLines = a => [[a.name, a.company].filter(Boolean).join(', '), a.vat && 'VAT ' + a.vat, a.street, `${a.town}, ${a.code}`, 'Ireland'].filter(Boolean);
-// the totals as an invoice (as the checkout): products, the check, shipping free, VAT 23%
-// the VIP discount: Member = 2% off the products of every order (the account card, vip.html)
-const VIP_OFF = .02;
-const orderSum = o => { const goods = o.lines.reduce((s, l) => s + l.price, 0), vip = Math.round(goods * VIP_OFF * 100) / 100, check = 12.20, sub = goods - vip + check, vat = Math.round(sub * VAT_RATE * 100) / 100; return { goods, vip, check, sub, vat, total: sub + vat }; };
+// Money as the wishes artifact counts it: every row has its price incl. VAT (gross); net and VAT per row (vatSplit), the totals add up the rows
+const accEur = n => (n < 0 ? '−€' : '€') + Math.abs(n).toFixed(2);
+const r2 = n => Math.round(n * 100) / 100;
+const vatSplit = g => { const net = r2(g / (1 + VAT_RATE)); return { net, vat: r2(g - net), gross: g }; };
+// what is on an order's invoice: the products, the artwork check, shipping (when it costs), the discount
+const orderRows = o => [...o.lines.map(l => ({ name: l.name, spec: l.spec, gross: l.gross, img: l.img })),
+  ...(o.x.art ? [{ name: 'Premium artwork check', spec: 'Our team checks your file before printing', gross: o.x.art }] : []),
+  ...(o.x.ship ? [{ name: 'Shipping', spec: o.x.shipLbl, gross: o.x.ship }] : []),
+  ...(o.x.disc ? [{ name: o.x.discLbl, spec: '', gross: -o.x.disc }] : [])];
+const sumRows = rows => { const t = rows.reduce((t, r) => { const s = vatSplit(r.gross); return { net: t.net + s.net, vat: t.vat + s.vat, gross: t.gross + s.gross }; }, { net: 0, vat: 0, gross: 0 });
+  return { net: r2(t.net), vat: r2(t.vat), gross: r2(t.gross) }; };
+const orderSum = o => { const n = g => vatSplit(g).net, products = r2(o.lines.reduce((s, l) => s + l.price, 0)), t = sumRows(orderRows(o));
+  return { products, art: o.x.art ? n(o.x.art) : 0, ship: o.x.ship ? n(o.x.ship) : 0, disc: o.x.disc ? n(o.x.disc) : 0, net: t.net, vat: t.vat, total: t.gross }; };
+// The totals of an order (the order page): the rows excl. VAT as the checkout, then VAT and the total incl. VAT
+const orderTotals = o => { const t = orderSum(o), e = accEur;
+  return `<div class="totals"><div><span>Products (${o.lines.length})</span><span>${e(t.products)}</span></div>
+      ${t.disc ? `<div><span>${o.x.discLbl}</span><span class="free">${e(-t.disc)}</span></div>` : ''}${t.art ? `<div><span>Premium artwork check</span><span>${e(t.art)}</span></div>` : ''}
+      <div><span>Shipping</span>${t.ship ? `<span>${e(t.ship)}</span>` : '<span class="free">Free</span>'}</div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>${e(t.net)}</span></div><div><span>VAT 23%</span><span>${e(t.vat)}</span></div>
+      <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(t.total)}</span></div></div>`; };
+
+// ---------- Invoices and credit notes (invoices.html, invoice.html; the wishes artifact's set, dates moved to our November) ----------
+// An invoice: its order, issued, due (or paid: pays = [{ date, method }], the rest of the amount). A credit note: lines (gross, negative), the invoice it
+// is for, where it is applied (apps: [{ inv, amt, date }]) or refunded. What is open = the order's total − credits applied − payments.
+const INVOICES = [
+  { no: 'INV-2026-4471', order: '8842119', date: 'Tue 10 Nov', due: 'Tue 24 Nov' },
+  { no: 'INV-2026-4302', order: '8830771', date: 'Wed 4 Nov', due: 'Wed 18 Nov' },
+  { no: 'INV-2026-4188', order: '8825510', date: 'Tue 20 Oct', pays: [{ date: 'Thu 22 Oct', method: 'Bank transfer (SEPA)' }] },
+  { no: 'INV-2026-4490', order: '8846210', date: 'Fri 13 Nov', pays: [{ date: 'Fri 13 Nov', method: 'Card · Visa •••• 4242' }] },
+  { no: 'INV-2026-4491', order: '8839004', date: 'Fri 6 Nov', pays: [{ date: 'Fri 6 Nov', method: 'Card · Visa •••• 4242' }] },
+  { no: 'INV-2026-4120', order: '8814402', date: 'Mon 12 Oct', due: 'on receipt' },
+  { no: 'CN-2026-0071', credit: 'INV-2026-4471', date: 'Tue 10 Nov', lines: [{ name: 'Goodwill credit', spec: 'Goodwill gesture', gross: -24 }], apps: [{ inv: 'INV-2026-4471', amt: 24, date: 'Tue 10 Nov' }] },
+  { no: 'CN-2026-0083', credit: 'INV-2026-4302', date: 'Thu 5 Nov', lines: [{ name: 'Late delivery credit', spec: 'Applied across two open invoices', gross: -30 }], apps: [{ inv: 'INV-2026-4302', amt: 18, date: 'Thu 5 Nov' }, { inv: 'INV-2026-4120', amt: 12, date: 'Thu 5 Nov' }] },
+  { no: 'CN-2026-0090', credit: 'INV-2026-4188', date: 'Mon 26 Oct', lines: [{ name: 'Price correction', spec: 'Quantity adjusted after dispatch', gross: -15 }], apps: [], refund: { date: 'Thu 29 Oct', method: 'Bank transfer (SEPA)' } },
+  { no: 'CN-2026-0096', credit: 'INV-2026-4490', date: 'Mon 16 Nov', lines: [{ name: 'Goodwill credit', spec: 'Goodwill gesture', gross: -20 }], apps: [] },
+];
+// how it is paid, as the invoice's terms
+const invTerms = m => /14 days/.test(m) ? 'On account, 14 days' : /on receipt/.test(m) ? 'Due on receipt' : /^Card/.test(m) ? 'Paid by card' : /Bank/.test(m) ? 'Bank transfer' : m;
+// every invoice and credit note worked out (newest first): { no, o, credit, date, rows, sum, credits, pays, open, due, total, status }
+function invoiceList() {
+  const orderOf = no => ORDERS.find(o => o.no === no);   // (the global orderOf comes after the first applyOrders)
+  const all = INVOICES.filter(v => orderOf(v.order || INVOICES.find(i => i.no === v.credit).order)), applied = no => all.flatMap(v => (v.apps || []).filter(a => a.inv === no).map(a => ({ ...a, cn: v.no, date: a.date })));
+  return all.map(v => {
+    if (v.credit) { const o = orderOf(INVOICES.find(i => i.no === v.credit).order), sum = sumRows(v.lines), used = r2((v.apps || []).reduce((s, a) => s + a.amt, 0));
+      const state = v.refund ? 'Refunded' : used >= -sum.gross - .005 ? 'Applied' : 'Available';
+      return { ...v, o, rows: v.lines, sum, total: sum.gross, state, status: [state === 'Applied' ? '' : 'ok', state] }; }
+    const o = orderOf(v.order), rows = orderRows(o), sum = sumRows(rows), credits = applied(v.no), cr = r2(credits.reduce((s, c) => s + c.amt, 0));
+    const before = r2(sum.gross - cr - (v.pays ? sum.gross - cr : 0));   // still to pay before you paid here
+    const pays = [...(v.pays || []).map(p => ({ ...p, amt: r2(sum.gross - cr) })), ...(o.paid && before > 0 ? [{ date: 'Tue 17 Nov', method: 'Card · Visa •••• 4242', amt: before }] : [])];
+    const open = r2(sum.gross - cr - pays.reduce((s, p) => s + p.amt, 0));
+    return { ...v, o, rows, sum, credits, pays, before, open, total: sum.gross, notes: all.filter(c => c.credit === v.no).map(c => c.no), status: open > .005 ? ['', 'Open'] : ['ok', 'Paid'] };
+  }).sort((a, b) => etaDate(b.date) - etaDate(a.date));
+}
+const invoiceOf = no => invoiceList().find(i => i.no === no);
+const orderInvoice = o => invoiceList().find(i => !i.credit && i.o === o);
+const invoiceUrl = no => `invoice.html?i=${no}`;
+// the grey line of an invoice in the lists: what is open and when it is due, or when it was paid; a credit note: what it is for and its state
+const invNote = v => v.credit ? `Credit note for ${v.credit} · ${v.state}` : v.open > .005 ? `${accEur(v.open)} open · due ${v.due}` : `Paid ${v.pays.at(-1)?.date || ''}`;
 // All specifications of a product (the order page's fold): what you chose, as the PDP's option names; the quantity from the line
 const SPECS = {
   'Folded Leaflets': [['Size', 'A4 landscape'], ['Pages', '4 (folded in half)'], ['Paper', 'Silk 170 gsm'], ['Printing', 'Double-sided, full colour']],
@@ -87,6 +141,7 @@ const orderTracker = (step, err) => `<ol class="tracker">${ORDER_STEPS.map((s, k
 // ---------- What you did with your orders (prototype: kept in this browser, 'hp-orders') ----------
 // Per order: your reference, paid, cancelled, and per product: approved (the proof) or uploaded (a new file). The orders above are rebuilt from it,
 // so the Overview, Orders and the order page always show the same state.
+ORDERS.forEach(o => { o.x = { art: 0, ship: 0, disc: 0, ...o.x }; o.lines.forEach(l => { l.gross = l.gross ?? r2(l.price * (1 + VAT_RATE)); l.price = vatSplit(l.gross).net; }); });   // price = excl. VAT, from the gross
 const ORDERS_BASE = JSON.parse(JSON.stringify(ORDERS));
 // Prototype switch (the Demo tab, ?new=1|0): a new customer, no orders yet, so every block shows its empty state
 const NEW_CUSTOMER = (() => { const v = new URLSearchParams(location.search).get('new');
@@ -105,7 +160,7 @@ function applyOrders() {
           foot: 'We’re making your proof. Keep an eye on your email: it’s usually there <b>within 4 working hours</b>' }); } });   // waiting on us: the cream band (as order confirmed)
     const needs = o.lines.filter(l => l.btns && l.step < 2).length;
     o.step = Math.min(...o.lines.map(l => l.step));
-    if (d.paid) { o.paid = true; if (o.inv) o.inv = { no: o.inv.no, paid: 'Tue 17 Nov' }; }
+    if (d.paid) o.paid = true;
     if (d.cancelled) Object.assign(o, { cancelled: true, status: ['', 'Cancelled'], sub: 'Cancelled · nothing to pay' });
     else if (o.pay && !o.paid) {}   // Payment due, as it was
     else if (needs) Object.assign(o, { status: ['act', 'Action needed'], sub: `${needs} product${needs > 1 ? 's need' : ' needs'} you` });
@@ -113,6 +168,10 @@ function applyOrders() {
     return o;
   }));
   if (NEW_CUSTOMER) ORDERS.length = 0;
+  // an open invoice = a payment to do on its order (Pay, the to-do, Payment due), as long as the order is not cancelled
+  ORDERS.forEach(o => { const v = orderInvoice(o); if (!v || v.before < .005 || o.cancelled) return;
+    o.pay = { amount: accEur(v.before), due: v.due, invoice: v.no };
+    if (!o.paid && o.status[0] !== 'act') Object.assign(o, { status: ['act', 'Payment due'], sub: `${o.pay.amount} to pay · due ${v.due}` }); });
 }
 // The block that just changed lights up once on the order page (the green glow of order confirmed, .oc-new): set before the save
 const flashLine = (no, li) => { try { sessionStorage.setItem('hp-flash', `${no}:${li}`); } catch (e) {} };
@@ -231,7 +290,7 @@ document.addEventListener('click', e => {
     setFieldError(body.querySelector('[data-field=payerName]'), name ? '' : 'Fill in their name'); setFieldError(body.querySelector('[data-field=payerEmail]'), /^\S+@\S+\.\S+$/.test(email) ? '' : 'Enter a valid email address');
     if (!name || !/^\S+@\S+\.\S+$/.test(email)) return;
     closeSheet(); orderSave(o.no, d => d.payer = { name, email }); showToast(`We emailed the payment link to ${name}`); }
-  if (act === 'invoice') showToast(`Invoice ${o.inv.no} is downloading (PDF, prototype)`);
+  if (act === 'invoice') showToast(`${b.dataset.doc} is downloading (PDF, prototype)`);
   if (act === 'ref') { const inp = document.getElementById('refInput'); inp.value = o.ref || ''; openSheet('ref'); setTimeout(() => inp.focus(), 300); }
   if (act === 'ref-save') { const v = document.getElementById('refInput').value.trim(); closeSheet(); orderSave(o.no, d => d.ref = v); showToast(v ? 'Your reference is saved' : 'Your reference is removed'); }
   if (act === 'note') { document.getElementById('noteInput').value = ''; openSheet('note'); setTimeout(() => document.getElementById('noteInput').focus(), 300); }
@@ -243,7 +302,7 @@ document.addEventListener('click', e => {
 });
 
 // The account pages still to build: a toast instead of nothing (the account menu, Invoices, Quotes…)
-const SOON = { '#invoices': 'The invoices page', '#quotes': 'The quotes page', '#complaints': 'The complaints page', '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
+const SOON = { '#quotes': 'The quotes page', '#complaints': 'The complaints page', '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
 document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'), what = a && SOON[a.getAttribute('href')];
   if (what) { e.preventDefault(); showToast(`${what} comes next in the prototype`); } });
 
