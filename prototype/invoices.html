@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,search&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261201r">
-<link rel="stylesheet" href="../design-system/components.css?v=20261201r">
-<link rel="stylesheet" href="pages.css?v=20261201r">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201u">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201u">
+<link rel="stylesheet" href="pages.css?v=20261201u">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -25,8 +25,8 @@
       <div class="account-main">
         <div><h1>Invoices</h1><p class="oc-lead">Every invoice and credit note: what’s open, what’s paid, and the PDF.</p></div>
         <div class="filter-row" id="filters"></div>
-        <div class="dash-card invoices-table"><table class="dash-table"><thead><tr><th>Invoice</th><th>Your reference</th><th>Date</th><th class="num">Amount</th><th>Status</th><th aria-label="PDF"></th></tr></thead><tbody id="rows-table"></tbody></table></div>
-        <div class="dash-card invoices-rows" id="rows"></div>
+        <div class="dash-card list-table"><table class="dash-table"><thead><tr><th>Invoice</th><th>Your reference</th><th>Date</th><th class="num">Amount</th><th>Status</th><th aria-label="PDF"></th></tr></thead><tbody id="rows-table"></tbody></table></div>
+        <div class="dash-card list-rows" id="rows"></div>
         <p class="oc-lead" id="none" hidden>No invoices match. Try another word or filter.</p>
         <div class="dash-card" id="empty" hidden><p class="dash-empty">No invoices yet. After your first order, every invoice and credit note shows up here, with the PDF.<a class="btn primary small" href="index.html">Start shopping</a></p></div>
       </div>
@@ -34,9 +34,9 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261201r"></script>
-<script src="account.js?v=20261201r"></script>
-<script src="../design-system/components.js?v=20261201r"></script>
+<script src="app.js?v=20261201u"></script>
+<script src="account.js?v=20261201u"></script>
+<script src="../design-system/components.js?v=20261201u"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
@@ -59,7 +59,7 @@
     // mobile: the table's content as rows (as Orders): number, the line, your reference · date, the amount and the status
     document.getElementById('rows').innerHTML = list.map(i => `<a class="dash-row text go" href="${invoiceUrl(i.no)}"><span class="t"><b>${i.no} · ${eur(i.total)}</b><small>${sub(i)}</small><small>${i.o.ref ? i.o.ref + ' · ' : ''}${i.date}</small></span>
       <span class="status ${i.status[0]}">${i.status[1]}</span><img class="chev" src="assets/menu/arrow.svg" alt=""></a>`).join('');
-    document.querySelectorAll('.invoices-table, .invoices-rows').forEach(el => el.hidden = !list.length);
+    document.querySelectorAll('.list-table, .list-rows').forEach(el => el.hidden = !list.length);
     document.getElementById('none').hidden = !!list.length || !all.length;
     if (!all.length) { document.getElementById('filters').style.display = 'none'; document.getElementById('empty').hidden = false; }   // a new customer
   }

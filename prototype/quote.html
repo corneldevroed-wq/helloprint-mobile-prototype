@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201u">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201u">
+<link rel="stylesheet" href="pages.css?v=20261201u">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, one quote (quote.html?q=<number>; Cornel 2026-11-17: as the order and invoice pages, the wishes artifact's content): where it stands
+       with its progress (Requested · Quote ready · Accepted), Accept or Decline while it is ready, the quote's lines as an invoice's Items (net · VAT % · VAT ·
+       total), Quote details with both addresses, Ask us a question. Right: the quote overview (Download PDF) and Need something?. Data: account.js (quoteList). -->
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="quotes.html">Quotes</a> / <span id="crumb"></span></p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="quote"></div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261201u"></script>
+<script src="account.js?v=20261201u"></script>
+<script src="../design-system/components.js?v=20261201u"></script>
+<script>
+{ // its own scope: no clash with app.js names
+  if (!deskUser) location.replace('login.html');
+  if (!quoteList().length) location.replace('quotes.html');   // a new customer (the Demo switch): no quotes yet
+  document.querySelector('[data-account-side]').outerHTML = accountSide('quotes.html');
+  const NO = new URLSearchParams(location.search).get('q') || quoteList()[0].no;
+  const esc = t => String(t).replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]), e = accEur;
+  const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
+  const CROSS = '<span class="n x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span>';
+  const linkRow = ([href, icon, title, sub]) => dropRow([href, icon, title, sub]).replace(' role="menuitem"', '');
+
+  function render() {
+    const q = quoteOf(NO) || quoteList()[0], s = q.state, o = q.order && orderOf(q.order);
+    document.title = `Quote ${q.no}`;
+    document.getElementById('crumb').textContent = q.no;
+
+    // where it stands (the artifact's status box) as the order page's block, with the quote's progress bar: Requested · Quote ready · Accepted (or Expired / Declined)
+    const steps = ['Requested', 'Quote ready', s === 'expired' ? 'Expired' : s === 'declined' ? 'Declined' : 'Accepted'], at = { requested: 0, ready: 1, accepted: 3, expired: 2, declined: 2 }[s];
+    const tracker = `<ol class="tracker">${steps.map((t, k) => `<li class="${k < at ? 'done' : k === at ? (['expired', 'declined'].includes(s) ? 'err' : 'now') : ''}">${t}</li>`).join('')}</ol>`;
+    const head = {
+      ready: [`<span class="n">1</span>`, `Your quote is ready: ${q.priced ? e(q.sum.gross) : ''}`, `Valid until ${q.valid}. Accept it to turn it into an order.`,
+        `<span class="btns"><button class="btn small outline" type="button" data-act="quote-decline" data-q="${q.no}">Decline</button><button class="btn small primary" type="button" data-act="quote-accept" data-q="${q.no}">Accept quote</button></span>`],
+      requested: [TICK, 'Quote requested', 'Bespoke jobs take a little longer: we email you as soon as your quote is ready.', ''],
+      accepted: [TICK, q.order ? `Accepted: it became order #${q.order}` : 'Quote accepted', q.order ? `Accepted ${q.accepted} · now ${o ? o.status[1].toLowerCase() : 'an order'}` : 'Thanks! We turn it into an order and email you the confirmation shortly.',
+        q.order ? `<span class="btns"><a class="btn small outline" href="order.html?o=${q.order}">View the order</a></span>` : ''],
+      expired: [CROSS, `This quote expired ${q.valid}`, 'Prices and turnaround may have changed. Ask for a new quote and we pick it back up.', '<span class="btns"><a class="btn small outline" href="#new2contactform">Request a new quote</a></span>'],
+      declined: [CROSS, 'Quote declined', 'No problem. If anything changes, request a new quote and we pick it back up.', '<span class="btns"><a class="btn small outline" href="#new2contactform">Request a new quote</a></span>'],
+    }[s];
+    const block = `<div class="oc-act${s === 'ready' ? '' : ' done'}" id="line-status"><div class="row">${head[0]}<span class="t"><b>${head[1]}</b><small>${head[2]}</small></span>${head[3]}</div>${tracker}</div>`;
+
+    // Quote details (the artifact's Items + specs as the invoice's Items table): every line with its specs; priced = net · VAT % · VAT · total
+    const items = `<section class="oc-sec"><h2>Quote details</h2><div class="dash-card"><table class="items-table"><thead><tr><th>Description</th><th class="vat-col">Net</th><th class="vat-col">VAT %</th><th class="vat-col">VAT</th><th>Total</th></tr></thead><tbody>
+      ${q.rows.map(r => { const v = r.gross !== undefined && vatSplit(r.gross); return `<tr><td><b>${esc(r.name)}</b>${(r.specs || [r.spec]).filter(Boolean).map(t => `<small>${esc(t)}</small>`).join('')}${v ? `<small class="nv">Net ${e(v.net)} · VAT 23% ${e(v.vat)}</small>` : ''}</td>
+        ${v ? `<td class="vat-col">${e(v.net)}</td><td class="vat-col">23%</td><td class="vat-col">${e(v.vat)}</td><td>${e(v.gross)}</td>` : '<td class="vat-col"></td><td class="vat-col"></td><td class="vat-col"></td><td>Awaiting quote</td>'}</tr>`; }).join('')}</tbody></table>
+      ${q.priced ? `<div class="totals"><div><span>Subtotal <small>(Excl. VAT)</small></span><span>${e(q.sum.net)}</span></div><div><span>VAT 23%</span><span>${e(q.sum.vat)}</span></div>
+        <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(q.sum.gross)}</span></div></div>` : ''}</div></section>`;
+
+    // the details as Order details (no map): number, dates, your reference, who handles it, the addresses
+    const addr = o ? [o.ship, o.bill] : [ADDR.ship, ADDR.bill];
+    const details = `<section class="oc-sec"><h2>Details</h2><div class="oc-od"><div class="grid">
+        <div><b>Quote</b><span>${q.no}</span></div>
+        <div><b>Requested</b><span>${q.requested}</span></div>
+        ${q.issued ? `<div><b>Issued</b><span>${q.issued}</span></div><div><b>Valid until</b><span>${q.valid}</span></div>` : ''}
+        <div><b>Your reference</b><span>${q.ref ? esc(q.ref) : '—'}</span></div>
+        <div><b>Handled by</b><span>${esc(q.by)}</span></div>
+        <div><b>Shipping address</b>${addrLines(addr[0]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+        <div><b>Billing address</b>${addrLines(addr[1]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+      </div></div></section>`;
+
+    // Ask us a question (the artifact's form): a note to our team, files to add, reply by email
+    const ask = `<section class="oc-sec"><h2>Ask us a question</h2><div class="dash-card ask-card"><label class="field"><textarea id="askInput" placeholder=" " maxlength="600" aria-label="Your question"></textarea><span class="fl">Message our team</span></label>
+        <small>We reply by email, usually within one working day. Up to 5 files · 10 MB each · JPEG, PNG, HEIC, PDF, DOCX or TXT</small>
+        <span class="btns"><button class="btn small outline" type="button" data-act="soon" data-what="Adding files">Attach files</button><button class="btn small primary" type="button" data-act="quote-ask">Send</button></span></div></section>
+      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
+
+    // the overview (the artifact's Summary): status, the dates, the items, the total; Download PDF once it is priced
+    const row = ([t, v]) => `<div><span>${t}</span><span>${v}</span></div>`;
+    const overview = `<div class="totals">${[['Status', `<span class="status ${q.status[0]}">${q.status[1]}</span>`], ['Requested', q.requested], ...(q.issued ? [['Issued', q.issued], ['Valid until', q.valid]] : []), ['Items', q.rows.filter(r => !/^(Shipping|Premium artwork check)$/.test(r.name) && !(r.gross < 0)).length]].map(row).join('')}
+      ${q.priced ? `<div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(q.sum.gross)}</span></div>` : ''}</div>`;
+    const side = `<div class="od-side"><div class="dash-card"><h2>Quote overview</h2>${overview}${q.priced ? `<div class="dash-foot od-inv"><button class="btn outline small" type="button" data-act="invoice" data-doc="Quote ${q.no}"><span class="material-symbols-rounded" aria-hidden="true">download</span>Download PDF</button></div>` : ''}</div>
+      <div class="dash-card"><h2>Need something?</h2><div class="d-menu d-head account-nav">${[...(o ? [[`order.html?o=${o.no}`, 'package-2', `Order #${o.no}`, `Placed ${o.placed}`]] : []),
+        ['#new2contactform', 'request-quote', 'Request a new quote', 'Custom sizes, big volumes or off-catalogue'], ['#chat', 'support-agent', 'Chat with Anna', 'The fastest way to sort it']].map(linkRow).join('')}</div></div></div>`;
+
+    document.getElementById('quote').innerHTML = `<div class="od-head"><h1>Quote ${q.no}</h1><p class="oc-lead">${esc(q.job)} · requested ${q.requested}${q.ref ? ` · your reference <b>${esc(q.ref)}</b>` : ''}</p></div>
+      <div class="od-grid"><div class="od-lines">${block}${items}${details}${ask}</div>${side}</div>`;
+  }
+  render();
+  window.addEventListener('hp-orders', render);   // accepted or declined: draw again
+}
+</script>
+</body>
+</html>

@@ -2061,7 +2061,10 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
 .od-inv { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }   /* the invoice row, under it the small Download button */
 .od-inv .dash-row { align-self: stretch; padding: 0; }
-.desk .orders-rows, html:not(.desk) .orders-table, .desk .invoices-rows, html:not(.desk) .invoices-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
+.desk .list-rows, html:not(.desk) .list-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
+.ask-card { display: flex; flex-direction: column; gap: 8px; }   /* a quote's Ask us a question: the field, the line about replies and files, the buttons right */
+.ask-card > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.ask-card .btns { display: flex; justify-content: flex-end; gap: 8px; }
 
 /* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====
    The proof is always a PDF: a PDF viewer (pdf.js) with a dark toolbar and canvas, the white page with a shadow; low, so the file check and

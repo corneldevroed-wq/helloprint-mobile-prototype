@@ -221,7 +221,7 @@ const ACCOUNT_ROWS = `${[
             ['account.html', 'home', 'Account Overview'],
             ['orders.html', 'package-2', 'Orders'],
             ['invoices.html', 'receipt-long', 'Invoices'],
-            ['#quotes', 'request-quote', 'Quotes'],
+            ['quotes.html', 'request-quote', 'Quotes'],
             ['#complaints', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
             ['#personal-details', 'person', 'Personal Details'],
             ['#addresses', 'location-on', 'Addresses'],

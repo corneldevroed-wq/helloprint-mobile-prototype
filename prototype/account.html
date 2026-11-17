@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261201r">
-<link rel="stylesheet" href="../design-system/components.css?v=20261201r">
-<link rel="stylesheet" href="pages.css?v=20261201r">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261201u">
+<link rel="stylesheet" href="../design-system/components.css?v=20261201u">
+<link rel="stylesheet" href="pages.css?v=20261201u">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -37,7 +37,7 @@
         <div class="account-two">
           <section><h2>Invoices <a class="link" href="invoices.html">All invoices</a></h2><div class="dash-card"><div id="invoices"></div>
             <p class="dash-foot" id="invoicesFoot"></p></div></section>
-          <section><h2>Quotes <a class="link" href="#quotes">All quotes</a></h2><div class="dash-card"><div id="quotes"></div>
+          <section><h2>Quotes <a class="link" href="quotes.html">All quotes</a></h2><div class="dash-card"><div id="quotes"></div>
             <p class="dash-foot">Custom size, big volume or off-catalogue? <a class="link" href="#new2contactform">Request a quote</a></p></div></section>
         </div>
 
@@ -48,9 +48,9 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261201r"></script>
-<script src="account.js?v=20261201r"></script>
-<script src="../design-system/components.js?v=20261201r"></script>
+<script src="app.js?v=20261201u"></script>
+<script src="account.js?v=20261201u"></script>
+<script src="../design-system/components.js?v=20261201u"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
@@ -69,7 +69,8 @@
         .map(n => { const { o, l, i } = n[0];   // one per order: one product = its action, more = to the order
           return n.length === 1 ? [l.title, `${l.name} · order #${o.no}`, `<a class="btn primary small" href="${l.proof && l.btns[0] === 'Review proof' ? proofUrl(o, i) : `order.html?o=${o.no}#do-${i}`}">${l.btns[0]}</a>`, l.foot]
             : [`${n.length} products need you`, `${o.name} · order #${o.no} · ${n.map(x => x.l.name).join(', ')}`, `<a class="btn primary small" href="order.html?o=${o.no}">Go to order</a>`, l.foot]; }),
-      ...(NEW_CUSTOMER ? [] : [['Your quote is ready: €420', 'Quote QT-5567 · 50 roller banners, custom size', '<button class="btn primary small" type="button" data-act="soon" data-what="The quotes page">View quote</button>', 'Valid until <b>Mon 30 Nov</b>'],
+      ...quoteList().filter(q => q.state === 'ready').map(q => [`Your quote is ready: ${accEur(q.sum.gross)}`, `Quote ${q.no} · ${q.job}`, `<a class="btn primary small" href="${quoteUrl(q.no)}">View quote</a>`, `Valid until <b>${q.valid}</b>`]),
+      ...(NEW_CUSTOMER ? [] : [
         ['Send us a few photos', 'Complaint CMP-1031 · flyers, order #8811900', '<button class="btn primary small" type="button" data-act="soon" data-what="The complaints page">Upload photos</button>']]),
     ];
     document.getElementById('todo').innerHTML = !todo.length ? `<div class="dash-card"><p class="dash-empty">Nothing needs you right now. When a proof, a file or a payment is waiting, it shows up here.<a class="btn primary small" href="index.html">Start shopping</a></p></div>` : todo.map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span>
@@ -96,10 +97,11 @@
     document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${accEur(open.reduce((s, v) => s + v.open, 0))}</b> open across ${open.length} invoice${open.length > 1 ? 's' : ''} · <a class="link" href="invoices.html">View invoices</a>` : 'All your invoices are paid';
     document.getElementById('invoicesFoot').hidden = !inv.length; };
   renderInvoices(); window.addEventListener('hp-orders', renderInvoices);
-  document.getElementById('quotes').innerHTML = NEW_CUSTOMER ? `<p class="dash-empty">No quotes yet.</p>` : [
-    ['QT-5567 · €420.00', '50 roller banners, custom size · valid until Mon 30 Nov', 'act', 'Quote ready'],
-    ['QT-5540 · Tote bags', '1,000 pcs, bespoke print · we email you when it is ready', 'go', 'Requested'],
-  ].map(textRow('#quotes')).join('');
+  // the quotes still going (ready, requested; account.js), as on the Quotes page
+  const renderQuotes = () => { const qs = quoteList().filter(q => ['ready', 'requested'].includes(q.state));
+    document.getElementById('quotes').innerHTML = !qs.length ? `<p class="dash-empty">${NEW_CUSTOMER ? 'No quotes yet.' : 'No quotes waiting right now.'}</p>`
+      : qs.slice(0, 2).map(q => textRow(quoteUrl(q.no))([`${q.no} · ${q.job}`, quoteNote(q), q.status[0], q.status[1]])).join(''); };
+  renderQuotes(); window.addEventListener('hp-orders', renderQuotes);
 
   // Previously viewed: the product card (as the cart's cross-sell)
   document.getElementById('viewed').innerHTML = [

@@ -864,7 +864,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .status.act { padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); }
 .status.act::before { background: var(--white); }
 /* Tracker: where an order is, Artwork · Proof · Printing · Delivery (the look of the checkout steps, 3px bars) */
-.tracker { grid-column: 2 / -1; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+.tracker { grid-column: 2 / -1; list-style: none; display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; gap: 4px; }   /* as many equal steps as it has: 4 for an order, 3 for a quote (Cornel 2026-11-17) */
 .tracker li { padding-top: 4px; border-top: 3px solid var(--light-grey); font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* still to come: the light grey bar, the text readable */
 .tracker li.done { border-top-color: var(--light-green); }
 .tracker li.now { border-top-color: var(--light-green); color: var(--black); font-weight: 600; }

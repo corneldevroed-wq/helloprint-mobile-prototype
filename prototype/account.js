@@ -24,13 +24,13 @@ const ORDERS = [
   { no: '8839004', name: 'Classic Business Cards', ref: 'PO-77131', placed: 'Fri 6 Nov', sub: 'Your proof is ready', status: ['act', 'Approve proof'], step: 1, x: { shipLbl: 'Free delivery', method: 'Card · Visa •••• 4242' }, lines: [
     { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · 85 × 55 mm · Double-sided · Matt', gross: 96.00, arrives: 'Mon 23 Nov', step: 1, proof: 'business-cards', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: 'Approve by <b>14:00 on Wed 18 Nov</b> to keep your date: Estimated Mon 23 Nov — latest Tue 24 Nov' },
   ] },
-  { no: '8830771', name: 'Standard Flyers', ref: 'PO-76982', placed: 'Tue 3 Nov', sub: 'Estimated Tue 24 Nov — latest Wed 25 Nov', status: ['go', 'In production'], step: 2, x: { ship: 24.50, shipLbl: 'DPD Ireland · standard', method: 'Pay by invoice · 14 days' }, lines: [
+  { no: '8830771', name: 'Standard Flyers', ref: 'PO-76982', quote: 'QT-5502', placed: 'Tue 3 Nov', sub: 'Estimated Tue 24 Nov — latest Wed 25 Nov', status: ['go', 'In production'], step: 2, x: { ship: 24.50, shipLbl: 'DPD Ireland · standard', method: 'Pay by invoice · 14 days' }, lines: [
     { img: 'p3.png', name: 'Standard Flyers', spec: '2,500 pcs · A5 · Gloss · Full colour, double-sided', gross: 188.00, arrives: 'Tue 24 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
   ] },
   { no: '8825510', name: 'Roller Banner', ref: '', placed: 'Tue 20 Oct', sub: 'Delivered Mon 26 Oct', status: ['', 'Delivered'], step: 4, complaint: 'CMP-1042', x: { shipLbl: 'Free delivery', method: 'Bank transfer (SEPA)' }, lines: [
     { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', gross: 96.00, arrives: 'Mon 26 Oct', step: 4, title: 'Delivered Mon 26 Oct', text: 'Complaint CMP-1042 in progress: damaged on arrival.', btns: ['View complaint'] },
   ] },
-  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', quote: 'QT-5502', placed: 'Mon 12 Oct', sub: 'From quote QT-5502 · delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, x: { shipLbl: 'Included in your quote', method: 'Pay by invoice · due on receipt' }, lines: [
+  { no: '8814402', name: 'Tote bags', ref: 'MERCH-Q4', placed: 'Mon 12 Oct', sub: 'Delivered Thu 22 Oct', status: ['', 'Delivered'], step: 4, x: { shipLbl: 'Included in your quote', method: 'Pay by invoice · due on receipt' }, lines: [
     { img: 'p6.png', name: 'Tote bags', spec: '1,000 pcs · Natural cotton · Bespoke print, 1 colour', gross: 420.00, arrives: 'Thu 22 Oct', step: 4, title: 'Delivered Thu 22 Oct', text: 'Signed for by L. Pijffers' },
   ] },
 ];
@@ -109,6 +109,37 @@ function invoiceList() {
 const invoiceOf = no => invoiceList().find(i => i.no === no);
 const orderInvoice = o => invoiceList().find(i => !i.credit && i.o === o);
 const invoiceUrl = no => `invoice.html?i=${no}`;
+
+// ---------- Quotes (quotes.html, quote.html; the wishes artifact's four, dates moved to our November) ----------
+// A quote: the job, your reference, requested / issued / valid until, who handles it, its state (requested · ready · accepted · expired; you: accepted or
+// declined, kept in this browser 'hp-quotes'), the order it became, and its lines (the specs as the artifact lists them; gross incl. VAT once priced).
+// QT-5502 became order #8830771, so its lines are that order's; QT-5481's price is ours (the artifact only lists it).
+const QUOTES = [
+  { no: 'QT-5567', job: 'Roll-up banners ×50, custom size', ref: 'PO-77154', requested: 'Mon 16 Nov', issued: 'Mon 16 Nov', valid: 'Mon 30 Nov', by: 'Loraine', state: 'ready',
+    lines: [{ name: 'Roll-up banners — custom size', specs: ['Quantity: 50 pcs', 'Size: 85×200cm · premium roll-up base', 'Print: full colour, single-sided', 'Finish: matte laminate', 'Turnaround: 5 working days after approval'], gross: 420 }] },
+  { no: 'QT-5540', job: 'Branded tote bags ×1,000', ref: 'MERCH-Q4', requested: 'Thu 12 Nov', by: 'Cathal Byrne', state: 'requested',
+    lines: [{ name: 'Branded tote bags', specs: ['Quantity: 1,000 pcs', 'Material: natural cotton, long handles', 'Print: 1 colour, 1 side', 'Turnaround: confirmed with your quote'] }] },
+  { no: 'QT-5502', job: 'Standard Flyers ×2,500', ref: 'PO-76982', requested: 'Fri 30 Oct', issued: 'Mon 2 Nov', valid: 'Mon 16 Nov', accepted: 'Tue 3 Nov', order: '8830771', by: 'Loraine', state: 'accepted' },
+  { no: 'QT-5481', job: 'Window stickers ×500', ref: '', requested: 'Mon 19 Oct', issued: 'Mon 19 Oct', valid: 'Mon 2 Nov', by: 'Loraine', state: 'expired',
+    lines: [{ name: 'Window stickers — custom shape', specs: ['Quantity: 500 pcs', 'Size: 10 × 10 cm · contour cut', 'Material: clear vinyl, for inside the window', 'Print: full colour + white'], gross: 145 }] },
+];
+let quotesDone = {};
+try { quotesDone = JSON.parse(localStorage.getItem('hp-quotes')) || {}; } catch (e) {}
+const QUOTE_STATES = { requested: ['go', 'Requested'], ready: ['act', 'Quote ready'], accepted: ['ok', 'Accepted'], expired: ['', 'Expired'], declined: ['', 'Declined'] };
+function quoteList() {
+  if (NEW_CUSTOMER) return [];
+  return QUOTES.map(q => { const d = quotesDone[q.no], v = { ...q, state: d || q.state };
+    if (d === 'accepted') v.accepted = 'Tue 17 Nov';
+    const o = v.order && ORDERS.find(o => o.no === v.order);
+    v.rows = o ? orderRows(o) : (v.lines || []).map(l => ({ name: l.name, spec: l.specs.join(' · '), specs: l.specs, gross: l.gross }));
+    v.priced = v.rows.every(r => r.gross !== undefined); v.sum = v.priced ? sumRows(v.rows) : null; v.status = QUOTE_STATES[v.state];
+    return v; });
+}
+const quoteOf = no => quoteList().find(q => q.no === no);
+const quoteUrl = no => `quote.html?q=${no}`;
+const quoteSave = (no, state) => { quotesDone[no] = state; try { localStorage.setItem('hp-quotes', JSON.stringify(quotesDone)); } catch (e) {} window.dispatchEvent(new Event('hp-orders')); };
+// the grey line of a quote in the lists
+const quoteNote = q => ({ ready: `${accEur(q.sum?.gross || 0)} · valid until ${q.valid}`, requested: 'We email you when it’s ready', accepted: `Became order #${q.order || '—'}`, expired: `Expired ${q.valid}`, declined: 'You declined it' })[q.state];
 // the grey line of an invoice in the lists: what is open and when it is due, or when it was paid; a credit note: what it is for and its state
 const invNote = v => v.credit ? `Credit note for ${v.credit} · ${v.state}` : v.open > .005 ? `${accEur(v.open)} open · due ${v.due}` : `Paid ${v.pays.at(-1)?.date || ''}`;
 // All specifications of a product (the order page's fold): what you chose, as the PDP's option names; the quantity from the line
@@ -119,7 +150,7 @@ const SPECS = {
   'Posters': [['Size', 'A4 (210 × 297 mm)'], ['Paper', 'Gloss 170 gsm'], ['Printing', 'One-sided, full colour']],
   'Basic Cotton Bags': [['Colour', 'Natural'], ['Print area', 'Front, 25 × 30 cm'], ['Print colours', 'Full colour'], ['Handles', 'Long']],
   'Roller Banner': [['Size', '85 × 200 cm'], ['Stand', 'Premium, with carry bag'], ['Material', 'Polyester, blockout']],
-  'Tote bags': [['Material', 'Natural cotton, 140 gsm'], ['Print', 'Bespoke, from quote QT-5502']],
+  'Tote bags': [['Material', 'Natural cotton, 140 gsm'], ['Print', 'Bespoke, 1 colour']],
 };
 const specRows = l => [['Quantity', l.spec.split(' · ')[0]], ...(SPECS[l.name] || []), ['Delivery', 'Standard'], ['File check', 'Premium Check + Proof']];
 // Questions about this order (the Help Centre's articles), by where it stands: max 4
@@ -297,17 +328,20 @@ document.addEventListener('click', e => {
   if (act === 'note-send') { const v = document.getElementById('noteInput').value.trim(); if (!v) { document.getElementById('noteInput').focus(); return; }
     closeSheet(); showToast('Thanks! Your note is with our team, we reply by email'); }
   if (act === 'reorder') reorder(l ? [l] : o.lines, o.no);   // a product, or the whole order
+  if (act === 'quote-accept') { quoteSave(b.dataset.q, 'accepted'); showToast('Quote accepted: we turn it into an order and email you the confirmation'); }
+  if (act === 'quote-decline') { quoteSave(b.dataset.q, 'declined'); showToast('Quote declined'); }
+  if (act === 'quote-ask') { const t = document.getElementById('askInput'); if (!t.value.trim()) { t.focus(); return; } t.value = ''; showToast('Thanks! Your question is with our team, we reply by email within one working day'); }
   if (act === 'soon') showToast(`${b.dataset.what || 'This page'} comes next in the prototype`);
   if (act === 'download') showToast('Your proof is downloading (prototype)');
 });
 
 // The account pages still to build: a toast instead of nothing (the account menu, Invoices, Quotes…)
-const SOON = { '#quotes': 'The quotes page', '#complaints': 'The complaints page', '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
+const SOON = { '#complaints': 'The complaints page', '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
 document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'), what = a && SOON[a.getAttribute('href')];
   if (what) { e.preventDefault(); showToast(`${what} comes next in the prototype`); } });
 
 // Prototype: back to the start (every to-do open again). The left-edge tab on the account pages (the prototype switches' look), or ?reset in the URL
-const resetDemo = () => { try { localStorage.removeItem('hp-orders'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
+const resetDemo = () => { try { localStorage.removeItem('hp-orders'); localStorage.removeItem('hp-quotes'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
 if (new URLSearchParams(location.search).has('reset')) { resetDemo(); history.replaceState(null, '', location.pathname + location.search.replace(/[?&]reset(=[^&]*)?/, '').replace(/^&/, '?')); location.reload(); }
 document.body.insertAdjacentHTML('beforeend', `<div class="flow-switch demo-reset" role="group" aria-label="Prototype"><span>Demo</span><button type="button" data-demo="reset" title="Reset the demo: every to-do open again" aria-label="Reset the demo">↺</button>
   <button type="button" data-demo="new" aria-pressed="${NEW_CUSTOMER}" title="New customer: no orders yet (the empty states)" aria-label="New customer">N</button></div>`);
