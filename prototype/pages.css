@@ -847,24 +847,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 
 /* Address book: no Edit in the cards; "Change delivery address" opens the overview (as bol.com) */
 .addr-manage { align-self: flex-start; }
-.addr-list li.ap-add { border: 2px dashed var(--outline); padding: 14px; }   /* "+ New address", the last item of the address sheet: dashed, as the card on the page */
-.addr-list .ap-add .ap-pick { justify-content: center; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.addr-list { list-style: none; padding: 0 16px; }
-.addr-list li { position: relative; display: flex; align-items: flex-start; gap: 4px; padding: 16px 0; }
-.addr-list li + li { border-top: 1px solid #ececec; }
-.addr-list .ap-pick { flex: 1; display: flex; gap: 12px; text-align: left; }
-.addr-list .ap-pick::after { content: ''; position: absolute; inset: 0; }   /* the whole item is the tap area, edges included (Cornel, 2026-11-06) */
-.addr-list .kebab { position: relative; z-index: 1; }   /* ⋮ stays above that tap area (its menu is z-index 2) */
-.addr-list .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
-.addr-list .t b { font-weight: 700; }
-.addr-list .t .co-badge { margin-top: 6px; }
-.addr-list .kebab { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: no-repeat center / 20px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23191919'%3E%3Ccircle cx='12' cy='5' r='2'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3Ccircle cx='12' cy='19' r='2'/%3E%3C/svg%3E"); }
-.addr-list .kebab[aria-expanded="true"] { background-color: var(--light-grey); }
-.addr-list .menu { position: absolute; right: 0; top: 52px; z-index: 2; display: flex; flex-direction: column; min-width: 160px; padding: 6px; border-radius: var(--r-l); background: var(--white); box-shadow: 0 6px 24px rgba(0,0,0,.18); }
-.addr-list .menu[hidden] { display: none; }
-.addr-list .menu button { padding: 10px 12px; border-radius: var(--r-m); text-align: left; font-size: var(--t-14); }
-.addr-list .menu button:hover { background: var(--light-grey); }
-.addr-list .menu .del { color: #c62828; }
 .addr-new { flex: 1; height: 48px; border-radius: var(--r-pill); }
 
 /* Logged-in details in the live order: Contact Details, Shipping Address, billing checkbox */
@@ -900,16 +882,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-right .icon { width: 24px; height: 24px; }
 /* Payment: Apple Pay, Google Pay and PayPal side by side */
 
-/* Address sheet: cards like the design options (radio, green border when selected) */
-.addr-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
-.addr-list li { padding: 15px 7px 15px 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); }
-.addr-list li + li { border-top: 1px solid var(--outline); }
-.addr-list li.on { border: 2px solid var(--light-green); padding: 14px 6px 14px 14px; }   /* + the border: the content 16 in, ⋮ 8 from the edge */
-.addr-list .ap-pick { align-items: flex-start; }
-.addr-list .ap-pick .radio { margin-top: 1px; }
-.addr-list li.on .radio { border: 0; background: var(--light-green); }
-.addr-list li.on .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
-.addr-list .menu { top: 48px; right: 8px; }
 
 /* Flyers category page (same setup as business cards) */
 .cat-lead { margin: -4px 0 12px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* body text 12/18 */
@@ -2087,6 +2059,8 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .desk .od-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
 .od-lines, .od-side { display: flex; flex-direction: column; gap: 16px; }
 .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
+.od-inv { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }   /* the invoice row, under it the small Download button */
+.od-inv .dash-row { align-self: stretch; padding: 0; }   /* one row: without the list's 16 under it, so the button sits 8 under the text */
 .desk .orders-rows, html:not(.desk) .orders-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
 
 /* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====

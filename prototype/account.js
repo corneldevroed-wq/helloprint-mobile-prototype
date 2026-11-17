@@ -44,6 +44,14 @@ const PROOFS = {
 // The addresses of an order (your saved ones, as on order confirmed); you can change them for one order until it ships
 const ADDR = { ship: { name: 'Loraine Pijffers', company: 'Merrion Studio', street: '12 Merrion Square', code: 'D02 X285', town: 'Dublin 2' },
   bill: { name: 'Merrion Studio', vat: 'IE 1234567 X', street: '12 Merrion Square', code: 'D02 X285', town: 'Dublin 2' } };
+// Your address book: the checkout's ('hp-addresses', this browser), so a new address here is in the checkout too and back.
+// Empty (never at the checkout): the account's demo addresses. Change on the order page picks one of them or adds one.
+const bookOf = () => { let b = []; try { b = JSON.parse(localStorage.getItem('hp-addresses')) || []; } catch (e) {}
+  return b.length ? b : [{ id: 'a1', label: 'Office', first: 'Loraine', last: 'Pijffers', company: 'Merrion Studio', address1: '12 Merrion Square', eircode: 'D02 X285', town: 'Dublin 2', isDefault: true },
+    { id: 'a2', label: 'Warehouse', first: 'Loraine', last: 'Pijffers', company: 'Merrion Studio', address1: 'Unit 4, Park West Business Park', eircode: 'D12 F6X2', town: 'Dublin 12' },
+    { id: 'a3', label: 'Home', first: 'Loraine', last: 'Pijffers', address1: '27 Sandymount Avenue', eircode: 'D04 K7P3', town: 'Dublin 4' }]; };
+const bookLines = a => [`${a.first || ''} ${a.last || ''}`.trim(), a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
+const bookToOrder = (a, prev) => ({ name: `${a.first || ''} ${a.last || ''}`.trim(), company: a.company, street: [a.address1, a.address2].filter(Boolean).join(', '), code: a.eircode, town: a.town, vat: prev.vat });
 const addrLines = a => [[a.name, a.company].filter(Boolean).join(', '), a.vat && 'VAT ' + a.vat, a.street, `${a.town}, ${a.code}`, 'Ireland'].filter(Boolean);
 // the totals as an invoice (as the checkout): products, the check, shipping free, VAT 23%
 const orderSum = o => { const goods = o.lines.reduce((s, l) => s + l.price, 0), check = 12.20, sub = goods + check, vat = Math.round(sub * VAT_RATE * 100) / 100; return { goods, check, sub, vat, total: sub + vat }; };
@@ -113,17 +121,18 @@ applyOrders();
 const orderOf = no => ORDERS.find(o => o.no === no);
 
 // ---------- The popups (the standard sheet: a bottom sheet on mobile, a centred popup on desktop) ----------
-const accSheet = (id, title, body, bar) => `<div class="sheet-layer" id="sheet-${id}" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
+const accSheet = (id, title, body, bar, list) => `<div class="sheet-layer" id="sheet-${id}" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="${id}Title"><div class="grab" data-grab><span></span></div>
     <div class="sheet-head"><h2 id="${id}Title">${title}</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
-    <div class="sheet-body"><div class="pad" id="${id}Body">${body}</div></div>${bar ? `<div class="sheet-bar"><div class="bar-btns">${bar}</div></div>` : ''}</div></div>`;
+    <div class="sheet-body">${list ? `<ul class="addr-list" id="${id}Body"></ul>` : `<div class="pad" id="${id}Body">${body}</div>`}</div>${bar ? `<div class="sheet-bar"><div class="bar-btns">${bar}</div></div>` : ''}</div></div>`;
 document.body.insertAdjacentHTML('beforeend',
   accSheet('cancel', 'Cancel this order?', `<p class="up-intro" id="cancelIntro"></p><p class="q-hint">Why do you want to cancel?</p>
     <label class="field"><select id="cancelReason" required aria-label="Why do you want to cancel?"><option value="" selected disabled>Choose a reason</option>${['I ordered the wrong product or options', 'I need to change my design', 'I don’t need it any more', 'It takes too long', 'Something else']
       .map(r => `<option>${r}</option>`).join('')}</select></label>
     <label class="field"><textarea id="cancelNote" placeholder=" " maxlength="600" aria-label="Anything we can do better"></textarea><span class="fl">Anything we can do better? (optional)</span></label>`,
     '<button class="btn outline" type="button" data-close-sheet>Keep my order</button><button class="btn primary danger" type="button" data-act="cancel-yes" disabled>Yes, cancel it</button>') +
-  accSheet('addr', 'Shipping address', '', '<button class="btn primary" type="button" data-act="addr-save">Save for this order</button>') +
+  accSheet('book', 'Your shipping addresses', '', '<button class="btn primary" type="button" data-act="book-use">Use for this order</button>', true) +
+  accSheet('addr', 'Add shipping address', '', '<button class="btn primary" type="button" data-act="addr-save">Save and use for this order</button>') +
   accSheet('payer', 'Change who pays', `<p class="up-intro">We email the payment link to your colleague. They can pay without an account; you see it here once it’s paid.</p>
     <label class="field" data-field="payerName"><input name="payerName" placeholder=" " autocomplete="off" aria-label="Their name"><span class="fl">Their name</span></label>
     <label class="field" data-field="payerEmail"><input type="email" name="payerEmail" placeholder=" " autocomplete="off" aria-label="Their email address"><span class="fl">Their email address</span></label>`,
@@ -162,20 +171,33 @@ document.addEventListener('click', e => {
     setTimeout(() => allDonePopup(`<h2 id="yayTitle">Your order is cancelled</h2><p>Sorry to see order #${o.no} go. We stopped it before printing, so you pay nothing.</p>
       <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
       <button class="btn primary" type="button" data-close-sheet>Close</button>`, true), 400); }
-  if (act === 'addr') {   // shipping or billing address, for this order only, until it ships
-    const k = b.dataset.kind, a = o[k], f = (name, label, v, auto, opt) => `<label class="field" data-field="${name}"><input name="${name}" value="${String(v || '').replace(/"/g, '&quot;')}" placeholder=" " autocomplete="${auto}" aria-label="${label}"><span class="fl">${label}${opt ? ' (optional)' : ''}</span></label>`;
-    accCur.kind = k; document.getElementById('addrTitle').textContent = k === 'ship' ? 'Shipping address' : 'Billing address';
-    document.getElementById('addrBody').innerHTML = `<p class="up-intro">${k === 'ship' ? `Where we ship order #${o.no}. Until it ships you can change it here.` : `On the invoice of order #${o.no}. Until it ships you can change it here.`} Your saved addresses stay as they are.</p>
-      ${k === 'ship' ? f('name', 'Full name', a.name, 'name') + f('company', 'Company name', a.company, 'organization', 1) : f('name', 'Company or name', a.name, 'organization') + f('vat', 'VAT number', a.vat, 'off', 1)}
+  if (act === 'addr' || act === 'book-pick') {   // Change: the address book (the checkout's sheet), the order's address chosen; tap = choose, the button confirms
+    if (act === 'addr') { accCur.kind = b.dataset.kind; accCur.pick = null; }
+    else accCur.pick = b.dataset.pick;
+    const k = accCur.kind, cur = o[k], esc = t => String(t || '').replace(/</g, '&lt;');
+    const on = a => accCur.pick ? a.id === accCur.pick : a.address1 === cur.street.split(', ')[0] && a.eircode === cur.code;
+    document.getElementById('bookTitle').textContent = k === 'ship' ? 'Your shipping addresses' : 'Your billing address';
+    document.getElementById('bookBody').innerHTML = bookOf().map(a => `<li class="${on(a) ? 'on' : ''}" aria-checked="${on(a)}"><button type="button" class="ap-pick" data-act="book-pick" data-pick="${a.id}"><span class="radio" aria-hidden="true"></span>
+        <span class="t"><b>${esc(a.label)}</b>${bookLines(a).map(l => `<span>${esc(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</span></button></li>`).join('')
+      + '<li class="ap-add"><button type="button" class="ap-pick" data-act="addr-new"><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li>';
+    if (act === 'addr') openSheet('book'); }
+  if (act === 'book-use') { const a = bookOf().find(x => x.id === accCur.pick), k = accCur.kind; closeSheet(); if (!a) return;   // nothing new tapped: as it was
+    orderSave(o.no, d => d[k] = bookToOrder(a, o[k])); showToast(k === 'ship' ? `We ship order #${o.no} to ${a.label}` : `${a.label} is on the invoice of order #${o.no}`); }
+  if (act === 'addr-new') {   // a new address: into your address book and used for this order
+    const k = accCur.kind, f = (name, label, auto, opt) => `<label class="field" data-field="${name}"><input name="${name}" placeholder=" " autocomplete="${auto}" aria-label="${label}"><span class="fl">${label}${opt ? ' (optional)' : ''}</span></label>`;
+    document.getElementById('addrTitle').textContent = k === 'ship' ? 'Add shipping address' : 'Add billing address';
+    document.getElementById('addrBody').innerHTML = `<p class="up-intro">It’s added to your addresses and used for order #${o.no}.</p>
+      ${f('name', 'Full name', 'name')}${f('company', 'Company name', 'organization', 1)}
       <label class="field"><input value="Ireland" readonly aria-label="Country" placeholder=" " tabindex="-1"><span class="fl">Country/Region</span></label>
-      ${f('street', 'Address', a.street, 'address-line1')}<div class="co-row">${f('code', 'Eircode', a.code, 'postal-code')}${f('town', 'Town / city', a.town, 'address-level2')}</div>`;
-    openSheet('addr'); }
+      ${f('street', 'Address', 'address-line1')}<div class="co-row">${f('code', 'Eircode', 'postal-code')}${f('town', 'Town / city', 'address-level2')}</div>`;
+    closeSheet(); setTimeout(() => openSheet('addr'), 300); }
   if (act === 'addr-save') { const body = document.getElementById('addrBody'), v = n => body.querySelector(`[name=${n}]`)?.value.trim();
     const errs = [['name', v('name'), 'Fill in a name'], ['street', v('street'), 'Fill in the address'], ['code', EIRCODE.test(v('code')), 'Enter a valid Eircode'], ['town', v('town'), 'Fill in the town or city']];
     errs.forEach(([n, ok, msg]) => setFieldError(body.querySelector(`[data-field=${n}]`), ok ? '' : msg));
     const bad = errs.find(([, ok]) => !ok); if (bad) { body.querySelector(`[name=${bad[0]}]`).focus(); return; }
-    const a = Object.fromEntries(['name', 'company', 'vat', 'street', 'town'].filter(n => body.querySelector(`[name=${n}]`)).map(n => [n, v(n)])), k = accCur.kind; a.code = v('code').toUpperCase();
-    closeSheet(); orderSave(o.no, d => d[k] = a); showToast(k === 'ship' ? `We ship order #${o.no} to the new address` : `The new billing address is on the invoice of order #${o.no}`); }
+    const k = accCur.kind, a = { id: 'a' + Date.now(), label: v('street'), first: v('name'), last: '', company: v('company'), address1: v('street'), eircode: v('code').toUpperCase(), town: v('town') };
+    try { localStorage.setItem('hp-addresses', JSON.stringify([...bookOf(), a])); } catch (e) {}   // the checkout's address book
+    closeSheet(); orderSave(o.no, d => d[k] = bookToOrder(a, o[k])); showToast(k === 'ship' ? `We ship order #${o.no} to the new address` : `The new billing address is on the invoice of order #${o.no}`); }
   if (act === 'paylink') showToast(`We emailed the payment link again to ${o.payer?.email || deskUser?.email || 'you'}`);
   if (act === 'payer') { document.querySelectorAll('#payerBody input').forEach(i => { i.value = ''; setFieldError(i.closest('.field'), ''); }); openSheet('payer'); setTimeout(() => document.querySelector('[name=payerName]').focus(), 300); }
   if (act === 'payer-send') { const body = document.getElementById('payerBody'), name = body.querySelector('[name=payerName]').value.trim(), email = body.querySelector('[name=payerEmail]').value.trim();

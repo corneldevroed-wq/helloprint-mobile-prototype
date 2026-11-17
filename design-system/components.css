@@ -778,6 +778,28 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
    the label 16 semibold with the radio and a Default label, the address 14/22 grey. Chosen = the 2px green border, as the
    option cards (no tint). New address = the same card, dashed, with the Material "add" in light green. */
 .co-badge { position: static; align-self: flex-start; margin: 2px 0 4px; }   /* a label in the flow of a card (Default on an address), not on its corner */
+/* Address book (the checkout's address sheet, the order page's Change; Cornel 2026-11-17 moved here): one card per saved address, a radio,
+   the green border when chosen, "+ New address" dashed as the last item; ⋮ for edit / default / delete where the book is managed */
+.addr-list { list-style: none; display: flex; flex-direction: column; gap: 8px; padding: 0 16px 16px; }
+.addr-list li { position: relative; display: flex; align-items: flex-start; gap: 4px; padding: 15px 7px 15px 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); }
+.addr-list li.on { border: 2px solid var(--light-green); padding: 14px 6px 14px 14px; }   /* + the border: the content 16 in, ⋮ 8 from the edge */
+.addr-list li.ap-add { border: 2px dashed var(--outline); padding: 14px; }
+.addr-list .ap-pick { flex: 1; display: flex; align-items: flex-start; gap: 12px; text-align: left; }
+.addr-list .ap-pick::after { content: ''; position: absolute; inset: 0; }   /* the whole item is the tap area, edges included (Cornel, 2026-11-06) */
+.addr-list .ap-add .ap-pick { justify-content: center; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.addr-list .ap-pick .radio { margin-top: 1px; }
+.addr-list li.on .radio { border: 0; background: var(--light-green); }
+.addr-list li.on .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+.addr-list .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+.addr-list .t b { font-weight: 700; }
+.addr-list .t .co-badge { margin-top: 6px; }
+.addr-list .kebab { position: relative; z-index: 1; }   /* ⋮ stays above that tap area (its menu is z-index 2) */
+.addr-list .kebab[aria-expanded="true"] { background-color: var(--light-grey); }
+.addr-list .menu { position: absolute; right: 8px; top: 48px; z-index: 2; display: flex; flex-direction: column; min-width: 160px; padding: 6px; border-radius: var(--r-l); background: var(--white); box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+.addr-list .menu[hidden] { display: none; }
+.addr-list .menu button { padding: 10px 12px; border-radius: var(--r-m); text-align: left; font-size: var(--t-14); }
+.addr-list .menu button:hover { background: var(--light-grey); }
+.addr-list .menu .del { color: var(--error); }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
 .addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
@@ -810,7 +832,6 @@ html:not(.desk) .notice-close { right: 4px; }
 .dash-row:last-child { padding-bottom: 0; }
 .dash-row + .dash-row { border-top: 1px solid var(--line); }
 .dash-row.text { grid-template-columns: minmax(0, 1fr) auto; }   /* without a photo (an invoice, a quote) */
-button.dash-row { width: 100%; text-align: left; }   /* a row that does something here (download the invoice) */
 .desk .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* desktop: the status or the buttons on the right */
 .dash-row .img, .dash-table .img { display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border-radius: var(--r-m); background: var(--light-grey); }
 .dash-row .img img, .dash-table .img img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
@@ -831,6 +852,7 @@ button.dash-row { width: 100%; text-align: left; }   /* a row that does somethin
 .status { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
 .status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--mid-grey); }
 .status.go::before { background: var(--link); }
+.status.ok::before { background: var(--light-green); }   /* paid (Cornel 2026-11-17) */
 .status.act { padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); }
 .status.act::before { background: var(--white); }
 /* Tracker: where an order is, Artwork · Proof · Printing · Delivery (the look of the checkout steps, 3px bars) */
