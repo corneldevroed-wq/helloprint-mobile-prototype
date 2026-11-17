@@ -23,6 +23,23 @@
    "inks/5": "5 colours",
    "inks/full": "Full colour"
   },
+  "Print area": {
+   "printarea/bag-large": "Bag, large",
+   "printarea/bag-small": "Bag, small",
+   "printarea/bag-large-both": "Bag, large, both sides",
+   "printarea/bag-small-both": "Bag, small, both sides",
+   "printarea/notebook-full": "Notebook, full cover",
+   "printarea/notebook-large": "Notebook, large",
+   "printarea/notebook-small": "Notebook, small",
+   "printarea/pen-barrel": "Pen, barrel",
+   "printarea/pen-clip": "Pen, clip",
+   "printarea/lanyard-strap": "Lanyard, strap",
+   "printarea/lanyard-strap-both": "Lanyard, strap both sides",
+   "printarea/lanyard-holder": "Lanyard, holder",
+   "printarea/lanyard-holder-both": "Lanyard, holder both sides",
+   "printarea/mug-wrap": "Mug, wrap around",
+   "printarea/mug-small": "Mug, one side"
+  },
   "Corners": {
    "corners/straight": "Straight",
    "corners/rounded": "Rounded"

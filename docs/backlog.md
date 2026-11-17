@@ -3,6 +3,10 @@
 Not started unless Cornel says go. Move items to `decisions.md` once decided.
 
 ## Parked by Cornel
+- **Print technique icons** (Cornel, 2026-11-17, "skip, remember for later"): wave 2 of the all-categories run, "Print technique" in 81 products.
+  10 new icons (screen print, pad print, full colour, transfer, DTF transfer, screen transfer, laser engraving, hot stamping, embossing, UV print)
+  + 4 reused (No imprint = `inks/none`, Screenround = screen print, Engraving = laser, Digital sticker = `stickers/contour`). Three directions in
+  `sketches/print-technique-icons-sketch.html` (A the tool, B the result, C a letter badge); my pick A. Not chosen yet.
 - **Labels on roll icons** (Cornel, 2026-11-16, "pakken we later op"): dispenser without/with, core 40/76 and the roll winding 1–4.
   Directions in `sketches/sticker-icons-sketch.html` (A flat roll from the side, the A on one big label turns; B a 3/4 cylinder). My pick was A.
 - **Brand Guidelines as PDF** (Cornel, 2026-11-12): once the HTML brand book (`brand-guidelines/`) is done, offer the whole guide

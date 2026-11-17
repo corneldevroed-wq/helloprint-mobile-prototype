@@ -424,8 +424,8 @@ const PRODUCTS = {
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['ecru', 'white', 'black', 'navy', 'dark-green', 'red', 'yellow']) },
       { key: 'area', title: 'Print area', items: [
-        { id: 'single', name: 'Single-sided', sub: 'Front only', shape: 'width:30px;height:32px', mult: 1, info: 'Your design on the front.' },
-        { id: 'double', name: 'Double-sided', sub: 'Same design', shape: 'width:30px;height:32px', mult: 1.45, info: 'The same design on the front and the back.' },
+        { id: 'single', name: 'Single-sided', sub: 'Front only', icon: 'printarea/bag-large', mult: 1, info: 'Your design on the front.' },
+        { id: 'double', name: 'Double-sided', sub: 'Same design', icon: 'printarea/bag-large-both', mult: 1.45, info: 'The same design on the front and the back.' },
       ]},
       { key: 'inks', title: 'Colours in design', items: [
         { id: '1', name: '1 colour', sub: 'Screen print', icon: 'inks/1', mult: 1, info: 'One ink colour. Ideal for a logo; the most affordable choice.' },
@@ -453,10 +453,10 @@ const PRODUCTS = {
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['natural', 'black', 'white', 'royal', 'grey', 'navy', 'red', 'orange', 'yellow', 'pink']) },
       { key: 'area', title: 'Print area', items: [
-        { id: '300-double', name: '300 x 215 mm', sub: 'Double sided', shape: 'width:36px;height:26px', mult: 1, info: 'A landscape print on the front and the back.' },
-        { id: '300-single', name: '300 x 215 mm', sub: 'Single sided', shape: 'width:36px;height:26px', mult: .7, info: 'A landscape print on the front.' },
-        { id: '280-double', name: '280 x 310 mm', sub: 'Double sided', shape: 'width:30px;height:33px', mult: 1.08, info: 'A large print on the front and the back.' },
-        { id: '280-single', name: '280 x 310 mm', sub: 'Single sided', shape: 'width:30px;height:33px', mult: .75, info: 'A large print on the front.' },
+        { id: '300-double', name: '300 x 215 mm', sub: 'Double sided', icon: 'printarea/bag-large-both', mult: 1, info: 'A landscape print on the front and the back.' },
+        { id: '300-single', name: '300 x 215 mm', sub: 'Single sided', icon: 'printarea/bag-large', mult: .7, info: 'A landscape print on the front.' },
+        { id: '280-double', name: '280 x 310 mm', sub: 'Double sided', icon: 'printarea/bag-large-both', mult: 1.08, info: 'A large print on the front and the back.' },
+        { id: '280-single', name: '280 x 310 mm', sub: 'Single sided', icon: 'printarea/bag-large', mult: .75, info: 'A large print on the front.' },
       ]},
       { key: 'technique', title: 'Print technique', items: [
         { id: 'dtf', name: 'DTF Transfer', sub: 'Full colour', color: 'linear-gradient(135deg,#00a7e1,#e6007e 50%,#ffed00)', mult: 1, info: 'A full-colour transfer: photos and gradients are possible.' },

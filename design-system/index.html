@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,content_copy,delete,delivery_truck_speed,edit,error,local_mall,receipt,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261128n">
-<link rel="stylesheet" href="components.css?v=20261128n">
-<link rel="stylesheet" href="guide.css?v=20261128n">
+<link rel="stylesheet" href="tokens.css?v=20261128o">
+<link rel="stylesheet" href="components.css?v=20261128o">
+<link rel="stylesheet" href="guide.css?v=20261128o">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -233,7 +233,7 @@
       use: 'A sheet with a folded corner, square corners, crisp 1px border, subtle gradient. One kind of icon per row, everywhere instead of swatches. Read live from <code>materials/index.json</code>; every other icon family from <code>icons/index.json</code>.',
       ex: stage('<div class="icon-grid" id="icMats"></div>') }) +
     row({ name: 'Option icons', wide: true, meta: [{ t: 'printing/e-* · pms-*' }, { t: 'corners' }, { t: 'bundling' }, { t: 'folds' }, { t: 'envelopes' }, { t: 'stickers' }],
-      use: 'Show what you get: one square "1" or two stacked "2" for printing (spot colours: one round ink dot per PMS colour under the number; black = one black dot), the inks on their own for merchandise ("Amount of colours": one dot per colour, full colour = the CMYK square, unprinted = an empty dashed dot), the black L corner, a stack with a paper band for bundling, the card opened flat with the fold as a dashed line (its shape as a size), the card alone or the closed envelope, a sticker shape with its corner peeled (the back grey). Films are materials (the sheet with a folded corner): transparent as a checkerboard, eco as a small light-green leaf.',
+      use: 'Show what you get: one square "1" or two stacked "2" for printing (spot colours: one round ink dot per PMS colour under the number; black = one black dot), the inks on their own for merchandise ("Amount of colours": one dot per colour, full colour = the CMYK square, unprinted = an empty dashed dot), the print area as the product outline with the area in grey (both sides = two stacked; the size stays text), the black L corner, a stack with a paper band for bundling, the card opened flat with the fold as a dashed line (its shape as a size), the card alone or the closed envelope, a sticker shape with its corner peeled (the back grey). Films are materials (the sheet with a folded corner): transparent as a checkerboard, eco as a small light-green leaf.',
       ex: stage('<div class="ic-rows" data-g="Option icons"></div>') }) +
     row({ name: 'Product kit icons', wide: true, meta: [{ t: 'rollup' }, { t: 'aboard' }, { t: 'tabletalkers' }, { t: 'folders' }, { t: 'notepads' }, { t: 'napkins' }],
       use: 'The product (or the part you choose) flat and front-on, one dark line, colour only where it is the choice (the stand, the cream napkin). Sizes are the same icon scaled. A glued edge is black; folds are dashed; a print area is grey; the spine width is a U seen from above. Named in the data as <code>icon</code> (path under icons/).',
@@ -598,6 +598,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261128n"></script>
+<script src="guide.js?v=20261128o"></script>
 </body>
 </html>

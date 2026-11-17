@@ -137,6 +137,9 @@ design system + guide, prices for products without a live from-price. Gap histor
   `backlit`, `antique-white`, `paperwise-white`, `pvc-card-gloss|matt` (a plastic card, rounded corners).
   Print colours (`sketches/print-colour-icons-sketch.html`, A): `inks/none|1|2|3|4|5|full` (one dot per colour: orange, light green, dark green,
   blue, dark grey; full = the CMYK square), `printing/pms-4-single|black-single|black-double|full-front-black-back`. Basic cotton bags use the inks.
+  Print area (`sketches/print-area-icons-sketch.html`, A): `printarea/bag-large|small(-both)`, `notebook-full|large|small`, `pen-barrel|clip`,
+  `lanyard-strap|holder(-both)`, `mug-wrap|small`: the product outline, the area grey, both sides = two stacked (lanyard: a small 2); the size stays text.
+  Basic cotton bags and premium tote bags use them. Print technique is parked (backlog).
   All-categories gap report (289 products, the waves): `sketches/icon-gaps-all-categories.html`. Option icons (printing, folds, envelopes)
   outline in #191919 like the size shapes; `printing/pms-<1|2|3>-<single|double>` = the printing icon plus one ink dot per PMS colour
   (orange, light green, dark green). Folds = the card opened flat, the fold dashed; envelopes = the card alone / the closed envelope
