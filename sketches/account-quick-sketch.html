@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Quick Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
+<!-- Sketch (not linked; Cornel 2026-11-18): the Overview's quick links (Orders, Invoices, Quotes, Customer Service; as mijn bol) and Needs your attention
+     at max 3 with a count and Show all. The real Overview in account-quick-frame.html?q=a|b|c&t=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1000px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 900px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1350px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: quick links and a shorter Needs your attention</h1>
+  <p class="note"><b>Cornel chose B + A (2026-11-18): built in prototype/account.html.</b> <b>My pick was quick links B + Needs your attention A.</b> B’s tiles take you where you want to go and already tell you why (what is open, what waits);
+    A keeps the to-dos short with the count where every account section already has its link (All orders, All invoices), so nothing new to learn.
+    Everything is from the UI guide: the icon card (<code>.hc-card</code> + <code>.hc-ico</code>, about us / Help Centre), the account menu rows, <code>.oc-act</code>, the heading link.
+    The tiles sit under the welcome, above Needs your attention. New in the design system once chosen: only the grid of 4 tiles.</p>
+  <h1 style="margin-top:48px">Quick links</h1>
+  <section class="opt"><h2>A · Big tiles, icon above the name</h2><p>Four white icon cards in a row (2 × 2 on mobile), the name under the icon: the mijn bol look. Calm, but says nothing about what is waiting.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?q=a&t=a"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?q=a&t=a"></iframe></div></div></div></section>
+  <section class="opt"><h2>B · Tiles with what is waiting <em>my pick</em></h2><p>The same icon card, the name with one line under it: 2 in progress, €762.70 open, 1 ready to accept, chat or call. You see where to go and why.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?q=b&t=a"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?q=b&t=a"></iframe></div></div></div></section>
+  <section class="opt"><h2>C · The account menu’s rows</h2><p>Our account menu rows (icon, name, line, arrow) 2 × 2 in one card. Quiet, but it repeats the menu in the side card on desktop.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?q=c&t=a"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?q=c&t=a"></iframe></div></div></div></section>
+  <h1 style="margin-top:48px">Needs your attention</h1>
+  <section class="opt"><h2>A · Show all in the heading <em>my pick</em></h2><p>The first 3, the count in the link right of the heading (“Show all 7”), as All orders / All invoices. It opens in place; then Show less.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?t=a&q=b"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?t=a&q=b"></iframe></div></div></div></section>
+  <section class="opt"><h2>B · A row under the blocks</h2><p>The first 3, under them one row: “4 more things need you” with their names and a Show all button.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?t=b&q=b"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?t=b&q=b"></iframe></div></div></div></section>
+  <section class="opt"><h2>C · A count label + a link under</h2><p>The first 3, the count as a grey label after the heading, Show all 7 as a link under the blocks.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="account-quick-frame.html?t=c&q=b"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="account-quick-frame.html?t=c&q=b"></iframe></div></div></div></section>
+</div>
+</body>
+</html>

@@ -1747,7 +1747,7 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .hc-center .lead, .hc-team p, .hc-contact p, .ht-lead { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .desk .hc-team p, .desk .hc-contact p, .desk .ht-lead { font-size: var(--t-14); line-height: var(--lh-14); }
 /* grey block with the card outline: T head, team strip, (hidden) contact block */
-.hc-team, .hc-contact, .hc-hero, .hc-ico { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); }
+.hc-team, .hc-contact, .hc-hero { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); }
 /* overlapping avatars (experts online + contact block) */
 .help-page .faces, .art-team .faces { display: flex; flex-shrink: 0; }
 .help-page .faces img, .art-team .faces img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--white); background: var(--light-green); }   /* team cut-outs on light green, as the team strip */
@@ -1811,10 +1811,6 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 /* the topic cards = the material card (desktop border + hover from the shared card rules); 1 column mobile, 3 desktop */
 .hc-topics { display: grid; gap: 8px; }   /* mobile: all topics written out, one per row (Cornel, 2026-10-29) */
 .desk .hc-topics { gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.hc-card { display: flex; flex-direction: column; align-items: flex-start; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
-.hc-ico { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; color: var(--dark-green); font-size: var(--t-24); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }   /* line icon, same size and stroke as the header cart icon (24px, weight 400), 16px padding on the grey outlined block */
-.hc-card-h { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
-.desk .hc-card-h { font-size: var(--t-16); line-height: var(--lh-16); }
 /* card top = one link row: icon + title (B, Cornel 2026-10-29: no arrow, hover turns the title green) */
 .hc-card-top { display: flex; align-items: center; gap: 16px; align-self: stretch; margin: 0 -16px; padding: 0 16px 16px; border-bottom: 1px solid var(--line); }   /* one full-width line under icon + title (Cornel, 2026-10-29) */
 .hc-card-top:hover .hc-card-h { color: var(--link); }
@@ -2042,6 +2038,9 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .desk .account-main { gap: 32px; }
 .account-two { display: flex; flex-direction: column; gap: 24px; }
 .desk .account-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.account-two.feature, .quick-links.feature { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* the light grey box (Cornel 2026-11-18, switch Grey A|B): A = Needs your attention + Order again, B = only the quick links (as mijn bol) */
+.desk .account-two.feature, .desk .quick-links.feature { padding: 24px; }
+.account-two.feature .oc-act { background: var(--white); }   /* the to-do blocks white on the grey, as the cards next to them */
 .account-page h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* the section title (24/32 desktop, components.css), its arrow link right, 8 to its block */
 .desk .account-two .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */
 .desk .account-two .dash-row .acts { grid-column: 2; }

@@ -565,6 +565,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .plp .section-head { align-items: baseline; gap: 16px; }
 .plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
 .plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.link.fold::after { transform: rotate(90deg); }   /* a link that opens more in place (Show all N): the arrow points down; open (Show less) up (Cornel 2026-11-18) */
+.link.fold.open::after { transform: rotate(-90deg); }
 .plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { text-decoration: none; }
 .ha-back { margin-bottom: 16px; }   /* the back link: the green arrow in front, pointing left (help article, the proof page) */
 .ha-back::before { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; transform: scaleX(-1); }
@@ -838,6 +840,10 @@ html:not(.desk) .notice-close { right: 4px; }
 .dash-row:first-child { padding-top: 0; }
 .dash-row:last-child { padding-bottom: 0; }
 .dash-row + .dash-row { border-top: 1px solid var(--line); }
+.desk a.dash-row { margin: 0 -8px; padding-left: 8px; padding-right: 8px; }   /* desktop, a row that opens a page (Orders in progress, the invoices, the quotes): */
+.desk a.dash-row:first-child { margin-top: -8px; padding-top: 8px; }   /* the light grey hover of the table rows, 8 past the text on every side (Cornel 2026-11-18) */
+.desk a.dash-row:last-child { margin-bottom: -8px; padding-bottom: 8px; }
+.desk a.dash-row:hover { background: var(--light-grey); }
 .dash-row.text { grid-template-columns: minmax(0, 1fr) auto; }   /* without a photo (an invoice, a quote) */
 .desk .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* desktop: the status or the buttons on the right */
 .dash-row .img, .dash-table .img { display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border-radius: var(--r-m); background: var(--light-grey); }
@@ -875,6 +881,21 @@ html:not(.desk) .notice-close { right: 4px; }
 .account-who .av img { width: 24px; height: 24px; }   /* the header's account icon in grey (an image, not a mask: it also shows when a page is opened from disk) */
 .account-who b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
 /* VIP meter: the tier (eco label), the points to the next tier as an 8px bar, one line under it (the tiers of vip.html) */
+/* Icon card (Help Centre topics, about us / our culture, the account's quick links; moved here 2026-11-18): white, 1px --line, --r-l, 16 inside; the icon in a 56 grey outlined tile, the name semibold */
+.hc-card { display: flex; flex-direction: column; align-items: flex-start; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
+.hc-ico { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; color: var(--dark-green); font-size: var(--t-24); border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }   /* line icon, same size and stroke as the header cart icon (24px, weight 400), 16px padding on the grey outlined block */
+.hc-card-h { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+.desk .hc-card-h { font-size: var(--t-16); line-height: var(--lh-16); }
+/* Quick links (the Overview, Cornel 2026-11-18, sketches/account-quick-sketch.html B): the icon card (.hc-card + .hc-ico) as a big button with one live line
+   (5 in progress, €762.70 open, 1 ready to accept); 4 in a row on desktop, 2 × 2 on mobile, the icon beside the name */
+.quick-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.desk .quick-links { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.quick-links .hc-card { gap: 16px; color: inherit; }
+.quick-links .hc-card { flex-direction: row; align-items: center; }   /* the icon beside the name, also on mobile (Cornel 2026-11-18) */
+html:not(.desk) .quick-links .hc-card { gap: 12px; padding: 12px; }   /* mobile: two tiles side by side need the room */
+html:not(.desk) .quick-links .hc-ico { width: 40px; height: 40px; }
+.quick-links small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.hc-ico > img { width: 24px; height: 24px; }   /* an interface icon (design-system/icons) in the grey icon tile */
 .vip-meter { display: flex; flex-direction: column; gap: 8px; }
 .vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }   /* the title, the tier label right; under the bar one line: points · to the next discount (Cornel 2026-11-17: the layout of the cart's VIP score, our fonts) */
 .vip-meter .top .badge { margin: 0; }
@@ -890,18 +911,22 @@ html:not(.desk) .notice-close { right: 4px; }
 /* Filters over a list: pills (.pill, .pill.active = the chosen one, the count in regular) and a search field; desktop: the search on the right */
 .filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .filter-row .pill small { margin-left: 4px; font-weight: 400; }
-.filter-row .find { flex: 1 1 100%; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }   /* as high as the pills next to it (Cornel 2026-11-17) */
-.filter-row .find .material-symbols-rounded { font-size: 16px; }   /* the icon within the pill height */
-.desk .filter-row .find { flex: 1 1 240px; max-width: 360px; margin-left: auto; }   /* desktop: on the right of the pills, narrower when they need the room */
-.filter-row .find input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; color: var(--black); }
-.filter-row .find:focus-within { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* focus as the text fields */
+.find { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }   /* as high as the header search: 34 mobile, 38 desktop (Cornel 2026-11-18, now it has its own row in the card) */
+.desk .find { height: 38px; }
+.find .material-symbols-rounded { font-size: 20px; color: var(--dark-grey); }
+.find input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; color: var(--black); }
+.find:focus-within { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); }   /* focus as the text fields */
+.list-card > .find { margin-bottom: 16px; }   /* the search as the first row of the list's card, full width (Cornel 2026-11-18); the no-match line also in the card */
+.list-card > #none { margin: 0; }
 /* Table (desktop lists: orders): column heads 12/18 grey semibold, rows 14/22 with a line between, the first cell a photo + title + grey line; a row opens on hover-grey. Mobile shows the list as .dash-row */
-.dash-table { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+.dash-table { width: calc(100% + 16px); margin: 0 -8px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }   /* 8 wider on both sides: the hover grey runs past the text (Cornel 2026-11-18), the content stays where it was */
 .dash-table th, .items-table th { padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
 .dash-table td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .dash-table tr:last-child td { padding-bottom: 0; border-bottom: 0; }
 .dash-table tbody tr { cursor: pointer; }
 .dash-table tbody tr:hover td { background: var(--light-grey); }
+.dash-table th:first-child, .dash-table td:first-child { padding-left: 8px; }
+.dash-table td:last-child { padding-right: 8px; }
 .dash-table .first { display: flex; align-items: center; gap: 16px; }
 .dash-table .first b { display: block; font-weight: 600; }
 .dash-table .num { text-align: right; white-space: nowrap; }   /* an amount */

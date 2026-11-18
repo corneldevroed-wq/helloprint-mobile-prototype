@@ -7,9 +7,9 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202a">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202a">
-<link rel="stylesheet" href="pages.css?v=20261202a">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
+<link rel="stylesheet" href="pages.css?v=20261202r">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -33,9 +33,9 @@
 <div data-shell="sheet-art"></div>
 <div data-shell="sheet-shipping"></div>
 
-<script src="app.js?v=20261202a"></script>
-<script src="upload.js?v=20261202a"></script>   <!-- Upload your artwork, shared with My account -->
-<script src="../design-system/components.js?v=20261202a"></script>
+<script src="app.js?v=20261202r"></script>
+<script src="upload.js?v=20261202r"></script>   <!-- Upload your artwork, shared with My account -->
+<script src="../design-system/components.js?v=20261202r"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -66,7 +66,6 @@
     const tick = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
     // Each upload block holds its order line as the cart shows it (Cornel 2026-11-09): photo (or the artwork, as the cart's tile:
     // opens the artwork popup), name, pieces · options, price, its own delivery date and its own deadline
-    let k = 0;
     const lineOf = (l, files) => `<div class="line-item cart-line">${files
         ? `<button class="img art-tile" type="button" data-view-art="${l.i}" data-at="0" aria-label="View your artwork">${artPic(files[0])}${files.length > 1 ? `<span class="art-count">+${files.length - 1}</span>` : ''}</button>`
         : `<span class="img" style="background:var(--light-grey)"><img src="${l.img}" alt=""></span>`}
@@ -78,11 +77,11 @@
       return files ? `<div class="oc-act done${l.i === justAdded ? ' oc-new' : ''}" id="up-${l.i}"><div class="row">${tick}<span class="t"><b>Upload successful</b></span>
           <button class="btn outline" type="button" data-up="${l.i}">Change</button></div>${lineOf(l, files)}
           <p class="oc-foot">${paidCheck ? `<b>${paidCheck}</b>` : 'File check'} in progress, proof coming soon</p></div>`
-        : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="n">${++k}</span><span class="t"><b>Upload your design</b></span>
+        : `<div class="oc-act" id="up-${l.i}"><div class="row"><span class="t"><b>Upload your design</b></span>
           <button class="btn primary" type="button" data-up="${l.i}"><img src="assets/pdp/d-upload.svg" alt="">Upload design</button></div>${lineOf(l)}
           <p class="oc-foot">Upload by <b>10:30 on ${etaApprove(l.arrives)}</b> to keep this date</p></div>`; };
     const paid = o.when === 'later' ? o.paid : true;   // paid at checkout (card, Revolut, PayPal…) shows as done too (Cornel 2026-11-10): did it work? yes
-    const payAct = () => toPay ? `<div class="oc-act"><div class="row"><span class="n">${++k}</span>
+    const payAct = () => toPay ? `<div class="oc-act"><div class="row">
           <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by 10:30 on ${etaApprove(first(lines).arrives)} · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
           <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>`
       : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span>${PM[o.paidWith || o.method] ? `<span class="pm-logos">${PM[o.paidWith || o.method]}</span>` : ''}</div></div>` : '';   // the logo of the method it was paid with, on the right (Cornel 2026-11-10)

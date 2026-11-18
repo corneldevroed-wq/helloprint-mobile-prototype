@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Quick Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
+<link rel="stylesheet" href="pages.css?v=20261202r">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- SKETCH FRAME (not linked; Cornel 2026-11-18), loaded by sketches/account-quick-sketch.html as ?q=a|b|c&t=a|b|c: the real Overview (account.html,
+       its data and components) with the quick links (q) and a shorter Needs your attention (t) on top, as sketch code at the end. Only UI guide parts:
+       .hc-card + .hc-ico (the icon card of about us / the Help Centre), .d-menu rows, .oc-act, h2 .link, .dash-card, .dash-row, .badge.neutral.
+       My account, Account Overview (Cornel 2026-11-17): from the wishes artifact (docs/my-account-analysis.md), sketch A2 in
+       sketches/account-sketch.html. Desktop: the account card left, the Overview right; mobile: one column, the account pages last.
+       Prototype data (dates around 17 Nov 2026); the other account pages are anchors for now. -->
+  <main class="account-page">
+    <p class="crumbs"><a href="index.html">Home</a> / My account</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+
+      <div class="account-main">
+        <div><h1>Welcome back, <span data-first></span></h1><p class="oc-lead">Order again in one click, and everything waiting on you.</p></div>
+        <div id="quick"></div>
+
+        <div class="account-two">
+          <section id="todoSec"><h2>Needs your attention</h2><div class="oc-acts" id="todo"></div></section>
+          <section><h2>Order again <a class="link" href="orders.html">All orders</a></h2><div class="dash-card" id="again"></div></section>
+        </div>
+
+        <section><h2>Orders in progress <a class="link" href="orders.html">All orders</a></h2><div class="dash-card" id="orders-now"></div></section>
+
+        <div class="account-two">
+          <section><h2>Invoices <a class="link" href="invoices.html">All invoices</a></h2><div class="dash-card"><div id="invoices"></div>
+            <p class="dash-foot" id="invoicesFoot"></p></div></section>
+          <section><h2>Quotes <a class="link" href="quotes.html">All quotes</a></h2><div class="dash-card"><div id="quotes"></div>
+            <p class="dash-foot">Custom size, big volume or off-catalogue? <a class="link" href="#new2contactform">Request a quote</a></p></div></section>
+        </div>
+
+        <section class="xsell"><h2>Previously viewed</h2><div class="grid" id="viewed"></div></section>
+
+      </div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261202r"></script>
+<script src="account.js?v=20261202r"></script>
+<script src="../design-system/components.js?v=20261202r"></script>
+<script>
+{ // its own scope: no clash with app.js names
+  if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
+  document.querySelector('[data-first]').textContent = deskUser?.first || '';
+  if (NEW_CUSTOMER) { document.querySelector('.account-main h1').firstChild.textContent = 'Welcome, ';   // a new customer: not "back", and what this page is for
+    document.querySelector('.account-main h1 + .oc-lead').textContent = 'Your orders, invoices and quotes, all in one place.'; }
+  // the side card (app.js: who, VIP, the account pages): left on desktop, at the bottom on mobile (the hub)
+  document.querySelector('[data-account-side]').outerHTML = accountSide('account.html');
+
+  // Needs your attention (account.js, the same state as the order pages): pay first, then every product that needs you, then the quote and the complaint.
+  // Pay happens here (the payment link, as order confirmed); a proof or a file opens its order page with that action.
+  function renderTodo() {
+    const todo = [
+      ...ORDERS.filter(o => o.pay && !o.paid && !o.cancelled).map(o => [`Pay ${o.pay.amount}`, `Invoice ${o.pay.invoice} · order #${o.no} · due ${o.pay.due}`, `<a class="btn primary small" href="order.html?o=${o.no}#pay">Go to order</a>`]),   // first the order (what you pay for), then Pay now there (Cornel 11-17)
+      ...ORDERS.filter(o => !o.cancelled).map(o => o.lines.map((l, i) => ({ o, l, i })).filter(({ l }) => l.btns && l.step < 2)).filter(n => n.length)
+        .map(n => { const { o, l, i } = n[0];   // one per order: one product = its action, more = to the order
+          return n.length === 1 ? [l.title, `${l.name} · order #${o.no}`, `<a class="btn primary small" href="${l.proof && l.btns[0] === 'Review proof' ? proofUrl(o, i) : `order.html?o=${o.no}#do-${i}`}">${l.btns[0]}</a>`, l.foot]
+            : [`${n.length} products need you`, `${o.name} · order #${o.no} · ${n.map(x => x.l.name).join(', ')}`, `<a class="btn primary small" href="order.html?o=${o.no}">Go to order</a>`, l.foot]; }),
+      ...quoteList().filter(q => q.state === 'ready').map(q => [`Your quote is ready: ${accEur(q.sum.gross)}`, `Quote ${q.no} · ${q.job}`, `<a class="btn primary small" href="${quoteUrl(q.no)}">View quote</a>`, `Valid until <b>${q.valid}</b>`]),
+      ...complaintList().filter(c => c.state === 'info').map(c => ['Send us a few photos', `Complaint ${c.no} · ${c.issue.toLowerCase()}, order #${c.order}`, `<a class="btn primary small" href="${complaintUrl(c.no)}">Upload photos</a>`]),
+    ];
+    document.getElementById('todo').innerHTML = !todo.length ? `<div class="dash-card"><p class="dash-empty">Nothing needs you right now. When a proof, a file or a payment is waiting, it shows up here.<a class="btn primary small" href="index.html">Start shopping</a></p></div>` : todo.map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row"><span class="n">${i + 1}</span>
+      <span class="t"><b>${t}</b><small>${s}</small></span>${btn}</div>${foot ? `<p class="oc-foot">${foot}</p>` : ''}</div>`).join('');
+    // Orders in progress: the photo (+N), the status, and where each order is
+    const now = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3);
+    document.getElementById('orders-now').innerHTML = !now.length ? `<p class="dash-empty">${ORDERS.length ? 'Nothing on its way right now.' : 'No orders yet. Once you order, you follow every product here: artwork, proof, printing and delivery.'}</p>` : now.map(o => `<a class="dash-row" href="order.html?o=${o.no}">${orderPhoto(o)}
+      <span class="t"><b>${orderTitle(o)}</b><small>${o.sub}</small></span><span class="status ${o.status[0]}">${o.status[1]}</span>${orderTracker(o.step)}</a>`).join('');
+  }
+  renderTodo();
+  window.addEventListener('hp-orders', renderTodo);
+
+  // Order again: the last products, one click to the cart (the same specs and design), change the options on the product page, the proof
+  const iconBtn = (ic, tip, attrs) => `<${attrs.startsWith('href') ? 'a' : 'button type="button"'} class="icon-btn" ${attrs} data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs.startsWith('href') ? 'a' : 'button'}>`;
+  document.getElementById('again').innerHTML = !ORDERS.length ? `<p class="dash-empty">What you order shows up here, to order it again in one click.<a class="btn primary small" href="index.html">Start shopping</a></p>` : [['8842119', 0, 'ordered 9 Nov'], ['8830771', 0, 'ordered 3 Nov'], ['8825510', 0, 'ordered 20 Oct']].map(([no, i, when]) => { const l = orderOf(no).lines[i];
+    return `<div class="dash-row"><span class="img"><img src="assets/${l.img}" alt=""></span><span class="t"><b>${l.name}</b><small>${l.spec} · ${when}</small></span>
+      <span class="acts"><button class="pill active" type="button" data-act="reorder" data-o="${no}" data-l="${i}" aria-label="Reorder ${l.name}">Reorder</button>${iconBtn('edit', 'Change options and reorder', `href="${PRODUCT_PAGES[l.name] || '#'}"`)}${iconBtn('download', 'Download proof', 'data-act="download"')}</span></div>`; }).join('');
+
+  const textRow = href => ([t, s, st, label]) => `<a class="dash-row text" href="${href}"><span class="t"><b>${t}</b><small>${s}</small></span><span class="status ${st}">${label}</span></a>`;
+  // the invoices (account.js), the open ones first; under them what is open across them (the wishes artifact: "€762.70 open across 3 invoices")
+  const renderInvoices = () => { const inv = invoiceList().filter(v => !v.credit).sort((a, b) => (b.open > .005) - (a.open > .005)), open = inv.filter(v => v.open > .005);
+    document.getElementById('invoices').innerHTML = !inv.length ? `<p class="dash-empty">Your invoices show up here after your first order.</p>` : inv.slice(0, 3).map(v => textRow(invoiceUrl(v.no))([`${v.no} · ${accEur(v.total)}`,
+      `Order #${v.o.no} · ${invNote(v)}`, v.status[0], v.status[1]])).join('');
+    document.getElementById('invoicesFoot').innerHTML = open.length ? `<b>${accEur(open.reduce((s, v) => s + v.open, 0))}</b> open across ${open.length} invoice${open.length > 1 ? 's' : ''} · <a class="link" href="invoices.html">View invoices</a>` : 'All your invoices are paid';
+    document.getElementById('invoicesFoot').hidden = !inv.length; };
+  renderInvoices(); window.addEventListener('hp-orders', renderInvoices);
+  // the quotes still going (ready, requested; account.js), as on the Quotes page
+  const renderQuotes = () => { const qs = quoteList().filter(q => ['ready', 'requested'].includes(q.state));
+    document.getElementById('quotes').innerHTML = !qs.length ? `<p class="dash-empty">${NEW_CUSTOMER ? 'No quotes yet.' : 'No quotes waiting right now.'}</p>`
+      : qs.slice(0, 2).map(q => textRow(quoteUrl(q.no))([`${q.no} · ${q.job}`, quoteNote(q), q.status[0], q.status[1]])).join(''); };
+  renderQuotes(); window.addEventListener('hp-orders', renderQuotes);
+
+  // Previously viewed: the product card (as the cart's cross-sell)
+  document.getElementById('viewed').innerHTML = [
+    ['p4.png', 'Classic Business Cards', 500, 18.89, '#classic-business-cards'], ['p3.png', 'Standard Flyers', 1000, 35.99, 'product.html?p=standard-flyers'],
+    ['products/roller-banner.webp', 'Roller Banners', 1, 38.99, 'product.html?p=roller-banners'], ['p8.png', 'Stickers on Roll', 500, 54.59, '#stickers-on-roll'],
+  ].map(([img, n, q, pr, href]) => `<a class="product" href="${href}"><div class="thumb" style="background:var(--light-grey)"><img src="assets/${img}" alt=""></div>
+    <p class="name">${n}</p><div><p class="from">${q} ${q === 1 ? 'piece' : 'pieces'} for</p><p class="prices"><span class="price" data-price="${pr}">${fmt(pr)}</span></p></div></a>`).join('');
+}
+</script>
+<script>
+{ // SKETCH: the variants (q = quick links, t = Needs your attention)
+  const P = new URLSearchParams(location.search), Q = P.get('q') || 'b', T = P.get('t') || 'a';
+  const inv = invoiceList().filter(v => !v.credit && v.open > .005), openEur = accEur(inv.reduce((s, v) => s + v.open, 0));
+  const busy = ORDERS.filter(o => o.step < 4 && !o.cancelled).length, ready = quoteList().filter(q => q.state === 'ready').length;
+  const LINKS = [['orders.html', 'package-2', 'Orders', `${busy} in progress`], ['invoices.html', 'receipt-long', 'Invoices', `${openEur} open`],
+    ['quotes.html', 'request-quote', 'Quotes', `${ready} ready to accept`], ['help-centre.html', 'support-agent', 'Customer Service', 'Chat or the Help Centre']];
+  const ico = n => `<span class="hc-ico"><img src="../design-system/icons/${n}.svg" alt="" style="width:24px;height:24px"></span>`;
+  const quick = document.getElementById('quick');
+  if (Q === 'a') quick.outerHTML = `<div class="qk qk-a">${LINKS.map(([h, i, t]) => `<a class="hc-card" href="${h}">${ico(i)}<span class="hc-card-h">${t}</span></a>`).join('')}</div>`;
+  if (Q === 'b') quick.outerHTML = `<div class="qk qk-b">${LINKS.map(([h, i, t, s]) => `<a class="hc-card" href="${h}">${ico(i)}<span><span class="hc-card-h">${t}</span><small>${s}</small></span></a>`).join('')}</div>`;
+  if (Q === 'c') quick.outerHTML = `<div class="dash-card"><div class="d-menu d-head account-nav qk-c">${LINKS.map(l => dropRow(l).replace(' role="menuitem"', '')).join('')}</div></div>`;
+
+  // Needs your attention: the first 3, the rest behind Show all (a: in the heading, as All orders · b: a row under the blocks · c: a count label + a link under)
+  const sec = document.getElementById('todoSec'), list = document.getElementById('todo'), h2 = sec.querySelector('h2');
+  const limit = () => { const items = [...list.children], n = items.length, open = sec.classList.contains('all'); if (n <= 3) return;
+    items.forEach((el, k) => el.style.display = !open && k >= 3 ? 'none' : '');
+    sec.querySelector('.more')?.remove(); h2.querySelector('.link')?.remove(); h2.querySelector('.badge')?.remove();
+    const label = open ? 'Show less' : `Show all ${n}`;
+    if (T === 'a') h2.insertAdjacentHTML('beforeend', `<a class="link" href="#" data-more>${label}</a>`);
+    if (T === 'b' && !open) list.insertAdjacentHTML('afterend', `<div class="dash-card more"><div class="dash-row text"><span class="t"><b>${n - 3} more things need you</b><small>${items.slice(3).map(el => el.querySelector('.t b').textContent).join(' · ')}</small></span><button class="btn small outline" type="button" data-more>Show all</button></div></div>`);
+    if (T === 'b' && open) list.insertAdjacentHTML('afterend', `<p class="more"><a class="link" href="#" data-more>Show less</a></p>`);
+    if (T === 'c') { h2.firstChild.after(Object.assign(document.createElement('span'), { className: 'badge neutral co-badge', textContent: n })); list.insertAdjacentHTML('afterend', `<p class="more"><a class="link" href="#" data-more>${label}</a></p>`); } };
+  limit(); window.addEventListener('hp-orders', () => setTimeout(limit));
+  sec.addEventListener('click', e => { if (!e.target.closest('[data-more]')) return; e.preventDefault(); sec.classList.toggle('all'); limit(); });
+}
+</script>
+<style>
+  /* SKETCH CSS (would move into the design system once chosen) */
+  .qk { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .desk .qk { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .qk .hc-card { color: inherit; }
+  .qk-a .hc-card { align-items: center; text-align: center; gap: 8px; }
+  .qk-b .hc-card { flex-direction: row; align-items: center; gap: 12px; }
+  .qk-b .hc-card small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  html:not(.desk) .qk-b .hc-card { flex-direction: column; align-items: flex-start; }
+  .desk .qk-c { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  #todoSec h2 .badge { margin: 0 auto 0 8px; position: static; }
+  #todoSec .more { margin-top: 16px; }
+  #todoSec p.more { font-size: var(--t-14); line-height: var(--lh-14); }
+</style>
+</body>
+</html>

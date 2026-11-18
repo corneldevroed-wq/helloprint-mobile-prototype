@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202a">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202a">
-<link rel="stylesheet" href="pages.css?v=20261202a">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
+<link rel="stylesheet" href="pages.css?v=20261202r">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- the uploaded artwork big (app.js), as in the cart -->
-<script src="app.js?v=20261202a"></script>
-<script src="account.js?v=20261202a"></script>
-<script src="upload.js?v=20261202a"></script>
-<script src="../design-system/components.js?v=20261202a"></script>
+<script src="app.js?v=20261202r"></script>
+<script src="account.js?v=20261202r"></script>
+<script src="upload.js?v=20261202r"></script>
+<script src="../design-system/components.js?v=20261202r"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
@@ -57,7 +57,6 @@
     const todo = l => l.btns && l.step < 2 && !o.cancelled;
     const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
     const CROSS = '<span class="n x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span>';   // cancelled (Cornel 11-17)
-    let k = 0;   // the numbers of what needs you, pay first
     const btn = (label, act, i, primary) => act === 'proof' || act === 'complaint' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${act === 'proof' ? proofUrl(o, i) : complaintUrl(o.complaint)}">${label}</a>`   // the proof and the complaint are pages
       : `<button class="btn small ${primary ? 'primary' : 'outline'}" type="button" data-act="${act}" data-o="${o.no}"${i === undefined ? '' : ` data-l="${i}"`}>${label}</button>`;
     const btns = (l, i) => o.cancelled ? '' : l.btns ? `<span class="btns">${l.btns.map((b, n) => btn(b, ACT[b], i, n === 0 && todo(l))).join('')}</span>`
@@ -68,13 +67,13 @@
       : `<span class="img" style="background:var(--light-grey)"><img src="assets/${l.img}" alt=""></span>`;
     const eta = l => l.step === 4 ? `<b>Delivered</b><p>${etaLong(etaDate(l.arrives))}</p>` : etaHtml(l.arrives, '', 'Standard');
     // cancelled: no progress bar (Cornel 11-17)
-    const line = (l, i) => `<div class="oc-act${todo(l) ? '' : ' done'}" id="line-${i}"><div class="row">${o.cancelled ? CROSS : todo(l) ? `<span class="n">${++k}</span>` : TICK}
+    const line = (l, i) => `<div class="oc-act${todo(l) ? '' : ' done'}" id="line-${i}"><div class="row">${o.cancelled ? CROSS : todo(l) ? '' : TICK}
         <span class="t"><b>${o.cancelled ? 'Cancelled' : l.title}</b><small>${o.cancelled ? 'Stopped before printing' : l.text}</small></span>${btns(l, i)}</div>
       <div class="line-item cart-line">${photo(l, i)}<div class="t"><strong>${l.name}</strong><small>${l.spec}</small>
         <details class="spec-fold"><summary class="link">All specifications</summary><div class="spec-fold-rows">${specRows(l).map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('')}</div></details></div><span class="p">${eur(l.price)}</span><div class="eta">${eta(l)}</div></div>
       ${o.cancelled ? '' : orderTracker(l.step, l.err)}${l.foot && !o.cancelled ? `<p class="oc-foot">${l.foot}</p>` : ''}</div>`;
     const pay = !o.pay ? '' : o.paid ? `<div class="oc-act done" id="line-pay"><div class="row">${TICK}<span class="t"><b>Payment received</b><small>${o.pay.amount} · invoice ${o.pay.invoice} · thank you</small></span></div></div>`
-      : `<div class="oc-act" id="line-pay"><div class="row"><span class="n">${++k}</span><span class="t"><b>Pay ${o.pay.amount}</b><small>Invoice ${o.pay.invoice} · due ${o.pay.due} · we also emailed you the link</small></span><span class="btns">${btn('Pay now', 'pay', undefined, true)}</span></div></div>`;
+      : `<div class="oc-act" id="line-pay"><div class="row"><span class="t"><b>Pay ${o.pay.amount}</b><small>Invoice ${o.pay.invoice} · due ${o.pay.due} · we also emailed you the link</small></span><span class="btns">${btn('Pay now', 'pay', undefined, true)}</span></div></div>`;
 
     // the totals as an invoice (as the checkout): products, the check, shipping, subtotal excl. VAT, VAT 23%, total incl. VAT
     const totals = orderTotals(o);
@@ -105,7 +104,7 @@
     const side = `<div class="od-side"><div class="dash-card"><h2>Order overview</h2>${totals}<div class="dash-foot od-inv">${inv}</div></div>
       <div class="dash-card"><h2>Need something?</h2><div class="d-menu d-head account-nav">${need}</div></div></div>`;
 
-    document.getElementById('order').innerHTML = `<div class="od-head"><h1>Order #${o.no}</h1><p class="oc-lead">${o.cancelled ? '<span class="status">Cancelled</span> · ' : ''}${o.name}${o.lines.length > 1 ? ` · ${o.lines.length} products` : ''} · placed ${o.placed}${o.ref ? ` · your reference <b>${esc(o.ref)}</b>` : ''} · <button class="link" type="button" data-act="ref" data-o="${o.no}">${o.ref ? 'Change' : 'Add your reference'}</button></p></div>
+    document.getElementById('order').innerHTML = `<div class="od-head"><h1>Order #${o.no}</h1><p class="oc-lead">${o.cancelled ? '<span class="status">Cancelled</span> · ' : ''}${o.name}${o.lines.length > 1 ? ` · ${o.lines.length} products` : ''}${openTasks(o) ? ` · <b>${openTasks(o)} thing${openTasks(o) > 1 ? 's' : ''} to do</b>` : ''} · placed ${o.placed}${o.ref ? ` · your reference <b>${esc(o.ref)}</b>` : ''} · <button class="link" type="button" data-act="ref" data-o="${o.no}">${o.ref ? 'Change' : 'Add your reference'}</button></p></div>
       <div class="od-grid"><div class="od-lines">${pay}${o.lines.map(line).join('')}${details}</div>${side}</div>`;
     // the block that just changed (approved, a new file, paid) lights up once, as on order confirmed, and comes into view
     let flash = null; try { flash = sessionStorage.getItem('hp-flash'); } catch (e) {}

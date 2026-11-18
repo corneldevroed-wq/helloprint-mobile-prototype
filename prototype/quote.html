@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202a">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202a">
-<link rel="stylesheet" href="pages.css?v=20261202a">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
+<link rel="stylesheet" href="pages.css?v=20261202r">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -28,9 +28,9 @@
   </main>
   <footer data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261202a"></script>
-<script src="account.js?v=20261202a"></script>
-<script src="../design-system/components.js?v=20261202a"></script>
+<script src="app.js?v=20261202r"></script>
+<script src="account.js?v=20261202r"></script>
+<script src="../design-system/components.js?v=20261202r"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -51,7 +51,7 @@
     const steps = ['Requested', 'Quote ready', s === 'expired' ? 'Expired' : s === 'declined' ? 'Declined' : 'Accepted'], at = { requested: 0, ready: 1, accepted: 3, expired: 2, declined: 2 }[s];
     const tracker = `<ol class="tracker">${steps.map((t, k) => `<li class="${k < at ? 'done' : k === at ? (['expired', 'declined'].includes(s) ? 'err' : 'now') : ''}">${t}</li>`).join('')}</ol>`;
     const head = {
-      ready: [`<span class="n">1</span>`, `Your quote is ready: ${q.priced ? e(q.sum.gross) : ''}`, `Valid until ${q.valid}. Accept it to turn it into an order.`,
+      ready: ['', `Your quote is ready: ${q.priced ? e(q.sum.gross) : ''}`, `Valid until ${q.valid}. Accept it to turn it into an order.`,
         `<span class="btns"><button class="btn small outline" type="button" data-act="quote-decline" data-q="${q.no}">Decline</button><button class="btn small primary" type="button" data-act="quote-accept" data-q="${q.no}">Accept quote</button></span>`],
       requested: [TICK, 'Quote requested', 'Bespoke jobs take a little longer: we email you as soon as your quote is ready.', ''],
       accepted: [TICK, q.order ? `Accepted: it became order #${q.order}` : 'Quote accepted', q.order ? `Accepted ${q.accepted} · now ${o ? o.status[1].toLowerCase() : 'an order'}` : 'Thanks! We turn it into an order and email you the confirmation shortly.',
