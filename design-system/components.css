@@ -180,7 +180,7 @@ small .link { font-size: inherit; line-height: inherit; }   /* a link takes the 
 .cart-usps { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .cart-usps li { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); line-height: var(--lh-14); }
 .cart-usps img { width: 20px; height: 20px; }
-.desk .cart-main .continue-shopping, .cart-empty .btn { padding: 0 24px; }   /* a button as wide as its text */
+.desk .cart-main .continue-shopping, .cart-empty .btn, .desk .rp-foot .btn { padding: 0 24px; }   /* a button as wide as its text */
 .desk .cart-main .continue-shopping { align-self: flex-start; }
 .cart-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 0; text-align: center; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .cart-empty .ico { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 8px; border-radius: 50%; background: var(--light-grey); }

@@ -181,6 +181,8 @@ const REPORT_AREAS = {
     { t: 'Part of my order is missing', item: true, evidence: ['A photo of what you did receive', 'A photo of the shipping label'], sol: ['resend', 'refund'] },
     { t: 'Delivered to the wrong address', item: false, evidence: ['A screenshot of the delivery confirmation', 'A photo of where it was left, if visible'], sol: ['resend', 'refund'] }],
 };
+// the shipping label is always asked (Cornel 2026-11-18: it tells us the parcel), last; not when the order never arrived (there is no label)
+Object.values(REPORT_AREAS).flat().forEach(p => { const l = 'A photo of the shipping label'; if (p.t !== 'Order never arrived') p.evidence = [...p.evidence.filter(t => t !== l), l]; });
 const REPORT_FIXES = {
   reprint: { t: 'Reprint it free of charge', s: 'Reprinted and reshipped at no cost.', reprint: true },
   resend: { t: 'Resend the missing items free of charge', s: 'Missing items reshipped at no cost.', reprint: true },
