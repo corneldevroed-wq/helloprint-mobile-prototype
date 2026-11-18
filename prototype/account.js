@@ -65,6 +65,10 @@ const bookLines = a => [`${a.first || ''} ${a.last || ''}`.trim(), a.company, a.
 const bookToOrder = (a, prev) => ({ name: `${a.first || ''} ${a.last || ''}`.trim(), company: a.company, street: [a.address1, a.address2].filter(Boolean).join(', '), code: a.eircode, town: a.town, vat: prev.vat });
 const addrLines = a => [[a.name, a.company].filter(Boolean).join(', '), a.vat && 'VAT ' + a.vat, a.street, `${a.town}, ${a.code}`, 'Ireland'].filter(Boolean);
 // Money as the wishes artifact counts it: every row has its price incl. VAT (gross); net and VAT per row (vatSplit), the totals add up the rows
+// the grey tick in front of a done block (order, invoice, quote, complaint)
+const DONE_TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
+// the team line (three faces, a sentence, Start chat): one helper for every account page (audit 11-18)
+const teamLine = (t = 'Any questions? Our team is ready to help.') => `<div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>${t} <a href="#chat">Start chat</a></span></div>`;
 const accEur = n => (n < 0 ? '−€' : '€') + Math.abs(n).toFixed(2);
 const r2 = n => Math.round(n * 100) / 100;
 const vatSplit = g => { const net = r2(g / (1 + VAT_RATE)); return { net, vat: r2(g - net), gross: g }; };
@@ -108,7 +112,7 @@ function invoiceList() {
   return all.map(v => {
     if (v.credit) { const o = orderOf(INVOICES.find(i => i.no === v.credit).order), sum = sumRows(v.lines), used = r2((v.apps || []).reduce((s, a) => s + a.amt, 0));
       const state = v.refund ? 'Refunded' : used >= -sum.gross - .005 ? 'Applied' : 'Available';
-      return { ...v, o, rows: v.lines, sum, total: sum.gross, state, status: [state === 'Applied' ? '' : 'ok', state] }; }
+      return { ...v, o, rows: v.lines, sum, total: sum.gross, state, status: ['', state] }; }   // a credit note: a grey dot (green is only for paid, guide Status; audit 11-18)
     const o = orderOf(v.order), rows = orderRows(o), sum = sumRows(rows), credits = applied(v.no), cr = r2(credits.reduce((s, c) => s + c.amt, 0));
     const before = r2(sum.gross - cr - (v.pays ? sum.gross - cr : 0));   // still to pay before you paid here
     const pays = [...(v.pays || []).map(p => ({ ...p, amt: r2(sum.gross - cr) })), ...(o.paid && before > 0 ? [{ date: 'Tue 17 Nov', method: 'Card · Visa •••• 4242', amt: before }] : [])];
@@ -135,7 +139,7 @@ const QUOTES = [
 ];
 let quotesDone = {};
 try { quotesDone = JSON.parse(localStorage.getItem('hp-quotes')) || {}; } catch (e) {}
-const QUOTE_STATES = { requested: ['go', 'Requested'], ready: ['act', 'Quote ready'], accepted: ['ok', 'Accepted'], expired: ['', 'Expired'], declined: ['', 'Declined'] };
+const QUOTE_STATES = { requested: ['go', 'Requested'], ready: ['act', 'Quote ready'], accepted: ['', 'Accepted'], expired: ['', 'Expired'], declined: ['', 'Declined'] };
 function quoteList() {
   if (NEW_CUSTOMER) return [];
   return QUOTES.map(q => { const d = quotesDone[q.no], v = { ...q, state: d || q.state };
@@ -166,7 +170,7 @@ const COMPLAINTS = [
 ];
 let complaintsDone = {};
 try { complaintsDone = JSON.parse(localStorage.getItem('hp-complaints')) || {}; } catch (e) {}
-const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['ok', 'Resolved'] };
+const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['', 'Resolved'] };
 // the case's progress bar: Submitted · In review · Solution · Resolved, and where it is
 const COMPLAINT_STEPS = ['Submitted', 'In review', 'Solution', 'Resolved'];
 // Report a problem (report.html; the wishes artifact's form 1:1): per area what can go wrong, whether it is about the products (how many), the photos we
@@ -377,7 +381,7 @@ document.addEventListener('click', e => {
   if (act === 'cancel-yes') { const r = document.getElementById('cancelReason').value; if (!r) return;
     closeSheet(); orderSave(o.no, d => { d.cancelled = true; d.cancelReason = r; });   // no thank-you: the same popup, calm, with our team (Cornel 11-17)
     setTimeout(() => allDonePopup(`<h2 id="yayTitle">Your order is cancelled</h2><p>Sorry to see order #${o.no} go. We stopped it before printing, so you pay nothing.</p>
-      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
+      ${teamLine()}
       <button class="btn primary" type="button" data-close-sheet>Close</button>`, true), 400); }
   if (act === 'addr' || act === 'book-pick') {   // Change: the address book (the checkout's sheet), the order's address chosen; tap = choose, the button confirms
     if (act === 'addr') { accCur.kind = b.dataset.kind; accCur.pick = null; }
@@ -385,7 +389,7 @@ document.addEventListener('click', e => {
     const k = accCur.kind, cur = o[k], esc = t => String(t || '').replace(/</g, '&lt;');
     const on = a => accCur.pick ? a.id === accCur.pick : a.address1 === cur.street.split(', ')[0] && a.eircode === cur.code;
     document.getElementById('bookTitle').textContent = k === 'ship' ? 'Your shipping addresses' : 'Your billing address';
-    document.getElementById('bookBody').innerHTML = bookOf().map(a => `<li class="${on(a) ? 'on' : ''}" aria-checked="${on(a)}"><button type="button" class="ap-pick" data-act="book-pick" data-pick="${a.id}"><span class="radio" aria-hidden="true"></span>
+    document.getElementById('bookBody').innerHTML = bookOf().map(a => `<li class="${on(a) ? 'on' : ''}"><button type="button" class="ap-pick" aria-pressed="${on(a)}" data-act="book-pick" data-pick="${a.id}"><span class="radio" aria-hidden="true"></span>
         <span class="t"><b>${esc(a.label)}</b>${bookLines(a).map(l => `<span>${esc(l)}</span>`).join('')}${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</span></button></li>`).join('')
       + '<li class="ap-add"><button type="button" class="ap-pick" data-act="addr-new"><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li>';
     if (act === 'addr') openSheet('book'); }

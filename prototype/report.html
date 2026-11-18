@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=photo_camera,send,upload,videocam&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
-<link rel="stylesheet" href="pages.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205i">
+<link rel="stylesheet" href="pages.css?v=20261205i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -20,16 +20,16 @@
        the wishes artifact's form, each question showing once the one before is answered: which order (the 10-day window), which products, the area, what
        happened, how many (only for problems with the products), a sentence, the photos asked per problem, what we should do, the need-by date with the
        reprint check. Send creates the case (CMP-1043…) and opens it. Back: to the order you came from, or Complaints. Data: account.js (REPORT_AREAS). -->
-  <main class="account-page account-sub report-page">
+  <main class="account-page account-sub">
     <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="complaints.html">Complaints</a> / Report a problem</p>
     <div class="report-main" id="report"></div>
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205d"></script>
-<script src="account.js?v=20261205d"></script>
-<script src="upload.js?v=20261205d"></script>
-<script src="../design-system/components.js?v=20261205d"></script>
+<script src="app.js?v=20261205i"></script>
+<script src="account.js?v=20261205i"></script>
+<script src="upload.js?v=20261205i"></script>
+<script src="../design-system/components.js?v=20261205i"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -49,18 +49,18 @@
     const q = (h, body, hint = '') => `<section class="rp-q"><h2>${h}</h2>${hint ? `<p>${hint}</p>` : ''}${body}</section>`;
     const parts = [];
     parts.push(q('Which order?', `<label class="field"><select data-k="order" aria-label="Which order"><option value="">Choose one of your orders</option>${orders.map(x => `<option value="${x.no}"${x.no === st.order ? ' selected' : ''}>#${x.no} · ${esc(x.name)} · ${x.step === 4 ? `delivered ${x.lines[0].arrives}` : `arriving ${x.lines[0].arrives}`}</option>`).join('')}</select></label>
-      ${!o ? '' : closed ? `<p class="oc-foot rp-band"><b>This order was delivered more than 10 days ago</b> (${o.lines[0].arrives}), so it can’t be reported through this form. Our team can still look at it with you. <a class="link" href="#chat">Chat with an agent</a></p>`
+      ${!o ? '' : closed ? `<div class="oc-foot rp-band"><b>This order was delivered more than 10 days ago</b> (${o.lines[0].arrives}), so it can’t be reported through this form. Our team can still look at it with you. <a class="link" href="#chat">Chat with an agent</a></div>`
         : `<div class="oc-foot rp-band">You can report a problem until <b>${delivered ? day(until) : '10 days after delivery'}</b>${delivered ? '' : ` (expected ${o.lines[0].arrives})`}<br>Add the photos we ask for and we solve it fastest.</div>
         <details class="spec-fold"><summary class="link">Why 10 days?</summary><table class="fold-table"><tbody><tr><td>Within 10 days</td><td>the printer or the carrier still accept a claim, so we solve it fast and in full</td></tr><tr><td>After 10 days</td><td>no longer through this form, but our team can still look at it with you in chat</td></tr></tbody></table></details>`}`));
     if (!o || closed) return finish(parts);
     if (o.lines.length > 1) parts.push(q('Which products?', `<div class="rp-checks">${o.lines.map((l, i) => `<label class="check"><input type="checkbox" data-p="${i}"${st.products.includes(i) ? ' checked' : ''}>${esc(l.name)} · ${l.spec.split(' · ')[0]}</label>`).join('')}</div>`));
     if (o.lines.length > 1 && !st.products.length) return finish(parts);
-    parts.push(q('What is the problem about?', `<div class="rp-pills">${Object.keys(REPORT_AREAS).map(a => `<button class="pill${a === st.area ? ' active' : ''}" type="button" data-area="${a}">${a}</button>`).join('')}</div>
+    parts.push(q('What is the problem about?', `<div class="rp-pills">${Object.keys(REPORT_AREAS).map(a => `<button class="pill${a === st.area ? ' active' : ''}" type="button" aria-pressed="${a === st.area}" data-area="${a}">${a}</button>`).join('')}</div>
       <details class="spec-fold"><summary class="link">Not sure which one to pick?</summary><table class="fold-table"><tbody><tr><td>Artwork / design</td><td>the file itself, or how it printed vs. your design</td></tr><tr><td>Product / print quality</td><td>the physical result: colour, cut or finish</td></tr><tr><td>Packaging</td><td>damaged or wrong packaging</td></tr><tr><td>Delivery</td><td>late, missing, or the wrong address</td></tr></tbody></table></details>`));
     if (!st.area) return finish(parts);
     parts.push(q('What exactly happened?', `<label class="field"><select data-k="prob" aria-label="What happened"><option value="">Choose what happened</option>${REPORT_AREAS[st.area].map((p, i) => `<option value="${i}"${String(i) === String(st.prob) ? ' selected' : ''}>${p.t}</option>`).join('')}</select></label>`));
     if (!prob) return finish(parts);
-    if (prob.item) parts.push(q('How many are affected?', `<div class="rp-pills">${[['all', 'All of them'], ['most', 'Most of them'], ['few', 'A handful']].map(([k, t]) => `<button class="pill${k === st.qty ? ' active' : ''}" type="button" data-qty="${k}">${t}</button>`).join('')}</div>
+    if (prob.item) parts.push(q('How many are affected?', `<div class="rp-pills">${[['all', 'All of them'], ['most', 'Most of them'], ['few', 'A handful']].map(([k, t]) => `<button class="pill${k === st.qty ? ' active' : ''}" type="button" aria-pressed="${k === st.qty}" data-qty="${k}">${t}</button>`).join('')}</div>
       <label class="field"><input type="number" min="1" placeholder=" " data-k="exact" value="${st.exact || ''}" aria-label="The exact number"><span class="fl">The exact number, if you know it</span></label>`));
     if (prob.item && !st.qty) return finish(parts);
     parts.push(q('Tell us a bit more', `<label class="field"><textarea placeholder=" " data-k="more" maxlength="600" aria-label="Tell us a bit more">${esc(st.more)}</textarea><span class="fl">A sentence or two helps us fix it faster (optional)</span></label>`));
@@ -68,12 +68,12 @@
         return `<div class="dash-row text"><span class="t"><b>${ms(vid ? 'videocam' : 'photo_camera')}${t}</b><small>${f ? `<span class="ok">✓ ${esc(f)}</span>` : 'Not added yet'}</small></span><button class="btn small ${f ? 'outline' : 'primary'}" type="button" data-ev="${i}">${f ? 'Change' : `${ms('upload')}Upload`}</button></div>`; }).join('')}</div>`,
       'Exactly what we need to sort it in one go. JPG, PNG or MP4, up to 10 MB each.'));
     if (prob.evidence.some((_, i) => !st.ev[i])) return finish(parts);
-    parts.push(q('What would you like us to do?', `<ul class="addr-list">${prob.sol.map(k => `<li class="${k === st.fix ? 'on' : ''}" aria-checked="${k === st.fix}"><button type="button" class="ap-pick" data-fix="${k}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${REPORT_FIXES[k].t}</b><span>${REPORT_FIXES[k].s}</span></span></button></li>`).join('')}</ul>`));
+    parts.push(q('What would you like us to do?', `<ul class="addr-list">${prob.sol.map(k => `<li class="${k === st.fix ? 'on' : ''}"><button type="button" class="ap-pick" aria-pressed="${k === st.fix}" data-fix="${k}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${REPORT_FIXES[k].t}</b><span>${REPORT_FIXES[k].s}</span></span></button></li>`).join('')}</ul>`));
     if (!fix) return finish(parts);
     if (fix.reprint) { const earliest = addWorkDays(TODAY, 4), need = st.need && new Date(st.need + 'T23:00:00');
       parts.push(q('When do you need it by, at the latest?', `<label class="field rp-date"><input type="date" data-k="need" min="2026-11-19" value="${st.need}" placeholder=" " aria-label="Need it by"><span class="fl">Need it by</span></label>
-        ${!need ? '' : need >= earliest ? `<p class="oc-foot rp-band rp-ok"><b>Good news: a reprint can still make it.</b> The earliest we can reprint and deliver is <b>${day(earliest)}</b>, you need it by <b>${day(need)}</b>. Send it and we get it moving straight away.</p>`
-          : `<p class="oc-foot rp-band"><b>A standard reprint won’t arrive in time.</b> The earliest we can deliver is <b>${day(earliest)}</b>, you need it by <b>${day(need)}</b>. Let’s find the fastest way together. <a class="link" href="#chat">Chat with Anna about faster options</a></p>`}`,
+        ${!need ? '' : need >= earliest ? `<div class="oc-foot rp-band rp-ok"><b>Good news: a reprint can still make it.</b> The earliest we can reprint and deliver is <b>${day(earliest)}</b>, you need it by <b>${day(need)}</b>. Send it and we get it moving straight away.</div>`
+          : `<div class="oc-foot rp-band"><b>A standard reprint won’t arrive in time.</b> The earliest we can deliver is <b>${day(earliest)}</b>, you need it by <b>${day(need)}</b>. Let’s find the fastest way together. <a class="link" href="#chat">Chat with Anna about faster options</a></div>`}`,
         'We check it against the print calendar straight away.'));
       if (!need) return finish(parts); }
     finish(parts, true);
@@ -81,7 +81,7 @@
   function finish(parts, ready) {
     document.getElementById('report').innerHTML = `<a class="ha-back" href="${back[0]}">${back[1]}</a><div><h1>Report a problem</h1><p class="oc-lead">Tell us what went wrong and we make it right. Your case shows up in Complaints.</p></div>
       <div class="dash-card"><div class="rp">${parts.join('')}${ready ? `<div class="rp-foot"><small>Prefer to talk it through? <a class="link" href="#chat">Chat with Anna</a></small><button class="btn primary" type="button" data-send>${ms('send')}Send to our team</button></div>` : ''}</div></div>
-      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Not sure what to choose? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
+      ${teamLine('Not sure what to choose? Our team is ready to help.')}`;
   }
   // answers: a choice draws the next question; typing only keeps the text
   const box = document.getElementById('report');

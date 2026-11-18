@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,chevron_left,chevron_right,download,open_in_new,remove&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
-<link rel="stylesheet" href="pages.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205i">
+<link rel="stylesheet" href="pages.css?v=20261205i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer class="footer" data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>
-<script src="app.js?v=20261205d"></script>
-<script src="account.js?v=20261205d"></script>
-<script src="upload.js?v=20261205d"></script>
-<script src="../design-system/components.js?v=20261205d"></script>
+<script src="app.js?v=20261205i"></script>
+<script src="account.js?v=20261205i"></script>
+<script src="upload.js?v=20261205i"></script>
+<script src="../design-system/components.js?v=20261205i"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the login page brings you back here (from a reminder email)
@@ -43,7 +43,6 @@
   const order = `order.html?o=${o.no}`, PDF = `assets/proofs/${l.proof || 'business-cards'}.pdf`, waiting = l.step === 1 && l.btns && !o.cancelled;
   document.title = `Your proof · ${l.name}`;
   Object.assign(document.getElementById('crumbOrder'), { href: order, textContent: `Order #${o.no}` });
-  const ib = (ic, tip, attrs = '') => `<${attrs ? 'a' : 'button type="button"'} class="icon-btn" ${attrs} data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs ? 'a' : 'button'}>`;
   const check = PROOFS[l.proof] || PROOFS['business-cards'];
   const pb = (ic, tip, attrs = '') => `<${attrs ? 'a' : 'button type="button"'} class="pdf-btn" ${attrs} title="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs ? 'a' : 'button'}>`;   // the browser's PDF viewer: a white icon, no circle
   const NOTE = `<button class="link" type="button" data-act="note" data-o="${o.no}" data-l="${li}">Leave a note for our team</button>`;
@@ -64,14 +63,14 @@
       <div class="stage" id="pdfStage"><canvas id="pdfCanvas" aria-label="Your proof, page 1"></canvas></div></div>
     <div class="dash-card file-check"><ul aria-label="What we did with your file">${check.map(([st, t, s]) => `<li>${st === 'ok' ? '<img src="assets/pdp/check.svg" alt="">' : '<span class="dot" aria-hidden="true"></span>'}<b>${t}</b><small>${s}</small></li>`).join('')}</ul></div>
     ${waiting ? `<div class="proof-acts" id="proofActs">${ACTS}</div>` : ''}
-    <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Not sure? Our team checks it with you. <a href="#chat">Start chat</a></span></div>`;
+    ${teamLine('Not sure? Our team checks it with you.')}`;
 
   // Approve, Upload new design and Leave a note fixed at the bottom while the ones in the page are out of view, as the PDP's bars:
   // desktop the white bar (the product, the deadline), mobile the sticky bar with the note as its link row
   if (waiting) {
     const btns = `<button class="btn outline" type="button" data-proof="upload">Upload new design</button><button class="btn primary" type="button" data-proof="approve">Approve proof</button>`;
     document.body.insertAdjacentHTML('beforeend', DESK
-      ? `<div class="d-bar" id="proofBar" aria-hidden="true"><div class="dwrap"><span class="d-bar-prod"><span class="thumb" style="background:var(--light-grey)"><img src="assets/proofs/${l.proof || 'business-cards'}.png" alt=""></span><span class="t"><b>${l.name}</b><span class="d-bar-sub">${l.foot ? l.foot.replace(/ to keep.*/, '') : 'Your proof is ready'}</span></span></span>${NOTE}<span class="bar-btns">${btns}</span></div></div>`
+      ? `<div class="d-bar" id="proofBar" aria-hidden="true"><div class="dwrap"><span class="d-bar-prod"><span class="thumb"><img src="assets/proofs/${l.proof || 'business-cards'}.png" alt=""></span><span class="t"><b>${l.name}</b><span class="d-bar-sub">${l.foot ? l.foot.replace(/ to keep.*/, '') : 'Your proof is ready'}</span></span></span>${NOTE}<span class="bar-btns">${btns}</span></div></div>`
       : `<div class="buy-bar" id="proofBar" aria-hidden="true"><div class="sheet-bar"><div class="bar-btns">${btns}</div></div><p class="bar-link">${NOTE}</p></div>`);
     const bar = document.getElementById('proofBar'), acts = document.getElementById('proofActs');
     const toggle = show => { bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', String(!show)); };

@@ -403,8 +403,6 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.done { border-top-color: var(--light-green); color: var(--link); }
 .co-head { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
 .co-head h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
-.co-row { display: flex; gap: 8px; }
-.co-row > * { flex: 1; min-width: 0; }
 .phone-prefix { flex: 0 0 auto; }
 .phone-prefix select { width: 112px; padding-left: 36px; padding-right: 28px; background: var(--light-grey) url(../design-system/icons/chevron-down.svg) no-repeat right 8px center / 20px 16px; }
 .phone-prefix .flag { position: absolute; left: 12px; top: 16.5px; width: 16px; height: 10.67px; border-radius: var(--r-s); object-fit: cover; pointer-events: none; }
@@ -444,7 +442,6 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.done a::before { content: ''; width: 14px; height: 14px; background: url(assets/pdp/check.svg) no-repeat center / 14px; }
 
 /* Errors inside the field column, right under the input; side-by-side fields stay top-aligned */
-.co-row { align-items: flex-start; }
 .phone-prefix select { height: 52px; }
 .phone-prefix + .field, .co-row > .field { min-width: 0; }
 
@@ -691,7 +688,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 .oc-for small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .oc-for b { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .oc-for > span:last-child { min-width: 0; }   /* lets the name shrink, so a long name ends in … next to the button */
-.oc-files { display: flex; flex-direction: column; gap: 8px; margin: 0 -16px -16px; padding: 12px 16px 16px; border-radius: 0 0 9px 9px; background: var(--light-grey); }   /* the product card: the files that went to it, on a light grey band attached to the bottom (as the payment logos) */
+.oc-files { display: flex; flex-direction: column; gap: 8px; margin: 0 -16px -16px; padding: 12px 16px 16px; border-radius: 0 0 calc(var(--r-l) - 1px) calc(var(--r-l) - 1px); background: var(--light-grey); }   /* the product card: the files that went to it, on a light grey band attached to the bottom (as the payment logos) */
 .oc-files .up-file { background: var(--white); }
 .oc-files > b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .oc-files .up-file { width: 100%; text-align: left; }   /* a row opens the artwork popup (as the cart) */
@@ -1138,7 +1135,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-tpl img { width: 24px; height: 24px; }
 /* Other products: the product tile, as a card (Figma 15927:11084) */
 .d-others { display: flex; flex-wrap: wrap; gap: 16px; }
-.d-card { width: 244px; gap: 8px; border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+.d-card { width: 244px; gap: 8px; border: 1px solid var(--outline); border-radius: var(--r-l); overflow: hidden; }
 .d-card .thumb { width: 100%; aspect-ratio: 1; border-radius: var(--r-l) var(--r-l) 0 0; }
 .d-card .badge { left: 16px; top: 16px; padding: 4px 8px; font-size: var(--t-12); }
 .d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
@@ -1180,7 +1177,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-bar.show { transform: none; }
 .d-bar .dwrap { height: 76px; display: flex; align-items: center; gap: 24px; }
 .d-bar-prod { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; text-align: left; }
-.d-bar-prod .thumb { width: 52px; height: 52px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; }
+.d-bar-prod .thumb { width: 52px; height: 52px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
 .d-bar-prod .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .d-bar-prod .t { min-width: 0; display: flex; flex-direction: column; }
 .d-bar-prod b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
@@ -1747,7 +1744,7 @@ html:not(.desk) .plp .d-rev-note { font-size: var(--t-12); line-height: var(--lh
 .hc-center .lead, .hc-team p, .hc-contact p, .ht-lead { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .desk .hc-team p, .desk .hc-contact p, .desk .ht-lead { font-size: var(--t-14); line-height: var(--lh-14); }
 /* grey block with the card outline: T head, team strip, (hidden) contact block */
-.hc-team, .hc-contact, .hc-hero { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); }
+.hc-team, .hc-contact, .hc-hero { border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--light-grey); }
 /* overlapping avatars (experts online + contact block) */
 .help-page .faces, .art-team .faces { display: flex; flex-shrink: 0; }
 .help-page .faces img, .art-team .faces img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--white); background: var(--light-green); }   /* team cut-outs on light green, as the team strip */
@@ -1913,7 +1910,7 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .hc-mine-out { display: flex; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* signed out, "my" questions only */
 .hc-mine-out .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-green); }
 /* "Was this article helpful?" on a white outlined block (Cornel, 2026-10-29), two round thumb buttons */
-.ha-helpful { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.ha-helpful { border: 1px solid var(--outline); border-radius: var(--r-l); background: var(--white); display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 16px 24px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .ha-helpful .btns { display: flex; gap: 8px; }
 .ha-helpful .pill { justify-content: center; width: 40px; height: 40px; padding: 0; }
 .ha-helpful .material-symbols-rounded { font-size: var(--t-20); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
@@ -2046,6 +2043,7 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .desk .account-two.feature { padding: 24px; }
 .account-two.feature .oc-act { background: var(--white); }   /* the to-do blocks white on the grey, as the cards next to them */
 .account-page h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* the section title (24/32 desktop, components.css), its arrow link right, 8 to its block */
+.account-page .oc-sec > h2 { margin-bottom: 0; }   /* in a section the gap already makes the 8 (it was 16 on the sub pages; audit 11-18) */
 .desk .account-two .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */
 .desk .account-two .dash-row .acts { grid-column: 2; }
 .account-page .xsell .grid { margin-top: 0; }
@@ -2062,10 +2060,13 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .desk .od-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; align-items: start; }
 .od-lines, .od-side { display: flex; flex-direction: column; gap: 16px; }
 .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
+/* mobile (Cornel 2026-11-18): the team line and the questions last, after the side cards (totals, payments, Related, Need something?), not in between */
+html:not(.desk) .od-grid { gap: 16px; }
+html:not(.desk) .od-lines { display: contents; }
+html:not(.desk) .od-lines > .oc-team, html:not(.desk) .od-lines > .oc-sec:has(> .hc-rows) { order: 1; }
 .od-inv { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }   /* the invoice row, under it the small Download button */
 .od-inv .dash-row { align-self: stretch; padding: 0; }
 .inv-lines { display: flex; flex-direction: column; gap: 16px; }   /* a complaint's order contents: the products, then the totals 16 below (All specifications was glued to the line; Cornel 2026-11-18) */
-.desk .list-rows, html:not(.desk) .list-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
 .report-main { display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 720px; margin: 0 auto; }   /* Report a problem: a page of its own, no account card, one centred column (Cornel 2026-11-18) */
 .desk .report-main { gap: 32px; }
 .report-main > .ha-back { margin-bottom: -8px; align-self: flex-start; }
@@ -2085,9 +2086,7 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .rp-date { max-width: 240px; }
 .rp-foot { display: flex; flex-direction: column-reverse; align-items: stretch; gap: 16px; }
 .desk .rp-foot { flex-direction: row; align-items: center; justify-content: space-between; }
-.rp-foot small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .ask-card { display: flex; flex-direction: column; gap: 8px; }   /* a quote's Ask us a question: the field, the line about replies and files, the buttons right */
-.ask-card > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .ask-card .btns { display: flex; justify-content: flex-end; gap: 8px; }
 
 /* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====
@@ -2095,7 +2094,7 @@ html:not(.desk) .account-sub .account-side { display: none; }
    the buttons stay close. Approve / Upload new design fixed at the bottom (desktop the PDP's .d-bar, mobile the sticky .cart-bar). */
 .proof-band { margin: 0; border-radius: var(--r-m); }
 .proof-tabs { position: static; padding: 0; }   /* more proofs in one order: the section tabs, in the page */
-.proof-tabs a { display: grid; gap: 2px; padding: 8px 16px 8px 0; margin-right: 16px; }
+.proof-tabs a { display: grid; gap: 4px; padding: 8px 16px 8px 0; margin-right: 16px; }
 .proof-tabs small { font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); }
 .proof-page .account-main > .proof-band, .proof-page .account-main > .pdf-viewer, .proof-page .account-main > .file-check, .proof-page .account-main > .proof-acts { margin-top: -8px; }   /* title, deadline, the proof, the file check and the buttons as one block: 16 apart (the page gap is 24) */
 .desk .proof-page .account-main > .proof-band, .desk .proof-page .account-main > .pdf-viewer, .desk .proof-page .account-main > .file-check, .desk .proof-page .account-main > .proof-acts { margin-top: -16px; }   /* desktop: 16 (the page gap is 32) */
@@ -2107,12 +2106,11 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .pdf-btn { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--white); }
 .pdf-btn:hover { background: rgba(255,255,255,.1); }
 .pdf-btn:disabled { opacity: .4; cursor: default; background: none; }
-.pdf-btn .material-symbols-rounded { font-size: 20px; }
+.pdf-btn .material-symbols-rounded { font-size: var(--t-20); }
 html:not(.desk) .pdf-viewer a[target] { display: none; }   /* mobile: download only (it opens the PDF there anyway) */
 html:not(.desk) .pdf-viewer .bar { gap: 8px; padding: 0 4px; }   /* mobile: a bit tighter, so the zoom stays in the middle next to ‹ 1 / 4 › */
 html:not(.desk) .pdf-viewer .group { gap: 0; }
 html:not(.desk) .pdf-viewer .box { min-width: 48px; }
-html:not(.desk) .pdf-btn { width: 28px; height: 28px; }
 .pdf-viewer .stage { height: 320px; overflow: auto; padding: 16px; text-align: center; color: var(--white); }
 .desk .pdf-viewer .stage { height: 400px; }
 .pdf-viewer canvas, .pdf-viewer .pdf-page { display: inline-block; vertical-align: top; max-height: 100%; background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,.4); }
@@ -2130,17 +2128,16 @@ html:not(.desk) .pdf-btn { width: 28px; height: 28px; }
 .d-bar .link[data-act="note"] { font-size: var(--t-14); white-space: nowrap; }
 .d-bar .bar-btns { flex: none; width: auto; }
 .d-bar .bar-btns .btn { padding: 0 24px; }   /* as wide as their text, as the PDP bar's button */
-.d-bar-sub { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 /* Personal details (Cornel 2026-11-18): the fields in its popup 16 apart; the grey line under a card */
 .pd-form { display: flex; flex-direction: column; gap: 16px; }
-.pd-note { margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.pd-note { margin-top: 8px; }
 .pd-form .pd-note { margin-top: -8px; }
 .pd-sms { grid-column: 2 / -1; }   /* texts on: the mobile number under the setting, in the text column */
 /* Addresses (Cornel 2026-11-18): on top the two defaults as the checkout's address cards (side by side on desktop); the address book is the lists' table */
 .addr-two { display: grid; gap: 8px; }
 .desk .addr-two { grid-template-columns: 1fr 1fr; gap: 16px; }
 .addr-two .addr-card { cursor: default; }   /* the card itself doesn't react, its Edit does */
-.addr-two .addr-card > .btn { align-self: flex-start; margin-top: 8px; padding: 0 16px; }   /* Edit: a small outline button as wide as its text (Cornel 2026-11-18) */
+.addr-two .addr-card > .btn { align-self: flex-start; margin-top: 8px; }   /* Edit: a small outline button as wide as its text (Cornel 2026-11-18) */
 .addr-book td:last-child { width: 1%; }   /* the actions as wide as their buttons */
 .addr-book tbody tr { cursor: default; }   /* the rows don't open anything, only their buttons do (Cornel 2026-11-18): no hand; the hover grey stays (every table row has it) */
 .addr-book .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }   /* mobile: Default shipping / Default billing under the address */

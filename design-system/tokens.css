@@ -7,15 +7,15 @@
   --black: #191919;
   --dark-grey: #555;
   --mid-grey: #bbb;
-  --line: #e4e4e4;   /* every line and card outline (Cornel, 2026-10-28: a bit sharper than #f0f0f0) */
+  --line: #e4e4e4;   /* every line inside a card or list, a divider, a small thumb's edge (Cornel, 2026-10-28: a bit sharper than #f0f0f0) */
   --light-grey: #f0f0f0;
-  --outline: #cfcfcf;   /* every card outline */
+  --outline: #cfcfcf;   /* every card outline: account cards, blocks, product and blog cards, address cards, the cart (Cornel 2026-11-18: one card colour) */
   --white: #fff;
   --stage: #d9d9d9;
   --link: #008539;       /* inline links, breadcrumbs, link hover */
   --error: #c90e2e;      /* field errors, everywhere (was also #d0021b on login) */
   --cream: #fef0df;     /* warm block background: the reassurance after an upload (Cornel, 2026-11-05) */
-  --selected: #eefaf3;   /* the upload field while a file is dragged over it. A chosen card is white with the 2px light green border, no tint (Cornel, 2026-11-06) */
+  --selected: #eefaf3;   /* a light green tint for good news: the upload field while a file is dragged over it, the reprint-can-make-it band, a search match. A chosen card is white with the 2px light green border, no tint (Cornel, 2026-11-06) */
   --tint: rgba(0, 166, 81, .16);   /* light green, see-through: focus ring, the changed flash, the online dot */
   --control: #9f9f9f;    /* outline of a checkbox and a radio */
   --overlay: rgba(0, 0, 0, .6);   /* the dark layer over the page under every popup and menu (Cornel, 2026-11-11: one for all) */
@@ -46,5 +46,3 @@
 /* Phone column: fills the screen on phones (also the bigger ones, e.g. 440 wide), 390 wide and centred on desktop */
 :root { --app-w: 390px; }
 @media (max-width: 500px) { :root { --app-w: 100%; } }
-/* Card outline on desktop a little darker than our light line, so it stays visible with the soft shadow (Cornel) */
-:root { --card-line: var(--line); }

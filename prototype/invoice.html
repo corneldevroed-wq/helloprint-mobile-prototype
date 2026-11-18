@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
-<link rel="stylesheet" href="pages.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205i">
+<link rel="stylesheet" href="pages.css?v=20261205i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,9 +29,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205d"></script>
-<script src="account.js?v=20261205d"></script>
-<script src="../design-system/components.js?v=20261205d"></script>
+<script src="app.js?v=20261205i"></script>
+<script src="account.js?v=20261205i"></script>
+<script src="../design-system/components.js?v=20261205i"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -39,7 +39,6 @@
   document.querySelector('[data-account-side]').outerHTML = accountSide('invoices.html');
   const NO = new URLSearchParams(location.search).get('i') || invoiceList()[0].no;
   const esc = t => String(t).replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]);
-  const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
   const actRow = ([act, icon, title, sub, o, what]) => `<button type="button" data-act="${act}" data-o="${o}"${what ? ` data-what="${what}"` : ''}><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b><small>${sub}</small></span></button>`;
   const linkRow = ([href, icon, title, sub]) => dropRow([href, icon, title, sub]).replace(' role="menuitem"', '');
 
@@ -51,11 +50,11 @@
 
     // where it stands: the pay block while open (Pay now = the order's payment link); paid or the credit's state as a done block
     const lastPay = !cr && inv.pays.at(-1);
-    const block = open ? `<div class="oc-act" id="line-pay"><div class="row"><span class="n">1</span><span class="t"><b>Pay ${e(inv.open)}</b><small>Due ${inv.due} · we also emailed you the link</small></span>
+    const block = open ? `<div class="oc-act" id="line-pay"><div class="row"><span class="t"><b>Pay ${e(inv.open)}</b><small>Due ${inv.due} · we also emailed you the link</small></span>
       <span class="btns"><button class="btn small primary" type="button" data-act="pay" data-o="${o.no}">Pay now</button></span></div></div>`
-      : `<div class="oc-act done" id="line-pay"><div class="row">${TICK}<span class="t"><b>${cr ? inv.state : `Paid ${lastPay.date}`}</b><small>${cr
+      : `<div class="oc-act done" id="line-pay"><div class="row">${DONE_TICK}<span class="t"><b>${cr ? inv.state : `Paid ${lastPay.date}`}</b><small>${cr
         ? (inv.state === 'Refunded' ? `Refunded ${inv.refund.date} · ${inv.refund.method}` : inv.state === 'Applied' ? 'Fully applied to your invoices' : 'Available to use on your next invoice')
-        : `${e(inv.total)} · ${lastPay.method}`}</small></span></div></div>`;
+        : `${e(inv.total)} · ${lastPay.method}`}</small></span>${!cr && /visa/i.test(lastPay.method) ? '<span class="pm-logos"><img src="assets/pay-visa.svg" alt="Visa"></span>' : ''}</div></div>`;   // paid by card: the card's logo on the right, as order confirmed's Payment received
 
     // Invoice details (the artifact's document head, as Order details without the map): number, issued, due, terms, order, your reference, the addresses
     const forInv = cr && invoiceOf(inv.credit);
@@ -76,7 +75,7 @@
         <td class="vat-col">${e(v.net)}</td><td class="vat-col">23%</td><td class="vat-col">${e(v.vat)}</td><td>${e(v.gross)}</td></tr>`; }).join('')}</tbody></table>
       <div class="totals"><div><span>Subtotal <small>(Excl. VAT)</small></span><span>${e(inv.sum.net)}</span></div><div><span>VAT 23%</span><span>${e(inv.sum.vat)}</span></div>
         <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(inv.sum.gross)}</span></div></div></div></section>
-      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
+      ${teamLine()}
       <section class="oc-sec"><h2>Questions about this ${cr ? 'credit note' : 'invoice'}</h2><ul class="hc-rows">${(cr
         ? [['Where can I find my credit invoice?', 'where-can-i-find-my-credit-invoice'], ['Downloading invoices & credit notes', 'how-do-i-download-my-invoices-and-credit-notes']]
         : [...(open ? [['How do I pay on invoice?', 'how-do-i-pay-on-invoice'], ['Why did I receive a payment reminder?', 'why-did-i-receive-a-payment-reminder']] : []),

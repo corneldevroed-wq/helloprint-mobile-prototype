@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,search&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
-<link rel="stylesheet" href="pages.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205i">
+<link rel="stylesheet" href="pages.css?v=20261205i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -36,9 +36,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205d"></script>
-<script src="account.js?v=20261205d"></script>
-<script src="../design-system/components.js?v=20261205d"></script>
+<script src="app.js?v=20261205i"></script>
+<script src="account.js?v=20261205i"></script>
+<script src="../design-system/components.js?v=20261205i"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
@@ -51,7 +51,7 @@
   const amount = v => v.priced ? accEur(v.sum.gross) : '—';
   function render() {
     const all = quoteList();
-    document.getElementById('filters').innerHTML = GROUPS.map(([k, label, f]) => `<button class="pill${k === group ? ' active' : ''}" type="button" data-g="${k}">${label}<small>${all.filter(f).length}</small></button>`).join('');
+    document.getElementById('filters').innerHTML = GROUPS.map(([k, label, f]) => `<button class="pill${k === group ? ' active' : ''}" type="button" aria-pressed="${k === group}" data-g="${k}">${label}<small>${all.filter(f).length}</small></button>`).join('');
     const f = GROUPS.find(g => g[0] === group)[2], hit = v => !q || [v.no, v.job, v.ref].join(' ').toLowerCase().includes(q);
     const list = all.filter(v => f(v) && hit(v));
     const pdf = v => v.priced ? `<button type="button" class="icon-btn" data-act="invoice" data-doc="Quote ${v.no}" data-tip="Download PDF" aria-label="Download ${v.no} (PDF)"><span class="material-symbols-rounded" aria-hidden="true">download</span></button>` : '';
@@ -61,7 +61,7 @@
       <span class="status ${v.status[0]}">${v.status[1]}</span><img class="chev" src="assets/menu/arrow.svg" alt=""></a>`).join('');
     document.querySelectorAll('.list-table, .list-rows').forEach(el => el.hidden = !list.length);   // nothing found: the line in the card, under the search
     document.getElementById('none').hidden = !!list.length || !all.length;
-    if (!all.length) { document.getElementById('filters').style.display = 'none'; document.querySelector('.list-card').hidden = true; document.getElementById('empty').hidden = false; }   // a new customer
+    if (!all.length) { document.getElementById('filters').hidden = true; document.querySelector('.list-card').hidden = true; document.getElementById('empty').hidden = false; }   // a new customer
   }
   document.getElementById('filters').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (!b) return; group = b.dataset.g; render(); });
   document.querySelector('.find input').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(); });
