@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,local_mall,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205i">
-<link rel="stylesheet" href="components.css?v=20261205i">
-<link rel="stylesheet" href="guide.css?v=20261205i">
+<link rel="stylesheet" href="tokens.css?v=20261205j">
+<link rel="stylesheet" href="components.css?v=20261205j">
+<link rel="stylesheet" href="guide.css?v=20261205j">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -521,7 +521,7 @@
       use: 'A link that folds open a short explanation of choices (Report a problem: “Why 10 days?”, “Not sure which one to pick?”; Cornel 2026-11-18): the link 12/18 (<code>.spec-fold</code>), under it a light table, 12/18: the term semibold black, never broken; the explanation grey; a line between the rows only, no frame, no head.',
       ex: stage(accReal(`<div class="dash-card"><details class="spec-fold" open><summary class="link">Why 10 days?</summary><table class="fold-table"><tbody><tr><td>Within 10 days</td><td>the printer or the carrier still accept a claim, so we solve it fast and in full</td></tr><tr><td>After 10 days</td><td>no longer through this form, but our team can still look at it with you in chat</td></tr></tbody></table></details></div>`)) }) +
     row({ name: 'Setting row', wide: true, meta: [{ t: '.dash-row.text.has-ico' }, { t: '.switch' }, { t: '.not-set' }, SIZE],
-      use: 'A setting on Personal details (Cornel 2026-11-18, sketch A): its icon in the grey tile in front (<code>.hc-ico</code> at 40, as the quick links on mobile), at the top of the row, the name 14/22 semibold, what it is now grey (<code>.not-set</code> mid grey when empty), one small outline button on the right (Edit, Add, Change, Set up) that opens the standard popup; what you fill in at once is one row with one button (Name and phone, Company), one button = one popup, its values as label + value (<code>.spec-fold-rows</code>, label grey, value black); a preference has a switch instead, that works right away. A country (E-invoicing) has its round flag in the tile (<code>img.round</code>, the country menu’s flags). One card per section, a line between the rows.',
+      use: 'A setting on Personal details (Cornel 2026-11-18, sketch A): its icon in the grey tile in front (<code>.hc-ico</code> at 40, as the quick links on mobile), at the top of the row, the name 14/22 semibold, what it is now grey (<code>.not-set</code> mid grey when empty), one small outline button on the right (Edit, Add, Change, Set up) that opens the standard popup; what you fill in at once is one row with one button (Name and phone, Company), one button = one popup, its values as label + value (<code>.spec-fold-rows</code>, label grey, value black); a preference has a switch instead, that works right away. A country (E-invoicing) has its round flag in the tile (<code>img.round</code>, the country menu’s flags). One card per section, a line between the rows; on desktop the row hovers light grey, 8 past the text, as a table row.',
       ex: stage(accReal(`<div class="dash-card"><div class="dash-row text has-ico"><span class="hc-ico"><img src="icons/account-grey.svg" alt=""></span><span class="t"><b>Name and phone</b><div class="spec-fold-rows"><div><span>Name</span><span>Loraine Pijffers</span></div><div><span>Phone</span><span><span class="not-set">Not set</span></span></div></div></span><button class="btn small outline" type="button">Edit</button></div><div class="dash-row text has-ico"><span class="hc-ico material-symbols-rounded" aria-hidden="true">campaign</span><span class="t"><b>Marketing emails</b><small>Newsletter, offers and product news.</small></span><button class="switch" role="switch" aria-checked="true" aria-label="Marketing emails"></button></div></div>`)) }) +
     row({ name: 'Account card', wide: true, meta: [{ t: '.account-who' }, { t: '.vip-meter' }, { t: '.account-nav' }, SIZE],
       use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title with your discount (VIP status (−4%)) and the tier as an eco label (VIP1, VIP2, VIP3; not VIP yet = a neutral label), no line with the benefits (Cornel: too busy; they are on vip.html); the 6px bar (Cornel 2026-11-18) and one line with the progress to the next tier in euros of orders (€1,876 of €2,500 · €624 to VIP3 (6% off); placeholder amounts until the criteria are published); How VIP works on its own line (the VIP marketing doc, 2026-11-18; the tiers of vip.html: VIP1 2%, VIP2 4% + free delivery + 50% off Premium Design Check, VIP3 6% + both free). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
@@ -658,6 +658,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205i"></script>
+<script src="guide.js?v=20261205j"></script>
 </body>
 </html>

@@ -852,10 +852,10 @@ html:not(.desk) .notice-close { right: 4px; }
 .dash-row:first-child { padding-top: 0; }
 .dash-row:last-child { padding-bottom: 0; }
 .dash-row + .dash-row { border-top: 1px solid var(--line); }
-.desk a.dash-row { margin: 0 -8px; padding-left: 8px; padding-right: 8px; }   /* desktop, a row that opens a page (Orders in progress, the invoices, the quotes): */
-.desk a.dash-row:first-child { margin-top: -8px; padding-top: 8px; }   /* the light grey hover of the table rows, 8 past the text on every side (Cornel 2026-11-18) */
-.desk a.dash-row:last-child { margin-bottom: -8px; padding-bottom: 8px; }
-.desk a.dash-row:hover { background: var(--light-grey); }
+.desk a.dash-row, .desk .dash-row.has-ico { margin: 0 -8px; padding-left: 8px; padding-right: 8px; }   /* desktop, a row that opens a page (Orders in progress, the invoices, the quotes): */
+.desk a.dash-row:first-child, .desk .dash-row.has-ico:first-child { margin-top: -8px; padding-top: 8px; }   /* the light grey hover of the table rows, 8 past the text on every side (Cornel 2026-11-18) */
+.desk a.dash-row:last-child, .desk .dash-row.has-ico:last-child { margin-bottom: -8px; padding-bottom: 8px; }
+.desk a.dash-row:hover, .desk .dash-row.has-ico:hover { background: var(--light-grey); }   /* also a setting row (Personal details): rows in a card hover as table rows (Cornel 2026-11-18) */
 .dash-row.text { grid-template-columns: minmax(0, 1fr) auto; }   /* without a photo (an invoice, a quote) */
 .desk .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr) auto; }   /* desktop: the status or the buttons on the right */
 .dash-row .img, .dash-table .img { display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border-radius: var(--r-m); background: var(--light-grey); }
