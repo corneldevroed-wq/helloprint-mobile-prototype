@@ -860,7 +860,8 @@ html:not(.desk) .notice-close { right: 4px; }
 .dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
 .dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
 .dash-row.text .status, .desk .dash-row .status, .dash-row .switch { grid-column: auto; justify-self: end; }
-.dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, centred on the row */
+.dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, at the top of the row */
+.has-ico > .hc-ico { align-self: start; }
 .has-ico .spec-fold-rows { margin-top: 4px; }   /* several values in one setting (Name and phone, Company): label grey, value black */
 .not-set { color: var(--mid-grey); }   /* an empty setting: "Not set" */
 .dash-row .acts { grid-column: 2 / -1; display: flex; align-items: center; gap: 8px; }   /* Reorder (.pill.active) + icon buttons */

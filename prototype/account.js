@@ -243,7 +243,7 @@ const orderHelp = o => [
 ].slice(0, 4);
 // a to-do's green button carries what to do as an icon (Cornel 2026-11-18: not in front of the block, in the button): € pay, eye proof, upload, wrench fix…
 const btnIcon = n => n ? `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>` : '';
-const TASK_ICONS = { 'Pay now': 'euro', 'Review proof': 'visibility', 'Upload design': 'upload', 'Upload new design': 'upload', 'Upload new file': 'upload', 'Upload photos': 'photo_camera', 'Accept quote': 'check', 'View quote': 'request_quote' };
+const TASK_ICONS = { 'Review proof': 'visibility', 'Upload design': 'upload', 'Upload new design': 'upload', 'Upload new file': 'upload', 'Upload photos': 'photo_camera', 'Accept quote': 'check', 'View quote': 'request_quote' };
 const proofUrl = (o, i) => `proof.html?o=${o.no}&l=${i}`;
 const orderTitle = o => `#${o.no} · ${o.name}${o.lines.length > 1 ? ` (${o.lines.length} products)` : ''}`;
 // the first photo, "+N" when the order has more products
