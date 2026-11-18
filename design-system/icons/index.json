@@ -158,6 +158,30 @@
    "../prototype/assets/live-opts/flags/wall-0.png": "Wall suspension 0°",
    "../prototype/assets/live-opts/flags/wall-45.png": "Wall suspension 45°",
    "../prototype/assets/live-opts/flags/wall-90.png": "Wall suspension 90°"
+  },
+  "Sign panels (rigid: the corner with its edge)": {
+   "panels/dibond": "Dibond Aluminium",
+   "panels/aluminium-brushed": "Aluminium brushed",
+   "panels/forex": "Forex",
+   "panels/easyprint": "Easyprint PVC-free",
+   "panels/sign-again": "Sign Again White coated",
+   "panels/sign-again-uncoated": "Sign Again Uncoated",
+   "panels/akylite": "Akylite > 70% Recycled",
+   "panels/cardboard": "Cardboard",
+   "panels/reboard": "Reboard Honeycomb cardboard",
+   "panels/correx": "Correx",
+   "panels/plexi-bright": "Plexiglass bright",
+   "panels/plexi-opal": "Plexiglass opal",
+   "panels/plexi-blockout": "Plexiglass blockout"
+  },
+  "Sign hardware (the live photo)": {
+   "inks/none": "No extra options",
+   "../prototype/assets/live-opts/signs/hanging-plate-4.jpg": "Hanging plate 4 x 4 cm",
+   "../prototype/assets/live-opts/signs/hanging-plate-7.jpg": "Hanging plate 7 x 7 cm",
+   "../prototype/assets/live-opts/signs/spacer.jpg": "Side grip spacer 10 mm",
+   "../prototype/assets/live-opts/signs/whiteboard-kit.jpg": "Whiteboard starter kit",
+   "../prototype/assets/live-opts/signs/ground-plate-6.jpg": "Light black plate 6 kg",
+   "../prototype/assets/live-opts/signs/ground-plate-15.jpg": "Light black plate 15 kg"
   }
  },
  "Banner icons": {
