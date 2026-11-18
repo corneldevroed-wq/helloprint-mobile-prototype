@@ -224,7 +224,7 @@ const ACCOUNT_ROWS = `${[
             ['quotes.html', 'request-quote', 'Quotes'],
             ['complaints.html', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
             ['personal-details.html', 'person', 'Personal Details'],
-            ['#addresses', 'location-on', 'Addresses'],
+            ['addresses.html', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}
           <hr><button type="button" class="d-out" data-logout><span class="ico"><img src="../design-system/icons/logout.svg" alt=""></span><span><b>Log out</b></span></button>`;
 const ACCOUNT_MENU = `<div class="d-menu d-head" role="menu" hidden>
@@ -394,6 +394,7 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
+  'addresses': 'addresses.html', 'personal-details': 'personal-details.html',   // My account (help articles link here)
   // Promotional Print hub (home category card, menu, breadcrumbs)
   'promotional-printing': 'promotional.html', 'promotional-products': 'promotional.html',
   // About us + Our culture (marketing pages, rebuilt from live with library components only)

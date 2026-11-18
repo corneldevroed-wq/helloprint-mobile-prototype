@@ -97,8 +97,9 @@ body.menu-open { overflow: hidden; }
 .sheet-back img { width: 20px; height: 20px; transform: scaleX(-1); }   /* the menu's back arrow */
 .sheet-back + h2 { flex: 1; }
 .sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
-.sheet-body .pad { padding: 0 15px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+.sheet-body .pad { padding: 1px 15px 16px 16px; display: flex; flex-direction: column; gap: 16px; }   /* 1 on top: the focus ring (1px outside the field) of a first field is not cut by the scrolling body (Cornel 2026-11-18) */
 .sheet-bar { flex-shrink: 0; background: var(--light-grey); padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+.sheet-bar:not(:has(.total)) { padding: 16px; }   /* only buttons (a popup's Save, Cancel · Save): the grey as wide on every side (Cornel 2026-11-18); a bar with a total keeps 8 above and below */
 .sheet-bar .total { flex: 1; padding: 8px 16px; }
 .bar-btns { flex: 0 0 100%; display: flex; gap: 8px; }   /* two buttons in a sheet bar: the outline its own size, the primary the rest (PDP, the account popups) */
 .sheet-bar .bar-btns .btn.outline { flex: 0 0 auto; padding: 0 24px; }
@@ -159,7 +160,7 @@ body.menu-open { overflow: hidden; }
 .line-item .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .line-item .t strong { display: block; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }   /* a block, so the link around it adds no extra line height */
 .line-item .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-small .link { font-size: inherit; line-height: inherit; }   /* a link takes the size of its line ("View artwork", "Compare", "More info" in a 12px line) */
+small .link, .pd-note .link { font-size: inherit; line-height: inherit; }   /* a link takes the size of its line ("View artwork", "Compare", "More info" in a 12px line) */
 .line-item .p { font-weight: 700; font-size: var(--t-14); line-height: var(--lh-14); text-align: right; }
 .totals { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
 .totals > div > span:last-child { flex-shrink: 0; white-space: nowrap; }   /* an amount never breaks; a date or method under its label goes on its own line */
@@ -670,6 +671,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .icon-btns { display: flex; gap: 8px; }
 .icon-btn { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); color: var(--dark-green); transition: border-color .15s; }
 .icon-btn:hover { border-color: var(--black); }   /* control outline: grey, black on hover */
+.icon-btn[aria-pressed="true"] { border-color: var(--light-green); background: var(--light-green); color: var(--white); cursor: default; }   /* on (the default shipping / billing address): light green, white icon (Cornel 2026-11-18: friendlier than dark) */
+.icon-btn[aria-pressed="true"] .material-symbols-rounded { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }   /* and the icon filled; the page loads the font with FILL 0..1 */
 /* Tooltip (Cornel, 2026-11-05): data-tip="…" on an icon-only button; a dark green bubble with an arrow, 12 above it (the arrow tip 6 from the button), on hover (mouse) and
    keyboard focus. The last button of a row aligns it right, so it never runs off the screen. .tip-on shows it (style guide) */
 [data-tip] { position: relative; }
@@ -811,11 +814,14 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .addr-list .t .co-badge { margin-top: 6px; }
 .addr-list .kebab { position: relative; z-index: 1; }   /* ⋮ stays above that tap area (its menu is z-index 2) */
 .addr-list .kebab[aria-expanded="true"] { background-color: var(--light-grey); }
-.addr-list .menu { position: absolute; right: 8px; top: 48px; z-index: 2; display: flex; flex-direction: column; min-width: 160px; padding: 6px; border-radius: var(--r-l); background: var(--white); box-shadow: 0 6px 24px rgba(0,0,0,.18); }
-.addr-list .menu[hidden] { display: none; }
-.addr-list .menu button { padding: 10px 12px; border-radius: var(--r-m); text-align: left; font-size: var(--t-14); }
-.addr-list .menu button:hover { background: var(--light-grey); }
-.addr-list .menu .del { color: var(--error); }
+.addr-list .menu, .row-menu .menu { position: absolute; right: 8px; top: 48px; z-index: 2; display: flex; flex-direction: column; min-width: 160px; padding: 6px; border-radius: var(--r-l); background: var(--white); box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+.addr-list .menu[hidden], .row-menu .menu[hidden] { display: none; }
+.addr-list .menu button, .row-menu .menu button { padding: 10px 12px; border-radius: var(--r-m); text-align: left; font-size: var(--t-14); }
+.addr-list .menu button:hover, .row-menu .menu button:hover { background: var(--light-grey); }
+.addr-list .menu .del, .row-menu .menu .del { color: var(--error); }
+.row-menu { position: relative; align-self: start; }   /* ⋮ in a list row with its menu under it (Addresses on mobile, Cornel 2026-11-18) */
+.row-menu .menu { right: 0; top: 48px; white-space: nowrap; }
+.row-menu [aria-expanded="true"] { background: var(--light-grey); }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
 .addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }
 .addr-card .top { display: flex; align-items: center; gap: 8px; }
@@ -933,12 +939,12 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .list-card > .find { margin-bottom: 16px; }   /* the search as the first row of the list's card, full width (Cornel 2026-11-18); the no-match line also in the card */
 .list-card > #none { margin: 0; }
 /* Table (desktop lists: orders): column heads 12/18 grey semibold, rows 14/22 with a line between, the first cell a photo + title + grey line; a row opens on hover-grey. Mobile shows the list as .dash-row */
-.dash-table { width: calc(100% + 16px); margin: 0 -8px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }   /* 8 wider on both sides: the hover grey runs past the text (Cornel 2026-11-18), the content stays where it was */
+.dash-table { width: calc(100% + 16px); margin: 0 -8px -8px; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }   /* 8 wider on both sides: the hover grey runs past the text (Cornel 2026-11-18), the content stays where it was */
 .dash-table th, .items-table th { padding: 0 16px 8px 0; border-bottom: 1px solid var(--line); text-align: left; font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); }
 .dash-table td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
-.dash-table tr:last-child td { padding-bottom: 0; border-bottom: 0; }
+.dash-table tr:last-child td { padding-bottom: 8px; border-bottom: 0; }   /* the hover grey 8 under the text of the last row too; the table's -8 margin keeps the card's spacing (Cornel 2026-11-18) */
 .dash-table tbody tr { cursor: pointer; }
-.dash-table tbody tr:hover td { background: var(--light-grey); }
+.dash-table tbody tr:hover td { background: var(--light-grey); }   /* every table row, also when only its buttons react (Addresses; Cornel 2026-11-18): you see which row you're on */
 .dash-table th:first-child, .dash-table td:first-child { padding-left: 8px; }
 .dash-table td:last-child { padding-right: 8px; }
 .dash-table .first { display: flex; align-items: center; gap: 16px; }

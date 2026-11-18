@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addresses Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,local_shipping,receipt_long&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
+<link rel="stylesheet" href="pages.css?v=20261205d">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-18), loaded by sketches/addresses-sketch.html as ?v=a|b|c: Addresses, the wishes artifact's content
+     (default shipping, billing, more addresses, add one) on the checkout's address book ('hp-addresses'). Only UI guide parts: the account shell,
+     .oc-sec + .dash-card, the setting row (.dash-row.text.has-ico + .hc-ico), .addr-list cards, .oc-od grid, .badge.neutral, .btn small, .list-table.
+     a: settings list as Personal details · b: address cards · c: the artifact 1:1 (two cards + a table). -->
+<style>
+  /* SKETCH CSS */
+  .ad-two { display: grid; gap: 16px; }
+  .desk .ad-two { grid-template-columns: 1fr 1fr; }
+  .ad-card { display: flex; flex-direction: column; gap: 8px; }
+  .ad-card .top { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+  .ad-card p { margin: 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .ad-card .btn { align-self: flex-start; padding: 0 16px; }
+  .ad-grid { display: grid; gap: 8px; }
+  .desk .ad-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ad-grid .addr-list { display: contents; }
+  .ad-grid li { position: relative; }
+  .ad-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .ad-acts { display: flex; gap: 16px; margin-top: 8px; }
+  .ad-acts .link { font-size: var(--t-12); line-height: var(--lh-12); }
+  .ad-table td { vertical-align: top; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / Addresses</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="ad"></div>
+    </div>
+  </main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261205d"></script>
+<script src="account.js?v=20261205d"></script>
+<script src="../design-system/components.js?v=20261205d"></script>
+<script>
+{
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  document.querySelector('[data-account-side]').outerHTML = accountSide('#addresses');
+  const book = [...bookOf(), { id: 'a4', label: 'Cork studio', first: 'Aoife', last: 'Byrne', company: 'Merrion Studio', address1: '14 Oliver Plunkett Street', eircode: 'T12 YX56', town: 'Cork' }];
+  const def = book.find(a => a.isDefault) || book[0];
+  const bill = { label: 'Billing', first: '', last: '', company: 'Merrion Studio', vat: 'IE 1234567 X', address1: '12 Merrion Square', eircode: 'D02 X285', town: 'Dublin 2' };
+  const lines = a => [a.vat ? `${a.company} · VAT ${a.vat}` : null, ...bookLines(a).filter(l => !(a.vat && l === a.company))].filter(Boolean);
+  const head = `<div><h1>Addresses</h1><p class="oc-lead">Where we ship your orders and who we invoice. The checkout uses the same addresses.</p></div>`;
+  const sec = (h, body, after = '') => `<section class="oc-sec"><h2>${h}</h2>${body}${after}</section>`;
+  const btn = (t, cls = 'outline') => `<button class="btn small ${cls}" type="button">${t}</button>`;
+  const tag = t => `<span class="badge neutral co-badge">${t}</span>`;
+  const kv = rows => `<div class="spec-fold-rows">${rows.map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('')}</div>`;
+  const setRow = (ico, t, body, end) => `<div class="dash-row text has-ico"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${ico}</span><span class="t"><b>${t}</b>${body}</span>${end}</div>`;
+  let html = head;
+
+  if (V === 'a') {   // a settings list, as Personal details: the two that matter on top (Default shipping, Billing), then every address as a row; Edit opens the popup with the checkout's form
+    html += sec('Used for your orders', `<div class="dash-card">${setRow('local_shipping', 'Default shipping address', `<small>${def.label}<br>${bookLines(def).join(', ')}</small>`, btn('Change'))}
+        ${setRow('receipt_long', 'Billing address', `<small>${lines(bill).join(', ')}</small>`, btn('Edit'))}</div>`,
+        '<p class="pd-note">You can still choose another one at the checkout, for one order.</p>')
+      + sec('All addresses', `<div class="dash-card">${book.map(a => `<div class="dash-row text"><span class="t"><b>${a.label}${a.isDefault ? ' ' + tag('Default') : ''}</b><small>${bookLines(a).join(', ')}</small></span>${btn('Edit')}</div>`).join('')}
+        <div class="dash-row text"><span class="t"><b>New address</b><small>A shop, a warehouse, an event venue</small></span>${btn('Add')}</div></div>`);
+  }
+  if (V === 'b') {   // the address book cards, as the checkout and the order page's Change: a card per address with its tags, Edit · Make default · Delete under it; + New address dashed
+    html += sec('Your addresses', `<div class="ad-grid"><ul class="addr-list">${book.map(a => `<li${a.isDefault ? ' class="on"' : ''}><div class="ap-pick" style="cursor:default"><span class="t"><b>${a.label}</b>${bookLines(a).map(l => `<span>${l}</span>`).join('')}
+          <span class="ad-tags">${a.isDefault ? tag('Default shipping') : ''}${a.id === 'a1' ? tag('Billing') : ''}</span>
+          <span class="ad-acts"><a class="link" href="#">Edit</a>${a.isDefault ? '' : '<a class="link" href="#">Make default</a>'}<a class="link" href="#">Delete</a></span></span></div></li>`).join('')}
+        <li class="ap-add"><button type="button" class="ap-pick"><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li></ul></div>`)
+      + sec('Billing address', `<div class="dash-card">${setRow('receipt_long', 'On your invoices', `<small>${lines(bill).join(', ')}</small>`, btn('Edit'))}</div>`);
+  }
+  if (V === 'c') {   // the artifact 1:1: Default delivery and Billing as two cards side by side, then More addresses as a table (rows on mobile), Add an address
+    const card = (ico, t, a) => `<div class="dash-card ad-card"><div class="top"><span class="material-symbols-rounded" aria-hidden="true">${ico}</span>${t}</div><p>${lines(a).join('<br>')}</p>${btn('Edit')}</div>`;
+    html += `<div class="ad-two">${card('local_shipping', 'Default shipping', def)}${card('receipt_long', 'Billing', bill)}</div>`
+      + sec('More addresses', `<div class="dash-card"><table class="dash-table ad-table"><thead><tr><th>Name</th><th>Address</th><th></th></tr></thead><tbody>${book.filter(a => !a.isDefault).map(a => `<tr><td><b>${a.label}</b><br><small>${[a.first, a.last].join(' ')}</small></td><td>${bookLines(a).slice(1).join(', ')}</td><td class="num">${btn('Edit')}</td></tr>`).join('')}</tbody></table></div>`,
+        `<div style="margin-top:16px">${btn('<span class="material-symbols-rounded" aria-hidden="true">add</span>Add an address', 'primary')}</div>`);
+  }
+  document.getElementById('ad').innerHTML = html;
+}
+</script>
+</body>
+</html>

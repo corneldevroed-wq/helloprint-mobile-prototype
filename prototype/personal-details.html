@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=campaign,domain,lock,mail,sms&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261204e">
-<link rel="stylesheet" href="../design-system/components.css?v=20261204e">
-<link rel="stylesheet" href="pages.css?v=20261204e">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
+<link rel="stylesheet" href="pages.css?v=20261205d">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,9 +29,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261204e"></script>
-<script src="account.js?v=20261204e"></script>
-<script src="../design-system/components.js?v=20261204e"></script>
+<script src="app.js?v=20261205d"></script>
+<script src="account.js?v=20261205d"></script>
+<script src="../design-system/components.js?v=20261205d"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -72,7 +72,7 @@
       + sec('Communication preferences', row('campaign', 'Marketing emails', 'Newsletter, offers and product news. Order emails always come, whatever you choose.', sw('marketing', P.marketing, 'Marketing emails'))
         + row('sms', 'Order updates by text', P.sms ? 'We text you when your order ships. You’ll always get the same updates by email too.' : 'Get a text when your order ships, as well as the email.', sw('sms', P.sms, 'Order updates by text'), P.sms ? smsField() : ''))
       + sec('Company info', row('domain', 'Company', kv([['Name', P.company ? esc(P.company) : notSet], ['VAT number', P.vat ? esc(P.vat) : notSet], ['Invoices to', esc(P.invMail || P.email)]]), btn('company', P.company || P.vat ? 'Edit' : 'Add')),
-        `<p class="pd-note">Used on your invoices and shipping labels. An address can have its own in <a class="link" href="#addresses">Addresses</a>.</p>`)
+        `<p class="pd-note">Used on your invoices and shipping labels. An address can have its own in <a class="link" href="addresses.html">Addresses</a>.</p>`)
       + sec('E-invoicing', Object.entries(COUNTRIES).map(([c, f]) => `<div class="dash-row text has-ico"><span class="hc-ico"><img class="round" src="assets/flags/${f}.svg" alt=""></span><span class="t"><b>${c}</b><small>${P.einv[c] ? esc(P.einv[c]) : 'Not set up'}</small></span>${btn('einv:' + c, P.einv[c] ? 'Change' : 'Set up')}</div>`).join(''),
         `<p class="pd-note">Invoices sent straight into your bookkeeping, per country you order for.</p>`);
   }

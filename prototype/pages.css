@@ -2038,8 +2038,8 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .desk .account-grid { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 32px; align-items: start; }
 .account-main, .account-grid { display: flex; flex-direction: column; gap: 24px; }
 .desk .account-main { gap: 32px; }
-.account-main > .filter-row, .account-main > .filter-row + .list-card { margin-top: -8px; }   /* the lists (Orders, Invoices, Quotes, Complaints): title, filters and the list 16 apart, one block (Cornel 2026-11-18) */
-.desk .account-main > .filter-row, .desk .account-main > .filter-row + .list-card { margin-top: -16px; }
+.account-main > .filter-row, .account-main > .filter-row + .list-card, .account-main > .addr-top { margin-top: -8px; }   /* the lists (Orders, Invoices, Quotes, Complaints): title, filters and the list 16 apart, one block (Cornel 2026-11-18) */
+.desk .account-main > .filter-row, .desk .account-main > .filter-row + .list-card, .desk .account-main > .addr-top { margin-top: -16px; }
 .account-two { display: flex; flex-direction: column; gap: 24px; }
 .desk .account-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
 .account-two.feature { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* the light grey box around Needs your attention + Order again (Cornel 2026-11-18, switch Grey: A chosen) */
@@ -2136,3 +2136,11 @@ html:not(.desk) .pdf-btn { width: 28px; height: 28px; }
 .pd-note { margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .pd-form .pd-note { margin-top: -8px; }
 .pd-sms { grid-column: 2 / -1; }   /* texts on: the mobile number under the setting, in the text column */
+/* Addresses (Cornel 2026-11-18): on top the two defaults as the checkout's address cards (side by side on desktop); the address book is the lists' table */
+.addr-two { display: grid; gap: 8px; }
+.desk .addr-two { grid-template-columns: 1fr 1fr; gap: 16px; }
+.addr-two .addr-card { cursor: default; }   /* the card itself doesn't react, its Edit does */
+.addr-two .addr-card > .btn { align-self: flex-start; margin-top: 8px; padding: 0 16px; }   /* Edit: a small outline button as wide as its text (Cornel 2026-11-18) */
+.addr-book td:last-child { width: 1%; }   /* the actions as wide as their buttons */
+.addr-book tbody tr { cursor: default; }   /* the rows don't open anything, only their buttons do (Cornel 2026-11-18): no hand; the hover grey stays (every table row has it) */
+.addr-book .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }   /* mobile: Default shipping / Default billing under the address */

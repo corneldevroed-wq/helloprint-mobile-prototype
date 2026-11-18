@@ -47,10 +47,20 @@ const ADDR = { ship: { name: 'Loraine Pijffers', company: 'Merrion Studio', stre
   bill: { name: 'Merrion Studio', vat: 'IE 1234567 X', street: '12 Merrion Square', code: 'D02 X285', town: 'Dublin 2' } };
 // Your address book: the checkout's ('hp-addresses', this browser), so a new address here is in the checkout too and back.
 // Empty (never at the checkout): the account's demo addresses. Change on the order page picks one of them or adds one.
+// A book you already saved (at the checkout) gets the four extra demo addresses once (Cornel 2026-11-18: "just add 4"); the Demo reset starts over
+const ADDR_MORE = ['a4', 'a5', 'a6', 'a7'];
 const bookOf = () => { let b = []; try { b = JSON.parse(localStorage.getItem('hp-addresses')) || []; } catch (e) {}
-  return b.length ? b : [{ id: 'a1', label: 'Office', first: 'Loraine', last: 'Pijffers', company: 'Merrion Studio', address1: '12 Merrion Square', eircode: 'D02 X285', town: 'Dublin 2', isDefault: true },
+  if (b.length && !localStorage.getItem('hp-addr-more')) { b = [...b, ...BOOK_DEMO.filter(x => ADDR_MORE.includes(x.id) && !b.some(y => y.id === x.id))];
+    try { localStorage.setItem('hp-addresses', JSON.stringify(b)); localStorage.setItem('hp-addr-more', '1'); } catch (e) {} }
+  return b.length ? b : BOOK_DEMO; };
+const BOOK_DEMO = [{ id: 'a1', label: 'Office', first: 'Loraine', last: 'Pijffers', company: 'Merrion Studio', address1: '12 Merrion Square', eircode: 'D02 X285', town: 'Dublin 2', isDefault: true },
     { id: 'a2', label: 'Warehouse', first: 'Loraine', last: 'Pijffers', company: 'Merrion Studio', address1: 'Unit 4, Park West Business Park', eircode: 'D12 F6X2', town: 'Dublin 12' },
-    { id: 'a3', label: 'Home', first: 'Loraine', last: 'Pijffers', address1: '27 Sandymount Avenue', eircode: 'D04 K7P3', town: 'Dublin 4' }]; };
+    { id: 'a3', label: 'Home', first: 'Loraine', last: 'Pijffers', address1: '27 Sandymount Avenue', eircode: 'D04 K7P3', town: 'Dublin 4' },
+    // four more (fictional people and companies, Cornel 2026-11-18): the address book with a few to manage
+    { id: 'a4', label: 'Cork studio', first: 'Aoife', last: 'Byrne', company: 'Merrion Studio', phone: '+353 21 455 0192', address1: '14 Oliver Plunkett Street', eircode: 'T12 YX56', town: 'Cork' },
+    { id: 'a5', label: 'Galway pop-up', first: 'Ciarán', last: 'Walsh', company: 'Merrion Studio', phone: '+353 91 563 207', address1: '8 Shop Street', eircode: 'H91 E2K7', town: 'Galway' },
+    { id: 'a6', label: 'Event venue', first: 'Niamh', last: 'Kelly', company: 'Glenarra Events', phone: '+353 1 678 4410', address1: 'Unit 3, Docklands Business Park', eircode: 'D01 K4W9', town: 'Dublin 1' },
+    { id: 'a7', label: 'Accountant', first: 'Declan', last: 'Moore', company: 'Moore & Quinn Accountants', phone: '+353 1 661 3385', address1: '22 Fitzwilliam Place', eircode: 'D02 HX44', town: 'Dublin 2' }];
 const bookLines = a => [`${a.first || ''} ${a.last || ''}`.trim(), a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
 const bookToOrder = (a, prev) => ({ name: `${a.first || ''} ${a.last || ''}`.trim(), company: a.company, street: [a.address1, a.address2].filter(Boolean).join(', '), code: a.eircode, town: a.town, vat: prev.vat });
 const addrLines = a => [[a.name, a.company].filter(Boolean).join(', '), a.vat && 'VAT ' + a.vat, a.street, `${a.town}, ${a.code}`, 'Ireland'].filter(Boolean);
@@ -420,13 +430,8 @@ document.addEventListener('click', e => {
   if (act === 'download') showToast('Your proof is downloading (prototype)');
 });
 
-// The account pages still to build: a toast instead of nothing (the account menu, Invoices, Quotes…)
-const SOON = { '#addresses': 'The addresses page' };
-document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'), what = a && SOON[a.getAttribute('href')];
-  if (what) { e.preventDefault(); showToast(`${what} comes next in the prototype`); } });
-
 // Prototype: back to the start (every to-do open again). The left-edge tab on the account pages (the prototype switches' look), or ?reset in the URL
-const resetDemo = () => { try { localStorage.removeItem('hp-orders'); localStorage.removeItem('hp-quotes'); localStorage.removeItem('hp-complaints'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
+const resetDemo = () => { try { localStorage.removeItem('hp-orders'); localStorage.removeItem('hp-quotes'); localStorage.removeItem('hp-complaints'); localStorage.removeItem('hp-addresses'); localStorage.removeItem('hp-invoice-sel'); localStorage.removeItem('hp-addr-more'); sessionStorage.removeItem('hp-yay'); } catch (e) {} };
 if (new URLSearchParams(location.search).has('reset')) { resetDemo(); history.replaceState(null, '', location.pathname + location.search.replace(/[?&]reset(=[^&]*)?/, '').replace(/^&/, '?')); location.reload(); }
 document.body.insertAdjacentHTML('beforeend', `<div class="flow-switch demo-reset" role="group" aria-label="Prototype"><span>Demo</span><button type="button" data-demo="reset" title="Reset the demo: every to-do open again" aria-label="Reset the demo">↺</button>
   <button type="button" data-demo="new" aria-pressed="${NEW_CUSTOMER}" title="New customer: no orders yet (the empty states)" aria-label="New customer">N</button></div>`);

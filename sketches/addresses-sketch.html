@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addresses Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
+<!-- Sketch (not linked; Cornel 2026-11-18): My account, Addresses, the wishes artifact's content on the checkout's address book.
+     addresses-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1700px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1700px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 2550px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: Addresses</h1>
+  <div class="note"><b>Cornel chose B (2026-11-18): the address cards of the customer journey, so it's all the same; built as prototype/addresses.html.</b> <b>My pick was A.</b> The same settings list as Personal details: on top the two addresses that matter for every order (Default shipping, Billing),
+    each a row with its icon and one button; under it All addresses, a row per address with Edit, and New address last. Edit and Add open our standard popup with the checkout's address form.
+    The two account pages then work exactly the same, it reads fast, and on mobile nothing gets cramped. B uses the checkout's address cards: familiar from the checkout, but cards with three
+    links each get busy, and Default / Billing as labels on a card are easy to miss. C is the artifact 1:1 (two cards + a table): clear on desktop, but the table needs its own rows on mobile.
+    <ul>
+      <li>From the artifact: default delivery, billing (with the company and VAT number), more addresses, add an address.</li>
+      <li>Ours: the address book is the checkout's ('hp-addresses'), so what you add here is at the checkout and on the order page's Change, and back; "shipping address", never delivery address.</li>
+      <li>Only UI guide parts: the setting row (<code>.has-ico</code> + <code>.hc-ico</code>), <code>.dash-card</code>, the address book cards (B), <code>.dash-table</code> (C), <code>.badge.neutral</code>, the popup.</li>
+    </ul></div>
+</div>
+<script>
+  const OPTS = [['a', 'A · A settings list, as Personal details', 'Default shipping and Billing on top, then all addresses as rows with Edit, New address last; the popup holds the checkout’s address form.', true],
+    ['b', 'B · Address cards', 'The checkout’s address cards: a card per address with Default shipping / Billing labels and Edit · Make default · Delete; + New address dashed.'],
+    ['c', 'C · Two cards and a table', 'The artifact 1:1: Default shipping and Billing side by side, More addresses as a table, Add an address.']];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `addresses-frame.html?v=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>

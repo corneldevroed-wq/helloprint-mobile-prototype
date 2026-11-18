@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Addresses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,delete,edit,more_vert,receipt_long,star&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205d">
+<link rel="stylesheet" href="pages.css?v=20261205d">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, Addresses (Cornel 2026-11-18: "the address cards of the customer journey, so it's all the same"): the checkout's address cards
+       (.addr-card): on top Default shipping address and Default billing address, under them the Address book as the lists' table (Name,
+       Address, edit / make default / delete; rows on mobile; Add an address); no green border (nothing is chosen here). In the address book the star sets the default shipping address, the receipt the billing address, Edit opens
+       the checkout's address form in the popup, the bin deletes. One address book with the checkout and the order page ('hp-addresses', the billing choice 'hp-invoice-sel'), this browser only. -->
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / Addresses</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="ad"></div>
+    </div>
+  </main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261205d"></script>
+<script src="account.js?v=20261205d"></script>
+<script src="../design-system/components.js?v=20261205d"></script>
+<script>
+{ // its own scope: no clash with app.js names
+  if (!deskUser) location.replace('login.html');
+  document.querySelector('[data-account-side]').outerHTML = accountSide('addresses.html');
+  const esc = t => String(t || '').replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]);
+  let book = bookOf();
+  let billSel = 'same'; try { billSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
+  const save = () => { try { localStorage.setItem('hp-addresses', JSON.stringify(book)); localStorage.setItem('hp-invoice-sel', billSel); } catch (e) {} };
+  const def = () => book.find(a => a.isDefault) || book[0];
+  const billId = () => book.some(a => a.id === billSel) ? billSel : def().id;   // 'same' = the shipping address
+
+  // the address book as the lists' table (Cornel 2026-11-18): Name (bold, who grey under it) · Address · edit, make default, delete; rows on mobile
+  const who = a => esc([`${a.first || ''} ${a.last || ''}`.trim(), a.company].filter(Boolean).join(', '));
+  const where = a => esc([a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean).join(', '));
+  const ib = (ic, tip, attr) => `<button type="button" class="icon-btn" ${attr} data-tip="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></button>`;
+  const acts = a => `<span class="icon-btns">${ib('edit', 'Edit', `data-addr="${a.id}"`)}${a.id === def().id ? ib('star', 'Your default shipping address', 'aria-pressed="true" data-def-on') : ib('star', 'Make default shipping address', `data-def="${a.id}"`)}${a.id === billId() ? ib('receipt_long', 'Your billing address', 'aria-pressed="true"') : ib('receipt_long', 'Use on my invoices', `data-bill="${a.id}"`)}${book.length > 1 ? ib('delete', 'Delete', `data-del="${a.id}"`) : ''}</span>`;
+  // mobile (Cornel 2026-11-18: four buttons don't fit): the roles as grey labels under the address, one ⋮ with the actions, as the checkout's address list
+  const roles = a => { const t = [a.id === def().id && 'Default shipping', a.id === billId() && 'Default billing'].filter(Boolean); return t.length ? `<span class="tags">${t.map(x => `<span class="badge neutral co-badge">${x}</span>`).join('')}</span>` : ''; };
+  const menu = a => `<span class="row-menu"><button type="button" class="icon-btn" data-menu aria-expanded="false" aria-label="More for ${esc(a.label)}"><span class="material-symbols-rounded" aria-hidden="true">more_vert</span></button>
+    <span class="menu" hidden><button type="button" data-addr="${a.id}">Edit</button>${a.id === def().id ? '' : `<button type="button" data-def="${a.id}">Make default shipping address</button>`}${a.id === billId() ? '' : `<button type="button" data-bill="${a.id}">Use on my invoices</button>`}${book.length > 1 ? `<button type="button" class="del" data-del="${a.id}">Delete</button>` : ''}</span></span>`;
+  function render() {   // on top the two defaults (Cornel 2026-11-18, sketch C), under them the address book; no card is "chosen" here, so no green border
+    const card = (a, title, kind) => `<div class="addr-card"><span class="top"><b>${title}</b><span class="badge neutral co-badge">${esc(a.label)}</span></span>
+        <p>${bookLines(a).map(esc).join('<br>')}</p><button type="button" class="btn small outline" data-pick="${kind}">Edit</button></div>`;   // Edit: choose another address from the book (Cornel 2026-11-18)
+    document.getElementById('ad').innerHTML = `<div><h1>Addresses</h1><p class="oc-lead">Where we ship your orders and who we invoice. The checkout uses the same addresses.</p></div>
+      <section class="oc-sec addr-top"><div class="addr-two">${card(def(), 'Default shipping address', 'ship')}${card(book.find(a => a.id === billId()), 'Default billing address', 'bill')}</div>
+        <p class="pd-note">Change them here or in the address book below. At the checkout you can still choose another one for one order. Your company and VAT number on invoices come from <a class="link" href="personal-details.html">Personal details</a>.</p></section>
+      <section class="oc-sec"><h2>Address book</h2><div class="dash-card list-card">
+        <table class="dash-table list-table addr-book"><thead><tr><th>Name</th><th>Address</th><th aria-label="Actions"></th></tr></thead><tbody>${book.map(a => `<tr><td><span class="first"><span><b>${esc(a.label)}</b><small>${who(a)}</small></span></span></td>
+          <td>${where(a)}</td><td class="num">${acts(a)}</td></tr>`).join('')}</tbody></table>
+        <div class="list-rows addr-book">${book.map(a => `<div class="dash-row text"><span class="t"><b>${esc(a.label)}</b><small>${bookLines(a).map(esc).join('<br>')}</small>${roles(a)}</span>${menu(a)}</div>`).join('')}</div>
+        <div class="dash-foot"><button class="btn small primary" type="button" data-addr=""><span class="material-symbols-rounded" aria-hidden="true">add</span>Add an address</button></div></div></section>`;
+  }
+  render();
+
+  // the checkout's address form in the standard popup; Delete in its bar while editing (not the last address)
+  const F = (name, label, auto = '', type = 'text') => `<label class="field"><input name="${name}" type="${type}" placeholder=" " aria-label="${label}"${auto ? ` autocomplete="${auto}"` : ''}><span class="fl">${label}</span></label>`;
+  document.body.insertAdjacentHTML('beforeend', accSheet('adbook', '', `<form class="pd-form" id="adForm" novalidate>
+      ${F('label', 'Name for this address (e.g. Home, Office)')}<div class="co-row">${F('first', 'First name', 'given-name')}${F('last', 'Last name', 'family-name')}</div>
+      ${F('company', 'Company (optional)', 'organization')}${F('phone', 'Phone number', 'tel', 'tel')}${F('address1', 'Address line 1', 'address-line1')}${F('address2', 'Address line 2 (optional)', 'address-line2')}
+      <div class="co-row">${F('eircode', 'Eircode', 'postal-code')}${F('town', 'Town / city', 'address-level2')}</div>
+</form>`,
+    '<button class="btn primary" type="button" data-ad-save>Save address</button>'));
+  document.body.insertAdjacentHTML('beforeend', accSheet('adpick', '', '', '<button class="btn primary" type="button" data-pick-use>Use this address</button>', true));
+  let pickKind = null, pickId = null;
+  const renderPick = () => { document.getElementById('adpickBody').innerHTML = book.map(a => `<li class="${a.id === pickId ? 'on' : ''}" aria-checked="${a.id === pickId}"><button type="button" class="ap-pick" data-pick-id="${a.id}"><span class="radio" aria-hidden="true"></span>
+      <span class="t"><b>${esc(a.label)}</b>${bookLines(a).map(l => `<span>${esc(l)}</span>`).join('')}</span></button></li>`).join(''); };
+  const form = document.getElementById('adForm'), FIELDS = ['label', 'first', 'last', 'company', 'phone', 'address1', 'address2', 'eircode', 'town'];
+  let editing = null;
+  function open(id) {
+    editing = id || null; const a = book.find(x => x.id === id) || {};
+    document.getElementById('adbookTitle').textContent = id ? 'Edit address' : 'New address';
+    FIELDS.forEach(n => { form[n].value = a[n] || (!id && (n === 'first' || n === 'last') ? deskUser?.[n] || '' : ''); });
+    form.querySelectorAll('.field').forEach(f => setFieldError(f, ''));
+    openSheet('adbook'); setTimeout(() => form.label.focus(), 300);
+  }
+  const RULES = { label: [v => v, 'Give this address a name'], first: [v => v, 'Enter a first name'], last: [v => v, 'Enter a last name'],
+    phone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number'], address1: [v => v.length > 2, 'Enter the address'],
+    eircode: [v => EIRCODE.test(v), 'Enter a valid Eircode'], town: [v => v, 'Enter the town or city'] };
+  document.addEventListener('click', e => {
+    const pk = e.target.closest('[data-pick]');   // the cards on top: Edit = pick another default from the book
+    if (pk) { pickKind = pk.dataset.pick; pickId = pickKind === 'ship' ? def().id : billId();
+      document.getElementById('adpickTitle').textContent = pickKind === 'ship' ? 'Your default shipping address' : 'Your default billing address'; renderPick(); openSheet('adpick'); return; }
+    const pi = e.target.closest('[data-pick-id]'); if (pi) { pickId = pi.dataset.pickId; renderPick(); return; }
+    if (e.target.closest('[data-pick-use]')) { const a = book.find(x => x.id === pickId);
+      if (pickKind === 'ship') book.forEach(x => { x.isDefault = x.id === pickId; }); else billSel = pickId;
+      save(); closeSheet(); render(); showToast(`${a.label} is your ${pickKind === 'ship' ? 'default shipping' : 'billing'} address`); return; }
+    const mb = e.target.closest('[data-menu]');   // ⋮ opens its menu; any other click closes the open one
+    document.querySelectorAll('.row-menu .menu').forEach(m => { if (!mb || m !== mb.nextElementSibling) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
+    if (mb) { const m = mb.nextElementSibling; m.hidden = !m.hidden; mb.setAttribute('aria-expanded', String(!m.hidden)); return; }
+    const d = e.target.closest('[data-def]');
+    if (d) { book.forEach(a => { a.isDefault = a.id === d.dataset.def; }); save(); render(); showToast(`${book.find(a => a.isDefault).label} is your default shipping address`); return; }
+    const bl = e.target.closest('[data-bill]');   // the billing address: the receipt, as the star for shipping (Cornel 2026-11-18: one way per role)
+    if (bl) { billSel = bl.dataset.bill; save(); render(); showToast(`${book.find(a => a.id === billSel).label} is your billing address`); return; }
+    const x = e.target.closest('[data-del]');
+    if (x) { const was = book.find(a => a.id === x.dataset.del); book = book.filter(a => a !== was);   // delete: only the bin in the address book (Cornel: not in Edit)
+      if (was.isDefault) book[0].isDefault = true;
+      if (billSel === was.id) billSel = 'same';
+      save(); render(); showToast(`${was.label} is deleted`); return; }
+    const c = e.target.closest('[data-addr]'); if (c) { open(c.dataset.addr); return; }
+    if (e.target.closest('[data-ad-save]')) {
+      const v = Object.fromEntries(FIELDS.map(n => [n, form[n].value.trim()]));
+      const bad = Object.keys(RULES).filter(n => { const ok = !!RULES[n][0](v[n]); setFieldError(form[n].closest('.field'), ok ? '' : RULES[n][1]); return !ok; });
+      if (bad.length) { form[bad[0]].focus(); return; }
+      v.eircode = v.eircode.toUpperCase();
+      let id = editing;
+      if (id) Object.assign(book.find(a => a.id === id), v); else { id = 'a' + Date.now(); book.push({ id, ...v }); }
+      if (!book.some(a => a.isDefault)) book[0].isDefault = true;
+      save(); closeSheet(); render(); showToast(editing ? 'Address updated' : 'Address added'); return;
+    }
+  });
+  form.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); document.querySelector('[data-ad-save]').click(); } });
+}
+</script>
+</body>
+</html>
