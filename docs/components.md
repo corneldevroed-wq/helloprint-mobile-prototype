@@ -152,6 +152,11 @@ design system + guide, prices for products without a live from-price. Gap histor
   (optVisual checks `o.icon` first); roller banners (Size, Stand), the folded business-card sizes and the PVC cards (Finish) use it.
   One-off materials (`sketches/oneoff-icons-sketch.html`): `neon` (yellow) / `neon-green|orange|pink` with a soft glow, `photo-paper`, `dot-foil`,
   `backlit`, `antique-white`, `paperwise-white`, `pvc-card-gloss|matt` (a plastic card, rounded corners).
+  Flags (`sketches/flag-icons-sketch.html`): `flags/type-drop|feather|rectangle`, `flag-only|flag-with-pole`, `pole-none|orange|white|orange-bracket|white-bracket`,
+  `sway-right|left|both`, `boat-right|left`, `bunting-triangle|rectangle`, `cord-loop`, `hooks-white|black`, `band-hooks-white|black`,
+  `tunnel-band-hooks-white|black`, `window-set|flag|pole` (the pole a 1.5 line, the fabric 1px). Bases and wall mounts are no icon but the live
+  photo: `prototype/assets/live-opts/flags/base-cross|cross-water|parasol|spike|screw.png`, `wall-0|45|90.png` (cut out, on the light grey tile;
+  no base = `inks/none`), named in the data as `photo`. No flag product in the prototype yet.
   Print colours (`sketches/print-colour-icons-sketch.html`, A): `inks/none|1|2|3|4|5|full` (one dot per colour: orange, light green, dark green,
   blue, dark grey; full = the CMYK square), `printing/pms-4-single|black-single|black-double|full-front-black-back`. Basic cotton bags use the inks.
   Print area (`sketches/print-area-icons-sketch.html`, A): `printarea/bag-large|small(-both)`, `notebook-full|large|small`, `pen-barrel|clip`,

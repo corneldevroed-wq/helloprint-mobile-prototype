@@ -640,11 +640,11 @@
   document.querySelectorAll('.ds-crop').forEach(b => cropIO.observe(b));
   // Material icons: read the live list
   // Every icon family, read live from icons/index.json (family → file → label), so a new icon shows up here without editing the guide
-  fetch('icons/index.json').then(r => r.json()).then(m => document.querySelectorAll('.ic-rows').forEach(el => {
+  fetch('icons/index.json', { cache: 'no-cache' }).then(r => r.json()).then(m => document.querySelectorAll('.ic-rows').forEach(el => {
     el.innerHTML = Object.entries(m[el.dataset.g] || {}).map(([fam, files]) => `<p class="ic-fam">${fam}</p><div class="icon-grid">` +
       Object.entries(files).map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('') + '</div>').join('');
   }));
-  fetch('icons/materials/index.json').then(r => r.json()).then(m => {
+  fetch('icons/materials/index.json', { cache: 'no-cache' }).then(r => r.json()).then(m => {
     document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
   });
 
