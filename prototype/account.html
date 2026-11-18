@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261203z">
-<link rel="stylesheet" href="../design-system/components.css?v=20261203z">
-<link rel="stylesheet" href="pages.css?v=20261203z">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261204b">
+<link rel="stylesheet" href="../design-system/components.css?v=20261204b">
+<link rel="stylesheet" href="pages.css?v=20261204b">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -28,7 +28,7 @@
         <div><h1>Welcome back, <span data-first></span></h1><p class="oc-lead">Order again in one click, and everything waiting on you.</p></div>
         <nav class="quick-links" id="quick" aria-label="Go to"></nav>
 
-        <div class="account-two" id="pair">
+        <div class="account-two feature" id="pair">
           <section id="todoSec"><h2>Needs your attention</h2><div class="oc-acts" id="todo"></div></section>
           <section><h2>Order again <a class="link" href="orders.html">All orders</a></h2><div class="dash-card" id="again"></div></section>
         </div>
@@ -49,9 +49,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261203z"></script>
-<script src="account.js?v=20261203z"></script>
-<script src="../design-system/components.js?v=20261203z"></script>
+<script src="app.js?v=20261204b"></script>
+<script src="account.js?v=20261204b"></script>
+<script src="../design-system/components.js?v=20261204b"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
@@ -88,23 +88,13 @@
   window.addEventListener('hp-orders', renderTodo);
   document.getElementById('todoSec').addEventListener('click', e => { if (!e.target.closest('[data-more]')) return; e.preventDefault(); document.getElementById('todoSec').classList.toggle('all'); renderTodo(); });
 
-  // Prototype switch (Cornel 2026-11-18): the light grey box around A = Needs your attention + Order again, or B = only the quick links (as mijn bol, without the title);
-  // ?grey=a|b, remembered in this browser; the buttons sit in the Demo tab on the left
-  let grey = new URLSearchParams(location.search).get('grey'); try { grey = grey || localStorage.getItem('hp-grey'); } catch (e) {}
-  const setGrey = g => { grey = g === 'a' ? 'a' : 'b'; try { localStorage.setItem('hp-grey', grey); } catch (e) {}
-    document.getElementById('pair').classList.toggle('feature', grey === 'a'); document.getElementById('quick').classList.toggle('feature', grey === 'b');
-    document.querySelectorAll('[data-grey]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.grey === grey)));
-    const u = new URL(location.href); u.searchParams.set('grey', grey); history.replaceState(null, '', u); };
-  document.querySelector('.demo-reset').insertAdjacentHTML('beforeend', '<span>Grey</span><button type="button" data-grey="a" title="Grey box: Needs your attention + Order again">A</button><button type="button" data-grey="b" title="Grey box: the quick links">B</button>');
-  document.querySelector('.demo-reset').addEventListener('click', e => { const b = e.target.closest('[data-grey]'); if (b) setGrey(b.dataset.grey); });
-  setGrey(grey);
 
   // Quick links (Cornel 2026-11-18, sketch B): where you want to go, each with what waits there
   const renderQuick = () => { const open = invoiceList().filter(v => !v.credit && v.open > .005), busy = ORDERS.filter(o => o.step < 4 && !o.cancelled).length, ready = quoteList().filter(q => q.state === 'ready').length;
     document.getElementById('quick').innerHTML = [['orders.html', 'package-2', 'Orders', busy ? `${busy} in progress` : 'All your orders'],
       ['invoices.html', 'receipt-long', 'Invoices', open.length ? `${accEur(open.reduce((s, v) => s + v.open, 0))} open` : 'All paid'],
-      ['quotes.html', 'request-quote', 'Quotes', ready ? `${ready} ready to accept` : 'Ask for a custom quote'], ['help-centre.html', 'support-agent', 'Help', 'Chat or the Help Centre']]
-      .map(([h, i, t, s]) => `<a class="hc-card" href="${h}"><span class="hc-ico"><img src="../design-system/icons/${i}.svg" alt=""></span><span><span class="hc-card-h">${t}</span><small>${s}</small></span></a>`).join(''); };
+      ['quotes.html', 'request-quote', 'Quotes', ready ? `${ready} ready to accept` : 'Ask for a custom quote'], ['help-centre.html', 'face', 'Help', 'Chat or the Help Centre']]   // Help: one of our team in the tile, not an icon (Cornel 2026-11-18)
+      .map(([h, i, t, s]) => `<a class="hc-card" href="${h}"><span class="hc-ico">${i === 'face' ? '<img class="face" src="assets/help/team/saskia.webp" alt="">' : `<img src="../design-system/icons/${i}.svg" alt="">`}</span><span><span class="hc-card-h">${t}</span><small>${s}</small></span></a>`).join(''); };
   renderQuick(); window.addEventListener('hp-orders', renderQuick);
 
   // Order again: the last products, one click to the cart (the same specs and design), change the options on the product page, the proof

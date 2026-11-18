@@ -55,8 +55,6 @@ with live content), `usp-bar-sketch.html` (mobile USP bar A–D), `banner-icons-
 ## Prototype switches
 All switches write their value into the URL and localStorage, so a copied link opens the same version.
 
-**My account: Grey** (2026-11-18): in the Demo tab on the Overview, A | B (`?grey=a|b`, localStorage `hp-grey`): the light grey box around Needs your attention + Order again (A) or only the quick links (B, default).
-
 **My account: New customer** (2026-11-17): the N under ↺ in the Demo tab (`?new=1|0`, localStorage `hp-new-customer`): no orders, so every block shows its empty state (`.dash-empty`), the account card says customer since Nov 2026 and 0 points; the order and proof pages go to Orders.
 
 **My account: Demo reset** (2026-11-17): the dark tab on the left edge of every account page ("Demo ↺", the switches' look) clears what was done in this browser (`hp-orders`: approved, uploaded, paid, cancelled, references), so every to-do is open again. `?reset` on any account page does the same (and removes itself from the address).

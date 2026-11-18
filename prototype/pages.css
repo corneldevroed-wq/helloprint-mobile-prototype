@@ -2040,8 +2040,8 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .desk .account-main > .filter-row, .desk .account-main > .filter-row + .list-card { margin-top: -16px; }
 .account-two { display: flex; flex-direction: column; gap: 24px; }
 .desk .account-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
-.account-two.feature, .quick-links.feature { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* the light grey box (Cornel 2026-11-18, switch Grey A|B): A = Needs your attention + Order again, B = only the quick links (as mijn bol) */
-.desk .account-two.feature, .desk .quick-links.feature { padding: 24px; }
+.account-two.feature { padding: 16px; border-radius: var(--r-l); background: var(--light-grey); }   /* the light grey box around Needs your attention + Order again (Cornel 2026-11-18, switch Grey: A chosen) */
+.desk .account-two.feature { padding: 24px; }
 .account-two.feature .oc-act { background: var(--white); }   /* the to-do blocks white on the grey, as the cards next to them */
 .account-page h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* the section title (24/32 desktop, components.css), its arrow link right, 8 to its block */
 .desk .account-two .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */

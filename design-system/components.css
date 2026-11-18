@@ -905,6 +905,7 @@ html:not(.desk) .quick-links .hc-card { gap: 12px; padding: 12px; }   /* mobile:
 html:not(.desk) .quick-links .hc-ico, .has-ico > .hc-ico { width: 40px; height: 40px; }
 .quick-links small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .hc-ico > img { width: 24px; height: 24px; }   /* an interface icon (design-system/icons) in the grey icon tile */
+.hc-ico > .face { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: inherit; }   /* one of our team in the tile instead of an icon (the Overview's Help, Cornel 2026-11-18) */
 .vip-meter { display: flex; flex-direction: column; gap: 8px; }
 .vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }   /* the title, the tier label right; under the bar one line: points · to the next discount (Cornel 2026-11-17: the layout of the cart's VIP score, our fonts) */
 .vip-meter .top .badge { margin: 0; }
