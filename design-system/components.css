@@ -922,7 +922,7 @@ html:not(.desk) .quick-links .hc-ico, .has-ico > .hc-ico { width: 40px; height: 
 .account-who + .vip-meter, .vip-meter + .account-nav { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
 .vip-meter + .account-nav.d-menu { padding-top: 16px; }   /* the line under How VIP works with 16 on both sides (.d-menu resets the padding; 0 put the line on the grey current row, Cornel 2026-11-18) */
 /* The account menu's rows (.d-menu.d-head) in the page, not floating: the account pages, and Need something? on the order page */
-.account-nav.d-menu { padding: 0; background: none; }   /* the account menu's rows in the page (the reset: with .sheet .d-menu) */
+.account-nav.d-menu { padding: 0; border-radius: 0; background: none; }   /* the account menu's rows in the page (the reset: with .sheet .d-menu); no corner, its top line runs straight like the one above the VIP status (Cornel 2026-11-18) */
 .account-nav a[aria-current] { background: var(--light-grey); }
 .account-nav a[aria-current] b { font-weight: 600; }
 /* Filters over a list: pills (.pill, .pill.active = the chosen one, the count in regular) and a search field; desktop: the search on the right */
