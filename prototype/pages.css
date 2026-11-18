@@ -2062,7 +2062,28 @@ html:not(.desk) .account-sub .account-side { display: none; }
 .od-lines > .oc-sec { margin-top: 16px; }   /* 32 between the products and Order details */
 .od-inv { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }   /* the invoice row, under it the small Download button */
 .od-inv .dash-row { align-self: stretch; padding: 0; }
+.inv-lines { display: flex; flex-direction: column; gap: 16px; }   /* a complaint's order contents: the products, then the totals 16 below (All specifications was glued to the line; Cornel 2026-11-18) */
 .desk .list-rows, html:not(.desk) .list-table { display: none; }   /* one list: the table on desktop, the rows on mobile */
+.report-main { display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 720px; margin: 0 auto; }   /* Report a problem: a page of its own, no account card, one centred column (Cornel 2026-11-18) */
+.desk .report-main { gap: 32px; }
+.report-main > .ha-back { margin-bottom: -8px; align-self: flex-start; }
+.desk .report-main > .ha-back { margin-bottom: -16px; }
+.rp { display: flex; flex-direction: column; gap: 24px; }   /* the questions, 24 apart; each a title 16/22 semibold, an optional grey line, its control */
+.rp-q { display: flex; flex-direction: column; gap: 8px; }
+.account-page .rp-q > h2 { display: block; margin: 0; font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; letter-spacing: 0; color: var(--black); }
+.rp-q > p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.rp-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.rp-checks { display: flex; flex-direction: column; gap: 8px; }
+.rp-checks .check { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+.rp .addr-list { padding: 0; }
+.rp-ev .t b .material-symbols-rounded { margin-right: 4px; vertical-align: -4px; color: var(--dark-green); }
+.rp-ev .ok { font-weight: 600; color: var(--link); }
+.oc-foot.rp-band { margin: 0; border-radius: var(--r-m); text-align: left; text-wrap: wrap; }   /* a message on its own: the full width, no balanced lines (Cornel 2026-11-18) */
+.oc-foot.rp-ok { background: var(--selected); }   /* the reprint can make it */
+.rp-date { max-width: 240px; }
+.rp-foot { display: flex; flex-direction: column-reverse; align-items: stretch; gap: 16px; }
+.desk .rp-foot { flex-direction: row; align-items: center; justify-content: space-between; }
+.rp-foot small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .ask-card { display: flex; flex-direction: column; gap: 8px; }   /* a quote's Ask us a question: the field, the line about replies and files, the buttons right */
 .ask-card > small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .ask-card .btns { display: flex; justify-content: flex-end; gap: 8px; }

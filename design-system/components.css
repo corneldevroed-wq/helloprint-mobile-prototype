@@ -740,6 +740,11 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .spec-fold-rows { display: grid; grid-template-columns: auto 1fr; gap: 0 16px; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* label grey, what you chose black */
 .spec-fold-rows > div { display: contents; }
 .spec-fold-rows span + span { color: var(--black); }
+.fold-table { width: 100%; margin-top: 8px; border-collapse: collapse; font-size: var(--t-12); line-height: var(--lh-12); }   /* a fold-out that explains choices (Report a problem): a light table, a line between the rows (Cornel 2026-11-18) */
+.fold-table td { padding: 8px 16px 8px 0; vertical-align: top; color: var(--black); }
+.fold-table tr + tr td { border-top: 1px solid var(--line); }
+.fold-table td:first-child { white-space: nowrap; font-weight: 600; }
+.fold-table td:last-child { padding-right: 0; color: var(--dark-grey); }
 .dash-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }   /* an account block with nothing in it yet (a new customer): one calm line, at most one button */
 .oc-act .n svg { width: 16px; height: 16px; fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .oc-act .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }   /* the cart line without its quantity row: no line under the date */
@@ -945,5 +950,5 @@ html:not(.desk) .items-table .nv { display: block; }
    Two buttons in its head row: together on the right (.btns) */
 .oc-act .row .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
 .oc-act .row .btns .btn { margin-left: 0; }
-html:not(.desk) .oc-act:not(.done) .row .btns { flex: 1 1 100%; }   /* mobile, a to-do's button(s) over the full width, two share it equally (Cornel 2026-11-18) */
-html:not(.desk) .oc-act:not(.done) .row .btns .btn { flex: 1; }
+html:not(.desk) .oc-act .row .btns { flex: 1 1 100%; }   /* mobile, a block's button(s) over the full width, two share it equally; a done block's Change too (Cornel 2026-11-18) */
+html:not(.desk) .oc-act .row .btns .btn { flex: 1; }

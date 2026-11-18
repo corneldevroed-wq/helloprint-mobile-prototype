@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203i">
+<!-- Sketch (not linked; Cornel 2026-11-18): Report a problem, the wishes artifact's complaint form in our account. The real shell and components in
+     report-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1400px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1400px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 2100px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: Report a problem</h1>
+  <div class="note"><b>Cornel chose A (2026-11-18), as a page of its own without the account card and with a back link: built as prototype/report.html.</b> <b>My pick: A.</b> One page in the account (report.html), the questions in the artifact’s order, each one showing as you answer the one before
+    (the sketch shows them all filled in). Reached from the order page (Report a problem, the order already chosen), Complaints and the Help Centre.
+    It keeps everything in view, which matters for the reprint check at the end, and it is the artifact’s flow 1:1. B splits it into 5 steps: calmer per screen,
+    but more taps and you lose the overview. C is quick from the order page, but a form this long (photos, a date) is cramped in a popup, especially on mobile.
+    <ul>
+      <li>From the artifact: the 10-day window (and “Why 10 days?”), area → what happened → how many (only for problems with the products) → a sentence → the photos
+        asked per problem (each its own Upload) → what we should do → the need-by date with the reprint check (good news / won’t make it: chat with Anna).</li>
+      <li>Ours: which products (the order has more), Send gives the new case page (Complaints, CMP-1043) instead of a record card, so you land where you follow it.</li>
+      <li>Only UI guide parts: <code>.field</code>, <code>.pill</code>, <code>.check</code>, the address book’s radio cards, <code>.dash-row</code> + small buttons for the photos,
+        <code>.oc-foot</code> bands, <code>.tracker</code> (B), the popup (C). Nothing new except a little layout.</li>
+    </ul></div>
+</div>
+<script>
+  const OPTS = [['a', 'A · One page that grows as you answer', 'The whole form on one page in the account card; every question appears once the one before is answered. Send at the end.', true],
+    ['b', 'B · One step at a time', 'Five steps (Order · Problem · Photos · Fix · Send) with the progress bar of our orders; Back and Next. Shown at step 3, the photos.'],
+    ['c', 'C · A popup on the order page', 'Report a problem on the order page opens the questions in our standard popup (the order already known), Send in its bar.']];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `report-frame.html?v=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>

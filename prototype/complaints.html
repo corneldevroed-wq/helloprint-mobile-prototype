@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202w">
-<link rel="stylesheet" href="pages.css?v=20261202w">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261203i">
+<link rel="stylesheet" href="pages.css?v=20261203i">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -30,15 +30,15 @@
           <div class="list-rows" id="rows"></div>
           <p class="oc-lead" id="none" hidden>No complaints match. Try another word or filter.</p></div>
         <div class="dash-card" id="empty" hidden><p class="dash-empty">No complaints. If something is wrong with an order, report it and we open a case here.</p></div>
-        <div class="dash-card"><div class="dash-row text"><span class="t"><b>Something wrong with an order?</b><small>Report it and we open a tracked case here.</small></span><button class="btn primary small" type="button" data-act="soon" data-what="Reporting a problem">Report a problem</button></div></div>
+        <div class="dash-card"><div class="dash-row text"><span class="t"><b>Something wrong with an order?</b><small>Report it and we open a tracked case here.</small></span><a class="btn primary small" href="report.html">Report a problem</a></div></div>
       </div>
     </div>
   </main>
-  <footer data-shell="footer"></footer>
+  <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261202w"></script>
-<script src="account.js?v=20261202w"></script>
-<script src="../design-system/components.js?v=20261202w"></script>
+<script src="app.js?v=20261203i"></script>
+<script src="account.js?v=20261203i"></script>
+<script src="../design-system/components.js?v=20261203i"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');

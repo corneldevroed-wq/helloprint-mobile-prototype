@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=photo_camera,send,upload,videocam&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203i">
+<link rel="stylesheet" href="../design-system/components.css?v=20261203i">
+<link rel="stylesheet" href="pages.css?v=20261203i">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-18), loaded by sketches/report-sketch.html as ?v=a|b|c: Report a problem, with the wishes artifact's form
+     (order, 10-day window, area, what happened, how many, details, the photos asked per problem, what we should do, need-by date + the reprint check).
+     Only UI guide parts: .field (select, textarea, date), .pill/.pill.active, .check, .addr-list radio cards, .dash-card/.dash-row, .oc-foot, .tracker,
+     .btn, .oc-team, the account shell; a: one page that grows as you answer · b: one step at a time · c: a popup on the order page. -->
+<style>
+  /* SKETCH CSS */
+  .rp { display: flex; flex-direction: column; gap: 24px; }
+  .desk .rp { gap: 32px; }
+  .rp-q { display: flex; flex-direction: column; gap: 8px; }
+  .account-page .rp-q > h2, .sheet .rp-q > h2 { display: block; margin: 0; font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; color: var(--black); letter-spacing: 0; }
+  .rp-q > p { margin: 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .rp-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rp-checks { display: flex; flex-direction: column; gap: 8px; }
+  .rp-checks .check { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
+  .rp .addr-list { padding: 0; }
+  .rp-ev .dash-row .t b .material-symbols-rounded { vertical-align: -4px; margin-right: 4px; color: var(--dark-green); }
+  .rp-ev .ok { color: var(--link); font-weight: 600; }
+  .rp-foot { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .desk .rp-foot { flex-direction: row; align-items: center; justify-content: space-between; }
+  .rp-foot small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .oc-foot.rp-band { margin: 0; border-radius: var(--r-m); text-align: left; }
+  .oc-foot.rp-ok { background: var(--selected); }
+  .rp-steps { margin: 0; }
+  .rp-nav { display: flex; gap: 8px; } .rp-nav .btn { flex: 1; }
+  .desk .rp-nav { justify-content: flex-end; } .desk .rp-nav .btn { flex: none; padding: 0 24px; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="complaints.html">Complaints</a> / Report a problem</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="rp"></div>
+    </div>
+  </main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<div data-shell="sheet-art"></div>
+<script src="app.js?v=20261203i"></script>
+<script src="account.js?v=20261203i"></script>
+<script src="../design-system/components.js?v=20261203i"></script>
+<script>
+{
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  document.querySelector('[data-account-side]').outerHTML = accountSide('complaints.html');
+  const o = orderOf('8846210');
+  const ms = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+  const q = (h, p, body) => `<section class="rp-q"><h2>${h}</h2>${p ? `<p>${p}</p>` : ''}${body}</section>`;
+  // the artifact's questions, filled in as a customer would
+  const S = {
+    order: q('Which order?', '', `<label class="field"><select aria-label="Which order"><option>#${o.no} · ${o.name} · arriving ${o.lines[0].arrives}</option><option>#8842119 · Classic Business Cards · on its way</option><option>Another order / I can’t find it</option></select></label>
+      <p class="oc-foot rp-band">You can report a problem until <b>10 days after delivery</b> (for this order: Mon 30 Nov). Add the photos we ask for and we solve it fastest. <a class="link" href="#why">Why 10 days?</a></p>`),
+    products: q('Which products?', '', `<div class="rp-checks">${o.lines.map((l, i) => `<label class="check"><input type="checkbox"${i === 1 ? ' checked' : ''}>${l.name} · ${l.spec.split(' · ')[0]}</label>`).join('')}</div>`),
+    area: q('What is the problem about?', '', `<div class="rp-pills">${['Artwork / design', 'Product / print quality', 'Packaging', 'Delivery'].map((t, i) => `<button class="pill${i === 1 ? ' active' : ''}" type="button">${t}</button>`).join('')}</div>
+      <details class="spec-fold"><summary class="link">Not sure which one to pick?</summary><div class="spec-fold-rows"><div><span>Artwork / design</span><span>the file itself, or how it printed vs. your design</span></div><div><span>Product / print quality</span><span>the physical result: colour, cut or finish</span></div><div><span>Packaging</span><span>damaged or wrong packaging</span></div><div><span>Delivery</span><span>late, missing, or the wrong address</span></div></div></details>`),
+    what: q('What exactly happened?', '', `<label class="field"><select aria-label="What happened"><option>Product arrived damaged</option><option>Poor print quality (blurry, streaks)</option><option>Wrong product / specification</option><option>Wrong quantity received</option></select></label>`),
+    many: q('How many are affected?', '', `<div class="rp-pills"><button class="pill" type="button">All of them</button><button class="pill active" type="button">Most of them</button><button class="pill" type="button">A handful</button></div>
+      <label class="field"><input type="number" placeholder=" " aria-label="Exact number"><span class="fl">The exact number, if you know it</span></label>`),
+    more: q('Tell us a bit more', '', `<label class="field"><textarea placeholder=" " aria-label="Tell us a bit more">The flyers are bent at the corners, the box was crushed on one side.</textarea><span class="fl">A sentence or two helps us fix it faster</span></label>`),
+    photos: q('Add these photos', 'Exactly what we need to sort it in one go. JPG, PNG or MP4, up to 10 MB each.', `<div class="dash-card rp-ev">${[['A photo of the damaged product', 'flyers-corner.jpg'], ['A photo of the outer box', ''], ['A photo of the shipping label', '']].map(([t, f]) => `<div class="dash-row text"><span class="t"><b>${ms('photo_camera')}${t}</b><small>${f ? `<span class="ok">✓ ${f}</span>` : 'Not added yet'}</small></span><button class="btn small ${f ? 'outline' : 'primary'}" type="button">${f ? 'Change' : `${ms('upload')}Upload`}</button></div>`).join('')}</div>`),
+    fix: q('What would you like us to do?', '', `<ul class="addr-list">${[['Reprint it free of charge', 'Reprinted and reshipped at no cost.', 1], ['Refund the affected items', 'Back on your original payment method in 3 working days.'], ['Get a discount code', 'Keep your product and get a discount code.']].map(([t, s, on]) => `<li class="${on ? 'on' : ''}" aria-checked="${!!on}"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span><span class="t"><b>${t}</b><span>${s}</span></span></button></li>`).join('')}</ul>`),
+    date: q('When do you need it by, at the latest?', 'We check it against the print calendar straight away.', `<label class="field" style="max-width:240px"><input type="date" value="2026-11-27" aria-label="Need it by"><span class="fl">Need it by</span></label>
+      <p class="oc-foot rp-band rp-ok"><b>Good news: a reprint can still make it.</b> The earliest we can reprint and deliver is <b>Tue 24 Nov</b>, you need it by <b>Fri 27 Nov</b>. Send it and we get it moving straight away.</p>`),
+    send: `<div class="rp-foot"><small>Prefer to talk it through? <a class="link" href="#chat">Chat with Anna</a></small><button class="btn primary" type="button">${ms('send')}Send to our team</button></div>`,
+  };
+  const head = `<div><h1>Report a problem</h1><p class="oc-lead">Tell us what went wrong and we make it right. Your case shows up in Complaints.</p></div>`;
+  const all = ['order', 'products', 'area', 'what', 'many', 'more', 'photos', 'fix', 'date'];
+  if (V === 'a') document.getElementById('rp').innerHTML = head + `<div class="dash-card"><div class="rp">${all.map(k => S[k]).join('')}${S.send}</div></div>`;
+  if (V === 'b') { const steps = ['Order', 'Problem', 'Photos', 'Fix', 'Send'];
+    document.getElementById('rp').innerHTML = head + `<div class="dash-card"><div class="rp"><ol class="tracker rp-steps">${steps.map((t, k) => `<li class="${k < 2 ? 'done' : k === 2 ? 'now' : ''}">${t}</li>`).join('')}</ol>
+      ${S.photos}<div class="rp-nav"><button class="btn outline" type="button">Back</button><button class="btn primary" type="button">Next: what we do</button></div></div></div>`; }
+  if (V === 'c') {   // from the order page: the order is known, the questions in the standard popup, Send in its bar
+    document.getElementById('rp').innerHTML = `<div><h1>Order #${o.no}</h1><p class="oc-lead">${o.name} · ${o.lines.length} products · placed ${o.placed}</p></div><div class="dash-card"><p class="dash-empty">The order page behind the popup.</p></div>`;
+    document.body.insertAdjacentHTML('beforeend', accSheet('report', `Report a problem · #${o.no}`, `<div class="rp">${['products', 'area', 'what', 'many', 'more', 'photos', 'fix', 'date'].map(k => S[k]).join('')}</div>`, `<button class="btn primary" type="button">${ms('send')}Send to our team</button>`));
+    setTimeout(() => openSheet('report'), 300); }
+}
+</script>
+</body>
+</html>

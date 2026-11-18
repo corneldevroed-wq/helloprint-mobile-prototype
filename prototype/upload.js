@@ -4,6 +4,7 @@
 // files: the files already on the product (Change: they are in, no confetti, the button says Update my order); extra(): html at the end of
 // "We've got your file" (order confirmed: the Premium Artwork Check while there is still to pay); onClick(e): clicks in the popup (that switch).
 // Used by order confirmed and the order page in My account (one flow since 2026-11-17).
+// photo: true = a photo for Report a problem (Cornel 2026-11-18: we're not ordering here): Add a photo, "Add to my report", no file check or proof.
 const UP_SHEET = `
 <input type="file" id="upInput" multiple hidden>
 <div class="sheet-layer" id="sheet-upload" aria-hidden="true">
@@ -78,15 +79,18 @@ function upRender() {
   document.getElementById('upFor').innerHTML = `<span class="img"><img src="${upJob.img}" alt=""></span><span><small>For</small><b>${upEsc(upJob.name)}</b></span>`;
   const busy = upArt.some(f => !f.err && f.progress < 100), done = upArt.length && !busy && !upArt.some(f => f.err);
   upEls.add.disabled = !done;
-  upEls.add.textContent = busy ? 'Uploading…' : upJob.files?.length ? 'Update my order' : 'Add to my order';
+  const what = upJob.photo ? 'report' : 'order';
+  document.getElementById('upTitle').textContent = upJob.photo ? 'Add a photo' : 'Upload your artwork';
+  upEls.add.textContent = busy ? 'Uploading…' : upJob.files?.length ? `Update my ${what}` : `Add to my ${what}`;
   if (!upArt.length) {
-    upEls.body.innerHTML = `<p class="up-intro">Upload your design for your <b>${upEsc(upJob.name)}</b>: one file or several, PDF works best.</p>
+    upEls.body.innerHTML = `<p class="up-intro">${upJob.photo ? `${/^A /.test(upJob.name) ? `Add <b>${upEsc(upJob.name.replace(/^A /, 'a '))}</b>` : `Add your photos for <b>${upEsc(upJob.name)}</b>`}: JPG, PNG or MP4, up to 10 MB each.` : `Upload your design for your <b>${upEsc(upJob.name)}</b>: one file or several, PDF works best.`}</p>
       <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-up-pick>Choose files</button><small>or drag them here · as many as you like</small></div>${UP_TEAM}`;
     upWasDone = false;
     return;
   }
   upEls.body.innerHTML = `<div class="up-files">${upArt.map(upRow).join('')}</div><button class="up-add" data-up-pick>+ Add more files</button>
-    ${!done ? UP_TEAM : `<div class="art-calm"><b><img src="assets/pdp/check.svg" alt="">We’ve got your file${upArt.length > 1 ? 's' : ''}</b>
+    ${!done ? UP_TEAM : upJob.photo ? `<div class="art-calm"><b><img src="assets/pdp/check.svg" alt="">We’ve got your photo${upArt.length > 1 ? 's' : ''}</b>
+      <span>Add ${upArt.length > 1 ? 'them' : 'it'} to your report and our team looks at ${upArt.length > 1 ? 'them' : 'it'} with your case.</span></div>` : `<div class="art-calm"><b><img src="assets/pdp/check.svg" alt="">We’ve got your file${upArt.length > 1 ? 's' : ''}</b>
       <span>Add ${upArt.length > 1 ? 'them' : 'it'} to your order and we start checking.</span>
       <div class="up-check"><p class="ok"><img src="assets/pdp/check.svg" alt="">Every file gets our free automatic check</p><p class="ok"><img src="assets/pdp/check.svg" alt="">You’ll see a proof before we print</p></div>${upJob.extra ? upJob.extra() : ''}</div>`}`;
   if (done && !upWasDone) setTimeout(upConfetti);

@@ -159,16 +159,53 @@ try { complaintsDone = JSON.parse(localStorage.getItem('hp-complaints')) || {}; 
 const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['ok', 'Resolved'] };
 // the case's progress bar: Submitted · In review · Solution · Resolved, and where it is
 const COMPLAINT_STEPS = ['Submitted', 'In review', 'Solution', 'Resolved'];
+// Report a problem (report.html; the wishes artifact's form 1:1): per area what can go wrong, whether it is about the products (how many), the photos we
+// need, and what we can do. A case you send is kept in this browser ('hp-complaints'.created) and shows in Complaints as any other.
+const REPORT_AREAS = {
+  'Artwork / design': [
+    { t: 'The print doesn’t match my file', item: true, evidence: ['A close-up of the problem area', 'A photo of the whole print'], sol: ['reprint', 'refund', 'keep'] },
+    { t: 'Colours are wrong / off', item: true, evidence: ['A close-up showing the colour', 'A photo of the whole print'], sol: ['reprint', 'refund', 'keep'] },
+    { t: 'Wrong version / old file was printed', item: true, evidence: ['A photo of what was printed'], sol: ['reprint', 'refund'] },
+    { t: 'Text or images cut off', item: true, evidence: ['A close-up of the cut-off area', 'A photo of the whole print'], sol: ['reprint', 'refund', 'keep'] }],
+  'Product / print quality': [
+    { t: 'Product arrived damaged', item: true, evidence: ['A photo of the damaged product', 'A photo of the outer box', 'A photo of the shipping label'], sol: ['reprint', 'refund', 'keep'] },
+    { t: 'Poor print quality (blurry, streaks)', item: true, evidence: ['A close-up of the problem', 'A photo of the whole print'], sol: ['reprint', 'refund', 'keep'] },
+    { t: 'Wrong product / specification', item: true, evidence: ['A photo of what you received', 'A photo of the shipping label'], sol: ['reprint', 'refund'] },
+    { t: 'Wrong quantity received', item: true, evidence: ['A photo of what you received'], sol: ['resend', 'refund'] }],
+  Packaging: [
+    { t: 'Packaging was damaged (product is fine)', item: false, evidence: ['A photo of the outer box'], sol: ['refund', 'keep'] },
+    { t: 'Items badly packed / bent', item: true, evidence: ['A photo of the damaged product', 'A photo of the outer box'], sol: ['reprint', 'refund', 'keep'] }],
+  Delivery: [
+    { t: 'Order delivered too late', item: false, evidence: ['A screenshot of the tracking or delivery date'], sol: ['refund', 'keep'] },
+    { t: 'Order never arrived', item: false, evidence: ['A screenshot of the tracking status'], sol: ['resend', 'refund'] },
+    { t: 'Part of my order is missing', item: true, evidence: ['A photo of what you did receive', 'A photo of the shipping label'], sol: ['resend', 'refund'] },
+    { t: 'Delivered to the wrong address', item: false, evidence: ['A screenshot of the delivery confirmation', 'A photo of where it was left, if visible'], sol: ['resend', 'refund'] }],
+};
+const REPORT_FIXES = {
+  reprint: { t: 'Reprint it free of charge', s: 'Reprinted and reshipped at no cost.', reprint: true },
+  resend: { t: 'Resend the missing items free of charge', s: 'Missing items reshipped at no cost.', reprint: true },
+  refund: { t: 'Refund the affected items', s: 'Back on your original payment method in 3 working days.' },
+  keep: { t: 'Get a discount code', s: 'Keep your product and get a discount code.' },
+};
+const reportUrl = no => no ? `report.html?o=${no}` : 'report.html';
+function complaintCreate(c) {   // a case you sent: the next number, In progress, the first step done
+  const created = complaintsDone.created || [], no = 'CMP-' + (1043 + created.length);
+  complaintsDone.created = [...created, { ...c, no, state: 'progress', created: true, submitted: 'Wed 18 Nov', events: [['Complaint submitted', `Wed 18 Nov · ${c.issue.toLowerCase()}`]] }];
+  try { localStorage.setItem('hp-complaints', JSON.stringify(complaintsDone)); } catch (e) {}
+  return no;
+}
 function complaintList() {
   if (NEW_CUSTOMER) return [];
-  return COMPLAINTS.map(c => { const v = { ...c, events: [...c.events] }, o = ORDERS.find(o => o.no === c.order);
+  return [...COMPLAINTS, ...(complaintsDone.created || [])].map(c => { const v = { ...c, events: [...c.events] }, o = ORDERS.find(o => o.no === c.order);
     const sent = complaintsDone[c.no];   // your photos (the upload popup's files), as an upload on the order page
+    if (Array.isArray(sent)) v.photos = sent;   // also Change on a case you sent from Report a problem
     if (sent && c.state === 'info') { v.photos = Array.isArray(sent) ? sent : []; v.state = 'progress'; v.events.push(['Photos received', 'Tue 17 Nov · thank you']); }
     v.o = o; v.lines = c.lines || (o ? o.lines.map(l => ({ img: l.img, name: l.name, spec: l.spec, gross: l.gross })) : []);
     v.step = { info: 1, progress: v.events.some(e => /accepted/i.test(e[0])) ? 2 : 1, resolved: 4 }[v.state];
     // what is happening now and what comes next (the artifact's case timeline: done · now · still to come)
     v.now = { info: ['Waiting for your photos', 'Needed to assess the issue'], progress: v.step === 2 ? ['Arranging the solution', 'A reprint is being scheduled'] : ['Assessment', 'We decide within 2 working days'], resolved: null }[v.state];
     v.next = { info: [['Assessment', 'We decide once your photos are in'], ['Resolution', 'Reprint, refund or credit']], progress: v.step === 2 ? [['Resolved', 'Replacement dispatched']] : [['Resolution', 'Reprint, refund or credit']], resolved: [] }[v.state];
+    if (c.created) { v.now = ['Reviewed by our team', 'Usually within one working day']; v.next = [['Assessment', 'We confirm the solution'], ['Resolved', c.fix || 'Reprint, refund or credit']]; }   // just sent
     v.status = COMPLAINT_STATES[v.state]; return v; });
 }
 const complaintOf = no => complaintList().find(c => c.no === no);
@@ -371,7 +408,7 @@ document.addEventListener('click', e => {
     closeSheet(); showToast('Thanks! Your note is with our team, we reply by email'); }
   if (act === 'reorder') reorder(l ? [l] : o.lines, o.no);   // a product, or the whole order
   if (act === 'complaint-photos') { const c = complaintOf(b.dataset.c), changed = !!c.photos?.length;   // the upload popup for the case's photos (Change: the photos already in)
-    openUpload({ name: `Complaint ${c.no}`, img: 'assets/' + c.lines[0].img, files: c.photos || [], onAdd: files => { complaintSave(c.no, files); showToast(changed ? 'Your photos are updated' : 'Thanks! Your photos are with our team, we assess your case now'); } }); }
+    openUpload({ photo: true, name: `Complaint ${c.no}`, img: 'assets/' + c.lines[0].img, files: c.photos || [], onAdd: files => { complaintSave(c.no, files); showToast(changed ? 'Your photos are updated' : 'Thanks! Your photos are with our team, we assess your case now'); } }); }
   if (act === 'complaint-art') openArt(complaintOf(b.dataset.c).photos);   // your photos big, as the artwork in the cart
   if (act === 'quote-accept') { quoteSave(b.dataset.q, 'accepted'); showToast('Quote accepted: we turn it into an order and email you the confirmation'); }
   if (act === 'quote-decline') { quoteSave(b.dataset.q, 'declined'); showToast('Quote declined'); }
