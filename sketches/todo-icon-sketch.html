@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo Icon Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=euro,priority_high,upload,visibility,build&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
+<!-- Sketch (not linked; Cornel 2026-11-18): what goes in front of a to-do block now the numbers are gone ("it feels stripped, it must feel important").
+     The real order page #8847305 in todo-icon-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3); only the mark in front differs. -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row2 { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1100px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 900px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1350px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: what goes in front of a to-do</h1>
+  <p class="note"><b>Cornel chose A (2026-11-18), then moved the icon into the green button instead (built that way).</b> <b>My pick was B.</b> A big light green circle (40) with what you have to do in it: € to pay, an eye for a proof, the upload arrow, a wrench in red for a fix.
+    It is the first thing you see, it tells you what kind of task it is before you read, and it has the weight of the to-do (the done tick grows with it, so the column stays).
+    A keeps the old size with the task icon: tidy, but small, as the numbers were. C puts one “!” in front of every task: important, but it says the same thing four times and nothing about what.
+    Only from the UI guide: the action block, the small buttons, the cream band, Material Symbols (the icon set of the guide), --light-green and --error.</p>
+</div>
+<script>
+  const OPTS = [['a', 'A · The task icon in the small circle', 'Where the number was (24, light green), a white icon for the task: €, eye, upload, wrench. Tidy and informative, but as small as the numbers.'],
+    ['b', 'B · A big circle with the task icon', 'A 40 light green circle with the task icon in white (the fix in red, --error, as the tracker’s fix step); the done tick grows with it. You see that it matters and what it is before you read.', true],
+    ['c', 'C · An exclamation mark on every task', 'One white “!” in the light green circle in front of every to-do. Urgent, but the same mark four times, and it doesn’t say what to do.']];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `todo-icon-frame.html?o=8847305&v=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row2"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>

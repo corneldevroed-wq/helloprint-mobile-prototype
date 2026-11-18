@@ -7,9 +7,10 @@
 <title>Order confirmed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
-<link rel="stylesheet" href="pages.css?v=20261202r">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=euro,upload&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202w">
+<link rel="stylesheet" href="pages.css?v=20261202w">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -33,9 +34,9 @@
 <div data-shell="sheet-art"></div>
 <div data-shell="sheet-shipping"></div>
 
-<script src="app.js?v=20261202r"></script>
-<script src="upload.js?v=20261202r"></script>   <!-- Upload your artwork, shared with My account -->
-<script src="../design-system/components.js?v=20261202r"></script>
+<script src="app.js?v=20261202w"></script>
+<script src="upload.js?v=20261202w"></script>   <!-- Upload your artwork, shared with My account -->
+<script src="../design-system/components.js?v=20261202w"></script>
 <script>
   // The order is kept by the payment page (this browser only); nothing here → back to the home page
   let order = null;
@@ -83,7 +84,7 @@
     const paid = o.when === 'later' ? o.paid : true;   // paid at checkout (card, Revolut, PayPal…) shows as done too (Cornel 2026-11-10): did it work? yes
     const payAct = () => toPay ? `<div class="oc-act"><div class="row">
           <span class="t"><b>Pay ${eur(o.total)}</b><small>Pay by 10:30 on ${etaApprove(first(lines).arrives)} · ${o.linkTo ? `we also emailed the link to ${esc(o.linkTo.name)}` : 'we also emailed you the link'}</small></span>
-          <button class="btn primary" type="button" data-pay>Pay now</button></div>${logos}</div>`
+          <button class="btn primary" type="button" data-pay><span class="material-symbols-rounded" aria-hidden="true">euro</span>Pay now</button></div>${logos}</div>`
       : paid ? `<div class="oc-act done"><div class="row">${tick}<span class="t"><b>Payment received</b><small>${eur(o.total)} · thank you</small></span>${PM[o.paidWith || o.method] ? `<span class="pm-logos">${PM[o.paidWith || o.method]}</span>` : ''}</div></div>` : '';   // the logo of the method it was paid with, on the right (Cornel 2026-11-10)
     // the order of the blocks: what still needs doing on top (pay first, then the uploads), then what's done. Fixed once per visit
     // (Cornel 2026-11-10): a block that gets done changes in place, nothing jumps; the next visit sorts again

@@ -202,6 +202,9 @@ const orderHelp = o => [
   ...(o.step === 4 ? [['My order has been delivered damaged. What should I do?', 'my-order-has-been-delivered-damaged-what-should-i-do'], ['Downloading invoices & credit notes', 'how-do-i-download-my-invoices-and-credit-notes']] : []),
   ...(o.step < 2 && !o.cancelled ? [['Can I change my order?', 'can-i-change-my-order']] : []),
 ].slice(0, 4);
+// a to-do's green button carries what to do as an icon (Cornel 2026-11-18: not in front of the block, in the button): € pay, eye proof, upload, wrench fix…
+const btnIcon = n => n ? `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>` : '';
+const TASK_ICONS = { 'Pay now': 'euro', 'Review proof': 'visibility', 'Upload design': 'upload', 'Upload new design': 'upload', 'Upload new file': 'upload', 'Upload photos': 'photo_camera', 'Accept quote': 'check', 'View quote': 'request_quote' };
 const proofUrl = (o, i) => `proof.html?o=${o.no}&l=${i}`;
 const orderTitle = o => `#${o.no} · ${o.name}${o.lines.length > 1 ? ` (${o.lines.length} products)` : ''}`;
 // the first photo, "+N" when the order has more products

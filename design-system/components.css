@@ -945,5 +945,5 @@ html:not(.desk) .items-table .nv { display: block; }
    Two buttons in its head row: together on the right (.btns) */
 .oc-act .row .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
 .oc-act .row .btns .btn { margin-left: 0; }
-html:not(.desk) .oc-act .row .btns:has(.btn + .btn) { flex: 1 1 100%; }   /* mobile, two buttons (Decline · Accept quote): the full width, shared equally (Cornel 2026-11-17) */
-html:not(.desk) .oc-act .row .btns:has(.btn + .btn) .btn { flex: 1; }
+html:not(.desk) .oc-act:not(.done) .row .btns { flex: 1 1 100%; }   /* mobile, a to-do's button(s) over the full width, two share it equally (Cornel 2026-11-18) */
+html:not(.desk) .oc-act:not(.done) .row .btns .btn { flex: 1; }

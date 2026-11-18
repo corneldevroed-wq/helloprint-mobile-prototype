@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Todo Icon Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,build,download,euro,priority_high,upload,visibility&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202w">
+<link rel="stylesheet" href="pages.css?v=20261202w">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- My account, one order (order.html?o=<number>; Cornel 2026-11-17, sketches/orders-sketch.html, the combo): a card per product with
+       its tracker and what happens now; a product that needs you is a to-do block (green, the deadline in the cream band). Under them, as on
+       order confirmed, Order details with the map and the team line. Right: the order overview and Need something?. Data: account.js. -->
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="orders.html">Orders</a> / <span id="crumb"></span></p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="order"></div>
+    </div>
+  </main>
+  <footer data-shell="footer"></footer>
+</div>
+<div data-shell="sheet-art"></div>   <!-- the uploaded artwork big (app.js), as in the cart -->
+<script src="app.js?v=20261202w"></script>
+<script src="account.js?v=20261202w"></script>
+<script src="upload.js?v=20261202w"></script>
+<script src="../design-system/components.js?v=20261202w"></script>
+<script>
+{ // its own scope: no clash with app.js names (products, sub…)
+  if (!deskUser) location.replace('login.html');
+  if (!ORDERS.length) location.replace('orders.html');   // a new customer (the Demo switch): no orders yet
+  document.querySelector('[data-account-side]').outerHTML = accountSide('orders.html');
+  const NO = new URLSearchParams(location.search).get('o') || ORDERS[0].no;
+  window.yayHere = NO;
+  if (location.hash === '#pay') flashLine(NO, 'pay');   // from the Overview's Pay block: the pay block lights up and comes into view   // the all-done popup (account.js) shows on this order's page only
+  const eur = n => (n < 0 ? '−€' : '€') + Math.abs(n).toFixed(2), esc = t => String(t).replace(/[&<"]/g, c => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;' })[c]);
+  // what a button does (account.js): approve a proof, upload a file, track the parcel, see the complaint
+  const ACT = { 'Review proof': 'proof', 'Upload new design': 'upload', 'Upload design': 'upload', 'Upload new file': 'upload', 'Track parcel': 'track', 'View complaint': 'complaint' };
+  const actRow = ([act, icon, title, sub, what]) => `<button type="button" data-act="${act}" data-o="${NO}"${what ? ` data-what="${what}"` : ''}><span class="ico"><img src="../design-system/icons/${icon}.svg" alt=""></span><span><b>${title}</b><small>${sub}</small></span></button>`;
+
+  function render() {
+    const o = orderOf(NO) || ORDERS[0];
+    document.title = `Order #${o.no}`;
+    document.getElementById('crumb').textContent = `Order #${o.no}`;
+    // a card per product; one that needs you is a to-do block (the first button primary), done = the grey block (as order confirmed)
+    // Every product as order confirmed's block (Cornel 2026-11-17): the head row (a number when it needs you, a check when not), the title and
+    // its buttons on the right; the product line as the cart shows it (photo or the uploaded artwork, specs, price, its delivery date); the progress
+    // bar; the deadline in the cream band. Needs you = green (.oc-act), nothing to do = grey with a check (.oc-act.done).
+    const todo = l => l.btns && l.step < 2 && !o.cancelled;
+    const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
+    const CROSS = '<span class="n x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span>';   // cancelled (Cornel 11-17)
+    const btn = (label, act, i, primary) => act === 'proof' || act === 'complaint' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${act === 'proof' ? proofUrl(o, i) : complaintUrl(o.complaint)}">${label}</a>`   // the proof and the complaint are pages
+      : `<button class="btn small ${primary ? 'primary' : 'outline'}" type="button" data-act="${act}" data-o="${o.no}"${i === undefined ? '' : ` data-l="${i}"`}>${label}</button>`;
+    const btns = (l, i) => o.cancelled ? '' : l.btns ? `<span class="btns">${l.btns.map((b, n) => btn(b, ACT[b], i, n === 0 && todo(l))).join('')}</span>`
+      : l.files?.length ? `<span class="btns">${btn('Change', 'upload', i)}</span>` : '';
+    // your files or the proof replace the product photo (as the cart and order confirmed): the first file, +N for the others; it opens the artwork popup
+    const photo = (l, i) => l.files?.length ? `<button class="img art-tile" type="button" data-act="art" data-o="${o.no}" data-l="${i}" aria-label="View your artwork">${artPic(l.files[0])}${l.files.length > 1 ? `<span class="art-count">+${l.files.length - 1}</span>` : ''}</button>`
+      : l.proof ? `<button class="img art-tile" type="button" data-act="art" data-o="${o.no}" data-l="${i}" aria-label="View your proof"><img src="assets/proofs/${l.proof}.png" alt=""></button>`
+      : `<span class="img" style="background:var(--light-grey)"><img src="assets/${l.img}" alt=""></span>`;
+    const eta = l => l.step === 4 ? `<b>Delivered</b><p>${etaLong(etaDate(l.arrives))}</p>` : etaHtml(l.arrives, '', 'Standard');
+    // cancelled: no progress bar (Cornel 11-17)
+    const line = (l, i) => `<div class="oc-act${todo(l) ? '' : ' done'}" id="line-${i}"><div class="row">${o.cancelled ? CROSS : todo(l) ? '' : TICK}
+        <span class="t"><b>${o.cancelled ? 'Cancelled' : l.title}</b><small>${o.cancelled ? 'Stopped before printing' : l.text}</small></span>${btns(l, i)}</div>
+      <div class="line-item cart-line">${photo(l, i)}<div class="t"><strong>${l.name}</strong><small>${l.spec}</small>
+        <details class="spec-fold"><summary class="link">All specifications</summary><div class="spec-fold-rows">${specRows(l).map(([k, v]) => `<div><span>${k}</span><span>${v}</span></div>`).join('')}</div></details></div><span class="p">${eur(l.price)}</span><div class="eta">${eta(l)}</div></div>
+      ${o.cancelled ? '' : orderTracker(l.step, l.err)}${l.foot && !o.cancelled ? `<p class="oc-foot">${l.foot}</p>` : ''}</div>`;
+    const pay = !o.pay ? '' : o.paid ? `<div class="oc-act done" id="line-pay"><div class="row">${TICK}<span class="t"><b>Payment received</b><small>${o.pay.amount} · invoice ${o.pay.invoice} · thank you</small></span></div></div>`
+      : `<div class="oc-act" id="line-pay"><div class="row"><span class="t"><b>Pay ${o.pay.amount}</b><small>Invoice ${o.pay.invoice} · due ${o.pay.due} · we also emailed you the link</small></span><span class="btns">${btn('Pay now', 'pay', undefined, true)}</span></div></div>`;
+
+    // the totals as an invoice (as the checkout): products, the check, shipping, subtotal excl. VAT, VAT 23%, total incl. VAT
+    const totals = orderTotals(o);
+
+    // Order details as on order confirmed: the map of the shipping address, contact, payment, the addresses, delivery, order number
+    // the addresses: Change (a popup, account.js) for this order until it ships
+    const q = encodeURIComponent(`${o.ship.street}, ${o.ship.town}, ${o.ship.code}, Ireland`), open = o.step < 3 && !o.cancelled;
+    const addr = (k, label) => `<div><b>${label}${open ? ` <button class="link" type="button" data-act="addr" data-kind="${k}" data-o="${o.no}">Change</button>` : ''}</b>${addrLines(o[k]).map(t => `<span>${esc(t)}</span>`).join('')}</div>`;
+    const details = `<section class="oc-sec"><h2>Order details</h2><div class="oc-od"><iframe title="Map of the shipping address" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s${q}!6i15"></iframe><div class="grid">
+        <div><b>Contact</b><span>${esc([deskUser?.first, deskUser?.last].filter(Boolean).join(' '))}</span><span>${esc(deskUser?.email || '')}</span></div>
+        <div><b>Payment</b><span>${o.x.method}</span><span>${o.cancelled ? 'Nothing to pay' : o.pay && !o.paid ? o.pay.amount + ' to pay' + (o.payer ? ` · link sent to ${esc(o.payer.name)}` : '') : orderInvoice(o) ? 'Paid' : 'We invoice when it ships'}</span></div>
+        ${addr('ship', 'Shipping address')}${addr('bill', 'Billing address')}
+        <div><b>Delivery</b><span>Standard</span><span>Free</span></div>
+        <div><b>Order number</b><span>#${o.no}</span></div>
+      </div></div></section>
+      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>
+      <section class="oc-sec"><h2>Questions about this order</h2><ul class="hc-rows">${orderHelp(o).map(([q, slug]) => `<li><a href="help-article.html?q=${slug}"><span>${q}</span><img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul></section>`;
+
+    // Need something?: order again, cancel (only before printing), report a problem, chat
+    const unpaid = o.pay && !o.paid && !o.cancelled;   // still to pay: the link again, or to a colleague who pays
+    const need = [...(unpaid ? [['paylink', 'mail', 'Resend payment link', `To ${o.payer ? o.payer.email : deskUser?.email || 'your email'}`], ['payer', 'person', 'Change who pays', 'Send the link to a colleague']] : []),
+      ['reorder', 'package-2', 'Order again', 'The same products in your cart'], ...(o.step < 2 && !o.cancelled ? [['cancel', 'close', 'Cancel order', 'Before it goes to print']] : []),
+      ['soon', 'chat', 'Report a problem', 'Damaged, wrong or late', 'The complaints page']].map(actRow).join('') + dropRow(['#chat', 'support-agent', 'Chat with Anna', 'The fastest way to sort it']).replace(' role="menuitem"', '');
+    // the invoice (once it ships): the Overview's invoice row, under it a small Download button (Cornel 11-17)
+    const v = orderInvoice(o), inv = v ? `<div class="dash-row text"><span class="t"><b><a class="link" href="${invoiceUrl(v.no)}">${v.no}</a></b><small>${invNote(v)}</small></span><span class="status ${v.status[0]}">${v.status[1]}</span></div>
+      <button class="btn outline small" type="button" data-act="invoice" data-o="${o.no}" data-doc="Invoice ${v.no}"><span class="material-symbols-rounded" aria-hidden="true">download</span>Download invoice</button>`
+      : `<small>${o.cancelled ? 'Cancelled: no invoice' : 'Your invoice appears here once your order ships'}</small>`;
+    const side = `<div class="od-side"><div class="dash-card"><h2>Order overview</h2>${totals}<div class="dash-foot od-inv">${inv}</div></div>
+      <div class="dash-card"><h2>Need something?</h2><div class="d-menu d-head account-nav">${need}</div></div></div>`;
+
+    document.getElementById('order').innerHTML = `<div class="od-head"><h1>Order #${o.no}</h1><p class="oc-lead">${o.cancelled ? '<span class="status">Cancelled</span> · ' : ''}${o.name}${o.lines.length > 1 ? ` · ${o.lines.length} products` : ''}${openTasks(o) ? ` · <b>${openTasks(o)} thing${openTasks(o) > 1 ? 's' : ''} to do</b>` : ''} · placed ${o.placed}${o.ref ? ` · your reference <b>${esc(o.ref)}</b>` : ''} · <button class="link" type="button" data-act="ref" data-o="${o.no}">${o.ref ? 'Change' : 'Add your reference'}</button></p></div>
+      <div class="od-grid"><div class="od-lines">${pay}${o.lines.map(line).join('')}${details}</div>${side}</div>`;
+    // the block that just changed (approved, a new file, paid) lights up once, as on order confirmed, and comes into view
+    let flash = null; try { flash = sessionStorage.getItem('hp-flash'); } catch (e) {}
+    const [fNo, fLine] = (flash || '').split(':'), el = fNo === o.no && document.getElementById('line-' + fLine);
+    if (el) { try { sessionStorage.removeItem('hp-flash'); } catch (e) {} el.classList.add('oc-new'); history.scrollRestoration = 'manual';   // the browser would put the page back at the top
+      const go = () => setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'center' });   // once the page (and the map) has loaded
+        setTimeout(() => { const r = el.getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) el.scrollIntoView({ behavior: 'instant', block: 'center' }); }, 700); }, 100);   // smooth did not run (a background tab): jump
+      document.readyState === 'complete' ? go() : window.addEventListener('load', go, { once: true }); }
+  }
+  render();
+  window.addEventListener('hp-orders', render);   // approved, uploaded, paid, cancelled, a new reference: draw again
+  // from the Overview: order.html?o=…#do-<product> opens that product's first action
+  const go = location.hash.match(/^#do-(\d+)$/);
+  if (go) { const b = document.querySelector(`#line-${go[1]} [data-act]`); if (b) { document.getElementById('line-' + go[1]).scrollIntoView({ block: 'center' }); setTimeout(() => b.click(), 300); } }
+}
+</script>
+<script>
+{ // SKETCH (Cornel 2026-11-18, loaded by sketches/todo-icon-sketch.html as ?o=…&v=a|b|c): what goes in front of a to-do now the numbers are gone
+  const V = new URLSearchParams(location.search).get('v') || 'b';
+  const kind = b => { const t = b.querySelector('.t b')?.textContent || ''; return /^Pay/.test(t) ? 'euro' : /proof/i.test(t) ? 'visibility' : /fix/i.test(t) ? 'build' : /upload/i.test(t) ? 'upload' : 'priority_high'; };
+  const mark = () => document.querySelectorAll('#order .oc-act:not(.done) .row').forEach(r => { if (r.querySelector('.mk')) return;
+    const k = V === 'c' ? 'priority_high' : kind(r.closest('.oc-act'));
+    r.insertAdjacentHTML('afterbegin', `<span class="mk${V === 'b' && k === 'build' ? ' fix' : ''}"><span class="material-symbols-rounded" aria-hidden="true">${k}</span></span>`); });
+  document.documentElement.classList.add('v-' + V); mark(); new MutationObserver(mark).observe(document.getElementById('order'), { childList: true, subtree: true });
+}
+</script>
+<style>
+  .mk { display: grid; place-items: center; flex-shrink: 0; border-radius: 50%; color: var(--white); background: var(--light-green); }
+  .mk .material-symbols-rounded { color: inherit; }
+  .v-a .mk { width: 24px; height: 24px; } .v-a .mk .material-symbols-rounded { font-size: 16px; }
+  .v-b .mk { width: 40px; height: 40px; } .v-b .mk .material-symbols-rounded { font-size: 24px; }
+  .v-b .mk.fix { background: var(--error); }
+  .v-b .oc-act.done .n { width: 40px; height: 40px; } .v-b .oc-act.done .n svg { width: 24px; height: 24px; }
+  .v-c .mk { width: 24px; height: 24px; } .v-c .mk .material-symbols-rounded { font-size: 18px; font-variation-settings: 'wght' 700; }
+</style>
+</body>
+</html>

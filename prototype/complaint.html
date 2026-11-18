@@ -7,10 +7,10 @@
 <title>Complaint</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
-<link rel="stylesheet" href="pages.css?v=20261202r">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,photo_camera&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202w">
+<link rel="stylesheet" href="pages.css?v=20261202w">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- your photos big (app.js), as the artwork on the order page -->
-<script src="app.js?v=20261202r"></script>
-<script src="account.js?v=20261202r"></script>
-<script src="upload.js?v=20261202r"></script>
-<script src="../design-system/components.js?v=20261202r"></script>
+<script src="app.js?v=20261202w"></script>
+<script src="account.js?v=20261202w"></script>
+<script src="upload.js?v=20261202w"></script>
+<script src="../design-system/components.js?v=20261202w"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -56,7 +56,7 @@
         <div class="t"><strong>Your photos</strong><small>${[...new Set(photos.map(f => f.name))].length} file${[...new Set(photos.map(f => f.name))].length > 1 ? 's' : ''} · for ${esc(c.lines[0].name)}</small></div></div>` : '';
     const head = {
       info: ['', 'Upload your photos', 'To assess the print quality, our team needs clear photos of the affected items. Upload them and we pick this back up straight away.',
-        `<span class="btns"><button class="btn small primary" type="button" data-act="complaint-photos" data-c="${c.no}">Upload photos</button></span>`],
+        `<span class="btns"><button class="btn small primary" type="button" data-act="complaint-photos" data-c="${c.no}">${btnIcon('photo_camera')}Upload photos</button></span>`],
       progress: [TICK, photos.length ? 'We’ve got your photos' : c.step === 2 ? 'Your case is accepted' : 'Thanks, your photos are in', photos.length || c.step < 2 ? 'We assess your case and get back to you within 2 working days.' : 'Our team is arranging the solution. You don’t need to do anything right now.',
         photos.length ? `<span class="btns"><button class="btn small outline" type="button" data-act="complaint-photos" data-c="${c.no}">Change</button></span>` : ''],
       resolved: [TICK, `Resolved ${c.events.at(-1)[1].split(' · ')[0]}`, 'The case was accepted and resolved: the missing items were reprinted and delivered. Nothing more to do, thanks for your patience.', ''],

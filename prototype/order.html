@@ -7,10 +7,10 @@
 <title>Order</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261202r">
-<link rel="stylesheet" href="../design-system/components.css?v=20261202r">
-<link rel="stylesheet" href="pages.css?v=20261202r">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,build,download,euro,upload,visibility&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261202w">
+<link rel="stylesheet" href="../design-system/components.css?v=20261202w">
+<link rel="stylesheet" href="pages.css?v=20261202w">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- the uploaded artwork big (app.js), as in the cart -->
-<script src="app.js?v=20261202r"></script>
-<script src="account.js?v=20261202r"></script>
-<script src="upload.js?v=20261202r"></script>
-<script src="../design-system/components.js?v=20261202r"></script>
+<script src="app.js?v=20261202w"></script>
+<script src="account.js?v=20261202w"></script>
+<script src="upload.js?v=20261202w"></script>
+<script src="../design-system/components.js?v=20261202w"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
@@ -57,8 +57,8 @@
     const todo = l => l.btns && l.step < 2 && !o.cancelled;
     const TICK = '<span class="n"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>';
     const CROSS = '<span class="n x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></span>';   // cancelled (Cornel 11-17)
-    const btn = (label, act, i, primary) => act === 'proof' || act === 'complaint' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${act === 'proof' ? proofUrl(o, i) : complaintUrl(o.complaint)}">${label}</a>`   // the proof and the complaint are pages
-      : `<button class="btn small ${primary ? 'primary' : 'outline'}" type="button" data-act="${act}" data-o="${o.no}"${i === undefined ? '' : ` data-l="${i}"`}>${label}</button>`;
+    const btn = (label, act, i, primary) => act === 'proof' || act === 'complaint' ? `<a class="btn small ${primary ? 'primary' : 'outline'}" href="${act === 'proof' ? proofUrl(o, i) : complaintUrl(o.complaint)}">${primary ? btnIcon(TASK_ICONS[label]) : ''}${label}</a>`   // the proof and the complaint are pages
+      : `<button class="btn small ${primary ? 'primary' : 'outline'}" type="button" data-act="${act}" data-o="${o.no}"${i === undefined ? '' : ` data-l="${i}"`}>${primary ? btnIcon(TASK_ICONS[label]) : ''}${label}</button>`;
     const btns = (l, i) => o.cancelled ? '' : l.btns ? `<span class="btns">${l.btns.map((b, n) => btn(b, ACT[b], i, n === 0 && todo(l))).join('')}</span>`
       : l.files?.length ? `<span class="btns">${btn('Change', 'upload', i)}</span>` : '';
     // your files or the proof replace the product photo (as the cart and order confirmed): the first file, +N for the others; it opens the artwork popup
