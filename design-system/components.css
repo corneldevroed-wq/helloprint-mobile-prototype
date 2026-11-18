@@ -864,7 +864,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .img.more .art-count { border: 1px solid var(--line); }
 .dash-row .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
 .dash-row .t b { font-weight: 600; }
-.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .ask-card > small, .d-bar-sub, .pd-note, .od-none { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
+.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .d-bar-sub, .pd-note, .od-none { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
 .dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
 .dash-row.text .status, .desk .dash-row .status, .dash-row .switch { grid-column: auto; justify-self: end; }
 .dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, at the top of the row */

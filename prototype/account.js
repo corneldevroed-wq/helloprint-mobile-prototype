@@ -428,8 +428,6 @@ document.addEventListener('click', e => {
   if (act === 'complaint-art') openArt(complaintOf(b.dataset.c).photos);   // your photos big, as the artwork in the cart
   if (act === 'quote-accept') { quoteSave(b.dataset.q, 'accepted'); showToast('Quote accepted: we turn it into an order and email you the confirmation'); }
   if (act === 'quote-decline') { quoteSave(b.dataset.q, 'declined'); showToast('Quote declined'); }
-  if (act === 'quote-ask') { const t = document.getElementById('askInput'); if (!t.value.trim()) { t.focus(); return; }   // the confirmation replaces the form (the wishes artifact)
-    t.closest('.ask-card').innerHTML = '<p class="dash-empty"><span><b>Message sent to our team.</b> Thanks! One of our agents replies by email, usually within one working day.</span></p>'; }
   if (act === 'soon') showToast(`${b.dataset.what || 'This page'} comes next in the prototype`);
   if (act === 'download') showToast('Your proof is downloading (prototype)');
 });

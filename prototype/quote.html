@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=check,download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205k">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205k">
-<link rel="stylesheet" href="pages.css?v=20261205k">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205l">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205l">
+<link rel="stylesheet" href="pages.css?v=20261205l">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -28,9 +28,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205k"></script>
-<script src="account.js?v=20261205k"></script>
-<script src="../design-system/components.js?v=20261205k"></script>
+<script src="app.js?v=20261205l"></script>
+<script src="account.js?v=20261205l"></script>
+<script src="../design-system/components.js?v=20261205l"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -79,11 +79,8 @@
         <div><b>Billing address</b>${addrLines(addr[1]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
       </div></div></section>`;
 
-    // Ask us a question (the artifact's form): a note to our team, files to add, reply by email
-    const ask = `<section class="oc-sec"><h2>Ask us a question</h2><div class="dash-card ask-card"><label class="field"><textarea id="askInput" placeholder=" " maxlength="600" aria-label="Your question"></textarea><span class="fl">Message our team</span></label>
-        <small>We reply by email, usually within one working day. Up to 5 files · 10 MB each · JPEG, PNG, HEIC, PDF, DOCX or TXT</small>
-        <span class="btns"><button class="btn small outline" type="button" data-act="soon" data-what="Adding files">Attach files</button><button class="btn small primary" type="button" data-act="quote-ask">Send</button></span></div></section>
-      ${teamLine()}`;
+    // the team line (Ask us a question is gone, Cornel 2026-11-18: chat and Need something? cover it, as on the complaint page)
+    const ask = teamLine();
 
     // the overview (the artifact's Summary): status, the dates, the items, the total; Download PDF once it is priced
     const row = ([t, v]) => `<div><span>${t}</span><span>${v}</span></div>`;

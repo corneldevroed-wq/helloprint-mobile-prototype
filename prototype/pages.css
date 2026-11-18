@@ -2086,8 +2086,6 @@ html:not(.desk) .od-lines > .oc-team, html:not(.desk) .od-lines > .oc-sec:has(> 
 .rp-date { max-width: 240px; }
 .rp-foot { display: flex; flex-direction: column-reverse; align-items: stretch; gap: 16px; }
 .desk .rp-foot { flex-direction: row; align-items: center; justify-content: space-between; }
-.ask-card { display: flex; flex-direction: column; gap: 8px; }   /* a quote's Ask us a question: the field, the line about replies and files, the buttons right */
-.ask-card .btns { display: flex; justify-content: flex-end; gap: 8px; }
 
 /* ===== My account: the proof (proof.html, Cornel 2026-11-17, sketches/proof-sketch.html B) =====
    The proof is always a PDF: a PDF viewer (pdf.js) with a dark toolbar and canvas, the white page with a shadow; low, so the file check and
