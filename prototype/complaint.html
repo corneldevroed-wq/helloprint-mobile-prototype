@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,photo_camera&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261203k">
-<link rel="stylesheet" href="../design-system/components.css?v=20261203k">
-<link rel="stylesheet" href="pages.css?v=20261203k">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203x">
+<link rel="stylesheet" href="../design-system/components.css?v=20261203x">
+<link rel="stylesheet" href="pages.css?v=20261203x">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -18,7 +18,7 @@
 
   <!-- My account, one complaint (complaint.html?c=<case>; Cornel 2026-11-17: as the order and quote pages, the wishes artifact's content): where the case
        stands with its progress bar (Submitted · In review · Solution · Resolved) and what we need from you (Upload photos), what it is about, the products,
-       what happened (dated), Ask us a question. Right: Case details and Need something?. Data: account.js (complaintList). -->
+       what happened (dated), the team line. Right: Case details and Need something?. Data: account.js (complaintList). -->
   <main class="account-page account-sub">
     <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / <a href="complaints.html">Complaints</a> / <span id="crumb"></span></p>
     <div class="account-grid">
@@ -29,10 +29,10 @@
   <footer class="footer" data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- your photos big (app.js), as the artwork on the order page -->
-<script src="app.js?v=20261203k"></script>
-<script src="account.js?v=20261203k"></script>
-<script src="upload.js?v=20261203k"></script>
-<script src="../design-system/components.js?v=20261203k"></script>
+<script src="app.js?v=20261203x"></script>
+<script src="account.js?v=20261203x"></script>
+<script src="upload.js?v=20261203x"></script>
+<script src="../design-system/components.js?v=20261203x"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -74,11 +74,8 @@
     const progress = `<section class="oc-sec"><h2>Case progress</h2><div class="dash-card">${[...c.events.map(([t, m]) => [t, m, '<span class="status ok">Done</span>']), ...(c.now ? [[c.now[0], c.now[1], '<span class="status go">Now</span>']] : []), ...c.next.map(([t, m]) => [t, m, '<span class="status">Next</span>'])]
       .map(([t, m, st]) => `<div class="dash-row text"><span class="t"><b>${t}</b><small>${m}</small></span>${st}</div>`).join('')}</div></section>`;
 
-    // Ask us a question (the artifact's form), the team line
-    const ask = `<section class="oc-sec"><h2>Ask us a question</h2><div class="dash-card ask-card"><label class="field"><textarea id="askInput" placeholder=" " maxlength="600" aria-label="Your question"></textarea><span class="fl">Message our team</span></label>
-        <small>We reply by email, usually within one working day. Up to 5 files · 10 MB each · JPEG, PNG, HEIC, PDF, DOCX or TXT</small>
-        <span class="btns"><button class="btn small outline" type="button" data-act="soon" data-what="Adding files">Attach files</button><button class="btn small primary" type="button" data-act="quote-ask">Send</button></span></div></section>
-      <div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
+    // the team line (Ask us a question is gone here, Cornel 2026-11-18: chat and Need something? cover it)
+    const ask = `<div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Any questions? Our team is ready to help. <a href="#chat">Start chat</a></span></div>`;
 
     // Case details (the artifact's side card) and Need something? (the artifact's three: chat about it, the order, its invoice)
     const row = ([t, v]) => `<div><span>${t}</span><span>${v}</span></div>`, inv = o && orderInvoice(o);

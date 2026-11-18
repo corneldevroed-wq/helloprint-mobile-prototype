@@ -717,7 +717,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .oc-act .row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .oc-act .n { display: grid; place-items: center; width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: var(--light-green); color: var(--white); font-size: var(--t-12); font-weight: 600; }
 .oc-act .row .t { flex: 1; min-width: 200px; display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
-.oc-act .row .t b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
+.oc-act .row .t b, .cta .t b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .oc-act .row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .oc-act .btn { flex: 1 0 100%; }   /* mobile: the standard 40 button over the full width under the row, as the cart's buttons */
 .desk .oc-act .btn { flex: none; margin-left: auto; padding: 0 24px; }   /* desktop: every button on the right of its row */
@@ -776,7 +776,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .d-head a:has(> .chev) { grid-template-columns: 20px minmax(0, 1fr) 20px; }   /* the arrow at the end of a page row */
 .d-lang { width: 240px; }   /* the country menu (Cornel 2026-11-12): a round flag, the country, its code right, the chosen one semibold with the tick */
 .d-lang a { grid-template-columns: 20px minmax(0, 1fr) auto 20px; }
-.d-lang .ico img { border-radius: 50%; }
+.d-lang .ico img, .hc-ico > .round { border-radius: 50%; }   /* a round flag: the country menu, E-invoicing per country */
 .d-lang [aria-checked="true"] b { font-weight: 600; }
 .d-head .chev { width: 20px; height: 20px; }
 .d-menu hr { margin: 8px 0; border: 0; border-top: 1px solid var(--line); }   /* a line before Log out */
@@ -859,7 +859,10 @@ html:not(.desk) .notice-close { right: 4px; }
 .dash-row .t b { font-weight: 600; }
 .dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
 .dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
-.dash-row.text .status, .desk .dash-row .status { grid-column: auto; justify-self: end; }
+.dash-row.text .status, .desk .dash-row .status, .dash-row .switch { grid-column: auto; justify-self: end; }
+.dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, centred on the row */
+.has-ico .spec-fold-rows { margin-top: 4px; }   /* several values in one setting (Name and phone, Company): label grey, value black */
+.not-set { color: var(--mid-grey); }   /* an empty setting: "Not set" */
 .dash-row .acts { grid-column: 2 / -1; display: flex; align-items: center; gap: 8px; }   /* Reorder (.pill.active) + icon buttons */
 /* A row that opens a page (an order in the mobile Orders list): the menu's arrow on the right (.chev, 20) over the rows; not next to a tracker (Cornel: tried on the Overview, removed) */
 .dash-row.go { grid-template-columns: 56px minmax(0, 1fr) 20px; }
@@ -898,7 +901,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .quick-links .hc-card { gap: 16px; color: inherit; }
 .quick-links .hc-card { flex-direction: row; align-items: center; }   /* the icon beside the name, also on mobile (Cornel 2026-11-18) */
 html:not(.desk) .quick-links .hc-card { gap: 12px; padding: 12px; }   /* mobile: two tiles side by side need the room */
-html:not(.desk) .quick-links .hc-ico { width: 40px; height: 40px; }
+html:not(.desk) .quick-links .hc-ico, .has-ico > .hc-ico { width: 40px; height: 40px; }
 .quick-links small { display: block; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .hc-ico > img { width: 24px; height: 24px; }   /* an interface icon (design-system/icons) in the grey icon tile */
 .vip-meter { display: flex; flex-direction: column; gap: 8px; }
@@ -916,6 +919,8 @@ html:not(.desk) .quick-links .hc-ico { width: 40px; height: 40px; }
 /* Filters over a list: pills (.pill, .pill.active = the chosen one, the count in regular) and a search field; desktop: the search on the right */
 .filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .filter-row .pill small { margin-left: 4px; font-weight: 400; }
+html:not(.desk) .filter-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: -16px; padding-right: 16px; }   /* mobile: the filters in one row that scrolls sideways, to the screen edge (Cornel 2026-11-18) */
+html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .find { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }   /* as high as the header search: 34 mobile, 38 desktop (Cornel 2026-11-18, now it has its own row in the card) */
 .desk .find { height: 38px; }
 .find .material-symbols-rounded { font-size: 20px; color: var(--dark-grey); }

@@ -223,7 +223,7 @@ const ACCOUNT_ROWS = `${[
             ['invoices.html', 'receipt-long', 'Invoices'],
             ['quotes.html', 'request-quote', 'Quotes'],
             ['complaints.html', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
-            ['#personal-details', 'person', 'Personal Details'],
+            ['personal-details.html', 'person', 'Personal Details'],
             ['#addresses', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}
           <hr><button type="button" class="d-out" data-logout><span class="ico"><img src="../design-system/icons/logout.svg" alt=""></span><span><b>Log out</b></span></button>`;

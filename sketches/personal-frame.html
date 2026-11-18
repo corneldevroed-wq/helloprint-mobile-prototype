@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203x">
+<link rel="stylesheet" href="../design-system/components.css?v=20261203x">
+<link rel="stylesheet" href="pages.css?v=20261203x">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-18), loaded by sketches/personal-sketch.html as ?v=a|b|c: Personal details, the wishes artifact's
+     content (Profile, Email, Communication preferences, Password, Company info, E-invoicing per country). Only UI guide parts: the account shell,
+     .oc-sec + .dash-card, .dash-row.text, .btn small, .switch, .oc-od grid, .field, .check, the popup (accSheet).
+     a: a settings list, Edit opens the popup · b: Order details cards, Edit turns the card into fields · c: one form, one Save. -->
+<style>
+  /* SKETCH CSS */
+  .pd-form { display: flex; flex-direction: column; gap: 16px; }
+  .pd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pd-btns { display: flex; justify-content: flex-end; gap: 8px; }
+  .pd-btns .btn { padding: 0 24px; }
+  .dash-row .switch { justify-self: end; }
+  .pd-save { display: flex; justify-content: flex-end; }
+  .pd-save .btn { padding: 0 24px; }
+  html:not(.desk) .pd-save .btn { flex: 1; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / Personal details</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="pd"></div>
+    </div>
+  </main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261203x"></script>
+<script src="account.js?v=20261203x"></script>
+<script src="../design-system/components.js?v=20261203x"></script>
+<script>
+{
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  document.querySelector('[data-account-side]').outerHTML = accountSide('#personal-details');
+  const U = { first: 'Loraine', last: 'Pijffers', phone: '', email: deskUser?.email || 'loraine@merrionstudio.ie', company: 'Merrion Studio', vat: '', invMail: '' };
+  const not = '<span style="color:var(--mid-grey)">Not set</span>';
+  const head = `<div><h1>Personal details</h1><p class="oc-lead">Who you are, what you hear from us and how you’re invoiced.</p></div>`;
+  const sec = (h, body) => `<section class="oc-sec"><h2>${h}</h2>${body}</section>`;
+  const btn = (t, cls = 'outline') => `<button class="btn small ${cls}" type="button">${t}</button>`;
+  const sw = on => `<button class="switch" role="switch" aria-checked="${on}" aria-label="On or off"></button>`;
+  const row = (t, s, end) => `<div class="dash-row text"><span class="t"><b>${t}</b><small>${s}</small></span>${end}</div>`;
+  const field = (l, v, type = 'text') => `<label class="field"><input type="${type}" placeholder=" " value="${v}" aria-label="${l}"><span class="fl">${l}</span></label>`;
+  const COUNTRIES = ['Ireland', 'United Kingdom', 'Netherlands', 'Belgium', 'Germany', 'France', 'Italy'];
+  const prefs = [['Marketing emails', 'Newsletter, offers and product news. Order emails always come, whatever you choose.', true], ['Order updates by text', 'We text you when your order ships, as well as the email.', false]];
+  let html = '';
+
+  if (V === 'a') {   // a settings list: one card per section, every setting a row with its action on the right; Edit opens the popup
+    html = head
+      + sec('Profile', `<div class="dash-card">${row('Name', `${U.first} ${U.last}`, btn('Edit'))}${row('Phone', not, btn('Add'))}${row('Email', `${U.email}<br>Where we send order updates and sign-in codes`, btn('Edit'))}</div>`)
+      + sec('Communication preferences', `<div class="dash-card">${prefs.map(([t, s, on]) => row(t, s, sw(on))).join('')}</div>`)
+      + sec('Password', `<div class="dash-card">${row('Password', 'Last changed: never', btn('Change'))}</div>`)
+      + sec('Company info', `<div class="dash-card">${row('Company name', U.company, btn('Edit'))}${row('VAT number', not, btn('Add'))}${row('Invoice email', `${U.email} (your email)`, btn('Edit'))}</div>
+          <p class="oc-lead" style="font-size:var(--t-12);line-height:var(--lh-12)">Used on invoices and shipping labels. Each address can have its own in <a class="link" href="#addresses">Addresses</a>.</p>`)
+      + sec('E-invoicing', `<div class="dash-card">${COUNTRIES.map((c, i) => row(c, i ? 'Not set up' : 'Peppol · set up 3 Nov', i ? btn('Set up') : btn('Change'))).join('')}</div>`);
+    document.body.insertAdjacentHTML('beforeend', accSheet('name', 'Your name', `<div class="pd-form"><div class="pd-two">${field('First name', U.first)}${field('Last name', U.last)}</div></div>`, '<button class="btn outline" type="button" data-close-sheet>Cancel</button><button class="btn primary" type="button">Save</button>'));
+    setTimeout(() => openSheet('name'), 400);
+  }
+  if (V === 'b') {   // the artifact 1:1: Order details cards (two columns), one Edit per card; Edit turns that card into fields with Cancel · Save (Profile shown open)
+    const card = (h, edit, cells) => sec(h, `<div class="oc-od"><div class="grid">${cells.map(([b, v]) => `<div><b>${b}</b><span>${v}</span></div>`).join('')}</div>
+        <div style="padding:0 16px 16px">${btn('Edit details')}</div></div>`);
+    html = head
+      + sec('Profile', `<div class="dash-card"><div class="pd-form"><div class="pd-two">${field('First name', U.first)}${field('Last name', U.last)}</div>${field('Phone', '', 'tel')}
+          <div class="pd-btns">${btn('Cancel')}${btn('Save changes', 'primary')}</div></div></div>`)
+      + card('Email', 1, [['Email', U.email], ['Used for', 'Order updates and sign-in codes']])
+      + sec('Communication preferences', `<div class="dash-card">${prefs.map(([t, s, on]) => row(t, s, sw(on))).join('')}</div>`)
+      + card('Password', 0, [['Password', '••••••••'], ['Last changed', 'Never']])
+      + card('Company info', 1, [['Company name', U.company], ['VAT number', not], ['Invoice email', U.email]])
+      + sec('E-invoicing', `<div class="dash-card">${COUNTRIES.map((c, i) => row(c, i ? 'Not set up' : 'Peppol · set up 3 Nov', btn(i ? 'Set up' : 'Change'))).join('')}</div>`);
+  }
+  if (V === 'c') {   // one form: everything editable at once, the switches, one Save at the end
+    html = head
+      + sec('Profile', `<div class="dash-card"><div class="pd-form"><div class="pd-two">${field('First name', U.first)}${field('Last name', U.last)}</div>${field('Phone', '', 'tel')}${field('Email', U.email, 'email')}</div></div>`)
+      + sec('Communication preferences', `<div class="dash-card">${prefs.map(([t, s, on]) => row(t, s, sw(on))).join('')}</div>`)
+      + sec('Company info', `<div class="dash-card"><div class="pd-form">${field('Company name', U.company)}${field('VAT number', '')}${field('Invoice email', U.email, 'email')}</div></div>`)
+      + sec('Password', `<div class="dash-card">${row('Password', 'Last changed: never', btn('Change'))}</div>`)
+      + sec('E-invoicing', `<div class="dash-card">${COUNTRIES.map((c, i) => row(c, i ? 'Not set up' : 'Peppol · set up 3 Nov', btn(i ? 'Set up' : 'Change'))).join('')}</div>`)
+      + `<div class="pd-save"><button class="btn primary" type="button">Save changes</button></div>`;
+  }
+  document.getElementById('pd').innerHTML = html;
+}
+</script>
+</body>
+</html>

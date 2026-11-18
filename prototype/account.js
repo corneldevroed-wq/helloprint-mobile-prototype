@@ -421,7 +421,7 @@ document.addEventListener('click', e => {
 });
 
 // The account pages still to build: a toast instead of nothing (the account menu, Invoices, Quotes…)
-const SOON = { '#personal-details': 'Personal details', '#addresses': 'The addresses page' };
+const SOON = { '#addresses': 'The addresses page' };
 document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'), what = a && SOON[a.getAttribute('href')];
   if (what) { e.preventDefault(); showToast(`${what} comes next in the prototype`); } });
 

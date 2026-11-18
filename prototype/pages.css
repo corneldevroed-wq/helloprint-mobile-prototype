@@ -2129,3 +2129,8 @@ html:not(.desk) .pdf-btn { width: 28px; height: 28px; }
 .d-bar .bar-btns { flex: none; width: auto; }
 .d-bar .bar-btns .btn { padding: 0 24px; }   /* as wide as their text, as the PDP bar's button */
 .d-bar-sub { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+/* Personal details (Cornel 2026-11-18): the fields in its popup 16 apart; the grey line under a card */
+.pd-form { display: flex; flex-direction: column; gap: 16px; }
+.pd-note { margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.pd-form .pd-note { margin-top: -8px; }
+.pd-sms { grid-column: 2 / -1; }   /* texts on: the mobile number under the setting, in the text column */

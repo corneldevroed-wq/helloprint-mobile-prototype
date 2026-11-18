@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261203x">
+<!-- Sketch (not linked; Cornel 2026-11-18): My account, Personal details, the wishes artifact's content. The real shell and components in
+     personal-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1700px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1700px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 2550px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My account: Personal details</h1>
+  <div class="note"><b>Cornel chose A (2026-11-18), with Password inside Profile and an icon per setting: built as prototype/personal-details.html.</b> <b>My pick: A.</b> A settings list: a card per section (Profile, Communication preferences, Password, Company info, E-invoicing), every setting a row
+    with what it is now and one small button on the right (Edit, Add, Change, Set up); Edit opens our standard popup with just those fields (shown open: Your name). The page stays calm and readable,
+    you change one thing at a time, and on mobile the popup is a bottom sheet, as every edit in My account (your reference, a note). B is the artifact 1:1: Order details cards with
+    “Edit details” that turn the card into fields in place: familiar, but the page jumps while you edit and the two-column grid gets cramped on mobile. C is one big form with one Save:
+    quick to scan, but everything looks editable all the time, and a switch that works right away next to fields that wait for Save is confusing.
+    <ul>
+      <li>From the artifact: name, phone, email (order updates + sign-in codes), marketing emails and texts (switches, they work right away), password (last changed), company name, VAT number,
+        invoice email (“each address can override these in Addresses”), e-invoicing per country.</li>
+      <li>Ours: Ireland first in the countries; one example set up (Peppol) so “Change” shows next to “Set up”.</li>
+      <li>Only UI guide parts: <code>.dash-card</code> + <code>.dash-row.text</code>, <code>.btn small</code>, <code>.switch</code>, <code>.oc-od</code> grid (B), <code>.field</code>, the popup.</li>
+    </ul></div>
+</div>
+<script>
+  const OPTS = [['a', 'A · A settings list, Edit opens the popup', 'A card per section, a row per setting with one small button on the right; the popup holds just that field (Your name shown open). The switches work right away.', true],
+    ['b', 'B · Order details cards, edit in place', 'The artifact 1:1: each section as the order page’s Order details (two columns) with Edit details; that card turns into fields with Cancel · Save (Profile shown open).'],
+    ['c', 'C · One form, one Save', 'Every field editable at once, the switches in between, one Save changes at the end.']];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `personal-frame.html?v=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>
