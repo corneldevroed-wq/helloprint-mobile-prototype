@@ -252,12 +252,13 @@ const LANG_MENU = `<div class="d-menu d-head d-lang" role="menu" hidden>
           ].map(([flag, name, code]) => `<a role="menuitemradio" aria-checked="${code === 'IE'}" href="${code === 'IE' ? '#' : '#' + name.toLowerCase().replace(/\W+/g, '-')}"><span class="ico"><img src="assets/flags/${flag}.svg" alt=""></span><span><b>${name}</b></span><small>${code}</small>${code === 'IE' ? '<img class="tick" src="assets/pdp/check.svg" alt="">' : ''}</a>`).join('')}
         </div>`;
 // The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
-// My account (account.html, orders.html, order.html; Cornel 2026-11-17): the side card = who is logged in, the VIP status (the tiers of
-// vip.html) and the account pages, the current one grey. Desktop: sticky left of the page; mobile: only on the Overview (the rows last)
-// fresh: a new customer (account.js, the Demo switch): customer since now, no points yet
+// My account (account.html, orders.html, order.html; Cornel 2026-11-17): the side card = who is logged in, the VIP status and the account
+// pages, the current one grey. Desktop: sticky left of the page; mobile: only on the Overview (the rows last)
+// VIP (2026-11-18, the VIP marketing doc, as vip.html): the tier and its benefits, no points or progress bar (no criteria published yet)
+// fresh: a new customer (account.js, the Demo switch): customer since now, not VIP yet
 const accountSide = (current, fresh = typeof NEW_CUSTOMER !== 'undefined' && NEW_CUSTOMER) => `<aside class="account-side dash-card">
         <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>${[deskUser?.first, deskUser?.last].filter(Boolean).join(' ').replace(/</g, '&lt;') || deskFirst}</b><small>Merrion Studio · customer since ${fresh ? 'Nov 2026' : '2023'}</small></div>
-        <div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:${fresh ? 0 : 75}%"></i></div><small>${fresh ? '0 of 25,000 points · earn them with every order' : '18,760 of 25,000 points · 6,240 to 4% off'}</small>
+        <div class="vip-meter"><div class="top"><span>VIP status</span>${fresh ? '<span class="badge neutral co-badge">Not VIP yet</span>' : '<span class="badge eco co-badge">VIP2</span>'}</div><small>${fresh ? 'Given automatically to our most loyal customers' : '4% off your products · free delivery · 50% off Premium Design Check'}</small>
           <small><a class="link" href="vip.html">How VIP works</a></small></div>
         ${accountNav(current)}</aside>`;
 const accountNav = current => `<nav class="d-menu d-head account-nav" aria-label="My account">${ACCOUNT_ROWS.replace(/ role="menuitem"/g, '').replace(`href="${current}"`, `href="${current}" aria-current="page"`)}</nav>`;   // in the page: links, not menu items
@@ -394,7 +395,7 @@ const ROUTES = {
   // Promotional Print hub (home category card, menu, breadcrumbs)
   'promotional-printing': 'promotional.html', 'promotional-products': 'promotional.html',
   // About us + Our culture (marketing pages, rebuilt from live with library components only)
-  'about-us': 'about-us.html', 'our-culture': 'our-culture.html', 'gaa-club-printing': 'gaa-club-printing.html', 'rugby-club-printing': 'rugby-club-printing.html', 'storm-flags': 'storm-flags.html', 'black-friday': 'black-friday.html', 'deals': 'black-friday.html', 'christmas': 'christmas.html', 'xmas': 'christmas.html', 'christmas-printing': 'christmas.html',
+  'about-us': 'about-us.html', 'our-culture': 'our-culture.html', 'gaa-club-printing': 'gaa-club-printing.html', 'rugby-club-printing': 'rugby-club-printing.html', 'storm-flags': 'storm-flags.html', 'black-friday': 'black-friday.html', 'deals': 'black-friday.html', 'christmas': 'christmas.html', 'xmas': 'christmas.html', 'christmas-printing': 'christmas.html', 'vip': 'vip.html', 'vip-loyalty-programme': 'vip.html',
   // Hospitality category page, built from pages/hospitality.md (home category card, menu, mobile drawer)
   'catering-and-hospitality-printing': 'category.html?page=hospitality', 'hospitality': 'category.html?page=hospitality',
   // Flyers category page (home chips, menu, search, the flyer product's breadcrumb)

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,local_mall,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261204b">
-<link rel="stylesheet" href="components.css?v=20261204b">
-<link rel="stylesheet" href="guide.css?v=20261204b">
+<link rel="stylesheet" href="tokens.css?v=20261204d">
+<link rel="stylesheet" href="components.css?v=20261204d">
+<link rel="stylesheet" href="guide.css?v=20261204d">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -520,8 +520,8 @@
       use: 'A setting on Personal details (Cornel 2026-11-18, sketch A): its icon in the grey tile in front (<code>.hc-ico</code> at 40, as the quick links on mobile), at the top of the row, the name 14/22 semibold, what it is now grey (<code>.not-set</code> mid grey when empty), one small outline button on the right (Edit, Add, Change, Set up) that opens the standard popup; what you fill in at once is one row with one button (Name and phone, Company), one button = one popup, its values as label + value (<code>.spec-fold-rows</code>, label grey, value black); a preference has a switch instead, that works right away. A country (E-invoicing) has its round flag in the tile (<code>img.round</code>, the country menu’s flags). One card per section, a line between the rows.',
       ex: stage(accReal(`<div class="dash-card"><div class="dash-row text has-ico"><span class="hc-ico"><img src="icons/account-grey.svg" alt=""></span><span class="t"><b>Name and phone</b><div class="spec-fold-rows"><div><span>Name</span><span>Loraine Pijffers</span></div><div><span>Phone</span><span><span class="not-set">Not set</span></span></div></div></span><button class="btn small outline" type="button">Edit</button></div><div class="dash-row text has-ico"><span class="hc-ico material-symbols-rounded" aria-hidden="true">campaign</span><span class="t"><b>Marketing emails</b><small>Newsletter, offers and product news.</small></span><button class="switch" role="switch" aria-checked="true" aria-label="Marketing emails"></button></div></div>`)) }) +
     row({ name: 'Account card', wide: true, meta: [{ t: '.account-who' }, { t: '.vip-meter' }, { t: '.account-nav' }, SIZE],
-      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title and the tier as an eco label; the 8px bar; one line under it: your points and what the next tier gives (18,760 of 25,000 points · 6,240 to 4% off, 12/18); How VIP works on its own line (Cornel 2026-11-17: one sentence read badly) (the tiers of vip.html: Member 2%, Premium 4%, Elite 6%). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
-      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">Member</span></div><div class="bar"><i style="width:75%"></i></div><small>18,760 of 25,000 points · 6,240 to 4% off</small>
+      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title and the tier as an eco label (VIP1, VIP2, VIP3; not VIP yet = a neutral label); one line under it with what the tier gives (12/18); How VIP works on its own line. No points or progress bar until the criteria are published (the VIP marketing doc, 2026-11-18; the tiers of vip.html: VIP1 2%, VIP2 4% + free delivery + 50% off Premium Design Check, VIP3 6% + both free). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
+      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">VIP2</span></div><small>4% off your products · free delivery · 50% off Premium Design Check</small>
           <small><a class="link" href="#account">How VIP works</a></small></div>
         <nav class="d-menu d-head account-nav" aria-label="My account"><a href="#account" aria-current="page"><span class="ico"><img src="icons/home.svg" alt=""></span><span><b>Account Overview</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/package-2.svg" alt=""></span><span><b>Orders</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/chat.svg" alt=""></span><span><b>Complaints</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a></nav></div>`, [288, 'account overview, desktop (side card)'])) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
@@ -654,6 +654,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261204b"></script>
+<script src="guide.js?v=20261204d"></script>
 </body>
 </html>

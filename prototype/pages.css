@@ -1947,8 +1947,10 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .hc-common { margin-top: 24px; }
 .desk .hc-common { margin-top: 32px; }   /* hub F: the topics list first on mobile too (it's the navigation) */
 .ht-lead { margin-top: 16px; }
-.ht-sec { margin-top: 24px; scroll-margin-top: 104px; }   /* lands under the sticky header (no tabs) */
-.desk .ht-sec { margin-top: 32px; scroll-margin-top: 124px; }
+.ht-sec { margin-top: 24px; }
+.desk .ht-sec { margin-top: 32px; }
+.ht-sec, .marketing > section { scroll-margin-top: 104px; }   /* an anchor lands under the sticky header + 16 (no tabs): help articles, marketing pages (VIP "See the tiers") */
+.desk .ht-sec, .desk .marketing > section { scroll-margin-top: 124px; }
 
 /* Mobile menu: Help Centre link and the phone number (green dot = team online) under the country button (Cornel, 2026-10-29) */
 .mf-help { display: flex; align-items: center; justify-content: space-between; padding: 8px 0 0; font-size: var(--t-14); line-height: var(--lh-14); }
