@@ -891,8 +891,8 @@ html:not(.desk) .notice-close { right: 4px; }
 .account-who .av { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--light-grey); }
 .account-who .av img { width: 24px; height: 24px; }   /* the header's account icon in grey (an image, not a mask: it also shows when a page is opened from disk) */
 .account-who b { font-size: var(--t-16); line-height: var(--lh-16); font-weight: 600; }
-/* VIP meter: the tier (eco label, or neutral "Not VIP yet"), one line under it with the tier's benefits (VIP1–3 of vip.html; no points or bar
-   until the criteria are published, 2026-11-18) */
+/* VIP meter: "VIP status (−4%)" with the tier (eco label, or neutral "Not VIP yet"), no benefits line (Cornel: too busy, they are on vip.html),
+   then the progress to the next tier as a 6px bar + one line in euros (Cornel 2026-11-18; placeholder amounts until the criteria are published) */
 /* Icon card (Help Centre topics, about us / our culture, the account's quick links; moved here 2026-11-18): white, 1px --line, --r-l, 16 inside; the icon in a 56 grey outlined tile, the name semibold */
 .hc-card { display: flex; flex-direction: column; align-items: flex-start; padding: 16px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--white); }
 .hc-ico { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; color: var(--dark-green); font-size: var(--t-24); border: 1px solid var(--line); border-radius: var(--r-l); background: var(--light-grey); font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }   /* line icon, same size and stroke as the header cart icon (24px, weight 400), 16px padding on the grey outlined block */
@@ -910,8 +910,10 @@ html:not(.desk) .quick-links .hc-ico, .has-ico > .hc-ico { width: 40px; height: 
 .hc-ico > img { width: 24px; height: 24px; }   /* an interface icon (design-system/icons) in the grey icon tile */
 .hc-ico > .face { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: inherit; }   /* one of our team in the tile instead of an icon (the Overview's Help, Cornel 2026-11-18) */
 .vip-meter { display: flex; flex-direction: column; gap: 8px; }
-.vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }   /* the title, the tier label right; under it one line: the benefits */
+.vip-meter .top { display: flex; align-items: center; justify-content: space-between; font-size: var(--t-14); line-height: var(--lh-14); font-weight: 600; }   /* the title, the tier label right */
 .vip-meter .top .badge { margin: 0; }
+.vip-meter .bar { height: 6px; overflow: hidden; border-radius: var(--r-pill); background: var(--light-grey); }
+.vip-meter .bar i { display: block; height: 100%; border-radius: inherit; background: var(--light-green); }
 .account-who + .vip-meter, .vip-meter + .account-nav { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
 .vip-meter + .account-nav.d-menu { padding-top: 16px; }   /* the line under How VIP works with 16 on both sides (.d-menu resets the padding; 0 put the line on the grey current row, Cornel 2026-11-18) */
 /* The account menu's rows (.d-menu.d-head) in the page, not floating: the account pages, and Need something? on the order page */

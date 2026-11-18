@@ -254,11 +254,13 @@ const LANG_MENU = `<div class="d-menu d-head d-lang" role="menu" hidden>
 // The account in the desktop header (shop and checkout, Cornel 2026-11-12): logged in the name with its menu, logged out Log in to the login page
 // My account (account.html, orders.html, order.html; Cornel 2026-11-17): the side card = who is logged in, the VIP status and the account
 // pages, the current one grey. Desktop: sticky left of the page; mobile: only on the Overview (the rows last)
-// VIP (2026-11-18, the VIP marketing doc, as vip.html): the tier and its benefits, no points or progress bar (no criteria published yet)
+// VIP (2026-11-18, the VIP marketing doc, as vip.html): the title with your discount and the tier, the progress to the next tier as a bar + one line in
+// euros of orders (Cornel: "put the bar in"; the benefits line is gone, too busy). The amounts are placeholders: the doc shows progress only once the criteria are published
 // fresh: a new customer (account.js, the Demo switch): customer since now, not VIP yet
 const accountSide = (current, fresh = typeof NEW_CUSTOMER !== 'undefined' && NEW_CUSTOMER) => `<aside class="account-side dash-card">
         <div class="account-who"><span class="av"><img src="../design-system/icons/account-grey.svg" alt=""></span><b>${[deskUser?.first, deskUser?.last].filter(Boolean).join(' ').replace(/</g, '&lt;') || deskFirst}</b><small>Merrion Studio · customer since ${fresh ? 'Nov 2026' : '2023'}</small></div>
-        <div class="vip-meter"><div class="top"><span>VIP status</span>${fresh ? '<span class="badge neutral co-badge">Not VIP yet</span>' : '<span class="badge eco co-badge">VIP2</span>'}</div><small>${fresh ? 'Given automatically to our most loyal customers' : '4% off your products · free delivery · 50% off Premium Design Check'}</small>
+        <div class="vip-meter"><div class="top"><span>VIP status${fresh ? '' : ' (−4%)'}</span>${fresh ? '<span class="badge neutral co-badge">Not VIP yet</span>' : '<span class="badge eco co-badge">VIP2</span>'}</div>
+          <div class="bar"><i style="width:${fresh ? 0 : 75}%"></i></div><small>${fresh ? '€0 of €1,000 · €1,000 to VIP1 (2% off)' : '€1,876 of €2,500 · €624 to VIP3 (6% off)'}</small>
           <small><a class="link" href="vip.html">How VIP works</a></small></div>
         ${accountNav(current)}</aside>`;
 const accountNav = current => `<nav class="d-menu d-head account-nav" aria-label="My account">${ACCOUNT_ROWS.replace(/ role="menuitem"/g, '').replace(`href="${current}"`, `href="${current}" aria-current="page"`)}</nav>`;   // in the page: links, not menu items

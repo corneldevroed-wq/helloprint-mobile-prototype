@@ -147,6 +147,17 @@
    "flags/window-set": "Window flag, pole + flag",
    "flags/window-flag": "Window flag, flag only",
    "flags/window-pole": "Window flag, pole only"
+  },
+  "Flag bases and wall mounts (the live photo)": {
+   "inks/none": "No flag base",
+   "../prototype/assets/live-opts/flags/base-cross.png": "Cross Foot",
+   "../prototype/assets/live-opts/flags/base-cross-water.png": "Cross Foot + Waterbag",
+   "../prototype/assets/live-opts/flags/base-parasol.png": "Parasol Base + Rotator",
+   "../prototype/assets/live-opts/flags/base-spike.png": "Metal Ground Spike",
+   "../prototype/assets/live-opts/flags/base-screw.png": "Plastic Screw Base + rotator",
+   "../prototype/assets/live-opts/flags/wall-0.png": "Wall suspension 0°",
+   "../prototype/assets/live-opts/flags/wall-45.png": "Wall suspension 45°",
+   "../prototype/assets/live-opts/flags/wall-90.png": "Wall suspension 90°"
   }
  },
  "Banner icons": {

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,local_mall,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261204d">
-<link rel="stylesheet" href="components.css?v=20261204d">
-<link rel="stylesheet" href="guide.css?v=20261204d">
+<link rel="stylesheet" href="tokens.css?v=20261204e">
+<link rel="stylesheet" href="components.css?v=20261204e">
+<link rel="stylesheet" href="guide.css?v=20261204e">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -62,7 +62,7 @@
   .icon-grid figure { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; font-size: 12px; line-height: 17px; color: var(--dark-grey); }
   .icon-grid img { width: 50px; height: 50px; }
   .icon-grid .tick { color: var(--light-green); }
-  .ic-rows { display: flex; flex-direction: column; gap: 16px; width: 100%; } .ic-fam { font-size: 12px; line-height: 17px; font-weight: 600; color: var(--black); }
+  .ic-rows { display: flex; flex-direction: column; gap: 16px; width: 100%; } .ic-rows img.ph { background: var(--light-grey); border-radius: var(--r-s); } .ic-fam { font-size: 12px; line-height: 17px; font-weight: 600; color: var(--black); }
   .ic-rows.ui .icon-grid img { width: 40px; height: 40px; padding: 8px; background: var(--light-grey); border-radius: var(--r-s); } .ic-rows.ui img[src$="bag.svg"] { background: var(--dark-green); }   /* the bag is white, it sits on the green header */
 
   /* Mobile: sidebar becomes a drawer */
@@ -520,8 +520,8 @@
       use: 'A setting on Personal details (Cornel 2026-11-18, sketch A): its icon in the grey tile in front (<code>.hc-ico</code> at 40, as the quick links on mobile), at the top of the row, the name 14/22 semibold, what it is now grey (<code>.not-set</code> mid grey when empty), one small outline button on the right (Edit, Add, Change, Set up) that opens the standard popup; what you fill in at once is one row with one button (Name and phone, Company), one button = one popup, its values as label + value (<code>.spec-fold-rows</code>, label grey, value black); a preference has a switch instead, that works right away. A country (E-invoicing) has its round flag in the tile (<code>img.round</code>, the country menu’s flags). One card per section, a line between the rows.',
       ex: stage(accReal(`<div class="dash-card"><div class="dash-row text has-ico"><span class="hc-ico"><img src="icons/account-grey.svg" alt=""></span><span class="t"><b>Name and phone</b><div class="spec-fold-rows"><div><span>Name</span><span>Loraine Pijffers</span></div><div><span>Phone</span><span><span class="not-set">Not set</span></span></div></div></span><button class="btn small outline" type="button">Edit</button></div><div class="dash-row text has-ico"><span class="hc-ico material-symbols-rounded" aria-hidden="true">campaign</span><span class="t"><b>Marketing emails</b><small>Newsletter, offers and product news.</small></span><button class="switch" role="switch" aria-checked="true" aria-label="Marketing emails"></button></div></div>`)) }) +
     row({ name: 'Account card', wide: true, meta: [{ t: '.account-who' }, { t: '.vip-meter' }, { t: '.account-nav' }, SIZE],
-      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title and the tier as an eco label (VIP1, VIP2, VIP3; not VIP yet = a neutral label); one line under it with what the tier gives (12/18); How VIP works on its own line. No points or progress bar until the criteria are published (the VIP marketing doc, 2026-11-18; the tiers of vip.html: VIP1 2%, VIP2 4% + free delivery + 50% off Premium Design Check, VIP3 6% + both free). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
-      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status</span><span class="badge eco co-badge">VIP2</span></div><small>4% off your products · free delivery · 50% off Premium Design Check</small>
+      use: 'Who is logged in, the VIP status and the account pages. The header’s account icon grey on --light-grey (40, Cornel: there is enough green), the name 16/22 semibold, the company under it. VIP: the title with your discount (VIP status (−4%)) and the tier as an eco label (VIP1, VIP2, VIP3; not VIP yet = a neutral label), no line with the benefits (Cornel: too busy; they are on vip.html); the 6px bar (Cornel 2026-11-18) and one line with the progress to the next tier in euros of orders (€1,876 of €2,500 · €624 to VIP3 (6% off); placeholder amounts until the criteria are published); How VIP works on its own line (the VIP marketing doc, 2026-11-18; the tiers of vip.html: VIP1 2%, VIP2 4% + free delivery + 50% off Premium Design Check, VIP3 6% + both free). The account pages are the rows of the account menu (<code>ACCOUNT_ROWS</code>) in the page, this page grey. Desktop: the sticky card left of the page; mobile: who + VIP on top, the rows at the bottom.',
+      ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status (−4%)</span><span class="badge eco co-badge">VIP2</span></div><div class="bar"><i style="width:75%"></i></div><small>€1,876 of €2,500 · €624 to VIP3 (6% off)</small>
           <small><a class="link" href="#account">How VIP works</a></small></div>
         <nav class="d-menu d-head account-nav" aria-label="My account"><a href="#account" aria-current="page"><span class="ico"><img src="icons/home.svg" alt=""></span><span><b>Account Overview</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/package-2.svg" alt=""></span><span><b>Orders</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/chat.svg" alt=""></span><span><b>Complaints</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a></nav></div>`, [288, 'account overview, desktop (side card)'])) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
@@ -639,10 +639,10 @@
   const cropIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { cropIO.unobserve(e.target); initCrop(e.target); } }), { rootMargin: '800px 0px' });
   document.querySelectorAll('.ds-crop').forEach(b => cropIO.observe(b));
   // Material icons: read the live list
-  // Every icon family, read live from icons/index.json (family → file → label), so a new icon shows up here without editing the guide
+  // Every icon family, read live from icons/index.json (family → file → label), so a new icon shows up here without editing the guide; a file with an extension is a photo (path from here), on the light grey tile
   fetch('icons/index.json', { cache: 'no-cache' }).then(r => r.json()).then(m => document.querySelectorAll('.ic-rows').forEach(el => {
     el.innerHTML = Object.entries(m[el.dataset.g] || {}).map(([fam, files]) => `<p class="ic-fam">${fam}</p><div class="icon-grid">` +
-      Object.entries(files).map(([f, n]) => `<figure><img src="icons/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('') + '</div>').join('');
+      Object.entries(files).map(([f, n]) => `<figure><img ${/\.(png|jpe?g|webp)$/.test(f) ? `class="ph" src="${f}"` : `src="icons/${f}.svg"`} alt="" loading="lazy">${n}</figure>`).join('') + '</div>').join('');
   }));
   fetch('icons/materials/index.json', { cache: 'no-cache' }).then(r => r.json()).then(m => {
     document.getElementById('icMats').innerHTML = Object.entries(m).map(([f, n]) => `<figure><img src="icons/materials/${f}.svg" alt="" loading="lazy">${n}</figure>`).join('');
@@ -654,6 +654,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261204d"></script>
+<script src="guide.js?v=20261204e"></script>
 </body>
 </html>

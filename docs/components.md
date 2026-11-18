@@ -142,7 +142,7 @@ design system + guide, prices for products without a live from-price. Gap histor
 - **Buttons**: `.pill` (white, mid-grey outline, black outline on hover), green CTA rounded.
 
 ## Assets
-- `design-system/icons/index.json` lists every non-material icon (guide row → family → file → label); the style guide shows them all from it
+- `design-system/icons/index.json` lists every non-material icon (guide row → family → file → label); the style guide shows them all from it (a file with an extension, e.g. `../prototype/assets/live-opts/flags/base-cross.png`, is a photo option, shown on the light grey tile)
   (`materials/index.json` for the materials). A new icon goes into one of the two indexes, same change.
 - `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes|stickers` — icon set (SVG, 50×50). Sticker shapes
   (`stickers/round|oval|square|rounded|contour`) = the shape with its corner peeled; films are materials (`materials/film-white-gloss|white-matt|clear|white-eco|clear-eco`,
