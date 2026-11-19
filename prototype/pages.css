@@ -2144,7 +2144,7 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 
 /* ===== PFP, Product Filtering Page (pens.html, Cornel 2026-11-19, sketches/pfp-sketch.html C) =====
    Desktop: a 264 sticky filter sidebar + the grid 4 per row next to it; mobile: Filters + sort + count, the filters in a sheet. The filter parts live in the
-   design system (.pf-group, .pf-x, .pf-dots …). */
+   design system (.pf-group, .pf-x, .pf-strip …). */
 .desk .pf-layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 32px; align-items: start; }
 .pf-side { display: none; }
 .desk .pf-side { display: block; max-height: calc(100vh - 148px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }   /* sticky under the header (124, with the account and cart sides); taller than the screen: it scrolls on its own */
@@ -2163,4 +2163,3 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 #sheet-filters .pad { gap: 0; }
 #sheet-filters .pf-group summary { font-size: var(--t-16); }
 #sheet-filters .bar-btns { display: flex; flex: 1; gap: 8px; }
-

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205t">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205t">
-<link rel="stylesheet" href="pages.css?v=20261205t">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205v">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205v">
+<link rel="stylesheet" href="pages.css?v=20261205v">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -65,9 +65,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205t"></script>
-<script src="../design-system/components.js?v=20261205t"></script>
-<script src="pens-data.js?v=20261205t"></script>
+<script src="app.js?v=20261205v"></script>
+<script src="../design-system/components.js?v=20261205v"></script>
+<script src="pens-data.js?v=20261205v"></script>
 <script>
 const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
 // Prices at 500 (one quantity every pen offers, so the cards compare): the live from-price is the lowest per piece, ×1.5 (the prototype's own numbers)
@@ -76,14 +76,22 @@ const QTY = 500, pce = p => Math.round(p.pp * 1.5 * 100) / 100, total = p => Mat
 const WD = { '1': 1, '2to3': 3, '4to5': 5, 'moreThan6': 7 }, RANK = { '1': 0, '2to3': 1, '4to5': 2, 'moreThan6': 3 };
 const addWd = n => { const d = new Date('2026-11-19T12:00'); while (n) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) n--; } return d; };
 
-// The product card + the colours as dots (6, then +N), the price each and the estimated delivery
-const card = p => `<a class="product" href="#${p.s}">
-    <div class="thumb" style="background:var(--light-grey)"><img src="${CF + p.i}?w=500&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(p.b)}</div>
+// Colours (Cornel 2026-11-19, C of the Colours switch): "8 colours" at rest; on hover (desktop) a frosted strip with the dots slides up over the photo,
+// hover a dot = that colour's photo (live, one transparent pen) and the link takes it along (#slug?colour=red). A ticked colour filter shows that
+// colour's photo. Mobile: no hover, the text only.
+const img = path => `${CF + path}?w=500&fm=webp&q=80`;
+const dots = p => p.hex.map((h, i) => `<i style="background:${h}" title="${p.col[i]}"${p.ci[i] ? ` data-c="${i}"` : ''}></i>`).join('');
+// The product card + the colours, the price each and the estimated delivery
+const card = p => {
+  const fc = [...SEL.colour].find(c => p.ci[p.col.indexOf(c)]), main = fc ? p.ci[p.col.indexOf(fc)] : p.i, href = `#${p.s}${fc ? '?colour=' + fc.toLowerCase() : ''}`;
+  return `<a class="product" href="${href}" data-s="${p.s}" data-href="${href}">
+    <div class="thumb" style="background:var(--light-grey)"><img src="${img(main)}" data-main="${img(main)}" alt="" loading="lazy">${badgeHtml(p.b)}${DESK && p.hex.length > 1 ? `<span class="pf-strip">${dots(p)}</span>` : ''}</div>
     <p class="name">${p.n}</p>
-    <span class="pf-dots" aria-label="${p.hex.length} colours">${p.hex.slice(0, 6).map(h => `<i style="background:${h}"></i>`).join('')}${p.hex.length > 6 ? `<small>+${p.hex.length - 6}</small>` : ''}</span>
+    ${p.col.length ? `<span class="pf-ncol">${p.col.length > 1 ? p.col.length + ' colours' : p.col[0]}</span>` : ''}
     <div><p class="from">${QTY} pcs for</p><p class="prices"><span class="price" data-price="${total(p)}">${fmt(total(p))}</span><span class="pf-each">· <span data-price="${pce(p)}">${fmt(pce(p))}</span> each</span></p>
     <p class="pf-eta">Estimated <b>${p.d === '1' ? 'tomorrow' : etaShort(addWd(WD[p.d]))}</b></p></div>
   </a>`;
+};
 
 // The sibling categories (the rest of Pens & Pencils on live): grey tiles on desktop, category cards on mobile; photo = the first product of each live page
 const SIB = [['Pencils', '5faYfcKhgnE3ix0mpTqx5v/3b0eb418eb97519264080863d573847b/topicvarnishedpencil.webp', '#promotional-pencils'],
@@ -178,6 +186,23 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-clear]')) { G.forEach(g => SEL[g.id].clear()); ECO = false; ORDER = []; changed(); }
 });
 render();
+
+// Colours (desktop): hover a dot = that colour's photo and link; leaving the card brings back its photo. The photos load on the first hover.
+if (DESK) {
+  const grid = document.getElementById('main');
+  grid.addEventListener('mouseover', e => {
+    const c = e.target.closest('.product'); if (!c) return;
+    const p = PENS.find(x => x.s === c.dataset.s);
+    if (!c.dataset.pre) { c.dataset.pre = 1; p.ci.forEach(x => { if (x) new Image().src = img(x); }); }
+    const d = e.target.closest('[data-c]'); if (!d) return;
+    c.querySelector('.thumb img').src = img(p.ci[d.dataset.c]); c.href = `#${p.s}?colour=${p.col[d.dataset.c].toLowerCase()}`;
+    c.querySelectorAll('[data-c]').forEach(x => x.classList.toggle('on', x === d));
+  });
+  grid.addEventListener('mouseout', e => {
+    const c = e.target.closest('.product'); if (!c || c.contains(e.relatedTarget)) return;
+    c.querySelector('.thumb img').src = c.querySelector('.thumb img').dataset.main; c.href = c.dataset.href; c.querySelectorAll('.on').forEach(x => x.classList.remove('on'));
+  });
+}
 
 // Reviews: desktop the reviews row with arrows, mobile the swipe row (as on business cards)
 const revs = document.getElementById('reviews');

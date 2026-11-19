@@ -967,14 +967,17 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .pf-n { display: grid; place-items: center; min-width: 18px; height: 18px; margin-left: 2px; padding: 0 4px; border-radius: var(--r-pill); background: var(--dark-green); color: var(--white); font-size: var(--t-12); line-height: 1; }   /* the number on Filters (mobile) */
 .pf-clear { padding: 0 4px; border: 0; background: none; font: inherit; font-weight: 600; font-size: var(--t-14); color: var(--link); cursor: pointer; }
 .pf-sort::after { content: ""; width: 16px; height: 16px; margin: 0 -4px 0 4px; background: url(icons/chevron-down.svg) center / 12px no-repeat; }
-/* The product card on a PFP: the colours as dots (6, then +N), the price each after the price, the estimated delivery under it */
-.pf-dots { display: flex; align-items: center; gap: 4px; }
-.pf-dots i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15); }
-.pf-dots small, .pf-each, .pf-eta { font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
-.pf-dots small { margin-left: 2px; }
+/* The product card on a PFP: "8 colours", the price each after the price, the estimated delivery under it. On hover (desktop) a frosted strip with the
+   colour dots slides up over the photo (the pen stays visible through it, Cornel); hover a dot = that colour's photo (C of the Colours switch, 2026-11-19) */
+.pf-ncol, .pf-each, .pf-eta { font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .pf-eta { margin-top: 4px; }
 .pf-eta b { font-weight: 600; color: var(--black); }
-.desk .pf-dots small, .desk .pf-eta { font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .pf-ncol, .desk .pf-eta { font-size: var(--t-14); line-height: var(--lh-14); }
+.pf-strip { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 8px; border-radius: var(--r-l); background: color-mix(in srgb, var(--white) 60%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transform: translateY(calc(100% + 8px)); transition: transform .15s ease-out; }
+.product:hover .pf-strip { transform: none; }
+.pf-strip i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15); }
+.pf-strip i[data-c] { cursor: pointer; }
+.pf-strip i.on { box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--black); }
 .find { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }   /* as high as the header search: 34 mobile, 38 desktop (Cornel 2026-11-18, now it has its own row in the card) */
 .desk .find { height: 38px; }
 .find .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-grey); }
