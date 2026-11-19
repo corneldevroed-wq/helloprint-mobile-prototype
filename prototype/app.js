@@ -395,7 +395,8 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
-  // Pens, the PFP (Product Filtering Page): its live sub categories open it with their filter on (Cornel 2026-11-19)
+  // The PFPs (Product Filtering Pages), backpacks and pens: their live sub categories open them with their filter on (Cornel 2026-11-19)
+  'printed-backpacks': 'backpacks.html', 'casual-backpacks': 'backpacks.html?f=type%3ACasual%20backpacks', 'laptop-backpacks': 'backpacks.html?f=type%3ALaptop%20backpacks', 'antitheft-backpacks': 'backpacks.html?f=type%3AAnti-theft%20backpacks',
   'ballpoint-pens': 'pens.html', 'eco-pens': 'pens.html?f=eco', 'fastpens': 'pens.html?f=del%3ATue%2024%20Nov', 'luxury-pens': 'pens.html?f=type%3ALuxury%20pens',
   'touch-pens': 'pens.html?f=type%3AStylus%20pens', 'bic-pens': 'pens.html?f=brand%3ABIC', 'parkerpens': 'pens.html?f=brand%3AParker', 'basic-pens': 'pens.html?f=type%3ABallpoint%20pens',
   'addresses': 'addresses.html', 'personal-details': 'personal-details.html', 'vouchers': 'vouchers.html',   // My account (help articles link here)

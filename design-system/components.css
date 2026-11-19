@@ -944,9 +944,10 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
    are the checkbox (.check) at 14 with the count right; a value that would give 0 is greyed (.off). Colours as round swatches, Eco only as a switch row.
    The selected ones above the list as soft tags (.pf-x: light grey, regular, a grey ×; "the dark ones are too hard"), Clear all as a green text button. */
 .pf-group { border-bottom: 1px solid var(--line); }
-.pf-group summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); cursor: pointer; list-style: none; }
+.pf-group summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); cursor: pointer; list-style: none; }
 .pf-group summary::-webkit-details-marker { display: none; }
-.pf-sel { display: block; margin-top: 2px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.desk .pf-group summary, .desk .pf-eco { font-size: var(--t-16); line-height: var(--lh-16); }   /* a group title is a card title: 14 mobile, 16/22 desktop (audit 11-19) */
+.pf-sel { display: block; margin-top: 4px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .pf-group[open] .pf-sel { display: none; }
 .pf-opts { display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; }
 .pf-opts .check { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
@@ -956,10 +957,10 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .pf-more-v { align-self: flex-start; padding: 0; }   /* "Show 3 more" under a long group */
 .check.off { opacity: .4; cursor: default; }
 .pf-sw { display: grid; grid-template-columns: repeat(7, 24px); gap: 8px; padding-bottom: 16px; }
-.pf-sw button { width: 24px; height: 24px; border: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15); cursor: pointer; }
-.pf-sw button[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--light-green); }
+.pf-sw button { width: 24px; height: 24px; border: 1px solid var(--outline); border-radius: 50%; cursor: pointer; }   /* a real border and outline, not box-shadow: crisp on a small circle */
+.pf-sw button[aria-pressed="true"] { outline: 2px solid var(--light-green); outline-offset: 2px; }
 .pf-sw button:disabled { opacity: .25; cursor: default; }
-.pf-eco { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-weight: 600; font-size: var(--t-14); }
+.pf-eco { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .pf-eco small, .pf-count { font-weight: 400; color: var(--dark-grey); }
 .pill.pf-x { border-color: var(--light-grey); background: var(--light-grey); font-weight: 400; }
 .pill.pf-x:hover { border-color: var(--mid-grey); }
@@ -972,13 +973,13 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .pf-ncol, .pf-each { font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .pf-eta { display: inline-block; margin-top: 8px; padding: 3px; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); font-size: var(--t-12); line-height: 1; color: var(--black); }   /* "Fast delivery" in a white label: the size of the orange label (.badge) in regular weight (bold was too hard at this size), the card outline, no shadow (Cornel); with its 1px border exactly as big as the orange label */
 .desk .pf-eta { padding: 3px 7px; }   /* the orange label is 4 × 8 on desktop */
-.pf-eta.none { visibility: hidden; }   /* the slower ones: an invisible tag keeps the prices level */
+.pf-eta.none { visibility: hidden; }   /* in a row where another card has it: an invisible one keeps the prices level (a row without it has none) */
 .desk .pf-ncol { font-size: var(--t-14); line-height: var(--lh-14); }
 .pf-strip { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 8px; border-radius: var(--r-l); background: color-mix(in srgb, var(--white) 60%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transform: translateY(calc(100% + 8px)); transition: transform .15s ease-out; }
 .product:hover .pf-strip { transform: none; }
-.pf-strip i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15); }
+.pf-strip i { width: 16px; height: 16px; border: 1px solid var(--outline); border-radius: 50%; }
 .pf-strip i[data-c] { cursor: pointer; }
-.pf-strip i.on { box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--black); }
+.pf-strip i.on { outline: 1px solid var(--black); outline-offset: 2px; }
 .find { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 16px; border: 1px solid var(--outline); border-radius: var(--r-pill); font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); }   /* as high as the header search: 34 mobile, 38 desktop (Cornel 2026-11-18, now it has its own row in the card) */
 .desk .find { height: 38px; }
 .find .material-symbols-rounded { font-size: var(--t-20); color: var(--dark-grey); }

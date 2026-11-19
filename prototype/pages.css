@@ -2149,17 +2149,17 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 .pf-side { display: none; }
 .desk .pf-side { display: block; max-height: calc(100vh - 148px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }   /* sticky under the header (124, with the account and cart sides); taller than the screen: it scrolls on its own */
 .pf-side-h { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
-.pf-side-h b { font-size: var(--t-20); line-height: var(--lh-20); }
+.pf-side-h h2 { margin: 0; }   /* "Filters" is a section title (24/32, as the cart's Order overview; audit 11-19) */
 .desk .pf-layout .types { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .pf-bar, .pf-active { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-.pf-count { margin-left: auto; font-size: var(--t-14); line-height: var(--lh-14); }
+.pf-count { margin-left: auto; }
 .desk .pf-count { margin: 0 auto 0 0; }
 .pf-count b { font-weight: 600; color: var(--black); }
 .pf-more { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 32px; }
-.pf-more p, .pf-empty p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.pf-count, .pf-more p, .pf-empty p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* body: 12/18 mobile, 14/22 desktop */
+.desk .pf-count, .desk .pf-more p, .desk .pf-empty p { font-size: var(--t-14); line-height: var(--lh-14); }
 .pf-more .btn { width: auto; padding: 0 32px; }
 .pf-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 32px 16px; border-radius: var(--r-l); background: var(--light-grey); text-align: center; }
 .pf-empty b { font-size: var(--t-16); }
 #sheet-filters .pad { gap: 0; }
-#sheet-filters .pf-group summary { font-size: var(--t-16); }
 #sheet-filters .bar-btns { display: flex; flex: 1; gap: 8px; }
