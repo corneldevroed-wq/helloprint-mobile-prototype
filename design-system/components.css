@@ -530,7 +530,8 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
 .desk .plp .product > :not(.thumb) { padding: 0 16px; }
 .desk .plp .product > :last-child { padding-bottom: 16px; margin-top: auto; }
 .desk .plp .product .name { font-size: var(--t-16); line-height: var(--lh-16); }
-.desk .plp .product .price { font-weight: 800; }
+.desk .product .price { font-weight: 800; font-size: var(--t-16); line-height: var(--lh-16); }   /* desktop: the price as big as the product title (16/22), extra bold, on every card before the cart (Cornel 2026-11-19, sketches/card-price-sketch.html); mobile stays 14, also its title's size */
+.desk .xsell .product .price, .desk .account-page .product .price { font-size: var(--t-14); line-height: 17px; }   /* the cart's cross-sell and My Account keep 14 */
 .desk .plp .plp-mats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; border: 0; padding: 0; }
 .desk .plp .plp-mats li { border: 0; padding: 0; }
 .desk .plp .plp-mats .mat { height: 100%; flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px; border: 1px solid var(--outline); border-radius: var(--r-l); transition: border-color .15s; }

@@ -1142,7 +1142,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-card-t { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 16px; }
 .d-card .name { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); }
 .d-card .from { font-size: var(--t-12); line-height: var(--lh-12); }
-.d-card .prices .price { font-weight: 800; font-size: var(--t-14); }
 /* Reviews (Figma 15937:10023) */
 .d-reviews { display: flex; flex-direction: column; align-items: center; }
 .d-reviews h2 { align-self: stretch; }
@@ -1310,7 +1309,6 @@ html:not(.desk) .desk-only { display: none; }
 .desk .home .product .name, .desk .xsell .product .name, .desk .pm-row b { font-size: var(--t-16); line-height: var(--lh-16); }   /* + the payment method names on payment (Cornel, 2026-11-06) */
 .desk .home .product .prices, .desk .xsell .product .prices { gap: 8px; align-items: center; line-height: 20px; }
 .desk .home .product .was { font-size: var(--t-14); }
-.desk .home .product .price, .desk .xsell .product .price { font-weight: 800; }
 
 /* Promo cards: side by side at 639 × 345 (Figma 15939:10338), mobile content kept */
 .desk .home > .promos { order: 6; }
