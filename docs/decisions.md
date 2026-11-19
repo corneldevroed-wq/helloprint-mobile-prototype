@@ -10,7 +10,9 @@ Add new decisions here when Cornel makes a final call.
   business cards Saver Mon 30 Nov / Express Mon 23 Nov; flyers Tue 1 Dec / Tue 24 Nov / Mon 23 Nov; mug Wed 2 Dec; Basic Cotton Bags
   Mon 7 Dec; Premium Tote Bags Wed 2 Dec / Wed 25 Nov / Tue 24 Nov; banners Tue 1 Dec / Wed 25 Nov / Tue 24 Nov; roller banners
   Tue 1 Dec / Wed 25 Nov. The t-shirt now has Saver (Thu 3 Dec, included) + Standard (Mon 23 Nov, +€57.75), as live (was Standard only).
-  "Approve by" is one date for every option, as live ("Upload file by" Fri 20 Nov 10:30): `etaApprove()` in app.js. Prices unchanged.
+  "Approve by" is one date for every option, as live ("Upload file by" Fri 20 Nov 10:30): `etaApprove()` in app.js.
+  Delivery surcharges excl. VAT as live for the default configuration: business cards Express +€36.50; flyers Standard +€39.22, Express +€45.67;
+  Premium Tote Bags +€135 / +€162; banners +€2 / +€4; roller banners +€47 (was already). Fixed per product (live varies them with the quantity).
   Past orders in My Account keep their October dates (they are history).
 
 ## PDP design options for logo products (Nov 19, 2026)

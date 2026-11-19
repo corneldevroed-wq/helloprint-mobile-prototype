@@ -41,8 +41,8 @@ const FLYER_SIZES = [
 const flyerSizes = ids => ({ key: 'size', title: 'Size', items: ids ? ids.map(id => FLYER_SIZES.find(s => s.id === id)) : FLYER_SIZES });
 const FLYER_DELIVERY = [
   { id: 'saver', name: 'Saver', day: '1', dayName: 'Tue 1 Dec', month: 'December 1', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 1 Dec if you approve your files in time.' },
-  { id: 'standard', name: 'Standard', day: '24', dayName: 'Tue 24 Nov', month: 'November 24', extra: 43, info: '7 days sooner, on Tue 24 Nov.' },
-  { id: 'express', name: 'Express', day: '23', dayName: 'Mon 23 Nov', month: 'November 23', extra: 79, info: 'Our fastest option: on Mon 23 Nov, printed with priority.' },
+  { id: 'standard', name: 'Standard', day: '24', dayName: 'Tue 24 Nov', month: 'November 24', extra: 39.22, info: '7 days sooner, on Tue 24 Nov.' },
+  { id: 'express', name: 'Express', day: '23', dayName: 'Mon 23 Nov', month: 'November 23', extra: 45.67, info: 'Our fastest option: on Mon 23 Nov, printed with priority.' },
 ];
 
 // One delivery option (products the live site ships with Standard only)
@@ -456,7 +456,7 @@ const PRODUCTS = {
     logo: true, name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/premium-tote.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
-    delivery: withDays(FLYER_DELIVERY, ['Wed 2 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 31, 48], 'bags'),
+    delivery: withDays(FLYER_DELIVERY, ['Wed 2 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 135, 162], 'bags'),
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['natural', 'black', 'white', 'royal', 'grey', 'navy', 'red', 'orange', 'yellow', 'pink']) },
       { key: 'area', title: 'Print area', items: [
@@ -518,7 +518,7 @@ const PRODUCTS = {
     name: 'Banners', cartName: 'Banners', noun: 'banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Banners', '#banner-printing'],
     img: 'assets/products/banner.webp', priceMult: 1, defaultQty: 1,
     qty: [[1, 33.36], [2, 61.99], [3, 89.99], [5, 144.99], [10, 279.99], [25, 669.99]],   // 2+ ~
-    delivery: withDays(FLYER_DELIVERY, ['Tue 1 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 58.47, 62.47], 'banners'),
+    delivery: withDays(FLYER_DELIVERY, ['Tue 1 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 2, 4], 'banners'),
     groups: [
       { key: 'size', title: 'Size', items: [
         { id: '150x100', name: '150 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:28px', mult: 1, info: 'A compact banner for shop windows, stands and events. On the live site any size up to 20 m wide is possible.' },
