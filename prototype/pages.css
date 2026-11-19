@@ -678,7 +678,7 @@ body.flow-i .spec-rows .chev { width: 14px; height: 14px; filter: none; opacity:
 /* Order confirmed (confirmed-combo-sketch.html, Cornel 2026-11-09): one layout for one or more order lines.
    1 the green strip · 2 the actions (pay, upload: the PDP's .art-drop), the most attention · 3 a card per order line · 4 order details + map · 5 people */
 .oc { display: flex; flex-direction: column; gap: 32px; padding-bottom: 32px; }
-.oc-sec[hidden] { display: none; }   /* Your products: hidden, kept for My account (Cornel 2026-11-09) */
+.oc-sec[hidden], .oc-act[hidden] { display: none; }   /* Your products: hidden, kept for My account (Cornel 2026-11-09); Settle all once paid */
 .oc-line .img { width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
 .oc-line .img img { width: 100%; height: 100%; object-fit: cover; }
 .oc-for { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }   /* the upload popup's bar: which product the files go to */
