@@ -396,6 +396,7 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
   // The PFPs (Product Filtering Pages), backpacks and pens: their live sub categories open them with their filter on (Cornel 2026-11-19)
+  'personalised-mugs': 'mugs.html', 'photo-mugs': 'mugs.html?f=print%3AFull%20colour%20print',
   'printed-backpacks': 'backpacks.html', 'casual-backpacks': 'backpacks.html?f=type%3ACasual%20backpacks', 'laptop-backpacks': 'backpacks.html?f=type%3ALaptop%20backpacks', 'antitheft-backpacks': 'backpacks.html?f=type%3AAnti-theft%20backpacks',
   'ballpoint-pens': 'pens.html', 'eco-pens': 'pens.html?f=eco', 'fastpens': 'pens.html?f=del%3ATue%2024%20Nov', 'luxury-pens': 'pens.html?f=type%3ALuxury%20pens',
   'touch-pens': 'pens.html?f=type%3AStylus%20pens', 'bic-pens': 'pens.html?f=brand%3ABIC', 'parkerpens': 'pens.html?f=brand%3AParker', 'marksmanpens': 'pens.html?f=brand%3AMarksman', 'senatorpens': 'pens.html?f=brand%3ASenator', 'watermanpens': 'pens.html?f=brand%3AWaterman', 'stilolinea': 'pens.html?f=brand%3AStilolinea', 'basic-pens': 'pens.html?f=type%3ABallpoint%20pens',

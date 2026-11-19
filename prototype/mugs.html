@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalised Mugs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zw">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zw">
+<link rel="stylesheet" href="pages.css?v=20261205zw">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- PFP (page type of pens.html, Cornel 2026-11-19): live helloprint.com/en-ie/personalised-mugs, 77 mugs in mugs-data.js.
+       Title + intro → filters + products → "More in Drinkware" (8 grey tiles) → reviews → live's "types of mugs" text as the SEO block, last.
+       No FAQ on live. Mug type first (from live's material: its own type field says "Mugs" for all); Photo Mugs routes here with Full colour print. -->
+  <main class="cat-page plp promo-e pfp">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / <a href="#corporate-gifts">Corporate Gifts</a> / <a href="#drinkware-printing">Drinkware</a> / Mugs</p>
+      <div class="intro">
+        <h1>Personalised &amp; Branded Mugs</h1>
+        <p>Discover high-quality personalised mugs at HelloPrint. Customise your mug with your own logo, photo or message. Fast delivery across Ireland. Create your unique mug today!</p>
+      </div>
+    </section>
+
+    <section class="pf-layout">
+      <aside class="pf-side" aria-label="Filters"><div class="pf-side-h"><h2>Filters</h2><button class="pf-clear" type="button" data-clear hidden>Clear all</button></div><div id="side"></div></aside>
+      <div class="pf-main" id="main"></div>
+    </section>
+
+    <section>
+      <h2>More in Drinkware</h2>
+      <div class="plp-cats four" id="sibCats"></div>
+    </section>
+
+    <section id="reviews" class="d-reviews">
+      <h2>What our Happy Customers say</h2>
+    </section>
+
+
+    <!-- Live's "types of mugs" block (6 cards with a photo, Cornel: far too much space): it is SEO text, so the guide's SEO block, last: the title,
+         the lead and a fold per type (as backpacks, promotional). The steel text is live's (it repeats the intro) -->
+    <section class="about cat-about">
+      <h2>Choose from many different types of mugs for your logo!</h2>
+      <p>When considering different mugs, we offer a wide selection to meet all your needs. Discover the durability and modern look of stainless steel mugs, ideal for stylish branding. For vibrant options, coloured mugs are a great choice to make your brand stand out. Opt for functionality and space with our large mugs, perfect for generous portions of coffee or tea. Let your brand shine on the type of mug that suits your style and preferences.</p>
+      <div class="acc oc-faq promo-seo">
+        <details><summary>Printed Steel Mugs<img src="assets/chevron.svg" alt=""></summary>
+          <p>Discover the durability and modern look of stainless steel mugs, ideal for stylish branding. For vibrant options, coloured mugs are a great choice to make your brand stand out. Opt for functionality and space with our large mugs, perfect for generous portions of coffee or tea. For a nostalgic touch, our enamel mugs are a hit, with a retro charm that attracts attention. Explore the versatility of these types and find the perfect match for your business or personal needs. Let your brand shine on the type of mug that suits your style and preferences.</p>
+        </details>
+        <details><summary>Printed Coloured Mugs<img src="assets/chevron.svg" alt=""></summary>
+          <p>Imprint one of our coloured mugs. The vibrant colours of our mugs attract instant attention, while the unique shape adds a playful touch to your branding. With sharp colours and high-quality printing, your logo will stand out, making your brand unforgettable. Choose a cheerful and eye-catching look with our personalised coloured mugs. Order today and bring your brand to life with this playful and impactful promotion!</p>
+        </details>
+        <details><summary>Senseo Coffee Cups with Logo<img src="assets/chevron.svg" alt=""></summary>
+          <p>Our personalised coffee cups not only offer high-quality printing, but also various shapes for a unique look. Enhance your brand recognition with customised designs and enjoy the benefits of special coffee cups that enhance the coffee experience. Order today and turn every cup of coffee into a marketing opportunity!</p>
+        </details>
+        <details><summary>Printed Latte Mugs<img src="assets/chevron.svg" alt=""></summary>
+          <p>Unleash the power of brand promotion with the printing of a latte mug. Enjoy the benefits of a spacious latte mug, perfect for highlighting your brand. The unique shape provides an ideal space for eye-catching printing, making your logo or message stand out. This mug is not only ideal for latte lovers, but also for serving a variety of coffee varieties. Choose a unique coffee experience with our personalised latte mugs and impress your target audience. Order now and give your brand a tasteful boost!</p>
+        </details>
+        <details><summary>Printed White Coffee Mug<img src="assets/chevron.svg" alt=""></summary>
+          <p>A standard white ceramic mug? Sure! Almost all our mugs are ceramic, making them excellent for everyday use. Also, this mug is dishwasher-safe, which increases its ease of use. With razor-sharp printing, your logo comes to life. This standard mug becomes extraordinary when personalised. Order now for a timeless promotion and enjoy the benefits of high-quality ceramic mugs for your brand.</p>
+        </details>
+        <details><summary>Printed Enamel Mugs<img src="assets/chevron.svg" alt=""></summary>
+          <p>Our personalised enamel mugs with metal rim combine durability with a trendy design. The modern and stylish design gives your brand a contemporary look. Experience the benefits of enamel mugs printing and add a touch of vintage chic to your brand image. Order now for a unique blend of robustness and style!</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<div class="sheet-layer" id="sheet-filters" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="fTitle">Filters</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad" id="sheetGroups"></div></div>
+    <div class="sheet-bar"><div class="bar-btns"><button class="btn outline" type="button" data-clear>Clear all</button><button class="btn primary" type="button" data-close-sheet id="showBtn">Show 181 products</button></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261205zw"></script>
+<script src="../design-system/components.js?v=20261205zw"></script>
+<script src="mugs-data.js?v=20261205zw"></script>
+<script>
+// Mugs (live /en-ie/personalised-mugs): 100 pcs (check that every mug offers 100), the live from-price ×1.3 (our own numbers); Mug type first (from
+// live's material), then Eco only, delivery, price, capacity, print, colour. No Material group (it is the type) and no Brand (one Stanley mug)
+const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+const PFP = {
+  items: MUGS, qty: 100, factor: 1.3, noun: 'mugs',
+  groups: [
+    { id: 'type', k: 'Mug type', field: 'type' },
+    { id: 'del' }, { id: 'price', edges: [2, 3, 4] },
+    { id: 'size', k: 'Capacity', field: 'size', vals: ['150–299 ml', '300–449 ml', '450–599 ml'] },
+    { id: 'print', k: 'Print', field: 'print', vals: ['Full colour print', '1 to 4 colours', 'Engraving'] },
+    { id: 'colour' }
+  ],
+  open: ['type', 'del', 'price', 'size', 'colour'], openSheet: ['type', 'del', 'price'],
+  // Drinkware on live, the categories with products: 7 + Glassware for its 6 small glass pages (14 products); empty pages (Shakers, Bottled Drinks,
+  // Paper Cups, Bottles & Jugs) and Hip Flasks (1 product) left out, so 4 × 2. Photo: the first product of each live page
+  sib: [['Water Bottles', CF + '6IzPmtB7llE4rdAijKaRP9/8bd78a5aa232fa4787c0c35ab96bbe52/sky650mlrecycledplasticwaterbottle.webp?w=300&fm=webp&q=80', '#printed-water-bottles'],
+    ['Thermos Mugs', CF + '6rCePz0ANuzrt8LqD1VXdk/86c76c0013874ada939f8e12b153ee84/kaffircscoffeemug300mlthermocup.webp?w=300&fm=webp&q=80', '#thermos-mugs'],
+    ['Thermos Flasks', CF + '2nCRGUDJJrCCF5HHQvK9xH/b60e74b643bc35b4d0979555d577a9a8/cove500mlrcsinsulatedbottle.webp?w=300&fm=webp&q=80', '#thermos-flasks'],
+    ['Reusable Plastic Cups', CF + '4EcmakoMUFcORXjL8irb9G/267699b3ac334d041897f62fcd339b0c/wobz4.png?w=300&fm=webp&q=80', '#personalised-plastic-cups'],
+    ['Coffee Travel Mugs', CF + 'S0pGDVK0xBIqPpDtp3m9u/fcd0684f859eb50e928c6cec9e720bf4/bracedoublewalltumbler510ml.webp?w=300&fm=webp&q=80', '#coffee-mugs-to-go'],
+    ['Sport Bottles', CF + '55oIn7Jq5sGgeOvidstCxu/5a2155fb3c25ae4daf02679e181254dd/aquasportgrsrecycledbottle1000ml.webp?w=300&fm=webp&q=80', '#personalised-sport-bottles'],
+    ['Coffee Cups', CF + '3RqPSQnWqzKcQS3VhACMq6/9e4cfd19c5d836b6c79b03e9ba26ab1e/ceramicstackablemug.webp?w=300&fm=webp&q=80', '#branded-coffee-cups'],
+    ['Glassware', CF + '5IwJNd0UGTwsCCwi2Mxglk/36837899116a18d94a93e7db62f33bf6/sipperglass.webp?w=300&fm=webp&q=80', '#glassware']]
+};
+</script>
+<script src="pfp.js?v=20261205zw"></script>
+</body>
+</html>
