@@ -102,7 +102,7 @@ const render = () => {
   const u = new URL(location.href); if (k) u.searchParams.set('f', ORDER.map(o => o.join(':')).join('|')); else u.searchParams.delete('f'); history.replaceState(null, '', u);
 };
 // After a change on desktop the page glides back to the grid's top when that is above the screen (the products changed under you)
-const changed = () => { PAGE = 24; render(); const m = document.getElementById('main'); if (DESK && m.getBoundingClientRect().top < 0) window.scrollTo({ top: m.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' }); };
+const changed = () => { PAGE = 24; render(); fitSide(); const m = document.getElementById('main'); if (DESK && m.getBoundingClientRect().top < 0) window.scrollTo({ top: m.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' }); };
 const toggle = (id, v) => {
   if (id === 'eco') { ECO = !ECO; ORDER = ECO ? [...ORDER, ['eco']] : ORDER.filter(o => o[0] !== 'eco'); return changed(); }
   const had = SEL[id].has(v);
@@ -119,11 +119,18 @@ document.addEventListener('click', e => {
   if (menu && !menu.hidden) { menu.hidden = true; menu.previousElementSibling.setAttribute('aria-expanded', 'false'); if (mb) return; }
   if (mb) { menu.hidden = false; mb.setAttribute('aria-expanded', 'true'); return; }
   const so = e.target.closest('[data-sort]'); if (so) { SORT = so.dataset.sort; PAGE = 24; return render(); }
-  const more = e.target.closest('[data-more]'); if (more) { MORE.add(more.dataset.more); return render(); }
+  const more = e.target.closest('[data-more]'); if (more) { MORE.add(more.dataset.more); render(); return fitSide(); }
   if (e.target.closest('[data-page]')) { PAGE += 24; return render(); }
   if (e.target.closest('[data-clear]')) { G.forEach(g => SEL[g.id].clear()); ECO = false; ORDER = []; changed(); }
 });
 render();
+
+// The sidebar sticks under the header (124) while it fits on the screen; taller, it scrolls along and sticks with its bottom 24 above the screen's
+// bottom, so no scroll bar of its own (Cornel). Again when a group opens or closes, after every change and on resize.
+const side = document.querySelector('.pf-side');
+const fitSide = () => { if (DESK) side.style.top = Math.min(124, innerHeight - side.offsetHeight - 24) + 'px'; };
+fitSide(); addEventListener('resize', fitSide);
+side.addEventListener('toggle', fitSide, true);
 
 // Colours (desktop): hover a dot = that colour's photo and link; leaving the card brings back its photo. The photos load on the first hover.
 if (DESK) {

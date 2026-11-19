@@ -8,16 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zu">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zu">
-<link rel="stylesheet" href="pages.css?v=20261205zu">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zw">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zw">
+<link rel="stylesheet" href="pages.css?v=20261205zw">
 </head>
 <body data-desktop>
 <div class="phone">
   <div data-shell="header"></div>
 
   <!-- PFP (page type of pens.html, Cornel 2026-11-19): live helloprint.com/en-ie/printed-backpacks, 122 backpacks in backpacks-data.js.
-       Title + intro → filters + products → "You might also be interested in" (live's 8 bag categories, grey tiles) → reviews → the SEO text (live,
+       Title + intro → filters + products → "More in Bags" (every other bag category of live, 16 grey tiles) → reviews → the SEO text (live,
        last). No FAQ on live. Backpack type first; the live sub categories (Casual / Laptop / Anti-theft backpacks) route here with that filter on. -->
   <main class="cat-page plp promo-e pfp">
     <section class="hero">
@@ -34,7 +34,7 @@
     </section>
 
     <section>
-      <h2>You might also be interested in</h2>
+      <h2>More in Bags</h2>
       <div class="plp-cats four" id="sibCats"></div>
     </section>
 
@@ -98,9 +98,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205zu"></script>
-<script src="../design-system/components.js?v=20261205zu"></script>
-<script src="backpacks-data.js?v=20261205zu"></script>
+<script src="app.js?v=20261205zw"></script>
+<script src="../design-system/components.js?v=20261205zw"></script>
+<script src="backpacks-data.js?v=20261205zw"></script>
 <script>
 // Backpacks (live /en-ie/printed-backpacks): 50 pcs (backpacks go in smaller runs than pens; check that every backpack offers 50), the live from-price
 // ×1.4 (our own numbers); Backpack type first, then Eco only, delivery, price, the laptop it fits, print, colour, material, brand
@@ -115,17 +115,26 @@ const PFP = {
     { id: 'colour' }, { id: 'mat', k: 'Material', field: 'mat' }, { id: 'brand', k: 'Brand', field: 'brand' }
   ],
   open: ['type', 'del', 'price', 'size', 'colour'], openSheet: ['type', 'del', 'price'],
-  // live "You might also be interested in", its photos
-  sib: [['Cotton Bags', CF + '3LedgnBDl1GYzkS1rJRojk/a7ca99cbb99e2f96e0a0ab424711a8e3/nebraska5ozcottoncanvasgrocerytote-nebraska5ozcottoncanvasgrocerytote.png?w=300&fm=webp&q=80', '#printing-cottonbags'],
+  // Every other bag category of live's Bags tree (the list live shows in its filter column; links, not filters), 16 = 4 rows of 4; Wallets left out (an
+  // RFID card, not a bag). Photo: live's tile where it has one, else the first product of that page
+  sib: [['Cotton Tote Bags', CF + '3LedgnBDl1GYzkS1rJRojk/a7ca99cbb99e2f96e0a0ab424711a8e3/nebraska5ozcottoncanvasgrocerytote-nebraska5ozcottoncanvasgrocerytote.png?w=300&fm=webp&q=80', '#printing-cottonbags'],
+    ['Shopper Bags', CF + '1hvKLFHD3eSUkeQSqkOA6I/f74d0bfec4630b8e195321db6728d269/nw-cat-productimages-shopping-bags.png?w=300&fm=webp&q=80', '#printed-shopperbags'],
+    ['Foldable Bags', CF + '6yMIuiHyGcq04sPFR7qnRb/85a63e2b08f8c40763ad9b834b40a28e/strawberryfoldablebags.webp?w=300&fm=webp&q=80', '#printed-foldable-bags'],
+    ['Cotton Gift Bags', CF + '3Ja7Upv9owhqWub07D4r4q/b08b70dfae87b08f8bcc00046fd08e1e/taskemediummediumcottondrawcordbag_-_no_bckgrnd.png?w=300&fm=webp&q=80', '#cotton-gift-pouches'],
+    ['Shoulder and Document Bags', CF + '7wo6xIUPmLLeFRjADxwRoQ/b401d8460ad7f3e57d8d95e439c44cbe/15.png?w=300&fm=webp&q=80', '#printed-shoulder-bags'],
+    ['Jute Bags', CF + '5yaWJnC6Fq4akIQeSssuig/166a7eb6e5271bff197730b291b83c05/13.png?w=300&fm=webp&q=80', '#printing-jutebags'],
     ['Paper Bags', CF + '5UYpTBOrqE0aocecWUs6ME/e010062930bf0c492574cad7cc770324/tile-paper-bags-trans.png?w=300&fm=webp&q=80', '#printing-paperbags'],
     ['Drawstring Bags', CF + '3OFDk51ercvm9Cwd15eo7D/d0bd8a339b0b23c1eda38d872fd64727/airmeshdrawstringbag-airmeshdrawstringbag.png?w=300&fm=webp&q=80', '#printed-drawstringbags'],
-    ['Shopper Bags', CF + '1hvKLFHD3eSUkeQSqkOA6I/f74d0bfec4630b8e195321db6728d269/nw-cat-productimages-shopping-bags.png?w=300&fm=webp&q=80', '#printed-shopperbags'],
+    ['Bum Bags', CF + '4RuwHPsgndd52egUYJ6flu/e456bd8b08b744416bcd55b847ccb1ce/halfmoonslingbag.webp?w=300&fm=webp&q=80', '#personalised-bum-bags'],
     ['Sports Bags', CF + '6nekXTZ367lYrjbfi7Qs0N/c93ec3589b5aa4181f27309fbfb56b20/12.png?w=300&fm=webp&q=80', '#personalised-sports-bags'],
+    ['Travel Bags', CF + '5IBYpbW4SNwA5sum38qHp2/0d1187802ce7ac7c1510f45c1cca1965/cochichuatecottonbarrelduffel.webp?w=300&fm=webp&q=80', '#promotional-travel-bags'],
+    ['Suitcases', CF + '3eEPus5lcyhypkHlQ62s5t/8c8b5bb5495ecdd569220b892c854d18/artic600drpettrolley_612ff64f864429296fb99d80a9191d4f_True_00000000.png?w=300&fm=webp&q=80', '#custom-suitcases'],
     ['Cooler Bags', CF + '581f04b31b1e0/6cfb79d303aa4b7abcb6e6cae5a7b686/Search_image__8_.png?w=300&fm=webp&q=80', '#cool-bag'],
-    ['Shoulder Bags', CF + '7wo6xIUPmLLeFRjADxwRoQ/b401d8460ad7f3e57d8d95e439c44cbe/15.png?w=300&fm=webp&q=80', '#printed-shoulder-bags'],
-    ['Jute Bags', CF + '5yaWJnC6Fq4akIQeSssuig/166a7eb6e5271bff197730b291b83c05/13.png?w=300&fm=webp&q=80', '#printing-jutebags']]
+    ['Toiletry Bags', CF + '2yZ7697PDvg7xSDqTPmam3/089ec1508ad9afba0a03f8b719b3a58b/osolecoscosmeticbagfairtrade180gr_-_no_bckgrnd.png?w=300&fm=webp&q=80', '#toiletrybags'],
+    ['Laptop Sleeves', CF + '5jBmNtQjLbJdfTAz3Lng8s/20335091c539645d60a3969a8a552025/neolapneoprenelaptoppouch_-_no_bckgrnd.png?w=300&fm=webp&q=80', '#laptop-sleeves'],
+    ['Beach Bags', CF + '4Din9cEgt9Cmf1bjxkd7rx/d66aec8cc0c6c1148fe36050d0dc2b60/feltsearpetfeltbeachbag_1.png?w=300&fm=webp&q=80', '#beach-bags']]
 };
 </script>
-<script src="pfp.js?v=20261205zu"></script>
+<script src="pfp.js?v=20261205zw"></script>
 </body>
 </html>

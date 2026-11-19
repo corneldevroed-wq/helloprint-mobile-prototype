@@ -2148,7 +2148,7 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
    design system (.pf-group, .pf-x, .pf-strip …). */
 .desk .pf-layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 32px; align-items: start; }
 .pf-side { display: none; }
-.desk .pf-side { display: block; max-height: calc(100vh - 148px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }   /* sticky under the header (124, with the account and cart sides); taller than the screen: it scrolls on its own */
+.desk .pf-side { display: block; }   /* sticky under the header (124, with the account and cart sides); no scroll of its own (Cornel: scroll bars in the sidebar are ugly): taller than the screen, pfp.js moves its sticky top up so it sticks with its bottom in view */
 .pf-side-h { display: flex; align-items: center; justify-content: space-between; min-height: 41px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }   /* as high as the count + sort bar next to it (32), so "Filters" and "122 products" share a centre line */
 .desk .plp .pf-side-h h2 { margin: 0; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-16); letter-spacing: normal; color: var(--black); }   /* "Filters": a card title (16/22), the group titles under it a step smaller (14), so they don't compete with the product titles (Cornel 2026-11-19) */
 .desk .pf-layout .types { grid-template-columns: repeat(4, minmax(0, 1fr)); }
