@@ -167,6 +167,8 @@ design system + guide, prices for products without a live from-price. Gap histor
   (the panel's corner from above, both front edges with the core, the thickness per material; White aluminium = `panels/dibond`), flexible
   `materials/structured-polyester|cotton|one-way-vision|privacy`; the hardware is the live photo: `prototype/assets/live-opts/signs/hanging-plate-4|7`,
   `spacer`, `ground-plate-6|15`, `whiteboard-kit` (.jpg, on the light grey tile; no extra options = `inks/none`). No sign product in the prototype yet.
+  Envelopes (`sketches/envelope-icons-sketch.html`, window A, closure B, stickers A): `envelopes/window-none|left|right` (the front, the flap peeking over, the window grey),
+  `envelopes/closure-gummed|strip` (the flap corner close up), window stickers `envelopes/sticker-inside|outside` (front / back adhesive: the window front-on).
   Print colours (`sketches/print-colour-icons-sketch.html`, A): `inks/none|1|2|3|4|5|full` (one dot per colour: orange, light green, dark green,
   blue, dark grey; full = the CMYK square), `printing/pms-4-single|black-single|black-double|full-front-black-back`. Basic cotton bags use the inks.
   Print area (`sketches/print-area-icons-sketch.html`, A): `printarea/bag-large|small(-both)`, `notebook-full|large|small`, `pen-barrel|clip`,

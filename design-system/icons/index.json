@@ -59,7 +59,14 @@
   },
   "Envelopes": {
    "envelopes/without": "Without envelope",
-   "envelopes/with": "With envelope"
+   "envelopes/with": "With envelope",
+   "envelopes/window-none": "Without window",
+   "envelopes/window-left": "Window left",
+   "envelopes/window-right": "Window right",
+   "envelopes/closure-gummed": "Gummed",
+   "envelopes/closure-strip": "Self-adhesive strips",
+   "envelopes/sticker-inside": "Front adhesive (inside)",
+   "envelopes/sticker-outside": "Back adhesive (outside)"
   },
   "Sticker shapes": {
    "stickers/round": "Round",
