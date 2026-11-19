@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## PDP delivery (Nov 19, 2026)
+- **11-19 — Two dates wherever the delivery shows** (Cornel, sketches/delivery-dates-sketch.html B): desktop delivery tiles keep the big calendar date and get "latest …" in grey under the option name; "Our best value" green as "N days sooner"; the desktop order bar shows the option with "Estimated Tue 29 Sep — latest Wed 30 Sep" under it (was "Saver · arrives Tue 29 Sep"). Mobile: no date in the sticky bar (Cornel); its delivery list already had both dates. Rejected: A (bars only), C (the range in the calendar, "25–28" reads as a four-day delivery).
+
 ## Headings (Nov 19, 2026)
 - **11-19 — Headings the same on every page (an audit of 768 headings on 39 pages)** (Cornel: "all as you propose"): the PDP's section titles 24/32 (were 24/28); card titles (blog cards, content rows) 14/22 on mobile (were 14/16.8); every 20px heading −0.4 letter spacing (sheets, cart side, checkout head were −0.36); a title inside a card (the empty cart) 20/24, now in the guide. Kept: a content row that is a section of its own has an h2 (Black Friday, Christmas, Flyers), rows under a section title an h3 (business cards, our culture); the help strip keeps 24/32 on marketing pages (decided 11-15); help articles 20/24 (narrow column).
 - **11-19 — The page title (H1) is bigger than the section titles on desktop: 28/32** (Cornel, sketches/h1-sketch.html A over B 32/40 and C smaller H2s): was 24/32, the same as the H2. Mobile stays 24 (now always 24/28; the line height was 27.84 / 28 / 32 per page), the H2 20. The Display titles (Help Centre, marketing heroes, 48) stay. 32/40 was already too big on 10-30.

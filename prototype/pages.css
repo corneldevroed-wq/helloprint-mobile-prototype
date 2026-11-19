@@ -1178,11 +1178,13 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-bar-prod { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; text-align: left; }
 .d-bar-prod .thumb { width: 52px; height: 52px; flex-shrink: 0; border-radius: var(--r-m); overflow: hidden; background: var(--light-grey); }
 .d-bar-prod .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.d-bar-prod .t { min-width: 0; display: flex; flex-direction: column; }
+.d-bar-prod .t, .d-bar-eta .t { min-width: 0; display: flex; flex-direction: column; }
 .d-bar-prod b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .d-bar-prod small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: underline; text-underline-offset: 2px; }
 .d-bar-eta { display: flex; align-items: center; gap: 4px; font-size: var(--t-14); white-space: nowrap; }
 .d-bar-eta img { width: 20px; height: 20px; }
+.d-bar-eta b { font-weight: 600; }   /* the option on top, the two dates under it (Cornel 2026-11-19) */
+.d-bar-eta small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .d-bar-total { display: flex; flex-direction: column; align-items: flex-end; }
 .d-bar-total b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); }
 .d-bar-total small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); white-space: nowrap; }

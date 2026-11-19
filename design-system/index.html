@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,expand_more,local_mall,more_vert,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205zzc">
-<link rel="stylesheet" href="components.css?v=20261205zzc">
-<link rel="stylesheet" href="guide.css?v=20261205zzc">
+<link rel="stylesheet" href="tokens.css?v=20261205zzd">
+<link rel="stylesheet" href="components.css?v=20261205zzd">
+<link rel="stylesheet" href="guide.css?v=20261205zzd">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -378,12 +378,12 @@
       use: 'Quantities in 2 columns so low → high and the price advantage are visible at a glance. Price each + total.',
       ex: stage(real('<div class="qty-list" role="radiogroup" style="--qrows:2"><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">100 pcs</span><span class="e">€0.20 each</span><span class="p">€19.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">250 pcs</span><span class="e">€0.10 each</span><span class="p">€24.95</span></button><button class="qrow" role="radio" aria-checked="true"><span class="radio"></span><span class="n">500 pcs</span><span class="e">€0.06 each</span><span class="p">€29.95</span></button><button class="qrow" role="radio" aria-checked="false"><span class="radio"></span><span class="n">1000 pcs</span><span class="e">€0.04 each</span><span class="p">€39.95</span></button></div>', ...CONF)) }) +
     row({ name: 'Delivery', wide: true, meta: [{ t: V === 'm' ? '.deliv' : '.deliv.d-cal-card' }, SIZE],
-      use: 'Mobile: a list, date tile left, name + estimated / latest day, price right. Desktop: side by side with a calendar tile so a faster day reads as an upsell (chosen: green header and outline). No labels on the tiles.',
+      use: 'Mobile: a list, date tile left, name + estimated / latest day, price right. Desktop: side by side with a calendar tile so a faster day reads as an upsell (chosen: green header and outline): the name, “latest …” in grey under it (the estimated day is the calendar), the gain in green (Our best value / N days sooner), the price. The order bar: the option, “Estimated … — latest …” under it. No labels on the tiles.',
       ex: stage(real(V === 'm'
         ? ['Saver|12|NOV|Wed 12 Nov · latest Thu 13|Included|false', 'Standard|7|NOV|Fri 7 Nov · latest Mon 10|+€4.95|true', 'Express|5|NOV|Wed 5 Nov · latest Thu 6|+€14.95|false'].map(x => { const [n, d, m, eta, p, on] = x.split('|');
             return `<button class="deliv" role="radio" aria-checked="${on}"><span class="date"><b>${d}</b><small>${m}</small></span><span class="t"><b>${n}</b><small>${eta}</small></span><span class="p">${p}</span></button>`; }).join('').replace(/^/, '<div class="opt-group">') + '</div>'
-        : ['Saver|Nov|12|Wed|Our best value|Included|false', 'Standard|Nov|7|Fri|5 days sooner|+€4.95|true', 'Express|Nov|5|Wed|7 days sooner|+€14.95|false'].map(x => { const [n, m, d, wd, g, p, on] = x.split('|');
-            return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="gain">${g}</span><span class="pr">${p}</span></span></button>`; }).join('').replace(/^/, '<div class="opt-group" data-option="delivery">') + '</div>',
+        : ['Saver|Nov|12|Wed|Our best value|Included|false|Thu 13 Nov', 'Standard|Nov|7|Fri|5 days sooner|+€4.95|true|Mon 10 Nov', 'Express|Nov|5|Wed|7 days sooner|+€14.95|false|Thu 6 Nov'].map(x => { const [n, m, d, wd, g, p, on, lt] = x.split('|');
+            return `<button class="deliv d-cal-card" role="radio" aria-checked="${on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="lt">latest ${lt}</span><span class="gain"><span class="fast">${g}</span></span><span class="pr">${p}</span></span></button>`; }).join('').replace(/^/, '<div class="opt-group" data-option="delivery">') + '</div>',
         ...CONF), 'left') });
 
   // ---------- Cart (markup as cart.html renders it, per view) ----------
@@ -673,6 +673,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205zzc"></script>
+<script src="guide.js?v=20261205zzd"></script>
 </body>
 </html>

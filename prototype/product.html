@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzc">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzc">
-<link rel="stylesheet" href="pages.css?v=20261205zzc">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzd">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzd">
+<link rel="stylesheet" href="pages.css?v=20261205zzd">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261205zzc"></script>
-<script src="../design-system/components.js?v=20261205zzc"></script>
-<script src="products.js?v=20261205zzc"></script>
+<script src="app.js?v=20261205zzd"></script>
+<script src="../design-system/components.js?v=20261205zzd"></script>
+<script src="products.js?v=20261205zzd"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -692,10 +692,10 @@
   // how many days sooner than the slowest option, and the price. Only the chosen tile has a green band.
   function deskDeliv(d, c) {
     const x = etaDate(d.dayName), slow = Math.max(...DELIVERY.map(o => +etaDate(o.dayName))), sooner = Math.round((slow - x) / 864e5);
-    const gain = DELIVERY.length > 1 && sooner ? `<span class="fast">${sooner} day${sooner > 1 ? 's' : ''} sooner</span>` : DELIVERY.length > 1 ? 'Our best value' : `Latest ${etaShort(etaLatest(d.dayName))}`;
+    const gain = DELIVERY.length > 1 && sooner ? `<span class="fast">${sooner} day${sooner > 1 ? 's' : ''} sooner</span>` : DELIVERY.length > 1 ? '<span class="fast">Our best value</span>' : '';   // Our best value green as the days sooner (Cornel 2026-11-19)
     return `<button class="deliv d-cal-card" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}" aria-label="${d.name}, ${etaLong(x)}, ${d.extra ? '+' + fmt(d.extra) : 'included'}">
       <span class="cal" aria-hidden="true"><i>${x.toLocaleDateString('en-GB', { month: 'short' }).replace('Sept', 'Sep')}</i><b>${x.getDate()}</b><small>${x.toLocaleDateString('en-GB', { weekday: 'short' })}</small></span>
-      <span class="tx"><b>${d.name}</b><span class="gain">${gain}</span><span class="pr">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></span></button>`;
+      <span class="tx"><b>${d.name}</b><span class="lt">latest ${etaShort(etaLatest(d.dayName))}</span>${gain ? `<span class="gain">${gain}</span>` : ''}<span class="pr">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></span></button>`;
   }
   // Desktop: options that don't fit on one row get a "+N" tile in the last place (as the live site), so you see how many
   // there are; the tile opens the whole group. The chosen option always stays visible.
@@ -992,7 +992,7 @@
     bar.querySelector('.dwrap').innerHTML = `
       <button class="d-bar-prod" id="dBarSel" aria-label="Show your selection"><span class="thumb" style="background:${PRODUCT.bg}"><img src="${(PRODUCT.gallery || [PRODUCT.img])[0]}" alt=""></span>
         <span class="t"><b>${PRODUCT.name}</b><small>${materials(c)} · ${c.qty} pcs</small></span></button>
-      <span class="d-bar-eta"><img src="${P}check.svg" alt="">${delivery(c).name} · arrives ${delivery(c).dayName}</span>
+      <span class="d-bar-eta"><img src="${P}check.svg" alt=""><span class="t"><b>${delivery(c).name}</b><small>Estimated ${delivery(c).dayName} — latest ${etaShort(etaLatest(delivery(c).dayName))}</small></span></span>
       <span class="d-bar-total">${inclVat ? `<b>${euro(t * (1 + VAT_RATE))}</b><small>incl. VAT · ${euro(t)} excl.</small>` : `<b>${euro(t)}</b><small>excl. VAT · ${euro(t * (1 + VAT_RATE))} incl.</small>`}</span>
       <span class="d-split"><button class="btn primary d-go" id="dBarGo">${deskCta()}</button><button class="btn primary d-more" id="dBarMore" aria-label="Other ways to add your design" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-rounded" aria-hidden="true">expand_less</span></button>
         <span class="d-menu" role="menu" hidden>${DESK_WAYS.map(w => `<button role="menuitemradio" aria-checked="${deskDesign === w.id}" data-bar-design="${w.id}">

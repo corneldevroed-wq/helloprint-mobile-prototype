@@ -461,7 +461,7 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
 .d-cal-card .cal small { display: block; padding: 2px 0 5px; font-size: var(--t-12); line-height: var(--lh-tight); color: var(--dark-grey); }
 .d-cal-card .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .d-cal-card .tx b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
-.d-cal-card .gain { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.d-cal-card .gain, .d-cal-card .lt { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* .lt: "latest …" under the option (Cornel 2026-11-19, sketches/delivery-dates-sketch.html B) */
 .d-cal-card .pr { font-weight: 600; font-size: var(--t-14); }
 .ico .art-count, .img.more .art-count { right: -8px; bottom: -8px; }   /* "+N" on the corner of a small photo or artwork */
 /* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
