@@ -5,6 +5,9 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## Headings (Nov 19, 2026)
+- **11-19 — The page title (H1) is bigger than the section titles on desktop: 28/32** (Cornel, sketches/h1-sketch.html A over B 32/40 and C smaller H2s): was 24/32, the same as the H2. Mobile stays 24 (now always 24/28; the line height was 27.84 / 28 / 32 per page), the H2 20. The Display titles (Help Centre, marketing heroes, 48) stay. 32/40 was already too big on 10-30.
+
 ## Product cards (Nov 19, 2026)
 - **11-19 — The price on a product card is as big as its title** (Cornel, sketches/card-price-sketch.html): desktop 16/22 extra bold (was 14), on every product card before the cart (home, PLP, CLP, PFP, the PDP's Other …, marketing pages); mobile stays 14, the size of its title there. The cart's cross-sell and My Account keep 14. Tried: 16 mobile / 20 desktop (the PDP total's size): mobile then as big as the title for no reason, desktop too big; 18 is not on our type scale.
 ## PFP, Product Filtering Page (Nov 19, 2026)

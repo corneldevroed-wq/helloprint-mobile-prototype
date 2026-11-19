@@ -1060,7 +1060,6 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-thumbs img { width: 100%; height: 100%; object-fit: cover; }
 
 .desk .buy { gap: 16px; }
-.desk .buy h1 { font-size: var(--t-24); line-height: 28px; }
 .desk .buy .rating { margin-top: 0; }
 .d-intro { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-green); }
 .d-intro button { font: inherit; font-weight: 600; color: var(--link); }   /* "… Show more" inline after the last word (product.html) */

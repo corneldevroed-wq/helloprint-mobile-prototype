@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H1 Size Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zza">
+<!-- Sketch (not linked; Cornel 2026-11-19): the H1 bigger than the H2 on desktop, without getting too big for a shop. Now both are 24/32. The real
+     pages in frames, each option's rule injected; nothing changes on the pages. Mobile is already right (H1 24, H2 20). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 2200px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 40px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg ul { margin: 0; padding-left: 20px; }
+  .chg .pick { margin: 8px 0 0; color: var(--dark-green); font-weight: 600; }
+  .opt { margin-bottom: 48px; }
+  .opt h2 { margin: 0 0 16px; font-size: 18px; }
+  .row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .lbl b { color: var(--dark-green); }
+  .desk-box { width: 680px; height: 400px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 900px; border: 0; transform: scale(.45); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>H1 bigger than H2 (desktop)</h1>
+  <div class="chg">
+    <ul>
+      <li><b>Now:</b> on desktop the page title and the section titles are both 24/32 (the guide: "the h1 tag, not the size, makes it the page title"). Mobile is already right: H1 24, H2 20. The H1's line height differs per page (27.84 / 28 / 32).</li>
+      <li><b>A: H1 28/32</b>, one step above the H2, the same ratio as on mobile (24 : 20).</li>
+      <li><b>B: H1 32/40</b>, the marketing pages' section title size.</li>
+      <li><b>C: H1 stays 24, the H2 goes to 20/24</b>: the page title stays, every section title gets smaller.</li>
+      <li>Not the Help Centre and the marketing pages: they keep their 48 display title.</li>
+    </ul>
+    <p class="pick">My pick: A. Clearly the page title, still calm for a shop; one line height everywhere (32).</p>
+  </div>
+</div>
+<script>
+  const OPTS = [['now', 'Now: H1 24/32, H2 24/32', ''],
+    ['a', 'A: H1 28/32', '.desk h1 { font-size: var(--t-28) !important; line-height: 32px !important; }'],
+    ['b', 'B: H1 32/40', '.desk h1 { font-size: var(--t-32) !important; line-height: 40px !important; }'],
+    ['c', 'C: H1 24/32, H2 20/24', '.desk h1 { line-height: 32px !important; } .desk main h2, .desk .pdp h2 { font-size: var(--t-20) !important; line-height: var(--lh-20) !important; }']];
+  const PAGES = [['PLP, Promotional Print', 'promotional.html'], ['CLP, Business Cards', 'business-cards.html'], ['PFP, Pens', 'pens.html'], ['PDP', 'product.html?p=classic-business-cards'], ['Cart', 'cart.html'], ['My Account', 'account.html']];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', PAGES.map(([t, src]) => `<section class="opt"><h2>${t}</h2><div class="row">${OPTS.map(([k, l, css]) => `<div><p class="lbl">${k === 'a' ? '<b>' + l + ' (my pick)</b>' : l}</p><div class="desk-box"><iframe src="../prototype/${src}${src.includes('?') ? '&' : '?'}h=${k}" data-css="${css}"></iframe></div></div>`).join('')}</div></section>`).join(''));
+  document.querySelectorAll('iframe').forEach(f => f.addEventListener('load', () => {
+    const d = f.contentDocument;
+    d.head.insertAdjacentHTML('beforeend', `<style>${f.dataset.css} html{scroll-behavior:auto!important;scrollbar-width:none}</style>`);
+    d.querySelectorAll('img[loading=lazy]').forEach(i => i.loading = 'eager');
+    setTimeout(() => { const h = d.querySelector('h1'); if (h) f.contentWindow.scrollTo(0, Math.max(0, h.getBoundingClientRect().top + f.contentWindow.scrollY - 140)); }, 1000);
+  }));
+</script>
+</body>
+</html>

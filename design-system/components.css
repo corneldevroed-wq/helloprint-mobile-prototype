@@ -16,7 +16,7 @@ p { overflow-wrap: break-word; }
 .search input::placeholder { color: var(--dark-grey); }
 .search button { position: absolute; right: 3.5px; top: 3px; width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--light-green); display: grid; place-items: center; }
 .search button img { width: 19px; height: 19px; }
-h1 { font-weight: 800; font-size: var(--t-24); line-height: 1.16; letter-spacing: -0.48px; color: var(--dark-green); }
+h1 { font-weight: 800; font-size: var(--t-24); line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); }   /* page title: 24/28 mobile, 28/32 desktop (below) */
 h2 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-tight); letter-spacing: -0.4px; color: var(--dark-green); }
 .pill { flex-shrink: 0; display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--mid-grey); border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); white-space: nowrap; transition: border-color .15s, background .15s, color .15s; }
 .pill:hover { border-color: var(--black); }
@@ -607,7 +607,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .hc-center { max-width: 800px; margin: 0 auto; padding: 48px 0; }
 .desk .hc-center { position: relative; z-index: 1; }
 .desk .hc-center h1, .desk .plp .hero.media h1 { font-size: var(--t-48); line-height: 56px; letter-spacing: -1.2px; }
-.desk .ha-body h1, .desk .cart-page h1, .desk .oc-strip h1, .desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .account-page h2, .desk .plp .hero h1, .desk .home > section > h1, .desk #ht-body h1 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* page title on desktop = the section title size, 24/32 (Cornel, 2026-10-30: 32/40 was too big) */
+.desk .co-head h2, .desk .cart-side h2, .desk .oc-sec > h2, .desk .account-page h2 { font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; }   /* section titles on desktop, 24/32 */
+.desk h1, .desk .ha-body h1, .desk .plp .hero h1, .desk .buy h1 { font-size: var(--t-28); line-height: 32px; letter-spacing: -0.56px; }   /* the page title on desktop one step above the section titles: 28/32 (Cornel 2026-11-19, sketches/h1-sketch.html A; was 24/32 as the H2, and 32/40 on 10-30 too big). The display titles (Help Centre, marketing heroes) keep 48 */
 /* question rows to the article page (Cornel, 2026-10-29: isolated article URLs): the FAQ look (.d-acc / .oc-faq: lines,
    question = card title, hover) with the grey list arrow right instead of the fold chevron */
 .hc-rows { list-style: none; border-top: 1px solid var(--line); }
