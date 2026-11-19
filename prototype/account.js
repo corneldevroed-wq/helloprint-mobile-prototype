@@ -10,7 +10,7 @@ const ORDERS = [
     { img: 'p2.png', name: 'Folded Leaflets', spec: '250 pcs · A4 landscape · 4 pages · Silk', gross: 118.00, arrives: 'Tue 24 Nov', step: 1, proof: 'leaflet', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: `Approve by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
     { img: 'p3.png', name: 'Standard Flyers', spec: '1,000 pcs · A5 · Gloss', gross: 54.00, arrives: 'Tue 24 Nov', step: 0, title: 'Upload your design', text: 'We need your artwork to start.', btns: ['Upload design'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
     { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', gross: 31.50, arrives: 'Tue 24 Nov', step: 0, err: true, title: 'Small fix needed', text: 'The text sits too close to the cut edge. Please upload a corrected file.', btns: ['Upload new file'], foot: `Upload by <b>14:00 on Wed 18 Nov</b> ${KEEP}` },
-    { img: 'p5.png', name: 'Posters', spec: '50 pcs · A4 · Gloss', gross: 22.00, arrives: 'Fri 27 Nov', step: 1, proof: 'poster-a4', title: 'Your proof is ready', text: 'The deadline has passed (14:00 Mon 16 Nov): approve now for Estimated Fri 27 Nov — latest Mon 30 Nov.', btns: ['Review proof'] },
+    { img: 'p5.png', name: 'Posters', spec: '50 pcs · A4 · Gloss', gross: 22.00, arrives: 'Fri 27 Nov', step: 1, proof: 'poster-a4', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: '<b>The deadline (14:00 on Mon 16 Nov) has passed.</b> Approve today and we deliver: Estimated Fri 27 Nov — latest Mon 30 Nov' },   // the deadline has passed (V4, 11-19): the same cream band, saying so
     { img: 'p6.png', name: 'Basic Cotton Bags', spec: '100 pcs · Natural · Full colour', gross: 240.00, arrives: 'Thu 26 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
   ] },
   { no: '8846210', name: 'Event pack', ref: 'EVENT-NOV', placed: 'Fri 13 Nov', sub: 'Estimated Fri 20 Nov — latest Mon 23 Nov', status: ['go', 'On its way'], step: 3, x: { art: 15, ship: 14.90, shipLbl: 'DPD Ireland · standard', disc: 26.25, discLbl: 'Volume discount (10%)', method: 'Card · Visa •••• 4242' }, lines: [
@@ -181,7 +181,7 @@ let complaintsDone = {};
 try { complaintsDone = JSON.parse(localStorage.getItem('hp-complaints')) || {}; } catch (e) {}
 const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['', 'Resolved'] };
 // the case's progress bar: Submitted · In review · Solution · Resolved, and where it is
-const COMPLAINT_STEPS = ['Submitted', 'In review', 'Solution', 'Resolved'];
+
 // Report a problem (report.html; the wishes artifact's form 1:1): per area what can go wrong, whether it is about the products (how many), the photos we
 // need, and what we can do. A case you send is kept in this browser ('hp-complaints'.created) and shows in Complaints as any other.
 const REPORT_AREAS = {
@@ -230,6 +230,10 @@ function complaintList() {
     // what is happening now and what comes next (the artifact's case timeline: done · now · still to come)
     v.now = { info: ['Waiting for your photos', 'Needed to assess the issue'], progress: v.step === 2 ? ['Arranging the solution', 'A reprint is being scheduled'] : ['Assessment', 'Our team is looking at your case'], resolved: null }[v.state];
     v.next = { info: [['Assessment', 'We decide once your photos are in'], ['Resolution', 'Reprint, refund or credit']], progress: v.step === 2 ? [['Resolved', 'Replacement dispatched']] : [['Resolution', 'Reprint, refund or credit']], resolved: [] }[v.state];
+    // the progress bar (V4, 11-19): Submitted · Reviewed by our team · (Waiting for your photos · Photos received, only when we asked for photos) · Assessment · Resolution
+    const asked = c.state === 'info' || v.events.some(e => /photos received/i.test(e[0]));
+    v.steps = ['Submitted', 'Reviewed by our team', ...(asked ? ['Waiting for your photos', 'Photos received'] : []), 'Assessment', 'Resolution'];
+    v.at = c.created ? 1 : v.state === 'info' ? 2 : v.state === 'resolved' ? v.steps.length : v.step === 2 ? v.steps.length - 1 : v.steps.length - 2;   // all done when resolved
     if (c.created) { v.now = ['Reviewed by our team', 'Usually within one working day']; v.next = [['Assessment', 'We confirm the solution'], ['Resolved', c.fix || 'Reprint, refund or credit']]; }   // just sent
     v.status = COMPLAINT_STATES[v.state]; return v; });
 }
@@ -342,6 +346,9 @@ function orderYay() {
 window.addEventListener('hp-orders', orderYay);
 document.addEventListener('DOMContentLoaded', orderYay);
 applyOrders();
+// The compact progress bar (a complaint, V4 11-19): the bars without their labels, "Step 3 of 6 · Waiting for your photos" under them; at = steps.length: all done
+const trackerCompact = (steps, at) => { const i = Math.min(at, steps.length - 1);
+  return `<ol class="tracker compact" aria-hidden="true">${steps.map((t, k) => `<li class="${k < at ? 'done' : k === at ? 'now' : ''}"></li>`).join('')}</ol><p class="tracker-now">Step ${i + 1} of ${steps.length} · <b>${steps[i]}</b>${at >= steps.length ? ' · done' : ''}</p>`; };
 const orderOf = no => ORDERS.find(o => o.no === no);
 
 // ---------- The popups (the standard sheet: a bottom sheet on mobile, a centred popup on desktop) ----------
@@ -364,12 +371,21 @@ document.body.insertAdjacentHTML('beforeend',
     <label class="field" data-field="payerName"><input name="payerName" placeholder=" " autocomplete="off" aria-label="Their name"><span class="fl">Their name</span></label>
     <label class="field" data-field="payerEmail"><input type="email" name="payerEmail" placeholder=" " autocomplete="off" aria-label="Their email address"><span class="fl">Their email address</span></label>`,
     '<button class="btn primary" type="button" data-act="payer-send">Send payment link</button>') +
-  accSheet('note', 'Leave a note for our team', `<p class="up-intro">A question or a change for this proof? Our team reads it and gets back to you by email.</p>
-    <label class="field"><textarea id="noteInput" placeholder=" " maxlength="600" aria-label="Your note"></textarea><span class="fl">Your note</span></label>`, '<button class="btn primary" type="button" data-act="note-send">Send note</button>') +
   accSheet('ref', 'Your reference', `<p class="up-intro">Your purchase order number or a name for this order: it shows on the invoice and in your orders.</p>
     <label class="field"><input id="refInput" placeholder=" " maxlength="40" aria-label="Your reference"><span class="fl">Your reference</span></label>`, '<button class="btn primary" type="button" data-act="ref-save">Save</button>'));
 
 // ---------- The actions: a button with data-act + data-o (the order) + data-l (the product) ----------
+// The ⋮ menu (.row-menu; Addresses on mobile, the lists' Export and Sort, V4 11-19): the button opens its menu under it, any other click closes it.
+// btn: the button's inner HTML and class (an icon button by default); items: [attrs, text]
+const rowMenu = (label, items, btn = ['<span class="material-symbols-rounded" aria-hidden="true">more_vert</span>', 'icon-btn']) => `<span class="row-menu"><button type="button" class="${btn[1]}" data-menu aria-expanded="false" aria-label="${label}">${btn[0]}</button>
+  <span class="menu" hidden>${items.map(([a, t]) => `<button type="button" ${a}>${t}</button>`).join('')}</span></span>`;
+document.addEventListener('click', e => { const mb = e.target.closest('[data-menu]');
+  document.querySelectorAll('.row-menu .menu').forEach(m => { if (!mb || m !== mb.nextElementSibling) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
+  if (mb) { const m = mb.nextElementSibling; m.hidden = !m.hidden; mb.setAttribute('aria-expanded', String(!m.hidden)); } });
+// Export CSV (Orders, Invoices): what the list shows now, as a spreadsheet
+const downloadCsv = (name, rows) => { const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')], { type: 'text/csv' }));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href); showToast(`${name} is downloading`); };
 let accCur = null;   // { o, l } the popup is about
 const PRODUCT_PAGES = { 'Classic Business Cards': '#classic-business-cards', 'Standard Flyers': 'product.html?p=standard-flyers', 'Roller Banner': 'product.html?p=roller-banners', 'Basic Cotton Bags': 'product.html?p=basic-cotton-bags' };
 function reorder(lines, no) {   // the same products, the same specs and design, in the cart; then to the cart
@@ -434,9 +450,6 @@ document.addEventListener('click', e => {
   if (act === 'invoice') showToast(`${b.dataset.doc} is downloading (PDF, prototype)`);
   if (act === 'ref') { const inp = document.getElementById('refInput'); inp.value = o.ref || ''; openSheet('ref'); setTimeout(() => inp.focus(), 300); }
   if (act === 'ref-save') { const v = document.getElementById('refInput').value.trim(); closeSheet(); orderSave(o.no, d => d.ref = v); showToast(v ? 'Your reference is saved' : 'Your reference is removed'); }
-  if (act === 'note') { document.getElementById('noteInput').value = ''; openSheet('note'); setTimeout(() => document.getElementById('noteInput').focus(), 300); }
-  if (act === 'note-send') { const v = document.getElementById('noteInput').value.trim(); if (!v) { document.getElementById('noteInput').focus(); return; }
-    closeSheet(); showToast('Thanks! Your note is with our team, we reply by email'); }
   if (act === 'reorder') reorder(l ? [l] : o.lines, o.no);   // a product, or the whole order
   if (act === 'complaint-photos') { const c = complaintOf(b.dataset.c), changed = !!c.photos?.length;   // the upload popup for the case's photos (Change: the photos already in)
     openUpload({ photo: true, name: `Complaint ${c.no}`, img: 'assets/' + c.lines[0].img, files: c.photos || [], onAdd: files => { complaintSave(c.no, files); showToast(changed ? 'Your photos are updated' : 'Thanks! Your photos are with our team, we assess your case now'); } }); }

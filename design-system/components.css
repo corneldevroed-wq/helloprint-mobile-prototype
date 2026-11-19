@@ -819,7 +819,12 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .addr-list .menu button:hover, .row-menu .menu button:hover { background: var(--light-grey); }
 .addr-list .menu .del, .row-menu .menu .del { color: var(--error); }
 .row-menu { position: relative; align-self: start; }   /* ⋮ in a list row with its menu under it (Addresses on mobile, Cornel 2026-11-18) */
-.row-menu .menu { right: 0; top: 48px; white-space: nowrap; }
+.row-menu .menu { right: 0; top: calc(100% + 8px); white-space: nowrap; }   /* 8 under its button, whatever its size */
+.row-menu .menu .on { font-weight: 600; }   /* the chosen one (the sort) */
+.list-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }   /* a list's title with what works on the whole list: Export CSV (desktop) or ⋮ (mobile) on the right (V4, 11-19) */
+html:not(.desk) .list-head { align-items: flex-start; }
+.list-head > span:empty { display: none; }
+.filter-row .row-menu { margin-left: auto; }   /* the sort at the end of the filters (desktop) */
 .row-menu [aria-expanded="true"] { background: var(--light-grey); }
 .addr-card { flex: 0 0 72%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; padding: 15px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: pointer; }   /* 15 + the 1 border = the content 16 in */
 .addr-card[aria-checked="true"] { border: 2px solid var(--light-green); padding: 14px; }
@@ -864,7 +869,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .img.more .art-count { border: 1px solid var(--line); }
 .dash-row .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
 .dash-row .t b { font-weight: 600; }
-.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .d-bar-sub, .pd-note, .od-none { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
+.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .d-bar-sub, .pd-note, .od-none, .list-older { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
 .dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
 .dash-row.text .status, .desk .dash-row .status, .dash-row .switch { grid-column: auto; justify-self: end; }
 .dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, at the top of the row */
@@ -891,6 +896,9 @@ html:not(.desk) .notice-close { right: 4px; }
 .tracker li.done { border-top-color: var(--light-green); }
 .tracker li.now { border-top-color: var(--light-green); color: var(--black); font-weight: 600; }
 .tracker li.err { border-top-color: var(--error); color: var(--error); font-weight: 600; }   /* a step that needs a fix (Small fix needed) */
+.tracker.compact li { padding-top: 0; }   /* compact (a complaint, V4 11-19): only the bars, where it is in the line under them */
+.tracker-now { grid-column: 2 / -1; margin: -12px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.tracker-now b { font-weight: 600; color: var(--black); }
 /* The account holder: the header's account icon grey on light grey (Cornel: enough green), name 16/22 semibold, company under it */
 .account-who { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 16px; align-items: center; }
 .account-who .av { grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--light-grey); }

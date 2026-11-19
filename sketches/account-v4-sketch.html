@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account V4 Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205p">
+<!-- Sketch (not linked; Cornel 2026-11-19): My Account V4, batch 2 (the team's V4 plan): the Orders and Invoices headers, the proof's confirm step,
+     the report form's order search, the complaint's progress bar. Every tile is the real prototype page in an iframe at 390 and 1512 (at 1/2);
+     the option is laid over it by this file after the page loads (SK[...].apply), so the prototype itself is untouched. -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .intro { max-width: 900px; margin: 8px 0 40px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .item { margin-bottom: 72px; padding-top: 32px; border-top: 1px solid #cfcfcf; }
+  .item > h2 { margin: 0 0 16px; font-size: 20px; }
+  .chg { max-width: 900px; margin: 0 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 8px; padding-left: 20px; }
+  .chg ul:last-child { margin-bottom: 0; }
+  .chg .pick { color: var(--dark-green); font-weight: 600; }
+  .opt { margin-bottom: 40px; }
+  .opt h4 { margin: 0; font-size: 16px; }
+  .opt h4 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 900px; margin: 4px 0 12px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 760px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 756px; max-width: calc(100vw - 48px); height: 520px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1040px; border: 0; transform: scale(.5); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My Account V4: batch 2</h1>
+  <p class="intro"><b>Cornel chose (2026-11-19): 8A (the sort an outline button too; mobile Export and Sort in one ⋮ menu), 9A (mobile the same), 10A (the deadline band cream), 11B (focus shows the latest orders, typing searches all), 12A (on desktop too only “Step 3 of 6”). Built in the prototype.</b> Five changes from the V4 plan. Per item: <b>what changes</b> (today → new) in the white box, then the options on the real pages (mobile 390, desktop 1512 at half size).
+    Only UI guide parts: buttons, pills, <code>.field</code>, <code>.check</code>, the address book's radio cards, the popup, <code>.oc-act</code> blocks, the <code>.tracker</code>, the ⋮ menu.
+    Nothing is built in the prototype yet.</p>
+  <div id="items"></div>
+</div>
+<script>
+// icons the overlays use, with every icon these pages already load (one Material font link per page: the last one wins)
+const FONT = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,check,chevron_left,chevron_right,download,expand_more,open_in_new,photo_camera,remove,search,send,swap_vert,upload,videocam&display=block';
+const P = '../prototype/';
+const ms = i => `<span class="material-symbols-rounded" aria-hidden="true">${i}</span>`;
+const css = (d, t) => d.head.insertAdjacentHTML('beforeend', `<style>${t}</style>`);
+const go = (d, el, off = 120) => { const to = () => { const e = typeof el === 'string' ? d.querySelector(el) : el; if (e) d.defaultView.scrollTo(0, e.getBoundingClientRect().top + d.defaultView.scrollY - off); }; to(); setTimeout(to, 1500); };   // again once the page has settled (the PDF, the fonts)
+
+// ---------- the overlays ----------
+const ordersHead = (d, w, where) => {   // Export CSV + Sort; where: 'head' (A) or 'find' (B)
+  const exp = `<button class="btn outline small" type="button">${ms('download')}Export CSV</button>`;
+  const sort = `<button class="sk-sort" type="button">${ms('swap_vert')}Newest first${ms('expand_more')}</button>`;
+  css(d, `.sk-sort { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; font: inherit; font-size: var(--t-14); font-weight: 600; color: var(--black); cursor: pointer; white-space: nowrap; }
+    .sk-sort .material-symbols-rounded { font-size: var(--t-20); }
+    .sk-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+    html:not(.desk) .sk-head { flex-direction: column; align-items: stretch; }
+    .sk-acts { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .filter-row .sk-sort { margin-left: auto; }
+    .sk-findrow { display: flex; align-items: center; gap: 16px; }
+    .sk-findrow .find { flex: 1; }
+    html:not(.desk) .sk-findrow { flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+    html:not(.desk) .sk-findrow .find { flex-basis: 100%; }
+    .sk-older { margin: 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+    .desk .sk-older { font-size: var(--t-14); line-height: var(--lh-14); }`);
+  const head = d.querySelector('.account-main > div:first-child');
+  if (where === 'head' && d.documentElement.classList.contains('desk')) { head.outerHTML = `<div class="sk-head">${head.outerHTML}${exp}</div>`; d.getElementById('filters').insertAdjacentHTML('beforeend', sort); }
+  else if (where === 'head') head.outerHTML = `<div class="sk-head">${head.outerHTML}<span class="sk-acts">${exp}${sort}</span></div>`;   // mobile: the filters scroll sideways, so the sort sits with Export
+  else { const f = d.querySelector('.list-card .find'); f.outerHTML = `<div class="sk-findrow">${f.outerHTML}${sort}${exp}</div>`; }
+};
+const older = (d, kind) => {   // the quiet older orders below the list
+  const card = d.querySelector('.list-card');
+  card.insertAdjacentHTML('afterend', kind === 'line'
+    ? `<p class="sk-older">Showing your orders from the last 12 months. <a class="link" href="#older">Show 14 older orders</a></p>`
+    : `<section class="oc-sec"><h2>Older orders</h2><div class="dash-card"><a class="dash-row text go" href="#older"><span class="t"><b>14 orders before Nov 2025</b><small>Oldest: Mar 2023 · they open here, with their invoices</small></span></a></div></section>`);
+};
+const settle = (d, w, kind) => {   // Settle all + Export CSV on Invoices
+  const open = w.eval('invoiceList')().filter(v => !v.credit && v.open > .005), sum = open.reduce((s, v) => s + v.open, 0);
+  css(d, `.sk-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; } .sk-head .btns { display: flex; gap: 8px; flex-shrink: 0; }
+    html:not(.desk) .sk-head { flex-direction: column; align-items: flex-start; }`);
+  const head = d.querySelector('.account-main > div:first-child');
+  const exp = `<button class="btn outline small" type="button">${ms('download')}Export CSV</button>`;
+  if (kind === 'block') {
+    head.outerHTML = `<div class="sk-head">${head.outerHTML}<span class="btns">${exp}</span></div>
+      <div class="oc-act"><div class="row"><span class="t"><b>${open.length} open invoices · ${w.eval('accEur')(sum)} to pay</b><small>The first one is due ${open.map(v => v.due).filter(x => x !== 'on receipt')[0] || 'on receipt'} · pay them in one go</small></span>
+      <span class="btns"><button class="btn small primary" type="button">Settle all</button></span></div></div>`;
+  } else head.outerHTML = `<div class="sk-head">${head.outerHTML}<span class="btns">${exp}<button class="btn small primary" type="button">Settle all ${w.eval('accEur')(sum)}</button></span></div>`;
+};
+const confirmProof = (d, w) => {   // A: Approve opens a confirm popup with the note for the artwork team
+  d.body.insertAdjacentHTML('beforeend', w.eval('accSheet')('skok', 'Approve this proof?', `<p class="up-intro">We print your Classic Business Cards exactly as in the proof. After this, the design can’t change any more.</p>
+    <label class="check"><input type="checkbox">I’ve checked the text, spelling, colours and size</label>
+    <label class="field" style="margin-top:16px"><textarea placeholder=" " maxlength="600" aria-label="A note for our artwork team"></textarea><span class="fl">A note for our artwork team (optional)</span></label>`,
+    '<button class="btn outline" type="button" data-close-sheet>Back to the proof</button><button class="btn primary" type="button" disabled>Yes, approve</button>'));
+  setTimeout(() => w.eval('openSheet')('skok'), 100);
+};
+const inlineProof = d => {   // B: the confirm and the note in the page, under the proof
+  css(d, `.sk-confirm { display: flex; flex-direction: column; gap: 16px; } .sk-confirm .btns { display: flex; gap: 8px; } html:not(.desk) .sk-confirm .btns { flex-direction: column; }`);
+  const acts = d.getElementById('proofActs');
+  acts.outerHTML = `<div class="dash-card sk-confirm"><b>Ready to print?</b>
+    <label class="check"><input type="checkbox">I’ve checked the text, spelling, colours and size. Print it exactly like this.</label>
+    <label class="field"><textarea placeholder=" " maxlength="600" aria-label="A note for our artwork team"></textarea><span class="fl">A note for our artwork team (optional)</span></label>
+    <span class="btns"><button class="btn outline" type="button">Upload new design</button><button class="btn primary" type="button" disabled>Approve proof</button></span></div>`;
+  d.getElementById('proofBar')?.remove();
+  go(d, '.sk-confirm', 200);
+};
+const deadline = d => {   // the deadline has passed: the band says so, with the new date
+  const b = d.querySelector('.proof-band');
+  css(d, `.proof-band.sk-late { background: var(--light-grey); }`);
+  b.classList.add('sk-late');
+  b.innerHTML = `<b>The deadline (14:00 on Wed 18 Nov) has passed.</b> Approve today and we deliver: Estimated Wed 25 Nov — latest Thu 26 Nov`;
+};
+const orderSearch = (d, w, kind) => {   // the report form: search your orders instead of the dropdown
+  const sel = d.querySelector('[data-k="order"]').closest('.field');
+  const list = w.eval('ORDERS').filter(o => o.step >= 3 && !o.cancelled);
+  const card = (o, on) => `<li${on ? ' class="on"' : ''}><button type="button" class="ap-pick" aria-pressed="${!!on}"><span class="radio" aria-hidden="true"></span><span class="t"><b>#${o.no} · ${o.name}</b><span>${o.step === 4 ? 'Delivered' : 'Arriving'} ${o.lines[0].arrives}${o.ref ? ' · ' + o.ref : ''}</span></span></button></li>`;
+  const field = v => `<label class="field sk-find"><input type="search" placeholder=" " value="${v}" aria-label="Search your orders"><span class="fl">Search order number, product or your reference</span></label>`;
+  css(d, `.sk-pick { margin-top: 16px; } .sk-other { display: flex; align-items: center; gap: 8px; margin: 0; font-size: var(--t-14); line-height: var(--lh-14); }
+    .sk-menu { margin-top: 4px; padding: 8px 0; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .sk-menu button { display: block; width: 100%; padding: 8px 16px; border: 0; background: none; font: inherit; font-size: var(--t-14); line-height: var(--lh-14); text-align: left; cursor: pointer; }
+    .sk-menu button:hover, .sk-menu button.on { background: var(--light-grey); } .sk-menu small { display: block; color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); }
+    .sk-menu hr { margin: 8px 0; border: 0; border-top: 1px solid var(--line); }`);
+  if (kind === 'cards') sel.outerHTML = `${field('')}<ul class="addr-list sk-pick">${list.slice(0, 4).map((o, i) => card(o, false)).join('')}</ul>
+    <p class="sk-other">Another order, or can’t find it? <a class="link" href="#chat">Chat with Anna</a></p>`;
+  else sel.outerHTML = `${field('fly')}<div class="sk-menu">${list.filter(o => /fly/i.test(o.name + o.lines.map(l => l.name).join())).map((o, i) => `<button type="button"${i ? '' : ' class="on"'}>#${o.no} · ${o.name}<small>${o.step === 4 ? 'Delivered' : 'Arriving'} ${o.lines[0].arrives}${o.ref ? ' · ' + o.ref : ''}</small></button>`).join('')}
+    <hr><button type="button">Another order, or can’t find it?<small>Chat with Anna, she finds it with you</small></button></div>`;
+  d.querySelectorAll('.rp-band, .rp-q .spec-fold').forEach(e => e.closest('.rp-q') && e.remove());
+  go(d, '.rp', 140);
+};
+const STEPS6 = ['Submitted', 'Reviewed by our team', 'Waiting for your photos', 'Photos received', 'Assessment', 'Resolution'];
+const tracker = (d, kind) => {   // the complaint's progress: 6 steps (A) or the steps as a list (B); CMP-1031 waits for photos
+  const t = d.querySelector('#line-status .tracker');
+  if (kind === 'bar') { t.innerHTML = STEPS6.map((s, k) => `<li class="${k < 2 ? 'done' : k === 2 ? 'now' : ''}">${s}</li>`).join('');
+    css(d, `html:not(.desk) .tracker li { font-size: 0; line-height: 0; padding-top: 0; } .sk-now { grid-column: 2 / -1; margin: 4px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); } .sk-now b { color: var(--black); font-weight: 600; } .desk .sk-now { display: none; }`);
+    t.insertAdjacentHTML('afterend', `<p class="sk-now">Step 3 of 6 · <b>Waiting for your photos</b></p>`); }   // mobile: 6 labels don't fit at 390, so only the bars and the current step under them
+  else { css(d, `.sk-steps { grid-column: 2 / -1; display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+      .desk .sk-steps { font-size: var(--t-14); line-height: var(--lh-14); }
+      .sk-steps li { display: flex; align-items: center; gap: 8px; } .sk-steps li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--light-grey); }
+      .sk-steps .done::before, .sk-steps .now::before { background: var(--light-green); } .sk-steps .now { color: var(--black); font-weight: 600; }`);
+    t.outerHTML = `<ol class="sk-steps">${STEPS6.map((s, k) => `<li class="${k < 2 ? 'done' : k === 2 ? 'now' : ''}">${s}</li>`).join('')}</ol>`; }
+  go(d, '#line-status', 120);
+};
+
+// ---------- the items ----------
+const ITEMS = [
+  { h: '8 · Orders: Export CSV, sort, older orders',
+    chg: `<h3>What changes</h3><ul><li><b>New:</b> an <b>Export CSV</b> button (all orders in the current filter, as a spreadsheet).</li>
+      <li><b>New:</b> a <b>sort</b> (Newest first · Oldest first · Amount), a text button that opens the ⋮ menu we already have on Addresses.</li>
+      <li><b>New:</b> <b>Older orders</b>: the list shows the last 12 months; older ones sit behind a quiet line below the list.</li>
+      <li><b>Stays:</b> the filters, the search, the table / rows, Add my orders (moved in batch 1).</li></ul>
+      <p class="pick">My pick: A. Export is about the whole page, so it sits with the title; sort belongs to the list, so it sits at the end of the filters. Older orders as one line keeps it quiet, as the plan asks. B puts everything in the search bar: compact, but three controls fighting on one row, and the "Older orders" section shouts more than it should.</p>`,
+    opts: [{ t: 'A · Export with the title, sort after the filters, older orders as a line', pick: true, src: 'orders.html', apply: (d, w) => { ordersHead(d, w, 'head'); older(d, 'line'); } },
+      { t: 'B · Everything in the search bar, older orders as a section', src: 'orders.html', apply: (d, w) => { ordersHead(d, w, 'find'); older(d, 'section'); go(d, '.list-card', 100); } }] },
+  { h: '9 · Invoices: Settle all and Export CSV',
+    chg: `<h3>What changes</h3><ul><li><b>New:</b> <b>Settle all</b>: pay every open invoice in one payment (one payment link, the total of what's open).</li>
+      <li><b>New:</b> <b>Export CSV</b>, the same button and place as on Orders.</li>
+      <li><b>Stays:</b> the filters All · Open · Paid · Credit notes (already as the plan asks), the search, the list.</li></ul>
+      <p class="pick">My pick: A. Settle all is money: it gets the same block as Pay now on the order page, with how many and how much, and it only shows while something is open. B (both buttons with the title) is lighter, but a green "Settle all €…" next to the title is the push-push we dropped from Pay now.</p>`,
+    opts: [{ t: 'A · Settle all as a pay block, Export with the title', pick: true, src: 'invoices.html', apply: (d, w) => settle(d, w, 'block') },
+      { t: 'B · Both buttons with the title', src: 'invoices.html', apply: (d, w) => settle(d, w, 'head') }] },
+  { h: '10 · Proof: a confirm step, the deadline has passed, a note for the artwork team',
+    chg: `<h3>What changes</h3><ul><li><b>Today:</b> Approve proof approves straight away; "Leave a note for our team" is a separate link and popup.</li>
+      <li><b>New:</b> Approve asks first: "We print it exactly as in the proof", one tick (text, spelling, colours, size) makes Yes work.</li>
+      <li><b>New:</b> the <b>note</b> moves into that step and goes to the <b>artwork team</b>; the separate "Leave a note" link goes.</li>
+      <li><b>New:</b> when the deadline has passed, the band at the top says so, with the new date (grey, not cream: it's information, not a to-do).</li></ul>
+      <p class="pick">My pick: A. The confirm is a moment, so it's our standard popup (as Cancel order and Decline quote), and the page stays as it is. B puts the tick and the note in the page: always visible, but it makes the page longer for everyone who just wants to look.</p>`,
+    opts: [{ t: 'A · Approve opens a confirm popup with the note', pick: true, src: 'proof.html?o=8839004', apply: (d, w) => confirmProof(d, w) },
+      { t: 'B · The confirm and the note in the page', src: 'proof.html?o=8839004', apply: d => inlineProof(d) },
+      { t: 'Both: the deadline has passed', src: 'proof.html?o=8839004', apply: d => { deadline(d); go(d, '.proof-band', 200); } }] },
+  { h: '11 · Report a problem: search your orders',
+    chg: `<h3>What changes</h3><ul><li><b>Today:</b> "Which order?" is a dropdown with every shipped or delivered order.</li>
+      <li><b>New:</b> a <b>search field</b> (order number, product, your reference) with the orders under it, newest first.</li>
+      <li><b>New:</b> <b>"Another order, or can’t find it?"</b> at the end, to chat with Anna.</li>
+      <li><b>Stays:</b> the 10-day band, Why 10 days?, the warning (batch 1) once an order is chosen. The list: delivered and on-the-way orders (an order on its way can only have a delivery problem, batch 1).</li></ul>
+      <p class="pick">My pick: A. The orders as the address book's radio cards: you see them without typing, the search narrows them, the same pattern as choosing an address. B is a search with a dropdown: fine for 50 orders, but you have to know what to type first.</p>`,
+    opts: [{ t: 'A · Search with the orders as cards under it', pick: true, src: 'report.html', apply: (d, w) => orderSearch(d, w, 'cards') },
+      { t: 'B · Search with a dropdown of matches (typed "fly")', src: 'report.html', apply: (d, w) => orderSearch(d, w, 'menu') }] },
+  { h: '12 · Complaint: the new progress steps',
+    chg: `<h3>What changes</h3><ul><li><b>Today:</b> 4 steps: Submitted · In review · Solution · Resolved.</li>
+      <li><b>New:</b> 6 steps: Submitted · Reviewed by our team · <i>Waiting for your photos</i> · <i>Photos received</i> · Assessment · Resolution. The two photo steps only when we ask for photos, so a case without them has 4.</li>
+      <li><b>Stays:</b> the block on top with what we need from you (Upload photos), Case progress with the dates below.</li></ul>
+      <p class="pick">My pick: A, the same bar as orders and quotes. On desktop every step has its label; on mobile six labels don’t fit at 390 (they run into each other), so it shows the six bars with “Step 3 of 6 · Waiting for your photos” under them. B as a list is easier to read, but it repeats Case progress just below it.</p>`,
+    opts: [{ t: 'A · The bar with 6 steps (shown: waiting for photos)', pick: true, src: 'complaint.html?c=CMP-1031', apply: d => tracker(d, 'bar') },
+      { t: 'B · The steps as a list', src: 'complaint.html?c=CMP-1031', apply: d => tracker(d, 'list') }] },
+];
+
+document.getElementById('items').innerHTML = ITEMS.map((it, i) => `<section class="item"><h2>${it.h}</h2><div class="chg">${it.chg}</div>
+  ${it.opts.map((o, j) => `<div class="opt"><h4>${o.t}${o.pick ? ' <em>my pick</em>' : ''}</h4><div class="row">
+    <div class="mob"><p class="lbl">Mobile 390</p><iframe loading="lazy" data-k="${i}.${j}" src="${P + o.src}"></iframe></div>
+    <div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe loading="lazy" data-k="${i}.${j}" src="${P + o.src}"></iframe></div></div></div></div>`).join('')}</section>`).join('');
+document.querySelectorAll('iframe[data-k]').forEach(f => f.addEventListener('load', () => {
+  const [i, j] = f.dataset.k.split('.').map(Number), d = f.contentDocument, w = f.contentWindow;
+  d.head.insertAdjacentHTML('beforeend', `<link rel="stylesheet" href="${FONT}">`);
+  setTimeout(() => { try { ITEMS[i].opts[j].apply(d, w); } catch (e) { console.error(f.dataset.k, e); } }, 600);
+}));
+</script>
+</body>
+</html>

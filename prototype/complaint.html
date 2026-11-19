@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,photo_camera&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
-<link rel="stylesheet" href="pages.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205p">
+<link rel="stylesheet" href="pages.css?v=20261205p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer class="footer" data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>   <!-- your photos big (app.js), as the artwork on the order page -->
-<script src="app.js?v=20261205n"></script>
-<script src="account.js?v=20261205n"></script>
-<script src="upload.js?v=20261205n"></script>
-<script src="../design-system/components.js?v=20261205n"></script>
+<script src="app.js?v=20261205p"></script>
+<script src="account.js?v=20261205p"></script>
+<script src="upload.js?v=20261205p"></script>
+<script src="../design-system/components.js?v=20261205p"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -48,7 +48,7 @@
     document.getElementById('crumb').textContent = c.no;
 
     // where it stands (the artifact's status box) as the order page's block, with the case's progress bar; we need photos: Upload photos + Chat with Anna
-    const tracker = `<ol class="tracker">${COMPLAINT_STEPS.map((t, k) => `<li class="${k < c.step ? 'done' : k === c.step ? 'now' : ''}">${t}</li>`).join('')}</ol>`;
+    const tracker = trackerCompact(c.steps, c.at);   // only the bars and where it is (V4, Cornel 2026-11-19, sketch 12A): Case progress below has every step
     // the photos we need = an upload as on the order page and order confirmed (Cornel): a number, Upload your photos, the button; once they are in
     // "We've got your photos" with them on the tile (+N, a click shows them big) and Change
     const photos = c.photos || [], tile = photos.length ? `<div class="line-item cart-line"><button class="img art-tile" type="button" data-act="complaint-art" data-c="${c.no}" aria-label="View your photos">${artPic(photos[0])}${photos.length > 1 ? `<span class="art-count">+${photos.length - 1}</span>` : ''}</button>

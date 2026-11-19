@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,delete,edit,more_vert,receipt_long,star&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
-<link rel="stylesheet" href="pages.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205p">
+<link rel="stylesheet" href="pages.css?v=20261205p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,9 +29,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205n"></script>
-<script src="account.js?v=20261205n"></script>
-<script src="../design-system/components.js?v=20261205n"></script>
+<script src="app.js?v=20261205p"></script>
+<script src="account.js?v=20261205p"></script>
+<script src="../design-system/components.js?v=20261205p"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -50,8 +50,8 @@
   const acts = a => `<span class="icon-btns">${ib('edit', 'Edit', `data-addr="${a.id}"`)}${a.id === def().id ? ib('star', 'Your default shipping address', 'aria-pressed="true" data-def-on') : ib('star', 'Make default shipping address', `data-def="${a.id}"`)}${a.id === billId() ? ib('receipt_long', 'Your billing address', 'aria-pressed="true"') : ib('receipt_long', 'Use on my invoices', `data-bill="${a.id}"`)}${book.length > 1 ? ib('delete', 'Delete', `data-del="${a.id}"`) : ''}</span>`;
   // mobile (Cornel 2026-11-18: four buttons don't fit): the roles as grey labels under the address, one ⋮ with the actions, as the checkout's address list
   const roles = a => { const t = [a.id === def().id && 'Default shipping', a.id === billId() && 'Default billing'].filter(Boolean); return t.length ? `<span class="tags">${t.map(x => `<span class="badge neutral co-badge">${x}</span>`).join('')}</span>` : ''; };
-  const menu = a => `<span class="row-menu"><button type="button" class="icon-btn" data-menu aria-expanded="false" aria-label="More for ${esc(a.label)}"><span class="material-symbols-rounded" aria-hidden="true">more_vert</span></button>
-    <span class="menu" hidden><button type="button" data-addr="${a.id}">Edit</button>${a.id === def().id ? '' : `<button type="button" data-def="${a.id}">Make default shipping address</button>`}${a.id === billId() ? '' : `<button type="button" data-bill="${a.id}">Use on my invoices</button>`}${book.length > 1 ? `<button type="button" class="del" data-del="${a.id}">Delete</button>` : ''}</span></span>`;
+  const menu = a => rowMenu(`More for ${esc(a.label)}`, [[`data-addr="${a.id}"`, 'Edit'], ...(a.id === def().id ? [] : [[`data-def="${a.id}"`, 'Make default shipping address']]),
+    ...(a.id === billId() ? [] : [[`data-bill="${a.id}"`, 'Use on my invoices']]), ...(book.length > 1 ? [[`class="del" data-del="${a.id}"`, 'Delete']] : [])]);
   function render() {   // on top the two defaults (Cornel 2026-11-18, sketch C), under them the address book; no card is "chosen" here, so no green border
     const card = (a, title, kind) => `<div class="addr-card"><span class="top"><b>${title}</b><span class="badge neutral co-badge">${esc(a.label)}</span></span>
         <p>${bookLines(a).map(esc).join('<br>')}</p><button type="button" class="btn small outline" data-pick="${kind}">Edit</button></div>`;   // Edit: choose another address from the book (Cornel 2026-11-18)
@@ -98,9 +98,7 @@
     if (e.target.closest('[data-pick-use]')) { const a = book.find(x => x.id === pickId);
       if (pickKind === 'ship') book.forEach(x => { x.isDefault = x.id === pickId; }); else billSel = pickId;
       save(); closeSheet(); render(); showToast(`${a.label} is your ${pickKind === 'ship' ? 'default shipping' : 'billing'} address`); return; }
-    const mb = e.target.closest('[data-menu]');   // ⋮ opens its menu; any other click closes the open one
-    document.querySelectorAll('.row-menu .menu').forEach(m => { if (!mb || m !== mb.nextElementSibling) { m.hidden = true; m.previousElementSibling.setAttribute('aria-expanded', 'false'); } });
-    if (mb) { const m = mb.nextElementSibling; m.hidden = !m.hidden; mb.setAttribute('aria-expanded', String(!m.hidden)); return; }
+    if (e.target.closest('[data-menu]')) return;   // ⋮ opens its menu (rowMenu in account.js)
     const d = e.target.closest('[data-def]');
     if (d) { book.forEach(a => { a.isDefault = a.id === d.dataset.def; }); save(); render(); showToast(`${book.find(a => a.isDefault).label} is your default shipping address`); return; }
     const bl = e.target.closest('[data-bill]');   // the billing address: the receipt, as the star for shipping (Cornel 2026-11-18: one way per role)

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,chevron_left,chevron_right,download,open_in_new,remove&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
-<link rel="stylesheet" href="pages.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205p">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205p">
+<link rel="stylesheet" href="pages.css?v=20261205p">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,10 +29,10 @@
   <footer class="footer" data-shell="footer"></footer>
 </div>
 <div data-shell="sheet-art"></div>
-<script src="app.js?v=20261205n"></script>
-<script src="account.js?v=20261205n"></script>
-<script src="upload.js?v=20261205n"></script>
-<script src="../design-system/components.js?v=20261205n"></script>
+<script src="app.js?v=20261205p"></script>
+<script src="account.js?v=20261205p"></script>
+<script src="upload.js?v=20261205p"></script>
+<script src="../design-system/components.js?v=20261205p"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the login page brings you back here (from a reminder email)
@@ -45,13 +45,12 @@
   Object.assign(document.getElementById('crumbOrder'), { href: order, textContent: `Order #${o.no}` });
   const check = PROOFS[l.proof] || PROOFS['business-cards'];
   const pb = (ic, tip, attrs = '') => `<${attrs ? 'a' : 'button type="button"'} class="pdf-btn" ${attrs} title="${tip}" aria-label="${tip}"><span class="material-symbols-rounded" aria-hidden="true">${ic}</span></${attrs ? 'a' : 'button'}>`;   // the browser's PDF viewer: a white icon, no circle
-  const NOTE = `<button class="link" type="button" data-act="note" data-o="${o.no}" data-l="${li}">Leave a note for our team</button>`;
   // More proofs in this order (Cornel 2026-11-17: do them in one go): a tab per product with a proof, its state under the name;
   // Approve or a new file goes on to the next proof that still waits, the last one back to the order
   const proofs = o.lines.map((p, i) => ({ p, i })).filter(({ p }) => p.proof), waits = p => p.step === 1 && p.btns && !o.cancelled;
   const next = proofs.find(({ p, i }) => i !== li && waits(p)), goNext = () => location.href = next ? proofUrl(o, next.i) : order;
   const TABS = proofs.length > 1 ? `<nav class="tabs proof-tabs" aria-label="The proofs in this order">${proofs.map(({ p, i }) => `<a href="${proofUrl(o, i)}"${i === li ? ' class="active" aria-current="page"' : ''}>${p.name}<small>${waits(p) ? 'To approve' : p.title}</small></a>`).join('')}</nav>` : '';
-  const ACTS = `<button class="btn primary" type="button" data-proof="approve">Approve proof</button><button class="btn outline" type="button" data-proof="upload">Upload new design</button>${NOTE}`;
+  const ACTS = `<button class="btn primary" type="button" data-proof="approve">Approve proof</button><button class="btn outline" type="button" data-proof="upload">Upload new design</button>`;
 
   document.getElementById('proof').innerHTML = `<div><a class="ha-back" href="${order}">Back to order #${o.no}</a><h1>Your proof: ${l.name}</h1><p class="oc-lead">Order #${o.no} · ${l.spec}</p></div>
     ${TABS}
@@ -70,16 +69,26 @@
   if (waiting) {
     const btns = `<button class="btn outline" type="button" data-proof="upload">Upload new design</button><button class="btn primary" type="button" data-proof="approve">Approve proof</button>`;
     document.body.insertAdjacentHTML('beforeend', DESK
-      ? `<div class="d-bar" id="proofBar" aria-hidden="true"><div class="dwrap"><span class="d-bar-prod"><span class="thumb"><img src="assets/proofs/${l.proof || 'business-cards'}.png" alt=""></span><span class="t"><b>${l.name}</b><span class="d-bar-sub">${l.foot ? l.foot.replace(/ to keep.*/, '') : 'Your proof is ready'}</span></span></span>${NOTE}<span class="bar-btns">${btns}</span></div></div>`
-      : `<div class="buy-bar" id="proofBar" aria-hidden="true"><div class="sheet-bar"><div class="bar-btns">${btns}</div></div><p class="bar-link">${NOTE}</p></div>`);
+      ? `<div class="d-bar" id="proofBar" aria-hidden="true"><div class="dwrap"><span class="d-bar-prod"><span class="thumb"><img src="assets/proofs/${l.proof || 'business-cards'}.png" alt=""></span><span class="t"><b>${l.name}</b><span class="d-bar-sub">${l.foot ? l.foot.replace(/ to keep.*/, '').replace(/\.<\/b> Approve today.*/, '</b>') : 'Your proof is ready'}</span></span></span><span class="bar-btns">${btns}</span></div></div>`
+      : `<div class="buy-bar" id="proofBar" aria-hidden="true"><div class="sheet-bar"><div class="bar-btns">${btns}</div></div></div>`);
     const bar = document.getElementById('proofBar'), acts = document.getElementById('proofActs');
     const toggle = show => { bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', String(!show)); };
     toggle(acts.getBoundingClientRect().top > innerHeight);   // on load: the page's buttons are below the screen
     new IntersectionObserver(([e]) => toggle(!e.isIntersecting && e.boundingClientRect.top > 0)).observe(acts);   // then: shown while they are further down
   }
+  // Approve asks first (V4, Cornel 2026-11-19, sketch 10A): we print exactly this, one tick makes Yes work; the note for the artwork team goes with it
+  // (it replaces the separate "Leave a note" link and popup)
+  document.body.insertAdjacentHTML('beforeend', accSheet('approve', 'Approve this proof?', `<p class="up-intro">We print your ${l.name} exactly as in the proof. After this, the design can’t change any more.</p>
+    <label class="check"><input type="checkbox" id="approveOk">I’ve checked the text, spelling, colours and size</label>
+    <label class="field"><textarea id="approveNote" placeholder=" " maxlength="600" aria-label="A note for our artwork team"></textarea><span class="fl">A note for our artwork team (optional)</span></label>`,
+    '<button class="btn outline" type="button" data-close-sheet>Back to the proof</button><button class="btn primary" type="button" data-proof="yes" disabled>Yes, approve</button>'));
+  const ok = document.getElementById('approveOk'), note = document.getElementById('approveNote'), yes = document.querySelector('[data-proof="yes"]');
+  ok.addEventListener('change', () => yes.disabled = !ok.checked);
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-proof]'); if (!b) return;
-    if (b.dataset.proof === 'approve') { flashLine(o.no, li); orderSave(o.no, d => d.lines[li] = 'approved'); toastOnNextPage(`Proof approved: we print your ${l.name} next${next ? `. One more: ${next.p.name}` : ''}`); goNext(); }
+    if (b.dataset.proof === 'approve') { ok.checked = false; yes.disabled = true; note.value = ''; openSheet('approve'); }   // first the confirm (V4, sketch 10A)
+    if (b.dataset.proof === 'yes') { flashLine(o.no, li); orderSave(o.no, d => d.lines[li] = 'approved');
+      toastOnNextPage(`Proof approved: we print your ${l.name} next${note.value.trim() ? ', with your note to our artwork team' : ''}${next ? `. One more: ${next.p.name}` : ''}`); goNext(); }
     if (b.dataset.proof === 'upload') openUpload({ name: l.name, img: 'assets/' + l.img,
       onAdd: files => { flashLine(o.no, li); orderSave(o.no, d => d.lines[li] = files); toastOnNextPage(`Added to your ${l.name}: we check it and send you a new proof`); goNext(); } });
   });
