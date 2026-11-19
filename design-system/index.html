@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,expand_more,local_mall,more_vert,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205v">
-<link rel="stylesheet" href="components.css?v=20261205v">
-<link rel="stylesheet" href="guide.css?v=20261205v">
+<link rel="stylesheet" href="tokens.css?v=20261205zk">
+<link rel="stylesheet" href="components.css?v=20261205zk">
+<link rel="stylesheet" href="guide.css?v=20261205zk">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -438,7 +438,7 @@
     cut('Blog card', '.blog-card', '../prototype/business-cards.html', '.blog-card', 'business cards, blogs',
       'An article: photo, title, two lines of text, Read more. White with the line outline, hover as the cards. A swipe row on mobile, 3 in a row on desktop, under a section head with an arrow link (business cards; the home above Browse all we offer).') +
     cut('Product card on a filter page', '.pf-ncol · .pf-strip · .pf-each · .pf-eta', '../prototype/pens.html', '.types .product', 'pens (PFP)',
-      'The product card plus what a list you filter needs: “8 colours” under the name; on hover (desktop) a frosted strip (white 60% + blur 8) with the colour dots slides up over the photo, hover a dot = that colour’s photo, the link takes the colour along; a ticked colour filter shows that colour. Then the price each after the price (500 pcs, one quantity every product offers, so the cards compare) and “Estimated tomorrow / Tue 24 Nov”. One label at most: Most Popular, else Eco. Mobile: the text only.') +
+      'The product card plus what a list you filter needs: “8 colours” under the name; on hover (desktop) a frosted strip (white 60% + blur 8) with the colour dots slides up over the photo, hover a dot = that colour’s photo, the link takes the colour along; a ticked colour filter shows that colour. Then the price each after the price (500 pcs, one quantity every product offers, so the cards compare). “Fast delivery” (as live) as a white label (12 as the orange label but regular; --line outline, no shadow; 8 under the price) only on the products that are really fast (within 3 working days); the others keep an invisible one so the prices stay level. One label at most: Most Popular, else Eco. Mobile: no strip.') +
     cut('Filters', '.pf-group · .pf-eco · .pf-sw', '../prototype/pens.html', '.pf-bar||.pf-side', 'pens (PFP)',
       'Desktop: a 264 sticky sidebar, groups that fold open (the choice under the name when closed), checkboxes at 14 with what you would get on the right; a value that gives 0 is greyed. Colours as swatches, Eco only as a switch. Works at once, no Apply. Mobile: Filters (with a small dark green number when set) + sort + count; the groups in a sheet whose button counts along (Show N products).') +
     cut('Selected filters', '.pf-x · .pf-clear', '../prototype/pens.html?f=del%3ATue%2024%20Nov%7Ceco%7Cprint%3AEngraving', '.pf-active', 'pens (PFP), above the list',
@@ -673,6 +673,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205v"></script>
+<script src="guide.js?v=20261205zk"></script>
 </body>
 </html>

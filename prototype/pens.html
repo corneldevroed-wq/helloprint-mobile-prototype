@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205v">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205v">
-<link rel="stylesheet" href="pages.css?v=20261205v">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zk">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zk">
+<link rel="stylesheet" href="pages.css?v=20261205zk">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -65,9 +65,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205v"></script>
-<script src="../design-system/components.js?v=20261205v"></script>
-<script src="pens-data.js?v=20261205v"></script>
+<script src="app.js?v=20261205zk"></script>
+<script src="../design-system/components.js?v=20261205zk"></script>
+<script src="pens-data.js?v=20261205zk"></script>
 <script>
 const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
 // Prices at 500 (one quantity every pen offers, so the cards compare): the live from-price is the lowest per piece, ×1.5 (the prototype's own numbers)
@@ -79,6 +79,10 @@ const addWd = n => { const d = new Date('2026-11-19T12:00'); while (n) { d.setDa
 // Colours (Cornel 2026-11-19, C of the Colours switch): "8 colours" at rest; on hover (desktop) a frosted strip with the dots slides up over the photo,
 // hover a dot = that colour's photo (live, one transparent pen) and the link takes it along (#slug?colour=red). A ticked colour filter shows that
 // colour's photo. Mobile: no hover, the text only.
+// The estimated delivery (Cornel 2026-11-19, A of the Delivery switch, smaller): only on the pens that are really fast (within 3 working days, as live's
+// Fast delivery, 66 of 181), "Fast delivery" (as live) in a white label (12 regular, outline, no shadow), 8 under the price; the others an invisible one,
+// so the prices stay level in a row
+const eta = p => RANK[p.d] <= 1 ? '<p class="pf-eta">Fast delivery</p>' : '<p class="pf-eta none" aria-hidden="true">&nbsp;</p>';
 const img = path => `${CF + path}?w=500&fm=webp&q=80`;
 const dots = p => p.hex.map((h, i) => `<i style="background:${h}" title="${p.col[i]}"${p.ci[i] ? ` data-c="${i}"` : ''}></i>`).join('');
 // The product card + the colours, the price each and the estimated delivery
@@ -89,7 +93,7 @@ const card = p => {
     <p class="name">${p.n}</p>
     ${p.col.length ? `<span class="pf-ncol">${p.col.length > 1 ? p.col.length + ' colours' : p.col[0]}</span>` : ''}
     <div><p class="from">${QTY} pcs for</p><p class="prices"><span class="price" data-price="${total(p)}">${fmt(total(p))}</span><span class="pf-each">· <span data-price="${pce(p)}">${fmt(pce(p))}</span> each</span></p>
-    <p class="pf-eta">Estimated <b>${p.d === '1' ? 'tomorrow' : etaShort(addWd(WD[p.d]))}</b></p></div>
+    ${eta(p)}</div>
   </a>`;
 };
 
@@ -137,8 +141,9 @@ const groupsHtml = (open, box) => G.map((g, i) => `<details class="pf-group"${op
     <div class="${g.sw ? 'pf-sw' : 'pf-opts'}">${vals(g).map(v => opt(g, v, box)).join('')}${vals(g).length < g.vals.length ? `<button class="pf-clear pf-more-v" type="button" data-more="${g.id}">Show ${g.vals.length - vals(g).length} more</button>` : ''}</div></details>
     ${i ? '' : `<div class="pf-eco"><span>Eco-friendly only <small>${ecoN()}</small></span><button class="switch" type="button" role="switch" aria-checked="${ECO}" aria-label="Eco-friendly only" data-eco></button></div>`}`).join('');
 const label = ([id, v]) => id === 'eco' ? 'Eco-friendly only' : v;
-// Sort (live: Most popular, Price: Low to High, Price: High to Low), the guide's sort menu (.row-menu, as the lists in My account)
-const SORTS = { pop: 'Most popular', low: 'Price: Low to High', high: 'Price: High to Low' };
+// Sort (live: Most popular, Price: Low to High, Price: High to Low; + Fastest delivery, Cornel 2026-11-19: the soonest estimated date first,
+// the most popular first within a date), the guide's sort menu (.row-menu, as the lists in My account)
+const SORTS = { pop: 'Most popular', fast: 'Fastest delivery', low: 'Price: Low to High', high: 'Price: High to Low' };
 let SORT = 'pop';
 const sortPill = () => `<span class="row-menu"><button class="pill pf-sort" type="button" data-menu aria-expanded="false" aria-label="Sort: ${SORTS[SORT]}">${SORTS[SORT]}</button>
   <span class="menu" hidden>${Object.entries(SORTS).map(([k, t]) => `<button type="button" data-sort="${k}"${k === SORT ? ' class="on"' : ''}>${t}</button>`).join('')}</span></span>`;
@@ -146,7 +151,7 @@ const sortPill = () => `<span class="row-menu"><button class="pill pf-sort" type
 // Desktop: a filter works at once (no Apply); the selected ones as soft pills above the grid. Mobile: the same in the sheet, whose button counts along.
 const openSide = new Set(['type', 'del', 'price', 'print', 'colour']), openSheetG = new Set(['type', 'del', 'price']);
 const render = () => {
-  const list = PENS.filter(p => ok(p)).sort((a, b) => SORT === 'pop' ? 0 : (SORT === 'low' ? 1 : -1) * (pce(a) - pce(b))), k = ORDER.length, count = list.length, show = list.slice(0, PAGE);
+  const list = PENS.filter(p => ok(p)).sort((a, b) => SORT === 'pop' ? 0 : SORT === 'fast' ? RANK[a.d] - RANK[b.d] : (SORT === 'low' ? 1 : -1) * (pce(a) - pce(b))), k = ORDER.length, count = list.length, show = list.slice(0, PAGE);
   const keep = (sel, set) => { const el = document.querySelector(sel); if (el.children.length) { set.clear(); el.querySelectorAll('details[open]').forEach(d => set.add(d.dataset.id)); } };
   keep('#side', openSide); keep('#sheetGroups', openSheetG);
   document.getElementById('side').innerHTML = groupsHtml(openSide, 'side');
@@ -203,6 +208,7 @@ if (DESK) {
     c.querySelector('.thumb img').src = c.querySelector('.thumb img').dataset.main; c.href = c.dataset.href; c.querySelectorAll('.on').forEach(x => x.classList.remove('on'));
   });
 }
+
 
 // Reviews: desktop the reviews row with arrows, mobile the swipe row (as on business cards)
 const revs = document.getElementById('reviews');
