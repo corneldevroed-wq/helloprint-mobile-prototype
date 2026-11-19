@@ -946,7 +946,6 @@ html:not(.desk) .filter-row > * { flex-shrink: 0; }
 .pf-group { border-bottom: 1px solid var(--line); }
 .pf-group summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); cursor: pointer; list-style: none; }
 .pf-group summary::-webkit-details-marker { display: none; }
-.desk .pf-group summary, .desk .pf-eco { font-size: var(--t-16); line-height: var(--lh-16); }   /* a group title is a card title: 14 mobile, 16/22 desktop (audit 11-19) */
 .pf-sel { display: block; margin-top: 4px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .pf-group[open] .pf-sel { display: none; }
 .pf-opts { display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; }
