@@ -478,13 +478,13 @@ function updatePrices() {
 }
 
 // Delivery window: the estimated day and the latest day (one working day later, weekends skipped).
-// Dates in the prototype are "Tue 29 Sep" style strings in 2026.
+// Dates in the prototype are "Mon 30 Nov" style strings in 2026; "today" is Thu 19 Nov (live dates of that day).
 const etaDate = d => new Date(`${d} 2026`);
 const etaLatest = d => { const x = etaDate(d); do x.setDate(x.getDate() + 1); while (x.getDay() === 0 || x.getDay() === 6); return x; };
 const etaShort = x => x.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '').replace('Sept', 'Sep');
 const etaLong = x => x.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).replace(',', '');
-// Files approved by 10:30 the working day before the estimated day keep the date
-const etaApprove = d => { const x = etaDate(d); do x.setDate(x.getDate() - 1); while (x.getDay() === 0 || x.getDay() === 6); return etaShort(x); };
+// Files approved by 10:30 the next working day keep the date (live: "Upload file by" is the same day for every delivery option)
+const etaApprove = () => 'Fri 20 Nov';
 // The block from Cornel's ref (cart, payment, order confirmed): title, estimated day — latest day, the condition
 const etaHtml = (d, condition, option) => `<b>Estimated delivery date</b><p>${etaLong(etaDate(d))} — latest ${etaShort(etaLatest(d))}${option ? ` (${option})` : ''}</p>${condition ? `<small><img src="assets/pdp/check.svg" alt="">${condition}</small>` : ''}`;
 

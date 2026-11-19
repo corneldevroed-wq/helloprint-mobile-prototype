@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzf">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzf">
-<link rel="stylesheet" href="pages.css?v=20261205zzf">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzg">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzg">
+<link rel="stylesheet" href="pages.css?v=20261205zzg">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261205zzf"></script>
-<script src="../design-system/components.js?v=20261205zzf"></script>
-<script src="products.js?v=20261205zzf"></script>
+<script src="app.js?v=20261205zzg"></script>
+<script src="../design-system/components.js?v=20261205zzg"></script>
+<script src="products.js?v=20261205zzg"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -362,8 +362,8 @@
   }
   const QTY = productQty(PRODUCT);
   const DELIVERY = PRODUCT.delivery || [
-    { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Included in the price. Your cards arrive on Tue 29 Sep if you approve your files in time.' },
-    { id: 'express', name: 'Express', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 9.99, info: 'Four days sooner, on Fri 25 Sep. We print your order with priority.' },
+    { id: 'saver', name: 'Saver', day: '30', dayName: 'Mon 30 Nov', month: 'November 30', extra: 0, info: 'Included in the price. Your cards arrive on Mon 30 Nov if you approve your files in time.' },
+    { id: 'express', name: 'Express', day: '23', dayName: 'Mon 23 Nov', month: 'November 23', extra: 9.99, info: '7 days sooner, on Mon 23 Nov. We print your order with priority.' },
   ];
   const PRESETS = PRODUCT.presets;
   // Info layers (two variants to compare): ?info=line shows only the info line, ?info=guide only the ⓘ guide
@@ -761,7 +761,7 @@
     document.querySelector('[data-option="delivery"]').innerHTML = `
       <p class="opt-title">${jStep(shownKeys(c).length + 1)}Delivery <span>${delivery(c).month}</span>${infoBtn('delivery')}</p>
       ${DELIVERY.map(d => DESK ? deskDeliv(d, c) : `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
-        <span class="date"><b>${d.day}</b><small>${{ Sep: 'SEPT', Oct: 'OCT' }[d.dayName.split(' ')[2]]}</small></span><span class="t"><b>${d.name}</b><small>${d.dayName} · latest ${etaShort(etaLatest(d.dayName)).replace(/^\w+ /, '')}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
+        <span class="date"><b>${d.day}</b><small>${d.dayName.split(' ')[2].toUpperCase()}</small></span><span class="t"><b>${d.name}</b><small>${d.dayName} · latest ${etaShort(etaLatest(d.dayName)).replace(/^\w+ /, '')}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
       ${DESK ? '' : `<p class="opt-info">${delivery(c).info}</p>`}`;   // desktop: the approval deadline is in Your selection
     document.querySelector('[data-bind="draftRecap"]').textContent = `${activeKeys(c).map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));

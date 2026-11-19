@@ -40,17 +40,24 @@ const FLYER_SIZES = [
       ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info }));
 const flyerSizes = ids => ({ key: 'size', title: 'Size', items: ids ? ids.map(id => FLYER_SIZES.find(s => s.id === id)) : FLYER_SIZES });
 const FLYER_DELIVERY = [
-  { id: 'saver', name: 'Saver', day: '29', dayName: 'Tue 29 Sep', month: 'September 29', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 29 Sep if you approve your files in time.' },
-  { id: 'standard', name: 'Standard', day: '25', dayName: 'Fri 25 Sep', month: 'September 25', extra: 43, info: 'Four days sooner, on Fri 25 Sep.' },
-  { id: 'express', name: 'Express', day: '24', dayName: 'Thu 24 Sep', month: 'September 24', extra: 79, info: 'Our fastest option: on Thu 24 Sep, printed with priority.' },
+  { id: 'saver', name: 'Saver', day: '1', dayName: 'Tue 1 Dec', month: 'December 1', extra: 0, info: 'Best value: included in the price. Your flyers arrive on Tue 1 Dec if you approve your files in time.' },
+  { id: 'standard', name: 'Standard', day: '24', dayName: 'Tue 24 Nov', month: 'November 24', extra: 43, info: '7 days sooner, on Tue 24 Nov.' },
+  { id: 'express', name: 'Express', day: '23', dayName: 'Mon 23 Nov', month: 'November 23', extra: 79, info: 'Our fastest option: on Mon 23 Nov, printed with priority.' },
 ];
 
 // One delivery option (products the live site ships with Standard only)
 const STANDARD_ONLY = (dayName, noun, lead = '') => {
   const [, day, mon] = dayName.split(' ');
-  const month = { Sep: 'September', Oct: 'October' }[mon];
+  const month = { Nov: 'November', Dec: 'December' }[mon];
   return { id: 'standard', name: 'Standard', day, dayName, month: `${month} ${day}`, extra: 0, info: `Included in the price${lead ? ` (${lead})` : ''}. Your ${noun} arrive on ${dayName} if you approve your files in time.` };
 };
+// The flyer options with a product's own live dates and prices (same ids and names; the text follows the dates)
+const withDays = (opts, days, extras, noun) => opts.map((d, i) => {
+  const [, day, mon] = days[i].split(' '), month = { Nov: 'November', Dec: 'December' }[mon];
+  const sooner = Math.round((new Date(`${days[0]} 2026`) - new Date(`${days[i]} 2026`)) / 864e5);
+  const info = i ? (d.id === 'express' ? `Our fastest option: on ${days[i]}, printed with priority.` : `${sooner} days sooner, on ${days[i]}.`) : `Best value: included in the price. Your ${noun} arrive on ${days[i]} if you approve your files in time.`;
+  return { ...d, day, dayName: days[i], month: `${month} ${day}`, extra: extras[i], info };
+});
 // Textile colours (live names), shown as colour chips
 const TEXTILE = {
   'ecru': ['Ecru', '#efe6d2'], 'natural': ['Natural', '#efe6d2'], 'white': ['White', '#ffffff'], 'black': ['Black', '#1c1c1c'], 'deep-black': ['Deep Black', '#141414'],
@@ -402,7 +409,7 @@ const PRODUCTS = {
     logo: true, name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumbTop: ['Gifts', '#corporate-gifts'], crumb: ['Mugs', '#personalised-mugs'],
     img: 'assets/products/mug.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 17.77], [5, 36.01], [10, 61.43], [30, 147.36], [50, 217.90], [100, 412.32], [250, 896.18], [500, 1541.81], [1000, 2879.40], [2000, 4807.11]],
-    delivery: [STANDARD_ONLY('Tue 6 Oct', 'mugs')],
+    delivery: [STANDARD_ONLY('Wed 2 Dec', 'mugs')],
     groups: [
       { key: 'print', title: 'Printing option', items: [
         { id: 'front', name: '190 x 85 mm', sub: 'Front', shape: 'width:42px;height:19px', mult: 1, info: 'A full-colour print of 190 x 85 mm, almost all the way around the mug.' },
@@ -420,7 +427,7 @@ const PRODUCTS = {
     logo: true, name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/cotton-bag.webp', priceMult: 1, defaultQty: 100,
     qty: [[100, 181.99], [150, 238.32], [200, 294.66], [250, 350.99], [500, 650.99], [1000, 1128.99], [2500, 2488.99], [5000, 4506.99]],
-    delivery: [STANDARD_ONLY('Mon 12 Oct', 'bags', '11–15 working days')],
+    delivery: [STANDARD_ONLY('Mon 7 Dec', 'bags', '11–15 working days')],
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['ecru', 'white', 'black', 'navy', 'dark-green', 'red', 'yellow']) },
       { key: 'area', title: 'Print area', items: [
@@ -449,7 +456,7 @@ const PRODUCTS = {
     logo: true, name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/premium-tote.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
-    delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 31, 48][i], info: d.info.replace('flyers', 'bags') })),
+    delivery: withDays(FLYER_DELIVERY, ['Wed 2 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 31, 48], 'bags'),
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['natural', 'black', 'white', 'royal', 'grey', 'navy', 'red', 'orange', 'yellow', 'pink']) },
       { key: 'area', title: 'Print area', items: [
@@ -481,7 +488,7 @@ const PRODUCTS = {
     // Size mix instead of a quantity list: the total is the quantity (live sizes S–XXL)
     sizes: ['S', 'M', 'L', 'XL', 'XXL'], defaultSizes: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 },
     qty: [[5, 99.99], [10, 164.83], [25, 329.99], [50, 549.99], [100, 899.99], [250, 1849.99], [500, 3249.99]],   // all but 10 ~
-    delivery: [STANDARD_ONLY('Tue 6 Oct', 't-shirts')],
+    delivery: withDays(FLYER_DELIVERY.slice(0, 2), ['Thu 3 Dec', 'Mon 23 Nov'], [0, 57.75], 't-shirts'),
     groups: [
       { key: 'colour', title: 'Colour', items: TEXTILE_COLOURS(['deep-black', 'white', 'grey-melange', 'french-navy', 'royal', 'red', 'bottle-green', 'sky', 'sand', 'burgundy', 'orange', 'gold']) },
       { key: 'area', title: 'Print area', items: [
@@ -511,7 +518,7 @@ const PRODUCTS = {
     name: 'Banners', cartName: 'Banners', noun: 'banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Banners', '#banner-printing'],
     img: 'assets/products/banner.webp', priceMult: 1, defaultQty: 1,
     qty: [[1, 33.36], [2, 61.99], [3, 89.99], [5, 144.99], [10, 279.99], [25, 669.99]],   // 2+ ~
-    delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 58.47, 62.47][i], info: d.info.replace('flyers', 'banners') })),
+    delivery: withDays(FLYER_DELIVERY, ['Tue 1 Dec', 'Wed 25 Nov', 'Tue 24 Nov'], [0, 58.47, 62.47], 'banners'),
     groups: [
       { key: 'size', title: 'Size', items: [
         { id: '150x100', name: '150 x 100 cm', sub: 'Landscape', shape: 'width:42px;height:28px', mult: 1, info: 'A compact banner for shop windows, stands and events. On the live site any size up to 20 m wide is possible.' },
@@ -556,7 +563,7 @@ const PRODUCTS = {
     name: 'Roller Banners', cartName: 'Roller banners', noun: 'roller banners', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Roller Banners', '#rollupbanners-printing'],
     img: 'assets/products/roller-banner.webp', priceMult: 1, defaultQty: 1,
     qty: [[1, 38.99], [2, 62.99], [3, 86.99], [5, 132.99], [10, 257.99], [20, 501.99], [50, 1247.99]],
-    delivery: FLYER_DELIVERY.filter(d => d.id !== 'express').map((d, i) => ({ ...d, extra: [0, 47][i], info: d.info.replace('flyers', 'roller banners') })),
+    delivery: withDays(FLYER_DELIVERY.slice(0, 2), ['Tue 1 Dec', 'Wed 25 Nov'], [0, 47], 'roller banners'),
     groups: [
       { key: 'size', title: 'Size', items: [
         { id: 's', name: 'Small', sub: '85 x 200 cm', icon: 'rollup/size-85', mult: 1, info: 'Our most chosen roller banner size. Fits in any car.' },

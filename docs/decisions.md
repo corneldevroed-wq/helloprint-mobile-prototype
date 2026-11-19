@@ -5,6 +5,14 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## PDP delivery dates in November (Nov 19, 2026)
+- **2026-11-19 — The prototype's "today" is Thu 19 Nov; every delivery date is the live date of that day** (en-ie PDPs read on 11-19):
+  business cards Saver Mon 30 Nov / Express Mon 23 Nov; flyers Tue 1 Dec / Tue 24 Nov / Mon 23 Nov; mug Wed 2 Dec; Basic Cotton Bags
+  Mon 7 Dec; Premium Tote Bags Wed 2 Dec / Wed 25 Nov / Tue 24 Nov; banners Tue 1 Dec / Wed 25 Nov / Tue 24 Nov; roller banners
+  Tue 1 Dec / Wed 25 Nov. The t-shirt now has Saver (Thu 3 Dec, included) + Standard (Mon 23 Nov, +€57.75), as live (was Standard only).
+  "Approve by" is one date for every option, as live ("Upload file by" Fri 20 Nov 10:30): `etaApprove()` in app.js. Prices unchanged.
+  Past orders in My Account keep their October dates (they are history).
+
 ## PDP design options for logo products (Nov 19, 2026)
 - **2026-11-19 — Logo products get two design options, as live: "I want to upload my design later" and "Upload & customise your logo".**
   `logo: true` in products.js (330 ml mug, Basic Cotton Bags, Premium Tote Bags, Sol's Imperial T-shirt; pens have no PDP yet).
