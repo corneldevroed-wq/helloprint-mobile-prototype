@@ -2138,6 +2138,6 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 .desk .addr-two { grid-template-columns: 1fr 1fr; gap: 16px; }
 .addr-two .addr-card { cursor: default; }   /* the card itself doesn't react, its Edit does */
 .addr-two .addr-card > .btn { align-self: flex-start; margin-top: 8px; }   /* Edit: a small outline button as wide as its text (Cornel 2026-11-18) */
-.addr-book td:last-child { width: 1%; }   /* the actions as wide as their buttons */
-.addr-book tbody tr { cursor: default; }   /* the rows don't open anything, only their buttons do (Cornel 2026-11-18): no hand; the hover grey stays (every table row has it) */
+.addr-book td:last-child, .vc-list td:last-child { width: 1%; }   /* the actions as wide as their buttons (Copy on Vouchers) */
+.addr-book tbody tr, .vc-list tbody tr { cursor: default; }   /* the rows don't open anything, only their buttons do (Cornel 2026-11-18): no hand; the hover grey stays (every table row has it) */
 .addr-book .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }   /* mobile: Default shipping / Default billing under the address */

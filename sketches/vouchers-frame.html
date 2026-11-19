@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vouchers Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=content_copy,local_shipping,search,sell,support_agent&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205q">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205q">
+<link rel="stylesheet" href="pages.css?v=20261205q">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-19), loaded by sketches/vouchers-sketch.html as ?v=a|b|c: Vouchers (V4 plan): every personal discount
+     code, with an extra line when it came from a complaint. Only UI guide parts: the account shell, the list page (.filter-row, .list-card, .find,
+     .list-table / .list-rows), .status, .icon-btn, the checkout's .addr-card, the setting row (.dash-row.text.has-ico + .hc-ico), .badge.neutral.
+     a: the list page as Orders / Invoices / Quotes · b: a card per code you can use, the used and expired ones as a table under them · c: setting rows. -->
+<style>
+  /* SKETCH CSS */
+  .vc-two { display: grid; gap: 16px; }
+  .desk .vc-two { grid-template-columns: 1fr 1fr; }
+  .vc-two .addr-card { cursor: default; gap: 8px; }
+  .vc-val { font-weight: 700; font-size: var(--t-24); line-height: var(--lh-tight); color: var(--black); }
+  .vc-code { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: .04em; }
+  .vc-code .icon-btn { width: 32px; height: 32px; }
+  .vc-code .icon-btn .material-symbols-rounded { font-size: var(--t-16); }
+  .vc-from { margin: 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .desk .vc-from { font-size: var(--t-14); line-height: var(--lh-14); }
+  td .vc-code { font-weight: 600; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="account-page account-sub">
+    <p class="crumbs"><a href="index.html">Home</a> / <a href="account.html">My account</a> / Vouchers</p>
+    <div class="account-grid">
+      <div data-account-side></div>
+      <div class="account-main" id="vc"></div>
+    </div>
+  </main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<script src="app.js?v=20261205q"></script>
+<script src="account.js?v=20261205q"></script>
+<script src="../design-system/components.js?v=20261205q"></script>
+<script>
+{
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  document.querySelector('[data-account-side]').outerHTML = accountSide('#vouchers');
+  // the new menu row under Complaints (the sketch adds it; the icon: a new "sell" tag in design-system/icons)
+  document.querySelectorAll('a[href="complaints.html"]').forEach(a => a.insertAdjacentHTML('afterend', a.outerHTML.replace('complaints.html', '#vouchers').replace('>Complaints<', '>Vouchers<').replace(/icons\/chat\.svg/, 'icons/receipt-long.svg')));
+  document.querySelectorAll('a[href="#vouchers"]').forEach(a => a.classList.add('active'));
+  document.querySelectorAll('a[href="complaints.html"]').forEach(a => a.classList.remove('active'));
+
+  // personal codes: what you get, the code, valid until, where it came from, its state
+  const VC = [
+    { code: 'SORRY-1042', val: '€20 off', what: 'Your next order, no minimum', until: 'Thu 31 Dec', from: ['complaint', 'CMP-1042', 'Roller Banner damaged on arrival'], st: 'ok' },
+    { code: 'XMAS15', val: '15% off', what: 'Christmas cards and calendars, from €50', until: 'Thu 24 Dec', from: ['gift', 'Christmas 2026'], st: 'ok' },
+    { code: 'SHIPFREE-VIP', val: 'Free shipping', what: 'One order, any size', until: 'Sun 31 Jan', from: ['gift', 'VIP2 reached'], st: 'ok' },
+    { code: 'SORRY-1009', val: '€10 off', what: 'Your next order', until: 'Sat 31 Oct', from: ['complaint', 'CMP-1009', 'Wrong quantity'], st: 'used', used: 'Used Mon 26 Oct on order #8825510' },
+    { code: 'WELCOME10', val: '10% off', what: 'Your first order', until: 'Sat 31 Oct', from: ['gift', 'Welcome'], st: 'used', used: 'Used Mon 12 Oct on order #8814402' },
+    { code: 'AUTUMN5', val: '€5 off', what: 'Orders from €40', until: 'Sat 31 Oct', from: ['gift', 'Autumn newsletter'], st: 'expired' },
+  ];
+  const ST = { ok: ['go', 'Available'], used: ['', 'Used'], expired: ['', 'Expired'] };
+  const ms = i => `<span class="material-symbols-rounded" aria-hidden="true">${i}</span>`;
+  const copy = v => `<button type="button" class="icon-btn" data-tip="Copy code" aria-label="Copy ${v.code}">${ms('content_copy')}</button>`;
+  const from = v => v.from[0] === 'complaint' ? `From complaint <a class="link" href="complaint.html?c=${v.from[1]}">${v.from[1]}</a> · ${v.from[2]}` : '';
+  const head = `<div><h1>Vouchers</h1><p class="oc-lead">Your personal discount codes. Add one in your cart under “Add discount code”.</p></div>`;
+  const status = v => `<span class="status ${ST[v.st][0]}">${ST[v.st][1]}</span>`;
+  const small = (v, t) => `<small>${t}</small>`;
+  let html = head;
+
+  if (V === 'a') {   // the list page, as Orders, Invoices and Quotes: filters, search, a table (rows on mobile); the complaint as a grey line under the code
+    const n = k => VC.filter(v => k === 'all' || v.st === k).length;
+    html += `<div class="filter-row">${[['all', 'All'], ['ok', 'Available'], ['used', 'Used'], ['expired', 'Expired']].map(([k, t], i) => `<button class="pill${i ? '' : ' active'}" type="button">${t}<small>${n(k)}</small></button>`).join('')}</div>
+      <div class="dash-card list-card"><label class="find">${ms('search')}<input type="search" placeholder="Search a code or complaint" aria-label="Search vouchers"></label>
+      <table class="dash-table list-table"><thead><tr><th>Code</th><th>What you get</th><th>Valid until</th><th>Status</th><th aria-label="Copy"></th></tr></thead><tbody>
+      ${VC.map(v => `<tr><td><span class="first"><span><b>${v.code}</b>${from(v) ? small(v, from(v)) : ''}</span></span></td><td><b>${v.val}</b><br>${v.what}</td><td>${v.used ? v.used.replace(/ on .*/, '') : v.until}</td><td>${status(v)}</td><td>${v.st === 'ok' ? copy(v) : ''}</td></tr>`).join('')}</tbody></table>
+      <div class="list-rows">${VC.map(v => `<div class="dash-row text"><span class="t"><b>${v.val} · ${v.code}</b><small>${v.what} · ${v.used || 'valid until ' + v.until}</small>${from(v) ? small(v, from(v)) : ''}</span>${v.st === 'ok' ? copy(v) : status(v)}</div>`).join('')}</div></div>`;
+  }
+  if (V === 'b') {   // the codes you can use as cards (the checkout's address card), the value big, Copy next to the code; used and expired as a quiet table under them
+    const ok = VC.filter(v => v.st === 'ok'), old = VC.filter(v => v.st !== 'ok');
+    html += `<section class="oc-sec"><h2>Ready to use</h2><div class="vc-two">${ok.map(v => `<div class="addr-card"><span class="vc-val">${v.val}</span><p>${v.what}<br>Valid until ${v.until}</p>
+        <span class="vc-code">${v.code}${copy(v)}</span>${from(v) ? `<p class="vc-from">${from(v)}</p>` : ''}</div>`).join('')}</div></section>
+      <section class="oc-sec"><h2>Used and expired</h2><div class="dash-card"><table class="dash-table list-table"><thead><tr><th>Code</th><th>What you got</th><th>Status</th></tr></thead><tbody>
+      ${old.map(v => `<tr><td><span class="first"><span><b>${v.code}</b>${from(v) ? small(v, from(v)) : ''}</span></span></td><td>${v.val} · ${v.used || 'expired ' + v.until}</td><td>${status(v)}</td></tr>`).join('')}</tbody></table>
+      <div class="list-rows">${old.map(v => `<div class="dash-row text"><span class="t"><b>${v.val} · ${v.code}</b><small>${v.used || 'Expired ' + v.until}</small>${from(v) ? small(v, from(v)) : ''}</span>${status(v)}</div>`).join('')}</div></div></section>`;
+  }
+  if (V === 'c') {   // setting rows as Personal details: an icon per kind (a complaint: the support icon), the code and what you get, Copy on the right
+    const row = v => `<div class="dash-row text has-ico"><span class="hc-ico material-symbols-rounded" aria-hidden="true">${v.from[0] === 'complaint' ? 'support_agent' : v.val === 'Free shipping' ? 'local_shipping' : 'sell'}</span>
+      <span class="t"><b>${v.val} · ${v.code}</b><small>${v.what} · ${v.used || (v.st === 'expired' ? 'expired ' : 'valid until ') + v.until}</small>${from(v) ? small(v, from(v)) : ''}</span>${v.st === 'ok' ? copy(v) : status(v)}</div>`;
+    html += `<section class="oc-sec"><h2>Ready to use</h2><div class="dash-card">${VC.filter(v => v.st === 'ok').map(row).join('')}</div></section>
+      <section class="oc-sec"><h2>Used and expired</h2><div class="dash-card">${VC.filter(v => v.st !== 'ok').map(row).join('')}</div></section>`;
+  }
+  document.getElementById('vc').innerHTML = html;
+}
+</script>
+</body>
+</html>

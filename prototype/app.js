@@ -223,6 +223,7 @@ const ACCOUNT_ROWS = `${[
             ['invoices.html', 'receipt-long', 'Invoices'],
             ['quotes.html', 'request-quote', 'Quotes'],
             ['complaints.html', 'chat', 'Complaints'],   // its own account page (Cornel 2026-11-17); Support stays under Need help?
+            ['vouchers.html', 'sell', 'Vouchers'],   // every personal discount code (V4, Cornel 2026-11-19, sketch A)
             ['personal-details.html', 'person', 'Personal Details'],
             ['addresses.html', 'location-on', 'Addresses'],
           ].map(dropRow).join('')}
@@ -394,7 +395,7 @@ document.body.insertAdjacentHTML('beforeend', SHELL_OVERLAYS);
 // Local routes: #slug links that have a screen in the prototype. Everything else stays an anchor.
 const ROUTES = {
   'businesscards-printing': 'business-cards.html',
-  'addresses': 'addresses.html', 'personal-details': 'personal-details.html',   // My account (help articles link here)
+  'addresses': 'addresses.html', 'personal-details': 'personal-details.html', 'vouchers': 'vouchers.html',   // My account (help articles link here)
   // Promotional Print hub (home category card, menu, breadcrumbs)
   'promotional-printing': 'promotional.html', 'promotional-products': 'promotional.html',
   // About us + Our culture (marketing pages, rebuilt from live with library components only)

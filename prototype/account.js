@@ -177,6 +177,18 @@ const COMPLAINTS = [
     lines: [{ img: 'p4.png', name: 'Classic Business Cards', spec: '1,000 pcs · Soft-touch · Double-sided', gross: 128 }],
     events: [['Complaint submitted', 'Mon 19 Oct · wrong quantity'], ['Case accepted', 'Tue 20 Oct · confirmed valid'], ['Missing items reprinted', 'Thu 22 Oct'], ['Resolved', 'Mon 26 Oct · delivered']] },
 ];
+// ---------- Vouchers (vouchers.html; V4, Cornel 2026-11-19, sketch A: every personal discount code, ours): what you get, the code, valid until,
+// where it came from (a complaint: the case and what it was about), Available / Used (on which order) / Expired. VIP (−4%) is automatic, not a voucher.
+const VOUCHERS = [
+  { code: 'SORRY-1042', val: '€20 off', what: 'Your next order, no minimum', until: 'Thu 31 Dec', complaint: 'CMP-1042', st: 'ok' },
+  { code: 'XMAS15', val: '15% off', what: 'Christmas cards and calendars, from €50', until: 'Thu 24 Dec', st: 'ok' },
+  { code: 'SHIPFREE-VIP', val: 'Free shipping', what: 'One order, any size', until: 'Sun 31 Jan', st: 'ok' },
+  { code: 'SORRY-1009', val: '€10 off', what: 'Your next order', until: 'Sat 31 Oct', complaint: 'CMP-1009', st: 'used', used: ['Mon 26 Oct', '8825510'] },
+  { code: 'WELCOME10', val: '10% off', what: 'Your first order', until: 'Sat 31 Oct', st: 'used', used: ['Mon 12 Oct', '8814402'] },
+  { code: 'AUTUMN5', val: '€5 off', what: 'Orders from €40', until: 'Sat 31 Oct', st: 'expired' },
+];
+const VOUCHER_STATES = { ok: ['ok', 'Available'], used: ['', 'Used'], expired: ['', 'Expired'] };   // available: the light green dot (as Paid), the rest grey
+const voucherList = () => NEW_CUSTOMER ? [] : VOUCHERS.map(v => ({ ...v, status: VOUCHER_STATES[v.st] }));
 let complaintsDone = {};
 try { complaintsDone = JSON.parse(localStorage.getItem('hp-complaints')) || {}; } catch (e) {}
 const COMPLAINT_STATES = { info: ['act', 'More information needed'], progress: ['go', 'In progress'], resolved: ['', 'Resolved'] };
