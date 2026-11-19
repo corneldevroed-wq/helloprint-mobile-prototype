@@ -5,6 +5,13 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## PDP design options for logo products (Nov 19, 2026)
+- **2026-11-19 — Logo products get two design options, as live: "I want to upload my design later" and "Upload & customise your logo".**
+  `logo: true` in products.js (330 ml mug, Basic Cotton Bags, Premium Tote Bags, Sol's Imperial T-shirt; pens have no PDP yet).
+  Upload later first, the same order as print. No Canva, no artwork upload. Desktop cards, the bar drop-up and the mobile design
+  sheet all follow it; the CTA reads "Customise your logo" and only shows the toast "Opening the logo editor…" (like Canva; the editor
+  itself is not in the prototype).
+
 ## PDP delivery (Nov 19, 2026)
 - **11-19 — T-shirts: sizes first, the price steps under them** (Cornel, sketches/tshirt-qty-sketch.html A over B quantity-first and C a price table): per size a text field (the checkout's `.field`) with the size under it, the field and the size apart so you see where to type (Cornel, as live); a size with pieces gets the green outline. Under them the steps (5+, 10+, 25+ … pcs with the price each, yours green) and one line: "25 pcs: €329.99 · €13.20 each · 25 more for €11.00 each". Before: tiles with the size and the number in one, and only "€16.48 each now, €13.20 each at 25 pcs"; live shows "Price per piece" only.
 - **11-19 — Two dates wherever the delivery shows** (Cornel, sketches/delivery-dates-sketch.html B): desktop delivery tiles keep the big calendar date and get "latest …" in grey under the option name; "Our best value" green as "N days sooner"; the desktop order bar shows the option with "Estimated Tue 29 Sep — latest Wed 30 Sep" under it (was "Saver · arrives Tue 29 Sep"). Mobile: no date in the sticky bar (Cornel); its delivery list already had both dates. Rejected: A (bars only), C (the range in the calendar, "25–28" reads as a four-day delivery).

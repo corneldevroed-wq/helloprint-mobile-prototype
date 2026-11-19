@@ -399,7 +399,7 @@ const PRODUCTS = {
 
   // 330 ml Full Colour Ceramic Mug (helloprint.com/en-ie/basicwhitemug330ml)
   'ceramic-mug-330ml': {
-    name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumbTop: ['Gifts', '#corporate-gifts'], crumb: ['Mugs', '#personalised-mugs'],
+    logo: true, name: '330 ml Full Colour Ceramic Mug', cartName: '330 ml ceramic mugs', noun: 'mugs', crumbTop: ['Gifts', '#corporate-gifts'], crumb: ['Mugs', '#personalised-mugs'],
     img: 'assets/products/mug.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 17.77], [5, 36.01], [10, 61.43], [30, 147.36], [50, 217.90], [100, 412.32], [250, 896.18], [500, 1541.81], [1000, 2879.40], [2000, 4807.11]],
     delivery: [STANDARD_ONLY('Tue 6 Oct', 'mugs')],
@@ -417,7 +417,7 @@ const PRODUCTS = {
 
   // Basic Cotton Bags (helloprint.com/en-ie/cottonbagslonghandles)
   'basic-cotton-bags': {
-    name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
+    logo: true, name: 'Basic Cotton Bags', cartName: 'Basic cotton bags', noun: 'bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/cotton-bag.webp', priceMult: 1, defaultQty: 100,
     qty: [[100, 181.99], [150, 238.32], [200, 294.66], [250, 350.99], [500, 650.99], [1000, 1128.99], [2500, 2488.99], [5000, 4506.99]],
     delivery: [STANDARD_ONLY('Mon 12 Oct', 'bags', '11–15 working days')],
@@ -446,7 +446,7 @@ const PRODUCTS = {
 
   // Premium Tote Bags (helloprint.com/en-ie/cottonbagslonghandles140gm)
   'premium-tote-bags': {
-    name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
+    logo: true, name: 'Premium Tote Bags', cartName: 'Premium tote bags', noun: 'tote bags', crumbTop: ['Bags', '#promotional-bags'], crumb: ['Tote Bags', '#printing-cottonbags'],
     img: 'assets/products/premium-tote.webp', priceMult: 1, defaultQty: 100,
     qty: [[1, 29.99], [10, 89.99], [25, 164.99], [50, 274.99], [100, 477.99], [250, 1224.99]],   // 10–50 ~
     delivery: FLYER_DELIVERY.map((d, i) => ({ ...d, extra: [0, 31, 48][i], info: d.info.replace('flyers', 'bags') })),
@@ -476,7 +476,7 @@ const PRODUCTS = {
 
   // Sol's Imperial T-shirt (bestseller on helloprint.com/en-ie/tshirt-printing → /tshirtbasicroundneck)
   'sols-imperial-tshirt': {
-    name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumbTop: ['Clothing', '#clothing-printing'], crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
+    logo: true, name: 'Sol’s Imperial T-shirt', cartName: 'Sol’s Imperial T-shirts', noun: 't-shirts', crumbTop: ['Clothing', '#clothing-printing'], crumb: ['T-Shirts', '#tshirt-printing'], badge: 'Best Seller',
     img: 'assets/products/tshirt.webp', priceMult: 1, defaultQty: 10,
     // Size mix instead of a quantity list: the total is the quantity (live sizes S–XXL)
     sizes: ['S', 'M', 'L', 'XL', 'XXL'], defaultSizes: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 },
