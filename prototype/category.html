@@ -7,9 +7,9 @@
 <title>HelloPrint</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzb">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzb">
-<link rel="stylesheet" href="pages.css?v=20261205zzb">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzc">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzc">
+<link rel="stylesheet" href="pages.css?v=20261205zzc">
 </head>
 <body data-desktop>
 <!-- Category page from a page spec (2026-11-14, test; sketches/marketing-page-sketch.html): category.html?page=<slug> reads
@@ -22,8 +22,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261205zzb"></script>
-<script src="../design-system/components.js?v=20261205zzb"></script>
+<script src="app.js?v=20261205zzc"></script>
+<script src="../design-system/components.js?v=20261205zzc"></script>
 <script>
   // --- The page spec: front matter + `## block` sections (syntax at the top of pages/hospitality.md) ---
   function parsePage(md) {
@@ -125,6 +125,7 @@
         a.classList.toggle('active', on);
       });
     }, { passive: true });
+    markFastDelivery();   // the cards came in after load: Fast delivery as on every product card (app.js)
   }).catch(e => { main.insertAdjacentHTML('afterbegin', `<section class="hero"><div class="intro"><h1>No page "${h(pageSlug)}"</h1><p>pages/${h(pageSlug)}.md could not be loaded (${h(e.message)}).</p></div></section>`); });
 </script>
 </body>

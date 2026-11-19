@@ -446,6 +446,26 @@ document.addEventListener('click', e => {
   if (page && !document.getElementById(id)) { e.preventDefault(); location.href = page; }   // an anchor on this page wins (e.g. the Help Centre sub-topic "Payment")
 });
 
+// Fast delivery on product cards (Cornel 2026-11-19): the products live en-ie shows with its green "Delivery <date>" on a product tile
+// (checked on /flyers, /promotional-printing, /catering-and-hospitality-printing, /deals) get our "Fast delivery" label under the price, as on the
+// PFPs: one quiet white label, on every product card before the cart (not the cart's cross-sell, not My Account; the PFPs do their own from live data).
+// Matched by name, so a fast product carries it on every page. Desktop: in a row with one, the other cards keep an invisible one (prices level).
+const FAST_DELIVERY = ['classic flyers', 'standard flyers', 'eco flyers', 'half fold leaflets', 'tri fold leaflets', 'trifold leaflets', 'z fold leaflets',
+  'roll fold leaflets', 'cross fold leaflets', 'standard posters', 'posters', 'letterheads', 'greeting cards', 'stapled booklets', 'placemats', 'notepads',
+  'a board sign', 'banners', 'custom banners', 'beach flags'];
+const fastName = n => FAST_DELIVERY.includes(n.toLowerCase().replace(/[^a-z]+/g, ' ').replace(/\bfolded\b/, 'fold').replace(/\bleaflet\b/, 'leaflets').trim());
+function markFastDelivery() {
+  const cards = [...document.querySelectorAll('.product')].filter(c => !c.closest('.pf-main, .xsell, .account-page') && !c.querySelector('.pf-eta'));
+  cards.forEach(c => { const n = c.querySelector('.name'); if (!n || !fastName(n.textContent)) return;
+    const pr = c.querySelector('.prices'); (pr ? pr.parentElement : c).insertAdjacentHTML('beforeend', '<p class="pf-eta">Fast delivery</p>'); c.dataset.fast = 1; });
+  if (!DESK) return;
+  const rows = new Map();   // cards per row: the same grid, the same top
+  cards.forEach(c => { const k = c.parentElement; const t = Math.round(c.getBoundingClientRect().top); const key = [...rows.keys()].find(x => x.g === k && Math.abs(x.t - t) < 4) || { g: k, t }; rows.set(key, [...(rows.get(key) || []), c]); });
+  rows.forEach(row => { if (!row.some(c => c.dataset.fast)) return;
+    row.filter(c => !c.dataset.fast).forEach(c => { const pr = c.querySelector('.prices'); (pr ? pr.parentElement : c).insertAdjacentHTML('beforeend', '<p class="pf-eta none" aria-hidden="true">&nbsp;</p>'); }); });
+}
+document.addEventListener('DOMContentLoaded', markFastDelivery);
+
 // Prices follow the VAT toggle; the choice is remembered between pages.
 let inclVat = false;
 try { inclVat = localStorage.getItem('hp-vat') === 'incl'; } catch (e) {}
