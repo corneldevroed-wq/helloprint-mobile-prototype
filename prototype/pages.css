@@ -236,7 +236,7 @@
 .opt .swatch img, .gi-vis .swatch img { position: absolute; }
 .summary { background: var(--light-grey); padding-bottom: 8px; }
 .summary .head { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border-bottom: 1px solid var(--line); }
-.summary .head h3 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; color: var(--dark-green); }
+.summary .head h3 { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.4px; color: var(--dark-green); }
 .summary .tag { display: flex; align-items: center; gap: 4px; padding: 2px; border: 1px solid var(--mid-grey); border-radius: var(--r-m); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-green); }
 .summary .tag img { width: 20px; height: 20px; }
 .summary dl { display: flex; flex-direction: column; gap: 8px; padding-top: 8px; }
@@ -402,7 +402,7 @@ body.buybar-on .toast { bottom: 100px; }
 .co-steps li.current { border-top-color: var(--light-green); color: var(--black); font-weight: 700; }
 .co-steps li.done { border-top-color: var(--light-green); color: var(--link); }
 .co-head { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-.co-head h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
+.co-head h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.4px; }
 .phone-prefix { flex: 0 0 auto; }
 .phone-prefix select { width: 112px; padding-left: 36px; padding-right: 28px; background: var(--light-grey) url(../design-system/icons/chevron-down.svg) no-repeat right 8px center / 20px 16px; }
 .phone-prefix .flag { position: absolute; left: 12px; top: 16.5px; width: 16px; height: 10.67px; border-radius: var(--r-s); object-fit: cover; pointer-events: none; }
@@ -1114,7 +1114,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .d-tabs { display: flex; border-bottom: 1px solid var(--line); }   /* same light line as the mobile tabs (Cornel, 2026-10-28) */
 .d-tabs a { padding: 6px 12px; margin-bottom: -1px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--dark-grey); border-bottom: 2px solid transparent; }
 .d-tabs a[aria-current] { font-weight: 600; color: var(--black); border-bottom-color: var(--light-green); }
-.d-sec h2 { font-weight: 800; font-size: var(--t-24); line-height: 28px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 16px; }
+.d-sec h2 { font-weight: 800; font-size: var(--t-24); line-height: 32px; letter-spacing: -0.48px; color: var(--dark-green); margin-bottom: 16px; }   /* 24/32 as every section title (was 28; audit 11-19) */
 #d-about h2 { margin-bottom: 8px; }
 #d-about p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }
 #d-about p + p { margin-top: 8px; }
@@ -1640,7 +1640,7 @@ html:not(.desk) .tb-prom .tb-txt li svg path { stroke: var(--dark-green); }
 .so-img { aspect-ratio: 4 / 3; border-radius: var(--r-l); overflow: hidden; background: var(--light-grey); }
 .so-img img { width: 100%; height: 100%; object-fit: cover; }
 .so-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-.so-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }   /* same as the material titles */
+.so-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }   /* same as the material titles */
 .so-txt p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* body text: 12/18 mobile, 14/22 desktop, as the materials */
 .so-txt .pill { margin-top: 8px; padding: 6px 16px; }
 .so-row.section .so-txt h2 { margin: 0; }   /* .section: the row is a section of its own (marketing pages, Cornel 2026-11-15): its title is a section title, 8 to the text (the column's gap) */
@@ -1663,7 +1663,7 @@ html:not(.desk) .tb-prom .tb-txt li svg path { stroke: var(--dark-green); }
 
 /* Mobile: a promo card + its categories is its own block, 32px from the blocks around it (other sections stay 16px) */
 html:not(.desk) .plp > section + .plp-feature, html:not(.desk) .plp > .plp-feature + section { margin-top: 16px; }
-.plp .so-row:not(.section) .so-txt h2 { margin-bottom: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); letter-spacing: 0; color: var(--black); }   /* the title of a content row = the material title, as "Make it stand out" (Cornel) */
+.plp .so-row:not(.section) .so-txt h2 { margin-bottom: 0; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); letter-spacing: 0; color: var(--black); }   /* the title of a content row = the material title, as "Make it stand out" (Cornel) */
 .desk .plp .so-row:not(.section) .so-txt h2 { font-size: var(--t-16); line-height: var(--lh-16); }
 .so-txt p a { color: var(--link); text-decoration: underline; }   /* inline links as the breadcrumb links */
 

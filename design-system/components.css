@@ -89,7 +89,7 @@ body.menu-open { overflow: hidden; }
 .sheet { position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100% - 48px); background: var(--white); border-radius: var(--r-xl) var(--r-xl) 0 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); }
 .sheet.dragging { transition: none; }
 .sheet-head { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 15px 8px 16px; }
-.sheet-head h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.36px; padding: 4px 12px 4px 0; }
+.sheet-head h2 { font-size: var(--t-20); line-height: var(--lh-20); letter-spacing: -0.4px; padding: 4px 12px 4px 0; }
 .sheet-head .close img { width: 19.1px; height: 19.2px; display: block; }
 /* A popup over a popup (Edit / Add address over the address list): ← back to the popup under it, top left; ✕ closes both (Cornel, 2026-11-06) */
 .sheet-back { display: grid; place-items: center; width: 24px; height: 24px; margin-right: 8px; }
@@ -146,7 +146,7 @@ body.menu-open { overflow: hidden; }
 .cart-side .totals { margin-top: -8px; }   /* 8px under the products (mobile) and under the upsells (desktop) */
 .cart-main > h2 { margin-bottom: -8px; }   /* mobile "Order summary": the section title (style guide), 8 to its block */
 .addons { display: flex; flex-direction: column; gap: 8px; }
-.cart-side h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.36px; }
+.cart-side h2 { font-size: var(--t-20); line-height: var(--lh-20); padding: 4px 0; letter-spacing: -0.4px; }
 .switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; border: 0; padding: 0; border-radius: var(--r-pill); background: var(--mid-grey); cursor: pointer; transition: background .2s; }
 .switch::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #f8f8f8; transition: transform .2s; }
 .switch[aria-checked="true"] { background: var(--light-green); }
@@ -582,7 +582,7 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .blog-img { aspect-ratio: 16 / 9; overflow: hidden; background: var(--light-grey); }   /* grey until the photo is there */
 .blog-img img { width: 100%; height: 100%; object-fit: cover; }
 .blog-txt { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
-.blog-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); }
+.blog-txt h3 { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }   /* 14/22: one line height per size (audit 11-19, was 16.8) */
 .blog-txt p { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .blog-txt .pill { margin-top: auto; padding: 6px 16px; }
 .desk .blog-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; overflow: visible; margin-right: 0; padding-right: 0; }

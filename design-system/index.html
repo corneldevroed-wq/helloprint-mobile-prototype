@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,expand_more,local_mall,more_vert,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205zza">
-<link rel="stylesheet" href="components.css?v=20261205zza">
-<link rel="stylesheet" href="guide.css?v=20261205zza">
+<link rel="stylesheet" href="tokens.css?v=20261205zzb">
+<link rel="stylesheet" href="components.css?v=20261205zzb">
+<link rel="stylesheet" href="guide.css?v=20261205zzb">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -174,11 +174,11 @@
     { name: 'Page title', ex: '<div class="plp"><div class="hero"><h1 data-m>Business Card Printing</h1></div></div>', meta: 'h1',
       use: 'One per page, dark green, extra bold: 24/28 mobile, 28/32 desktop, one step above the section titles (24/32) so it reads as the page title (Cornel 2026-11-19; 32/40 was too big for a shop). Not the Display title (Help Centre, marketing heroes). Never a full stop.' },
     { name: 'Section title', ex: '<div class="plp"><h2 data-m>Find the perfect paper</h2></div>', meta: 'h2',
-      use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile. In a narrow column it stays 20/24 on desktop: the headings inside a help article (.ha-text h2). The Order overview title in the cart and checkout sidebar is 24/32 like the section titles next to it (Cornel, 2026-11-06). Marketing pages (main.marketing: about us, our culture): 32/40 desktop, next to the 48 display title; mobile stays 20/24.' },
+      use: '20/24 mobile, 24/32 desktop. 8px to its block. Also the title on a photo card on mobile. In a narrow column it stays 20/24 on desktop: the headings inside a help article (.ha-text h2). The Order overview title in the cart and checkout sidebar is 24/32 like the section titles next to it (Cornel, 2026-11-06). A title inside a card (the empty cart) is 20/24 on desktop too. One line height and letter spacing per size: 24/32 (−0.48), 20/24 (−0.4); the PDP sections included (audit 11-19). Marketing pages (main.marketing: about us, our culture): 32/40 desktop, next to the 48 display title; mobile stays 20/24.' },
     { name: 'Lead line', ex: '<div class="account-page"><h1>Invoices</h1><p class="oc-lead" data-m>Every invoice and credit note, and what is still open.</p></div>', meta: '.oc-lead',
       use: 'The grey line right under a page title (My account, order confirmed): 14/22 --dark-grey, 4 closer to the title; a status label or a bold word inside it black. Not for text inside a card (audit 11-18).' },
     { name: 'Card title', ex: '<ul class="hc-rows"><li><a data-m href="#typography">Where is my order?</a></li></ul>', meta: '.hc-rows a, .cat .title, .dc-t',
-      use: 'Titles in cards, FAQ questions, question rows: semibold, black. 14 mobile, 16/22 desktop.' },
+      use: 'Titles in cards, FAQ questions, question rows: semibold, black. 14/22 mobile, 16/22 desktop. A content row that is a section of its own takes an h2 in this style, rows under a section title an h3 (audit 11-19).' },
     { name: 'Body', ex: '<div class="plp"><div class="hero"><div class="intro"><p data-m>Make a lasting first impression with business cards in every size, paper and finish.</p></div></div></div>', meta: '.intro p, .cat-lead',
       use: 'One body text: 12/18 mobile, 14/22 desktop, dark grey. Black only on article pages.' },
     { name: 'Label', ex: '<div class="product"><span class="from" data-m>100 pieces for</span></div>', meta: '.product .from, small',
@@ -673,6 +673,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205zza"></script>
+<script src="guide.js?v=20261205zzb"></script>
 </body>
 </html>
