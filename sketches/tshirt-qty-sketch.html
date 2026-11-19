@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-shirt Quantity Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zze">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zze">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261205zze">
+<!-- Sketch (not linked; Cornel 2026-11-19): t-shirt quantities with prices on the PDP. Now (and on live): pieces per size (S–XXL), the total is the
+     quantity, one line "€16.48 each now, €13.20 each at 25 pcs"; live: "Price per piece €20.27". You can't see what 25, 50 or 100 cost.
+     The prototype's Sol's Imperial T-shirt prices (Recommended: Deep Black, chest + back, full colour). Real components: .size-mix / .sm-tile (PDP),
+     .qty-list / .qrow (flyers' quantity list), .pill. -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 32px 24px 96px; }
+  .wrap > h1 { margin: 0; font-size: 24px; color: var(--black); letter-spacing: 0; line-height: 1.3; }
+  .chg { max-width: 1000px; margin: 16px 0 40px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg ul { margin: 0; padding-left: 20px; }
+  .chg .pick { margin: 8px 0 0; color: var(--dark-green); font-weight: 600; }
+  .sk-opt { margin-bottom: 56px; }
+  .sk-opt > h2 { margin: 0; font-size: 18px; line-height: 1.3; color: var(--black); letter-spacing: 0; }
+  .sk-opt > h2 em { font-style: normal; color: var(--light-green); }
+  .sk-opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .box { padding: 16px; border-radius: 16px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .sk-mob .box { width: 358px; }
+  .box.d { width: 737px; padding: 24px; }
+  .box .opt-title { margin: 0 0 8px; font-weight: 600; font-size: var(--t-14); }
+  .box .opt-title span { font-weight: 400; color: var(--dark-grey); }
+  .box .opt-info { margin: 8px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .d .opt-info { font-size: var(--t-14); line-height: var(--lh-14); }
+  /* sketch only */
+  .sk-sizes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .sk-size { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: text; }
+  .sk-size .field { width: 100%; }
+  .sk-size input { text-align: center; padding: 0 4px; }
+  .sk-size .field.on input { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); font-weight: 600; }
+  .sk-size .nm { font-size: var(--t-14); line-height: var(--lh-14); }
+  .tiers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tiers .pill { flex-direction: column; align-items: flex-start; gap: 0; padding: 6px 12px; border-radius: var(--r-m); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); }
+  .tiers .pill small { font-weight: 400; color: var(--dark-grey); }
+  .tiers .pill.on { border: 2px solid var(--light-green); padding: 5px 11px; }
+  .tiers .pill.on small { color: var(--black); }
+  .left { margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .left b { color: var(--black); }
+  .left.done b { color: var(--link); }
+  table.tier { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: var(--t-12); line-height: var(--lh-12); }
+  .d table.tier { font-size: var(--t-14); line-height: var(--lh-14); }
+  table.tier th { text-align: left; font-weight: 600; color: var(--dark-grey); padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  table.tier td { padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  table.tier td:nth-child(n+2), table.tier th:nth-child(n+2) { text-align: right; }
+  table.tier tr.on td { font-weight: 600; background: var(--selected); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>T-shirt quantities with prices</h1>
+  <div class="chg">
+    <ul>
+      <li><b>Now (prototype and live):</b> you type the pieces per size (S–XXL); the total is the quantity. One price line: "€16.48 each now, €13.20 each at 25 pcs" (live: "Price per piece €20.27"). What 50 or 100 cost, you only find out by typing.</li>
+      <li><b>A:</b> the size tiles stay first; under them the steps with their price each, yours in green, and a nudge to the next step ("15 more for €13.20 each").</li>
+      <li><b>B:</b> first the quantity, as on every other product (the quantity list in 2 columns with each and total), then you spread it over the sizes ("6 of 10 placed").</li>
+      <li><b>C:</b> the size tiles, and under them a small price table (quantity · each · total), your row highlighted.</li>
+      <li>The size and the field apart (Cornel): a real text field to type in (the checkout's, 44 high), the size under it; a size with pieces gets the green outline. In all three.</li>
+      <li>Type in the fields: the sketches follow (Recommended prices).</li>
+    </ul>
+    <p class="pick">My pick: A. A t-shirt order starts with the people who wear them (how many S, M, L…), so the sizes stay first and the total follows; the steps show at a glance what more costs per piece, and the nudge turns that into an upsell. B makes you pick a number first and then fit the sizes to it (an extra rule to meet); C is clear but heavier.</p>
+  </div>
+</div>
+<script>
+  const TIERS = [[5, 99.99], [10, 164.83], [25, 329.99], [50, 549.99], [100, 899.99], [250, 1849.99], [500, 3249.99]];
+  const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+  const eur = n => '€' + n.toFixed(2);
+  // price at a quantity: the tier at or below it, per piece (as the prototype's qty table)
+  const each = q => { const t = [...TIERS].reverse().find(([n]) => q >= n) || TIERS[0]; return t[1] / t[0]; };
+  const tierOf = q => ([...TIERS].reverse().find(([n]) => q >= n) || TIERS[0])[0];
+  const next = q => TIERS.find(([n]) => n > q);
+  // the size and the field apart (Cornel): a real text field (.field, the checkout's) to type in, the size under it; a size with pieces green
+  const tiles = (mix, id) => `<div class="sk-sizes">${SIZES.map(z => `<label class="sk-size"><span class="field${mix[z] ? ' on' : ''}"><input inputmode="numeric" placeholder="0" value="${mix[z] || ''}" data-z="${z}" data-box="${id}" aria-label="${z}: pieces"></span><span class="nm">${z}</span></label>`).join('')}</div>`;
+  const total = mix => Object.values(mix).reduce((a, b) => a + b, 0);
+  const STATE = {};
+  const views = {
+    a: (s, d) => { const q = total(s.mix), nx = next(q);
+      return `<p class="opt-title">Sizes <span>${q} pcs</span></p>${tiles(s.mix, s.id)}
+        <div class="tiers">${TIERS.slice(0, d ? 7 : 5).map(([n]) => `<span class="pill${q && tierOf(q) === n ? ' on' : ''}">${n}+ pcs<small>${eur(each(n))} each</small></span>`).join('')}</div>
+        <p class="opt-info">${q ? `${q} pcs: <b>${eur(each(q) * q)}</b> · ${eur(each(q))} each${nx ? ` · ${nx[0] - q} more for ${eur(each(nx[0]))} each` : ''}` : 'Type how many t-shirts you need per size.'}</p>`; },
+    b: (s, d) => { const q = s.qty, placed = total(s.mix), left = q - placed;
+      return `<p class="opt-title">Quantity</p><div class="qty-list" role="radiogroup" style="--qrows:${d ? 4 : 4}">${TIERS.slice(0, d ? 8 : 6).map(([n, p]) => `<button class="qrow" role="radio" aria-checked="${n === q}" data-q="${n}" data-box="${s.id}"><span class="radio"></span><span class="n">${n} pcs</span><span class="e">${eur(p / n)} each</span><span class="p">${eur(p)}</span></button>`).join('')}</div>
+        <p class="opt-title" style="margin-top:16px">Sizes <span>spread your ${q} t-shirts</span></p>${tiles(s.mix, s.id)}
+        <p class="left${left === 0 ? ' done' : ''}">${left === 0 ? '<b>All ' + q + ' placed</b>' : left > 0 ? `<b>${placed} of ${q}</b> placed · ${left} to go` : `<b>${-left} too many</b> · choose ${placed} pcs or take some off`}</p>`; },
+    c: (s, d) => { const q = total(s.mix);
+      return `<p class="opt-title">Sizes <span>${q} pcs</span></p>${tiles(s.mix, s.id)}
+        <table class="tier"><tr><th>Quantity</th><th>Each</th><th>Total</th></tr>${TIERS.slice(0, d ? 7 : 6).map(([n, p]) => `<tr${q && tierOf(q) === n ? ' class="on"' : ''}><td>${n}+ pcs</td><td>${eur(p / n)}</td><td>${eur(p)}</td></tr>`).join('')}</table>
+        <p class="opt-info">${q ? `Your ${q} pcs: <b>${eur(each(q) * q)}</b>` : 'Type how many t-shirts you need per size.'}</p>`; }
+  };
+  const OPTS = [['a', 'A · Sizes first, the price steps under them', 'The tiles as now; the steps as small pills with the price each, yours green; one line with your total, each and the next step.', true],
+    ['b', 'B · Quantity first (as every product), then spread over the sizes', 'The quantity list in 2 columns (each + total) as on flyers; under it the size tiles with how many are still to place.'],
+    ['c', 'C · Sizes first, a price table under them', 'The tiles as now; a small table quantity · each · total, your row highlighted.']];
+  const wrap = document.querySelector('.wrap');
+  wrap.insertAdjacentHTML('beforeend', OPTS.map(([k, h, p, pick]) => `<section class="sk-opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row">
+    <div class="sk-mob"><p class="lbl">Mobile 390 (the sheet / page column)</p><div class="box" id="${k}m"></div></div>
+    <div><p class="lbl">Desktop (the 737 options column)</p><div class="box d" id="${k}d"></div></div></div></section>`).join(''));
+  const draw = id => { const s = STATE[id]; const host = document.getElementById(id); const f = document.activeElement?.dataset?.box === id ? document.activeElement.dataset.z : null;
+    host.innerHTML = views[id[0]](s, id.endsWith('d')); if (f) { const i = host.querySelector(`[data-z="${f}"]`); i.focus(); i.setSelectionRange(9, 9); } };
+  ['a', 'b', 'c'].forEach(k => ['m', 'd'].forEach(v => { const id = k + v; STATE[id] = { id, mix: { S: 2, M: 4, L: 3, XL: 1, XXL: 0 }, qty: 10 }; draw(id); }));
+  document.addEventListener('input', e => { const i = e.target.closest('[data-z]'); if (!i) return; i.value = i.value.replace(/\D/g, ''); STATE[i.dataset.box].mix[i.dataset.z] = +i.value || 0; draw(i.dataset.box); });
+  document.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; STATE[b.dataset.box].qty = +b.dataset.q; draw(b.dataset.box); });
+</script>
+</body>
+</html>

@@ -893,16 +893,20 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .pay-later .check { font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); }   /* Pay by Link: the strip of a Pay now method (.pm), the share option in body text */
 .pl-fields { display: flex; flex-direction: column; gap: 8px; }
 .pl-fields[hidden] { display: none; }
-/* T-shirts: pieces per size (the total is the quantity). Tiles like the option cards; a size with pieces is selected */
+/* T-shirts: pieces per size (the total is the quantity). The field and the size apart (Cornel 2026-11-19): the text field (.field) to type in, the
+   size under it; a size with pieces gets the green outline. Under them the price steps, yours green (sketches/tshirt-qty-sketch.html A) */
 .size-mix { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-.sm-tile { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 8px 0; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); cursor: text; }
-.sm-tile b { font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
-/* Same type as the option cards: size like the option name (14px semibold), the number 14px regular.
-   The input is 16px (smaller makes iOS zoom in on focus), scaled down to 14px */
-.sm-tile input { width: 114%; height: 20px; margin: 0 -7%; padding: 0; border: 0; background: transparent; text-align: center; font: 400 var(--t-16)/var(--lh-16) Inter, sans-serif; color: var(--black); outline: none; font-variant-numeric: tabular-nums; transform: scale(.875); }
-.sm-tile input::placeholder { color: var(--dark-grey); font-weight: 400; }
-.sm-tile.on { border: 2px solid var(--light-green); padding: 7px 0; }
-.sm-tile:focus-within { border: 2px solid var(--light-green); padding: 7px 0; }
+.sm-size { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: text; }
+.sm-size .field { width: 100%; }
+.sm-size input { padding: 0 4px; text-align: center; }
+.sm-size.on input { border-color: var(--light-green); box-shadow: 0 0 0 1px var(--light-green); font-weight: 600; }
+.sm-name { font-size: var(--t-14); line-height: var(--lh-14); }
+.sm-tiers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.sm-tier { display: flex; flex-direction: column; padding: 4px 8px; border: 1px solid var(--outline); border-radius: var(--r-m); font-size: var(--t-12); line-height: var(--lh-12); }
+.sm-tier b { font-weight: 600; }
+.sm-tier small { color: var(--dark-grey); }
+.sm-tier.on { border: 2px solid var(--light-green); padding: 3px 7px; }
+.sm-tier.on small { color: var(--black); }
 #saveUpdate:disabled, #toDesign:disabled { opacity: .45; }
 
 /* Promotional Print hub: the folded SEO text */
