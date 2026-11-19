@@ -152,9 +152,9 @@ design system + guide, prices for products without a live from-price. Gap histor
 - `design-system/icons/materials|printing|corners|bundling|banners|folds|envelopes|stickers` — icon set (SVG, 50×50). Sticker shapes
   (`stickers/round|oval|square|rounded|contour`) = the shape with its corner peeled; films are materials (`materials/film-white-gloss|white-matt|clear|white-eco|clear-eco`,
   the vinyls and PVC-free reuse them, silver film = `metallic-silver`), choice in `sketches/sticker-icons-sketch.html`.
-  Product kits (`sketches/kit-icons-sketch.html`, all A): `rollup/size-80|85|100|120|silver|black|premium|cardboard`, `aboard/a2|a1|b2|b1`,
+  Product kits (`sketches/kit-icons-sketch.html`, all A): `rollup/size-80|85|100|120` (the stands are the live photo: `prototype/assets/live-opts/rollup/stand-silver|black|premium|cardboard.webp`, as `photo` in the data), `aboard/a2|a1|b2|b1`,
   `tabletalkers/classic|triangle|triangle-m|triangle-s`, `folders/a4|a5|spine-1|5|10|15`, `notepads/bind-left|bind-top|holes-0|2|4|self-cover`,
-  `napkins/white|cream|fold-4|fold-8|print-*`, `materials/airlaid|tissue`. In the data an option names its icon as `icon: 'rollup/silver'`
+  `napkins/white|cream|fold-4|fold-8|print-*`, `materials/airlaid|tissue`. In the data an option names its icon as `icon: 'rollup/size-85'`
   (optVisual checks `o.icon` first); roller banners (Size, Stand), the folded business-card sizes and the PVC cards (Finish) use it.
   One-off materials (`sketches/oneoff-icons-sketch.html`): `neon` (yellow) / `neon-green|orange|pink` with a soft glow, `photo-paper`, `dot-foil`,
   `backlit`, `antique-white`, `paperwise-white`, `pvc-card-gloss|matt` (a plastic card, rounded corners).

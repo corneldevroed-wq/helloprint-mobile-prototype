@@ -572,10 +572,10 @@ const PRODUCTS = {
         { id: 'l', name: 'Large', sub: '120 x 200 cm', icon: 'rollup/size-120', mult: 1.55, info: 'The widest standard roller banner.' },
       ]},
       { key: 'stand', title: 'Stand', items: [
-        { id: 'silver-budget', name: 'Silver budget stand', sub: 'Basic base', icon: 'rollup/silver', mult: 1, info: 'A light aluminium stand with a free carry bag. Our recommended choice.' },
-        { id: 'black-budget', name: 'Black budget stand', sub: 'Basic base', icon: 'rollup/black', mult: 1.05, info: 'The same stand in black.' },
-        { id: 'silver-premium', name: 'Silver premium stand', sub: 'Premium base', icon: 'rollup/premium', mult: 1.6, info: 'A heavier, more stable base that lasts for years of events.' },
-        { id: 'cardboard', name: 'Cardboard stand', sub: 'Eco-friendly', icon: 'rollup/cardboard', mult: 1.4, info: 'A stand made from cardboard: a sustainable, eye-catching alternative.' },
+        { id: 'silver-budget', name: 'Silver budget stand', sub: 'Basic base', photo: 'assets/live-opts/rollup/stand-silver.webp', mult: 1, info: 'A light aluminium stand with a free carry bag. Our recommended choice.' },
+        { id: 'black-budget', name: 'Black budget stand', sub: 'Basic base', photo: 'assets/live-opts/rollup/stand-black.webp', mult: 1.05, info: 'The same stand in black.' },
+        { id: 'silver-premium', name: 'Silver premium stand', sub: 'Premium base', photo: 'assets/live-opts/rollup/stand-premium.webp', mult: 1.6, info: 'A heavier, more stable base that lasts for years of events.' },
+        { id: 'cardboard', name: 'Cardboard stand', sub: 'Eco-friendly', photo: 'assets/live-opts/rollup/stand-cardboard.webp', mult: 1.4, info: 'A stand made from cardboard: a sustainable, eye-catching alternative.' },
       ]},
       { key: 'material', title: 'Material', items: [
         { id: 'pvc', name: 'Standard PVC', sub: '510 gsm', color: '#f4f4f4', mult: 1, info: 'Sturdy, lies flat and doesn’t curl. Our recommended material.' },

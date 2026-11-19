@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzh">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzh">
-<link rel="stylesheet" href="pages.css?v=20261205zzh">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzk">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzk">
+<link rel="stylesheet" href="pages.css?v=20261205zzk">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261205zzh"></script>
-<script src="../design-system/components.js?v=20261205zzh"></script>
-<script src="products.js?v=20261205zzh"></script>
+<script src="app.js?v=20261205zzk"></script>
+<script src="../design-system/components.js?v=20261205zzk"></script>
+<script src="products.js?v=20261205zzk"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -634,7 +634,7 @@
     if (key === 'corners' && ['straight', 'rounded'].includes(o.id)) return `<span class="mi"><img src="../design-system/icons/corners/${o.id}.svg" alt=""></span>`;
     // Bundling (flyers): a stack of sheets with a paper band, fewer sheets per smaller bundle
     if (key === 'bundling') return `<span class="mi"><img src="../design-system/icons/bundling/${o.id === 'none' ? 'not-bundled' : 'per-' + o.id}.svg" alt=""></span>`;
-    return o.photo ? `<span class="ph"><img src="${o.photo}" alt="" loading="lazy"></span>`   // the copy with the live site's photos
+    return o.photo ? `<span class="ph${PRODUCT.copyOf ? ' big' : ''}"><img src="${o.photo}" alt="" loading="lazy"></span>`   // a live photo: icon size (hardware, e.g. roller banner stands); the whole card in the copy with the live site's photos
       : o.shape ? `<span class="shape" style="${o.shape}"></span>`
       : o.img ? `<img src="${P + o.img}" alt="" style="${o.imgSize}">`
       : o.swatch ? `<span class="swatch"><img src="${P + o.swatch}" alt="" style="left:0;top:0;width:37.5px;height:37.5px">${o.lines

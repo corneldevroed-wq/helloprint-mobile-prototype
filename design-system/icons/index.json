@@ -81,11 +81,13 @@
    "rollup/size-80": "80 × 200 cm",
    "rollup/size-85": "85 × 200 cm",
    "rollup/size-100": "100 × 200 cm",
-   "rollup/size-120": "120 × 200 cm",
-   "rollup/silver": "Silver stand",
-   "rollup/black": "Black stand",
-   "rollup/premium": "Premium stand",
-   "rollup/cardboard": "Cardboard stand"
+   "rollup/size-120": "120 × 200 cm"
+  },
+  "Roller banner stands (the live photo)": {
+   "../prototype/assets/live-opts/rollup/stand-silver.webp": "Silver stand",
+   "../prototype/assets/live-opts/rollup/stand-black.webp": "Black stand",
+   "../prototype/assets/live-opts/rollup/stand-premium.webp": "Premium stand",
+   "../prototype/assets/live-opts/rollup/stand-cardboard.webp": "Cardboard stand"
   },
   "A-boards": {
    "aboard/a2": "A2",
