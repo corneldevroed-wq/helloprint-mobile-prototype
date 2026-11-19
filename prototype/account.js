@@ -399,7 +399,7 @@ const downloadCsv = (name, rows) => { const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')], { type: 'text/csv' }));
   a.download = name; a.click(); URL.revokeObjectURL(a.href); showToast(`${name} is downloading`); };
 let accCur = null;   // { o, l } the popup is about
-const PRODUCT_PAGES = { 'Classic Business Cards': '#classic-business-cards', 'Standard Flyers': 'product.html?p=standard-flyers', 'Roller Banner': 'product.html?p=roller-banners', 'Basic Cotton Bags': 'product.html?p=basic-cotton-bags' };
+const PRODUCT_PAGES = { 'Classic Business Cards': 'product.html?p=classic-business-cards', 'Standard Flyers': 'product.html?p=standard-flyers', 'Roller Banner': 'product.html?p=roller-banners', 'Basic Cotton Bags': 'product.html?p=basic-cotton-bags', 'Tote bags': 'product.html?p=basic-cotton-bags' };   // a reorder opens the PDP, and the cart knows its quantities (Cornel 2026-11-19)
 function reorder(lines, no) {   // the same products, the same specs and design, in the cart; then to the cart
   setCart([...getCart(), ...lines.map(l => { const qty = parseInt(l.spec.replace(/,/g, '')) || 1;
     return { name: l.name, img: 'assets/' + l.img, bg: 'var(--light-grey)', href: PRODUCT_PAGES[l.name] || '#' + l.name.toLowerCase().replace(/\W+/g, '-'), qty,
