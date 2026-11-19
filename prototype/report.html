@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=photo_camera,send,upload,videocam&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205m">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205m">
-<link rel="stylesheet" href="pages.css?v=20261205m">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
+<link rel="stylesheet" href="pages.css?v=20261205n">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -26,10 +26,10 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205m"></script>
-<script src="account.js?v=20261205m"></script>
-<script src="upload.js?v=20261205m"></script>
-<script src="../design-system/components.js?v=20261205m"></script>
+<script src="app.js?v=20261205n"></script>
+<script src="account.js?v=20261205n"></script>
+<script src="upload.js?v=20261205n"></script>
+<script src="../design-system/components.js?v=20261205n"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -46,17 +46,19 @@
   function render() {
     const o = orderOf(st.order), prob = st.area && st.prob !== '' ? REPORT_AREAS[st.area][st.prob] : null, fix = REPORT_FIXES[st.fix];
     const delivered = o && o.step === 4, until = o && addDays(etaDate(o.lines[0].arrives), 10), closed = delivered && until < TODAY;
+    const left = delivered && Math.ceil((until - TODAY) / 864e5), warn = delivered && left <= 3, areas = delivered ? Object.keys(REPORT_AREAS) : ['Delivery'];   // V4 (11-19): 3 days or fewer = a warning; not delivered yet = delivery problems only
     const q = (h, body, hint = '') => `<section class="rp-q"><h2>${h}</h2>${hint ? `<p>${hint}</p>` : ''}${body}</section>`;
     const parts = [];
     parts.push(q('Which order?', `<label class="field"><select data-k="order" aria-label="Which order"><option value="">Choose one of your orders</option>${orders.map(x => `<option value="${x.no}"${x.no === st.order ? ' selected' : ''}>#${x.no} · ${esc(x.name)} · ${x.step === 4 ? `delivered ${x.lines[0].arrives}` : `arriving ${x.lines[0].arrives}`}</option>`).join('')}</select></label>
       ${!o ? '' : closed ? `<div class="oc-foot rp-band"><b>This order was delivered more than 10 days ago</b> (${o.lines[0].arrives}), so it can’t be reported through this form. Our team can still look at it with you. <a class="link" href="#chat">Chat with an agent</a></div>`
-        : `<div class="oc-foot rp-band">You can report a problem until <b>${delivered ? day(until) : '10 days after delivery'}</b>${delivered ? '' : ` (expected ${o.lines[0].arrives})`}<br>Add the photos we ask for and we solve it fastest.</div>
+        : `<div class="oc-foot rp-band">${warn ? `<b>Only ${left} day${left > 1 ? 's' : ''} left.</b> ` : ''}You can report a problem until <b>${delivered ? day(until) : '10 days after delivery'}</b>${delivered ? '' : ` (expected ${o.lines[0].arrives})`}<br>Add the photos we ask for and we solve it fastest.</div>
         <details class="spec-fold"><summary class="link">Why 10 days?</summary><table class="fold-table"><tbody><tr><td>Within 10 days</td><td>the printer or the carrier still accept a claim, so we solve it fast and in full</td></tr><tr><td>After 10 days</td><td>no longer through this form, but our team can still look at it with you in chat</td></tr></tbody></table></details>`}`));
     if (!o || closed) return finish(parts);
     if (o.lines.length > 1) parts.push(q('Which products?', `<div class="rp-checks">${o.lines.map((l, i) => `<label class="check"><input type="checkbox" data-p="${i}"${st.products.includes(i) ? ' checked' : ''}>${esc(l.name)} · ${l.spec.split(' · ')[0]}</label>`).join('')}</div>`));
     if (o.lines.length > 1 && !st.products.length) return finish(parts);
-    parts.push(q('What is the problem about?', `<div class="rp-pills">${Object.keys(REPORT_AREAS).map(a => `<button class="pill${a === st.area ? ' active' : ''}" type="button" aria-pressed="${a === st.area}" data-area="${a}">${a}</button>`).join('')}</div>
-      <details class="spec-fold"><summary class="link">Not sure which one to pick?</summary><table class="fold-table"><tbody><tr><td>Artwork / design</td><td>the file itself, or how it printed vs. your design</td></tr><tr><td>Product / print quality</td><td>the physical result: colour, cut or finish</td></tr><tr><td>Packaging</td><td>damaged or wrong packaging</td></tr><tr><td>Delivery</td><td>late, missing, or the wrong address</td></tr></tbody></table></details>`));
+    if (!delivered) st.area = 'Delivery';
+    parts.push(q('What is the problem about?', `<div class="rp-pills">${areas.map(a => `<button class="pill${a === st.area ? ' active' : ''}" type="button" aria-pressed="${a === st.area}" data-area="${a}">${a}</button>`).join('')}</div>
+      ${!delivered ? `<p class="pd-note">Not delivered yet, so you can only report a delivery problem now.</p>` : `<details class="spec-fold"><summary class="link">Not sure which one to pick?</summary><table class="fold-table"><tbody><tr><td>Artwork / design</td><td>the file itself, or how it printed vs. your design</td></tr><tr><td>Product / print quality</td><td>the physical result: colour, cut or finish</td></tr><tr><td>Packaging</td><td>damaged or wrong packaging</td></tr><tr><td>Delivery</td><td>late, missing, or the wrong address</td></tr></tbody></table></details>`}`));
     if (!st.area) return finish(parts);
     parts.push(q('What exactly happened?', `<label class="field"><select data-k="prob" aria-label="What happened"><option value="">Choose what happened</option>${REPORT_AREAS[st.area].map((p, i) => `<option value="${i}"${String(i) === String(st.prob) ? ' selected' : ''}>${p.t}</option>`).join('')}</select></label>`));
     if (!prob) return finish(parts);

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,local_mall,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205m">
-<link rel="stylesheet" href="components.css?v=20261205m">
-<link rel="stylesheet" href="guide.css?v=20261205m">
+<link rel="stylesheet" href="tokens.css?v=20261205n">
+<link rel="stylesheet" href="components.css?v=20261205n">
+<link rel="stylesheet" href="guide.css?v=20261205n">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -260,7 +260,7 @@
     { name: 'Primary', cls: '.btn.primary', ex: '<div class="w"><button class="btn primary">Continue to checkout</button></div>',
       use: 'The one main action of a view (add to cart, continue, pay). One per screen.' },
     { name: 'Primary, destructive', cls: '.btn.primary.danger', ex: '<div class="w" style="display:flex;gap:8px"><button class="btn outline">Keep my order</button><button class="btn primary danger">Yes, cancel it</button></div>',
-      use: 'An action you cannot undo (cancel an order), in --error. Always next to a secondary that keeps things as they are, which comes first.' },
+      use: 'An action you cannot undo (cancel an order, decline a quote), in --error. Always next to a secondary that keeps things as they are, which comes first.' },
     { name: 'Primary, disabled', cls: '.btn.primary:disabled', ex: '<div class="w"><button class="btn primary" disabled>Payment</button></div>', use: 'Until the step is complete.' },
     { name: 'Small button', cls: '.btn.small', ex: '<div class="w" style="display:flex;gap:8px"><button class="btn primary small">Review proof</button><button class="btn outline small">Upload new design</button></div>', use: '32 high, 14/22, 16 each side, mobile and desktop (Cornel 2026-11-17: the desktop choice on mobile too): actions inside a block (the to-dos in My account, an order line) where the big primary would be one too many (the primary is one per screen); right in the row of its block. The done upload’s Change in order confirmed is the same size.' },
     { name: 'Secondary', cls: '.btn.outline', ex: '<div class="w"><button class="btn outline">Continue shopping</button></div>', use: 'The second action next to a primary (No thanks, Continue shopping, Done). Dark green text. The only secondary button.' },
@@ -300,7 +300,7 @@
       use: 'Red outline and a short message under the field that says how to fix it.',
       ex: stage(w('<label class="field invalid"><input placeholder=" " value="cornel@" aria-label="Email address"><span class="fl">Email address</span><span class="field-error">Enter a valid email address</span></label>', 300)) }) +
     row({ name: 'Select', meta: [{ t: '.field select' }],
-      use: 'Same height, border and radius as a text field, with the arrow down on the right (12 from the edge). A choice you must make (the cancel reason in My account): <code>required</code> with an empty first option (“Choose a reason”), grey until something is chosen.',
+      use: 'Same height, border and radius as a text field, with the arrow down on the right (12 from the edge). A choice you must make (the reason to cancel an order or decline a quote in My account): <code>required</code> with an empty first option (“Choose a reason”), grey until something is chosen.',
       ex: stage(w('<label class="field"><select aria-label="Country code"><option>🇮🇪 +353</option><option>🇬🇧 +44</option></select></label>', 140) + w('<label class="field"><select required aria-label="Why do you want to cancel?"><option value="" selected disabled>Choose a reason</option><option>It takes too long</option></select></label>', 280)) }) +
     row({ name: 'Checkbox', meta: [{ t: '.check' }, { t: '--control' }],
       use: 'Rounded square, light green when on. Label dark grey, 12/18 on mobile, 14/22 on desktop (body text; Cornel 2026-11-06).',
@@ -485,10 +485,10 @@
       ex: stage(accReal(`<div class="dash-card"><div class="dash-row"><span class="img"><img src="${A}p4.png" alt=""></span><span class="t"><b>Classic Business Cards</b><small>500 pcs · Matt laminated · ordered 28 Oct</small></span><span class="acts"><button class="pill active" type="button">Reorder</button>${accIb('edit', 'Change options and reorder')}${accIb('download', 'Download proof')}</span></div>
         <div class="dash-row"><span class="img"><img src="${A}p3.png" alt=""></span><span class="t"><b>Standard Flyers</b><small>2,500 pcs · A5 · Gloss · ordered 24 Oct</small></span><span class="acts"><button class="pill active" type="button">Reorder</button>${accIb('edit', 'Change options and reorder')}${accIb('download', 'Download proof')}</span></div></div>`)) }) +
     row({ name: 'Status', meta: [{ t: '.status' }, { t: '.status.go' }, { t: '.status.ok' }, { t: '.status.act' }],
-      use: 'Where an order, invoice, quote or complaint stands: a dot + 12/18 semibold grey. Only <b>action needed</b> in colour (a light green pill, white text: Action needed, Quote ready); in progress a link-green dot (On its way, In production, Requested); paid a light green dot (<code>.status.ok</code>, Cornel 2026-11-17); waiting, done or closed a grey dot (Open, Delivered, Cancelled). One set of words per object, no rainbow.',
+      use: 'Where an order, invoice, quote or complaint stands: a dot + 12/18 semibold grey. Only <b>action needed</b> in colour (a light green pill, white text: Action needed, Quote ready); in progress a link-green dot (On its way, In production, Requested); paid a light green dot (<code>.status.ok</code>, Cornel 2026-11-17); waiting, done or closed a grey dot (Open, Delivered, Cancelled: an order, or a quote we cancelled). One set of words per object, no rainbow.',
       ex: stage('<span style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><span class="status act">Action needed</span><span class="status go">On its way</span><span class="status ok">Paid</span><span class="status">Delivered</span></span>') }) +
     row({ name: 'Tracker', wide: true, meta: [{ t: '.tracker' }, { t: 'li.done · li.now' }, SIZE],
-      use: 'Where an order is: Artwork · Proof · Printing · Delivery (a quote: Requested · Quote ready · Accepted), one 3px bar per step over the full width, the step under each (12/18): done light green with grey text, the current one light green with black semibold, still to come light grey. The look of the checkout steps; under the title of an order row.',
+      use: 'Where an order is: Artwork · Proof · Printing · Delivery (a quote: Requested · Quote ready · Accepted, or Expired / Declined / Cancelled as its last step), one 3px bar per step over the full width, the step under each (12/18): done light green with grey text, the current one light green with black semibold, still to come light grey. The look of the checkout steps; under the title of an order row.',
       ex: stage(accReal(`<div class="dash-card"><a class="dash-row" href="#account"><span class="img"><img src="${A}products/roller-banner.webp" alt=""></span><span class="t"><b>#8846210 · Event pack (3 items)</b><small>Estimated Fri 20 Nov — latest Mon 23 Nov</small></span><span class="status go">On its way</span><ol class="tracker"><li class="done">Artwork</li><li class="done">Proof</li><li class="done">Printing</li><li class="now">Delivery</li></ol></a></div>`)) }) +
     row({ name: 'Filters', wide: true, meta: [{ t: '.filter-row' }, { t: '.pill.active' }, { t: '.list-card' }, { t: '.find' }],
       use: 'On mobile the pills stay in one row that scrolls sideways to the screen edge (Cornel 2026-11-18). Over a list (Orders, Invoices, Quotes, Complaints): pills to filter, the chosen one dark green (<code>.pill.active</code>), the count in regular, labels short (To do, Complaint, Quote). The search is the first row inside the list’s card (<code>.list-card</code>), full width, as high as the header search (34 mobile, 38 desktop; --outline, pill), 16 above the column heads; when nothing matches, the line sits in the card under it (Cornel 2026-11-18: next to the pills it got cut off).',
@@ -658,6 +658,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205m"></script>
+<script src="guide.js?v=20261205n"></script>
 </body>
 </html>

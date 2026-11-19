@@ -21,11 +21,17 @@ const ORDERS = [
   { no: '8842119', name: 'Classic Business Cards', ref: 'PO-77120', placed: 'Mon 9 Nov', sub: '', status: ['go', 'On its way'], step: 3, x: { art: 12, ship: 24.20, shipLbl: 'DPD Ireland · standard', disc: 2, discLbl: 'Returning customer discount', method: 'Pay by invoice · 14 days' }, lines: [
     { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · Matt laminated · Double-sided', gross: 150.00, arrives: 'Thu 19 Nov', step: 3, title: 'On its way', text: 'DPD Ireland · tracking HP8842119IE', btns: ['Track parcel'] },
   ] },
-  { no: '8839004', name: 'Classic Business Cards', ref: 'PO-77131', placed: 'Fri 6 Nov', sub: 'Your proof is ready', status: ['act', 'Approve proof'], step: 1, x: { shipLbl: 'Free delivery', method: 'Card · Visa •••• 4242' }, lines: [
+  { no: '8839004', name: 'Classic Business Cards', ref: 'PO-77131', placed: 'Fri 6 Nov', sub: 'Your proof is ready', status: ['act', 'Action needed'], step: 1, x: { shipLbl: 'Free delivery', method: 'Card · Visa •••• 4242' }, lines: [
     { img: 'p4.png', name: 'Classic Business Cards', spec: '500 pcs · 85 × 55 mm · Double-sided · Matt', gross: 96.00, arrives: 'Mon 23 Nov', step: 1, proof: 'business-cards', title: 'Your proof is ready', text: 'Check it and approve it, or upload a new design on the proof page.', btns: ['Review proof'], foot: 'Approve by <b>14:00 on Wed 18 Nov</b> to keep your date: Estimated Mon 23 Nov — latest Tue 24 Nov' },
   ] },
   { no: '8830771', name: 'Standard Flyers', ref: 'PO-76982', quote: 'QT-5502', placed: 'Tue 3 Nov', sub: 'Estimated Tue 24 Nov — latest Wed 25 Nov', status: ['go', 'In production'], step: 2, x: { ship: 24.50, shipLbl: 'DPD Ireland · standard', method: 'Pay by invoice · 14 days' }, lines: [
     { img: 'p3.png', name: 'Standard Flyers', spec: '2,500 pcs · A5 · Gloss · Full colour, double-sided', gross: 188.00, arrives: 'Tue 24 Nov', step: 2, title: 'Printing has started', text: 'We print it now and ship it as soon as it’s ready' },
+  ] },
+  { no: '8836650', name: 'Standard Flyers', ref: 'PO-77003', placed: 'Fri 6 Nov', sub: 'Delivered Fri 13 Nov', status: ['', 'Delivered'], step: 4, x: { shipLbl: 'DPD Ireland · standard', ship: 9.90, method: 'Card · Visa •••• 4242' }, lines: [   // in the 10-day window (report until Mon 23 Nov)
+    { img: 'p3.png', name: 'Standard Flyers', spec: '1,000 pcs · A5 · Gloss · Full colour', gross: 64.00, arrives: 'Fri 13 Nov', step: 4, title: 'Delivered Fri 13 Nov', text: 'Left at reception' },
+  ] },
+  { no: '8833518', name: 'Stickers', ref: '', placed: 'Mon 2 Nov', sub: 'Delivered Mon 9 Nov', status: ['', 'Delivered'], step: 4, x: { shipLbl: 'Free delivery', method: 'Card · Visa •••• 4242' }, lines: [   // 1 day left to report (until Thu 19 Nov): the warning
+    { img: 'p5.png', name: 'Stickers', spec: '250 pcs · 5 × 5 cm · Round · Gloss', gross: 38.00, arrives: 'Mon 9 Nov', step: 4, title: 'Delivered Mon 9 Nov', text: 'Signed for by L. Pijffers' },
   ] },
   { no: '8825510', name: 'Roller Banner', ref: '', placed: 'Tue 20 Oct', sub: 'Delivered Mon 26 Oct', status: ['', 'Delivered'], step: 4, complaint: 'CMP-1042', x: { shipLbl: 'Free delivery', method: 'Bank transfer (SEPA)' }, lines: [
     { img: 'products/roller-banner.webp', name: 'Roller Banner', spec: '1 pc · 85 × 200 cm · Premium', gross: 96.00, arrives: 'Mon 26 Oct', step: 4, title: 'Delivered Mon 26 Oct', text: 'Complaint CMP-1042 in progress: damaged on arrival.', btns: ['View complaint'] },
@@ -125,7 +131,7 @@ const orderInvoice = o => invoiceList().find(i => !i.credit && i.o === o);
 const invoiceUrl = no => `invoice.html?i=${no}`;
 
 // ---------- Quotes (quotes.html, quote.html; the wishes artifact's four, dates moved to our November) ----------
-// A quote: the job, your reference, requested / issued / valid until, who handles it, its state (requested · ready · accepted · expired; you: accepted or
+// A quote: the job, your reference, requested / issued / valid until, who handles it, its state (requested · ready · accepted · expired · cancelled by us; you: accepted or
 // declined, kept in this browser 'hp-quotes'), the order it became, and its lines (the specs as the artifact lists them; gross incl. VAT once priced).
 // QT-5502 became order #8830771, so its lines are that order's; QT-5481's price is ours (the artifact only lists it).
 const QUOTES = [
@@ -136,10 +142,13 @@ const QUOTES = [
   { no: 'QT-5502', job: 'Standard Flyers ×2,500', ref: 'PO-76982', requested: 'Fri 30 Oct', issued: 'Mon 2 Nov', valid: 'Mon 16 Nov', accepted: 'Tue 3 Nov', order: '8830771', by: 'Loraine', state: 'accepted' },
   { no: 'QT-5481', job: 'Window stickers ×500', ref: '', requested: 'Mon 19 Oct', issued: 'Mon 19 Oct', valid: 'Mon 2 Nov', by: 'Loraine', state: 'expired',
     lines: [{ name: 'Window stickers — custom shape', specs: ['Quantity: 500 pcs', 'Size: 10 × 10 cm · contour cut', 'Material: clear vinyl, for inside the window', 'Print: full colour + white'], gross: 145 }] },
+  { no: 'QT-5466', job: 'Wooden display stands ×20', ref: 'SHOP-FIT', requested: 'Tue 13 Oct', cancelled: 'Thu 15 Oct', by: 'Cathal Byrne', state: 'cancelled',   // cancelled by us (V4, 11-19): the reason in why
+    why: 'We can’t make this stand in solid oak any more. Cathal emailed you two alternatives in birch.',
+    lines: [{ name: 'Wooden display stands', specs: ['Quantity: 20 pcs', 'Material: solid oak, 120 × 40 cm', 'Print: logo engraved on the front'] }] },
 ];
 let quotesDone = {};
 try { quotesDone = JSON.parse(localStorage.getItem('hp-quotes')) || {}; } catch (e) {}
-const QUOTE_STATES = { requested: ['go', 'Requested'], ready: ['act', 'Quote ready'], accepted: ['', 'Accepted'], expired: ['', 'Expired'], declined: ['', 'Declined'] };
+const QUOTE_STATES = { requested: ['go', 'Requested'], ready: ['act', 'Quote ready'], accepted: ['', 'Accepted'], expired: ['', 'Expired'], declined: ['', 'Declined'], cancelled: ['', 'Cancelled'] };
 function quoteList() {
   if (NEW_CUSTOMER) return [];
   return QUOTES.map(q => { const d = quotesDone[q.no], v = { ...q, state: d || q.state };
@@ -219,7 +228,7 @@ function complaintList() {
     v.o = o; v.lines = c.lines || (o ? o.lines.map(l => ({ img: l.img, name: l.name, spec: l.spec, gross: l.gross })) : []);
     v.step = { info: 1, progress: v.events.some(e => /accepted/i.test(e[0])) ? 2 : 1, resolved: 4 }[v.state];
     // what is happening now and what comes next (the artifact's case timeline: done · now · still to come)
-    v.now = { info: ['Waiting for your photos', 'Needed to assess the issue'], progress: v.step === 2 ? ['Arranging the solution', 'A reprint is being scheduled'] : ['Assessment', 'We decide within 2 working days'], resolved: null }[v.state];
+    v.now = { info: ['Waiting for your photos', 'Needed to assess the issue'], progress: v.step === 2 ? ['Arranging the solution', 'A reprint is being scheduled'] : ['Assessment', 'Our team is looking at your case'], resolved: null }[v.state];
     v.next = { info: [['Assessment', 'We decide once your photos are in'], ['Resolution', 'Reprint, refund or credit']], progress: v.step === 2 ? [['Resolved', 'Replacement dispatched']] : [['Resolution', 'Reprint, refund or credit']], resolved: [] }[v.state];
     if (c.created) { v.now = ['Reviewed by our team', 'Usually within one working day']; v.next = [['Assessment', 'We confirm the solution'], ['Resolved', c.fix || 'Reprint, refund or credit']]; }   // just sent
     v.status = COMPLAINT_STATES[v.state]; return v; });
@@ -231,7 +240,7 @@ const complaintSave = (no, state) => { complaintsDone[no] = state; try { localSt
 const complaintNote = c => ({ info: 'We need a few photos from you', progress: c.now?.[0] || 'In progress', resolved: `Resolved ${c.events.at(-1)[1].split(' · ')[0]}` })[c.state];
 
 // the grey line of a quote in the lists
-const quoteNote = q => ({ ready: `${accEur(q.sum?.gross || 0)} · valid until ${q.valid}`, requested: 'We email you when it’s ready', accepted: `Became order #${q.order || '—'}`, expired: `Expired ${q.valid}`, declined: 'You declined it' })[q.state];
+const quoteNote = q => ({ ready: `${accEur(q.sum?.gross || 0)} · valid until ${q.valid}`, requested: 'We email you when it’s ready', accepted: `Became order #${q.order || '—'}`, expired: `Expired ${q.valid}`, declined: 'You declined it', cancelled: `Cancelled by us ${q.cancelled}` })[q.state];
 // the grey line of an invoice in the lists: what is open and when it is due, or when it was paid; a credit note: what it is for and its state
 const invNote = v => v.credit ? `Credit note for ${v.credit} · ${v.state}` : v.open > .005 ? `${accEur(v.open)} open · due ${v.due}` : `Paid ${v.pays.at(-1)?.date || ''}`;
 // All specifications of a product (the order page's fold): what you chose, as the PDP's option names; the quantity from the line
@@ -265,6 +274,9 @@ const orderPhoto = o => `<span class="img${o.lines.length > 1 ? ' more' : ''}"><
 const orderTracker = (step, err) => `<ol class="tracker">${ORDER_STEPS.map((s, k) => `<li class="${k < step ? 'done' : k === step ? (err ? 'err' : 'now') : ''}">${s}</li>`).join('')}</ol>`;
 
 // ---------- What you did with your orders (prototype: kept in this browser, 'hp-orders') ----------
+// Cancelling (V4, 11-19): "you pay nothing" only while it is unpaid; paid by card = a refund to the card, a paid invoice = a credit note
+const orderPaid = o => !!o.paid || /^card/i.test(o.x.method);
+const cancelMoney = o => !orderPaid(o) ? 'You pay nothing.' : /^card/i.test(o.x.method) ? 'We refund the full amount to your card within 5 working days.' : 'You get a credit note for the full amount.';
 // Per order: your reference, paid, cancelled, and per product: approved (the proof) or uploaded (a new file). The orders above are rebuilt from it,
 // so the Overview, Orders and the order page always show the same state.
 ORDERS.forEach(o => { o.x = { art: 0, ship: 0, disc: 0, ...o.x }; o.lines.forEach(l => { l.gross = l.gross ?? r2(l.price * (1 + VAT_RATE)); l.price = vatSplit(l.gross).net; }); });   // price = excl. VAT, from the gross
@@ -283,11 +295,11 @@ function applyOrders() {
       if (done === 'approved') Object.assign(l, { step: 2, done: true, title: 'Proof approved', text: 'We print it next, exactly as you saw it.', btns: null, foot: null });
       else if (done) { const files = Array.isArray(done) ? done : [], names = [...new Set(files.map(f => f.name))];   // the uploaded files: the artwork replaces the photo, as in the cart
         Object.assign(l, { step: 1, err: false, done: true, files, title: `We’ve got your file${names.length > 1 ? 's' : ''}`, text: `${names.length > 1 ? names.length + ' files · we check them' : (names[0] || done) + ' · we check it'} and send you a proof`, btns: null,
-          foot: 'We’re making your proof. Keep an eye on your email: it’s usually there <b>within 4 working hours</b>' }); } });   // waiting on us: the cream band (as order confirmed)
+          foot: 'We’re making your proof. Keep an eye on your email: usually there <b>within 1 working hour</b>' }); } });   // waiting on us: the cream band (as order confirmed)
     const needs = o.lines.filter(l => l.btns && l.step < 2).length;
     o.step = Math.min(...o.lines.map(l => l.step));
     if (d.paid) o.paid = true;
-    if (d.cancelled) Object.assign(o, { cancelled: true, status: ['', 'Cancelled'], sub: 'Cancelled · nothing to pay' });
+    if (d.cancelled) Object.assign(o, { cancelled: true, status: ['', 'Cancelled'], sub: orderPaid(o) ? 'Cancelled · full refund' : 'Cancelled · nothing to pay' });
     else if (o.pay && !o.paid) {}   // Payment due, as it was
     else if (needs) Object.assign(o, { status: ['act', 'Action needed'], sub: `${needs} product${needs > 1 ? 's need' : ' needs'} you` });
     else if (base.status[0] === 'act') Object.assign(o, { status: ['go', o.step >= 3 ? 'On its way' : 'In production'], sub: (d => `Estimated ${etaShort(etaDate(d))} — latest ${etaShort(etaLatest(d))}`)(o.lines.map(l => l.arrives).sort((a, b) => etaDate(b) - etaDate(a))[0]) });   // the last product's date
@@ -337,12 +349,15 @@ const accSheet = (id, title, body, bar, list) => `<div class="sheet-layer" id="s
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="${id}Title"><div class="grab" data-grab><span></span></div>
     <div class="sheet-head"><h2 id="${id}Title">${title}</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
     <div class="sheet-body">${list ? `<ul class="addr-list" id="${id}Body"></ul>` : `<div class="pad" id="${id}Body">${body}</div>`}</div>${bar ? `<div class="sheet-bar"><div class="bar-btns">${bar}</div></div>` : ''}</div></div>`;
+// a reason popup (cancel an order, decline a quote): the line on top, a reason first (a dropdown, Cornel 11-17), then Yes works; an extra line is optional
+const reasonBody = (id, q, reasons, note) => `<p class="up-intro" id="${id}Intro"></p><p class="q-hint">${q}</p>
+    <label class="field"><select id="${id}Reason" required aria-label="${q}"><option value="" selected disabled>Choose a reason</option>${reasons.map(r => `<option>${r}</option>`).join('')}</select></label>
+    <label class="field"><textarea id="${id}Note" placeholder=" " maxlength="600" aria-label="${note}"></textarea><span class="fl">${note} (optional)</span></label>`;
 document.body.insertAdjacentHTML('beforeend',
-  accSheet('cancel', 'Cancel this order?', `<p class="up-intro" id="cancelIntro"></p><p class="q-hint">Why do you want to cancel?</p>
-    <label class="field"><select id="cancelReason" required aria-label="Why do you want to cancel?"><option value="" selected disabled>Choose a reason</option>${['I ordered the wrong product or options', 'I need to change my design', 'I don’t need it any more', 'It takes too long', 'Something else']
-      .map(r => `<option>${r}</option>`).join('')}</select></label>
-    <label class="field"><textarea id="cancelNote" placeholder=" " maxlength="600" aria-label="Anything we can do better"></textarea><span class="fl">Anything we can do better? (optional)</span></label>`,
+  accSheet('cancel', 'Cancel this order?', reasonBody('cancel', 'Why do you want to cancel?', ['I ordered the wrong product or options', 'I need to change my design', 'I don’t need it any more', 'It takes too long', 'Something else'], 'Anything we can do better?'),
     '<button class="btn outline" type="button" data-close-sheet>Keep my order</button><button class="btn primary danger" type="button" data-act="cancel-yes" disabled>Yes, cancel it</button>') +
+  accSheet('decline', 'Decline this quote?', reasonBody('decline', 'Why are you declining it?', ['The price is too high', 'The delivery takes too long', 'I found it elsewhere', 'I don’t need it any more', 'Something else'], 'Anything we could do differently?'),
+    '<button class="btn outline" type="button" data-close-sheet>Keep the quote</button><button class="btn primary danger" type="button" data-act="decline-yes" disabled>Yes, decline it</button>') +
   accSheet('book', 'Your shipping addresses', '', '<button class="btn primary" type="button" data-act="book-use">Use for this order</button>', true) +
   accSheet('addr', 'Add shipping address', '', '<button class="btn primary" type="button" data-act="addr-save">Save and use for this order</button>') +
   accSheet('payer', 'Change who pays', `<p class="up-intro">We email the payment link to your colleague. They can pay without an account; you see it here once it’s paid.</p>
@@ -375,12 +390,12 @@ document.addEventListener('click', e => {
   if (act === 'pay') { flashLine(o.no, 'pay'); orderSave(o.no, d => d.paid = true); showToast('Payment received, thank you!'); }   // prototype: paying here = the payment link (as order confirmed)
   if (act === 'track') showToast(`Opens DPD’s tracking page for HP${o.no}IE in a new tab (the live shop)`);   // Track parcel = the carrier's own tracking page (Cornel); the prototype keeps links local
   if (act === 'cancel') {   // a reason first (a dropdown, Cornel 11-17), then Yes works; an extra line is optional
-    document.getElementById('cancelIntro').textContent = `Order #${o.no}: ${o.lines.length > 1 ? `all ${o.lines.length} products stop` : 'it stops'} before we print. You pay nothing.`;
+    document.getElementById('cancelIntro').textContent = `Order #${o.no}: ${o.lines.length > 1 ? `all ${o.lines.length} products stop` : 'it stops'} before we print. ${cancelMoney(o)}`;
     document.getElementById('cancelReason').value = ''; document.getElementById('cancelNote').value = '';
     document.querySelector('[data-act="cancel-yes"]').disabled = true; openSheet('cancel'); }
   if (act === 'cancel-yes') { const r = document.getElementById('cancelReason').value; if (!r) return;
     closeSheet(); orderSave(o.no, d => { d.cancelled = true; d.cancelReason = r; });   // no thank-you: the same popup, calm, with our team (Cornel 11-17)
-    setTimeout(() => allDonePopup(`<h2 id="yayTitle">Your order is cancelled</h2><p>Sorry to see order #${o.no} go. We stopped it before printing, so you pay nothing.</p>
+    setTimeout(() => allDonePopup(`<h2 id="yayTitle">Your order is cancelled</h2><p>Sorry to see order #${o.no} go. We stopped it before printing. ${cancelMoney(o)}</p>
       ${teamLine()}
       <button class="btn primary" type="button" data-close-sheet>Close</button>`, true), 400); }
   if (act === 'addr' || act === 'book-pick') {   // Change: the address book (the checkout's sheet), the order's address chosen; tap = choose, the button confirms
@@ -427,7 +442,10 @@ document.addEventListener('click', e => {
     openUpload({ photo: true, name: `Complaint ${c.no}`, img: 'assets/' + c.lines[0].img, files: c.photos || [], onAdd: files => { complaintSave(c.no, files); showToast(changed ? 'Your photos are updated' : 'Thanks! Your photos are with our team, we assess your case now'); } }); }
   if (act === 'complaint-art') openArt(complaintOf(b.dataset.c).photos);   // your photos big, as the artwork in the cart
   if (act === 'quote-accept') { quoteSave(b.dataset.q, 'accepted'); showToast('Quote accepted: we turn it into an order and email you the confirmation'); }
-  if (act === 'quote-decline') { quoteSave(b.dataset.q, 'declined'); showToast('Quote declined'); }
+  if (act === 'quote-decline') { accCur = { q: b.dataset.q }; document.getElementById('declineIntro').textContent = `Quote ${b.dataset.q}: it closes and we don’t make it. A short reason helps us quote better next time.`;
+    document.getElementById('declineReason').value = ''; document.getElementById('declineNote').value = '';
+    document.querySelector('[data-act="decline-yes"]').disabled = true; openSheet('decline'); }
+  if (act === 'decline-yes') { if (!document.getElementById('declineReason').value) return; closeSheet(); quoteSave(accCur.q, 'declined'); showToast('Quote declined'); }
   if (act === 'soon') showToast(`${b.dataset.what || 'This page'} comes next in the prototype`);
   if (act === 'download') showToast('Your proof is downloading (prototype)');
 });
@@ -440,4 +458,4 @@ document.body.insertAdjacentHTML('beforeend', `<div class="flow-switch demo-rese
 document.querySelector('[data-demo=reset]').addEventListener('click', () => { resetDemo(); toastOnNextPage('The demo is back at the start'); location.reload(); });
 document.querySelector('[data-demo=new]').addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('new', NEW_CUSTOMER ? '0' : '1');   // in the URL too: a copied link opens this version
   toastOnNextPage(NEW_CUSTOMER ? 'Back to a customer with orders' : 'A new customer: no orders yet'); location.href = (/order\.html|proof\.html/.test(u.pathname) && !NEW_CUSTOMER) ? 'orders.html?new=1' : u.href; });
-document.getElementById('cancelReason').addEventListener('change', e => document.querySelector('[data-act="cancel-yes"]').disabled = !e.target.value);   // a reason chosen: Yes works
+['cancel', 'decline'].forEach(id => document.getElementById(id + 'Reason').addEventListener('change', e => document.querySelector(`[data-act="${id}-yes"]`).disabled = !e.target.value));   // a reason chosen: Yes works

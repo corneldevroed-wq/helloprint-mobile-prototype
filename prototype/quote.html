@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=check,download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205m">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205m">
-<link rel="stylesheet" href="pages.css?v=20261205m">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
+<link rel="stylesheet" href="pages.css?v=20261205n">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -28,9 +28,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205m"></script>
-<script src="account.js?v=20261205m"></script>
-<script src="../design-system/components.js?v=20261205m"></script>
+<script src="app.js?v=20261205n"></script>
+<script src="account.js?v=20261205n"></script>
+<script src="../design-system/components.js?v=20261205n"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -47,8 +47,8 @@
     document.getElementById('crumb').textContent = q.no;
 
     // where it stands (the artifact's status box) as the order page's block, with the quote's progress bar: Requested · Quote ready · Accepted (or Expired / Declined)
-    const steps = ['Requested', 'Quote ready', s === 'expired' ? 'Expired' : s === 'declined' ? 'Declined' : 'Accepted'], at = { requested: 0, ready: 1, accepted: 3, expired: 2, declined: 2 }[s];
-    const tracker = `<ol class="tracker">${steps.map((t, k) => `<li class="${k < at ? 'done' : k === at ? (['expired', 'declined'].includes(s) ? 'err' : 'now') : ''}">${t}</li>`).join('')}</ol>`;
+    const end = { expired: 'Expired', declined: 'Declined', cancelled: 'Cancelled' }[s], steps = ['Requested', 'Quote ready', end || 'Accepted'], at = { requested: 0, ready: 1, accepted: 3, expired: 2, declined: 2, cancelled: 2 }[s];
+    const tracker = `<ol class="tracker">${steps.map((t, k) => `<li class="${k < at ? 'done' : k === at ? (end ? 'err' : 'now') : ''}">${t}</li>`).join('')}</ol>`;
     const head = {
       ready: ['', `Your quote is ready: ${q.priced ? e(q.sum.gross) : ''}`, `Valid until ${q.valid}. Accept it to turn it into an order.`,
         `<span class="btns"><button class="btn small outline" type="button" data-act="quote-decline" data-q="${q.no}">Decline</button><button class="btn small primary" type="button" data-act="quote-accept" data-q="${q.no}">${btnIcon('check')}Accept quote</button></span>`],
@@ -56,6 +56,7 @@
       accepted: [DONE_TICK, q.order ? `Accepted: it became order #${q.order}` : 'Quote accepted', q.order ? `Accepted ${q.accepted} · now ${o ? o.status[1].toLowerCase() : 'an order'}` : 'Thanks! We turn it into an order and email you the confirmation shortly.',
         q.order ? `<span class="btns"><a class="btn small outline" href="order.html?o=${q.order}">View the order</a></span>` : ''],
       expired: [CROSS, `This quote expired ${q.valid}`, 'Prices and turnaround may have changed. Ask for a new quote and we pick it back up.', '<span class="btns"><a class="btn small outline" href="#new2contactform">Request a new quote</a></span>'],
+      cancelled: [CROSS, `We cancelled this quote ${q.cancelled}`, esc(q.why), '<span class="btns"><a class="btn small outline" href="#new2contactform">Request a new quote</a></span>'],
       declined: [CROSS, 'Quote declined', 'No problem. If anything changes, request a new quote and we pick it back up.', '<span class="btns"><a class="btn small outline" href="#new2contactform">Request a new quote</a></span>'],
     }[s];
     const block = `<div class="oc-act${s === 'ready' ? '' : ' done'}" id="line-status"><div class="row">${head[0]}<span class="t"><b>${head[1]}</b><small>${head[2]}</small></span>${head[3]}</div>${tracker}</div>`;
@@ -63,7 +64,7 @@
     // Quote details (the artifact's Items + specs as the invoice's Items table): every line with its specs; priced = net · VAT % · VAT · total
     const items = `<section class="oc-sec"><h2>Quote details</h2><div class="dash-card"><table class="items-table"><thead><tr><th>Description</th><th class="vat-col">Net</th><th class="vat-col">VAT %</th><th class="vat-col">VAT</th><th>Total</th></tr></thead><tbody>
       ${q.rows.map(r => { const v = r.gross !== undefined && vatSplit(r.gross); return `<tr><td><b>${esc(r.name)}</b>${(r.specs || [r.spec]).filter(Boolean).map(t => `<small>${esc(t)}</small>`).join('')}${v ? `<small class="nv">Net ${e(v.net)} · VAT 23% ${e(v.vat)}</small>` : ''}</td>
-        ${v ? `<td class="vat-col">${e(v.net)}</td><td class="vat-col">23%</td><td class="vat-col">${e(v.vat)}</td><td>${e(v.gross)}</td>` : '<td class="vat-col"></td><td class="vat-col"></td><td class="vat-col"></td><td>Awaiting quote</td>'}</tr>`; }).join('')}</tbody></table>
+        ${v ? `<td class="vat-col">${e(v.net)}</td><td class="vat-col">23%</td><td class="vat-col">${e(v.vat)}</td><td>${e(v.gross)}</td>` : `<td class="vat-col"></td><td class="vat-col"></td><td class="vat-col"></td><td>${s === 'cancelled' ? '—' : 'Awaiting quote'}</td>`}</tr>`; }).join('')}</tbody></table>
       ${q.priced ? `<div class="totals"><div><span>Subtotal <small>(Excl. VAT)</small></span><span>${e(q.sum.net)}</span></div><div><span>VAT 23%</span><span>${e(q.sum.vat)}</span></div>
         <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${e(q.sum.gross)}</span></div></div>` : ''}</div></section>`;
 

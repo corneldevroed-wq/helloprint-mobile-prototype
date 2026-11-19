@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,search&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205m">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205m">
-<link rel="stylesheet" href="pages.css?v=20261205m">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205n">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205n">
+<link rel="stylesheet" href="pages.css?v=20261205n">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -36,17 +36,17 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205m"></script>
-<script src="account.js?v=20261205m"></script>
-<script src="../design-system/components.js?v=20261205m"></script>
+<script src="app.js?v=20261205n"></script>
+<script src="account.js?v=20261205n"></script>
+<script src="../design-system/components.js?v=20261205n"></script>
 <script>
 { // its own scope: no clash with app.js names (products, sub…)
   if (!deskUser) location.replace('login.html');
   document.querySelector('[data-account-side]').outerHTML = accountSide('quotes.html');
 
-  // Filters as on Orders and Invoices (the artifact's statuses): All · Ready · Requested · Accepted · Expired, Declined only when there is one; the search
-  const GROUPS = [['all', 'All', () => true], ['ready', 'Ready', q => q.state === 'ready'], ['requested', 'Requested', q => q.state === 'requested'],
-    ['accepted', 'Accepted', q => q.state === 'accepted'], ['expired', 'Expired', q => q.state === 'expired'], ['declined', 'Declined', q => q.state === 'declined']].filter(([, , f], n) => n < 5 || quoteList().some(f));
+  // Filters as on Orders and Invoices (the artifact's statuses): All · Quote ready · Requested · Accepted · Expired, Declined and Cancelled only when there is one; the search
+  const GROUPS = [['all', 'All', () => true], ['ready', 'Quote ready', q => q.state === 'ready'], ['requested', 'Requested', q => q.state === 'requested'],
+    ['accepted', 'Accepted', q => q.state === 'accepted'], ['expired', 'Expired', q => q.state === 'expired'], ['declined', 'Declined', q => q.state === 'declined'], ['cancelled', 'Cancelled', q => q.state === 'cancelled']].filter(([, , f], n) => n < 5 || quoteList().some(f));
   let group = 'all', q = '';
   const amount = v => v.priced ? accEur(v.sum.gross) : '—';
   function render() {
