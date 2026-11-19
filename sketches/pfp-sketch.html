@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Filtering Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205t">
+<!-- Sketch (not linked; Cornel 2026-11-19): the missing page type PFP, Product Filtering Page, on live /en-ie/ballpoint-pens.
+     The real shell and components in pfp-frame.html?v=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 12px; padding-left: 20px; }
+  .chg li { margin-bottom: 4px; }
+  .chg .pick { margin: 0; color: var(--dark-green); font-weight: 600; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1300px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1000px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1500px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>New page type: PFP, Product Filtering Page (Pens)</h1>
+  <p style="margin:8px 0 0;font-size:14px"><b>Built as prototype/pens.html (2026-11-19), soft selected filters.</b></p>
+  <p style="margin:8px 0 0;font-size:14px"><b>Cornel chose C (2026-11-19) with two changes, done below: no sub category pills on top (there are too many), and no “Prices for” bar.</b></p>
+  <p style="margin:8px 0 0;font-size:14px">Live example: helloprint.com/en-ie/ballpoint-pens · 181 products · data, images, labels, colours and facet counts from live.</p>
+  <div class="chg">
+    <h3>What goes wrong for the customer on live today</h3>
+    <ul>
+      <li><b>You can’t compare prices.</b> “from €0.26” per piece without a quantity: at which amount? The cheapest pen in the list may be the most expensive at 250 pieces. Our rule (“N pieces for” + a real price) is missing here.</li>
+      <li><b>The filters you need aren’t there.</b> Live shows Colour, a min/max price field and Eco. The data behind the page already has delivery speed, print method (full colour, 1–5 colours, engraving), material, pen type and brand, but none of it is a filter. For a B2B pen buyer “will it arrive before my event” and “can you engrave it” come first.</li>
+      <li><b>Navigation pretends to be filters.</b> The sidebar starts with links (Eco Pens, Fast Delivery Pens, BIC Pens…) that leave the page, next to a real “Eco-friendly only” filter. Two routes to the same thing, and one throws away your other choices.</li>
+      <li><b>Kermis on the card.</b> Up to five labels per pen (Best Seller, Next Day Delivery, Fast delivery, Design online, 🌱 Eco). Design online is on 149 of 181 pens, so it tells you nothing.</li>
+      <li><b>Paging is work.</b> 8 pages of 24 plus a “Show 12 / 24 / 48” control, and a broken “Page 1 of 1 · 0 products” line under it.</li>
+      <li><b>The data is dirty.</b> “Pen type” holds Deals, Our favourites, Rulers, Printed Gifts – 1-3 days delivery; material has “Cork ” with a space and Aluminium twice. Filters are only as good as this list, so it needs cleaning before launch.</li>
+    </ul>
+    <h3>In all three options</h3>
+    <ul>
+      <li><b>One page type for every filtered list</b> (pens, mugs, bags, notebooks…): crumbs, title + intro, filters + grid, “Show 24 more”, the sibling categories, then the live blocks below (reviews row, FAQ, SEO text last), as our PLP.</li>
+      <li><b>Sub categories (changed):</b> no pills on top. The ones that are really a filter of this page become a filter value: Eco Pens = Eco only, Fast Delivery Pens = Delivered by, Luxury and Stylus Pens = Pen type, BIC / Parker / … Pens = Brand. Their URLs stay (/eco-pens, for SEO) and open this page with that filter on. The real other categories (Pencils, Highlighters, Writing Sets, Pencil Cases) get the grey tiles under the products, “More in Pens &amp; Pencils”, as the related rows on our PLPs. That scales to any number: tiles scroll on mobile, wrap on desktop.</li>
+      <li><b>Filters in decision order</b>, with counts: Pen type first (Cornel: the first choice, and where Luxury and Stylus Pens land) · Eco only (switch) · Delivered by (real dates, not “2–3 days”) · Price per piece · Print · Colour (swatches) · Material · Brand. Mobile: a Filters pill opens a sheet with “Show N products” that updates as you tick.</li>
+      <li><b>The card:</b> our product card, one label at most (Best Seller → our “Most Popular”, else Eco), the colours as dots (+N), “500 pcs for” + a real price. Delivery and Design online leave the card (delivery is a filter; in C a date).</li>
+      <li><b>“Show 24 more”</b> instead of pages; the button is a real link to ?page=2, so crawlers still find every product.</li>
+      <li>The filters in the sketch are for show (the grid doesn’t filter). Some live photos have a grey box baked in (Ebony pens): those need a transparent cut-out.</li>
+    </ul>
+    <p class="pick">My pick: C (chosen). B, the dropdown pills, is dropped. Pens are bought by quantity and by deadline, so the page should answer “what does it cost for my amount, and is it here in time” on every card, before anyone opens a product. The sidebar (A and C) because a pen buyer uses 3–4 filters at once over 181 products: they stay visible with their counts, while B hides each one behind a click.</p>
+  </div>
+  <div class="chg">
+    <h3>When a filter is selected (try it in the frames: the filters work on the first 24 pens)</h3>
+    <ul>
+      <li><b>Desktop: it works at once.</b> No Apply button: tick, and the grid, the count and every other count change in place. If you had scrolled into the grid, the page glides back to its top, because the products under you changed.</li>
+      <li><b>What is set stays in view:</b> a row of soft pills above the grid (light grey, regular weight; the dark green active pill was too hard), each with ×, and Clear all at the end. In the sidebar a closed group shows its choice under its name (“Stylus pens”, “2 selected”); Clear all appears next to Filters.</li>
+      <li><b>Counts show what you would get</b> with that value added. A value that would give 0 is greyed out and can’t be ticked, so you never land on an empty page by accident. It stays in its place (no jumping lists).</li>
+      <li><b>Within a group any of them, between groups all of them:</b> Blue or Black, and Engraving, and Eco. “Delivered by” is one choice (the later date includes the earlier ones).</li>
+      <li><b>Mobile:</b> the Filters pill gets a small dark green number (“Filters 2”), the same pills scroll under it. In the sheet every tick updates the button: “Show 3 products”, which closes it; Clear all empties it.</li>
+      <li><b>Still nothing?</b> (only from a shared link or by removing in odd order) A calm empty state: “No pens match all your filters”, with “Remove &lt;the last one&gt;” and Clear all.</li>
+      <li><b>The URL follows the choice</b> (?f=…), so back, refresh and a copied link keep it. On live a single choice that equals a sub category is that page, for SEO (Stylus pens = /touch-pens, Luxury pens = /luxury-pens, Eco only = /eco-pens, BIC = /bic-pens); every other combination is noindex.</li>
+      <li>“Show 24 more” resets to the first 24 after each change; the sort stays.</li>
+    </ul>
+  </div>
+</div>
+<script>
+  const OPTS = [['c', 'C · Sidebar + the price each and the delivery date on the card (chosen)', 'Every card: “500 pcs for” the total · the price each, and “Estimated tomorrow / Tue 24 Nov” from the fastest delivery. 500 is one quantity every pen offers, so the cards compare; the “Prices for” bar is gone (Cornel). Same filters as A.', true],
+    ['a', 'A · Filters in a sidebar (desktop), a sheet on mobile', 'The classic, cleaned up: a 264px sticky sidebar with the filter groups (the first five open), the grid 4 per row next to it, the count and the sort above it. Mobile: Filters + sort pills, the sheet. The fix of what live has, without new ideas on the card.']];
+  const F = (f, extra = '') => `pfp-frame.html?v=c&f=${encodeURIComponent(f)}${extra}`;
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', `<section class="opt"><h2>C · with filters selected</h2><p>Engraving + Eco on desktop; on mobile Tue 24 Nov + Eco, the sheet open on the same choice; and the empty state (Stylus pens + Eco).</p><div class="row">
+    <div class="mob"><p class="lbl">Mobile 390, filters set</p><iframe src="${F('del:Tue 24 Nov|eco')}"></iframe></div>
+    <div class="mob"><p class="lbl">Mobile 390, the sheet: the button counts along</p><iframe src="${F('del:Tue 24 Nov|eco', '&sheet=1')}"></iframe></div>
+    <div class="mob"><p class="lbl">Mobile 390, nothing matches</p><iframe src="${F('type:Stylus pens|eco')}"></iframe></div>
+    <div><p class="lbl">Desktop 1512 (at 2/3), Engraving + Eco</p><div class="desk-box"><iframe src="${F('print:Engraving|eco')}"></iframe></div></div></div></section>`);
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', `<section class="opt"><h2>The selected filter pills: soft <em>my pick</em> or dark</h2><p>Soft (the default now): a light grey tag, regular weight, a grey ×; Filters keeps its outline with a small dark green number. Dark: the guide’s active pill (dark green, semibold, white), as first sketched; Cornel found it too hard.</p><div class="row">
+    <div class="mob"><p class="lbl">Mobile 390, soft</p><iframe src="${F('del:Tue 24 Nov|eco|print:Engraving')}"></iframe></div>
+    <div class="mob"><p class="lbl">Mobile 390, dark</p><iframe src="${F('del:Tue 24 Nov|eco|print:Engraving', '&tag=dark')}"></iframe></div></div></section>`);
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `pfp-frame.html?v=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row">
+      <div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div>
+      ${v === 'a' ? `<div class="mob"><p class="lbl">Mobile 390, the filter sheet (Eco + Tue 24 Nov ticked)</p><iframe src="${src}&sheet=1"></iframe></div>` : ''}
+      <div><p class="lbl">Desktop 1512 (at 2/3)</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>

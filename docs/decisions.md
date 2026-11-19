@@ -3,6 +3,13 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+
+## PFP, Product Filtering Page (Nov 19, 2026)
+- **11-19 — A new page type: PFP, built as pens.html** (Cornel, sketches/pfp-sketch.html C over A sidebar only and B dropdown pills): for any list of products you filter (live /ballpoint-pens: 181 pens). Filters in a sidebar on desktop (3–4 filters at once over many products stay visible with their counts; B hid each behind a click), a sheet on mobile; the card shows the price at 500 pcs + the price each + the estimated delivery, so cards compare (live: "from €0.26" without a quantity).
+- **11-19 — No sub category pills on top** (Cornel: there are many): a sub category that is a filter becomes a filter value (Eco Pens = Eco only, Luxury / Stylus Pens = Pen type, BIC … Pens = Brand) and its URL opens the page with it on; the other categories (Pencils, Highlighters …) are grey tiles under the products.
+- **11-19 — No "Prices for 100 · 250 · 500 …" bar** (Cornel: invented): one fixed quantity on every card (500, must be one every product of the page offers).
+- **11-19 — Pen type first in the filters** (Cornel), Eco only under it; then Delivered by (real dates), Price per piece, Print, Colour, Material, Brand. Live's Design online and delivery labels leave the card; one label at most.
+- **11-19 — Filters work at once, the selected ones as soft tags** (Cornel: "zacht", the dark green active pills were too hard): light grey, regular, a grey ×, Clear all; on mobile Filters gets a small dark green number and the sheet button counts along. 0-result values greyed, an empty state with "Remove <last>".
 ## My account (Nov 17, 2026)
 - **11-19 — The quantity dropdown and the upgrade hint are always on a cart line, a reorder too** (Cornel): a reorder line now links to its product (Classic Business Cards was `#classic-business-cards`, so the cart had no price list); an older `#slug` line is found too, and a quantity that isn't a step (a reorder, a quote) gets its own place in the list, priced between its neighbours.
 - **11-19 — Vouchers: the list page (sketch A)** (Cornel chose A over my pick B, cards): Vouchers is its own menu item under Complaints (a tag icon, `sell.svg`, drawn in the icon style) and the same list page as Orders, Invoices and Quotes: filters, search, a table (rows on mobile) with what you get, valid until / used on which order, the status and Copy while you can use it. A code from a complaint gets one grey line, “From complaint CMP-1042 · damaged on arrival”, linking to the case. Available is the light green dot (as Paid); used and expired grey. VIP (−4%) is automatic and not a voucher. You still add a code in the cart under “Add discount code”.

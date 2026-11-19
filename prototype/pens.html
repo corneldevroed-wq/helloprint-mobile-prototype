@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalised Pens with Logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205t">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205t">
+<link rel="stylesheet" href="pages.css?v=20261205t">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- PFP, Product Filtering Page (new page type, Cornel 2026-11-19, sketches/pfp-sketch.html C): live helloprint.com/en-ie/ballpoint-pens.
+       Title + intro → filters (sidebar on desktop, a sheet on mobile) + the products (4 per row desktop, 2 mobile) → the sibling categories as grey
+       tiles → reviews → FAQ (live). The live sub categories of Pens are filters here (Eco Pens = Eco only, Luxury / Stylus Pens = Pen type, BIC … =
+       Brand); their #slugs route to this page with that filter on (ROUTES in app.js). All 181 live pens in pens-data.js, 24 at a time (Show 24 more). -->
+  <main class="cat-page plp promo-e pfp">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / <a href="#corporate-gifts">Corporate Gifts</a> / <a href="#printed-pens">Pens &amp; Pencils</a> / Pens</p>
+      <div class="intro">
+        <h1>Personalised Pens with Logo</h1>
+        <p>Whether you're seeking an eco-friendly everyday pen or looking to impress with a luxurious pen set, we have them all!</p>
+      </div>
+    </section>
+
+    <section class="pf-layout">
+      <aside class="pf-side" aria-label="Filters"><div class="pf-side-h"><b>Filters</b><button class="pf-clear" type="button" data-clear hidden>Clear all</button></div><div id="side"></div></aside>
+      <div class="pf-main" id="main"></div>
+    </section>
+
+    <section>
+      <h2>More in Pens &amp; Pencils</h2>
+      <div class="plp-cats four" id="sibCats"></div>
+    </section>
+
+    <section id="reviews" class="d-reviews">
+      <h2>What our Happy Customers say</h2>
+    </section>
+
+    <section id="faq">
+      <h2>Frequently Asked Questions about Pens</h2>
+      <div id="faqList"></div>
+    </section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<div class="sheet-layer" id="sheet-filters" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="fTitle">Filters</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad" id="sheetGroups"></div></div>
+    <div class="sheet-bar"><div class="bar-btns"><button class="btn outline" type="button" data-clear>Clear all</button><button class="btn primary" type="button" data-close-sheet id="showBtn">Show 181 products</button></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261205t"></script>
+<script src="../design-system/components.js?v=20261205t"></script>
+<script src="pens-data.js?v=20261205t"></script>
+<script>
+const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
+// Prices at 500 (one quantity every pen offers, so the cards compare): the live from-price is the lowest per piece, ×1.5 (the prototype's own numbers)
+const QTY = 500, pce = p => Math.round(p.pp * 1.5 * 100) / 100, total = p => Math.round(pce(p) * QTY * 100) / 100;
+// Delivery: today Thu 19 Nov 2026 + working days of the fastest option
+const WD = { '1': 1, '2to3': 3, '4to5': 5, 'moreThan6': 7 }, RANK = { '1': 0, '2to3': 1, '4to5': 2, 'moreThan6': 3 };
+const addWd = n => { const d = new Date('2026-11-19T12:00'); while (n) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) n--; } return d; };
+
+// The product card + the colours as dots (6, then +N), the price each and the estimated delivery
+const card = p => `<a class="product" href="#${p.s}">
+    <div class="thumb" style="background:var(--light-grey)"><img src="${CF + p.i}?w=500&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(p.b)}</div>
+    <p class="name">${p.n}</p>
+    <span class="pf-dots" aria-label="${p.hex.length} colours">${p.hex.slice(0, 6).map(h => `<i style="background:${h}"></i>`).join('')}${p.hex.length > 6 ? `<small>+${p.hex.length - 6}</small>` : ''}</span>
+    <div><p class="from">${QTY} pcs for</p><p class="prices"><span class="price" data-price="${total(p)}">${fmt(total(p))}</span><span class="pf-each">· <span data-price="${pce(p)}">${fmt(pce(p))}</span> each</span></p>
+    <p class="pf-eta">Estimated <b>${p.d === '1' ? 'tomorrow' : etaShort(addWd(WD[p.d]))}</b></p></div>
+  </a>`;
+
+// The sibling categories (the rest of Pens & Pencils on live): grey tiles on desktop, category cards on mobile; photo = the first product of each live page
+const SIB = [['Pencils', '5faYfcKhgnE3ix0mpTqx5v/3b0eb418eb97519264080863d573847b/topicvarnishedpencil.webp', '#promotional-pencils'],
+  ['Highlighters', '6v83dM8FMUhPvliLT5Zq19/170147205b75388b2dc525615fc735c5/bloomhighlighter.webp', '#promotional-highlighters'],
+  ['Writing Sets', '6uR46vgiyr8JWpzyADmznI/3ed3fbdcaacae9b5a58c65b7ca087244/bamboosetbamboopenandpencilset.webp', '#writing-sets'],
+  ['Pencil Cases', '1gVclVa4cMx1OPTwvgt9gk/69b02d9a88f1d61238dceddff5768b09/flatcasewovenpaperpencilcase.webp', '#pencil-cases']];
+const sibEl = document.getElementById('sibCats');
+sibEl.innerHTML = SIB.map(([name, img, href]) => DESK
+  ? `<a class="dc-card" href="${href}"><span class="dc-t">${name}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${CF + img}?w=300&fm=webp&q=80" alt="" loading="lazy"></span></a>`
+  : `<a class="cat" href="${href}"><div class="collage"><img src="${CF + img}?w=300&fm=webp&q=80" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${name}</p></a>`).join('');
+if (!DESK) sibEl.classList.add('hscroll', 'cats');
+
+// FILTERS. Pen type first (Cornel), Eco only under it, then in decision order. Within a group any of the ticked values (OR), between groups all (AND);
+// Delivered by is one choice (the later date includes the earlier ones). A value that would give 0 is greyed out.
+const COLS = { Blue: '#0000FF', Black: '#000000', White: '#FFFFFF', Green: '#008000', Red: '#FF0000', Grey: '#808080', Orange: '#FFA500', Yellow: '#FFFF00', Pink: '#ffb6e2', Brown: '#C4A484', Purple: '#A020F0', Silver: '#C0C0C0' };
+const DEL = ['Fri 20 Nov (tomorrow)', 'Tue 24 Nov', 'Thu 26 Nov'], PRICE = ['Under €0.25', '€0.25 – €0.50', '€0.50 – €1', 'Over €1'];
+const G = [
+  { id: 'type', k: 'Pen type', vals: ['Ballpoint pens', 'Stylus pens', 'Writing sets', 'Luxury pens', 'Rollerball pens', 'Fountain pens'], t: (p, v) => p.type.includes(v) },
+  { id: 'del', k: 'Delivered by', one: true, vals: DEL, t: (p, v) => RANK[p.d] <= DEL.indexOf(v) },
+  { id: 'price', k: 'Price per piece', vals: PRICE, t: (p, v) => { const e = pce(p); return [e < .25, e >= .25 && e < .5, e >= .5 && e < 1, e >= 1][PRICE.indexOf(v)]; } },
+  { id: 'print', k: 'Print', vals: ['Full colour print', '1 to 5 colours', 'Engraving'], t: (p, v) => p.print.includes(v) },
+  { id: 'colour', k: 'Colour', sw: true, vals: Object.keys(COLS), t: (p, v) => p.col.includes(v) },
+  { id: 'mat', k: 'Material', vals: ['Plastic', 'Recycled plastic', 'Metal', 'Bamboo & wood', 'Aluminium', 'Recycled aluminium', 'Stainless steel', 'Paper & card'], t: (p, v) => p.mat.includes(v) },
+  { id: 'brand', k: 'Brand', vals: ['BIC', 'Parker', 'Waterman', 'Swiss Peak', 'Senator', 'Vinga', 'Stilolinea'], t: (p, v) => p.brand === v }
+];
+// State: the ticked values per group, eco, and the order they were set in (for "Remove <last>"). In the URL as ?f=type:Stylus pens|eco, so back,
+// refresh and a copied link keep it (live: a single choice that equals a sub category is that page, /eco-pens; other combinations noindex).
+const SEL = {}; G.forEach(g => SEL[g.id] = new Set()); let ECO = false, ORDER = [];
+(new URLSearchParams(location.search).get('f') || '').split('|').filter(Boolean).forEach(x => { if (x === 'eco') { ECO = true; ORDER.push(['eco']); return; }
+  const [id, v] = x.split(':'); if (SEL[id]) { SEL[id].add(v); ORDER.push([id, v]); } });
+const ok = (p, skip) => (skip === 'eco' || !ECO || p.eco) && G.every(g => g.id === skip || !SEL[g.id].size || [...SEL[g.id]].some(v => g.t(p, v)));
+const n = (g, v) => PENS.filter(p => ok(p, g.id) && g.t(p, v)).length;   // what you get with this value added
+const ecoN = () => PENS.filter(p => ok(p, 'eco') && p.eco).length;
+
+const opt = (g, v, box) => { const c = n(g, v), on = SEL[g.id].has(v), off = !c && !on;
+  return g.sw ? `<button type="button" style="background:${COLS[v]}" title="${v} (${c})" aria-label="${v}, ${c}" aria-pressed="${on}" data-g="${g.id}" data-v="${v}"${off ? ' disabled' : ''}></button>`
+    : `<label class="check${off ? ' off' : ''}"><input type="${g.one ? 'radio' : 'checkbox'}" name="${box}-${g.id}" data-g="${g.id}" value="${v}"${on ? ' checked' : ''}${off ? ' disabled' : ''}><span>${v}</span><small>${c}</small></label>`; };
+const sum = g => { const s = [...SEL[g.id]]; return s.length ? `<span class="pf-sel">${s.length > 1 ? s.length + ' selected' : s[0]}</span>` : ''; };
+// A group with more than 6 values shows 5 and "Show N more" (a ticked one always shows); the colour swatches always all
+const MORE = new Set();
+const vals = g => !g.sw && g.vals.length > 6 && !MORE.has(g.id) ? g.vals.filter((v, i) => i < 5 || SEL[g.id].has(v)) : g.vals;
+const groupsHtml = (open, box) => G.map((g, i) => `<details class="pf-group"${open.has(g.id) ? ' open' : ''} data-id="${g.id}"><summary><span>${g.k}${sum(g)}</span><img src="assets/chevron.svg" alt=""></summary>
+    <div class="${g.sw ? 'pf-sw' : 'pf-opts'}">${vals(g).map(v => opt(g, v, box)).join('')}${vals(g).length < g.vals.length ? `<button class="pf-clear pf-more-v" type="button" data-more="${g.id}">Show ${g.vals.length - vals(g).length} more</button>` : ''}</div></details>
+    ${i ? '' : `<div class="pf-eco"><span>Eco-friendly only <small>${ecoN()}</small></span><button class="switch" type="button" role="switch" aria-checked="${ECO}" aria-label="Eco-friendly only" data-eco></button></div>`}`).join('');
+const label = ([id, v]) => id === 'eco' ? 'Eco-friendly only' : v;
+// Sort (live: Most popular, Price: Low to High, Price: High to Low), the guide's sort menu (.row-menu, as the lists in My account)
+const SORTS = { pop: 'Most popular', low: 'Price: Low to High', high: 'Price: High to Low' };
+let SORT = 'pop';
+const sortPill = () => `<span class="row-menu"><button class="pill pf-sort" type="button" data-menu aria-expanded="false" aria-label="Sort: ${SORTS[SORT]}">${SORTS[SORT]}</button>
+  <span class="menu" hidden>${Object.entries(SORTS).map(([k, t]) => `<button type="button" data-sort="${k}"${k === SORT ? ' class="on"' : ''}>${t}</button>`).join('')}</span></span>`;
+
+// Desktop: a filter works at once (no Apply); the selected ones as soft pills above the grid. Mobile: the same in the sheet, whose button counts along.
+const openSide = new Set(['type', 'del', 'price', 'print', 'colour']), openSheetG = new Set(['type', 'del', 'price']);
+const render = () => {
+  const list = PENS.filter(p => ok(p)).sort((a, b) => SORT === 'pop' ? 0 : (SORT === 'low' ? 1 : -1) * (pce(a) - pce(b))), k = ORDER.length, count = list.length, show = list.slice(0, PAGE);
+  const keep = (sel, set) => { const el = document.querySelector(sel); if (el.children.length) { set.clear(); el.querySelectorAll('details[open]').forEach(d => set.add(d.dataset.id)); } };
+  keep('#side', openSide); keep('#sheetGroups', openSheetG);
+  document.getElementById('side').innerHTML = groupsHtml(openSide, 'side');
+  document.getElementById('sheetGroups').innerHTML = groupsHtml(openSheetG, 'sheet');
+  document.querySelector('.pf-side-h [data-clear]').hidden = !k;
+  document.getElementById('main').innerHTML = `
+    <div class="pf-bar">${DESK ? `<span class="pf-count"><b>${count}</b> products</span>` : `<button class="pill has-icon" type="button" data-open-sheet="filters"><span class="material-symbols-rounded" aria-hidden="true">tune</span>Filters${k ? `<span class="pf-n">${k}</span>` : ''}</button>`}${sortPill()}${DESK ? '' : `<span class="pf-count">${count} products</span>`}</div>
+    ${k ? `<div class="filter-row pf-active">${ORDER.map(o => `<button class="pill pf-x" type="button" data-x="${o.join(':')}">${label(o)}<span class="material-symbols-rounded" aria-hidden="true">close</span></button>`).join('')}<button class="pf-clear" type="button" data-clear>Clear all</button></div>` : ''}
+    ${list.length ? `<div class="types">${show.map(card).join('')}</div>
+      <div class="pf-more"><p>Showing ${show.length} of ${count} products</p>${count > show.length ? `<button class="btn outline" type="button" data-page>Show ${Math.min(24, count - show.length)} more</button>` : ''}</div>`
+    : `<div class="pf-empty"><b>No pens match all your filters</b><p>Remove the last one, or start again.</p><div class="chips"><button class="pill" type="button" data-x="${ORDER[k - 1].join(':')}">Remove ${label(ORDER[k - 1])}</button><button class="pill" type="button" data-clear>Clear all</button></div></div>`}`;
+  document.getElementById('showBtn').textContent = `Show ${count} products`;
+  const u = new URL(location.href); if (k) u.searchParams.set('f', ORDER.map(o => o.join(':')).join('|')); else u.searchParams.delete('f'); history.replaceState(null, '', u);
+};
+// 24 at a time; a filter change starts at 24 again (live: the button is a link to ?page=2, so crawlers find every pen)
+let PAGE = 24;
+// After a change on desktop the page glides back to the grid's top when that is above the screen (the products changed under you)
+const changed = () => { PAGE = 24; render(); const m = document.getElementById('main'); if (DESK && m.getBoundingClientRect().top < 0) window.scrollTo({ top: m.getBoundingClientRect().top + scrollY - 16, behavior: 'smooth' }); };
+const toggle = (id, v) => {
+  if (id === 'eco') { ECO = !ECO; ORDER = ECO ? [...ORDER, ['eco']] : ORDER.filter(o => o[0] !== 'eco'); return changed(); }
+  const had = SEL[id].has(v);
+  if (G.find(g => g.id === id).one) { SEL[id].clear(); ORDER = ORDER.filter(o => o[0] !== id); }
+  if (had) { SEL[id].delete(v); ORDER = ORDER.filter(o => !(o[0] === id && o[1] === v)); } else { SEL[id].add(v); ORDER.push([id, v]); }
+  changed();
+};
+document.addEventListener('change', e => { const i = e.target.closest('input[data-g]'); if (i) toggle(i.dataset.g, i.value); });
+document.addEventListener('click', e => {
+  const sw = e.target.closest('.pf-sw button[data-g]'); if (sw) return toggle(sw.dataset.g, sw.dataset.v);
+  if (e.target.closest('[data-eco]')) return toggle('eco');
+  const x = e.target.closest('[data-x]'); if (x) { const [id, ...v] = x.dataset.x.split(':'); return toggle(id, v.join(':')); }
+  const mb = e.target.closest('[data-menu]'), menu = document.querySelector('.pf-bar .menu');
+  if (menu && (!mb || menu.hidden === false)) { menu.hidden = true; menu.previousElementSibling.setAttribute('aria-expanded', 'false'); if (!mb) { /* outside: closed */ } else return; }
+  if (mb) { menu.hidden = false; mb.setAttribute('aria-expanded', 'true'); return; }
+  const so = e.target.closest('[data-sort]'); if (so) { SORT = so.dataset.sort; PAGE = 24; return render(); }
+  const more = e.target.closest('[data-more]'); if (more) { MORE.add(more.dataset.more); return render(); }
+  if (e.target.closest('[data-page]')) { PAGE += 24; return render(); }
+  if (e.target.closest('[data-clear]')) { G.forEach(g => SEL[g.id].clear()); ECO = false; ORDER = []; changed(); }
+});
+render();
+
+// Reviews: desktop the reviews row with arrows, mobile the swipe row (as on business cards)
+const revs = document.getElementById('reviews');
+if (DESK) { revs.insertAdjacentHTML('beforeend', deskReviews()); wireDeskReviews(revs); }
+else revs.insertAdjacentHTML('beforeend', `
+    <div class="hscroll m-revs">${[0, 1, 2, 3, 4].map(() => `
+      <article class="d-rev"><p class="d-rev-top"><img class="stars" src="assets/trustpilot.svg" alt="5 stars"><span><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
+        <b>Easy ordering, fast service.</b><p>Easy ordering, fast service. Faster delivery than what was promised.</p><small><b>Rhonda</b>, 3 days ago</small></article>`).join('')}</div>
+    <p class="d-rev-note">Rated <b>4.5</b> / 5 based on <u>35,364 reviews</u>.</p>`);
+
+// FAQ (live en-ie): the accordion of the category pages; desktop .d-acc, mobile .acc.oc-faq
+const FAQS = [
+    ["What are personalised pens?", "Personalised pens are custom writing instruments tailored with names, logos, or messages. These pens are ideal for promotional items, gifts, or personal use. They help in enhancing brand recognition and customer loyalty. At HelloPrint, you can explore various types such as <a href=\"#basic-pens\">Basic Pens</a>, <a href=\"#eco-pens\">Eco Pens</a>, and <a href=\"#luxury-pens\">Luxury Pens</a>."],
+    ["How can I create a personalised pen?", "Creating a personalised pen is simple. Choose the type of pen you want, such as <a href=\"#basic-pens\">Basic Pens</a> or <a href=\"#touch-pens\">Stylus Pens</a>, upload your design or message, and place your order. HelloPrint offers a variety of customisation options to suit your needs."],
+    ["Why choose branded pens for promotions?", "Branded pens are effective promotional tools because they are practical and widely used. They keep your brand in front of customers daily. HelloPrint offers high-quality options from top brands like <a href=\"#parkerpens\">Parker Pens</a> and <a href=\"#bic-pens\">Bic Pens</a>."],
+    ["How do promotional pens help in marketing?", "Promotional pens are cost-effective marketing tools that provide long-term brand exposure. They are useful and appreciated by recipients, ensuring your brand stays visible. Choose from a range of <a href=\"#fastpens\">Fast Delivery Pens</a> and <a href=\"#luxury-pens\">Luxury Pens</a> at HelloPrint."],
+    ["What are printed pens and how are they made?", "Printed pens feature custom designs or logos applied through printing techniques. These pens are perfect for brand promotion and events. At HelloPrint, we offer various printing options to create eye-catching designs on Basic Pens and Eco Pens."],
+    ["Where can I find cheap personalised pens?", "HelloPrint offers affordable personalised pens without compromising quality. These pens are ideal for bulk orders and promotional giveaways. Check out our selection of Basic Pens and Fast Delivery Pens for budget-friendly options."],
+    ["What are the benefits of designer pens?", "Designer pens combine functionality with style, making them perfect for gifts and corporate promotions. They reflect a high-quality image for your brand. Explore our range of <a href=\"#luxury-pens\">Luxury Pens</a> from top brands like <a href=\"#parkerpens\">Parker Pens</a>."],
+    ["How to order pens with a logo?", "Ordering pens with a logo is easy at HelloPrint. Choose the pen type, upload your logo, and place your order. We offer various options like Eco Pens and Stylus Pens to match your brand’s needs."],
+    ["Can I order a custom pen for special occasions?", "Yes, custom pens are perfect for special occasions like weddings, anniversaries, and corporate events. Personalize them with names, dates, or messages. HelloPrint provides a variety of Luxury Pens and Fast Delivery Pens to choose from."],
+    ["How do personalised pens benefit businesses?", "Personalised pens enhance brand visibility and customer loyalty. They are practical, cost-effective marketing tools. Businesses can choose from a wide range of options, including Basic Pens and Eco Pens, at HelloPrint to meet their promotional needs."]
+  ];
+const faqEl = document.getElementById('faqList');
+faqEl.className = DESK ? 'd-acc' : 'acc oc-faq';
+faqEl.innerHTML = FAQS.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('');
+</script>
+</body>
+</html>
