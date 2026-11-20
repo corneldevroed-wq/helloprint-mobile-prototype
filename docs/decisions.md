@@ -5,6 +5,16 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## Search results page (Nov 20, 2026)
+- **2026-11-20 — Search results = the PFP with the query (`prototype/search.html?q=…`, sketch B in `sketches/search-sketch.html`).**
+  The header field keeps the query (no second search field), title "Results for “pens”", the count in the PFP bar. On top of the right column the
+  matching categories as a chip row with photos (`.chip-row` + `.chip-img`, the same chip as See also on the PDP; scrolls, desktop arrows when it
+  does not fit). Filters as the PFP with Product type first; Sort with Relevance first (default). No reviews, FAQ or SEO text (noindex).
+  No results: popular searches (pills), popular categories (PFP tiles), Request a quote; no emoji. Enter in the header search (mobile and desktop)
+  and "View all results for …" open this page. Prototype: only pens match (every word against name, type, brand, material, print, colour; no
+  substring hits like live's "pos" → Tony's). Rejected: A (as live: a second big field + Related pages + one Categories filter = two ways to the same
+  thing), C (category tiles on top: push the products a screen down).
+
 ## Upload & See: close to staging (Nov 20, 2026)
 - **2026-11-20 — Upload & See stays close to the staging flow (same screens, order and wording), drawn with UI guide parts only.**
   Basis: `sketches/upload-see-flow.html` (clickable), explained in `sketches/upload-see-map.html` (every interaction + what changed from staging).

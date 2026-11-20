@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,folder,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzn">
-<link rel="stylesheet" href="pages.css?v=20261205zzn">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
+<link rel="stylesheet" href="pages.css?v=20261205zzo">
 <!-- SKETCH FRAME (not linked; Cornel 2026-11-20), loaded by sketches/search-sketch.html as ?v=a|b|c&q=pens (q=zzqxv = no results):
      the new page type Search results (live /en-ie/search?q=pens), built on the PFP: the same pfp.js, the 181 live pens of pens-data.js.
      a: as live (a big search field, Related pages pills, one filter "Categories") · b: the query in the header field, the title "Results for …",
@@ -28,6 +28,17 @@
   .sr-quote { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }
   .sr-quote p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
   .sr-quote .btn { width: auto; padding: 0 24px; flex-shrink: 0; }
+  /* b: the matching categories on top of the right column (Cornel 2026-11-20): the PDP's "See also" chips (.spec-rel a, same size), in one row that scrolls;
+     desktop: the round carousel arrows (.d-rev-nav) on the ends when it does not fit */
+  .sr-cats-wrap { position: relative; margin-bottom: 16px; }
+  .sr-cats { flex-wrap: nowrap; margin: 0 calc(-1 * var(--gutter-r, 16px)) 0 0; }   /* the .hscroll bleed to the screen edge on mobile (.spec-rel sets its own margin) */
+  .sr-cats a { flex-shrink: 0; white-space: nowrap; }
+  .sr-cats-wrap .d-rev-nav { display: none; }
+  .desk .sr-cats { margin-right: 0; padding-right: 0; }
+  .desk .sr-cats-wrap .d-rev-nav { display: grid; position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
+  .desk .sr-cats-wrap .prev { left: -20px; }
+  .desk .sr-cats-wrap .prev svg { transform: scaleX(-1); }
+  .desk .sr-cats-wrap .next { right: -20px; }
   .sr-sugg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 </style>
 </head>
@@ -45,7 +56,7 @@
     </section>
     <section class="pf-layout" id="srLayout">
       <aside class="pf-side" aria-label="Filters"><div class="pf-side-h"><h2>Filters</h2><button class="pf-clear" type="button" data-clear hidden>Clear all</button></div><div id="side"></div></aside>
-      <div class="pf-main" id="main"></div>
+      <div class="pf-main"><div class="sr-cats-wrap" id="srCatsWrap" hidden><button class="d-rev-nav prev" type="button" data-cats="-1" aria-label="Previous categories" disabled></button><nav class="spec-rel sr-cats hscroll" id="srCats" aria-label="Categories"></nav><button class="d-rev-nav next" type="button" data-cats="1" aria-label="More categories"></button></div><div id="main"></div></div>
     </section>
     <section id="srEmpty" hidden></section>
     <div id="reviews" hidden></div>
@@ -63,9 +74,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205zzn"></script>
-<script src="../design-system/components.js?v=20261205zzn"></script>
-<script src="pens-data.js?v=20261205zzn"></script>
+<script src="app.js?v=20261205zzo"></script>
+<script src="../design-system/components.js?v=20261205zzo"></script>
+<script src="pens-data.js?v=20261205zzo"></script>
 <script>
 const U = new URLSearchParams(location.search), V = U.get('v') || 'b', Q = U.get('q') || 'pens', NONE = !/pen/i.test(Q);
 const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/', pic = p => `${CFI + p.i}?w=300&fm=webp&q=80`;
@@ -95,6 +106,15 @@ if (NONE) {
   const e = document.getElementById('srEmpty'); e.hidden = false;
   e.innerHTML = `<div class="sr-quote"><div><b>Need something specific?</b><p>We print almost anything. Tell us what you need and we send a quote within one working day.</p></div><a class="btn outline" href="quote.html">Request a quote</a></div>`;
 }
+// b: the categories that match, as pills with a photo above the grid (the live "Related pages", each opens its category page)
+if (V === 'b' && !NONE) { const el = document.getElementById('srCats'), wrap = document.getElementById('srCatsWrap'); wrap.hidden = false;
+  el.innerHTML = [['Engraved Pens', p => p.print.includes('Engraving')], ['BIC pens', p => p.brand === 'BIC'], ['Eco pens', p => p.eco], ['Luxury Pens', p => p.type.includes('Luxury pens')],
+    ['Touch pens', p => p.type.includes('Stylus pens')], ['Parker pens', p => p.brand === 'Parker'], ['Waterman pens', p => p.brand === 'Waterman'], ['Writing Sets', p => p.type.includes('Writing sets')]]
+    .map(([t, f]) => `<a class="chip-img" href="#${t.toLowerCase().replace(/ /g, '-')}"><img src="${pic(PENS.find(f))}" alt="">${t}</a>`).join('');
+  // the arrows: hidden at the start/end (as the reviews and promos), a click scrolls ~ one view
+  const navs = wrap.querySelectorAll('.d-rev-nav'), upd = () => { navs[0].disabled = el.scrollLeft < 4; navs[1].disabled = el.scrollLeft + el.clientWidth > el.scrollWidth - 4; };
+  navs.forEach(b => { b.innerHTML = REV_ARROW; b.onclick = () => el.scrollBy({ left: b.dataset.cats * el.clientWidth * .8, behavior: 'smooth' }); });
+  el.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd(); }
 const PFP = {
   items: V === 'a' ? PENS.map(p => ({ ...p, cat: 'Pens' })) : PENS, qty: 500, factor: 1.5, noun: 'products',
   groups: V === 'a' ? [{ id: 'cat', k: 'Categories', field: 'cat', vals: ['Pens'] }]
@@ -104,7 +124,7 @@ const PFP = {
   open: ['cat', 'type', 'del', 'price', 'print', 'colour'], openSheet: ['cat', 'type', 'del', 'price'], sib: SIB
 };
 </script>
-<script src="pfp.js?v=20261205zzn"></script>
+<script src="pfp.js?v=20261205zzo"></script>
 <script>
 // Sort: Relevance first and the default (live); here it keeps the data order, as Most popular
 let REL = true;

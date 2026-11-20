@@ -413,6 +413,20 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
 .d-rev-nav:hover { border-color: var(--black); }
 .d-rev-nav svg { width: 16px; height: 16px; }
 .d-rev-nav:disabled { opacity: 0; pointer-events: none; }   /* hidden at the start/end, as the promo arrows */
+/* Chip with a photo (Cornel 2026-11-20): See also on the PDP specs, the categories on Search results. A 28 round photo, 14 semibold, 38 high, outline grey, black on hover */
+.chip-img { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; padding: 4px 16px 4px 8px; border: 1px solid var(--outline); border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--black); white-space: nowrap; text-decoration: none; transition: border-color .15s; }
+.chip-img:hover { border-color: var(--black); }
+.chip-img img { display: block; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+/* A row of chips in one line that scrolls sideways (mobile: swipe, to the screen edge); desktop: the round arrows on its ends when it does not fit, hidden at the start/end (initChipRow) */
+.chip-row { position: relative; }
+.chip-row nav { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--gutter-r, 16px)); padding-right: var(--gutter-r, 16px); }
+.chip-row nav::-webkit-scrollbar { display: none; }
+.chip-row .d-rev-nav { display: none; }
+.desk .chip-row nav { margin-right: 0; padding-right: 0; }
+.desk .chip-row .d-rev-nav { display: grid; position: absolute; top: 50%; z-index: 2; margin-top: -20px; }
+.chip-row .prev { left: -20px; }
+.chip-row .prev svg { transform: scaleX(-1); }
+.chip-row .next { right: -20px; }
 .desk .opts { align-items: stretch; }   /* height follows the content; cards in one row stay equally tall */
 /* Option cards fill the 737px column exactly: as many columns as fit at ≥112px (6 at 1512px, each ±116px), no gap on the right */
 .desk .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); }

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,expand_more,local_mall,more_vert,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205zzn">
-<link rel="stylesheet" href="components.css?v=20261205zzn">
-<link rel="stylesheet" href="guide.css?v=20261205zzn">
+<link rel="stylesheet" href="tokens.css?v=20261205zzo">
+<link rel="stylesheet" href="components.css?v=20261205zzo">
+<link rel="stylesheet" href="guide.css?v=20261205zzo">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -272,6 +272,10 @@
       use: 'A pill with an icon in front, dark green: Edit in the PDP summary. Plain Edit / Choose buttons are a normal pill.' },
     { name: 'Round arrow', cls: '.d-rev-nav', ex: `<button class="d-rev-nav" aria-label="Next">${ARROW}</button>`,
       use: 'Next/previous on rows that scroll (reviews, promo cards). 40px, white, grey outline, floats on the row edge.' },
+    { name: 'Chip with photo', cls: '.chip-img', ex: '<a class="chip-img" href="#buttons"><img src="../prototype/assets/products/bc-1.png" alt="">Eco Business Cards</a>',
+      use: 'A link to a related product or category with its photo (Cornel, 2026-11-20): See also in the PDP specifications, the categories on Search results. 38 high, a 28 round photo, 14/22 semibold, outline grey, black on hover.' },
+    { name: 'Chip row', cls: '.chip-row', ex: `<div class="chip-row" style="width:300px"><button class="d-rev-nav prev" aria-label="Previous" disabled>${ARROW}</button><nav><a class="chip-img" href="#buttons"><img src="../prototype/assets/products/bc-1.png" alt="">Business Cards</a><a class="chip-img" href="#buttons"><img src="../prototype/assets/products/mug.webp" alt="">Mugs</a><a class="chip-img" href="#buttons"><img src="../prototype/assets/products/banner.webp" alt="">Banners</a></nav><button class="d-rev-nav next" aria-label="Next">${ARROW}</button></div>`,
+      use: 'Chips in one line that scrolls sideways (Search results, on top of the products). Mobile: swipe, the row runs to the screen edge. Desktop: the round arrows on its ends when it does not fit, hidden at the start and the end; a click moves about one view (initChipRow(row) in components.js).' },
     { name: 'Icon button', cls: '.icon-btn', ex: '<span class="icon-btns"><button class="icon-btn" data-tip="Change options" aria-label="Change options"><span class="material-symbols-rounded" aria-hidden="true">edit</span></button><button class="icon-btn" data-tip="Duplicate product" aria-label="Duplicate product"><span class="material-symbols-rounded" aria-hidden="true">content_copy</span></button><button class="icon-btn" data-tip="Remove from cart" aria-label="Remove from cart"><span class="material-symbols-rounded" aria-hidden="true">delete</span></button></span>',
       use: 'Small actions on a cart line (Edit, Duplicate, Remove): round, 40px on mobile (the height of the dropdown, a thumb target) and 32px on desktop, white, grey outline, dark green line icon. Black outline on hover. 8 apart. On hover (and keyboard focus) a tooltip says in a few words what it does: Change options, Duplicate product, Remove from cart.' },
     { name: 'Tooltip', cls: '[data-tip]', ex: '<span class="icon-btns" style="padding-top:40px"><button class="icon-btn tip-on" data-tip="Duplicate product" aria-label="Duplicate product"><span class="material-symbols-rounded" aria-hidden="true">content_copy</span></button></span>',
@@ -673,6 +677,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205zzn"></script>
+<script src="guide.js?v=20261205zzo"></script>
 </body>
 </html>

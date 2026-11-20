@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
+<link rel="stylesheet" href="pages.css?v=20261205zzo">
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- Search results (new page type, Cornel 2026-11-20, sketches/search-sketch.html B): live /en-ie/search?q=…, built on the PFP (pfp.js).
+       search.html?q=pens: the header field keeps the query, title "Results for …", the matching categories as a chip row with photos on top of the
+       right column, then the PFP (filters with Product type first, sort with Relevance first, Show 24 more). No reviews, FAQ or SEO text.
+       In the prototype only the pens search (pens-data.js); any other word shows the no-results state. -->
+  <main class="cat-page plp promo-e pfp">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / Search results</p>
+      <div class="intro" id="srHead"></div>
+    </section>
+
+    <section class="pf-layout" id="srLayout">
+      <aside class="pf-side" aria-label="Filters"><div class="pf-side-h"><h2>Filters</h2><button class="pf-clear" type="button" data-clear hidden>Clear all</button></div><div id="side"></div></aside>
+      <div class="pf-main">
+        <div class="chip-row sr-cats" id="srCats" hidden><button class="d-rev-nav prev" type="button" aria-label="Previous categories"></button><nav aria-label="Categories"></nav><button class="d-rev-nav next" type="button" aria-label="More categories"></button></div>
+        <div id="main"></div>
+      </div>
+    </section>
+
+    <section id="srEmpty" hidden>
+      <h2>Popular categories</h2>
+      <div class="plp-cats four" id="sibCats"></div>
+      <div class="sr-quote"><div><b>Need something specific?</b><p>We print almost anything. Tell us what you need and we send a quote within one working day.</p></div><a class="btn outline" href="quote.html">Request a quote</a></div>
+    </section>
+    <div id="reviews" hidden></div>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<div class="sheet-layer" id="sheet-filters" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head">
+      <h2 id="fTitle">Filters</h2>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button>
+    </div>
+    <div class="sheet-body"><div class="pad" id="sheetGroups"></div></div>
+    <div class="sheet-bar"><div class="bar-btns"><button class="btn outline" type="button" data-clear>Clear all</button><button class="btn primary" type="button" data-close-sheet id="showBtn">Show products</button></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261205zzo"></script>
+<script src="../design-system/components.js?v=20261205zzo"></script>
+<script src="pens-data.js?v=20261205zzo"></script>
+<script>
+const Q = (new URLSearchParams(location.search).get('q') || '').trim(), qh = `“${esc(Q)}”`;
+document.querySelectorAll('.dsearch input, form.search input, #searchInput').forEach(i => { i.value = Q; });   // the header field keeps the query
+// Matching (prototype): every word must be in a pen's name, type, brand, material or print; "pen(s)", "logo", "printed" … only say it is a pen.
+// A word that names nothing finds nothing (no substring hits like live's "pos" → Tony's Chocolonely)
+const PEN_WORD = /^(pens?|biros?|ballpoints?|ballpens?)$/, NOISE = /^(with|logo|printed|personalised|personalized|custom|branded|promotional|and|for|the|a)$/;
+const words = Q.toLowerCase().split(/[\s,]+/).filter(Boolean), isPen = words.some(w => PEN_WORD.test(w));
+const terms = words.filter(w => !PEN_WORD.test(w) && !NOISE.test(w)).map(w => w.replace(/(e?s)$/, '') || w);
+const hay = p => [p.n, ...p.type, p.brand, p.mat, ...[].concat(p.print), p.eco ? 'eco recycled sustainable' : '', ...p.col].join(' ').toLowerCase();
+const ITEMS = (isPen || terms.length) ? PENS.filter(p => terms.every(t => hay(p).includes(t))) : [];
+const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/', pic = p => `${CFI + p.i}?w=300&fm=webp&q=80`;
+const head = document.getElementById('srHead');
+
+if (!ITEMS.length) {
+  // No results: calm, no emoji. Popular searches as pills, popular categories as the PFP tiles, a quote
+  head.innerHTML = `<h1>${Q ? `No results for ${qh}` : 'What are you looking for?'}</h1><p>${Q ? 'Check the spelling, or try a broader word.' : 'Type a word in the search field above.'}</p>
+    <div class="sr-sugg">${['Business cards', 'Flyers', 'Posters', 'Pens', 'Stickers', 'Banners'].map(t => `<a class="pill" href="${t === 'Pens' ? 'search.html?q=pens' : '#' + t.toLowerCase().replace(/ /g, '-')}">${t}</a>`).join('')}</div>`;
+  document.getElementById('srLayout').style.display = 'none';   // .pf-layout is a grid, so not [hidden]
+  document.getElementById('srEmpty').hidden = false;
+}
+else head.innerHTML = `<h1>Results for ${qh}</h1>`;   // the count is in the bar above the grid, as on the PFP
+document.title = head.querySelector('h1').textContent;
+
+// The categories that match, as chips with a photo on top of the right column (the live "Related pages"; each opens its PFP with that filter, ROUTES)
+const CATS = [['Fast Delivery Pens', '#fastpens', p => ['1', '2to3'].includes(p.d)], ['Eco Pens', '#eco-pens', p => p.eco], ['Luxury Pens', '#luxury-pens', p => p.type.includes('Luxury pens')],
+  ['Stylus Pens', '#touch-pens', p => p.type.includes('Stylus pens')], ['Engraved Pens', 'pens.html?f=print%3AEngraving', p => [].concat(p.print).includes('Engraving')],
+  ['Writing Sets', 'pens.html?f=type%3AWriting%20sets', p => p.type.includes('Writing sets')], ['BIC Pens', '#bic-pens', p => p.brand === 'BIC'],
+  ['Parker Pens', '#parkerpens', p => p.brand === 'Parker'], ['Waterman Pens', '#watermanpens', p => p.brand === 'Waterman'], ['Marksman Pens', '#marksmanpens', p => p.brand === 'Marksman']]
+  .map(([t, href, f]) => [t, href, ITEMS.find(f)]).filter(c => c[2]);
+if (ITEMS.length && CATS.length > 1) {
+  const row = document.getElementById('srCats'); row.hidden = false;
+  row.querySelector('nav').innerHTML = CATS.map(([t, href, p]) => `<a class="chip-img" href="${href}"><img src="${pic(p)}" alt="">${t}</a>`).join('');
+  initChipRow(row);
+}
+
+const PFP = {
+  items: ITEMS, qty: 500, factor: 1.5, noun: 'products',
+  groups: [{ id: 'type', k: 'Product type', field: 'type', vals: ['Ballpoint pens', 'Stylus pens', 'Writing sets', 'Luxury pens', 'Rollerball pens', 'Fountain pens'] },
+    { id: 'del' }, { id: 'price', edges: [.25, .5, 1] }, { id: 'print', k: 'Print', field: 'print', vals: ['Full colour print', '1 to 5 colours', 'Engraving'] },
+    { id: 'colour' }, { id: 'mat', k: 'Material', field: 'mat' }, { id: 'brand', k: 'Brand', field: 'brand' }],
+  open: ['type', 'del', 'price', 'print', 'colour'], openSheet: ['type', 'del', 'price'],
+  sib: [['Business Cards', 'assets/products/bc-1.png', '#businesscards-printing'], ['Banners', 'assets/products/banner.webp', '#banners'], ['Mugs', 'assets/products/mug.webp', 'mugs.html'], ['T-shirts', 'assets/products/tshirt.webp', '#tshirt-printing']]
+};
+</script>
+<script src="pfp.js?v=20261205zzo"></script>
+<script>
+// Sort: Relevance first and the default, as live (here the order of the data, which is live's most popular)
+let REL = true;
+const fixSort = () => { const m = document.querySelector('.pf-bar .menu'), b = document.querySelector('.pf-sort'); if (!m || m.querySelector('[data-rel]')) return;
+  m.insertAdjacentHTML('afterbegin', `<button type="button" data-sort="pop" data-rel${REL ? ' class="on"' : ''}>Relevance</button>`);
+  if (REL) { b.textContent = 'Relevance'; m.querySelector('[data-sort="pop"]:not([data-rel])').classList.remove('on'); } };
+document.addEventListener('click', e => { const s = e.target.closest('[data-sort]'); if (s) REL = s.hasAttribute('data-rel'); }, true);
+new MutationObserver(fixSort).observe(document.getElementById('main'), { childList: true }); fixSort();
+</script>
+</body>
+</html>

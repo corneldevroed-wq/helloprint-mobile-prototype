@@ -46,6 +46,15 @@ document.querySelectorAll('[data-grab]').forEach(grab => {
   });
 });
 
+// A chip row (.chip-row: a nav of .chip-img between two .d-rev-nav, Cornel 2026-11-20): the arrows scroll about one view, hidden at the start/end
+function initChipRow(row) {
+  const nav = row.querySelector('nav'), [prev, next] = row.querySelectorAll('.d-rev-nav');
+  const upd = () => { prev.disabled = nav.scrollLeft < 4; next.disabled = nav.scrollLeft + nav.clientWidth > nav.scrollWidth - 4; };
+  [prev, next].forEach((b, i) => { b.innerHTML = '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    b.onclick = () => nav.scrollBy({ left: (i ? 1 : -1) * nav.clientWidth * .8, behavior: 'smooth' }); });
+  nav.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+}
+
 // Toast message (any page)
 let toastTimer;
 function showToast(text) {

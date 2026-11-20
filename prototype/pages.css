@@ -1486,10 +1486,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 /* Specifications with links (switch Specs O|N): options choose themselves, See also goes to another product */
 .spec-link { display: inline; padding: 0; font: inherit; color: var(--black); text-decoration: underline; text-decoration-color: var(--mid-grey); text-underline-offset: 3px; cursor: pointer; }
 .spec-link:hover { text-decoration-color: var(--black); }
-.spec-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 4px; font-weight: 400; font-size: var(--t-14); color: var(--black); }
-.spec-rel a { display: inline-flex; align-items: center; gap: 4px; padding: 4px 16px 4px 8px; border: 1px solid var(--outline); border-radius: var(--r-pill); background: var(--white); font-weight: 600; line-height: 1.4; color: var(--black); text-decoration: none; transition: border-color .15s; }
-.spec-rel a:hover { border-color: var(--black); }
-.spec-rel img { display: block; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.spec-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 4px; font-weight: 400; font-size: var(--t-14); color: var(--black); }   /* See also + .chip-img chips */
 /* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
 .desk #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
 .desk #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
@@ -2169,3 +2166,11 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 .pf-empty b { font-size: var(--t-16); }
 #sheet-filters .pad { gap: 0; }
 #sheet-filters .bar-btns { display: flex; flex: 1; gap: 8px; }
+
+/* ===== Search results (search.html, Cornel 2026-11-20, sketches/search-sketch.html B): the PFP with the query. The categories as a .chip-row on top of
+   the right column; no results: popular searches (pills), popular categories (the PFP tiles), a quote box */
+.sr-cats { margin-bottom: 16px; }
+.sr-sugg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.sr-quote { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }
+.sr-quote p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.sr-quote .btn { width: auto; padding: 0 24px; flex-shrink: 0; }

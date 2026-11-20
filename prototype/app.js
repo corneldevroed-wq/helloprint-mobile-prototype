@@ -876,6 +876,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuLayer.
 const slug = t => t.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const S = 'assets/search/';
 const SC = 'assets/category/';   // the cut-out product photos: every photo on light grey (Cornel 2026-11-13: no coloured backgrounds)
+const CF_PEN = 'https://images.ctfassets.net/wm1n7oady8a5/';
 const searchProducts = [
   { name: 'Classic business cards', img: SC + 't-classic.png', qty: 500, price: 18.89, proto: 'pdp' },
   { name: 'Eco business cards', img: SC + 't-eco.png', qty: 500, price: 18.89 },
@@ -891,6 +892,11 @@ const searchProducts = [
   { name: 'Sol’s Imperial T-shirt', img: 'assets/products/tshirt.webp', qty: 10, price: 164.83, tags: 't-shirts tshirt clothing' },
   { name: 'Custom Banners', img: 'assets/products/banner.webp', qty: 1, price: 33.36, tags: 'banners outdoor' },
   { name: 'Roller Banners', img: 'assets/products/roller-banner.webp', qty: 1, price: 38.99, tags: 'rollup banners pull up' },
+  // The four best-selling pens (pens-data.js, 500 pcs at the PFP price), so the search for pens shows products as on the Search results page
+  { name: 'Nash Pen', img: CF_PEN + 'CQoB1gLRBw2C5rJwAlwrS/bf0a613ea281454d438261f513b34fe6/deluxepens.webp?w=150&fm=webp&q=80', qty: 500, price: 195, tags: 'pens ballpoint pens' },
+  { name: 'Ebony Pens Matte', img: CF_PEN + '0J0KKVS4NeEunJfjDIBpe/7be4e342b14fa9884532f98100e5a466/ebonymatte.webp?w=150&fm=webp&q=80', qty: 500, price: 165, tags: 'pens ballpoint pens' },
+  { name: 'Clexton Pen', img: CF_PEN + '7CKDSEeKcer7e7w8dsI8ZD/fdbac5a724005d80d509dcca0742ba1b/penclexton.webp?w=150&fm=webp&q=80', qty: 500, price: 215, tags: 'pens ballpoint pens' },
+  { name: 'Budget Pens', img: CF_PEN + '2aVdbCjFLuOYvzETu3H2Sg/a0215ef65a1a4fbc44ca2dadaaf7ae95/budgetpens.png?w=150&fm=webp&q=80', qty: 500, price: 275, tags: 'pens ballpoint pens' },
 ].filter((p, i, a) => a.findIndex(q => q.name.toLowerCase() === p.name.toLowerCase()) === i);
 const searchCats = (() => {
   const seen = new Map();
@@ -956,7 +962,9 @@ if (homeSearch && !DESK) {
 searchInput.addEventListener('input', renderSearch);
 searchClear.addEventListener('click', () => { searchInput.value = ''; renderSearch(); searchInput.focus(); });
 document.getElementById('searchCancel').addEventListener('click', () => { searchInput.value = ''; closeSearch(); });
-document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); searchResults.querySelector('[data-search-go]')?.click(); });
+// Enter / the keyboard's Search: the Search results page with the query (Cornel 2026-11-20)
+const goSearch = q => { if (q.trim()) location.href = 'search.html?q=' + encodeURIComponent(q.trim()); };
+document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); goSearch(searchInput.value); });
 searchResults.addEventListener('click', e => { if (e.target.closest('[data-search-go]')) closeSearch(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && searchLayer.classList.contains('open')) closeSearch(); });
 // Desktop: a dropdown under the header's search field, as live en-ie (Cornel 2026-11-13: "as close to live as possible").
@@ -998,14 +1006,14 @@ if (deskSearch) {
         <div class="sd-prods"><p class="sd-label">Products${prods.length ? `<span>${prods.length} found${prods.length > shown.length ? ` · ${shown.length} best matches` : ''}</span>` : ''}</p>
           ${shown.length ? `<div class="s-products">${shown.map(prodRow).join('')}</div>` : '<p class="sd-none">No products</p>'}</div>
       </div>
-      <a class="sd-all" href="#search-${slug(raw)}">View all results for “${word}”</a>`
+      <a class="sd-all" href="search.html?q=${encodeURIComponent(raw)}">View all results for “${word}”</a>`
       : `<p class="search-empty">No results for <strong>“${word}”</strong>. Try another word, like “flyers” or “stickers”.</p>`;
   };
   const open = on => { if (on) render(); drop.hidden = !on; deskSearch.classList.toggle('open', on); };
   input.addEventListener('focus', () => open(true));
   input.addEventListener('input', () => open(true));
   clear.addEventListener('click', () => { input.value = ''; input.focus(); render(); });
-  deskSearch.addEventListener('submit', e => { e.preventDefault(); drop.querySelector('.sd-cats a, .s-prod')?.click(); });
+  deskSearch.addEventListener('submit', e => { e.preventDefault(); goSearch(input.value); });
   drop.addEventListener('click', e => { if (e.target.closest('a')) open(false); });
   document.addEventListener('click', e => { if (!deskSearch.contains(e.target)) open(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !drop.hidden) { open(false); input.blur(); } });
