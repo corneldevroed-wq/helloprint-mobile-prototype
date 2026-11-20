@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search Results Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,folder,tune&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzn">
+<link rel="stylesheet" href="pages.css?v=20261205zzn">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-20), loaded by sketches/search-sketch.html as ?v=a|b|c&q=pens (q=zzqxv = no results):
+     the new page type Search results (live /en-ie/search?q=pens), built on the PFP: the same pfp.js, the 181 live pens of pens-data.js.
+     a: as live (a big search field, Related pages pills, one filter "Categories") · b: the query in the header field, the title "Results for …",
+     the PFP filters with Product type first · c: b + the matching categories as tiles on top. Sort gets Relevance first (here = the live order). -->
+<style>
+  /* SKETCH CSS */
+  .sr-field { width: 100%; max-width: 600px; height: 48px; margin-top: 16px; box-shadow: 0 0 0 2px var(--light-green); }
+  .sr-field input { font-size: var(--t-16); }
+  .sr-related { margin-top: 16px; }
+  .sr-related .lbl { font-size: var(--t-12); line-height: var(--lh-12); font-weight: 600; color: var(--dark-grey); text-transform: uppercase; }
+  .sr-related .pill .material-symbols-rounded { font-size: 18px; }
+  .sr-top { margin-top: 24px; }
+  .sr-top h2 { margin-bottom: 16px; }
+  .sr-quote { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }
+  .sr-quote p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .sr-quote .btn { width: auto; padding: 0 24px; flex-shrink: 0; }
+  .sr-sugg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="cat-page plp promo-e pfp">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / Search results</p>
+      <div class="intro" id="srHead"></div>
+    </section>
+    <section class="sr-top" id="srTop" hidden>
+      <h2 id="srTopH"></h2>
+      <div class="plp-cats four" id="sibCats"></div>
+    </section>
+    <section class="pf-layout" id="srLayout">
+      <aside class="pf-side" aria-label="Filters"><div class="pf-side-h"><h2>Filters</h2><button class="pf-clear" type="button" data-clear hidden>Clear all</button></div><div id="side"></div></aside>
+      <div class="pf-main" id="main"></div>
+    </section>
+    <section id="srEmpty" hidden></section>
+    <div id="reviews" hidden></div>
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+
+<div class="sheet-layer" id="sheet-filters" aria-hidden="true">
+  <div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fTitle">
+    <div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="fTitle">Filters</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><div class="pad" id="sheetGroups"></div></div>
+    <div class="sheet-bar"><div class="bar-btns"><button class="btn outline" type="button" data-clear>Clear all</button><button class="btn primary" type="button" data-close-sheet id="showBtn">Show 181 products</button></div></div>
+  </div>
+</div>
+
+<script src="app.js?v=20261205zzn"></script>
+<script src="../design-system/components.js?v=20261205zzn"></script>
+<script src="pens-data.js?v=20261205zzn"></script>
+<script>
+const U = new URLSearchParams(location.search), V = U.get('v') || 'b', Q = U.get('q') || 'pens', NONE = !/pen/i.test(Q);
+const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/', pic = p => `${CFI + p.i}?w=300&fm=webp&q=80`;
+const qh = `“${esc(Q)}”`;
+// the query in the header field (b, c and the empty state; a has its own big field, as live)
+document.querySelectorAll('.dsearch input, form.search input').forEach(i => { if (V !== 'a' || NONE) i.value = Q; });
+const head = document.getElementById('srHead');
+if (NONE) {
+  head.innerHTML = `<h1>No results for ${qh}</h1><p>Check the spelling, or try a broader word.</p>
+    <div class="sr-sugg">${['Business cards', 'Flyers', 'Posters', 'Pens', 'Stickers', 'Banners'].map(t => `<a class="pill" href="#${t.toLowerCase().replace(/ /g, '-')}">${t}</a>`).join('')}</div>`;
+} else if (V === 'a') {
+  head.innerHTML = `<h1>${PENS.length} results for ${qh}</h1>
+    <form class="dsearch sr-field" role="search" onsubmit="return false"><img src="assets/search/search.svg" alt=""><input type="search" value="${esc(Q)}" aria-label="Search"><button type="submit" class="dbtn">Search</button></form>
+    <div class="sr-related"><p class="lbl">Related pages</p><div class="hscroll chips">${['Engraved Pens', 'BIC pens', 'Eco pens', 'Luxury Pens', 'Waterman pens', 'Touch pens', 'Promotional Pens', 'Parker pens']
+      .map(t => `<a class="pill has-icon" href="#${t.toLowerCase().replace(/ /g, '-')}"><span class="material-symbols-rounded" aria-hidden="true">folder</span>${t}</a>`).join('')}</div></div>`;
+} else {
+  head.innerHTML = `<h1>Results for ${qh}</h1>`;   // the count is in the bar above the grid (desktop left, mobile right)
+}
+// c: the categories that match, as the PFP's sibling tiles, on top; empty state: popular categories
+const SIB = NONE
+  ? [['Business Cards', 'assets/products/bc-1.png', '#business-cards'], ['Banners', 'assets/products/banner.webp', '#banners'], ['Mugs', 'assets/products/mug.webp', 'mugs.html'], ['T-shirts', 'assets/products/tshirt.webp', '#tshirt-printing']]
+  : [['Pens', pic(PENS[0]), 'pens.html'], ['Writing Sets', pic(PENS.find(p => p.type.includes('Writing sets'))), 'pens.html?f=type:Writing%20sets'],
+     ['Luxury Pens', pic(PENS.find(p => p.type.includes('Luxury pens'))), 'pens.html?f=type:Luxury%20pens'], ['Stylus Pens', pic(PENS.find(p => p.type.includes('Stylus pens'))), 'pens.html?f=type:Stylus%20pens']];
+if (V === 'c' || NONE) { document.getElementById('srTop').hidden = false; document.getElementById('srTopH').textContent = NONE ? 'Popular categories' : `Categories for ${'“' + Q + '”'}`; }
+if (NONE) {
+  document.getElementById('srLayout').style.display = 'none';   // .pf-layout is a grid, so not [hidden]
+  const e = document.getElementById('srEmpty'); e.hidden = false;
+  e.innerHTML = `<div class="sr-quote"><div><b>Need something specific?</b><p>We print almost anything. Tell us what you need and we send a quote within one working day.</p></div><a class="btn outline" href="quote.html">Request a quote</a></div>`;
+}
+const PFP = {
+  items: V === 'a' ? PENS.map(p => ({ ...p, cat: 'Pens' })) : PENS, qty: 500, factor: 1.5, noun: 'products',
+  groups: V === 'a' ? [{ id: 'cat', k: 'Categories', field: 'cat', vals: ['Pens'] }]
+    : [{ id: 'type', k: 'Product type', field: 'type', vals: ['Ballpoint pens', 'Stylus pens', 'Writing sets', 'Luxury pens', 'Rollerball pens', 'Fountain pens'] },
+       { id: 'del' }, { id: 'price', edges: [.25, .5, 1] }, { id: 'print', k: 'Print', field: 'print', vals: ['Full colour print', '1 to 5 colours', 'Engraving'] },
+       { id: 'colour' }, { id: 'mat', k: 'Material', field: 'mat' }, { id: 'brand', k: 'Brand', field: 'brand' }],
+  open: ['cat', 'type', 'del', 'price', 'print', 'colour'], openSheet: ['cat', 'type', 'del', 'price'], sib: SIB
+};
+</script>
+<script src="pfp.js?v=20261205zzn"></script>
+<script>
+// Sort: Relevance first and the default (live); here it keeps the data order, as Most popular
+let REL = true;
+const fixSort = () => { const m = document.querySelector('.pf-bar .menu'), b = document.querySelector('.pf-sort'); if (!m || m.querySelector('[data-rel]')) return;
+  m.insertAdjacentHTML('afterbegin', `<button type="button" data-sort="pop" data-rel${REL ? ' class="on"' : ''}>Relevance</button>`);
+  if (REL) { b.textContent = 'Relevance'; m.querySelector('[data-sort="pop"]:not([data-rel])').classList.remove('on'); } };
+document.addEventListener('click', e => { const s = e.target.closest('[data-sort]'); if (s) REL = s.hasAttribute('data-rel'); }, true);
+new MutationObserver(fixSort).observe(document.getElementById('main'), { childList: true }); fixSort();
+if (U.get('sheet')) document.querySelector('[data-open-sheet="filters"]')?.click();
+</script>
+</body>
+</html>

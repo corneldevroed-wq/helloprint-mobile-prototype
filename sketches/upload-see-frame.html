@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,more_vert,rotate_right,upload,zoom_in&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzn">
+<link rel="stylesheet" href="pages.css?v=20261205zzn">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-19), loaded by sketches/upload-see-sketch.html as ?s=file|check|approve&v=a|b|c:
+     Upload & See (uas.staging.helloprint.dev) redrawn with UI guide parts only: the checkout header + steps, .seg, .pill, .btn (.small, .outline),
+     .icon-btn, .dash-card, .addr-card (+ .addr-add), .oc-act, .file-check, .tracker.compact, .fc (the cart's check options), .sum-up, .deliv,
+     .art-calm, .oc-team, the order bars (.d-bar desktop, .buy-bar mobile). Test case: Classic Flyers A5, 1,000, double-sided, €33.49 excl. VAT;
+     the customer uploaded a landscape file with one page. -->
+<style>
+  /* SKETCH CSS: only layout (the column, the two sides, the flyer thumbnails). No new components. */
+  .us { display: flex; flex-direction: column; gap: 16px; padding-bottom: 32px; }
+  .desk .us { grid-column: 1 / -1; width: 720px; margin: 0 auto; gap: 24px; padding-bottom: 64px; }
+  .us h1 { margin: 0; }
+  .us-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .us-tools .seg { width: 100%; }   /* mobile: the toggle a row of its own, the pills under it */
+  .desk .us-tools .seg { width: 224px; }
+  .us-tools .pills { display: flex; gap: 8px; }
+  .us-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: var(--light-grey); }
+  .desk .us-sides { gap: 48px; padding: 32px 64px; }
+  .us-side { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .us-side .art, .us-side .addr-add { width: 100%; aspect-ratio: 148 / 210; }
+  .us-side .art { overflow: hidden; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .us-side .art img { width: 100%; height: 100%; object-fit: cover; }
+  .us-side .art.turned img { width: 141.9%; height: 70.48%; max-width: none; transform: rotate(90deg) translate(20.75%, 29.2%); transform-origin: 0 0; object-fit: cover; }
+  .us-side .acts { display: flex; gap: 8px; }
+  .us-side .acts .icon-btn { width: 32px; height: 32px; }
+  .us-side .addr-add { flex: none; justify-content: center; }
+  .us-side .addr-add .opts { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .us-side .addr-add .pill { justify-content: center; }
+  .us-side b { font-weight: 600; }
+  .us-side small { color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  .us-side .dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--orange); }
+  .us .pills-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .us .oc-act .t { display: flex; flex-direction: column; flex: 1; min-width: 200px; }
+  .us .oc-act .t small { color: var(--dark-grey); font-size: var(--t-14); line-height: var(--lh-14); }
+  .us .oc-act .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .us-q { display: flex; flex-direction: column; gap: 16px; }
+  .us-q h2 { margin: 0; font-size: var(--t-16); line-height: var(--lh-16); }
+  .us-q .tracker { grid-template-columns: repeat(2, 1fr); }
+  .us-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .us-pick .addr-card { flex: none; }
+  .us-pick .art { width: 72px; aspect-ratio: 148 / 210; overflow: hidden; position: relative; box-shadow: 0 1px 4px rgba(0,0,0,.12); align-self: center; margin: 8px 0; }
+  .us-pick .art img { width: 100%; height: 100%; object-fit: cover; }
+  .us-pick .art.turned img { position: absolute; left: 50%; top: 50%; width: 141.9%; height: 70.48%; max-width: none; transform: translate(-50%, -50%) rotate(90deg); }
+  .us-pick p { margin: 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .us .fc-list .badge { position: absolute; top: -10px; right: 16px; }
+  .us .deliv-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .us .confirm { margin: 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .desk .us .confirm { font-size: var(--t-14); line-height: var(--lh-14); }
+  .us .file-check .link { margin-left: 8px; font-size: var(--t-12); }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Steps" id="steps"></ol>
+    <div class="us" id="us"></div>
+  </main>
+</div>
+<script src="app.js?v=20261205zzn"></script>
+<script src="../design-system/components.js?v=20261205zzn"></script>
+<script>
+{
+  const q = new URLSearchParams(location.search), S = q.get('s') || 'file', V = q.get('v') || 'a';
+  const ic = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+  const TICK = '<img src="assets/pdp/check.svg" alt="">';
+  const FRONT = 'assets/proofs/poster-a4.png', WIDE = 'assets/proofs/leaflet.png';
+  const ETA = 'Estimated Tue 1 Dec — latest Wed 2 Dec';
+
+  // The steps: the round back button to the product, then the steps of this flow (check B has no Check step: the free check runs on its own)
+  const noCheck = (S === 'check' && V === 'b') || S === 'approve';
+  const steps = noCheck ? ['Your file', 'Approve'] : ['Your file', 'Check', 'Approve'];
+  const at = { file: 0, check: 1, approve: steps.length - 1 }[S];
+  const ol = document.getElementById('steps'); ol.style.gridTemplateColumns = `repeat(${steps.length + 1}, 1fr)`;
+  ol.innerHTML = `<li class="done"><a href="#product">Product</a></li>` +
+    steps.map((t, i) => `<li class="${i < at ? 'done' : i === at ? 'current' : ''}"${i === at ? ' aria-current="step"' : ''}>${t}</li>`).join('');
+
+  // The preview: Both sides | Turn it over, Zoom + Designer view, the two sides with one Edit and a ⋮ each
+  const tools = `<div class="us-tools"><div class="seg" role="radiogroup" aria-label="View"><button role="radio" aria-checked="true">Both sides</button><button role="radio" aria-checked="false">Turn it over</button></div>
+    <span class="pills"><button class="pill">${DESK ? 'Zoom in' : ic('zoom_in')}</button><button class="pill">Designer view</button></span></div>`;
+  const side = (name, art, extra = '') => `<div class="us-side">${art}<b>${name}</b>${extra}</div>`;
+  const acts = `<span class="acts"><button class="btn outline small">Edit</button><button class="icon-btn" aria-label="More">${ic('more_vert')}</button></span>`;
+  const art = (src, cls = '') => `<span class="art ${cls}"><img src="${src}" alt=""></span>`;
+  const emptyBack = `<button class="addr-card addr-add">${ic('add')}Add a back</button>`;
+  const preview = (front, back) => `<div class="dash-card us-sides">${front}${back}</div>`;
+
+  const bar = (label, disabled, sub) => DESK
+    ? `<div class="d-bar show"><div class="dwrap"><span class="d-bar-prod"><span class="thumb"><img src="${S === 'file' ? WIDE : FRONT}" alt=""></span><span class="t"><b>Classic Flyers</b><small>A5 · 1,000 · Glossy · Budget 135 gsm · double-sided</small></span></span>
+        <span class="d-bar-eta">${TICK}${ETA}</span><span class="d-bar-total"><b>€33.49</b><small>excl. VAT</small></span>
+        <button class="btn primary d-go"${disabled ? ' disabled' : ''}>${label}</button></div></div>`
+    : `<div class="buy-bar show"><div class="sheet-bar"><div class="total"><strong>€33.49</strong><span class="bar-sub"><span>excl. VAT</span> ·${TICK}<span>${sub || 'latest Wed 2 Dec'}</span></span></div><button class="btn primary"${disabled ? ' disabled' : ''}>${label}</button></div></div>`;
+
+  const team = '<div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>Not sure about your file? Our team looks at it with you. <a href="#chat">Start chat</a></span></div>';
+  const checkList = (rows, undo) => `<div class="dash-card file-check"><ul aria-label="What we checked">${rows.map(([ok, t, s]) => `<li>${ok ? TICK : '<span class="dot" aria-hidden="true"></span>'}<b>${t}</b><small>${s}</small></li>`).join('')}</ul></div>`;
+  const CHECKED = [[1, 'Size and pages', 'A5, front and back'], [1, 'Colours to the edge', 'Your file has 3 mm bleed, as it should'], [1, 'Sharp enough to print', 'Your photos print sharp at A5'],
+    [1, 'Fonts', 'All letter types are in your file'], [0, 'Text in a picture', 'We can’t measure text that is part of a picture: look at its size and distance to the edge on the preview']];
+  const TIERS = [['Basic Check + Proof', 'Free', ['Print proof before production', 'Automated checks on resolution, size & colour settings']],
+    ['Premium Check + Proof', '€10.99', ['Everything in Basic, plus:', 'All file formats accepted', 'Design support from our experts', 'AI-powered optimisation'], true],
+    ['Deluxe', '€21.00', ['Everything in Premium, plus:', 'Perfect design guaranteed', 'Personal extra file-check, prioritised by our experts']]];
+  const fc = pick => `<div class="fc-list" role="radiogroup">${TIERS.map(([n, p, perks, rec], i) => `<button class="fc${rec ? ' rec' : ''}" role="radio" aria-checked="${i === pick}">${rec ? badgeHtml('Recommended') : ''}
+    <span class="fc-top"><span class="radio"></span><b>${n}</b><span class="fc-price">${p}</span></span><ul>${perks.map(x => `<li>${x}</li>`).join('')}</ul></button>`).join('')}</div>`;
+  const upsellCheck = '<div class="sum-up sum-check"><button class="switch" role="switch" aria-checked="false" aria-label="Add Premium Artwork Check"></button><b>Add Premium Artwork Check</b><span class="p">€10.99</span><small>An expert looks at your text and layout before we print.</small><button class="link">See our 3 options</button></div>';
+  // Delivery as the PDP's tiles: desktop side by side with the calendar tile, mobile the list (the guide's Delivery row)
+  const DAYS = [['Saver', 'Dec', '1', 'Tue', 'Tue 1 Dec · latest Wed 2', 'Included', true], ['Standard', 'Nov', '24', 'Tue', 'Tue 24 Nov · latest Wed 25', '+€42.50'], ['Express', 'Nov', '23', 'Mon', 'Mon 23 Nov · latest Tue 24', '+€49.50']];
+  const DELIV = DESK
+    ? `<div class="deliv-row" role="radiogroup">${DAYS.map(([n, m, d, wd, , p, on]) => `<button class="deliv d-cal-card" role="radio" aria-checked="${!!on}"><span class="cal" aria-hidden="true"><i>${m}</i><b>${d}</b><small>${wd}</small></span><span class="tx"><b>${n}</b><span class="pr">${p}</span></span></button>`).join('')}</div>`
+    : `<div class="opt-group" role="radiogroup">${DAYS.map(([n, m, d, , eta, p, on]) => `<button class="deliv" role="radio" aria-checked="${!!on}"><span class="date"><b>${d}</b><small>${m.toUpperCase()}</small></span><span class="t"><b>${n}</b><small>${eta}</small></span><span class="p">${p}</span></button>`).join('')}</div>`;
+  const both = preview(side('Front', art(FRONT)), side('Back', art(FRONT))) ;
+
+  let html = '', barHtml = '';
+  if (S === 'file') {
+    if (V === 'a') {   // A: each problem a to-do block under the preview; Next waits for the answers
+      html = `<h1>Your flyer</h1>${tools}${preview(side('Front', art(WIDE), acts), side('Back', emptyBack))}
+        <div class="oc-acts">
+          <div class="oc-act"><div class="row"><span class="t"><b>Your file is landscape, the flyer is portrait</b><small>Filled as it is, about 113 mm is cut off left and right.</small></span>
+            <span class="btns"><button class="btn primary small">${ic('rotate_right')}Turn it</button><button class="btn outline small">Keep it filled</button></span></div></div>
+          <div class="oc-act"><div class="row"><span class="t"><b>What goes on the back?</b><small>You ordered double-sided printing.</small></span></div>
+            <div class="pills-row"><button class="pill">Same design as the front</button><button class="pill">${ic('upload')}Add a back</button><button class="pill">One side only · save €4.00</button></div></div>
+        </div>${team}`;
+      barHtml = bar('Next: check my file', true, 'answer 2 questions first');
+    }
+    if (V === 'b') {   // B: the problem sits on the side itself: the front says what's wrong, the empty back asks its question
+      html = `<h1>Your flyer</h1>${tools}${preview(
+        side('Front', art(WIDE), `<small><span class="dot"></span>Landscape file: 113 mm cut off</small><span class="acts"><button class="btn primary small">${ic('rotate_right')}Turn it</button><button class="icon-btn" aria-label="More">${ic('more_vert')}</button></span>`),
+        side('Back', `<div class="addr-card addr-add"><span class="opts"><b>What goes on the back?</b><button class="pill">Same as the front</button><button class="pill">${ic('upload')}Add a back</button><button class="pill">One side only</button></span></div>`))}${team}`;
+      barHtml = bar('Next: check my file', true, 'the back first');
+    }
+    if (V === 'c') {   // C: one question at a time, chosen by picture (the report form's way), Next only after the last
+      html = `<h1>Your flyer</h1>${tools}${preview(side('Front', art(WIDE), acts), side('Back', emptyBack))}
+        <div class="dash-card us-q"><ol class="tracker compact" aria-hidden="true"><li class="now"></li><li></li></ol><p class="tracker-now">Question 1 of 2 · <b>Your file</b></p>
+          <h2>Your file is landscape. How should it go on the flyer?</h2>
+          <div class="us-pick" role="radiogroup">
+            <div class="addr-card" role="radio" tabindex="0" aria-checked="true"><div class="top"><span class="radio"></span><b>Turn it</b></div>${art(WIDE, 'turned')}<p>All of your design, turned a quarter</p></div>
+            <div class="addr-card" role="radio" tabindex="0" aria-checked="false"><div class="top"><span class="radio"></span><b>Fill the flyer</b></div>${art(WIDE)}<p>About 113 mm is cut off left and right</p></div>
+          </div>
+          <button class="btn primary">Next question: the back</button></div>${team}`;
+      barHtml = bar('Next: check my file', true, '2 questions first');
+    }
+  }
+  if (S === 'check') {
+    if (V === 'a') {   // A: a step of its own, the cart's three options (one name, one price), Recommended chosen
+      html = `<h1>How carefully should we check it?</h1><p class="oc-lead">Every file gets the free check. Choose more if you want an expert to look.</p>${fc(1)}
+        <div class="spec-fold"><button class="link">Compare everything</button></div>${team}`;
+      barHtml = bar('Check my file');
+    }
+    if (V === 'b') {   // B: no check step: the free check ran while you looked; its result and the upgrade on the approve screen
+      html = `<h1>Approve your flyer</h1>${both}${checkList(CHECKED)}${upsellCheck}
+        <p class="confirm">By approving, we print your flyer exactly as shown. You can still change it until we start printing.</p>${team}`;
+      barHtml = bar('Approve and add to cart');
+    }
+    if (V === 'c') {   // C: the result first, then the options under it (Basic chosen: you already have it)
+      html = `<h1>We checked your flyer</h1>${checkList(CHECKED)}<h2 style="margin:0">Want more certainty?</h2>${fc(0)}${team}`;
+      barHtml = bar('Next: approve');
+    }
+  }
+  if (S === 'approve') {
+    const calm = `<div class="art-calm"><b>${TICK}Your flyer is good to go</b><span>Front and back checked. You can still change it until we start printing.</span></div>`;
+    if (V === 'a') {   // A: one upsell and the delivery tiles before Approve
+      html = `<h1>Approve your flyer</h1>${both}${calm}
+        <div class="sum-up"><button class="switch" role="switch" aria-checked="false" aria-label="Standard 170 gsm"></button><b>Thicker paper: Standard 170 gsm</b><span class="p">+€4.00</span><small>Feels sturdier in the hand.</small></div>
+        ${DELIV}
+        <p class="confirm">By approving, we print your flyer exactly as shown.</p>`;
+      barHtml = bar('Approve and add to cart');
+    }
+    if (V === 'b') {   // B: nothing to sell here: what we fixed (with Undo), Approve, then the cart (its upsells are already there)
+      html = `<h1>Approve your flyer</h1>${both}${calm}
+        <div class="dash-card file-check"><ul aria-label="What we did"><li>${TICK}<b>Turned your design a quarter <button class="link">Undo</button></b><small>It was landscape, the flyer is portrait</small></li><li>${TICK}<b>Same design on the back</b><small>As you chose</small></li></ul></div>
+        <p class="confirm">By approving, we print your flyer exactly as shown. Nothing is paid yet: your cart is next.</p>${team}`;
+      barHtml = bar('Approve and add to cart');
+    }
+    if (V === 'c') {   // C: only the delivery date (the upload took time: show the date still holds), no product upsells
+      html = `<h1>Approve your flyer</h1>${both}${calm}
+        ${DELIV}
+        <p class="confirm">By approving, we print your flyer exactly as shown. Approve before 10:30 tomorrow to keep this date.</p>`;
+      barHtml = bar('Approve and add to cart');
+    }
+  }
+  document.getElementById('us').innerHTML = html;
+  document.body.insertAdjacentHTML('beforeend', barHtml);
+}
+</script>
+</body>
+</html>

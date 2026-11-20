@@ -5,6 +5,14 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## Upload & See: close to staging (Nov 20, 2026)
+- **2026-11-20 — Upload & See stays close to the staging flow (same screens, order and wording), drawn with UI guide parts only.**
+  Basis: `sketches/upload-see-flow.html` (clickable), explained in `sketches/upload-see-map.html` (every interaction + what changed from staging).
+  Fine-tuning follows. For now it stays standalone: not linked to the prototype or a product. The A/B/C picks in `upload-see-sketch.html`
+  (1C, 2B, 3B) are not the basis; they stay as input for the fine-tuning (the upsells after Approve and the empty back are still P1 in the plan).
+- **2026-11-20 — Header: the slim checkout header without “Secure Checkout”** (logo, account, cart). It is not the checkout: the customer is still
+  making the product. Rejected: A the shop header (every link a way out mid-task, pushes the flyer down on mobile), C slim + Need help? (help stays the team line in the page).
+
 ## My account: nothing needs you (Nov 20, 2026)
 - **2026-11-20 — When nothing needs your attention, that block is hidden and Order again takes the full width** (desktop: Reorder and its
   icons right of each row, one line instead of under the text; mobile: Order again simply moves up). Cornel: an empty "Nothing needs you right now"

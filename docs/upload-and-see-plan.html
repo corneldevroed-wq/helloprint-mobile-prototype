@@ -1,0 +1,201 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload &amp; See Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* One reading column: verdict, the flow as tested, customer problems, the component map, the plan. HelloPrint tokens. */
+  :root {
+    --bg: #ffffff; --fg: #191919; --muted: #555555; --line: #e4e4e4; --tile: #f0f0f0;
+    --brand: #022b07; --accent: #00a651; --link: #008539; --warn: #f36d13; --error: #c90e2e; --code-bg: #f0f0f0;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #0f1410; --fg: #ececec; --muted: #a8b0a9; --line: #2a332c; --tile: #1a211c;
+    --brand: #7fd69f; --accent: #2fc173; --link: #5fd38f; --warn: #f39a4c; --error: #ff6b81; --code-bg: #1f2721; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #0f1410; --fg: #ececec; --muted: #a8b0a9; --line: #2a332c; --tile: #1a211c;
+    --brand: #7fd69f; --accent: #2fc173; --link: #5fd38f; --warn: #f39a4c; --error: #ff6b81; --code-bg: #1f2721; color-scheme: dark }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.6 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 40px 16px 96px; display: flex; flex-direction: column; gap: 48px; }
+  header { display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font: 800 32px/1.15 Inter, sans-serif; letter-spacing: -.02em; color: var(--brand); text-wrap: balance; }
+  h2 { margin: 0; font: 700 22px/1.25 Inter, sans-serif; color: var(--brand); }
+  h3 { margin: 0; font: 600 16px/1.35 Inter, sans-serif; }
+  p, li { max-width: 72ch; }
+  p { margin: 0; }
+  ul, ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .meta { color: var(--muted); font-size: 14px; }
+  section { display: flex; flex-direction: column; gap: 16px; }
+  a { color: var(--link); font-weight: 600; }
+  code { font: 500 12.5px/1.5 var(--mono); background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .verdict { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .verdict div { border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .verdict b { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 8px; display: block; }
+  figcaption { font-size: 14px; color: var(--muted); }
+  figcaption b { color: var(--fg); }
+  .issue { border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; }
+  .issue .sev { grid-row: span 3; font: 700 12px/1 Inter, sans-serif; padding: 6px 0; border-radius: 4px; text-align: center; color: #fff; align-self: start; }
+  .sev.p1 { background: var(--error); } .sev.p2 { background: var(--warn); } .sev.p3 { background: var(--muted); }
+  .issue p { font-size: 14px; color: var(--muted); }
+  .issue p.fix { color: var(--fg); }
+  .issue p.fix::before { content: "Fix: "; font-weight: 700; color: var(--link); }
+  .issues { display: flex; flex-direction: column; gap: 12px; }
+  .tbl { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+  td:first-child { font-weight: 600; min-width: 150px; }
+  .gap { color: var(--warn); font-weight: 600; }
+  .phase { border-left: 3px solid var(--accent); padding-left: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .note { background: var(--tile); border-radius: 8px; padding: 16px; font-size: 14px; }
+  @media (max-width: 720px) {
+    .verdict, .flow { grid-template-columns: 1fr; }
+    h1 { font-size: 26px; }
+  }
+</style>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Analysis + plan · v0.1 · 19 Nov 2026</span>
+  <h1>Upload &amp; See into the design system</h1>
+  <p class="meta">Tested on staging: Classic Flyers (A5, 1,000, double-sided) → "Upload your design" → uas.staging.helloprint.dev, with three test files:
+  a correct 2-page PDF with 3 mm bleed, a low-resolution JPG and a landscape PNG. Desktop 1512+. Mobile could not be tested (see the end).</p>
+</header>
+
+<section>
+  <h2>In short</h2>
+  <div class="verdict">
+    <div><b>What's strong</b><p>The idea is right: you see your own flyer straight away, both sides, before you pay. Fixes happen before you approve and can be undone. The tone is plain and human.</p></div>
+    <div><b>What's wrong</b><p>It's a separate world: its own header, buttons, radii and greens. And there are spots where it tells the customer something that isn't true ("Fits your flyer" while 113 mm is cut off).</p></div>
+    <div><b>The plan</b><p>Don't add new components. Every screen maps onto parts we already have. Promote two existing prototype parts (steps, file check) into the design system, fix the UX problems first, then reskin.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>The flow as it is today</h2>
+  <div class="flow">
+    <figure><img src="upload-and-see/1-upload.jpg" alt="Upload screen" loading="lazy"><figcaption><b>1 · Your file.</b> Its own header (Back to HelloPrint, steps, "Upload &amp; See" mark), dashed drop field, "Use your phone".</figcaption></figure>
+    <figure><img src="upload-and-see/2-sending.jpg" alt="Sending" loading="lazy"><figcaption><b>2 · Sending.</b> Three steps with a % ring; "Your file stays private".</figcaption></figure>
+    <figure><img src="upload-and-see/3-preview.jpg" alt="Preview" loading="lazy"><figcaption><b>3 · There it is.</b> Both sides / Turn it over, Zoom, Designer view; 4–5 buttons per side; total + delivery bar.</figcaption></figure>
+    <figure><img src="upload-and-see/4-adjust.jpg" alt="Adjust" loading="lazy"><figcaption><b>3b · Adjust the front.</b> Opens above the preview: drag, Smaller/Bigger/Fill/Show all/Centre, a slider, Done.</figcaption></figure>
+    <figure><img src="upload-and-see/5-wrong-file.jpg" alt="Wrong file" loading="lazy"><figcaption><b>3c · A file that doesn't fit.</b> "About your file": cut-off and blur notes, each with its own buttons.</figcaption></figure>
+    <figure><img src="upload-and-see/6-check-choice.jpg" alt="Check choice" loading="lazy"><figcaption><b>4 · How carefully should we check it?</b> Basic free · Premium €3.99 (Recommended) · Print expert €15; Compare everything.</figcaption></figure>
+    <figure><img src="upload-and-see/7-check-result.jpg" alt="Check result" loading="lazy"><figcaption><b>5 · Checking your flyer.</b> Six checks fill in, then "All good · continue".</figcaption></figure>
+    <figure><img src="upload-and-see/8-approve.jpg" alt="Approve" loading="lazy"><figcaption><b>6 · Good to go.</b> Fixed for you (Undo), two reassurances, Approve and finish my order. The steps are gone here.</figcaption></figure>
+    <figure><img src="upload-and-see/9-upsell.jpg" alt="Upsell" loading="lazy"><figcaption><b>7 · Three upgrades after approving.</b> Paper +€4, 2,000 copies +€17.50, Standard delivery +€42.50. Then the cart.</figcaption></figure>
+    <figure><img src="upload-and-see/10-phone.jpg" alt="Use your phone" loading="lazy"><figcaption><b>Use your phone.</b> QR + link, two tabs (Add photos / Continue on your phone), valid 10 minutes.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <h2>Customer problems, most important first</h2>
+  <p class="meta">P1 = the customer gets a wrong print or a wrong price. P2 = confusion or doubt that costs conversion. P3 = polish.</p>
+  <div class="issues">
+    <div class="issue"><span class="sev p1">P1</span><h3>A landscape file is cropped by default, and still gets a "Fits your flyer" tick</h3>
+      <p>Landscape PNG on a portrait A5: the preview fills the flyer and cuts ~113 mm off each side; "Fill the whole flyer" is the active (green) choice, and under the bar it still says ✓ Fits your flyer.</p>
+      <p class="fix">If the file is turned 90°, offer Turn first ("Your file is landscape: turn it?"). Never make the destructive option the default. Only show the ticks under the bar when they're true.</p></div>
+    <div class="issue"><span class="sev p1">P1</span><h3>A double-sided flyer can go through with an empty back</h3>
+      <p>Single-page file: the back shows "Add your back", and Next: check my file just works. The customer pays for double-sided and gets a blank back, or we have to ask afterwards.</p>
+      <p class="fix">Before Next, ask one question: Same design on the back · Add a back · Print one side only (show the price difference). Until then the primary is disabled ("Until the step is complete", our rule).</p></div>
+    <div class="issue"><span class="sev p1">P1</span><h3>The check has three names and three prices in the shop</h3>
+      <p>Upload &amp; See: Basic / Premium €3.99 / Print expert €15 in one session, €4.99 / €17 in another (low-res file), "designer €17.00" in the preview. Cart today: Basic / Premium Check + Proof €10.99 / Deluxe €21.00 (<code>CHECK_TIERS</code>, grows with order lines).</p>
+      <p class="fix">One product, one name, one price logic, shown the same in Upload &amp; See, cart and order confirmed. If the price depends on the file, say why ("your file needs more work").</p></div>
+    <div class="issue"><span class="sev p1">P1</span><h3>The recommended check sells itself with what it can't do</h3>
+      <p>Premium (Recommended) lists two "–" lines: "Text in a picture: we can't check…". The Compare table says Premium does check those two. The customer reads: the paid option doesn't work for me.</p>
+      <p class="fix">The card shows what you get. A limitation about this file goes on the result screen, once, as a point to look at. Table and cards say the same thing.</p></div>
+    <div class="issue"><span class="sev p1">P1</span><h3>Upsells come after "Approve and finish my order"</h3>
+      <p>The customer has decided and clicks the final button, then gets three more questions. The delivery one is +€42.50 on a €33.49 order (more than double).</p>
+      <p class="fix">The decision comes before the button: on the result screen, one Upsell block (our <code>.sum-up</code>), and delivery as our Delivery tiles. After Approve go straight to the cart (+ toast "Added to cart").</p></div>
+    <div class="issue"><span class="sev p2">P2</span><h3>It says it fixed what wasn't broken</h3>
+      <p>The PDF already had 3 mm bleed. Still: "We added the bleed", "Fixed for you: Colours to the edge", and in Adjust "Part of your design will be cut off". That makes the customer doubt their own (correct) file, and our check.</p>
+      <p class="fix">Only report a fix that really happened. Bleed that is cut off as intended: "The outer 3 mm is cut off, as it should be."</p></div>
+    <div class="issue"><span class="sev p2">P2</span><h3>Warnings don't look like warnings, and the green path stays green</h3>
+      <p>Blurry photo: a neutral white card, three equal buttons (Sharper photo · Print it as it is · Let our designer look €17). Next keeps the same weight.</p>
+      <p class="fix">One action block per problem (to-do style): the issue in one line, the recommended fix as the button, the rest as outline or a link.</p></div>
+    <div class="issue"><span class="sev p2">P2</span><h3>The steps lie about where you are</h3>
+      <p>"Check" holds the choice, the result, approving and the upsells; the steps disappear on the approve screen; "Basket" is never a step here (it jumps to the cart).</p>
+      <p class="fix">Our checkout steps: Your file · Check · Approve, then the cart. Always visible, the current step light green.</p></div>
+    <div class="issue"><span class="sev p2">P2</span><h3>Too many buttons per side</h3>
+      <p>Back: Move or resize · Other file · Remove · Turn · Same design · One side only. Six outline buttons, twice: busy, and you can't tell what matters.</p>
+      <p class="fix">Under each side one button "Edit" (opens Adjust) + a ⋮ menu with the rest (our <code>rowMenu</code> / drop menu). Same design and One side only move into the empty-back question.</p></div>
+    <div class="issue"><span class="sev p2">P2</span><h3>"Turn it over on your preview" where you can't turn it</h3>
+      <p>The check result says to turn it over, but that screen only shows the front and has no turn control.</p>
+      <p class="fix">The result screen shows both sides (as in step 3), or the line links back.</p></div>
+    <div class="issue"><span class="sev p3">P3</span><h3>Small things</h3>
+      <ul>
+        <li>Delivery says "Delivered Tuesday 1 December"; our rule is "Estimated Tue 1 Dec — latest Wed 2 Dec".</li>
+        <li>"Upload &amp; See" is the internal name as a brand mark; the customer sees HelloPrint.</li>
+        <li>The Designer view legend (pink dashes, outer line, inner dots) is one small sentence; the lines are hard to see at this size.</li>
+        <li>"Something we should know about your file?" is a separate Send note; on the proof page the note goes with Approve (decided 11-19).</li>
+        <li>"Ask a question" is its own green button; the shop has the chat widget.</li>
+        <li>"Choose one" stays disabled until you choose; preselect the recommended option.</li>
+        <li>"A5 FLYER" eyebrow, % rings, the Recommended header in tint: busier than it needs to be ("kermis").</li>
+      </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Every part onto an existing component</h2>
+  <p class="meta">Measured on staging (getComputedStyle) next to our design system. No new components; where something is missing, the column says how to manage without one.</p>
+  <div class="tbl"><table>
+    <tr><th>Upload &amp; See today</th><th>Becomes (design system)</th><th>What changes</th></tr>
+    <tr><td>Top bar + steps</td><td>The desktop checkout header + <code>.co-steps-n</code> (round back, numbered steps)</td><td>HelloPrint logo instead of "Upload &amp; See"; steps Your file · Check · Approve. <span class="gap">Promote</span> <code>.co-steps-n</code> from pages.css into components.css + a guide row.</td></tr>
+    <tr><td>Primary button</td><td><code>.btn.primary</code></td><td>44 → 40 high, radius 8 → pill, 700 → 600, #008539 → <code>--light-green</code>.</td></tr>
+    <tr><td>Small outline buttons (30 high)</td><td><code>.btn.outline.small</code> (32) or <code>.pill</code></td><td>Off-grid 30 → 32; radius 8 → pill.</td></tr>
+    <tr><td>Drop field</td><td>Upload your artwork: <code>.art-drop</code>, <code>--selected</code> while dragging, <code>.art-team</code> under it</td><td>Same markup as the PDP upload popup.</td></tr>
+    <tr><td>Use your phone (link + top right)</td><td><code>.pill</code> with icon under the field; dialog = <code>.sheet</code> (560 panel on desktop) with <code>.seg</code> for the two tabs, link in a <code>.field</code>, Copy as <code>.pill</code></td><td>Not a ghost button top right on every screen.</td></tr>
+    <tr><td>Sending (3 steps, % ring)</td><td><code>.file-check</code> list (ticks + dot) in the upload popup's progress</td><td>Drop the ring. <span class="gap">Promote</span> <code>.file-check</code> from pages.css (it's used twice now: proof page + here).</td></tr>
+    <tr><td>Both sides | Turn it over</td><td><code>.seg</code> Segmented control</td><td>As is: two answers to one question.</td></tr>
+    <tr><td>Zoom in, Designer view</td><td><code>.pill</code> / <code>.pill.active</code> when on</td><td>Designer view's legend as three short lines with a swatch each.</td></tr>
+    <tr><td>Preview stage</td><td>A card (<code>--outline</code>, <code>--r-l</code>) on <code>--light-grey</code>; zoom = the artwork popup we already have (cart, order confirmed)</td><td>Radius 16 → 10; border #e5e5e5 → <code>--outline</code>.</td></tr>
+    <tr><td>Actions per side</td><td><code>.btn.outline.small</code> "Edit" + ⋮ <code>rowMenu</code> / <code>.d-menu</code></td><td>6 buttons → 2.</td></tr>
+    <tr><td>Adjust panel</td><td><code>.sheet</code> (desktop 560 panel, mobile sheet) with <code>.pill</code>s; Fill | Show all as <code>.seg</code>; Done = <code>.btn.primary</code> in <code>.sheet-bar</code></td><td>No slider in the system: <span class="gap">drop the slider</span>, drag + Smaller/Bigger cover it.</td></tr>
+    <tr><td>About your file</td><td><code>.oc-act</code> to-do block per problem, recommended fix <code>.btn.primary.small</code>, others <code>.btn.outline.small</code></td><td>Only when something needs the customer.</td></tr>
+    <tr><td>Note to the printer</td><td>Text field in the approve step, as the proof page's <code>#sheet-approve</code></td><td>No separate Send note.</td></tr>
+    <tr><td>Total + delivery bar</td><td>Desktop <code>.d-bar</code> (fixed order bar), mobile <code>.buy-bar</code> (Sticky bar)</td><td>"Estimated … — latest …"; the ticks under it only when true.</td></tr>
+    <tr><td>Check choice (3 cards)</td><td>Radio cards (<code>.qrow</code> / <code>.addr-list</code>) with the content of the cart's "See our 3 options" popup; Recommended as the calm green bar in the card (Rec D)</td><td>White chosen card with 2px light green border, never tinted (decided 11-06). Recommended preselected.</td></tr>
+    <tr><td>Compare everything</td><td><code>.spec-fold</code> + <code>.fold-table</code></td><td>Same content as the cards.</td></tr>
+    <tr><td>Checking + result</td><td><code>.file-check</code> (tick = fine, orange dot = look at this) + <code>.art-calm</code> for "good to go"</td><td>Both sides visible; Undo as <code>.link</code> on the fix row.</td></tr>
+    <tr><td>Upsells</td><td>Upsell block <code>.sum-up</code> (switch + price) on the result screen; delivery = Delivery tiles</td><td>Before Approve, at most one block.</td></tr>
+    <tr><td>Recommended / labels</td><td><code>badgeHtml()</code> (orange commercial, grey information)</td><td>No tinted headers.</td></tr>
+    <tr><td>Ask a question</td><td>The shop's chat widget</td><td>One way to reach us, everywhere.</td></tr>
+    <tr><td>Confirmation</td><td><code>.toast</code> "Added to cart"</td><td>—</td></tr>
+  </table></div>
+  <div class="note"><b>Tokens:</b> Upload &amp; See already runs on its own <code>:root</code> variables (<code>--color-primary #008539</code>, <code>--color-border #e5e5e5</code>, <code>--radius-card 12px</code>, <code>--btn-radius 9999px</code>, but the buttons use 8px). That makes the first step cheap: point those variables at <code>tokens.css</code> (<code>--light-green</code>, <code>--line</code>/<code>--outline</code>, <code>--r-l</code>, <code>--r-pill</code>, <code>--t-*</code>/<code>--lh-*</code>) and most of the look follows without touching a screen. Body background #f8f8f8 → white or <code>--light-grey</code>, as in the checkout.</div>
+</section>
+
+<section>
+  <h2>The plan</h2>
+  <div class="phase"><h3>0 · Decide (Cornel + team, before building)</h3>
+    <ul>
+      <li>The check: one name set and one price logic for Upload &amp; See and the cart (Basic / Premium / Print expert, or Basic / Premium / Deluxe?).</li>
+      <li>Upsells before Approve, at most one, or not at all in this flow (the cart already has them).</li>
+      <li>Does the customer ever see the name "Upload &amp; See"? My advice: no, it's the option "Upload your design" in the HelloPrint checkout.</li>
+    </ul></div>
+  <div class="phase"><h3>1 · Sketch the three hard screens (the prototype way)</h3>
+    <p>A sketch page with options side by side for the screens where the UX changes, not the reskin: (a) the preview with the empty back and a file that doesn't fit, (b) check choice + result as one screen or two, (c) where the upsell goes. Only design-system classes, no new CSS. → <a href="../sketches/upload-see-sketch.html">sketches/upload-see-sketch.html</a> · close to staging, clickable, every interaction: <a href="../sketches/upload-see-map.html">sketches/upload-see-map.html</a></p></div>
+  <div class="phase"><h3>2 · Build it in the prototype behind a switch</h3>
+    <p><code>prototype/upload.html</code> (the six screens, PDP data from <code>products.js</code>), opened from the PDP's third design option. Switch "Upload: popup (D) | Upload &amp; See" so we can compare and go back. Promote <code>.co-steps-n</code> and <code>.file-check</code> into the design system with their guide rows in the same change.</p></div>
+  <div class="phase"><h3>3 · Hand over to dev</h3>
+    <p>This component map + the token map as the brief: step 1 tokens (cheap, big effect), step 2 swap per screen to the design-system parts, step 3 the P1 fixes (logic, not styling: the empty back, rotate before crop, true ticks, one price).</p></div>
+  <p><b>My pick:</b> fix the five P1s in phase 0–1, even before any styling. A nice-looking flow that crops a file or prints a blank back costs more than one that looks different.</p>
+</section>
+
+<section>
+  <h2>Not tested</h2>
+  <ul>
+    <li><b>Mobile (390):</b> the Chrome window couldn't be made narrower, and staging blocks being loaded in a frame. To do on a phone, or in a browser where we can set the width.</li>
+    <li>Premium and Print expert paths (only Basic was run), PNG/JPG photos from the phone, more than 2 pages, "Continue on your phone".</li>
+    <li>Approving on staging put Classic Flyers in the staging cart; nothing was paid.</li>
+  </ul>
+</section>
+
+</div>

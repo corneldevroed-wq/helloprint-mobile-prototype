@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search Results Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<!-- Sketch (not linked; Cornel 2026-11-20): the missing page type Search results (live /en-ie/search?q=pens), on top of the PFP.
+     The real shell, pfp.js and the 181 live pens in search-frame.html?v=a|b|c&q=…, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 12px; padding-left: 20px; }
+  .chg li { margin-bottom: 4px; }
+  .chg .pick { margin: 0; color: var(--dark-green); font-weight: 600; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1300px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 1000px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1500px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>New page type: Search results (test: “pens”)</h1>
+  <p style="margin:8px 0 0;font-size:14px">Live example: helloprint.com/en-ie/search?q=pens (2,921 results) and ?q=pos. Here the 181 live pens of the PFP, so the filters work.</p>
+  <div class="chg">
+    <h3>What goes wrong for the customer on live today</h3>
+    <ul>
+      <li><b>Broken text:</b> a card says “High quality {{product_name}}”, the title “111 Results for " pos "” has spaces in the quotes.</li>
+      <li><b>The same navigation twice:</b> “Related pages” pills and a “Categories” filter, mostly the same names. Which one do you use?</li>
+      <li><b>Odd hits:</b> “pos” finds Tony’s Chocolonely and Cards &amp; Invitations (part of a word matches). Relevance has to win over substring.</li>
+      <li><b>Two price models mixed:</b> “From €9.58” next to “€77.49 each”: you can’t compare. No delivery on the card, while that is why people pick.</li>
+      <li><b>Only one filter:</b> “pens” gives 2,921 results and you can only tick “Pens”. No type, delivery, price, colour, eco.</li>
+      <li><b>Pages 1–5 + Next</b> instead of “Show more”. A second big search field under the header’s search field.</li>
+      <li><b>No results:</b> emoji categories and two lists of the same six words; no “did you mean”.</li>
+    </ul>
+    <h3>In all options: it is the PFP</h3>
+    <ul>
+      <li><b>Same page type, same script</b> (pfp.js): sticky filter sidebar (a sheet on mobile), filters work at once with counts, soft tags, “Show 24 more”, the card with “500 pcs for” + each, the colour strip and “Fast delivery”.</li>
+      <li><b>New is only:</b> the title with the query, Sort with <b>Relevance</b> first (the default), and where the categories go. No reviews, FAQ or SEO text (a search page is noindex).</li>
+      <li><b>One price model:</b> every card “N pcs for” at one quantity, as on the PFP. Products without a quantity price (the “€77.49 each” ones) say “1 pc for”.</li>
+    </ul>
+    <p class="pick">My pick: B. Search is a shortcut to a list, so it should feel exactly like the list: the header field holds your query (no second field), the title says what you searched, and the categories become the first filter “Product type”, as “Pen type” on the PFP. One place to narrow down instead of two. C adds the category tiles on top: nice when the word is a category (“posters”), but for “pens” they push the products a screen down and repeat the filter.</p>
+  </div>
+</div>
+<script>
+  const OPTS = [
+    ['b', 'B · The PFP with the query: categories become the filter “Product type”', 'The header search field keeps “pens”. Title “Results for “pens””, the count in the bar above the grid, as on the PFP. Filters: Product type first, then Eco, Delivered by, Price, Print, Colour, Material, Brand. Sort: Relevance (default), Most popular, Fastest delivery, price.', true],
+    ['a', 'A · As live, in our components', 'A big search field with the query under the title, “Related pages” as pills with a folder icon, one filter: Categories. The rest is the PFP (card, sort, show more). Two ways to the same categories, and no real filters.'],
+    ['c', 'C · B + the matching categories as tiles on top', 'The PFP’s grey category tiles (“Categories for “pens””: Pens, Writing Sets, Luxury Pens, Stylus Pens) above the grid; each opens the PFP with that filter on. Strong for a category word, but the products start lower.'],
+  ];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `search-frame.html?v=${v}&q=pens`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row">
+      <div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div>
+      ${v === 'b' ? `<div class="mob"><p class="lbl">Mobile 390, the filter sheet</p><iframe src="${src}&sheet=1"></iframe></div>` : ''}
+      <div><p class="lbl">Desktop 1512 (at 2/3)</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join('') +
+    `<section class="opt"><h2>No results (“zzqxv”), for every option</h2><p>Calm, no emoji: “No results for “zzqxv””, check the spelling, six popular searches as pills, four popular categories as the PFP tiles, and “Need something specific? Request a quote” (our quote page). Later: “Did you mean …?” when the search engine has a close match.</p><div class="row">
+      <div class="mob"><p class="lbl">Mobile 390</p><iframe src="search-frame.html?v=b&q=zzqxv"></iframe></div>
+      <div><p class="lbl">Desktop 1512 (at 2/3)</p><div class="desk-box"><iframe src="search-frame.html?v=b&q=zzqxv"></iframe></div></div></div></section>`);
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<!-- Sketch (not linked; Cornel 2026-11-19): Upload & See, phase 1 of docs/upload-and-see-plan.html: the three screens where the UX changes,
+     each with options A/B/C side by side. The real checkout shell and UI guide parts in upload-see-frame.html?s=file|check|approve&v=a|b|c,
+     mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 8px; padding-left: 20px; }
+  .chg .pick { margin: 0; color: var(--dark-green); font-weight: 600; }
+  .scr { margin: 56px 0 0; padding-top: 24px; border-top: 2px solid var(--mid-grey); }
+  .scr > h2 { margin: 0; font-size: 22px; }
+  .opt { margin: 32px 0 0; }
+  .opt h3 { margin: 0; font-size: 18px; }
+  .opt h3 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 1200px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 900px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1350px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Upload &amp; See: the three hard screens</h1>
+  <p style="margin:8px 0 0;font-size:14px">Phase 1 of <a href="../docs/upload-and-see-plan.html">the plan</a>. Test case: Classic Flyers A5, 1,000, double-sided, €33.49 excl. VAT; the customer uploads a <b>landscape file with one page</b>. Only UI guide parts, no new components. <b>New (11-20):</b> <a href="upload-see-map.html">the staging flow 1:1 in UI guide parts, clickable, with every interaction explained</a>.</p>
+  <div class="chg">
+    <h3>What every option has in common</h3>
+    <ul>
+      <li><b>The checkout shell:</b> HelloPrint logo, the checkout steps (round back to the product, then Your file · Check · Approve), the order bar at the bottom (desktop <code>.d-bar</code>, mobile <code>.buy-bar</code>) with “Estimated … — latest …”.</li>
+      <li><b>The preview:</b> <code>.seg</code> Both sides | Turn it over, Zoom and Designer view as pills, the two sides on the light grey, under each side one <b>Edit</b> + a ⋮ (instead of 4–6 buttons). An empty back is the dashed “Add a back” card of the address book.</li>
+      <li><b>One check product:</b> the cart’s names and prices (Basic free · Premium €10.99 · Deluxe €21.00), not a second set.</li>
+      <li><b>Our team</b> (<code>.oc-team</code>) instead of the floating “Ask a question”.</li>
+    </ul>
+    <p class="pick">My picks: 1 C, 2 B, 3 B. Each is explained under its screen.</p>
+  </div>
+</div>
+<script>
+  const SCREENS = [
+    ['file', '1 · Your file: a file that doesn’t fit, and an empty back', 'c', 'C. Upload & See promises “see it before you print”, so let the customer choose by looking: two small flyers, turned or cropped, instead of a sentence about millimetres. One question at a time keeps it calm, and a file without problems gets no questions at all. A is the safe one (the to-do blocks of order confirmed and My account) but asks the customer to imagine “113 mm”. B is the most compact, but the question in the back slot is cramped on mobile and the front’s warning is easy to miss.', [
+      ['a', 'A · A to-do block per problem under the preview', 'Order confirmed’s <code>.oc-act</code>: “Your file is landscape” with Turn it (primary small) / Keep it filled, and “What goes on the back?” with three pills (same design · add a back · one side only, save €4.00). Next stays disabled until both are answered.'],
+      ['b', 'B · The problem on the side itself', 'The front says what’s wrong under its picture (orange dot, as the file check) with Turn it; the empty back holds its own question with three pills. No blocks under the preview.'],
+      ['c', 'C · One question at a time, chosen by picture', 'Under the preview a card with the compact tracker (“Question 1 of 2”) and two radio cards (the address card): Turn it · Fill the flyer, each with a small flyer showing the result. Then the back. Next only after the last answer.']]],
+    ['check', '2 · The check: a step, or part of approving', 'b', 'B. The free check always runs, so let it run while the customer looks at the preview, and show its result on the approve screen with the cart’s Premium switch under it. One step less, no “Choose one”, and the upgrade is the same block as in the cart (one name, one price). A keeps today’s order but makes everyone stop to choose, while most will take the free one. C first shows what we found and then sells more certainty: honest, but still a separate step.', [
+      ['a', 'A · Its own step, the cart’s three options', 'The cart’s file check cards (<code>.fc</code>), Recommended (Premium) chosen, Compare everything as a fold. Then the result.'],
+      ['b', 'B · No check step: the result and the upgrade on the approve screen', 'Steps Your file · Approve. Both sides, the file check list (<code>.file-check</code>: ticks, an orange dot for “text in a picture”), the cart’s Upsell block “Add Premium Artwork Check €10.99 · See our 3 options”, the approve line.'],
+      ['c', 'C · The result first, then “Want more certainty?”', 'The file check list, then the three options with Basic chosen (you already have it).']]],
+    ['approve', '3 · Approve: where the upsell goes', 'b', 'B. Approving is the moment the customer is sure; adding to it costs that certainty. The cart already has its upsell blocks and the delivery choice, so after Approve go straight there (toast “Added to cart”). Show what we changed with Undo, so nothing is a surprise. A sells paper and delivery at the worst moment (delivery +€42.50 on €33.49). C is defensible only if the upload made the date move: then show the tiles, otherwise not.', [
+      ['a', 'A · One upsell and the delivery tiles before Approve', 'Both sides, “Your flyer is good to go” (<code>.art-calm</code>), one Upsell block (thicker paper +€4.00) and the PDP’s Delivery tiles.'],
+      ['b', 'B · Nothing to sell: what we did, Approve, the cart', 'Both sides, good to go, the file check of what we changed (Turned your design · Undo, Same design on the back), the line “Nothing is paid yet: your cart is next”.'],
+      ['c', 'C · Only the delivery date', 'Both sides, good to go, the Delivery tiles (the upload took time: show the date still holds), the deadline in the approve line.']]]];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', SCREENS.map(([s, h, pick, why, opts]) =>
+    `<section class="scr"><h2>${h}</h2><div class="chg"><p class="pick">My pick: ${why}</p></div>${opts.map(([v, t, p]) => { const src = `upload-see-frame.html?s=${s}&v=${v}`;
+      return `<div class="opt"><h3>${t}${v === pick ? ' <em>my pick</em>' : ''}</h3><p>${p}</p><div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}" loading="lazy"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}" loading="lazy"></iframe></div></div></div></div>`; }).join('')}</section>`).join(''));
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<!-- Sketch (not linked; Cornel 2026-11-20 "kun je beter in beeld brengen hoe alle interacties werken?"): the interaction map of Upload & See.
+     Top: the flow as boxes (click one to jump there). Under it the clickable flow (upload-see-flow.html, the staging flow screen for screen in
+     UI guide parts), mobile and desktop kept in step, and next to it what every number on the screen does and what changed from staging. -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .intro { max-width: 1000px; margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+  /* the flow */
+  .flow { display: flex; gap: 16px; margin: 24px 0 0; overflow-x: auto; padding-bottom: 8px; }
+  .step { flex: none; padding: 16px; border-radius: 8px; background: var(--white); }
+  .step > h2 { margin: 0 0 12px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--dark-grey); }
+  .row { display: flex; align-items: flex-start; gap: 4px; }
+  .arr { align-self: center; padding: 0 2px; margin-top: -24px; color: var(--mid-grey); font-size: 18px; }
+  .node { display: flex; flex-direction: column; gap: 6px; width: 132px; }
+  .box { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border: 1px solid var(--outline); border-radius: 8px; background: var(--white); font: inherit; font-size: 13px; line-height: 1.3; text-align: left; cursor: pointer; }
+  .box b { font-weight: 600; }
+  .box small { color: var(--dark-grey); font-size: 11px; }
+  .box:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .box.on { border: 2px solid var(--light-green); padding: 7px 9px; background: var(--selected); }
+  .box.pop { border-style: dashed; background: #fafafa; }
+  .box.pop.on { border-style: solid; }
+  .back { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: var(--dark-grey); }
+  /* the frames + the list */
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 32px 0 16px; font-size: 14px; }
+  .tabs { display: inline-grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: #d6d6d6; }
+  .tabs button { height: 32px; padding: 0 16px; border: 0; border-radius: 999px; background: none; font: inherit; font-weight: 600; color: var(--dark-grey); cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--white); color: var(--dark-green); }
+  .bar label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .bar .reset { border: 0; background: none; font: inherit; color: var(--link); text-decoration: underline; cursor: pointer; }
+  .main { display: flex; gap: 24px; align-items: flex-start; }
+  .frames { flex: none; }
+  .mob { width: 390px; height: 844px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { height: 760px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; border: 0; transform-origin: 0 0; }
+  .off { position: absolute; left: -99999px; }   /* the hidden frame keeps its size (display: none would make the desktop frame think it is a phone) */
+  .panel { flex: 1; min-width: 300px; max-width: 520px; position: sticky; top: 16px; padding: 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .panel h2 { margin: 0; font-size: 18px; }
+  .panel .what { margin: 4px 0 16px; color: var(--dark-grey); }
+  .panel ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .panel ol li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; }
+  .panel ol li i { display: grid; place-items: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; background: var(--orange); color: var(--white); font: 700 12px/1 Inter, sans-serif; }
+  .panel li b { font-weight: 600; }
+  .panel .chg { margin: 20px 0 0; padding: 12px 16px; border-radius: 8px; background: var(--light-grey); font-size: 13px; }
+  .panel .chg h3 { margin: 0 0 4px; font-size: 13px; }
+  .panel .chg ul { margin: 0; padding-left: 18px; }
+  @media (max-width: 960px) { .main { flex-direction: column; } .panel { position: static; max-width: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Upload &amp; See: every interaction</h1>
+  <p class="intro">The staging flow screen for screen, in the same order and with its wording, drawn with UI guide parts only. Every button works. Click a box to jump to a screen, or click through the flow below: mobile and desktop stay in step. “Show numbers” marks everything you can click; the list says what each one does. Test case: Classic Flyers A5, 1,000, double-sided, €33.49 excl. VAT, a <b>landscape file with one page</b>. Earlier: <a href="upload-see-sketch.html">the A/B/C sketch</a> · <a href="../docs/upload-and-see-plan.html">the plan</a>.</p>
+  <div class="flow" id="flow"></div>
+  <div class="bar">
+    <span class="tabs" role="group" aria-label="Frame"><button aria-pressed="true" data-view="mob">Mobile 390</button><button aria-pressed="false" data-view="desk">Desktop 1512</button></span>
+    <label><input type="checkbox" id="hot"> Show numbers on the screen</label>
+    <button class="reset" id="reset">Start again</button>
+  </div>
+  <div class="main">
+    <div class="frames">
+      <iframe class="mob" id="fMob" src="upload-see-flow.html" title="Mobile"></iframe>
+      <div class="desk-box off" id="deskBox"><iframe id="fDesk" src="upload-see-flow.html" title="Desktop"></iframe></div>
+    </div>
+    <aside class="panel" id="panel"></aside>
+  </div>
+</div>
+<script>
+  // The flow as boxes: [key, title, line under it, the state to jump to]; popups (dashed) under the screen that opens them
+  const FLOW = [
+    ['Your file', [
+      [['upload', '1 · Upload', 'Choose or drop your file', { st: 'upload' }], [['phone', 'Use your phone', 'Popup: QR code + link', { st: 'upload', sheet: 'phone' }]]],
+      [['sending', '2 · Sending', 'Goes on by itself (2 s)', { st: 'sending' }]],
+      [['preview', '3 · Your flyer', 'Both sides, About your file', { st: 'preview' }], [
+        ['art', 'Zoom in', 'Popup: the flyer big', { st: 'preview', sheet: 'art' }],
+        ['adjust', 'Move or resize', 'Popup: drag, fit, size', { st: 'preview', sheet: 'adjust' }],
+        ['designer', 'Designer view', 'Cut + safe lines', { st: 'preview', designer: true }],
+        ['over', 'Turn it over', 'One side, tap to flip', { st: 'preview', view: 'over' }]]]]],
+    ['Check', [
+      [['choice', '4 · Check choice', 'Basic · Premium · Deluxe', { st: 'choice' }], [['compare', 'Compare everything', 'Popup: the table', { st: 'choice', sheet: 'compare' }]]],
+      [['result', '5 · Check result', 'What we checked', { st: 'result', check: 0 }]]]],
+    ['Approve', [
+      [['approve', '6 · Approve', 'Good to go, Approve', { st: 'approve', check: 0 }]],
+      [['up1', '7 · Upgrade 1/3', 'Paper +€4.00', { st: 'up1', check: 0 }]],
+      [['up2', '8 · Upgrade 2/3', '2,000 flyers +€17.50', { st: 'up2', check: 0 }]],
+      [['up3', '9 · Upgrade 3/3', 'Standard delivery +€42.50', { st: 'up3', check: 0 }]],
+      [['cart', '10 · Cart', 'Added to cart', { st: 'cart', check: 0 }]]]]];
+  const BOX = {};
+  document.getElementById('flow').innerHTML = FLOW.map(([step, nodes]) => `<div class="step"><h2>${step}</h2><div class="row">${nodes.map(([main, pops = []], i) => {
+    [main, ...pops].forEach(b => BOX[b[0]] = b[3]);
+    return `${i ? '<span class="arr">→</span>' : ''}<div class="node"><button class="box" data-k="${main[0]}"><b>${main[1]}</b><small>${main[2]}</small></button>${pops.map(p => `<button class="box pop" data-k="${p[0]}"><b>${p[1]}</b><small>${p[2]}</small></button>`).join('')}</div>`; }).join('')}</div>
+    ${step === 'Your file' ? '<p class="back">Back to 1: “Start again with another file”.</p>' : step === 'Check' ? '<p class="back">Back: “Back to my flyer” (4 → 3), “Back to the check choice” (5 → 4).</p>' : '<p class="back">Back: “Back to my file” (6 → 3, your choices kept). Each upgrade: Yes adds it, No skips it.</p>'}</div>`).join('');
+
+  // What every number does, per screen and per popup: [what you click, what happens]. "chg" = what changed from staging.
+  const IA = {
+    upload: ['Upload your file', 'Choose a PDF, JPG or PNG, or drop it on the field.', [['Upload my file or files', 'Sends the file (screen 2); the preview opens by itself.'], ['Use your phone', 'Opens the popup with a QR code and a link.'], ['Start chat', 'Our team (instead of the floating “Ask a question”).']],
+      ['The header is the slim checkout header without “Secure Checkout” (logo, account, cart): this is not the checkout yet. Staging: “Back to HelloPrint” + the Upload & See mark.', 'The drop field is the PDP’s upload field (<code>.art-drop</code>).', '“Use your phone” is a popup: a bottom sheet on mobile, a centred dialog on desktop.', '“Ask a question” becomes the team line (<code>.oc-team</code>), as on the order pages.']],
+    sending: ['Sending', 'Nothing to click: after 2 seconds your flyer is there.', [],
+      ['The big card with the percentage becomes the PDP’s file row with its bar (<code>.up-file</code>) and the file check list for the three steps.']],
+    preview: ['There it is: your flyer', 'The landscape file fills the portrait flyer by default (113 mm cut off), the back is empty. Everything on this screen changes the flyer straight away.', [
+      ['Zoom in', 'Opens the flyer big in a popup, front and back (swipe or the thumbnails). Tapping a flyer does the same.'], ['Both sides', 'Front and back next to each other.'], ['Turn it over', 'One side; tap the flyer to see the other side.'],
+      ['Designer view', 'Red dashes (the cut) and a dotted line (keep text inside) on the flyers, the legend under the tools.'], ['Move or resize', 'Popup “Adjust the front”.'],
+      ['Other file', 'Choose another file for this side.'], ['Turn / Turn it', 'Turns the design a quarter: all of it fits. The point in About your file gets a tick.'],
+      ['Remove', 'The side is empty again (“Add your front”).'], ['Add your back', 'Upload a file for the back (in the sketch: the same design).'], ['Same design', 'The back shows the front.'],
+      ['One side only', 'No back, the price goes down €4.00 (see the bar). “Print both sides” undoes it.'], ['Show all of it', 'The whole design, white above and under it.'],
+      ['Fill the whole flyer', 'The default: filled, 113 mm cut off at each side.'], ['Sharper photo', 'Choose another photo.'], ['Print it as it is', 'The point gets a tick.'],
+      ['Let our experts look · €10.99', 'Adds the Premium Check (the price in the bar, chosen on the check screen).'], ['Something we should know…?', 'A note field for our team.'],
+      ['Start again with another file', 'Back to screen 1, everything reset.'], ['Start chat', 'Our team.'], ['Next: check my file', 'Screen 4.'], ['A photo may print blurry (the line)', 'Marks that photo on the flyer, with the label “This photo” (desktop: on hover too). Gone once you choose an answer.']],
+      ['The same buttons as staging. Actions are small outline buttons (<code>.btn.outline.small</code>), choices are pills, and the chosen pill is dark green (<code>.pill.active</code>).', '“About your file” is the file check list: an orange dot while open, a tick once answered.', 'The blurry photo is no longer marked on the flyer all the time: only while you look at its line (tap, or hover on desktop), with a label.', 'The total card becomes the fixed order bar, with delivery as “Estimated … — latest …”.', 'The designer at €17.00 becomes the Premium Check at €10.99: one name, one price, as in the cart.', '“Use your phone” is only on screen 1.']],
+    art: ['Popup: Your flyer', 'The cart’s artwork popup (“View artwork”): the flyer as it prints, big on the grey stage. Front and back: swipe, or tap a thumbnail.', [],
+      ['Staging shows the bigger flyer in a popup too. Here it is the popup we already use for artwork in the cart (<code>openArt</code>, <code>.art-view</code>): a bottom sheet on mobile, a dialog on desktop.']],
+    adjust: ['Popup: Adjust the front', 'Changes show on the flyer behind it straight away.', [['Drag the design', 'Moves it.'], ['Fill', 'Fills the flyer.'], ['Show all', 'All of it, white above and under.'], ['Smaller', 'Smaller in steps.'], ['Bigger', 'Bigger in steps.'], ['Centre', 'Back to the middle.'], ['Done', 'Closes the popup.']],
+      ['Staging opens a panel above the preview. Here it is a popup (a sheet on mobile, 560 wide on desktop) with the designer lines always on.', 'Fill | Show all is the toggle (<code>.seg</code>). The slider is gone: the system has none, and drag plus Smaller/Bigger do the same job. Centre ↔ and Centre ↕ become one Centre.']],
+    phone: ['Popup: Use your phone', 'Scan the code, or open the link on the phone.', [['Add photos from your phone', 'The photos land in this design.'], ['Continue on your phone', 'Carry on with this flyer on the phone.'], ['Copy link', 'Toast “Link copied”.'], ['Stop sharing', 'The link stops working and the popup closes.']],
+      ['The same content. The two tabs become the toggle (<code>.seg</code>), the QR code is a grey block in the sketch, and the link is a read-only field (<code>.field</code>).']],
+    choice: ['How carefully should we check it?', 'Nothing is chosen yet, as on staging: the button says “Choose one” and waits.', [['Basic Check + Proof · Free', 'Chosen; the button becomes “Check my file”.'], ['Premium Check + Proof · €10.99', 'Chosen, and the price is added in the bar.'], ['Deluxe · €21.00', 'Chosen, and the price is added in the bar.'], ['Compare everything', 'Popup with the table.'], ['Back to my flyer', 'Screen 3, your choices kept.'], ['Start chat', 'Our team.'], ['Choose one / Check my file', 'Screen 5.']],
+      ['The cart’s check cards (<code>.fc</code>) with the cart’s names and prices. Staging had €3.99 / €15.00 here and €4.99 / €17.00 elsewhere.', 'On desktop the three cards sit next to each other, as on staging.', 'The pictures on top of the cards are gone: <code>.fc</code> has none.']],
+    compare: ['Popup: Compare our checks', 'Close it with × or by tapping outside.', [], ['Staging opens a fold. Here it is a popup with a simple table.']],
+    result: ['Your flyer is ready for print', 'What the check found. An orange dot means: look at this on your preview.', [['Back to the check choice', 'Screen 4.'], ['All good · continue', 'Screen 6.']],
+      ['The file check list (<code>.file-check</code>). The eyebrow “BASIC ARTWORK CHECK” becomes a lead line.', '“We added the bleed” only shows for a file that has none.', '“Text in a picture” is an orange point in the list, not a separate box.']],
+    approve: ['Your flyer is good to go', 'The last look before you approve.', [['Undo', 'Removes the bleed we added (toast).'], ['Back to my file', 'Screen 3, your choices kept.'], ['Approve and finish my order', 'Upgrade 1 of 3.']],
+      ['The reassurance block of the upload (<code>.art-calm</code>) plus the file check list. The total card becomes the order bar.', 'The steps stay on screen: staging hides them here.']],
+    up: ['Upgrade', 'One question per screen; the three bars show where you are.', [['Yes, add it for +€…', 'Added, the price goes up, on to the next one.'], ['No, keep …', 'On to the next one. After the third: added to cart.']],
+      ['As staging: one question per screen. The three bars are the compact tracker, and “No” is the outline button (staging: a plain line of text).', 'Still a P1 in the plan: three upsells after “Approve”. We kept them here because this version stays close to staging.']],
+    cart: ['Added to cart', 'What is in the order now.', [['Go to cart', 'The prototype’s cart page.'], ['Start this flow again', 'Back to screen 1.']],
+      ['Staging jumps straight to the basket. Here there is a stop first, so you can see what the flow put in the order.']]
+  };
+
+  const fMob = document.getElementById('fMob'), fDesk = document.getElementById('fDesk'), deskBox = document.getElementById('deskBox');
+  const frames = [fMob, fDesk];
+  let state = { st: 'upload' }, hot = false;
+  const send = (f, m) => f.contentWindow && f.contentWindow.postMessage(m, '*');
+  function panel() {
+    const k = state.sheet || (/^up\d$/.test(state.st) ? 'up' : state.st), [t, what, list, chg] = IA[k] || IA.upload;
+    document.getElementById('panel').innerHTML = `<h2>${t}</h2><p class="what">${what}</p>${list.length ? `<ol>${list.map(([a, b], i) => `<li><i>${i + 1}</i><span><b>${a}</b> → ${b}</span></li>`).join('')}</ol>` : ''}
+      <div class="chg"><h3>What changed from staging</h3><ul>${chg.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+    const on = state.sheet === 'art' ? 'art' : state.sheet === 'adjust' ? 'adjust' : state.sheet === 'phone' ? 'phone' : state.sheet === 'compare' ? 'compare' : state.st === 'preview' && state.designer ? 'designer' : state.st === 'preview' && state.view === 'over' ? 'over' : state.st;
+    document.querySelectorAll('.box').forEach(b => b.classList.toggle('on', b.dataset.k === on));
+  }
+  // A frame says what it shows now (the customer clicked in it): the other frame follows, the list and the boxes too
+  addEventListener('message', e => {
+    const m = e.data || {}; if (!m.uas) return;
+    const from = frames.find(f => f.contentWindow === e.source);
+    if (m.uas === 'ready') { send(from, { uas: 'go', state }); send(from, { uas: 'hot', on: hot }); return; }
+    if (m.uas === 'state') { state = m.state; if (!m.sync) frames.filter(f => f !== from).forEach(f => send(f, { uas: 'go', state })); panel(); }
+  });
+  const go = s => { state = { ...s }; frames.forEach(f => send(f, { uas: 'go', state })); panel(); };
+  document.getElementById('flow').addEventListener('click', e => { const b = e.target.closest('.box'); if (b) go(BOX[b.dataset.k]); });
+  document.getElementById('reset').addEventListener('click', () => go({ st: 'upload' }));
+  document.getElementById('hot').addEventListener('change', e => { hot = e.target.checked; frames.forEach(f => send(f, { uas: 'hot', on: hot })); });
+  // Mobile | Desktop: one frame at a time next to the list; the desktop frame is scaled to the room it has
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    const desk = b.dataset.view === 'desk'; fMob.classList.toggle('off', desk); deskBox.classList.toggle('off', !desk); fit();
+  }));
+  function fit() {
+    const room = Math.min(1008, document.querySelector('.main').clientWidth - (innerWidth > 960 ? 324 : 0)), s = room / 1512;
+    deskBox.style.width = room + 'px'; fDesk.style.height = 760 / s + 'px'; fDesk.style.transform = `scale(${s})`;
+  }
+  addEventListener('resize', fit); fit(); panel();
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<title>Header Plan Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Layout: one reading column; findings as rows of plan / prototype / fix, the UI guide as a source table. Helloprint tokens. */
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #555555; --line: #e6e6e6; --tile: #f0f0f0;
+    --brand: #022b07; --accent: #00a651; --link: #008539; --warn: #e5710f; --code-bg: #f0f0f0;
+    --display: Inter, system-ui, sans-serif; --body: Inter, system-ui, sans-serif; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #0f1410; --fg: #ececec; --muted: #a8b0a9; --line: #2a332c; --tile: #1a211c;
+    --brand: #7fd69f; --accent: #2fc173; --link: #5fd38f; --warn: #f39a4c; --code-bg: #1f2721; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #0f1410; --fg: #ececec; --muted: #a8b0a9; --line: #2a332c; --tile: #1a211c;
+    --brand: #7fd69f; --accent: #2fc173; --link: #5fd38f; --warn: #f39a4c; --code-bg: #1f2721; color-scheme: dark }
+  body { background: var(--bg); color: var(--fg); font: 400 15px/1.6 var(--body); }
+  .wrap { max-width: 880px; margin: 0 auto; padding-block: 40px 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 40px; }
+  header { display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0; font: 800 32px/1.15 var(--display); letter-spacing: -.02em; color: var(--brand); text-wrap: balance; }
+  h2 { margin: 0; font: 700 22px/1.25 var(--display); color: var(--brand); text-wrap: balance; }
+  h3 { margin: 0; font: 600 16px/1.35 var(--display); }
+  p { margin: 0; max-width: 68ch; }
+  .meta { color: var(--muted); font-size: 14px; }
+  section { display: flex; flex-direction: column; gap: 16px; }
+  a { color: var(--link); font-weight: 600; }
+  code { font: 500 12.5px/1.5 var(--mono); background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+  .verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .verdict div { background: var(--tile); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .verdict b { font: 800 28px/1 var(--display); color: var(--brand); font-variant-numeric: tabular-nums; }
+  .verdict span { font-size: 13px; color: var(--muted); }
+  .finding { border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .finding .head { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--tile); color: var(--muted); white-space: nowrap; }
+  .tag.fix { background: var(--warn); color: #fff; }
+  .tag.ok { background: var(--accent); color: #fff; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cols > div { min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+  .cols .lbl { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  .fixline { font-size: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .fixline b { color: var(--brand); }
+  @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+  .tbl { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 620px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  th { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 72ch; }
+  .note { background: var(--tile); border-radius: 8px; padding: 16px; font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Review · Plan v0.1 · Header and menu</span>
+    <h1>Header plan review against the prototype and the UI Style Guide</h1>
+    <p class="meta">For Sebastiaan Ram · from Cornel de Vroed (design) · 13 Nov 2026 · checked against <code>helloprint-design@0f4a240</code>, the same commit the plan pins (no newer prototype changes).</p>
+  </header>
+
+  <section>
+    <h2>In short</h2>
+    <p>The plan follows the prototype closely and the code references to <code>app.js</code> and <code>decisions.md</code> are correct. Seven points need a fix, four need a decision, and the plan underuses one source: the UI Style Guide. It has a row for every header component with its exact rule, rendered live from the same CSS as the prototype, and it fills most of the gaps below.</p>
+    <div class="verdict">
+      <div><b>7</b><span>points to fix in the plan</span></div>
+      <div><b>4</b><span>decisions to settle</span></div>
+      <div><b>16</b><span>UI guide rows to cite as design reference</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Points to fix</h2>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>1 · "Delivery, never shipping" contradicts our naming</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan (For Agents → Guardrails)</span>“customer copy says ‘delivery’, never ‘shipping’”.</div>
+        <div><span class="lbl">Prototype rule</span>It is <b>shipping address</b> (never delivery address) and <b>billing address</b> (never invoice address). <b>Delivery</b> is only the delivery option (Saver / Standard / Express), shown as “Estimated &lt;day&gt; — latest &lt;date&gt;”.</div>
+      </div>
+      <p class="fixline"><b>Fix:</b> replace the guardrail with these three naming rules. Every ticket that comes out of this plan inherits it.</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>1b · The brand is always HelloPrint, with a capital P</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>Writes “Helloprint” throughout, and the guardrail says “the brand is written ‘Helloprint’”.</div>
+        <div><span class="lbl">Rule</span>It is always <b>HelloPrint</b>, capital H and capital P, in every text, label, alt text and key the customer can see. The prototype follows this.</div>
+      </div>
+      <p class="fixline"><b>Fix:</b> turn the guardrail around (“the brand is written HelloPrint”) and correct it everywhere in the plan.</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>2 ·The desktop USP bar is light grey, not white (C7)</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>“one white row under the category bar”.</div>
+        <div><span class="lbl">Prototype + UI guide</span><code>.dusps</code> and <code>.usp</code> are <code>--light-grey</code> (#f0f0f0), 30 px high on mobile. UI guide → Header &amp; footer → USP bar: “Light grey: the Trustpilot reviews first, then the USPs (a ticker on mobile).”</div>
+      </div>
+      <p class="fixline"><b>Fix:</b> “one <code>--light-grey</code> row”, same on mobile and desktop.</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>3 · Drop menu sizes are not the same everywhere (Shared definitions, C4, C6)</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>Drop menu: “320 wide, rows of 40, 18 px icons”. C6 says “dark grey 20 px icons”.</div>
+        <div><span class="lbl">Measured in the prototype</span>
+          <ul>
+            <li>Need help? and the account menu: 320 wide.</li>
+            <li><b>Country menu: 240 wide</b>, rows of 40.</li>
+            <li>A row with a sub line (Need help?) is <b>48</b>; without one (account pages, countries) 40.</li>
+            <li>Icons <b>18</b> everywhere (the 20 in C6 is from 11-11 and was replaced by the compact decision of 11-12).</li>
+            <li>Mobile account sheet: rows of 48 for a finger.</li>
+          </ul></div>
+      </div>
+      <p class="fixline"><b>Fix:</b> take the sizes from the UI guide rows “Drop menu”, “Account menu” and “Country menu” (each lists them), and remove the 20 px from C6.</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>4 · Every dark layer also blurs the page (Shared definitions → Overlay, C8, C9)</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>Overlay = <code>--overlay</code> black 60%, 0.25 s fade.</div>
+        <div><span class="lbl">Prototype + UI guide</span>Decided 11-13: <code>--overlay</code> plus <code>backdrop-filter: blur(4px)</code> under every popup and sheet, the mobile drawer, the mega menu and the search dropdown. The guide’s Colours → Overlay token already says so; <code>decisions.md</code> did not yet, it is added now.</div>
+      </div>
+      <p class="fixline"><b>Fix:</b> add the 4 px blur to the overlay definition (and to the CWV check: a backdrop blur on a full-page layer costs paint on low-end phones).</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>5 · The desktop search dropdown falls between two plans (C3)</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>“What the search shows stays in plan 3.”</div>
+        <div><span class="lbl">Why that is a gap</span>Plan 3 v0.2 is from 18 Oct. The desktop dropdown was decided on 11-13, so plan 3 does not describe it:
+          <ul>
+            <li>a dropdown under the field, as live en-ie;</li>
+            <li>categories left (the mega menu side list), product rows right;</li>
+            <li>at most 6 products, a “From” price only (not bold), the arrow at the end;</li>
+            <li>empty: Popular searches as pills, then Best Sellers;</li>
+            <li>“View all results for …” in the link style.</li>
+          </ul></div>
+      </div>
+      <p class="fixline"><b>Fix:</b> add an open question that plan 3 v0.3 takes over the UI guide row “Search dropdown” (and the mobile row “Search”), or move it into this plan as C3b.</p>
+    </div>
+
+    <div class="finding">
+      <div class="head"><span class="tag fix">Fix</span><h3>6 · Design sign-off contradicts itself (Ready for sign-off vs OQ-S2)</h3></div>
+      <div class="cols">
+        <div><span class="lbl">Plan</span>“Cornel signs that the wireframes match the prototype”, while OQ-S2 proposes Cornel as consulted, not an approver.</div>
+        <div><span class="lbl">Proposal</span>Cornel signs off the visuals (design reference per ticket and the UI guide rows), not scope or tech. Otherwise the design can drift during the build without anyone noticing.</div>
+      </div>
+      <p class="fixline"><b>Fix:</b> make Cornel the visual sign-off in OQ-S2 and keep the line under “Ready for sign-off”.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Decisions to settle</h2>
+    <div class="finding">
+      <div class="head"><span class="tag">OQ-C1</span><h3>Notice colour</h3></div>
+      <p>C1 records Cornel’s choice (light green with white, 3.2:1); OQ-C1 still proposes <code>--link</code>. Cornel chose light green after seeing both. Keep C1 as decided and leave OQ-C1 only as an accessibility note: dark green text on light green is the fallback that passes (4.9:1), if WCAG AA is made a hard gate.</p>
+    </div>
+    <div class="finding">
+      <div class="head"><span class="tag">OQ-S3</span><h3>Mobile header height</h3></div>
+      <p>The plan proposes (b): the search row scrolls away. The prototype keeps both rows sticky (89 px, about 10% of a 844 px screen). Design pick: <b>(a), the prototype</b>. On mobile the search is the main way in, and it is the reason the field sits in the header at all. (b) is acceptable as a fallback only if CRO data shows the height hurts.</p>
+    </div>
+    <div class="finding">
+      <div class="head"><span class="tag ok">Agree</span><h3>Deliberate deviations from the prototype</h3></div>
+      <ul>
+        <li>Hit areas of 44×44 around the 24 px header icons, and 44 for the notice close (prototype 32).</li>
+        <li>A 16 px search input on mobile (prototype 14) so iOS does not zoom. The field looks slightly bigger; fine.</li>
+        <li>Additions not in the prototype: logged-in drawer foot (My account + Log out), the phone only within opening hours, the cart badge, MiniCart instead of the cart page (OQ-M4).</li>
+      </ul>
+    </div>
+    <div class="finding">
+      <div class="head"><span class="tag ok">Agree</span><h3>Prototype faults the plan rightly does not take over</h3></div>
+      <ul>
+        <li>“Stationary”, and bar labels that differ from the drawer and the mega panel title (“Promotional Print” vs “Promotional Prints”, “Books” vs “Booklets”).</li>
+        <li>Sverige and two Belgium rows in the country list; Clothing in Ireland.</li>
+        <li>Menu rows as <code>&lt;button&gt;</code> without a link, panels built on tap, <code>hidden</code> on closed menus.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>The UI Style Guide as a source</h2>
+    <p>The plan points to the guide once (“Patterns → Header &amp; footer”) and otherwise takes its design reference from the prototype pages and the inline wireframes. The guide is the better reference for engineering: one row per component, the real classes, a live example rendered from <code>design-system/components.css</code> and <code>tokens.css</code>, and the rule in words with the decision date. When the prototype page and the guide differ, the guide wins; it is updated in the same change as every component.</p>
+    <div class="note">
+      <b>Proposal for the plan</b>
+      <ul>
+        <li>Add a “UI guide row” column to the build batch table and cite the rows below per ticket.</li>
+        <li>Name the three files as the style source: <code>design-system/tokens.css</code> (colours, radius, type sizes, line heights), <code>design-system/components.css</code> (every component, mobile and <code>.desk</code>), <code>design-system/icons/</code> (Material Symbols Rounded, the only icon set). <code>prototype/pages.css</code> only for page-specific tweaks.</li>
+        <li>Use the guide’s Mobile / Desktop toggle for review: it shows each component at 390 and at desktop width.</li>
+      </ul>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>UI guide row</th><th>Section</th><th>What it adds that the plan lacks</th><th>C-block</th></tr></thead>
+        <tbody>
+          <tr><td>Notification</td><td>Header &amp; footer</td><td>Sizes, colour, close (20 in 32), mobile 12/18 left, why not at the bottom</td><td>C1</td></tr>
+          <tr><td>Header</td><td>Header &amp; footer</td><td>Order, season link styling (white text, light green tree icon), the checkout and login headers for plan 2</td><td>C2, C8</td></tr>
+          <tr><td>Search</td><td>Form elements</td><td>The white pill on dark green, the round green button (mobile), the green Search button (desktop); the mobile empty and typing states</td><td>C3</td></tr>
+          <tr><td>Search dropdown</td><td>Header &amp; footer</td><td>The whole desktop dropdown and the header blur while searching (see fix 5)</td><td>C3</td></tr>
+          <tr><td>Drop menu</td><td>Header &amp; footer</td><td>Compact <code>.d-head</code>: 320, title 14 with a line, 18 px icons, sub lines 12/18, light grey hover, outline, radius, shadow</td><td>C4–C6</td></tr>
+          <tr><td>Account menu</td><td>Header &amp; footer</td><td>Rows without sub line in regular weight with an arrow, Log out in <code>--error</code>, mobile sheet rows of 48</td><td>C5</td></tr>
+          <tr><td>Country menu</td><td>Header &amp; footer</td><td>240 wide, round flag 18, country in its own language, code right 12 grey, chosen row semibold with the light green tick</td><td>C4</td></tr>
+          <tr><td>Mega menu: a category</td><td>Header &amp; footer</td><td>150 ms wait then instant switching, 200 ms close, 6 category cards, Shop all top right, bottom line and hover shadow, open item tint</td><td>C8</td></tr>
+          <tr><td>Mega menu: All products</td><td>Header &amp; footer</td><td>Side list 256 wide, 14 grey, 26 a line; 4 columns; photo 64 in the grey thumb; Popular label; products 12/18; scrolls when taller than the screen</td><td>C8, C10</td></tr>
+          <tr><td>USP bar</td><td>Header &amp; footer</td><td>Light grey, Trustpilot first, ticker on mobile (see fix 2)</td><td>C7</td></tr>
+          <tr><td>Sheet</td><td>Toast &amp; sheet</td><td>The bottom sheet the mobile account menu uses: grab bar, title + close, overlay</td><td>C5</td></tr>
+          <tr><td>Overlay (token)</td><td>Colours</td><td>60% black, 0.25 s fade and the 4 px blur (see fix 4)</td><td>C8, C9</td></tr>
+          <tr><td>Light grey (token)</td><td>Colours</td><td>Used for grey tiles, the USP bar, the active menu item, neutral labels</td><td>C7–C9</td></tr>
+          <tr><td>Commercial label</td><td>Badges</td><td>Orange <code>.badge</code>: “Popular” in All products and “Instant” at Chat with Anna are the same component</td><td>C6, C8</td></tr>
+          <tr><td>Material icons · Ticks &amp; arrows</td><td>Icons</td><td>The icon set and the arrow and tick used in the menus</td><td>C4–C9</td></tr>
+          <tr><td>Category card</td><td>Cards</td><td>The tile in the mega panel (14 semibold title, photo on light grey, hover)</td><td>C8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="meta">Guide: <a href="https://helloprint.github.io/helloprint-design/design-system/#shell">helloprint.github.io/helloprint-design/design-system/#shell</a> (Header &amp; footer). Prototype: <a href="https://helloprint.github.io/helloprint-design/prototype/index.html">…/prototype/index.html</a>; <code>?menu=promo</code> and <code>?menu=all</code> open the mega menu on load.</p>
+  </section>
+
+  <section>
+    <h2>Checked and correct</h2>
+    <ul>
+      <li>Notice: first layer above the header, 14/22 centred on desktop, 12/18 left on mobile, closed for the session, scrolls away. Keying the dismiss on the entry id is a good improvement.</li>
+      <li>Header order on mobile (menu, logo, account, cart, search under it) and desktop (logo, search, IE, Log in, Need help?, cart); the light green Log in pill with the account icon; the green dot on the mobile account icon when logged in.</li>
+      <li>No chevrons at country and Need help? (hidden in CSS); drop menus open and close without delay, with an 8 px bridge; the rest of the header blurred (4 px, 40%) and inert while searching.</li>
+      <li>Account menu rows, title and red Log out; Need help? channels and their sub lines.</li>
+      <li>Mega menu: 6 tiles, Shop all, 150 / 200 ms; All products with 12 groups, Popular, Shop all; no promo tile.</li>
+      <li>Drawer: rows of 68, the “A” tile for All products, Christmas second, Shop all first in a child panel, the pinned foot.</li>
+    </ul>
+  </section>
+</div>

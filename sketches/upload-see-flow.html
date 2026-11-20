@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Flow</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,smartphone,zoom_in&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzn">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzn">
+<link rel="stylesheet" href="pages.css?v=20261205zzn">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-20 "zo dicht mogelijk bij het voorbeeld, volgens onze UI guide"): the staging Upload & See flow
+     (uas.staging.helloprint.dev, Classic Flyers A5) screen for screen, in the same order and with its wording, drawn with UI guide parts only.
+     Every button works. Loaded by sketches/upload-see-map.html (the interaction map), which keeps mobile and desktop in step through postMessage.
+     ?st=upload|sending|preview|choice|result|approve|up1|up2|up3|cart opens a screen, ?hot=1 numbers what you can click. -->
+<style>
+  /* SKETCH CSS: only layout (the column, the two sides, the flyer pictures, the designer lines). No new components. */
+  .co-dhead .co-right { margin-left: auto; }   /* account + cart stay right without the label */
+  .us { display: flex; flex-direction: column; gap: 16px; padding-bottom: 32px; }
+  .desk .us { grid-column: 1 / -1; width: 720px; margin: 0 auto; gap: 24px; padding-bottom: 64px; }
+  .us h1 { margin: 0; }
+  .us h2 { margin: 0; font-size: var(--t-16); line-height: var(--lh-16); }
+  .us .lead, .us .confirm { margin: -8px 0 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .us .confirm { margin: 0; font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  .us .center { align-self: center; text-align: center; }
+  .us .links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .us-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .us-tools .seg { order: -1; width: 100%; }   /* mobile: the toggle a row of its own, the pills under it */
+  .desk .us-tools .seg { order: 0; width: 240px; }
+  .us-tools .pill .material-symbols-rounded { margin-right: 4px; font-size: 18px; }
+  .us-legend { margin: -8px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-align: center; }
+  .us-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; background: var(--light-grey); }
+  .desk .us-sides { gap: 48px; padding: 32px 64px; }
+  .us-sides.one { grid-template-columns: minmax(0, 240px); justify-content: center; }
+  .desk .us-sides.one { grid-template-columns: minmax(0, 280px); }
+  /* Zoom: the cart's artwork popup (openArt, .art-view) with the flyer as it prints on its grey stage, front and back */
+  .art-stage > .art { position: absolute; inset: 0; width: auto; height: calc(100% - 32px); margin: auto; }
+  .art-thumbs > span > .art { width: auto; height: 48px; }
+  .us-side > .art { cursor: zoom-in; }
+  .us-side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }
+  .us-side > b { font-weight: 600; }
+  .us-side .acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .us-side .addr-add { flex: none; width: 100%; aspect-ratio: 148 / 210; justify-content: center; }
+  .us-side .gone { display: grid; place-items: center; width: 100%; aspect-ratio: 148 / 210; padding: 16px; border-radius: var(--r-m); background: var(--white); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  /* the flyer: A5 portrait; the landscape file filled (cropped), shown all (white above and under) or turned */
+  .art { position: relative; display: block; width: 100%; aspect-ratio: 148 / 210; overflow: hidden; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: transform .4s; }
+  .art img { width: 100%; height: 100%; object-fit: cover; transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--sc, 1)); }
+  .art.all img { object-fit: contain; }
+  .art.turned img { position: absolute; left: 50%; top: 50%; width: 141.9%; height: 70.48%; max-width: none; transform: translate(-50%, -50%) rotate(90deg) scale(var(--sc, 1)); }
+  /* Turn it over: the flyer as a card with two faces that really turns (as staging); without motion it just changes */
+  .us-flip { width: 100%; aspect-ratio: 148 / 210; perspective: 1200px; cursor: pointer; }
+  .us-flip .card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3,.7,.2,1); }
+  .us-flip.flipped .card { transform: rotateY(180deg); }
+  .us-flip .face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  .us-flip .face.back { transform: rotateY(180deg); }
+  .us-flip .face .gone, .us-flip .face .empty { height: 100%; }
+  .us-flip .empty { display: grid; place-items: center; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.12); color: var(--dark-grey); font-size: var(--t-14); }
+  @media (prefers-reduced-motion: reduce) { .us-flip .card { transition: none; } }
+  /* the photo that may print blurry: marked only while the customer looks at its point (hover or tap on the row), with its label */
+  .art .blur { display: none; position: absolute; left: 18%; top: 30%; width: 34%; height: 22%; border: 2px solid var(--orange); border-radius: var(--r-s); }
+  .us-sides.spot .art .blur, .us:has(.photo-row:hover) .art .blur { display: block; }
+  .art .blur .badge { left: -2px; top: auto; bottom: calc(100% + 4px); white-space: nowrap; }
+  .photo-row { cursor: pointer; }
+  .art .cut, .art .safe { position: absolute; pointer-events: none; }
+  .art .cut { inset: 2%; border: 1px dashed var(--error); }
+  .art .safe { inset: 5%; border: 1px dotted var(--dark-grey); }
+  .art .ok { position: absolute; right: 8px; bottom: 8px; width: 32px; height: 32px; }
+  .us-thumb { width: 96px; align-self: center; }
+  .us-adj { width: 200px; margin: 0 auto; touch-action: none; cursor: grab; }
+  .file-check .pills-row { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .file-check .link { margin-left: 8px; font-size: var(--t-12); }
+  .file-check .dot { display: block; }
+  .us .up-check { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .us .up-check .ok { margin: 0; }
+  .art-note-text { width: 100%; }
+  .us-result { display: grid; gap: 16px; }
+  .desk .us-result { grid-template-columns: 240px 1fr; gap: 32px; align-items: start; }
+  .us-upsell { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+  .us-upsell .dash-card { align-self: stretch; display: grid; place-items: center; padding: 24px; }
+  .us-upsell .dash-card img { width: 120px; height: 120px; object-fit: contain; }
+  .us-upsell .price { font-weight: 800; font-size: var(--t-32); line-height: var(--lh-tight); }
+  .us-upsell .btn { align-self: stretch; }
+  .us-upsell small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .us-upsell .tracker { width: 96px; }
+  .us-upsell .d-cal-card { pointer-events: none; }
+  .desk .us .fc-list { flex-direction: row; }
+  .desk .us .fc { flex: 1; }
+  .us-qr { width: 160px; height: 160px; margin: 0 auto; border-radius: var(--r-m); background: var(--light-grey); }   /* the QR code: a grey block in the sketch */
+  .us-sheet-acts { display: flex; justify-content: center; gap: 8px; }
+  .us-cmp td, .us-cmp th { padding: 8px 4px; border-bottom: 1px solid var(--line); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
+  .us-cmp td:first-child, .us-cmp th:first-child { text-align: left; }
+  .us-cmp { width: 100%; border-collapse: collapse; }
+  /* ?hot=1 (the map's "Show numbers"): every click target gets its number from the list next to the frames */
+  .hot [data-hs] { position: relative; outline: 2px dashed var(--orange); outline-offset: 2px; }
+  .hot [data-hs]::after { content: attr(data-hs); position: absolute; z-index: 5; top: -12px; right: -12px; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); color: var(--white); font: 700 12px/20px Inter, sans-serif; text-align: center; }
+</style>
+</head>
+<body data-desktop>
+<script>try { sessionStorage.setItem('hp-notice', 'closed'); } catch (e) {}</script>
+<div class="phone">
+  <div data-shell="checkout-header"></div>
+  <main class="co-page">
+    <ol class="co-steps" aria-label="Steps" id="steps"></ol>
+    <div class="us" id="us"></div>
+  </main>
+</div>
+<div id="bar"></div>
+<div data-shell="sheet-art"></div>
+<div class="sheet-layer" id="sheet-adjust" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="adjT"><div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="adjT">Adjust the front</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><div class="pad" id="adjBody"></div></div>
+    <div class="sheet-bar"><button class="btn primary" data-go="adj-done" data-hs="7">Done</button></div></div></div>
+<div class="sheet-layer" id="sheet-phone" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="phT"><div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="phT">Use your phone</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><div class="pad" id="phBody"></div></div></div></div>
+<div class="sheet-layer" id="sheet-compare" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cmT"><div class="grab" data-grab><span></span></div>
+    <div class="sheet-head"><h2 id="cmT">Compare our checks</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+    <div class="sheet-body"><div class="pad" id="cmBody"></div></div></div></div>
+<script src="app.js?v=20261205zzn"></script>
+<script src="../design-system/components.js?v=20261205zzn"></script>
+<script>
+  // The header: the checkout shell without "Secure Checkout" (Cornel 2026-11-20, B of A shop header · B slim · C slim + Need help?):
+  // this is not the checkout, the customer is still making the product. Logo, account, cart.
+  document.querySelector('.co-secure')?.remove();
+</script>
+<script>
+{
+  const q = new URLSearchParams(location.search);
+  const ic = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;
+  const TICK = '<img src="assets/pdp/check.svg" alt="">', DOT = '<span class="dot" aria-hidden="true"></span>';
+  const WIDE = 'assets/proofs/leaflet.png';   // the customer's file: landscape, one page
+  const hs = n => ` data-hs="${n}"`;
+  const fmt = n => '€' + n.toFixed(2);
+  const TIERS = [['Basic Check + Proof', 0, ['Print proof before production', 'Automated checks on resolution, size & colour settings']],
+    ['Premium Check + Proof', 10.99, ['Everything in Basic, plus:', 'All file formats accepted', 'Design support from our experts', 'AI-powered optimisation'], true],
+    ['Deluxe', 21, ['Everything in Premium, plus:', 'Perfect design guaranteed', 'Personal extra file-check, prioritised by our experts']]];
+  const UPS = { up1: ['paper', 'Print it on Standard 170 gsm paper instead?', 4, 'No, keep Budget 135 gsm paper'],
+    up2: ['qty', 'Make it 2,000 flyers?', 17.5, 'No, keep 1,000 flyers'],
+    up3: ['deliv', 'Get it a week sooner with Standard delivery?', 42.5, 'No, keep Saver'] };
+
+  // The state of the flow: the screen, what the customer chose, what is open. The map sends it to the other frame, so both stay in step.
+  const START = { st: 'upload', front: 'fill', back: 'empty', photo: null, view: 'both', flipped: false, designer: false, note: false,
+    spot: false, check: null, paper: false, qty: false, deliv: false, sheet: null, sc: 1, dx: 0, dy: 0, phone: 0 };
+  let S = { ...START, st: q.get('st') || 'upload' };
+  if (q.get('hot')) document.body.classList.add('hot');
+
+  const total = () => 33.49 - (S.back === 'one' ? 4 : 0) + (S.check ? TIERS[S.check][1] : 0) + (S.paper ? 4 : 0) + (S.qty ? 17.5 : 0) + (S.deliv ? 42.5 : 0);
+  const eta = () => S.deliv ? 'Estimated Tue 24 Nov — latest Wed 25 Nov' : 'Estimated Tue 1 Dec — latest Wed 2 Dec';
+  const fixedFront = () => S.front === 'turned' || S.front === 'all';
+
+  // The flyer picture: the file as the customer chose it; the designer lines (cut, keep text inside) when Designer view is on
+  const art = (cls = '', extra = '') => `<span class="art ${S.front === 'turned' ? 'turned' : S.front === 'all' ? 'all' : ''} ${cls}" style="--sc:${S.sc};--dx:${S.dx}px;--dy:${S.dy}px"><img src="${WIDE}" alt="">${S.designer || cls.includes('lines') ? '<i class="cut"></i><i class="safe"></i>' : ''}${extra}</span>`;
+  const btn = (go, t, n, cls = 'outline small') => `<button class="btn ${cls}" data-go="${go}"${hs(n)}>${t}</button>`;
+  const pill = (go, t, n, on) => `<button class="pill${on ? ' active' : ''}" data-go="${go}"${hs(n)}>${t}</button>`;
+  const link = (go, t, n) => `<button class="link" data-go="${go}"${hs(n)}>${t}</button>`;
+
+  // The steps: the round back button to the product, then Your file · Check · Approve (staging: … · Basket, a step that never comes)
+  function steps() {
+    const at = { upload: 0, sending: 0, preview: 0, choice: 1, result: 1 }[S.st] ?? 2, ol = document.getElementById('steps');
+    ol.className = 'co-steps' + (DESK ? ' co-steps-n' : ''); ol.style.gridTemplateColumns = 'repeat(4, 1fr)';
+    ol.innerHTML = `<li class="done"><a href="#product">Product</a></li>` + ['Your file', 'Check', 'Approve'].map((t, i) =>
+      `<li class="${i < at ? 'done' : i === at ? 'current' : ''}"${i === at ? ' aria-current="step"' : ''}>${DESK ? `<span class="n">${i + 1}</span>` : ''}${t}</li>`).join('');
+  }
+
+  // The order bar (staging: the Total · delivery · Next card under the preview): desktop .d-bar, mobile .buy-bar
+  function bar(label, go, n, disabled) {
+    if (!label) return '';
+    return DESK
+      ? `<div class="d-bar show"><div class="dwrap"><span class="d-bar-prod"><span class="thumb"><img src="${WIDE}" alt=""></span><span class="t"><b>Classic Flyers</b><small>A5 · ${S.qty ? '2,000' : '1,000'} · Glossy · ${S.paper ? 'Standard 170' : 'Budget 135'} gsm · ${S.back === 'one' ? 'single' : 'double'}-sided</small></span></span>
+          <span class="d-bar-eta">${TICK}${eta()}</span><span class="d-bar-total"><b>${fmt(total())}</b><small>excl. VAT</small></span>
+          <button class="btn primary d-go" data-go="${go}"${hs(n)}${disabled ? ' disabled' : ''}>${label}</button></div></div>`
+      : `<div class="buy-bar show"><div class="sheet-bar"><div class="total"><strong>${fmt(total())}</strong><span class="bar-sub"><span>excl. VAT</span> ·${TICK}<span>${eta().replace('Estimated ', '').replace(/ —.*/, '')}</span></span></div><button class="btn primary" data-go="${go}"${hs(n)}${disabled ? ' disabled' : ''}>${label}</button></div></div>`;
+  }
+  const team = n => `<div class="oc-team"><span class="faces"><img src="assets/help/team/saskia.webp" alt=""><img src="assets/help/team/timo.webp" alt=""><img src="assets/help/team/karen.webp" alt=""></span><span>A question about your file? Our team looks at it with you. <a href="#chat"${hs(n)}>Start chat</a></span></div>`;
+
+  // Every screen: its HTML and its bar. The numbers (data-hs) are the ones in the map's list (IA below).
+  const SCREENS = {
+    upload: () => [`<h1>Upload your flyer design</h1><p class="lead">A PDF, JPG or PNG is all we need. We put it on your flyer and show it to you straight away.</p>
+      <div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><b>Your file</b><button class="btn primary" data-go="pick"${hs(1)}>Upload my file or files</button><small>PDF, JPG or PNG. Drop it here, or choose it from your device.</small></div>
+      <p class="art-note">Photos on your phone? Scan a code and send them here. <button class="link" data-go="phone"${hs(2)}>Use your phone</button></p>${team(3)}`, ''],
+
+    sending: () => [`<h1>Your file is on its way</h1>
+      <div class="up-file"><span class="up-ico">PDF</span><div class="t"><b>flyer-a5-landscape.pdf</b><small>0.2 MB received</small><span class="up-bar"><i style="width:78%"></i></span></div></div>
+      <div class="dash-card file-check"><ul aria-label="Progress"><li>${TICK}<b>Sending your file</b><small>0.2 MB received</small></li><li>${DOT}<b>Reading your pages</b><small>Looking at what’s in your file…</small></li><li><span></span><b style="color:var(--dark-grey)">Making your preview</b><small>So you can see exactly how your flyer will look</small></li></ul></div>
+      <div class="up-check"><p class="ok">${TICK}Your file stays private. Nothing is printed until you approve it.</p></div>`, ''],
+
+    preview: () => {
+      const one = S.view === 'over';
+      const tools = `<div class="us-tools">${pill('zoom', `${ic('zoom_in')}Zoom in`, 1)}
+        <div class="seg" role="radiogroup" aria-label="View"><button role="radio" aria-checked="${!one}" data-go="both"${hs(2)}>Both sides</button><button role="radio" aria-checked="${one}" data-go="over"${hs(3)}>Turn it over</button></div>
+        ${pill('designer', 'Designer view', 4, S.designer)}</div>${S.designer ? '<p class="us-legend">Red dashes: where we cut. Dotted line: keep text inside it. Past the dashes: the bleed.</p>' : ''}`;
+      const front = `<div class="us-side">${S.front === 'none' ? `<button class="addr-card addr-add" data-go="pick"${hs(5)}>${ic('add')}Add your front</button>` : art('', S.photo ? '' : '<i class="blur"><span class="badge">This photo</span></i>').replace('<span class="art', '<span data-go="zoom-0" class="art')}<b>Front</b>
+        ${S.front === 'none' ? '' : `<span class="acts">${btn('adjust', 'Move or resize', 5)}${btn('other', 'Other file', 6)}${btn('turn', S.front === 'turned' ? 'Turn back' : 'Turn', 7)}${btn('remove', 'Remove', 8)}</span>`}</div>`;
+      const back = S.back === 'empty' ? `<div class="us-side"><button class="addr-card addr-add" data-go="pick"${hs(9)}>${ic('add')}Add your back<small>A PDF or a picture</small></button><b>Back</b><span class="acts">${btn('same', 'Same design', 10)}${btn('one', 'One side only', 11)}</span></div>`
+        : S.back === 'same' ? `<div class="us-side">${art().replace('<span class="art', '<span data-go="zoom-1" class="art')}<b>Back</b><span class="acts">${btn('other', 'Other file', 6)}${btn('back-empty', 'Remove', 8)}</span></div>`
+        : `<div class="us-side"><span class="gone">Printed on one side only<br>You save €4.00</span><b>Back</b><span class="acts">${btn('back-empty', 'Print both sides', 11)}</span></div>`;
+      const face = S.back === 'same' ? art() : S.back === 'one' ? '<span class="gone">Printed on one side only</span>' : '<span class="empty">Your back is still empty</span>';
+      const sides = one ? `<div class="dash-card us-sides one"><div class="us-flip${S.flipped ? ' flipped' : ''}" data-go="flip"${hs(3)} role="button" aria-label="Turn the flyer over"><div class="card"><div class="face">${art()}</div><div class="face back">${face}</div></div></div><p class="us-legend" style="margin:0" id="flipCap">${S.flipped ? 'The back' : 'The front'} · tap the flyer to turn it over</p></div>`
+        : `<div class="dash-card us-sides${S.spot && !S.photo ? ' spot' : ''}">${front}${back}</div>`;
+      // About your file (staging's block): a row per point, an orange dot while open, a tick once answered; the answers as pills
+      const about = S.front === 'none' ? '' : `<div class="dash-card file-check"><h2 style="margin-bottom:16px">About your file</h2><ul aria-label="About your file">
+        <li>${fixedFront() ? TICK : DOT}<b>${S.front === 'turned' ? 'Turned to fit your flyer' : S.front === 'all' ? 'All of your design is on the flyer' : 'Your file is a different size'}</b>
+          <small>${S.front === 'turned' ? 'Your file is landscape, the flyer portrait: we turned it a quarter.' : S.front === 'all' ? 'With white above and under it.' : 'It fills your flyer: about 113 mm is cut off at each side.'}</small>
+          <span class="pills-row">${pill('fit-all', 'Show all of it', 12, S.front === 'all')}${pill('fit-fill', 'Fill the whole flyer', 13, S.front === 'fill')}${pill('turn', 'Turn it', 7, S.front === 'turned')}</span></li>
+        <li class="photo-row" data-go="spot"${hs(21)}>${S.photo ? TICK : DOT}<b>A photo may print blurry</b><small>${S.photo === 'team' ? 'Premium Check added: our experts look at it.' : S.photo === 'asis' ? 'We print it as it is.' : S.spot ? 'Marked on your flyer.' : 'Tap to see which one on your flyer.'}</small>
+          <span class="pills-row">${pill('photo-new', 'Sharper photo', 14, false)}${pill('photo-asis', 'Print it as it is', 15, S.photo === 'asis')}${pill('photo-team', 'Let our experts look · €10.99', 16, S.photo === 'team')}</span></li></ul></div>`;
+      return [`<h1>There it is: your flyer</h1>${tools}${sides}${about}
+        ${S.note ? `<textarea class="art-note-text" rows="3" placeholder="For example: the back is the same as the front" aria-label="A note for our team"${hs(17)}></textarea>` : `<p class="center">${link('note', 'Something we should know about your file?', 17)}</p>`}
+        <div class="up-check"><p class="ok">${TICK}Fits your flyer</p><p class="ok">${TICK}Change it until we print</p></div>
+        <p class="center">${link('upload', 'Start again with another file', 18)}</p>${team(19)}`, bar('Next: check my file', 'choice', 20)];
+    },
+
+    choice: () => [`<h1>How carefully should we check it?</h1><p class="lead">Every file gets the free check. Choose more if you want our experts to look.</p>
+      <div class="fc-list" role="radiogroup">${TIERS.map(([n, p, perks, rec], i) => `<button class="fc${rec ? ' rec' : ''}" role="radio" aria-checked="${S.check === i}" data-go="check-${i}"${hs(i + 1)}>${rec ? badgeHtml('Recommended') : ''}
+        <span class="fc-top"><span class="radio"></span><b>${n}</b><span class="fc-price">${p ? fmt(p) : 'Free'}</span></span><ul>${perks.map(x => `<li>${x}</li>`).join('')}</ul></button>`).join('')}</div>
+      <p class="links">${link('compare', 'Compare everything', 4)}${link('preview', 'Back to my flyer', 5)}</p>${team(6)}`,
+      bar(S.check === null ? 'Choose one' : 'Check my file', 'result', 7, S.check === null)],
+
+    result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check ?? 0][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
+      <div class="us-result">${art('', '')}<div class="dash-card file-check"><ul aria-label="What we checked">
+        <li>${TICK}<b>Size and pages</b><small>Right size, right number of pages</small></li>
+        <li>${TICK}<b>Colours up to the edge</b><small>We added the bleed, so the colours run past the edge</small></li>
+        <li>${S.photo ? TICK : DOT}<b>Sharp photos</b><small>${S.photo ? 'As you chose on your flyer' : 'One photo may print blurry: look at it on your preview'}</small></li>
+        <li>${TICK}<b>Letters and fonts</b><small>All letter types are included</small></li>
+        <li>${DOT}<b>Text in a picture</b><small>Your text is part of the picture: look over its size and distance to the edge</small></li></ul></div></div>
+      <p class="center">${link('choice', 'Back to the check choice', 1)}</p>`, bar('All good · continue', 'approve', 2)],
+
+    approve: () => [`<div class="center us-thumb">${art('', `<img class="ok" src="assets/pdp/check.svg" alt="">`)}</div>
+      <div class="art-calm"><b>${TICK}Your flyer is good to go</b><span>You can still change your design until we start printing.</span></div>
+      <div class="dash-card file-check"><ul aria-label="Fixed for you"><li>${TICK}<b>Fixed for you: colours to the edge ${link('undo', 'Undo', 1)}</b><small>We added 3 mm bleed</small></li>
+        <li>${TICK}<b>Our print software processes it once more</b><small>If the result would look different from what you saw, we ask you first.</small></li></ul></div>
+      <p class="confirm">By approving, you confirm we print your flyer exactly as shown above. Nothing is paid yet.</p>
+      <p class="center">${link('preview', 'Back to my file', 2)}</p>`, bar('Approve and finish my order', 'up1', 3)],
+
+    cart: () => [`<div class="art-calm"><b>${TICK}Added to cart</b><span>Classic Flyers A5 · ${S.qty ? '2,000' : '1,000'} · ${fmt(total())} excl. VAT</span></div>
+      <div class="dash-card file-check"><ul aria-label="In your order"><li>${TICK}<b>Your file</b><small>${S.front === 'turned' ? 'Turned to fit' : S.front === 'all' ? 'All of it shown' : 'Filled'} · back: ${S.back === 'same' ? 'same design' : S.back === 'one' ? 'one side only' : 'empty'}</small></li>
+        <li>${TICK}<b>${TIERS[S.check ?? 0][0]}</b><small>${S.check ? fmt(TIERS[S.check][1]) : 'Free'}</small></li>
+        <li>${TICK}<b>${S.paper ? 'Standard 170 gsm' : 'Budget 135 gsm'} · ${S.deliv ? 'Standard' : 'Saver'} delivery</b><small>${eta()}</small></li></ul></div>
+      <a class="btn primary" href="cart.html" target="_top"${hs(1)}>Go to cart</a>
+      <p class="center">${link('restart', 'Start this flow again', 2)}</p>`, '']
+  };
+  // The three upgrades after Approve (staging: one question per screen, three bars on top)
+  Object.entries(UPS).forEach(([st, [key, title, plus, no]], i) => SCREENS[st] = () => [`<div class="us-upsell">
+    <ol class="tracker compact" aria-hidden="true">${[0, 1, 2].map(j => `<li class="${j <= i ? 'now' : ''}"></li>`).join('')}</ol>
+    <h1>${title}</h1>
+    <div class="dash-card">${key === 'deliv' ? '<span class="deliv d-cal-card"><span class="cal" aria-hidden="true"><i>Nov</i><b>24</b><small>Tue</small></span><span class="tx"><b>Standard</b><span class="pr">Estimated Tue 24 Nov</span></span></span>'
+      : `<img src="assets/live-opts/flyers/${key === 'paper' ? 'paper-glossy' : 'size-a5'}.webp" alt="">`}</div>
+    <span class="price">+${fmt(plus)}</span>
+    <button class="btn primary" data-go="yes-${key}"${hs(1)}>Yes, add it for +${fmt(plus)}</button>
+    <button class="btn outline" data-go="no-${key}"${hs(2)}>${no}</button>
+    <small>Your order now: ${fmt(total())} · with this: ${fmt(total() + plus)}</small></div>`, '']);
+
+  // The popups (staging: the adjust panel above the preview, the Use your phone dialog; Compare everything was a page)
+  function sheets() {
+    document.getElementById('adjBody').innerHTML = `<p class="up-intro">Drag your design, or use the buttons.</p>
+      <div class="us-adj" data-drag${hs(1)}>${art('lines')}</div>
+      ${S.front === 'fill' && S.sc >= 1 ? `<p class="art-note">Part of your design will be cut off.</p>` : ''}
+      <div class="seg" role="radiogroup" aria-label="Fit"><button role="radio" aria-checked="${S.front !== 'all'}" data-go="fit-fill"${hs(2)}>Fill</button><button role="radio" aria-checked="${S.front === 'all'}" data-go="fit-all"${hs(3)}>Show all</button></div>
+      <span class="us-sheet-acts">${pill('smaller', 'Smaller', 4)}${pill('bigger', 'Bigger', 5)}${pill('centre', 'Centre', 6)}</span>`;
+    document.getElementById('phBody').innerHTML = `<div class="seg" role="radiogroup"><button role="radio" aria-checked="${!S.phone}" data-go="phone-0"${hs(1)}>Add photos from your phone</button><button role="radio" aria-checked="${!!S.phone}" data-go="phone-1"${hs(2)}>Continue on your phone</button></div>
+      <p class="up-intro" style="text-align:center">${S.phone ? 'Carry on with this flyer on your phone.' : 'Your photos land in this design.'}</p><span class="us-qr"></span>
+      <p class="up-intro" style="text-align:center">Point your phone’s camera at the code, or open this link on your phone.</p>
+      <div class="field"><input readonly value="uas.helloprint.com/s/ses_01m7ss" aria-label="Link"></div>
+      <span class="us-sheet-acts">${btn('copy', 'Copy link', 3)}${btn('stop', 'Stop sharing', 4)}</span>
+      <p class="art-note">Valid for 10 minutes. Anyone with this link can open your design.</p>`;
+    const rows = [['Print proof before production', 1, 1, 1], ['Automated checks: resolution, size, colour', 1, 1, 1], ['All file formats accepted', 0, 1, 1], ['Design support from our experts', 0, 1, 1], ['Personal extra file-check', 0, 0, 1], ['Perfect design guaranteed', 0, 0, 1]];
+    document.getElementById('cmBody').innerHTML = `<table class="us-cmp"><tr><th></th><th>Basic</th><th>Premium</th><th>Deluxe</th></tr>${rows.map(([t, ...c]) => `<tr><td>${t}</td>${c.map(x => `<td>${x ? TICK : '–'}</td>`).join('')}</tr>`).join('')}<tr><td><b>Price</b></td><td>Free</td><td>€10.99</td><td>€21.00</td></tr></table>`;
+    const want = S.sheet && document.getElementById('sheet-' + S.sheet), open = document.querySelector('.sheet-layer.open');
+    if (open && open !== want) closeSheet();
+    if (want && !want.classList.contains('open')) {
+      if (S.sheet !== 'art') openSheet(S.sheet);
+      else {   // the cart's popup with each printed side; its pictures become the flyer as it prints (turned, filled or all)
+        const sides = [['Front', 1], ['Back', S.back === 'same']].filter(x => x[1] && S.front !== 'none');
+        openArt(sides.map(([n]) => ({ thumb: WIDE, name: n })), Math.min(S.zoomAt || 0, sides.length - 1));
+        document.getElementById('artViewTitle').textContent = 'Your flyer';
+        document.querySelectorAll('#artView img').forEach(i => i.outerHTML = art());
+      }
+    }
+  }
+
+  // What each click does: the state change. Then render, and tell the map (which keeps the other frame in step).
+  const GO = {
+    pick: () => { if (S.st === 'preview' && S.front === 'none') S.front = 'fill'; else if (S.st === 'preview') S.back = 'same'; else S.st = 'sending'; },
+    phone: () => S.sheet = 'phone', 'phone-0': () => S.phone = 0, 'phone-1': () => S.phone = 1, copy: () => showToast('Link copied'), stop: () => { S.sheet = null; showToast('Sharing stopped'); },
+    zoom: () => { S.sheet = 'art'; S.zoomAt = 0; }, 'zoom-0': () => { S.sheet = 'art'; S.zoomAt = 0; }, 'zoom-1': () => { S.sheet = 'art'; S.zoomAt = 1; }, both: () => { S.view = 'both'; S.flipped = false; }, over: () => { if (S.view === 'over') return GO.flip(); S.view = 'over'; S.flipped = false; setTimeout(() => requestAnimationFrame(() => GO.flip(true)), 60); },   // in view, then it turns
+    flip: post => { S.flipped = !S.flipped; const f = document.querySelector('.us-flip'); if (!f) return; f.classList.toggle('flipped', S.flipped); document.getElementById('flipCap').textContent = `${S.flipped ? 'The back' : 'The front'} · tap the flyer to turn it over`; if (post) parent.postMessage({ uas: 'state', state: S }, '*'); return 'keep'; }, designer: () => S.designer = !S.designer,
+    adjust: () => S.sheet = 'adjust', 'adj-done': () => S.sheet = null, smaller: () => S.sc = Math.max(.6, +(S.sc - .1).toFixed(1)), bigger: () => S.sc = Math.min(1.6, +(S.sc + .1).toFixed(1)), centre: () => { S.dx = 0; S.dy = 0; },
+    other: () => showToast('Choose a file (in the sketch: the same file)'), turn: () => { S.front = S.front === 'turned' ? 'fill' : 'turned'; S.sc = 1; }, remove: () => S.front = 'none',
+    same: () => S.back = 'same', one: () => S.back = 'one', 'back-empty': () => S.back = 'empty',
+    'fit-all': () => { S.front = 'all'; S.sc = 1; }, 'fit-fill': () => { S.front = 'fill'; S.sc = 1; },
+    'photo-new': () => showToast('Choose a sharper photo (in the sketch: nothing happens)'), 'photo-asis': () => S.photo = 'asis', 'photo-team': () => { S.photo = 'team'; S.check = 1; },
+    spot: () => { if (S.photo) return; S.spot = !S.spot; if (S.spot) setTimeout(() => document.querySelector('.us-sides')?.scrollIntoView({ behavior: 'smooth', block: 'center' })); },
+    note: () => S.note = true, upload: () => Object.assign(S, START), restart: () => Object.assign(S, START),
+    preview: () => S.st = 'preview', choice: () => S.st = 'choice', compare: () => S.sheet = 'compare',
+    'check-0': () => S.check = 0, 'check-1': () => S.check = 1, 'check-2': () => S.check = 2,
+    result: () => S.st = 'result', approve: () => S.st = 'approve', undo: () => showToast('Bleed removed: your colours stop at the edge'), up1: () => S.st = 'up1',
+    'yes-paper': () => { S.paper = true; S.st = 'up2'; }, 'no-paper': () => S.st = 'up2', 'yes-qty': () => { S.qty = true; S.st = 'up3'; }, 'no-qty': () => S.st = 'up3',
+    'yes-deliv': () => { S.deliv = true; S.st = 'cart'; showToast('Added to cart'); }, 'no-deliv': () => { S.st = 'cart'; showToast('Added to cart'); }
+  };
+  const NAV = ['pick', 'upload', 'restart', 'preview', 'choice', 'result', 'approve', 'up1', 'yes-paper', 'no-paper', 'yes-qty', 'no-qty', 'yes-deliv', 'no-deliv'];
+
+  function render(user) {
+    if (!SCREENS[S.st]) S.st = 'upload';
+    const [html, barHtml] = SCREENS[S.st]();
+    steps();
+    document.getElementById('us').innerHTML = html;
+    document.getElementById('bar').innerHTML = barHtml;
+    sheets();
+    clearTimeout(render.t);   // sending: the preview opens on its own after 2 s (in both frames, so no message)
+    if (S.st === 'sending') render.t = setTimeout(() => { S.st = 'preview'; render(false); }, 2200);
+    if (user !== null) parent.postMessage({ uas: 'state', state: S, sync: !user }, '*');   // null: the first render, the map sends its state first   // sync: only the list follows, the other frame already got it
+  }
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-close-sheet]')) { S.sheet = null; render(true); return; }
+    const g = e.target.closest('[data-go]'); if (!g || g.disabled) return;
+    const k = g.dataset.go; if (!GO[k]) return;
+    e.preventDefault(); const st = S.st; if (GO[k]() === 'keep') { parent.postMessage({ uas: 'state', state: S }, '*'); return; }   // the turn animates in place
+    render(true);
+    if (S.st !== st || NAV.includes(k)) scrollTo(0, 0);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(true); } });
+  // Drag the design in the adjust popup
+  let drag = null;
+  document.addEventListener('pointerdown', e => { const d = e.target.closest('[data-drag]'); if (d) { drag = { x: e.clientX - S.dx, y: e.clientY - S.dy }; d.setPointerCapture(e.pointerId); } });
+  document.addEventListener('pointermove', e => { if (!drag) return; S.dx = Math.max(-60, Math.min(60, e.clientX - drag.x)); S.dy = Math.max(-60, Math.min(60, e.clientY - drag.y)); document.querySelectorAll('.art').forEach(a => { a.style.setProperty('--dx', S.dx + 'px'); a.style.setProperty('--dy', S.dy + 'px'); }); });
+  document.addEventListener('pointerup', () => { if (drag) { drag = null; render(true); } });
+  // From the map: go to a state (the other frame was clicked, or a box in the diagram), show or hide the numbers
+  addEventListener('message', e => {
+    const m = e.data || {};
+    // only the turn changed: the other frame turns too, animated
+    const strip = o => JSON.stringify({ ...START, ...o, flipped: 0 });
+    if (m.uas === 'go' && S.view === 'over' && m.state.flipped !== S.flipped && strip(m.state) === strip(S) && document.querySelector('.us-flip')) { GO.flip(); return; }
+    if (m.uas === 'go') { const prev = S.st; S = { ...START, ...m.state }; render(false); if (S.st !== prev) scrollTo(0, 0); }
+    if (m.uas === 'hot') document.body.classList.toggle('hot', !!m.on);
+  });
+  render(null);
+  parent.postMessage({ uas: 'ready', state: S }, '*');
+}
+</script>
+</body>
+</html>
