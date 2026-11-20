@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,edit&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzk">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzk">
-<link rel="stylesheet" href="pages.css?v=20261205zzk">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzm">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzm">
+<link rel="stylesheet" href="pages.css?v=20261205zzm">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -49,9 +49,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261205zzk"></script>
-<script src="account.js?v=20261205zzk"></script>
-<script src="../design-system/components.js?v=20261205zzk"></script>
+<script src="app.js?v=20261205zzm"></script>
+<script src="account.js?v=20261205zzm"></script>
+<script src="../design-system/components.js?v=20261205zzm"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');   // the account needs a login (prototype: name + email)
@@ -77,7 +77,8 @@
     const sec = document.getElementById('todoSec'), all = sec.classList.contains('all');
     sec.querySelector('h2 .link')?.remove();
     if (todo.length > 4) sec.querySelector('h2').insertAdjacentHTML('beforeend', `<a class="link fold${all ? ' open' : ''}" href="#" data-more aria-expanded="${all}">${all ? 'Show less' : `Show all ${todo.length}`}</a>`);
-    document.getElementById('todo').innerHTML = !todo.length ? `<div class="dash-card"><p class="dash-empty">Nothing needs you right now. When a proof, a file or a payment is waiting, it shows up here.<a class="btn primary small" href="index.html">Start shopping</a></p></div>` : todo.slice(0, all ? todo.length : 4).map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row">
+    sec.hidden = !todo.length;   // nothing waiting: the block goes, Order again takes the full width (Cornel 2026-11-20)
+    document.getElementById('todo').innerHTML = todo.slice(0, all ? todo.length : 4).map(([t, s, btn, foot], i) => `<div class="oc-act"><div class="row">
       <span class="t"><b>${t}</b><small>${s}</small></span><span class="btns">${btn}</span></div>${foot ? `<p class="oc-foot">${foot}</p>` : ''}</div>`).join('');
     // Orders in progress: the photo (+N), the status, and where each order is
     const now = ORDERS.filter(o => o.step < 4 && !o.cancelled).slice(0, 3);

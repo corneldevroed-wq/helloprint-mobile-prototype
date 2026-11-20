@@ -5,6 +5,11 @@ Add new decisions here when Cornel makes a final call.
 
 
 
+## My account: nothing needs you (Nov 20, 2026)
+- **2026-11-20 — When nothing needs your attention, that block is hidden and Order again takes the full width** (desktop: Reorder and its
+  icons right of each row, one line instead of under the text; mobile: Order again simply moves up). Cornel: an empty "Nothing needs you right now"
+  card is noise when there is re-ordering to do. The empty-state text is removed (a new customer sees only Order again's own empty state).
+
 ## PDP delivery dates in November (Nov 19, 2026)
 - **2026-11-19 — The prototype's "today" is Thu 19 Nov; every delivery date is the live date of that day** (en-ie PDPs read on 11-19):
   business cards Saver Mon 30 Nov / Express Mon 23 Nov; flyers Tue 1 Dec / Tue 24 Nov / Mon 23 Nov; mug Wed 2 Dec; Basic Cotton Bags

@@ -2049,8 +2049,9 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .account-two.feature .oc-act { background: var(--white); }   /* the to-do blocks white on the grey, as the cards next to them */
 .account-page h2 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }   /* the section title (24/32 desktop, components.css), its arrow link right, 8 to its block */
 .account-page .oc-sec > h2 { margin-bottom: 0; }   /* in a section the gap already makes the 8 (it was 16 on the sub pages; audit 11-18) */
-.desk .account-two .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */
-.desk .account-two .dash-row .acts { grid-column: 2; }
+.desk .account-two:has(> [hidden]) { grid-template-columns: minmax(0, 1fr); }   /* nothing needs your attention: that block hidden, Order again the full width, Reorder and its icons right (Cornel 2026-11-20) */
+.desk .account-two:not(:has(> [hidden])) .dash-row:not(.text) { grid-template-columns: 56px minmax(0, 1fr); }   /* half a column: Reorder and its icons under the text */
+.desk .account-two:not(:has(> [hidden])) .dash-row .acts { grid-column: 2; }
 .account-page .xsell .grid { margin-top: 0; }
 .desk .account-page .xsell .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 html:not(.desk) .account-side { order: 1; }   /* mobile: the account card (who, VIP, the account pages) last, as the hub (Cornel 2026-11-17: the desktop choices on mobile) */
