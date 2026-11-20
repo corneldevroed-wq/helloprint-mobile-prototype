@@ -16,7 +16,8 @@
 <!-- Rugby club printing (en-ie), 2026-11-15: board 3 of Niels' "HelloPrint IE club pages: proposal", built ONLY from the marketing
      page template (docs/components.md "Marketing page template": the parts of about-us, our-culture and gaa-club-printing), as a test
      of the template. No new CSS. Copy 1:1 from the board. Scene images: a grey block where the image goes. Product images: the live
-     catalogue; prices where known (posters, live hospitality page), else "€…" (board: "live price from the block").
+     catalogue; from-prices excl. VAT as the live en-ie cards show them on 2026-11-20 (print: the category card's "From" total; clothing,
+     wristbands, umbrella: the live "from" per piece; the hoodie product is gone on live, the Fruit Of The Loom Hoodie's price instead).
      Per section a comment: board block → template part. -->
 <div class="phone">
   <div data-shell="header"></div>
@@ -157,21 +158,21 @@
     <a class="product" href="${href}">
       <div class="thumb" style="background:var(--light-grey)"><img src="assets/rugby/products/${img}.webp" alt="" loading="lazy">${badgeHtml(badge)}</div>
       <p class="name">${name}</p>
-      <div><p class="from">From</p><p class="prices">${price ? `<span class="price" data-price="${price}"></span>` : '<span class="price">€…</span>'}</p></div>
+      <div><p class="from">From</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
     </a>`;
   document.getElementById('clubProducts').innerHTML = [
-    ['Tickets', 'tickets', '#tickets'],
-    ['Tyvek Wristbands', 'wristbands', '#tyvekonesheetof10wristbands'],
-    ['Table Cards', 'tablecards', '#tabletalkers'],
-    ['Drink Vouchers', 'vouchers', '#consumptionvouchers'],
+    ['Tickets', 'tickets', '#tickets', 24.49],
+    ['Tyvek Wristbands', 'wristbands', '#tyvekonesheetof10wristbands', 0.43],
+    ['Table Cards', 'tablecards', '#tabletalkers', 135.99],
+    ['Drink Vouchers', 'vouchers', '#consumptionvouchers', 89.99],
     ['Posters', 'poster', '#posters', 37.99, 'Free design templates'],
   ].map(card).join('');
   document.getElementById('gearProducts').innerHTML = [
-    ['Polo Shirts', 'polo', '#geyseractivepoloshirt'],
-    ['Hoodies', 'hoodie', '#fruitoftheloompremiumhoodedsweat'],
-    ['Beanies', 'beanie', '#stavangergrsrpetbeaniehat', null, 'Eco'],
-    ['Golf Umbrellas', 'umbrella', '#yfkegolfumbrella'],
-    ['Sports Tees', 'tee', '#move'],
+    ['Polo Shirts', 'polo', '#geyseractivepoloshirt', 23.60],
+    ['Hoodies', 'hoodie', '#personalised-hoodies', 19.29],
+    ['Beanies', 'beanie', '#stavangergrsrpetbeaniehat', 2.55, 'Eco'],
+    ['Golf Umbrellas', 'umbrella', '#yfkegolfumbrella', 6.38],
+    ['Sports Tees', 'tee', '#move', 4.89],
   ].map(card).join('');
   updatePrices();
 
