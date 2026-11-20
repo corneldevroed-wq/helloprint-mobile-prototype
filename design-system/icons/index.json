@@ -38,7 +38,10 @@
    "printarea/lanyard-holder": "Lanyard, holder",
    "printarea/lanyard-holder-both": "Lanyard, holder both sides",
    "printarea/mug-wrap": "Mug, wrap around",
-   "printarea/mug-small": "Mug, one side"
+   "printarea/mug-small": "Mug, one side",
+   "printarea/gazebo-roof": "Gazebo, roof",
+   "printarea/gazebo-back": "Gazebo, roof and back",
+   "printarea/gazebo-all": "Gazebo, roof, back and sides"
   },
   "Corners": {
    "corners/straight": "Straight",
@@ -88,6 +91,26 @@
    "../prototype/assets/live-opts/rollup/stand-black.webp": "Black stand",
    "../prototype/assets/live-opts/rollup/stand-premium.webp": "Premium stand",
    "../prototype/assets/live-opts/rollup/stand-cardboard.webp": "Cardboard stand"
+  },
+  "Posters and displays": {
+   "posters/xbanner-set": "X-banner, complete set",
+   "posters/xbanner-canvas": "Only canvas",
+   "posters/xbanner-frame": "Only frame",
+   "posters/wall-60": "Wall banner 60 cm",
+   "posters/wall-80": "Wall banner 80 cm (complete set)",
+   "posters/wall-banner": "Only the banner",
+   "posters/hanger-31": "Poster hanger 31 cm",
+   "posters/hanger-51": "51 cm",
+   "posters/hanger-71": "71 cm",
+   "posters/frame-25": "Poster frame 25 mm",
+   "posters/frame-32": "32 mm"
+  },
+  "Poster and display parts (the live photo)": {
+   "../prototype/assets/live-opts/rollup/stand-cardboard.webp": "Cardboard roll-up, complete set",
+   "../prototype/assets/live-opts/posters/print-roll.webp": "Poster print only",
+   "inks/none": "Banner only",
+   "../prototype/assets/live-opts/posters/tiewraps-black.webp": "Black tie wraps",
+   "../prototype/assets/live-opts/posters/tiewraps-white.webp": "White tie wraps"
   },
   "A-boards": {
    "aboard/a2": "A2",
