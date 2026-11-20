@@ -407,7 +407,7 @@ body.buybar-on .toast { bottom: 100px; }
 .phone-prefix select { width: 112px; padding-left: 36px; padding-right: 28px; background: var(--light-grey) url(../design-system/icons/chevron-down.svg) no-repeat right 8px center / 20px 16px; }
 .phone-prefix .flag { position: absolute; left: 12px; top: 16.5px; width: 16px; height: 10.67px; border-radius: var(--r-s); object-fit: cover; pointer-events: none; }
 .co-extra { display: flex; flex-direction: column; gap: 8px; }   /* checkout forms: 8 between blocks (grid), also title → block */
-.co-extra[hidden] { display: none; }
+.co-extra[hidden], .account-two[hidden], .desk .account-two[hidden] { display: none; }
 .ship { display: flex; align-items: center; gap: 8px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }
 .ship .radio { border: 0; background: var(--light-green); }
 .ship .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
@@ -1924,10 +1924,10 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
    The article page's two columns (.ha-grid/.ha-side/.ha-body); sidebar = the hub card with the 6 topics; per sub-topic the
    questions: switch F = the category-page FAQ (.d-acc / .acc.oc-faq), P = the hub question rows to the article page. */
 .ht-nav { list-style: none; display: flex; flex-direction: column; gap: 4px; }   /* the left menu: no card, no padding, no border (Cornel, 2026-10-29) */
-.ht-nav a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: var(--r-m); font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.ht-nav a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: var(--r-m); font-size: var(--t-14); line-height: var(--lh-14); }
 .ht-nav .material-symbols-rounded { font-size: var(--t-24); color: var(--dark-green); }
-.ht-nav a[aria-current] { background: var(--light-grey); }
-.ht-nav .ht-n { margin-left: auto; font-weight: 400; color: var(--dark-grey); }   /* the number of articles in the topic, right (Cornel, 2026-10-29) */
+.ht-nav a[aria-current] { background: var(--light-grey); font-weight: 600; }   /* only the active topic semibold, as the account menu (Cornel 2026-11-20) */
+.ht-nav .ht-n { margin-left: auto; color: var(--dark-grey); }   /* the number of articles in the topic, right (Cornel, 2026-10-29) */
 .ht-nav a[aria-current] .ht-n { font-weight: 600; color: var(--black); }   /* the active topic: number semibold black, as the active sub-topic */
 /* the sub-topics under the active topic (desktop), text only, indented to the topic name (8 + 24 icon + 12 gap) */
 .ht-subnav { list-style: none; display: flex; flex-direction: column; padding: 4px 0 8px 44px; }
