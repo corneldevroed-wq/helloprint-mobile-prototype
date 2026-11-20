@@ -16,8 +16,9 @@
 <!-- GAA club printing (en-ie), 2026-11-15: board 2 of Niels' "HelloPrint IE club pages: proposal", built as a marketing page
      (main.marketing) with what about-us and our-culture gave the template: the hero with image, text cards with an icon or a
      number, content rows as sections, the centred block, Display title, 32/40 section titles, 64 between sections. No new CSS.
-     Copy 1:1 from the board. Scene images: a grey block where the image goes (the image brief says what comes). Product images:
-     the live catalogue; prices where the live category page shows them, else "€…" (the board: "live price from the block").
+     Copy 1:1 from the board. Scene images: Higgsfield gpt_image_2_6 (2026-11-20, the fictional club Glenarra GAA, maroon and white, crest of two crossed hurleys); was a grey block where the image goes (the image brief says what comes). Product images:
+     the products in the club's design (assets/gaa/products, 2026-11-20, the rugby recipe); from-prices excl. VAT as the live en-ie cards
+     show them on 2026-11-20 (the hoodie product is gone on live: the Fruit Of The Loom Hoodie's price).
      Per section a comment: board block → the part used (and what is still missing). -->
 <div class="phone">
   <div data-shell="header"></div>
@@ -33,7 +34,7 @@
         <p>For football, hurling, camogie and ladies football clubs across Ireland, from the juvenile section to the senior team.</p>
         <div class="btn-row"><a class="btn primary" href="#club-products">Shop club products</a><a class="btn outline" href="#request-a-quote">Get a quote</a></div>
       </div>
-      <div class="hero-img" title="Image: a GAA pitch on match day, supporters on the bank in club colours"></div>
+      <div class="hero-img"><img src="assets/gaa/match-day.jpg" alt="A GAA pitch on match day, supporters on the bank in club colours"></div>
     </section>
 
     <!-- advantages (usp · cols-4, icon) → 4 text cards with an icon -->
@@ -50,7 +51,7 @@
     <section id="county-final">
       <div class="so-rows">
         <article class="so-row section">
-          <div class="so-img" title="Image: bunting on an Irish main street"></div>
+          <div class="so-img"><img src="assets/gaa/bunting-street.jpg" alt="Bunting on an Irish main street" loading="lazy"></div>
           <div class="so-txt">
             <h2>County Final Flags and Bunting for the Whole Parish</h2>
             <p>Facade flags on the houses, bunting across the main street, a banner at the crossroads and hand flags for every child in the stand.</p>
@@ -87,7 +88,7 @@
     <section>
       <div class="so-rows">
         <article class="so-row section">
-          <div class="so-img" title="Image: a lotto poster in a local shop window"></div>
+          <div class="so-img"><img src="assets/gaa/lotto-poster.jpg" alt="A lotto poster in a local shop window" loading="lazy"></div>
           <div class="so-txt">
             <h2>GAA Fundraising Ideas That Get the Parish Into the Lotto</h2>
             <p>Your lotto probably runs online. What still needs paper is getting people to sign up: a <a class="link" href="#waterresistantposters">waterproof poster</a> with a QR code in the local shop, <a class="link" href="#stickers">QR stickers</a> on the bar and the till, and <a class="link" href="#flyerdl">flyers</a> at the gate on match day.</p>
@@ -108,7 +109,7 @@
         <p>The local garage, the pub and the builder keep the club going. Give them a <a class="link" href="#fencebanners">fence banner</a> on the rail, an <a class="link" href="#aluminiumsigns">aluminium board</a> in the clubhouse and a thank-you <a class="link" href="#tabletalkers">table card</a> at the dinner dance.</p>
         <div class="btn-row"><a class="btn outline" href="#panels-and-signs">See all signs and boards</a></div>
       </div>
-      <div class="hero-img" title="Image: sponsor banners on a GAA pitch rail"></div>
+      <div class="hero-img"><img src="assets/gaa/sponsor-banners.jpg" alt="Sponsor banners on a GAA pitch rail" loading="lazy"></div>
     </section>
 
     <!-- club gear (split: image + 4 products) → Section title + arrow link + 5 product cards (gap: the people image) -->
@@ -122,7 +123,7 @@
     <section>
       <div class="so-rows">
         <article class="so-row section">
-          <div class="so-img" title="Image: a hurling helmet with a club sticker, hurleys against a wall"></div>
+          <div class="so-img"><img src="assets/gaa/helmet-sticker.jpg" alt="A hurling helmet with a club sticker, hurleys against a wall" loading="lazy"></div>
           <div class="so-txt">
             <h2>Hurling and Camogie: Stickers for Every Helmet and Hurley</h2>
             <p>Hurling and camogie clubs print what every club prints, and a few things of their own: a club sticker or a name for every helmet and hurley, <a class="link" href="#vinylstickers">weatherproof vinyl stickers</a> for the kit bag and <a class="link" href="#sports-towels">towels</a> and <a class="link" href="#personalised-keyrings">keyrings</a> for the end-of-season night.</p>
@@ -140,11 +141,11 @@
         <h2>Hosting Féile? What the Host Club Needs</h2>
         <p>Visiting teams arrive at a club they have never seen. Make it easy and make it memorable. Hosting a Go Games blitz for the under-7s to under-12s? The same list works, on a smaller scale.</p>
       </div>
-      <div class="hero-img" title="Image: a Fáilte banner at a club gate with visiting teams arriving"></div>
+      <div class="hero-img"><img src="assets/gaa/feile-gate.jpg" alt="A Fáilte banner at a club gate with visiting teams arriving" loading="lazy"></div>
       <div class="hscroll blog-row">
-        <article class="blog-card"><div class="blog-img" title="Image: a Fáilte banner and visiting club flags at the gate"></div><div class="blog-txt"><h3>The welcome</h3><p>A Fáilte banner at the gate and a flag for every visiting club.</p><a class="pill" href="#flagcustomsize">Flags</a></div></article>
-        <article class="blog-card"><div class="blog-img" title="Image: correx signs pointing from the car park to the pitches"></div><div class="blog-txt"><h3>Finding the pitch</h3><p>Signs from the car park, a programme with the fixtures and the map.</p><a class="pill" href="#correxsigns">Correx signs</a></div></article>
-        <article class="blog-card"><div class="blog-img" title="Image: mentors with lanyards and players with wristbands"></div><div class="blog-txt"><h3>Who's who</h3><p>Lanyards for host-family parents and mentors, wristbands for the teams.</p><a class="pill" href="#lanyardbuckleandsafetyclip">Safety lanyards</a></div></article>
+        <article class="blog-card"><div class="blog-img"><img src="assets/gaa/feile-welcome.jpg" alt="A Fáilte banner and visiting club flags at the gate" loading="lazy"></div><div class="blog-txt"><h3>The welcome</h3><p>A Fáilte banner at the gate and a flag for every visiting club.</p><a class="pill" href="#flagcustomsize">Flags</a></div></article>
+        <article class="blog-card"><div class="blog-img"><img src="assets/gaa/feile-signs.jpg" alt="Correx signs pointing from the car park to the pitches" loading="lazy"></div><div class="blog-txt"><h3>Finding the pitch</h3><p>Signs from the car park, a programme with the fixtures and the map.</p><a class="pill" href="#correxsigns">Correx signs</a></div></article>
+        <article class="blog-card"><div class="blog-img"><img src="assets/gaa/feile-lanyards.jpg" alt="Mentors with lanyards and players with wristbands" loading="lazy"></div><div class="blog-txt"><h3>Who's who</h3><p>Lanyards for host-family parents and mentors, wristbands for the teams.</p><a class="pill" href="#lanyardbuckleandsafetyclip">Safety lanyards</a></div></article>
       </div>
       <div class="btn-row"><a class="btn outline" href="#banner-printing">Shop banners</a></div>
     </section>
@@ -156,7 +157,7 @@
         <p>The official camp brings its own kit. The club still needs a <a class="link" href="#featherflags">flag at the gate</a>, <a class="link" href="#correxsigns">signs to each pitch</a>, <a class="link" href="#lanyardbuckleandsafetyclip">lanyards for coaches</a>, <a class="link" href="#stickersname">name stickers</a> for day one and a <a class="link" href="#booklets">welcome booklet</a> for parents. Running your own week? Add <a class="link" href="#russellchildrensclassictshirt">tees</a> and <a class="link" href="#certificates">certificates</a>.</p>
         <div class="btn-row"><a class="btn outline" href="#camp-printing">See camp printing</a></div>
       </div>
-      <div class="hero-img" title="Image: children at a club camp, coaches in lanyards"></div>
+      <div class="hero-img"><img src="assets/gaa/camp.jpg" alt="Children at a club camp, coaches in lanyards" loading="lazy"></div>
     </section>
 
     <!-- advisor (team photo, quote form) → Team strip .hc-team -->
@@ -194,26 +195,26 @@
 <script src="../design-system/components.js?v=20261205zzo"></script>
 <script>
   const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
-  // Product card: live catalogue image; the live "from" price where the category page shows it, else "€…" as on the board
+  // Product cards: the products in Glenarra GAA's design, as the rugby page (Higgsfield with the live product photo as reference)
   const card = ([name, img, href, price, badge]) => `
     <a class="product" href="${href}">
-      <div class="thumb" style="background:var(--light-grey)"><img src="${CF + img}?w=400&fm=webp&q=80" alt="" loading="lazy">${badgeHtml(badge)}</div>
+      <div class="thumb" style="background:var(--light-grey)"><img src="assets/gaa/products/${img}.webp" alt="" loading="lazy">${badgeHtml(badge)}</div>
       <p class="name">${name}</p>
-      <div><p class="from">From</p><p class="prices">${price ? `<span class="price" data-price="${price}"></span>` : '<span class="price">€…</span>'}</p></div>
+      <div><p class="from">From</p><p class="prices"><span class="price" data-price="${price}"></span></p></div>
     </a>`;
   document.getElementById('finalProducts').innerHTML = [
-    ['Facade Flags', '14oAsvJFQhqAdigx7nD26A/5e06783853916a2a1b400f7b1fa03f61/facadeflags.webp', '#facadeflags', 41.99],
-    ['Bunting Flags', '2YuZI3vuVnjjY8366r3m9J/e5f6a35470d304a42a6f13422bea89db/bunting-flag-new-product-image-transparent__1_.png', '#buntingflags', 45.99],
-    ['Paper Hand Flags', '7Le75uQAaaU6CyVreLVr05/87788367c6731059ee9d6291b2c0ac6f/Paper-flag-product-image-2.png', '#paperflags'],
-    ['Banners', '4JX5aLLKcK8JPpkzT8nfUG/d7d68dfa22429487a36e37af8f37827d/signs-pamels_banner__1_.png', 'product.html?p=banners', 3.99],
-    ['Custom-Size Flags', '4XOdJMdsxWOUIAXZGBqxNQ/6be49b9919d6524bfa2de285beca7556/flags_custom-size-flags__1_.png', '#flagcustomsize', 2.99],
+    ['Facade Flags', 'facade', '#facadeflags', 41.99],
+    ['Bunting Flags', 'bunting', '#buntingflags', 45.99],
+    ['Paper Hand Flags', 'paperflags', '#paperflags', 447.29],
+    ['Banners', 'banner', 'product.html?p=banners', 3.99],
+    ['Custom-Size Flags', 'customflag', '#flagcustomsize', 2.99],
   ].map(card).join('');
   document.getElementById('gearProducts').innerHTML = [
-    ['Hoodies', '6Gp1huLJB6tLgFyFFKIGsK/acb724cfd71b5b8abbcaa818c04c2cb8/fruitoftheloompremiumhoodedsweat.webp', '#fruitoftheloompremiumhoodedsweat'],
-    ['Beanies', '3SoV2jNNwqFX6YpIfwCVlV/2408cc4b3ac3a176c9bddf16e60c7fed/stavangergrsrpetbeaniehat.webp', '#stavangergrsrpetbeaniehat', null, 'Eco'],
-    ['Golf Umbrellas', '4D52abr4SSbIdgXaV1arF4/4a93ce98c686ba37a93d7467d0089f21/yfke.webp', '#yfkegolfumbrella'],
-    ['Sports Tees', '34vmAJV2rNeeibjj1tisCa/6b533459da8221be5521618fa22c2ad4/move.png', '#move'],
-    ['Fleece Scarves', '3kE41jqRqFUCOtBGQsNoF5/e04e48a24d1f4af582ff4914f2378fb3/solsarctic888103u.webp', '#solsarctic888103u'],
+    ['Hoodies', 'hoodie', '#personalised-hoodies', 19.29],
+    ['Beanies', 'beanie', '#stavangergrsrpetbeaniehat', 2.55, 'Eco'],
+    ['Golf Umbrellas', 'umbrella', '#yfkegolfumbrella', 6.38],
+    ['Sports Tees', 'tee', '#move', 4.89],
+    ['Fleece Scarves', 'scarf', '#solsarctic888103u', 3.68],
   ].map(card).join('');
   updatePrices();
 
