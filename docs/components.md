@@ -168,6 +168,9 @@ design system + guide, prices for products without a live from-price. Gap histor
   (the panel's corner from above, both front edges with the core, the thickness per material; White aluminium = `panels/dibond`), flexible
   `materials/structured-polyester|cotton|one-way-vision|privacy`; the hardware is the live photo: `prototype/assets/live-opts/signs/hanging-plate-4|7`,
   `spacer`, `ground-plate-6|15`, `whiteboard-kit` (.jpg, on the light grey tile; no extra options = `inks/none`). No sign product in the prototype yet.
+  The tail (`sketches/tail-icons-sketch.html`): `folds/tri-fold|z-fold` (standing half open), `paper/ticket-perforation|serial-1|serial-2|perforation-serial-1|perforation-serial-2`, `paper/numbered`,
+  `folders/binder-50|70`, `notepads/paper-plain|ruled|grid|dotted`, `drinkware/cup-no-lid|lid-white|lid-black`, `gadgets/fork|knife|spoon|balloon|balloon-ribbon|hem-with|hem-without`,
+  `printarea/sunglasses-left|right|both`, `stickers/on-sheet`, `materials/rainbow-foil`; the live photo: `prototype/assets/live-opts/stamps/standard|round|classic|classic-date|date.webp`, `vboards/tape|suction-cups.webp`.
   Posters and displays (`sketches/poster-icons-sketch.html`): `posters/xbanner-set|canvas|frame`, `posters/wall-60|80|banner` (80 = the complete set), `posters/hanger-31|51|71`,
   `posters/frame-25|32` (the corner), the gazebo `printarea/gazebo-roof|back|all`; the live photo: `prototype/assets/live-opts/posters/print-roll|tiewraps-black|tiewraps-white.webp`, the cardboard set = `rollup/stand-cardboard.webp`. No poster product in the prototype yet.
   Envelopes (`sketches/envelope-icons-sketch.html`, window A, closure B, stickers A): `envelopes/window-none|left|right` (the front, the flap peeking over, the window grey),

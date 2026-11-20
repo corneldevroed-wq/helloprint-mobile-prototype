@@ -41,7 +41,10 @@
    "printarea/mug-small": "Mug, one side",
    "printarea/gazebo-roof": "Gazebo, roof",
    "printarea/gazebo-back": "Gazebo, roof and back",
-   "printarea/gazebo-all": "Gazebo, roof, back and sides"
+   "printarea/gazebo-all": "Gazebo, roof, back and sides",
+   "printarea/sunglasses-left": "Sunglasses, left arm",
+   "printarea/sunglasses-right": "Right arm",
+   "printarea/sunglasses-both": "Both arms"
   },
   "Corners": {
    "corners/straight": "Straight",
@@ -58,7 +61,9 @@
    "folds/portrait": "Portrait",
    "folds/landscape": "Landscape",
    "folds/square": "Square",
-   "folds/tent": "Tent"
+   "folds/tent": "Tent",
+   "folds/tri-fold": "Tri-fold",
+   "folds/z-fold": "Z-fold"
   },
   "Envelopes": {
    "envelopes/without": "Without envelope",
@@ -76,7 +81,8 @@
    "stickers/oval": "Oval",
    "stickers/square": "Square",
    "stickers/rounded": "Rounded corners",
-   "stickers/contour": "Custom shape"
+   "stickers/contour": "Custom shape",
+   "stickers/on-sheet": "On sheet"
   }
  },
  "Product kit icons": {
@@ -214,6 +220,41 @@
    "../prototype/assets/live-opts/signs/whiteboard-kit.jpg": "Whiteboard starter kit",
    "../prototype/assets/live-opts/signs/ground-plate-6.jpg": "Light black plate 6 kg",
    "../prototype/assets/live-opts/signs/ground-plate-15.jpg": "Light black plate 15 kg"
+  },
+  "Paper extras": {
+   "paper/ticket-perforation": "Perforation line",
+   "paper/ticket-serial-1": "One serial number",
+   "paper/ticket-serial-2": "Two serial numbers",
+   "paper/ticket-perforation-serial-1": "Perforated + one",
+   "paper/ticket-perforation-serial-2": "Perforated + two",
+   "paper/numbered": "Numbered",
+   "folders/binder-50": "Binder 50 mm spine",
+   "folders/binder-70": "70 mm spine",
+   "notepads/paper-plain": "Plain paper",
+   "notepads/paper-ruled": "Ruled",
+   "notepads/paper-grid": "Grid",
+   "notepads/paper-dotted": "Dotted"
+  },
+  "Cups, cutlery, balloons, tablecloths": {
+   "drinkware/cup-no-lid": "No lid",
+   "drinkware/cup-lid-white": "White lid",
+   "drinkware/cup-lid-black": "Black lid",
+   "gadgets/fork": "Fork",
+   "gadgets/knife": "Knife",
+   "gadgets/spoon": "Spoon",
+   "gadgets/balloon": "Balloon, no finishing",
+   "gadgets/balloon-ribbon": "Incl. ribbon",
+   "gadgets/hem-without": "Without hem",
+   "gadgets/hem-with": "With hem"
+  },
+  "Office stamps and vboard fixings (the live photo)": {
+   "../prototype/assets/live-opts/stamps/standard.webp": "Standard stamp",
+   "../prototype/assets/live-opts/stamps/round.webp": "Round stamp",
+   "../prototype/assets/live-opts/stamps/classic.webp": "Classic stamp",
+   "../prototype/assets/live-opts/stamps/classic-date.webp": "Classic date stamp",
+   "../prototype/assets/live-opts/stamps/date.webp": "Date stamp",
+   "../prototype/assets/live-opts/vboards/tape.webp": "Double sided tape",
+   "../prototype/assets/live-opts/vboards/suction-cups.webp": "Suction cups"
   }
  },
  "Banner icons": {
