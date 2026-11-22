@@ -433,6 +433,11 @@ const ROUTES = {
     ['sols-imperial-tshirt', 'sols-imperial-tshirt', 'tshirtbasicroundneck', 'sol-s-imperial-t-shirt', 'tshirt-printing', 't-shirts'],
     ['banners', 'banners', 'custom-banners', 'banner-printing'],
     ['roller-banners', 'roller-banners', 'budgetrollupbanners', 'rollupbanners-printing', 'roller-banner', 'rollup-banners'],
+    // Top 20, batch 1 (Cornel 2026-11-22): their live slugs and categories open the product until there is a category page
+    ['standard-posters', 'standard-posters', 'posters', 'posters-printing', 'poster-printing'],
+    ['stapled-booklets', 'stapled-booklets', 'booklets', 'booklets-printing', 'booklet-printing', 'saddle-stitched-booklets', 'brochure-and-booklet-printing'],
+    ['perfect-bound-brochures', 'perfect-bound-brochures', 'perfectboundbrochures', 'perfect-bound-booklets'],
+    ['half-fold-leaflets', 'half-fold-leaflets', 'halffoldleaflets', 'half-fold-brochures'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
@@ -476,6 +481,8 @@ try { inclVat = localStorage.getItem('hp-vat') === 'incl'; } catch (e) {}
 // Irish VAT (Ireland flag in the header; the Figma cart shows VAT 23%)
 const VAT_RATE = 0.23;
 const fmt = n => '€' + (inclVat ? n * (1 + VAT_RATE) : n).toFixed(2);
+// A quantity: "1,000 pcs" (thousands with a comma, as live; Cornel 2026-11-20), "1 pc"
+const pcs = n => `${Number(n).toLocaleString('en-IE')} ${+n === 1 ? 'pc' : 'pcs'}`;
 const esc = t => t.replace(/&/g, '&amp;');
 function updatePrices() {
   document.querySelectorAll('[data-price]').forEach(el => { el.textContent = fmt(+el.dataset.price); });
@@ -494,11 +501,11 @@ const etaHtml = (d, condition, option) => `<b>Estimated delivery date</b><p>${et
 
 // Best sellers (home grid) — also used by search
 const products = [
-  { img: 'p1.png', bg: 'var(--light-grey)', name: 'Stapled Booklets', qty: 500, price: 229.94, was: 229.94, badge: 'Great Value' },
-  { img: 'p2.png', bg: 'var(--light-grey)', name: 'Perfect Bound Brochures', qty: 100, price: 144.89, badge: 'Most Popular' },
+  { img: 'p1.png', bg: 'var(--light-grey)', name: 'Stapled Booklets', qty: 500, price: 121.13, badge: 'Great Value', href: 'product.html?p=stapled-booklets' },
+  { img: 'p2.png', bg: 'var(--light-grey)', name: 'Perfect Bound Brochures', qty: 100, price: 212.99, badge: 'Most Popular', href: 'product.html?p=perfect-bound-brochures' },
   { img: 'p3.png', bg: 'var(--light-grey)', name: 'Standard Flyers', qty: 1000, price: 35.99, href: 'product.html?p=standard-flyers' },
   { img: 'p4.png', bg: 'var(--light-grey)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
-  { img: 'p5.png', bg: 'var(--light-grey)', name: 'Posters', qty: 500, price: 18.89 },
+  { img: 'p5.png', bg: 'var(--light-grey)', name: 'Standard Posters', qty: 50, price: 28.49, href: 'product.html?p=standard-posters' },
   { img: 'p6.png', bg: 'var(--light-grey)', name: 'Basic Cotton Bags', qty: 100, price: 181.99, href: 'product.html?p=basic-cotton-bags' },
   { img: 'p7.png', bg: 'var(--light-grey)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
   { img: 'p8.png', bg: 'var(--light-grey)', name: 'Stickers on Roll', qty: 500, price: 54.59 },
@@ -896,6 +903,7 @@ const searchProducts = [
   { name: 'Sol’s Imperial T-shirt', img: 'assets/products/tshirt.webp', qty: 10, price: 164.83, tags: 't-shirts tshirt clothing' },
   { name: 'Custom Banners', img: 'assets/products/banner.webp', qty: 1, price: 33.36, tags: 'banners outdoor' },
   { name: 'Roller Banners', img: 'assets/products/roller-banner.webp', qty: 1, price: 38.99, tags: 'rollup banners pull up' },
+  { name: 'Half Fold Leaflets', img: 'assets/flyers/fold-half.webp', qty: 500, price: 39.67, tags: 'folded leaflets brochures flyers' },
   // The four best-selling pens (pens-data.js, 500 pcs at the PFP price), so the search for pens shows products as on the Search results page
   { name: 'Nash Pen', img: CF_PEN + 'CQoB1gLRBw2C5rJwAlwrS/bf0a613ea281454d438261f513b34fe6/deluxepens.webp?w=150&fm=webp&q=80', qty: 500, price: 195, tags: 'pens ballpoint pens' },
   { name: 'Ebony Pens Matte', img: CF_PEN + '0J0KKVS4NeEunJfjDIBpe/7be4e342b14fa9884532f98100e5a466/ebonymatte.webp?w=150&fm=webp&q=80', qty: 500, price: 165, tags: 'pens ballpoint pens' },
@@ -1069,7 +1077,7 @@ function totalsHtml(items = getCart(), addons = getAddons(), edit = false, fold 
   return `<div class="totals">
           <div><span>${fold ? `<button class="link sum-toggle" aria-expanded="false" aria-controls="sumLines" data-sum-toggle>Products (${items.length})</button>` : `Products (${items.length})`}</span><span>${eur(gross)}</span></div>
           ${fold ? `<ul class="sum-lines" id="sumLines" hidden>${items.map(it => `<li class="line-item"><span class="img" style="background:var(--light-grey)"><img src="${it.img}" alt=""></span>
-            <div class="t"><strong>${it.name}</strong><small>${it.qty} pcs, ${it.delivery}</small><small><span>Estimated ${etaShort(etaDate(it.arrives))} —</span> <span>latest ${etaShort(etaLatest(it.arrives))}</span></small></div><span class="p">${eur(it.price)}</span></li>`).join('')}</ul>` : ''}
+            <div class="t"><strong>${it.name}</strong><small>${pcs(it.qty)}, ${it.delivery}</small><small><span>Estimated ${etaShort(etaDate(it.arrives))} —</span> <span>latest ${etaShort(etaLatest(it.arrives))}</span></small></div><span class="p">${eur(it.price)}</span></li>`).join('')}</ul>` : ''}
           ${gross > products ? `<div><span>Product discounts</span><span class="free">−${eur(gross - products)}</span></div>` : ''}
           <div><span>${check.line}${info('filecheck', 'See our 3 file check options')}</span>${check.price ? `<span>${eur(check.price)}</span>` : '<span class="free">Free</span>'}</div>
           ${addons.secured ? `<div><span>${SECURED.line}${info('secured', 'More info about secured delivery')}</span><span>${eur(SECURED.price)}</span></div>` : ''}

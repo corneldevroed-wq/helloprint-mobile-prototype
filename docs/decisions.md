@@ -6,11 +6,24 @@ Add new decisions here when Cornel makes a final call.
 ## Footer pages (Nov 22, 2026)
 - **11-22 — Our promises and Sustainability are marketing pages** (Cornel: "convert to the marketing template, following our guide"): the live en-ie footer pages rebuilt 1:1 (copy, images, order) with only the template's parts, no new CSS. Big figures are icon cards (as about us); a quote is the centred block without a photo (title = the quote, the name under it); live-only targets (the impact report on Flipsnack, the partner site) stay local anchors. The existing `#our-promises` and `#sustainability` links (footer, about us, our culture, VIP) now open them.
 
+## Top 20 products, batch 1 (Nov 22, 2026)
+- **2026-11-22 — The prototype gets live's top products: the 10 homepage Bestsellers + the products the homepage category menu links straight to (no sales data
+  available). Built in 3 batches; batch 1 = Standard Posters, Stapled Booklets, Perfect Bound Brochures, Half Fold Leaflets.** Steps, option names, quantities,
+  prices and delivery as live en-ie (read 11-22; dates one working day earlier for the prototype's approve-by Fri 20 Nov). Long live lists: booklet Pages
+  8–64 all as cards; perfect bound shows 12 of the 94 page counts (28–400), the rest named in the info. Batch 2: labels on roll, stickers, envelopes,
+  letterheads, notepads, Christmas cards; batch 3: Ebony pen, beach flags, foamex.
+
+## Quantities with a thousands comma (Nov 20, 2026)
+- **2026-11-20 — Every quantity reads "1,000 pcs" (1 → "1 pc"), as live and the staging cart: `pcs(n)` in app.js.** Cart (spec line, dropdown,
+  upsell, toast, quote), PDP (quantity rows, summary, sticky bar, specs, tiers, related cards), the mini cart and the home cards. Found in the
+  staging cart comparison (PR-7476); the strikethrough + "You save" per cart line from staging was not taken over (one price per line stays).
+
 ## Search results page (Nov 20, 2026)
 - **2026-11-20 — Search results = the PFP with the query (`prototype/search.html?q=…`, sketch B in `sketches/search-sketch.html`).**
   The header field keeps the query (no second search field), title "Results for “pens”", the count in the PFP bar. On top of the right column the
   matching categories as a chip row with photos (`.chip-row` + `.chip-img`, the same chip as See also on the PDP; scrolls, desktop arrows when it
-  does not fit). Filters as the PFP with Product type first; Sort with Relevance first (default). No reviews, FAQ or SEO text (noindex).
+  does not fit). A chip filters this page (Cornel 2026-11-20: not a jump to the category page); while a filter is on the row hides,
+  after a reset it comes back. Filters as the PFP with Product type first; Sort with Relevance first (default). No reviews, FAQ or SEO text (noindex).
   No results: popular searches (pills), popular categories (PFP tiles), Request a quote; no emoji. Enter in the header search (mobile and desktop)
   and "View all results for …" open this page. Prototype: only pens match (every word against name, type, brand, material, print, colour; no
   substring hits like live's "pos" → Tony's). Rejected: A (as live: a second big field + Related pages + one Categories filter = two ways to the same

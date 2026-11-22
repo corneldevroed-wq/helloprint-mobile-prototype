@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
-<link rel="stylesheet" href="pages.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzq">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzq">
+<link rel="stylesheet" href="pages.css?v=20261205zzq">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -58,9 +58,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205zzo"></script>
-<script src="../design-system/components.js?v=20261205zzo"></script>
-<script src="pens-data.js?v=20261205zzo"></script>
+<script src="app.js?v=20261205zzq"></script>
+<script src="../design-system/components.js?v=20261205zzq"></script>
+<script src="pens-data.js?v=20261205zzq"></script>
 <script>
 const Q = (new URLSearchParams(location.search).get('q') || '').trim(), qh = `“${esc(Q)}”`;
 document.querySelectorAll('.dsearch input, form.search input, #searchInput').forEach(i => { i.value = Q; });   // the header field keeps the query
@@ -84,16 +84,17 @@ if (!ITEMS.length) {
 else head.innerHTML = `<h1>Results for ${qh}</h1>`;   // the count is in the bar above the grid, as on the PFP
 document.title = head.querySelector('h1').textContent;
 
-// The categories that match, as chips with a photo on top of the right column (the live "Related pages"; each opens its PFP with that filter, ROUTES)
-const CATS = [['Fast Delivery Pens', '#fastpens', p => ['1', '2to3'].includes(p.d)], ['Eco Pens', '#eco-pens', p => p.eco], ['Luxury Pens', '#luxury-pens', p => p.type.includes('Luxury pens')],
-  ['Stylus Pens', '#touch-pens', p => p.type.includes('Stylus pens')], ['Engraved Pens', 'pens.html?f=print%3AEngraving', p => [].concat(p.print).includes('Engraving')],
-  ['Writing Sets', 'pens.html?f=type%3AWriting%20sets', p => p.type.includes('Writing sets')], ['BIC Pens', '#bic-pens', p => p.brand === 'BIC'],
-  ['Parker Pens', '#parkerpens', p => p.brand === 'Parker'], ['Waterman Pens', '#watermanpens', p => p.brand === 'Waterman'], ['Marksman Pens', '#marksmanpens', p => p.brand === 'Marksman']]
-  .map(([t, href, f]) => [t, href, ITEMS.find(f)]).filter(c => c[2]);
+// The categories that match, as chips with a photo on top of the right column (the live "Related pages"). A chip is a shortcut to the filter on this page
+// (pfp.js [data-x]); while a filter is on, its soft tag shows above the grid and the chips step aside; when the filters are cleared they come back (Cornel 2026-11-20)
+const CATS = [['Fast Delivery Pens', 'del:Tue 24 Nov', p => ['1', '2to3'].includes(p.d)], ['Eco Pens', 'eco', p => p.eco], ['Luxury Pens', 'type:Luxury pens', p => p.type.includes('Luxury pens')],
+  ['Stylus Pens', 'type:Stylus pens', p => p.type.includes('Stylus pens')], ['Engraved Pens', 'print:Engraving', p => [].concat(p.print).includes('Engraving')],
+  ['Writing Sets', 'type:Writing sets', p => p.type.includes('Writing sets')], ['BIC Pens', 'brand:BIC', p => p.brand === 'BIC'],
+  ['Parker Pens', 'brand:Parker', p => p.brand === 'Parker'], ['Waterman Pens', 'brand:Waterman', p => p.brand === 'Waterman'], ['Marksman Pens', 'brand:Marksman', p => p.brand === 'Marksman']]
+  .map(([t, f, has]) => [t, f, ITEMS.find(has)]).filter(c => c[2]);
+const srRow = document.getElementById('srCats');
 if (ITEMS.length && CATS.length > 1) {
-  const row = document.getElementById('srCats'); row.hidden = false;
-  row.querySelector('nav').innerHTML = CATS.map(([t, href, p]) => `<a class="chip-img" href="${href}"><img src="${pic(p)}" alt="">${t}</a>`).join('');
-  initChipRow(row);
+  srRow.querySelector('nav').innerHTML = CATS.map(([t, f, p]) => `<button class="chip-img" type="button" data-x="${f}"><img src="${pic(p)}" alt="">${t}</button>`).join('');
+  initChipRow(srRow);
 }
 
 const PFP = {
@@ -105,7 +106,7 @@ const PFP = {
   sib: [['Business Cards', 'assets/products/bc-1.png', '#businesscards-printing'], ['Banners', 'assets/products/banner.webp', '#banners'], ['Mugs', 'assets/products/mug.webp', 'mugs.html'], ['T-shirts', 'assets/products/tshirt.webp', '#tshirt-printing']]
 };
 </script>
-<script src="pfp.js?v=20261205zzo"></script>
+<script src="pfp.js?v=20261205zzq"></script>
 <script>
 // Sort: Relevance first and the default, as live (here the order of the data, which is live's most popular)
 let REL = true;
@@ -113,7 +114,9 @@ const fixSort = () => { const m = document.querySelector('.pf-bar .menu'), b = d
   m.insertAdjacentHTML('afterbegin', `<button type="button" data-sort="pop" data-rel${REL ? ' class="on"' : ''}>Relevance</button>`);
   if (REL) { b.textContent = 'Relevance'; m.querySelector('[data-sort="pop"]:not([data-rel])').classList.remove('on'); } };
 document.addEventListener('click', e => { const s = e.target.closest('[data-sort]'); if (s) REL = s.hasAttribute('data-rel'); }, true);
-new MutationObserver(fixSort).observe(document.getElementById('main'), { childList: true }); fixSort();
+// The chips only without a filter on (the start, or after Clear all / removing the last tag); back in view, the arrows check the width again
+const showCats = () => { if (!CATS.length || CATS.length < 2 || !ITEMS.length) return; srRow.hidden = !!document.querySelector('.pf-active'); srRow.querySelector('nav').dispatchEvent(new Event('scroll')); };
+new MutationObserver(() => { fixSort(); showCats(); }).observe(document.getElementById('main'), { childList: true }); fixSort(); showCats();
 </script>
 </body>
 </html>

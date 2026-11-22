@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=add,close,content_copy,delete,edit,upload&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
-<link rel="stylesheet" href="pages.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzq">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzq">
+<link rel="stylesheet" href="pages.css?v=20261205zzq">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -130,9 +130,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261205zzo"></script>
-<script src="../design-system/components.js?v=20261205zzo"></script>
-<script src="products.js?v=20261205zzo"></script>
+<script src="app.js?v=20261205zzq"></script>
+<script src="../design-system/components.js?v=20261205zzq"></script>
+<script src="products.js?v=20261205zzq"></script>
 <script>
   // Cart (Figma 15725:7144). Items come from the PDP via localStorage; add-ons are per order.
   // Tiers, secured delivery and the totals maths live in app.js (shared with checkout)
@@ -214,13 +214,13 @@
   function lineHtml(it, i) {
     const P = productOf(it), nq = nextStep(it), np = nq && priceAt(it, nq);
     const head = `${P && P.badge ? badgeHtml(P.badge) : ''}<a href="${it.href}"><strong>${it.name}</strong></a>
-      <small>${it.qty} pcs · ${it.options}</small><span class="cart-design">Design: ${designOf(it, i).label}${designOf(it, i).link}</span>`;
+      <small>${pcs(it.qty)} · ${it.options}</small><span class="cart-design">Design: ${designOf(it, i).label}${designOf(it, i).link}</span>`;
     const top = `${it.art && it.art.length ? artTile(it, i) : `<a class="img" href="${it.href}" style="background:var(--light-grey)"><img src="${it.img}" alt=""></a>`}<div class="t">${head}</div>${priceHtml(it)}
       <div class="eta">${etaHtml(it.arrives, `Approve your files by <b>10:30 on ${etaApprove(it.arrives)}</b>`, it.delivery)}</div>`;
     const steps = qtySteps(it), icons = `<div class="icon-btns"><a class="icon-btn" href="${it.href}${it.href.includes('?') ? '&' : '?'}edit=${i}" data-tip="Change options" aria-label="Change options">${icon('edit')}</a><button class="icon-btn" data-dup="${i}" data-tip="Duplicate product" aria-label="Duplicate product">${icon('content_copy')}</button><button class="icon-btn" data-remove="${i}" data-tip="Remove from cart" aria-label="Remove from cart">${icon('delete')}</button></div>`;
     return `<div class="line-item cart-line">${top}
-      <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field qty-field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${n} pcs${n === it.qty ? '' : (d => ` · ${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`)(priceAt(it, n) - it.price)}</option>`).join('')}</select><span class="qty-val">${it.qty} pcs</span></label>
-        ${np ? `<button class="qty-hint" data-i="${i}" data-up="${nq}"><span>Upgrade to <b>${nq} pcs</b> for just ${fmt(np - it.price)}</span></button>` : ''}` : ''}${icons}</div></div>`;
+      <div class="cart-qty">${steps.some(([n]) => n === it.qty) ? `<label class="field qty-field"><select data-i="${i}" aria-label="Quantity">${steps.map(([n]) => `<option value="${n}"${n === it.qty ? ' selected' : ''}>${pcs(n)}${n === it.qty ? '' : (d => ` · ${d > 0 ? '+' : '−'}${fmt(Math.abs(d))}`)(priceAt(it, n) - it.price)}</option>`).join('')}</select><span class="qty-val">${pcs(it.qty)}</span></label>
+        ${np ? `<button class="qty-hint" data-i="${i}" data-up="${nq}"><span>Upgrade to <b>${pcs(nq)}</b> for just ${fmt(np - it.price)}</span></button>` : ''}` : ''}${icons}</div></div>`;
   }
 
 
@@ -289,7 +289,7 @@
   function setQty(i, q) {
     const items = getCart(), it = items[i], price = priceAt(it, q);
     if (price == null) return;
-    Object.assign(it, { qty: q, price }); setCart(items); render(); showToast(`Quantity changed to ${q} pcs`);
+    Object.assign(it, { qty: q, price }); setCart(items); render(); showToast(`Quantity changed to ${pcs(q)}`);
   }
   function applyCode() {
     const c = document.getElementById('codeIn').value.trim().toUpperCase();
@@ -315,7 +315,7 @@
     const items = getCart(), { check, code, discount, shipping, subtotal } = cartTotals(items, addons);
     const row = (img, name, sub, price, cls = '') => `<div class="q-item">${img ? `<span class="img"><img src="${img}" alt=""></span>` : '<span></span>'}<div><b>${name}</b>${sub ? `<small>${sub}</small>` : ''}</div><span class="p${cls}">${price}</span></div>`;
     // excl. VAT, as the rows of the summary, so the lines add up to the total
-    document.getElementById('qItems').innerHTML = items.map(it => row(it.img, it.name, `${it.qty} pcs · ${it.delivery}`, eur(it.price))).join('') +
+    document.getElementById('qItems').innerHTML = items.map(it => row(it.img, it.name, `${pcs(it.qty)} · ${it.delivery}`, eur(it.price))).join('') +
       (check.price ? row('', check.line, '', eur(check.price)) : '') + (addons.secured ? row('', SECURED.line, '', eur(SECURED.price)) : '') +
       (shipping ? row('', 'Shipping', '', eur(shipping)) : '') + (code ? row('', `Discount (${code})`, '', `−${eur(discount)}`, ' free') : '') +
       `<div class="q-total"><span>Total <small>(Excl. VAT)</small></span><span>${eur(subtotal)}</span></div>`;

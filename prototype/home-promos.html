@@ -7,9 +7,9 @@
 <title>HelloPrint Home · Promo test</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
-<link rel="stylesheet" href="pages.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzq">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzq">
+<link rel="stylesheet" href="pages.css?v=20261205zzq">
 <style>
   /* Promo test (home-promos.html): one promo card for every banner on the home, mobile and desktop.
      Variants via the Promo switch (?promo=a…f): A = white bar + arrow button, B = text below the photo,
@@ -235,8 +235,8 @@
   </main>
 </div>
 
-<script src="app.js?v=20261205zzo"></script>
-<script src="../design-system/components.js?v=20261205zzo"></script>
+<script src="app.js?v=20261205zzq"></script>
+<script src="../design-system/components.js?v=20261205zzq"></script>
 <script>
   // Home: best sellers grid (data in app.js)
   document.getElementById('grid').innerHTML = products.map(p => `
@@ -247,7 +247,7 @@
       </div>
       <p class="name">${p.name}</p>
       <div>
-        <p class="from">${p.qty} pcs from</p>
+        <p class="from">${pcs(p.qty)} from</p>
         <p class="prices">${p.was ? `<span class="was" data-price="${p.was}"></span>` : ''}<span class="price" data-price="${p.price}"></span></p>
       </div>
     </a>`).join('');

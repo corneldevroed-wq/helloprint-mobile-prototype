@@ -593,6 +593,246 @@ const PRODUCTS = {
     about: ['Roller banners are printed banners rolled into their base: self-standing, portable and set up in seconds. Use them to introduce your business, promote an event or a discount, or share information.'],
     specs: [['Material', '510 gsm PVC | 220 mu polyester | 200 gsm silk paper'], ['Print', 'Single-sided'], ['Print colour', 'Full colour'], ['Print technique', 'UV-print'], ['Weight', '2.8 kg | 3.5 kg | 4.9 kg'], ['Quantity', 'Possible to order from 1 piece']],
   },
+
+  // ===== Top 20, batch 1 (Cornel 2026-11-22): the live bestsellers and category picks, steps, options, quantities and prices as live en-ie
+  // (read 2026-11-22, prices ÷ 1.23 = excl. VAT; delivery dates one working day earlier, for the prototype's "approve by Fri 20 Nov").
+  // Steps that depend on an earlier choice use group.when / item.when (liveFunnel: a step with one option is hidden). The quantity prices are live's
+  // default configuration (mult 1 there); the other option prices (mult) are made up, roughly as live.
+
+  // Standard Posters (helloprint.com/en-ie/posters): Size → Shape → Material appearance → Material → Finishing (Glossy 135/170) → Printing
+  'standard-posters': {
+    name: 'Standard Posters', cartName: 'Standard posters', noun: 'posters', crumb: ['Posters', '#posters-printing'], liveFunnel: true,
+    img: 'assets/p5.png', priceMult: 1, defaultQty: 50,
+    qty: [[1, 13.99], [5, 18.79], [10, 20.49], [25, 22.49], [50, 28.49], [100, 37.99], [200, 59.99], [500, 106.99], [1000, 178.99], [2000, 273.59]],
+    delivery: withDays(FLYER_DELIVERY, ['Mon 30 Nov', 'Tue 24 Nov', 'Mon 23 Nov'], [0, 38.50, 118.50], 'posters'),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['a2', 'A2', '420 x 594 mm', 28, 1, 'Our recommended poster size: big enough to be seen across a room.'],
+        ['a1', 'A1', '594 x 841 mm', 33, 1.7, 'A large poster for walls, windows and events.'],
+        ['a3', 'A3', '297 x 420 mm', 22, .6, 'A compact poster for notice boards and shop windows.'],
+        ['a0', 'A0', '841 x 1189 mm', 40, 3, 'The largest A-size: maximum impact from a distance.'],
+        ['a4', 'A4', '210 x 297 mm', 18, .45, 'Letter size, for small notices and frames.'],
+        ['b1', 'B1', '700 x 1000 mm', 37, 2.6, 'A large format between A1 and A0, common for cinema and event posters.'],
+        ['b2', 'B2', '500 x 700 mm', 31, 1.5, 'Between A2 and A1, a popular size for shop posters.'],
+        ['abri', 'Abri', '1189 x 1750 mm', 42, 4.5, 'The bus shelter format: for street furniture and big displays.'],
+        ['40x60', '400 x 600 mm', 'Custom size', 28, 1, 'A popular photo poster size.'],
+        ['60x80', '600 x 800 mm', 'Custom size', 32, 1.7, 'A larger photo poster size.'],
+        ['80x120', '800 x 1200 mm', 'Custom size', 38, 3, 'A big poster for halls and events.'],
+        ['120x160', '1200 x 1600 mm', 'Custom size', 42, 5, 'A very large poster, close to a banner.'],
+      ].map(([id, name, sub, h, mult, info]) => ({ id, name, sub, shape: `width:${Math.round(h * (id === 'abri' ? .68 : ['60x80', '120x160'].includes(id) ? .75 : /x/.test(id) ? .67 : .71))}px;height:${h}px`, mult, info })) },
+      { key: 'shape', title: 'Shape', items: [
+        { id: 'portrait', name: 'Portrait', sub: 'Upright', shape: 'width:21px;height:30px', mult: 1, info: 'Upright: the most common poster shape. Our recommended choice.' },
+        { id: 'landscape', name: 'Landscape', sub: 'Wide', shape: 'width:30px;height:21px', mult: 1, info: 'Wide: for panoramas, timelines and wide shop windows.' },
+      ]},
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'matt', name: 'Matte', sub: 'No glare', mult: 1, info: 'Silk paper without shine: calm and easy to read under any light. Our recommended choice.' },
+        { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', mult: 1, info: 'Coated paper with a shine. Photos and colours look vivid.' },
+        { id: 'outdoor', name: 'Outdoor', sub: 'Weatherproof', color: '#dfe7ef', mult: 1.6, info: 'Materials that can take rain and wind. Heavy weather may still fade the colours over time.' },
+        { id: 'eco', name: 'Eco', sub: 'Recycled', mult: 1.05, info: 'Recycled paper with a natural look.' },
+        { id: 'uncoated', name: 'Writable', sub: 'Uncoated', mult: 1, info: 'Untreated paper you can write on, for planners and notices.' },
+        { id: 'special', name: 'Special', sub: 'Photo, foil, backlit', mult: 1.6, info: 'Photo paper, a removable sticky foil or a backlit film for light boxes.' },
+        { id: 'neon', name: 'Neon', sub: 'Fluorescent paper', color: 'linear-gradient(135deg,#f4ff3a,#7dff4a 35%,#ffa23a 70%,#ff5fb4)', mult: 1.4, info: 'Fluorescent paper in yellow, green, orange or pink. Impossible to miss.' },
+      ]},
+      { key: 'material', title: 'Material', prefer: c => ({ matt: 'matt-170', glossy: 'glossy-170', outdoor: 'blueback', eco: 'eco-170', uncoated: 'offset-120', special: 'photo', neon: 'neon-yellow' })[c.appearance],
+        specText: 'Matte / Glossy: 135, 170 or 250 gsm · Outdoor: 115 gsm Blueback, 170 gsm PVC Waterproof, 500 gsm PVC Canvas · Eco: 135 or 170 gsm recycled · Writable: 120 or 250 gsm offset · Special: 190 gsm photo paper, Sticky DOT foil, 275 gsm backlit polyester · Neon: yellow, green, orange, pink',
+        items: [
+          ...[['matt', 135, .9], ['matt', 170, 1], ['matt', 250, 1.2], ['glossy', 135, .9], ['glossy', 170, 1], ['glossy', 250, 1.2], ['eco', 135, .9], ['eco', 170, 1]].map(([app, gsm, mult]) =>
+            ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult, info: { 135: 'Light paper at a sharp price.', 170: 'Sturdy enough to hang flat. Our recommended thickness.', 250: 'Thick, card-like paper that stays flat on the wall.' }[gsm], when: c => c.appearance === app })),
+          { id: 'offset-120', name: 'Offset', sub: '120 gsm', thick: 0, mult: .95, info: 'Uncoated paper, easy to write on with any pen.', when: c => c.appearance === 'uncoated' },
+          { id: 'offset-250', name: 'Offset', sub: '250 gsm', thick: 3, mult: 1.2, info: 'A thick uncoated paper that stays flat.', when: c => c.appearance === 'uncoated' },
+          { id: 'blueback', name: 'Blueback', sub: '115 gsm', color: '#c9d6e6', mult: 1, info: 'Paper with a blue back, so nothing shows through when you paste it on a wall. Made for outdoor billboards.', when: c => c.appearance === 'outdoor' },
+          { id: 'pvc-170', name: 'PVC Waterproof', sub: '170 gsm', color: '#eef2f5', mult: 1.4, info: 'A thin, waterproof plastic: tear-proof for outdoor use.', when: c => c.appearance === 'outdoor' },
+          { id: 'canvas', name: 'PVC Canvas', sub: '500 gsm', color: '#e6e1d6', mult: 1.9, info: 'A heavy, banner-like material for long outdoor use.', when: c => c.appearance === 'outdoor' },
+          { id: 'photo', name: 'Photo paper', sub: '190 gsm', swatch: 'paper-glossy.svg', mult: 1, info: 'Real photo paper for sharp, deep colours.', when: c => c.appearance === 'special' },
+          { id: 'sticky', name: 'Sticky DOT foil', sub: 'Removable', color: 'radial-gradient(#cfcfcf 1px,#f4f4f4 1.5px) 0 0/5px 5px', mult: 1.6, info: 'A foil with tiny adhesive dots: sticks to walls and glass, and comes off without marks.', when: c => c.appearance === 'special' },
+          { id: 'backlit', name: 'Backlit Polyester', sub: '275 gsm', color: 'linear-gradient(135deg,#fff,#f3f6fa)', mult: 1.8, info: 'A translucent film for light boxes: your poster lights up.', when: c => c.appearance === 'special' },
+          ...[['yellow', '#f4ff3a'], ['green', '#7dff4a'], ['orange', '#ffa23a'], ['pink', '#ff5fb4']].map(([n, color]) =>
+            ({ id: `neon-${n}`, name: `Neon ${n[0].toUpperCase() + n.slice(1)}`, sub: '80 gsm', color, mult: 1, info: `Fluorescent ${n} paper.`, when: c => c.appearance === 'neon' })),
+        ]},
+      { key: 'finishing', title: 'Finishing', when: c => c.appearance === 'glossy' && ['glossy-135', 'glossy-170'].includes(c.material), prefer: () => 'none', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', mult: 1, info: 'No extra layer. Our recommended choice for most posters.' },
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Front only', mult: 1.3, info: 'A shiny protective layer on the front that makes colours pop.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Front only', mult: 1.3, info: 'A non-reflective protective layer on the front.' },
+      ]},
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'single', name: 'Single-sided', sub: 'Front only', mult: 1, info: 'Only the front is printed: the usual choice for posters.' },
+        { id: 'double', name: 'Double-sided', sub: 'Front and back', mult: 1.4, info: 'Both sides printed, for posters that hang free in a window or from a ceiling.', when: c => !['neon', 'outdoor'].includes(c.appearance) },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a2', shape: 'portrait', appearance: 'matt', material: 'matt-170', printing: 'single' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a3', shape: 'portrait', appearance: 'glossy', material: 'glossy-135', finishing: 'none', printing: 'single' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a2', shape: 'portrait', appearance: 'eco', material: 'eco-170', printing: 'single' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: ['Make a statement with HelloPrint’s posters: available from just one piece, in sizes from A4 to Abri, on indoor and outdoor materials. Heavy weather conditions may impact the colours.'],
+    specs: [['Size', 'A4 to A0, B1, B2, Abri and custom photo sizes'], ['Material', 'Matte, glossy, recycled, writable, outdoor, special and neon papers'], ['Print colour', 'Full colour'], ['Quantity', 'Possible to order from 1 piece']],
+  },
+
+  // Stapled Booklets (helloprint.com/en-ie/booklets): Size → Material appearance → Paper type → Cover → Cover finishing (250/300 gsm cover) → Pages
+  'stapled-booklets': {
+    name: 'Stapled Booklets', cartName: 'Stapled booklets', noun: 'booklets', crumb: ['Booklets', '#booklets-printing'], liveFunnel: true, badge: 'Great Value',
+    img: 'assets/p1.png', priceMult: 1, defaultQty: 500,
+    qty: [[1, 14.87], [20, 22.35], [50, 27.63], [100, 37.80], [250, 73.98], [500, 121.13], [750, 160.97], [1000, 183.65], [2500, 322.67], [5000, 529.02]],
+    delivery: withDays(FLYER_DELIVERY, ['Fri 27 Nov', 'Tue 24 Nov', 'Mon 23 Nov'], [0, 41.46, 49.59], 'booklets'),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['a4', 'A4', '210 x 297 mm', 'width:26px;height:37px', 1, 'Our recommended booklet size: room for text and big photos.'],
+        ['a5', 'A5', '148 x 210 mm', 'width:21px;height:30px', .65, 'A handy, pocket-friendly booklet. Popular for programmes and menus.'],
+        ['a6', 'A6', '105 x 148 mm', 'width:15px;height:21px', .45, 'A mini booklet, for guides and small catalogues.'],
+        ['sq-l', 'Large square', '210 x 210 mm', 'width:30px;height:30px', .85, 'A big square for visual, photo-led booklets.'],
+        ['sq-m', 'Medium square', '148 x 148 mm', 'width:22px;height:22px', .55, 'A compact square, playful and different.'],
+        ['a4-land', 'A4 Landscape', '297 x 210 mm', 'width:37px;height:26px', 1.05, 'Wide pages, for portfolios and photo books.'],
+        ['a5-land', 'A5 Landscape', '210 x 148 mm', 'width:30px;height:21px', .7, 'A wide A5, for calendars-style layouts and lookbooks.'],
+        ['dl', 'DL', '210 x 99 mm', 'width:15px;height:31px', .55, 'The slim format that fits a standard envelope and a display rack.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'glossy', name: 'Gloss Coated', sub: 'Shiny, vivid colour', mult: 1, info: 'Shiny paper that makes photos stand out: the most popular and cost-effective booklet paper. Our recommended choice.' },
+        { id: 'matt', name: 'Silk Coated', sub: 'Matte, no glare', mult: 1, info: 'A subtle, matte look for designs with a lot of text.' },
+        { id: 'uncoated', name: 'Woodfree Offset', sub: 'Writable', mult: 1, info: 'Uncoated paper you can write on: for workbooks, forms and notes.' },
+        { id: 'recycled', name: 'Recycled', sub: '100% recycled', mult: 1.08, info: '100% recycled, sustainably produced paper with a natural white look.' },
+      ]},
+      { key: 'paper', title: 'Paper type', prefer: c => `${c.appearance}-170`,
+        specText: 'Gloss / Silk: 90, 130, 170 or 250 gsm · Offset: 90, 120 or 170 gsm · Recycled: 90, 110, 170 or 250 gsm',
+        items: [['glossy', [90, 130, 170, 250]], ['matt', [90, 130, 170, 250]], ['uncoated', [90, 120, 170]], ['recycled', [90, 110, 170, 250]]].flatMap(([app, list]) => list.map(gsm =>
+          ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult: { 90: .92, 110: .97, 120: .97, 130: 1, 170: 1.08, 250: 1.35 }[gsm],
+             info: { 90: 'Thin and light, like a letter. The lowest price for thick booklets.', 110: 'Light paper with a little more body.', 120: 'Light paper with a little more body.', 130: 'A light page at a sharp price.', 170: 'Sturdy pages that feel like quality. Our recommended choice.', 250: 'Thick, card-like pages for a premium booklet.' }[gsm],
+             when: c => c.appearance === app }))) },
+      { key: 'cover', title: 'Cover', prefer: () => 'cover-250',
+        items: [
+          { id: 'self', name: 'Selfcover', sub: 'Same paper as the pages', shape: 'width:26px;height:37px', mult: 1, info: 'The cover is printed on the same paper as the pages. The most affordable choice.' },
+          { id: 'cover-135', name: '', sub: '135 gsm', thick: 0, mult: 1.04, info: 'A thin cover, a touch firmer than the pages.', when: c => c.appearance === 'matt' },
+          { id: 'cover-120', name: '', sub: '120 gsm', thick: 0, mult: 1.04, info: 'A thin uncoated cover.', when: c => c.appearance === 'uncoated' },
+          { id: 'cover-170', name: '', sub: '170 gsm', thick: 0, mult: 1.06, info: 'A medium cover that holds its shape.' },
+          { id: 'cover-250', name: '', sub: '250 gsm', thick: 0, mult: 1.1, info: 'A thick cover that protects your booklet. Our recommended choice.' },
+          { id: 'cover-300', name: '', sub: '300 gsm', thick: 0, mult: 1.14, info: 'An extra thick cover for a premium feel.', when: c => ['glossy', 'matt'].includes(c.appearance) },
+        ]},
+      { key: 'finishing', title: 'Cover finishing', when: c => ['cover-250', 'cover-300'].includes(c.cover), prefer: () => 'none', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', mult: 1, info: 'No extra layer on the cover.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Cover', mult: 1.06, info: 'A non-reflective layer that protects the cover from scratches and fingerprints.' },
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Cover', mult: 1.06, info: 'A shiny protective layer that makes the cover colours pop.' },
+      ]},
+      { key: 'pages', title: 'Pages', specText: '8 to 64 pages, per 4', items: Array.from({ length: 15 }, (_, i) => 8 + i * 4).map(n =>
+        ({ id: String(n), name: `${n} pages`, sub: `${n / 4} sheets`, mult: Math.round((n / 8) ** .75 * 100) / 100, info: n === 8 ? 'The thinnest booklet: two sheets folded and stapled. Stapled booklets go per 4 pages, because every sheet folds into 4 pages.' : `${n / 4} sheets folded and stapled in the middle.${n === 64 ? ' The maximum for a stapled booklet; more pages: Perfect Bound Brochures.' : ''}` })) },
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a4', appearance: 'glossy', paper: 'glossy-170', cover: 'cover-250', finishing: 'none', pages: '8' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', appearance: 'glossy', paper: 'glossy-130', cover: 'self', pages: '8' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a4', appearance: 'recycled', paper: 'recycled-170', cover: 'cover-250', finishing: 'none', pages: '8' } },
+    ],
+    recapExtra: 'Full colour · Stapled',
+    fixed: [['Binding', 'Stapled (saddle stitched)'], ['Print', 'Full colour']],
+    about: ['HelloPrint’s staple-bound booklets are perfect for menus, promotions, introducing your business and much more. Elegant gloss for images, understated matte for text and uncoated for writing.'],
+    specs: [['Binding', 'Saddle stitched, 2 staples'], ['Pages', '8 to 64, per 4'], ['Material', 'Gloss coated | Silk coated | Woodfree offset | Recycled'], ['Print colour', 'Full colour']],
+  },
+
+  // Perfect Bound Brochures (helloprint.com/en-ie/perfectboundbrochures): Size → Pages → Material appearance → Paper type → Cover → Cover finishing
+  'perfect-bound-brochures': {
+    name: 'Perfect Bound Brochures', cartName: 'Perfect bound brochures', noun: 'brochures', crumb: ['Booklets', '#booklets-printing'], liveFunnel: true, badge: 'Most Popular',
+    img: 'assets/p2.png', priceMult: 1, defaultQty: 100,
+    qty: [[1, 35.99], [20, 67.99], [50, 120.99], [100, 212.99], [150, 260.09], [250, 414.89], [500, 809.99], [750, 1118.99], [1000, 1478.99], [1500, 2299.99]],
+    delivery: withDays(FLYER_DELIVERY.slice(0, 2), ['Wed 2 Dec', 'Wed 25 Nov'], [0, 82], 'brochures'),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['a4', 'A4', '210 x 297 mm', 'width:26px;height:37px', 1, 'Our recommended size: the classic brochure and report format.'],
+        ['a5', 'A5', '148 x 210 mm', 'width:21px;height:30px', .65, 'A handy book size, for catalogues and novels.'],
+        ['a6', 'A6', '105 x 148 mm', 'width:15px;height:21px', .45, 'Pocket size, for guides and small books.'],
+        ['thesis', 'Thesis', '170 x 240 mm', 'width:24px;height:34px', .8, 'The usual size for a thesis or dissertation.'],
+        ['a4-land', 'A4 Landscape', '297 x 210 mm', 'width:37px;height:26px', 1.05, 'Wide pages, for portfolios and photo books.'],
+        ['a5-land', 'A5 Landscape', '210 x 148 mm', 'width:30px;height:21px', .7, 'A wide A5, for lookbooks.'],
+        ['a6-land', 'A6 Landscape', '148 x 105 mm', 'width:21px;height:15px', .5, 'A small, wide book.'],
+        ['sq-m', 'Medium square', '148 x 148 mm', 'width:22px;height:22px', .55, 'A compact square book.'],
+        ['sq-l', 'Large square', '210 x 210 mm', 'width:30px;height:30px', .85, 'A big square, for photo and art books.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      { key: 'pages', title: 'Pages', specText: '28 to 400 pages, per 4 (live: any of them)', items: [28, 32, 40, 48, 64, 80, 100, 120, 160, 200, 300, 400].map(n =>
+        ({ id: String(n), name: `${n} pages`, sub: `${n / 2} sheets`, mult: Math.round((n / 32) ** .8 * 100) / 100, info: `${n / 2} sheets glued at the spine.${n === 400 ? ' The maximum, depending on size and paper.' : ''} On the live site every step of 4 pages from 28 to 400 is possible.` })) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'matt', name: 'Silk Coated', sub: 'Matte, no glare', mult: 1, info: 'A subtle, matte look that reads well. Our recommended choice.' },
+        { id: 'glossy', name: 'Gloss Coated', sub: 'Shiny, vivid colour', mult: 1, info: 'Shiny paper that makes photos stand out.' },
+        { id: 'uncoated', name: 'Woodfree Offset', sub: 'Writable', mult: .95, info: 'Uncoated paper you can write on, like a notebook.' },
+      ]},
+      { key: 'paper', title: 'Paper type', prefer: c => ({ matt: 'matt-130', glossy: 'glossy-130', uncoated: 'uncoated-90' })[c.appearance],
+        specText: 'Silk: 115, 130 or 170 gsm · Gloss: 130 or 170 gsm · Offset: 90 gsm',
+        items: [['matt', [115, 130, 170]], ['glossy', [130, 170]], ['uncoated', [90]]].flatMap(([app, list]) => list.map(gsm =>
+          ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult: { 90: .9, 115: .95, 130: 1, 170: 1.12 }[gsm],
+             info: { 90: 'Light, writable pages.', 115: 'Light pages: good for books with many pages.', 130: 'A light page with body. The live default.', 170: 'Sturdy pages that feel like quality.' }[gsm], when: c => c.appearance === app }))) },
+      { key: 'cover', title: 'Cover', prefer: c => c.appearance === 'glossy' ? 'gloss-300' : 'silk-300', items: [
+        { id: 'silk-300', name: 'Silk Coated', sub: '300 gsm', mult: 1, info: 'A firm matte cover. Our recommended choice.', when: c => c.appearance !== 'glossy' },
+        { id: 'gloss-300', name: 'Gloss Coated', sub: '300 gsm', mult: 1, info: 'A firm, shiny cover.', when: c => c.appearance === 'glossy' },
+        { id: 'sbs-300', name: 'SBS Paperboard', sub: '300 gsm', color: '#f6f6f2', mult: 1.05, info: 'A bright white, stiff board for a premium cover.' },
+      ]},
+      { key: 'finishing', title: 'Cover finishing', items: [
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Cover', mult: 1, info: 'A shiny layer that protects the cover. Our recommended choice.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Cover', mult: 1, info: 'A non-reflective layer that protects the cover from scratches and fingerprints.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a4', pages: '32', appearance: 'matt', paper: 'matt-130', cover: 'silk-300', finishing: 'gloss-1' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a5', pages: '32', appearance: 'matt', paper: 'matt-115', cover: 'silk-300', finishing: 'gloss-1' } },
+      { id: 'premium', name: 'Premium', icon: 'star.svg', cfg: { size: 'a4', pages: '32', appearance: 'glossy', paper: 'glossy-170', cover: 'sbs-300', finishing: 'matt-1' } },
+    ],
+    recapExtra: 'Full colour · Glued spine',
+    fixed: [['Binding', 'Perfect bound (glued spine)'], ['Print', 'Full colour']],
+    about: ['HelloPrint’s perfect bound books are glued at the spine to create a secure, soft-cover book with a deluxe look and feel, and a laminated cover for extra protection. Print up to 396 pages, depending on size and paper type.'],
+    specs: [['Binding', 'Perfect bound, glued spine'], ['Pages', '28 to 400, per 4'], ['Material', 'Silk coated | Gloss coated | Woodfree offset'], ['Cover', '300 gsm, gloss or matt lamination'], ['Print colour', 'Full colour']],
+  },
+
+  // Half Fold Leaflets (helloprint.com/en-ie/halffoldleaflets): Shape → Size (per shape) → Material appearance → Material → Finishing (250 gsm and up)
+  'half-fold-leaflets': {
+    name: 'Half Fold Leaflets', cartName: 'Half fold leaflets', noun: 'leaflets', crumb: ['Folded Leaflets', '#folded-leaflets'], liveFunnel: true,
+    img: 'assets/flyers/fold-half.webp', priceMult: 1, defaultQty: 500,
+    qty: [[25, 19.37], [100, 24.45], [250, 32.75], [500, 39.67], [1000, 53.51], [2500, 96.88], [5000, 156.86], [10000, 247.48]],
+    delivery: withDays(FLYER_DELIVERY, ['Mon 30 Nov', 'Tue 24 Nov', 'Mon 23 Nov'], [0, 35.07, 81.20], 'leaflets'),
+    groups: [
+      { key: 'shape', title: 'Shape', items: [
+        { id: 'portrait', name: 'Portrait', sub: 'Upright', icon: 'folds/portrait', mult: 1, info: 'Opens like a book. Our recommended choice.' },
+        { id: 'landscape', name: 'Landscape', sub: 'Wide', icon: 'folds/landscape', mult: 1, info: 'Opens upwards, like a calendar or a menu.' },
+        { id: 'square', name: 'Square', sub: 'Square', icon: 'folds/square', mult: 1.05, info: 'A square leaflet that stands out.' },
+      ]},
+      { key: 'size', title: 'Size', prefer: c => ({ portrait: 'a4-a5', landscape: 'l-a4', square: 'sq-210' })[c.shape], items: [
+        ['a4-a5', 'A4 folded to A5', '4 pages', 'width:21px;height:30px', 1, 'portrait', 'Our recommended size: an A4 sheet folded to A5.'],
+        ['a3-a4', 'A3 folded to A4', '4 pages', 'width:26px;height:37px', 1.7, 'portrait', 'Big pages: room for a menu, a price list or a programme.'],
+        ['a5-a6', 'A5 folded to A6', '4 pages', 'width:15px;height:21px', .7, 'portrait', 'A small leaflet, handy for invitations and tickets.'],
+        ['dl', '198 x 210 mm folded to DL', '4 pages', 'width:15px;height:31px', .85, 'portrait', 'Folds to DL: fits a standard envelope and a display rack.'],
+        ['x-long', 'A4 folded to X-Long', '4 pages', 'width:13px;height:37px', .95, 'portrait', 'A tall, narrow leaflet that catches the eye on a rack.'],
+        ['l-a4', '594 x 210 mm folded to A4', '4 pages', 'width:37px;height:26px', 1.4, 'landscape', 'A wide sheet folded to A4 landscape.'],
+        ['l-a5', '420 x 148 mm folded to A5', '4 pages', 'width:30px;height:21px', .9, 'landscape', 'A wide sheet folded to A5 landscape.'],
+        ['sq-210', '420 x 210 mm folded to 210 x 210 mm', '4 pages', 'width:30px;height:30px', 1.3, 'square', 'A large square leaflet.'],
+        ['sq-148', '296 x 148 mm folded to 148 x 148 mm', '4 pages', 'width:22px;height:22px', .8, 'square', 'A medium square leaflet.'],
+        ['sq-105', '210 x 105 mm folded to 105 x 105 mm', '4 pages', 'width:16px;height:16px', .6, 'square', 'A small square leaflet.'],
+      ].map(([id, name, sub, shape, mult, sh, info]) => ({ id, name, sub, shape, mult, info, when: c => c.shape === sh })) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', mult: 1, info: 'Coated paper with a shine. Colours and photos look vivid; our recommended choice.' },
+        { id: 'matte', name: 'Matte', sub: 'No glare', mult: 1, info: 'Coated paper without shine. Calm and easy to read.' },
+        { id: 'uncoated', name: 'Uncoated', sub: 'Writable', mult: 1.02, info: 'Untreated paper you can write on.' },
+        { id: 'recycled', name: 'Recycled', sub: '100% recycled', mult: 1.1, info: 'Made from recycled paper, with a natural look.' },
+        { id: 'biotop', name: 'Bio Top 3 Natural', sub: 'Chlorine-free', mult: 1.15, info: 'Chlorine-free paper with a soft, natural white.' },
+        { id: 'paperwise', name: 'Paperwise Natural', sub: 'From plant waste', mult: 1.15, info: 'Made from agricultural waste. A warm, natural tone.' },
+      ]},
+      { key: 'material', title: 'Material', prefer: c => ({ glossy: 'glossy-170', matte: 'matte-170', uncoated: 'uncoated-170', recycled: 'recycled-170', biotop: 'biotop-160', paperwise: 'paperwise-150' })[c.appearance],
+        specText: 'Glossy / Matte: 90, 115, 135, 170, 250, 300, 350 or 400 gsm · Uncoated: 90, 120, 150, 170, 250 or 300 gsm · Recycled: 80, 90, 170 or 300 gsm · Bio Top: 90, 160 or 300 gsm · Paperwise: 150 or 295 gsm',
+        items: [['glossy', [90, 115, 135, 170, 250, 300, 350, 400]], ['matte', [90, 115, 130, 170, 250, 300, 350, 400]], ['uncoated', [90, 120, 150, 170, 250, 300]], ['recycled', [80, 90, 170, 300]], ['biotop', [90, 160, 300]], ['paperwise', [150, 295]]]
+          .flatMap(([app, list]) => list.map(gsm => ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult: gsm < 120 ? .92 : gsm < 150 ? 1 : gsm <= 170 ? 1.08 : gsm <= 250 ? 1.47 : gsm <= 300 ? 1.6 : gsm <= 350 ? 1.75 : 1.9,
+            info: gsm < 120 ? 'Thin and light: the lowest price for large runs.' : gsm <= 170 ? (gsm >= 150 ? 'Sturdy enough to feel like quality. Our recommended thickness.' : 'A light leaflet at a sharp price.') : 'Thick, card-like paper. From 250 gsm the leaflet is creased before folding, so it arrives without cracks; dark ink on the fold may still show a thin white line.',
+            when: c => c.appearance === app }))) },
+      { key: 'finishing', title: 'Finishing', when: c => ['glossy', 'matte'].includes(c.appearance) && +c.material.split('-')[1] >= 250, prefer: () => 'none', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', mult: 1, info: 'No extra layer. Our recommended choice.' },
+        { id: 'gloss-2', name: 'Gloss lamination', sub: 'Both sides', mult: 1.3, info: 'A shiny layer on both sides that protects the print and makes colours pop.', when: c => c.appearance === 'glossy' },
+        { id: 'matt-2', name: 'Matte lamination', sub: 'Both sides', mult: 1.3, info: 'A non-reflective layer on both sides that protects the print.', when: c => c.appearance === 'matte' },
+        { id: 'uv-2', name: 'UV Glossy', sub: 'Both sides', mult: 1.35, info: 'A high-gloss varnish on both sides for a striking shine.', when: c => c.appearance === 'glossy' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { shape: 'portrait', size: 'a4-a5', appearance: 'glossy', material: 'glossy-170' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { shape: 'portrait', size: 'a5-a6', appearance: 'glossy', material: 'glossy-135' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { shape: 'portrait', size: 'a4-a5', appearance: 'recycled', material: 'recycled-170' } },
+    ],
+    recapExtra: 'Full colour · Double-sided',
+    fixed: [['Print', 'Full colour, double-sided'], ['Fold', 'Half fold, 4 pages']],
+    about: ['HelloPrint’s Half Fold Leaflets are a print classic that never goes out of style: for trade shows, events, or as inserts in newspapers and magazines. Up to 170 gsm they arrive folded; from 250 gsm creased, so they arrive without cracks.'],
+    specs: [['Fold', 'Half fold, 4 pages'], ['Material', 'Glossy | Matte | Uncoated | Recycled | Bio Top 3 | Paperwise'], ['Finishing', 'Gloss or matte lamination, UV glossy (250 gsm and up)'], ['Print colour', 'Full colour, double-sided']],
+  },
 };
 // More product photos from the live product pages (helloprint.com/en-ie), after the image our category tiles use.
 // Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.

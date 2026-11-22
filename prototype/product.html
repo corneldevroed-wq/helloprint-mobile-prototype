@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
-<link rel="stylesheet" href="pages.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzq">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzq">
+<link rel="stylesheet" href="pages.css?v=20261205zzq">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261205zzo"></script>
-<script src="../design-system/components.js?v=20261205zzo"></script>
-<script src="products.js?v=20261205zzo"></script>
+<script src="app.js?v=20261205zzq"></script>
+<script src="../design-system/components.js?v=20261205zzq"></script>
+<script src="products.js?v=20261205zzq"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -581,14 +581,14 @@
     if (DESK) renderDeskSel();
     const c = saved, preset = presetOf(c), t = totalPrice(c);
     const set = (k, html) => document.querySelectorAll(`[data-bind="${k}"]`).forEach(el => { el.innerHTML = html; });
-    set('qty', `${c.qty} pcs`);
+    set('qty', pcs(c.qty));
     set('total', fmt(t));
     set('each', each({ qty: c.qty, price: productPrice(c) }));
     set('deliveryRich', `<b>${delivery(c).name}</b> · Estimated ${delivery(c).dayName}<small class="eta-latest">latest ${etaShort(etaLatest(delivery(c).dayName))}</small>`);
     set('arrives', `arrives ${delivery(c).dayName}`);
     // Bars before the cart say whether the price is excl. or incl. VAT (follows the header switch)
     set('vatLabel', inclVat ? 'incl. VAT' : 'excl. VAT');
-    set('qtyVat', `${c.qty} pcs · ${inclVat ? 'incl.' : 'excl.'} VAT`);
+    set('qtyVat', `${pcs(c.qty)} · ${inclVat ? 'incl.' : 'excl.'} VAT`);
     set('presetLabel', presetLabel(preset, c));
     set('pick', [...materials(c).split(' · '), ...PRODUCT.recapExtra.split(' · ')].map(v => `<i>${v}</i>`).join('<span class="sep">|</span><wbr>'));
     set('iState', `<img src="${P}check.svg" alt="">${fromEntry(c) ? `Starting with ${entryName(c)}` : preset ? `${preset.name} options selected` : 'Custom options selected'}`);
@@ -658,7 +658,7 @@
     const next = QTY.map(([q]) => q).find(q => q > c.qty && unit(q) < unit(c.qty) - 0.0005);
     const one = (PRODUCT.noun || 'cards').replace(/s$/, '');
     if (!next) return `You get our lowest price per ${one}: ${per(c.qty)}.`;
-    return `The more you order, the less you pay per ${one}: ${per(c.qty)} now, ${per(next)} at ${next} pcs.`;
+    return `The more you order, the less you pay per ${one}: ${per(c.qty)} now, ${per(next)} at ${pcs(next)}.`;
   }
   // T-shirt size mix (Cornel 2026-11-19, sketches/tshirt-qty-sketch.html A): per size a text field to type in with the size under it (the field
   // and the size apart, so you see where to type), the total is the quantity. Under it the price steps (5+, 10+, 25+ … with the price each, yours
@@ -671,7 +671,7 @@
         <label class="sm-size" data-size="${z}"><span class="field"><input inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0" aria-label="${z}: pieces" data-size-input="${z}"></span><span class="sm-name">${z}</span></label>`).join('')}</div>
       <div class="sm-tiers" data-mix-tiers></div>
       <p class="opt-info" data-mix-info></p>`;
-    host.querySelector('[data-mix-total]').textContent = `${c.qty} pcs`;
+    host.querySelector('[data-mix-total]').textContent = pcs(c.qty);
     host.querySelectorAll('[data-size-input]').forEach(i => {
       const n = c.sizes[i.dataset.sizeInput];
       if (i !== document.activeElement) i.value = n || '';
@@ -679,10 +679,10 @@
     });
     const per = q => each({ qty: q, price: productPrice(c, q) }), unit = q => productPrice(c, q) / q;
     const step = [...QTY].reverse().find(([q]) => c.qty >= q)?.[0];
-    host.querySelector('[data-mix-tiers]').innerHTML = QTY.map(([q]) => `<span class="sm-tier${q === step ? ' on' : ''}"><b>${q}+ pcs</b><small>${per(q)}</small></span>`).join('');
+    host.querySelector('[data-mix-tiers]').innerHTML = QTY.map(([q]) => `<span class="sm-tier${q === step ? ' on' : ''}"><b>${q.toLocaleString('en-IE')}+ pcs</b><small>${per(q)}</small></span>`).join('');
     const next = QTY.map(([q]) => q).find(q => q > c.qty && unit(q) < unit(c.qty) - 0.0005);
     host.querySelector('[data-mix-info]').innerHTML = c.qty
-      ? `${c.qty} pcs: <b>${fmt(productPrice(c))}</b> · ${per(c.qty)}${next ? ` · ${next - c.qty} more for ${per(next)}` : ''}`
+      ? `${pcs(c.qty)}: <b>${fmt(productPrice(c))}</b> · ${per(c.qty)}${next ? ` · ${next - c.qty} more for ${per(next)}` : ''}`
       : 'Type how many t-shirts you need per size.';
   }
   document.addEventListener('input', e => {   // the sheet, or the page itself in J
@@ -751,7 +751,7 @@
         // J shows the common amounts (+ the chosen one) until "More quantities"
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
         const recQ = DESK && q === DEFAULT.qty ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';   // desktop: the default quantity is our recommendation
-        return `<button class="qrow${common ? '' : ' j-extra'}${recQ ? ' is-rec' : ''}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${q} pcs${recQ}</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
+        return `<button class="qrow${common ? '' : ' j-extra'}${recQ ? ' is-rec' : ''}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${pcs(q)}${recQ}</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
       ${DESK
         // Desktop: the price explanation and "View all" on one line (no gap between list and text)
@@ -763,7 +763,7 @@
       ${DELIVERY.map(d => DESK ? deskDeliv(d, c) : `<button class="deliv" role="radio" aria-checked="${c.delivery === d.id}" data-set="delivery" data-value="${d.id}">
         <span class="date"><b>${d.day}</b><small>${d.dayName.split(' ')[2].toUpperCase()}</small></span><span class="t"><b>${d.name}</b><small>${d.dayName} · latest ${etaShort(etaLatest(d.dayName)).replace(/^\w+ /, '')}</small></span><span class="p">${d.extra ? '+' + fmt(d.extra) : 'Included'}</span></button>`).join('')}
       ${DESK ? '' : `<p class="opt-info">${delivery(c).info}</p>`}`;   // desktop: the approval deadline is in Your selection
-    document.querySelector('[data-bind="draftRecap"]').textContent = `${activeKeys(c).map(k => pick(k, c[k]).name).join(' · ')} · ${c.qty} pcs${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
+    document.querySelector('[data-bind="draftRecap"]').textContent = `${activeKeys(c).map(k => pick(k, c[k]).name).join(' · ')} · ${pcs(c.qty)}${SIZES_MIX ? ` (${sizeMix(c)})` : ''} · ${delivery(c).name}`;
     document.querySelector('[data-bind="draftTotal"]').textContent = fmt(totalPrice(c));
     document.querySelector('[data-bind="draftArrives"]').textContent = `arrives ${delivery(c).dayName}`;
     // The button says what it will do: nothing changed → Done, something changed → Save
@@ -900,7 +900,7 @@
             <p class="pr-top"><span class="p-stars">${tpStar(stars)}</span><span class="pr-ver"><img src="assets/desktop/verified.svg" alt="">Verified</span></p>
             <b>${title}</b><p>${text}</p>
             <p class="pr-meta"><b>${name}</b> · ${when}</p>
-            <p class="pr-bought">Ordered: ${qtyOf(i).toLocaleString('en-GB')} pcs · ${opt(i)}</p>
+            <p class="pr-bought">Ordered: ${pcs(qtyOf(i))} · ${opt(i)}</p>
           </article>`).join('')}
           <button class="btn pr-more" data-more-revs>Show more reviews</button>
         </div>
@@ -938,7 +938,7 @@
       ${others.length ? `<section class="d-sec"><h2>Other ${noun}</h2><div class="d-others">${others.map(o => `
         <a class="product d-card" href="${o.href}">
           <div class="thumb" style="background:${o.bg}"><img src="${o.thumb}" alt="" loading="lazy">${badgeHtml(o.badge)}</div>
-          <div class="d-card-t"><p class="name">${o.name}</p><p class="from">${o.defaultQty || 500} pcs from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
+          <div class="d-card-t"><p class="name">${o.name}</p><p class="from">${pcs(o.defaultQty || 500)} from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
         </a>`).join('')}</div></section>` : ''}
       <section id="d-faq" class="d-sec"><h2>Frequently Asked Questions</h2><div class="d-acc">
         ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}
@@ -1003,7 +1003,7 @@
     const c = saved, t = totalPrice(c);
     bar.querySelector('.dwrap').innerHTML = `
       <button class="d-bar-prod" id="dBarSel" aria-label="Show your selection"><span class="thumb" style="background:${PRODUCT.bg}"><img src="${(PRODUCT.gallery || [PRODUCT.img])[0]}" alt=""></span>
-        <span class="t"><b>${PRODUCT.name}</b><small>${materials(c)} · ${c.qty} pcs</small></span></button>
+        <span class="t"><b>${PRODUCT.name}</b><small>${materials(c)} · ${pcs(c.qty)}</small></span></button>
       <span class="d-bar-eta"><img src="${P}check.svg" alt=""><span class="t"><b>${delivery(c).name}</b><small>Estimated ${delivery(c).dayName} — latest ${etaShort(etaLatest(delivery(c).dayName))}</small></span></span>
       <span class="d-bar-total">${inclVat ? `<b>${euro(t * (1 + VAT_RATE))}</b><small>incl. VAT · ${euro(t)} excl.</small>` : `<b>${euro(t)}</b><small>excl. VAT · ${euro(t * (1 + VAT_RATE))} incl.</small>`}</span>
       <span class="d-split"><button class="btn primary d-go" id="dBarGo">${deskCta()}</button><button class="btn primary d-more" id="dBarMore" aria-label="Other ways to add your design" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-rounded" aria-hidden="true">expand_less</span></button>
@@ -1017,7 +1017,7 @@
     const c = saved, t = totalPrice(c), d = delivery(c).dayName;
     const rows = [
       ...PRODUCT.groups.filter(g => groupWhen(g.key, c)).map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
-      SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
+      SIZES_MIX ? ['qty', 'Sizes', `${pcs(c.qty)} · ${sizeMix(c)}`] : ['qty', 'Quantity', pcs(c.qty)],
     ];
     // How the design comes in: two cards to choose from (icon, title, bullets), one button below (Cornel: A's structure, B's design)
     const pickCards = `<div class="d-direct" role="radiogroup" aria-label="How will you add your design?">
@@ -1441,7 +1441,7 @@
     const c = saved;
     const rows = [
       ...PRODUCT.groups.filter(g => groupWhen(g.key, c)).map(g => { const o = pick(g.key, c[g.key]); return [g.key, g.title, g.key === 'size' ? o.sub : o.name]; }),
-      SIZES_MIX ? ['qty', 'Sizes', `${c.qty} pcs · ${sizeMix(c)}`] : ['qty', 'Quantity', `${c.qty} pcs`],
+      SIZES_MIX ? ['qty', 'Sizes', `${pcs(c.qty)} · ${sizeMix(c)}`] : ['qty', 'Quantity', pcs(c.qty)],
       ['delivery', 'Delivery', `${delivery(c).name} · ${delivery(c).dayName}, latest ${etaShort(etaLatest(delivery(c).dayName))}`],
       ...(FLOW_G || FLOW_H || FLOW_I ? [] : [['design', 'Design', DESIGN_SHORT[designSaved]]]),
     ];
@@ -1585,7 +1585,7 @@
       ${others.length ? `<section class="m-sec"><h2 class="px">Other ${noun}</h2><div class="hscroll m-others">${others.map(o => `
         <a class="product m-card" href="${o.href}">
           <div class="thumb" style="background:${o.bg}"><img src="${o.thumb}" alt="" loading="lazy">${badgeHtml(o.badge)}</div>
-          <p class="name">${o.name}</p><div><p class="from">${o.defaultQty || 500} pcs from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
+          <p class="name">${o.name}</p><div><p class="from">${pcs(o.defaultQty || 500)} from</p><p class="prices"><span class="price" data-price="${fromPrice(o)}"></span></p></div>
         </a>`).join('')}</div></section>` : ''}
       <section class="m-sec px"><h2>Frequently Asked Questions</h2><div class="acc oc-faq">
         ${faqs.map(([q, a]) => `<details><summary>${q}<img src="assets/chevron.svg" alt=""></summary><p>${a}</p></details>`).join('')}

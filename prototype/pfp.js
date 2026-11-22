@@ -97,7 +97,7 @@ const render = () => {
     ${k ? `<div class="filter-row pf-active">${ORDER.map(o => `<button class="pill pf-x" type="button" data-x="${q(o.join(':'))}">${label(o)}<span class="material-symbols-rounded" aria-hidden="true">close</span></button>`).join('')}<button class="pf-clear" type="button" data-clear>Clear all</button></div>` : ''}
     ${cnt ? `<div class="types">${show.map(card).join('')}</div>
       <div class="pf-more"><p>Showing ${show.length} of ${cnt} products</p>${cnt > show.length ? `<button class="btn outline" type="button" data-page>Show ${Math.min(24, cnt - show.length)} more</button>` : ''}</div>`
-    : `<div class="pf-empty"><b>No ${noun} match all your filters</b><p>Remove the last one, or start again.</p><div class="chips"><button class="pill" type="button" data-x="${q(ORDER[k - 1].join(':'))}">Remove ${label(ORDER[k - 1])}</button><button class="pill" type="button" data-clear>Clear all</button></div></div>`}`;
+    : `<div class="pf-empty"><b>No ${noun} match all your filters</b><p>Remove the last one, or start again.</p><div class="chips">${k ? `<button class="pill" type="button" data-x="${q(ORDER[k - 1].join(':'))}">Remove ${label(ORDER[k - 1])}</button>` : ''}<button class="pill" type="button" data-clear>Clear all</button></div></div>`}`;
   document.getElementById('showBtn').textContent = `Show ${cnt} products`;
   const u = new URL(location.href); if (k) u.searchParams.set('f', ORDER.map(o => o.join(':')).join('|')); else u.searchParams.delete('f'); history.replaceState(null, '', u);
 };
