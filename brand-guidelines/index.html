@@ -7,7 +7,7 @@
 <title>HelloPrint Brand Guidelines</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download,grid_view,view_agenda&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzp">
 <link rel="stylesheet" href="../design-system/components.css?v=20261205zzp">
 <link rel="stylesheet" href="../design-system/guide.css?v=20261122side">
@@ -95,12 +95,19 @@
   .sl-div .sl-n { font-weight: 800; font-size: var(--t-48); line-height: 1; }
   .sl-div h2 { position: absolute; left: 200px; right: 200px; top: 466px; font-size: var(--c-display); line-height: .9; }
   .bg-kit { margin-left: auto; gap: 6px; }   /* top right: the grey pill (UI guide) with an icon in front */
-  .bg-kit .material-symbols-rounded { width: 18px; overflow: hidden; }
   /* Motion on scroll (Cornel 2026-11-22: "geanimeerd, de content on scroll"): a slide builds up once when it comes in.
      Variants to compare (switch in the top bar, ?motion=a|b|c|off): A fade up, B reveal (title from the left, photos wipe open),
      C big type (statements and chapter titles rise line by line). Nothing moves with "reduce motion" on. */
   .bg-motion { margin-left: auto; display: flex; gap: 4px; }
-  .bg-motion + .bg-kit { margin-left: 8px; }
+  .bg-view, .bg-view + .bg-kit { margin-left: 8px; }
+  .bg-view { display: flex; gap: 4px; }
+  .bg-view .pill { padding: 6px 8px; }
+  .bg-view .material-symbols-rounded, .bg-kit .material-symbols-rounded { width: 18px; overflow: hidden; }
+  /* Grid view (Cornel 2026-11-22): every slide as a thumbnail, 3 a row (2 on mobile); a click opens that slide in the list */
+  .ds-main.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  .ds-main.grid .band { cursor: pointer; }
+  .ds-main.grid .band .m, .ds-main.grid .band .ln > span { transition: none; }   /* the overview shows every slide finished at once */
+  .ds-main.grid .band:hover { outline: calc(2px / var(--s)) solid var(--dark-green); }
   .band.in .m { transition: opacity .6s ease-out, transform .7s cubic-bezier(.2, .7, .2, 1), clip-path .9s cubic-bezier(.6, 0, .2, 1); transition-delay: calc(var(--i, 0) * 90ms); }
   html:is([data-motion="a"], [data-motion="c"]) .band:not(.in) .m { opacity: 0; transform: translateY(24px); }
   html[data-motion="b"] .band:not(.in) .m { opacity: 0; transform: translateY(16px); }
@@ -113,8 +120,9 @@
   html[data-motion="c"] .band:not(.in) .ln > span { transform: translateY(105%); }
   html[data-motion="c"] .band .m:has(.ln) { opacity: 1; transform: none; }
   @media (max-width: 900px) {
-    .bg-kit span + span, .bg-motion .lbl, .bg-motion [data-motion="off"] { display: none; }   /* mobile: the icon only, the switch as A B C */
-    .bg-motion .pill { padding: 6px 10px; }
+    .bg-kit span + span, .bg-motion { display: none; }   /* mobile: the icon only; the motion switch is for comparing on desktop */
+    .bg-view { margin-left: auto; }
+    .ds-main.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     .ds-main { gap: 16px; padding: 16px 16px 64px; }
   }
 </style>
@@ -125,6 +133,7 @@
   <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
   <b>Brand Guidelines</b>
   <div class="bg-motion" role="group" aria-label="Motion"><span class="pill active lbl" style="pointer-events:none">Motion</span><button class="pill" data-motion="a">A</button><button class="pill" data-motion="b">B</button><button class="pill" data-motion="c">C</button><button class="pill" data-motion="off">Off</button></div>   <!-- temporary: to compare (Cornel 2026-11-22) -->
+  <div class="bg-view" role="group" aria-label="View"><button class="pill" data-view="list" aria-label="Slides" data-tip="Slides"><span class="material-symbols-rounded" aria-hidden="true">view_agenda</span></button><button class="pill" data-view="grid" aria-label="Grid" data-tip="Grid"><span class="material-symbols-rounded" aria-hidden="true">grid_view</span></button></div>
   <a class="pill bg-kit" href="#brand-kit" aria-label="Download brand kit"><span class="material-symbols-rounded" aria-hidden="true">download</span><span>Download brand kit</span></a>   <!-- the kit's files come later (Cornel, 2026-11-12): a link to nothing for now -->
 </header>
 
@@ -317,7 +326,8 @@
 <script>
   // Every slide is 1920 x 1080; --s zooms them as one to the width of the column next to the menu
   const stage = document.querySelector('.ds-main');
-  const fit = () => { const cs = getComputedStyle(stage); document.documentElement.style.setProperty('--s', (stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 1920); };
+  const fit = () => { const cs = getComputedStyle(stage), cols = stage.classList.contains('grid') ? cs.gridTemplateColumns.split(' ').length : 1;   // grid: one column's width
+    document.documentElement.style.setProperty('--s', (stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - parseFloat(cs.columnGap) * (cols - 1)) / cols / 1920); };
   document.querySelectorAll('.band[data-ch]').forEach(b => b.insertAdjacentHTML('afterbegin', `<div class="sl-chrome" aria-hidden="true"><span>HelloPrint</span><span>Brand Guidelines</span><span>${b.dataset.ch}</span><span></span></div>`));
   new ResizeObserver(fit).observe(stage); fit();
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ behavior: 'instant' });   // the jump happened before the zoom: jump again
@@ -340,6 +350,17 @@
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .25 });
     bands.forEach(b => io.observe(b));
   }
+
+  // View: slides under each other, or a grid of all slides (?view=grid, remembered); a slide in the grid opens it in the list
+  const setView = v => { stage.classList.toggle('grid', v === 'grid'); fit();
+    document.querySelectorAll('[data-view]').forEach(btn => btn.classList.toggle('active', btn.dataset.view === v));
+    if (v === 'grid') document.querySelectorAll('.band').forEach(b => b.classList.add('in'));   // no motion in the overview
+    try { localStorage.setItem('bg-view', v); } catch (e) {} };
+  let view = MQ.get('view'); try { view = view || localStorage.getItem('bg-view'); } catch (e) {}
+  setView(view === 'grid' ? 'grid' : 'list');
+  document.querySelectorAll('[data-view]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.view)));
+  stage.addEventListener('click', e => { const b = stage.classList.contains('grid') && e.target.closest('.band');
+    if (!b) return; e.preventDefault(); setView('list'); b.scrollIntoView({ behavior: 'instant' }); });
 </script>
 <script src="../design-system/guide.js?v=20261122side"></script>
 </body>
