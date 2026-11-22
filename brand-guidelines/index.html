@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=download&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/components.css?v=20261205zzo">
-<link rel="stylesheet" href="../design-system/guide.css?v=20261205zzo">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzp">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzp">
+<link rel="stylesheet" href="../design-system/guide.css?v=20261205zzp">
 <style>
   /* The brand book (Cornel 2026-11-12): every slide a fixed 1920 x 1080 canvas, zoomed as one to the column (--s, set below).
      Layout from Cornel's design (PDF "Brand Guidelines short 2"): margins 200, columns at x 200 / 676 / 1114, titles at y 195,
@@ -96,8 +96,25 @@
   .sl-div h2 { position: absolute; left: 200px; right: 200px; top: 466px; font-size: var(--c-display); line-height: .9; }
   .bg-kit { margin-left: auto; gap: 6px; }   /* top right: the grey pill (UI guide) with an icon in front */
   .bg-kit .material-symbols-rounded { width: 18px; overflow: hidden; }
+  /* Motion on scroll (Cornel 2026-11-22: "geanimeerd, de content on scroll"): a slide builds up once when it comes in.
+     Variants to compare (switch in the top bar, ?motion=a|b|c|off): A fade up, B reveal (title from the left, photos wipe open),
+     C big type (statements and chapter titles rise line by line). Nothing moves with "reduce motion" on. */
+  .bg-motion { margin-left: auto; display: flex; gap: 4px; }
+  .bg-motion + .bg-kit { margin-left: 8px; }
+  .band.in .m { transition: opacity .6s ease-out, transform .7s cubic-bezier(.2, .7, .2, 1), clip-path .9s cubic-bezier(.6, 0, .2, 1); transition-delay: calc(var(--i, 0) * 90ms); }
+  html:is([data-motion="a"], [data-motion="c"]) .band:not(.in) .m { opacity: 0; transform: translateY(24px); }
+  html[data-motion="b"] .band:not(.in) .m { opacity: 0; transform: translateY(16px); }
+  html[data-motion="b"] .band:not(.in) h2.m { transform: translateX(-64px); }
+  html[data-motion="b"] .band:not(.in) .m:is(.sl-photo, .sl-shot, .b-tile) { opacity: 1; transform: none; clip-path: inset(0 0 0 100%); }
+  html[data-motion="b"] .band.in .m:is(.sl-photo, .sl-shot, .b-tile) { clip-path: inset(0); }   /* the wipe needs both ends */
+  .ln { display: block; overflow: hidden; }   /* C: a line rises out of its own mask */
+  .ln > span { display: block; }
+  .band.in .ln > span { transition: transform .8s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * 90ms + var(--l) * 110ms); }
+  html[data-motion="c"] .band:not(.in) .ln > span { transform: translateY(105%); }
+  html[data-motion="c"] .band .m:has(.ln) { opacity: 1; transform: none; }
   @media (max-width: 900px) {
-    .bg-kit span + span { display: none; }   /* mobile: the icon only */
+    .bg-kit span + span, .bg-motion .lbl, .bg-motion [data-motion="off"] { display: none; }   /* mobile: the icon only, the switch as A B C */
+    .bg-motion .pill { padding: 6px 10px; }
     .ds-main { gap: 16px; padding: 16px 16px 64px; }
   }
 </style>
@@ -107,6 +124,7 @@
   <button class="pill ds-menu-btn" id="dsMenu">Menu</button>
   <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
   <b>Brand Guidelines</b>
+  <div class="bg-motion" role="group" aria-label="Motion"><span class="pill active lbl" style="pointer-events:none">Motion</span><button class="pill" data-motion="a">A</button><button class="pill" data-motion="b">B</button><button class="pill" data-motion="c">C</button><button class="pill" data-motion="off">Off</button></div>   <!-- temporary: to compare (Cornel 2026-11-22) -->
   <a class="pill bg-kit" href="#brand-kit" aria-label="Download brand kit"><span class="material-symbols-rounded" aria-hidden="true">download</span><span>Download brand kit</span></a>   <!-- the kit's files come later (Cornel, 2026-11-12): a link to nothing for now -->
 </header>
 
@@ -303,7 +321,26 @@
   document.querySelectorAll('.band[data-ch]').forEach(b => b.insertAdjacentHTML('afterbegin', `<div class="sl-chrome" aria-hidden="true"><span>HelloPrint</span><span>Brand Guidelines</span><span>${b.dataset.ch}</span><span></span></div>`));
   new ResizeObserver(fit).observe(stage); fit();
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ behavior: 'instant' });   // the jump happened before the zoom: jump again
+
+  // Motion on scroll: the variant from ?motion= (default A while we compare); off when the viewer asked for less motion
+  const MQ = new URLSearchParams(location.search), MV = ['a', 'b', 'c', 'off'].includes(MQ.get('motion')) ? MQ.get('motion') : 'a';
+  document.querySelectorAll('[data-motion]').forEach(btn => { btn.classList.toggle('active', btn.dataset.motion === MV);
+    btn.addEventListener('click', () => { MQ.set('motion', btn.dataset.motion); location.search = MQ; }); });
+  if (MV !== 'off' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.dataset.motion = MV;
+    const SEL = '.w > *, .w > div:not([class]) > *, .b-side > *, .b-body > *, .b-items > *, .b-tiles > *, .sl-split .w > div > *, .sl-index ol > li, .sl-photo, .sl-shot, .sl-n, .sl-div h2, .sl-cover h2, .sl-cover p';
+    const bands = [...document.querySelectorAll('.band')];
+    bands.forEach(b => {
+      const all = [...b.querySelectorAll(SEL)];
+      all.filter(e => !all.some(o => o !== e && e.contains(o)) && getComputedStyle(e).display !== 'contents')   // the innermost blocks move
+         .forEach((e, i) => { e.classList.add('m'); e.style.setProperty('--i', Math.min(i, 8)); });
+      if (MV === 'c') b.querySelectorAll('.stmt, .sl-div h2, .sl-split .w > div > p, .sl-cover h2 > span').forEach(e => {
+        e.innerHTML = e.innerHTML.split(/<br\s*\/?>/).map((l, n) => `<span class="ln" style="--l:${n}"><span>${l}</span></span>`).join(''); });
+    });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .25 });
+    bands.forEach(b => io.observe(b));
+  }
 </script>
-<script src="../design-system/guide.js?v=20261205zzo"></script>
+<script src="../design-system/guide.js?v=20261205zzp"></script>
 </body>
 </html>
