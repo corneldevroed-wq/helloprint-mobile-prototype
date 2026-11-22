@@ -17,6 +17,9 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
 - **Brand Guidelines as PDF** (Cornel, 2026-11-12): once the HTML brand book (`brand-guidelines/`) is done, offer the whole guide
   as a PDF in the right styling too: one 1920×1080 page per slide, same look as the HTML (print CSS / `@page` at 1920×1080, background
   colours and photos printed). Probably next to "Download brand kit". Not started.
+- **Brand Guidelines motion** (Cornel, 2026-11-22, "hier maken we later een keuze in"): three scroll variants behind the temporary
+  switch in the top bar (?motion=a|b|c|off, default A): A fade up, B reveal, C big type. When Cornel picks: keep that one, remove the
+  others and the switch. My pick: A with C's line reveal for the statements.
 - **Brand kit contents** (Cornel, 2026-11-12): "Download brand kit" (top right in the Brand Guidelines) is a link to nothing for now;
   the files (logo master artwork, PNG/SVG variants, colours, fonts) come later.
 - **Discount code box** — built on the desktop cart (2026-11-02, "+ Add discount code", also shown on payment).
