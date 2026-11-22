@@ -96,11 +96,10 @@
   .sl-div h2 { position: absolute; left: 200px; right: 200px; top: 466px; font-size: var(--c-display); line-height: .9; }
   .bg-kit { margin-left: auto; gap: 6px; }   /* top right: the grey pill (UI guide) with an icon in front */
   /* Motion on scroll (Cornel 2026-11-22: "geanimeerd, de content on scroll"): a slide builds up once when it comes in.
-     Variants to compare (switch in the top bar, ?motion=a|b|c|off): A fade up, B reveal (title from the left, photos wipe open),
-     C big type (statements and chapter titles rise line by line). Nothing moves with "reduce motion" on. */
-  .bg-motion { margin-left: auto; display: flex; gap: 4px; }
-  .bg-view, .bg-view + .bg-kit { margin-left: 8px; }
-  .bg-view { display: flex; gap: 4px; }
+     Off for now (Cornel 2026-11-22, the choice comes later); ?motion=a|b|c shows a variant: A fade up, B reveal (title from the left,
+     photos wipe open), C big type (statements and chapter titles rise line by line). Nothing moves with "reduce motion" on. */
+  .bg-view { margin-left: auto; display: flex; gap: 4px; }
+  .bg-view + .bg-kit { margin-left: 8px; }
   .bg-view .pill { padding: 6px 8px; }
   .bg-view .material-symbols-rounded, .bg-kit .material-symbols-rounded { width: 18px; overflow: hidden; }
   /* Grid view (Cornel 2026-11-22): every slide as a thumbnail, 3 a row (2 on mobile); a click opens that slide in the list */
@@ -120,8 +119,7 @@
   html[data-motion="c"] .band:not(.in) .ln > span { transform: translateY(105%); }
   html[data-motion="c"] .band .m:has(.ln) { opacity: 1; transform: none; }
   @media (max-width: 900px) {
-    .bg-kit span + span, .bg-motion { display: none; }   /* mobile: the icon only; the motion switch is for comparing on desktop */
-    .bg-view { margin-left: auto; }
+    .bg-kit span + span { display: none; }   /* mobile: the icon only */
     .ds-main.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     .ds-main { gap: 16px; padding: 16px 16px 64px; }
   }
@@ -132,7 +130,6 @@
   <button class="pill ds-menu-btn" id="dsMenu">Menu</button>
   <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
   <b>Brand Guidelines</b>
-  <div class="bg-motion" role="group" aria-label="Motion"><span class="pill active lbl" style="pointer-events:none">Motion</span><button class="pill" data-motion="a">A</button><button class="pill" data-motion="b">B</button><button class="pill" data-motion="c">C</button><button class="pill" data-motion="off">Off</button></div>   <!-- temporary: to compare (Cornel 2026-11-22) -->
   <div class="bg-view" role="group" aria-label="View"><button class="pill" data-view="list" aria-label="Slides" data-tip="Slides"><span class="material-symbols-rounded" aria-hidden="true">view_agenda</span></button><button class="pill" data-view="grid" aria-label="Grid" data-tip="Grid"><span class="material-symbols-rounded" aria-hidden="true">grid_view</span></button></div>
   <a class="pill bg-kit" href="#brand-kit" aria-label="Download brand kit"><span class="material-symbols-rounded" aria-hidden="true">download</span><span>Download brand kit</span></a>   <!-- the kit's files come later (Cornel, 2026-11-12): a link to nothing for now -->
 </header>
@@ -332,10 +329,8 @@
   new ResizeObserver(fit).observe(stage); fit();
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ behavior: 'instant' });   // the jump happened before the zoom: jump again
 
-  // Motion on scroll: the variant from ?motion= (default A while we compare); off when the viewer asked for less motion
-  const MQ = new URLSearchParams(location.search), MV = ['a', 'b', 'c', 'off'].includes(MQ.get('motion')) ? MQ.get('motion') : 'a';
-  document.querySelectorAll('[data-motion]').forEach(btn => { btn.classList.toggle('active', btn.dataset.motion === MV);
-    btn.addEventListener('click', () => { MQ.set('motion', btn.dataset.motion); location.search = MQ; }); });
+  // Motion on scroll: off for now; ?motion=a|b|c shows a variant (never when the viewer asked for less motion)
+  const MQ = new URLSearchParams(location.search), MV = ['a', 'b', 'c', 'off'].includes(MQ.get('motion')) ? MQ.get('motion') : 'off';
   if (MV !== 'off' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.documentElement.dataset.motion = MV;
     const SEL = '.w > *, .w > div:not([class]) > *, .b-side > *, .b-body > *, .b-items > *, .b-tiles > *, .sl-split .w > div > *, .sl-index ol > li, .sl-photo, .sl-shot, .sl-n, .sl-div h2, .sl-cover h2, .sl-cover p';
