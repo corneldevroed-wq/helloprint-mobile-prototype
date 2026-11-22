@@ -6,6 +6,14 @@ Add new decisions here when Cornel makes a final call.
 ## Footer pages (Nov 22, 2026)
 - **11-22 — Our promises and Sustainability are marketing pages** (Cornel: "convert to the marketing template, following our guide"): the live en-ie footer pages rebuilt 1:1 (copy, images, order) with only the template's parts, no new CSS. Big figures are icon cards (as about us); a quote is the centred block without a photo (title = the quote, the name under it); live-only targets (the impact report on Flipsnack, the partner site) stay local anchors. The existing `#our-promises` and `#sustainability` links (footer, about us, our culture, VIP) now open them.
 
+## Option icons on the new product pages, an audit (Nov 22, 2026)
+- **2026-11-22 — Every option uses the guide's icon or live photo where one exists** (Cornel: "check all pages for the newest icons"). Audit of all 29
+  PDPs: added the flag bases and wall mounts (live photos, assets/live-opts/flags), No flag base = inks/none, Selfcover = notepads/self-cover, the
+  perfect bound covers (silk, gloss), sizes drawn to scale (sticker and label shapes, Christmas card sizes, beach flags). No icon in the guide yet
+  (text-only cards, for a next icon wave): Pages (booklets), Roll winding, Core diameter, Dispenser (labels), Number of sheets (notepads), Holes
+  (foamex), Laser engraving (pen). Text-only steps get no empty icon row (.no-vis), and the Recommended bar always stays inside its card
+  (`.desk .opt.is-rec .t { flex: 1 0 auto }`). The pens list's Ebony card has no "Fast delivery" label (its page: Standard, Wed 9 Dec).
+
 ## Top 20 products, batch 1 (Nov 22, 2026)
 - **2026-11-22 — The prototype gets live's top products: the 10 homepage Bestsellers + the products the homepage category menu links straight to (no sales data
   available). Built in 3 batches; batch 1 = Standard Posters, Stapled Booklets, Perfect Bound Brochures, Half Fold Leaflets.** Steps, option names, quantities,

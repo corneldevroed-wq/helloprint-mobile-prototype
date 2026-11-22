@@ -67,6 +67,13 @@ const TEXTILE = {
 };
 const TEXTILE_COLOURS = ids => ids.map((id, i) => ({ id, name: TEXTILE[id][0], sub: '', color: TEXTILE[id][1], mult: 1, info: `Your design on a ${TEXTILE[id][0].toLowerCase()} base.` }));
 
+// A sticker or label size drawn to scale (round = circle, oval = ellipse, rectangle = rounded corners): ids r-50, s-50, rt-45x85, o-40x60, rt-a6 …
+const labelShape = (id, sh) => {
+  const A = { a8: [52, 74], a7: [74, 105], a6: [105, 148], a5: [148, 210], a4: [210, 297], a3: [297, 420], dl: [99, 210], '55x85': [55, 85], '105x210': [105, 210] };
+  const v = id.split('-').slice(1).join('-'), [w, h] = A[v] || (v.includes('x') ? v.split('x').map(Number) : [+v, +v]);
+  const k = 42 / Math.max(100, w, h), r = sh === 'round' || sh === 'oval' ? '50%' : sh === 'rectangle' ? '3px' : '1px';
+  return `width:${Math.max(6, Math.round(w * k))}px;height:${Math.max(6, Math.round(h * k))}px;border-radius:${r}`;
+};
 const PRODUCTS = {
   'classic-business-cards': {
     name: 'Classic Business Cards', cartName: 'Classic business cards', badge: 'Most Popular',
@@ -701,7 +708,7 @@ const PRODUCTS = {
              when: c => c.appearance === app }))) },
       { key: 'cover', title: 'Cover', prefer: () => 'cover-250',
         items: [
-          { id: 'self', name: 'Selfcover', sub: 'Same paper as the pages', shape: 'width:26px;height:37px', mult: 1, info: 'The cover is printed on the same paper as the pages. The most affordable choice.' },
+          { id: 'self', name: 'Selfcover', sub: 'Same paper as the pages', icon: 'notepads/self-cover', mult: 1, info: 'The cover is printed on the same paper as the pages. The most affordable choice.' },
           { id: 'cover-135', name: '', sub: '135 gsm', thick: 0, mult: 1.04, info: 'A thin cover, a touch firmer than the pages.', when: c => c.appearance === 'matt' },
           { id: 'cover-120', name: '', sub: '120 gsm', thick: 0, mult: 1.04, info: 'A thin uncoated cover.', when: c => c.appearance === 'uncoated' },
           { id: 'cover-170', name: '', sub: '170 gsm', thick: 0, mult: 1.06, info: 'A medium cover that holds its shape.' },
@@ -758,8 +765,8 @@ const PRODUCTS = {
           ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult: { 90: .9, 115: .95, 130: 1, 170: 1.12 }[gsm],
              info: { 90: 'Light, writable pages.', 115: 'Light pages: good for books with many pages.', 130: 'A light page with body. The live default.', 170: 'Sturdy pages that feel like quality.' }[gsm], when: c => c.appearance === app }))) },
       { key: 'cover', title: 'Cover', prefer: c => c.appearance === 'glossy' ? 'gloss-300' : 'silk-300', items: [
-        { id: 'silk-300', name: 'Silk Coated', sub: '300 gsm', mult: 1, info: 'A firm matte cover. Our recommended choice.', when: c => c.appearance !== 'glossy' },
-        { id: 'gloss-300', name: 'Gloss Coated', sub: '300 gsm', mult: 1, info: 'A firm, shiny cover.', when: c => c.appearance === 'glossy' },
+        { id: 'silk-300', name: 'Silk Coated', sub: '300 gsm', icon: 'materials/silk-matte', mult: 1, info: 'A firm matte cover. Our recommended choice.', when: c => c.appearance !== 'glossy' },
+        { id: 'gloss-300', name: 'Gloss Coated', sub: '300 gsm', icon: 'materials/glossy', mult: 1, info: 'A firm, shiny cover.', when: c => c.appearance === 'glossy' },
         { id: 'sbs-300', name: 'SBS Paperboard', sub: '300 gsm', icon: 'materials/sulfate-cardboard', mult: 1.05, info: 'A bright white, stiff board for a premium cover.' },
       ]},
       { key: 'finishing', title: 'Cover finishing', items: [
@@ -855,7 +862,7 @@ const PRODUCTS = {
         ...[20, 30, 40, 45, 50, 60, 80, 100].map(d => ({ id: `s-${d}`, name: `${d} x ${d} mm`, sub: 'Square', d, sh: 'square' })),
         ...[[25, 50], [30, 40], [30, 75], [35, 60], [40, 75], [45, 85], [50, 100], [55, 85], [60, 100], [70, 100]].map(([w, h]) => ({ id: `rt-${w}x${h}`, name: `${w} x ${h} mm`, sub: 'Rectangle', d: Math.sqrt(w * h), sh: 'rectangle' })),
         ...[[30, 50], [40, 60], [48, 70], [50, 80], [75, 100]].map(([w, h]) => ({ id: `o-${w}x${h}`, name: `${w} x ${h} mm`, sub: 'Oval', d: Math.sqrt(w * h), sh: 'oval' })),
-      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, mult: Math.round(Math.max(.75, d / 50) * 100) / 100, info: d <= 20 ? 'A small label, for pens, sample jars and seals.' : d >= 80 ? 'A large label, for boxes, buckets and bottles.' : 'A handy size for jars, bags and packaging.', when: c => c.shape === sh })) },
+      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, shape: labelShape(id, sh), mult: Math.round(Math.max(.75, d / 50) * 100) / 100, info: d <= 20 ? 'A small label, for pens, sample jars and seals.' : d >= 80 ? 'A large label, for boxes, buckets and bottles.' : 'A handy size for jars, bags and packaging.', when: c => c.shape === sh })) },
       { key: 'appearance', title: 'Material appearance', items: [
         { id: 'white', name: 'White film', sub: 'Plastic, white', icon: 'materials/film-white-gloss', mult: 1, info: 'A white plastic film: water-resistant and strong. Our recommended choice.' },
         { id: 'clear', name: 'Transparent', sub: 'Plastic, clear', icon: 'materials/film-clear', mult: 1.05, info: 'A clear film, so the product or the glass shows through.' },
@@ -918,7 +925,7 @@ const PRODUCTS = {
         ...[20, 30, 40, 50, 52, 74, 98, 105, 120, 148, 210].map(d => ({ id: `s-${d}`, name: `${d} x ${d} mm`, sub: 'Square', d, sh: 'square' })),
         ...[['55x85', 55, 85, ''], ['105x210', 105, 210, ''], ['dl', 99, 210, 'DL'], ['a8', 52, 74, 'A8'], ['a7', 74, 105, 'A7'], ['a6', 105, 148, 'A6'], ['a5', 148, 210, 'A5'], ['a4', 210, 297, 'A4'], ['a3', 297, 420, 'A3']]
           .map(([id, w, h, a]) => ({ id: `rt-${id}`, name: `${w} x ${h} mm`, sub: a || 'Rectangle', d: Math.sqrt(w * h), sh: 'rectangle' })),
-      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, mult: Math.round(Math.max(.8, (d / 50) ** 1.3) * 100) / 100, info: d <= 30 ? 'A small sticker, for laptops, envelopes and seals.' : d >= 100 ? 'A big sticker, for windows, boxes and walls.' : 'A handy size to hand out, on packaging or laptops.', when: c => c.shape === sh })) },
+      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, shape: labelShape(id, sh), mult: Math.round(Math.max(.8, (d / 50) ** 1.3) * 100) / 100, info: d <= 30 ? 'A small sticker, for laptops, envelopes and seals.' : d >= 100 ? 'A big sticker, for windows, boxes and walls.' : 'A handy size to hand out, on packaging or laptops.', when: c => c.shape === sh })) },
       { key: 'appearance', title: 'Material appearance', items: [
         { id: 'white', name: 'White film', sub: 'Plastic, white', icon: 'materials/film-white-gloss', mult: 1, info: 'A white plastic film: water-resistant and strong. Our recommended choice.' },
         { id: 'clear', name: 'Transparent', sub: 'Plastic, clear', icon: 'materials/film-clear', mult: 1.05, info: 'A clear film, for windows and glass.' },
@@ -1113,13 +1120,13 @@ const PRODUCTS = {
         { id: 'square', name: 'Square', sub: 'Flat card', shape: 'width:26px;height:26px', mult: .75, info: 'A flat square card.' },
       ]},
       { key: 'size', title: 'Size', prefer: c => /square/.test(c.shape) ? 'sq-148' : 'a6', items: [
-        { id: 'a6', name: 'A6', sub: '105 x 148 mm', mult: 1, info: 'The classic Christmas card size. Our recommended choice.', when: c => !/square/.test(c.shape) },
-        { id: 'a5', name: 'A5', sub: '148 x 210 mm', mult: 1.5, info: 'A big card with room for a photo and a message.', when: c => !/square/.test(c.shape) },
-        { id: 'a4', name: 'A4', sub: '210 x 297 mm', mult: 2.6, info: 'An extra large card.', when: c => /^portrait/.test(c.shape) },
-        { id: 'a7', name: 'A7', sub: '74 x 105 mm', mult: .75, info: 'A mini card, for gifts and parcels.', when: c => /^portrait/.test(c.shape) },
-        { id: 'along', name: 'A-Long', sub: '210 x 74 mm', mult: .9, info: 'A slim, wide card.', when: c => /^landscape/.test(c.shape) },
-        { id: 'dl', name: 'DL', sub: '210 x 99 mm', mult: 1, info: 'Fits a DL envelope.', when: c => /^landscape/.test(c.shape) },
-        ...[105, 132, 148, 152, 210].map(d => ({ id: `sq-${d}`, name: `${d} x ${d} mm`, sub: 'Square', mult: Math.round((d / 125) ** 2 * 100) / 100, info: d === 148 ? 'A popular square card size.' : 'A square card.', when: c => /square/.test(c.shape) })),
+        { id: 'a6', name: 'A6', sub: '105 x 148 mm', shape: 'width:15px;height:21px', mult: 1, info: 'The classic Christmas card size. Our recommended choice.', when: c => !/square/.test(c.shape) },
+        { id: 'a5', name: 'A5', sub: '148 x 210 mm', shape: 'width:21px;height:30px', mult: 1.5, info: 'A big card with room for a photo and a message.', when: c => !/square/.test(c.shape) },
+        { id: 'a4', name: 'A4', sub: '210 x 297 mm', shape: 'width:30px;height:42px', mult: 2.6, info: 'An extra large card.', when: c => /^portrait/.test(c.shape) },
+        { id: 'a7', name: 'A7', sub: '74 x 105 mm', shape: 'width:11px;height:15px', mult: .75, info: 'A mini card, for gifts and parcels.', when: c => /^portrait/.test(c.shape) },
+        { id: 'along', name: 'A-Long', sub: '210 x 74 mm', shape: 'width:30px;height:11px', mult: .9, info: 'A slim, wide card.', when: c => /^landscape/.test(c.shape) },
+        { id: 'dl', name: 'DL', sub: '210 x 99 mm', shape: 'width:30px;height:14px', mult: 1, info: 'Fits a DL envelope.', when: c => /^landscape/.test(c.shape) },
+        ...[105, 132, 148, 152, 210].map(d => ({ id: `sq-${d}`, name: `${d} x ${d} mm`, sub: 'Square', shape: `width:${Math.round(d * .15)}px;height:${Math.round(d * .15)}px`, mult: Math.round((d / 125) ** 2 * 100) / 100, info: d === 148 ? 'A popular square card size.' : 'A square card.', when: c => /square/.test(c.shape) })),
       ]},
       { key: 'printing', title: 'Printing', items: [
         { id: 'double', name: 'Double-sided', sub: 'Front and back', mult: 1.15, info: 'Printed outside and inside: room for your greeting. Our recommended choice.' },
@@ -1214,7 +1221,7 @@ const PRODUCTS = {
       { key: 'size', title: 'Size', prefer: c => c.type === 'pole' ? 'p-65' : 'f-65', items: [
         ['p-40', '40 x 290 cm', 'Small', .75, 'pole'], ['p-65', '65 x 365 cm', 'Medium', 1, 'pole'], ['p-90', '90 x 450 cm', 'Large', 1.45, 'pole'],
         ['f-40', '40 x 240 cm', 'Small', .75, 'flag'], ['f-65', '65 x 315 cm', 'Medium', 1, 'flag'], ['f-90', '90 x 400 cm', 'Large', 1.45, 'flag'],
-      ].map(([id, name, sub, mult, t]) => ({ id, name, sub, mult, info: sub === 'Medium' ? 'Our recommended size: visible from a distance and easy to carry.' : sub === 'Small' ? 'A compact flag for stands and shop entrances.' : 'A tall flag that stands out above crowds.', when: c => c.type === t })) },
+      ].map(([id, name, sub, mult, t]) => ({ id, name, sub, shape: `width:${Math.round(+name.split(' x ')[0] / 9)}px;height:${Math.round(parseInt(name.split(' x ')[1]) / 450 * 42)}px;border-radius:0 12px 0 0`, mult, info: sub === 'Medium' ? 'Our recommended size: visible from a distance and easy to carry.' : sub === 'Small' ? 'A compact flag for stands and shop entrances.' : 'A tall flag that stands out above crowds.', when: c => c.type === t })) },
       { key: 'material', title: 'Material', items: [
         { id: 'rpet', name: 'Recycled RPET', sub: '110 gsm', icon: 'materials/rpet', mult: 1, info: 'A washable fabric made from recycled bottles. Weatherproof and durable. Our recommended choice.' },
         { id: 'mesh', name: 'Mesh fabric', sub: '115 gsm', icon: 'materials/mesh', mult: 1.05, info: 'An open fabric that lets the wind through: for windy spots.' },
@@ -1224,13 +1231,13 @@ const PRODUCTS = {
         { id: 'white', name: 'White', sub: 'Pole and bag', color: '#ffffff', mult: 1, info: 'A white pole system.' },
       ]},
       { key: 'base', title: 'Base', when: c => c.type === 'pole', prefer: () => 'none', items: [
-        { id: 'none', name: 'No flag base', sub: 'Pole only', mult: 1, info: 'No base: for when you already have one.' },
-        { id: 'cross', name: 'Cross Foot', sub: 'Hard floors', mult: 1.25, info: 'A cross foot for hard floors indoors and on terraces.' },
-        { id: 'cross-water', name: 'Cross Foot + Waterbag', sub: 'Extra stable', mult: 1.35, info: 'A cross foot with a water bag that keeps the flag up in the wind. Our recommended choice.' },
-        { id: 'parasol', name: 'Parasol Base + Rotator', sub: 'Heavy base', mult: 1.45, info: 'A heavy parasol base; the rotator lets the flag turn with the wind.' },
-        { id: 'spike', name: 'Metal Ground Spike', sub: 'Grass and sand', mult: 1.15, info: 'A spike you push into grass or sand: ideal for beaches and fields.' },
-        { id: 'screw', name: 'Plastic Screw Base + Rotator', sub: 'Soft ground', mult: 1.2, info: 'A screw base for soft ground, with a rotator.' },
-        ...[0, 45, 90].map(a => ({ id: `wall-${a}`, name: `Wall suspension ${a}°`, sub: 'On a wall', mult: 1.2, info: `A wall bracket that holds the flag at ${a}°.` })),
+        { id: 'none', name: 'No flag base', sub: 'Pole only', icon: 'inks/none', mult: 1, info: 'No base: for when you already have one.' },
+        { id: 'cross', name: 'Cross Foot', sub: 'Hard floors', photo: 'assets/live-opts/flags/base-cross.png', mult: 1.25, info: 'A cross foot for hard floors indoors and on terraces.' },
+        { id: 'cross-water', name: 'Cross Foot + Waterbag', sub: 'Extra stable', photo: 'assets/live-opts/flags/base-cross-water.png', mult: 1.35, info: 'A cross foot with a water bag that keeps the flag up in the wind. Our recommended choice.' },
+        { id: 'parasol', name: 'Parasol Base + Rotator', sub: 'Heavy base', photo: 'assets/live-opts/flags/base-parasol.png', mult: 1.45, info: 'A heavy parasol base; the rotator lets the flag turn with the wind.' },
+        { id: 'spike', name: 'Metal Ground Spike', sub: 'Grass and sand', photo: 'assets/live-opts/flags/base-spike.png', mult: 1.15, info: 'A spike you push into grass or sand: ideal for beaches and fields.' },
+        { id: 'screw', name: 'Plastic Screw Base + Rotator', sub: 'Soft ground', photo: 'assets/live-opts/flags/base-screw.png', mult: 1.2, info: 'A screw base for soft ground, with a rotator.' },
+        ...[0, 45, 90].map(a => ({ id: `wall-${a}`, name: `Wall suspension ${a}°`, sub: 'On a wall', photo: `assets/live-opts/flags/wall-${a}.png`, mult: 1.2, info: `A wall bracket that holds the flag at ${a}°.` })),
       ]},
     ],
     presets: [

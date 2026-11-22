@@ -1456,7 +1456,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .desk .opt.is-rec .t { align-self: stretch; display: flex; flex-direction: column; }
 .desk .qrow span.rec { display: inline-block; margin: 0; }
 /* The bar always sits on the bottom of the card (cards in a row are equally tall) */
-.desk .opt.is-rec .t { flex: 1; }
+.desk .opt.is-rec .t { flex: 1 0 auto; }   /* never shrinks below its text, so a long name (3 lines) pushes the card taller instead of the bar out of it */
 .desk .opt.is-rec .t small { margin-bottom: 6px; }
 .desk .opt span.rec { margin-top: auto; }
 
@@ -1490,6 +1490,7 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 /* Cards A: every option card reserves the same 50px icon area, so the titles in a row start on one line (icons keep their own size) */
 .desk #jConfig .opt:not(.ov-tile) { display: grid; grid-template-rows: var(--vis-h, 50px) auto; align-content: start; justify-items: start; }
 .desk #jConfig .opt:not(.ov-tile) > :not(.t) { align-self: end; }   /* icons stand on one baseline, so sizes compare at a glance */
+.desk #jConfig .no-vis .opt:not(.ov-tile) { grid-template-rows: auto; }   /* text-only cards: no icon row, the text (and the Recommended bar) fits the card */
 
 /* Home promo cards (style E, chosen 2026-10-27 from home-promos.html): one card for every banner on the home,
    live content (Contentful images), title top left on the photo, only the live "Shop X" button, no white bar.
