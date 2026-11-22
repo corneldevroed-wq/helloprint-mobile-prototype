@@ -3,7 +3,8 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
-
+## Footer pages (Nov 22, 2026)
+- **11-22 — Our promises and Sustainability are marketing pages** (Cornel: "convert to the marketing template, following our guide"): the live en-ie footer pages rebuilt 1:1 (copy, images, order) with only the template's parts, no new CSS. Big figures are icon cards (as about us); a quote is the centred block without a photo (title = the quote, the name under it); live-only targets (the impact report on Flipsnack, the partner site) stay local anchors. The existing `#our-promises` and `#sustainability` links (footer, about us, our culture, VIP) now open them.
 
 ## Search results page (Nov 20, 2026)
 - **2026-11-20 — Search results = the PFP with the query (`prototype/search.html?q=…`, sketch B in `sketches/search-sketch.html`).**

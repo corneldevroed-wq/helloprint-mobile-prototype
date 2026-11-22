@@ -407,6 +407,8 @@ const ROUTES = {
   'about-us': 'about-us.html', 'our-culture': 'our-culture.html', 'gaa-club-printing': 'gaa-club-printing.html', 'rugby-club-printing': 'rugby-club-printing.html', 'storm-flags': 'storm-flags.html', 'black-friday': 'black-friday.html', 'deals': 'black-friday.html', 'christmas': 'christmas.html', 'xmas': 'christmas.html', 'christmas-printing': 'christmas.html', 'vip': 'vip.html', 'vip-loyalty-programme': 'vip.html',
   // IE club and education pages (Niels' board, built 2026-11-20): the sports hub, soccer, camps, school, student societies, the education hub
   'sportsproducts': 'sportsproducts.html', 'sports-products': 'sportsproducts.html', 'soccer-club-printing': 'soccer-club-printing.html', 'camp-printing': 'camp-printing.html', 'school-printing': 'school-printing.html', 'student-society-printing': 'student-society-printing.html', 'student-education': 'student-education.html',
+  // Footer pages rebuilt as marketing pages (2026-11-22, Cornel): our promises, sustainability
+  'our-promises': 'our-promises.html', 'sustainability': 'sustainability.html',
   // Hospitality category page, built from pages/hospitality.md (home category card, menu, mobile drawer)
   'catering-and-hospitality-printing': 'category.html?page=hospitality', 'hospitality': 'category.html?page=hospitality',
   // Flyers category page (home chips, menu, search, the flyer product's breadcrumb)
