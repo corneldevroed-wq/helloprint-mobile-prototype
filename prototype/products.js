@@ -627,11 +627,11 @@ const PRODUCTS = {
       { key: 'appearance', title: 'Material appearance', items: [
         { id: 'matt', name: 'Matte', sub: 'No glare', mult: 1, info: 'Silk paper without shine: calm and easy to read under any light. Our recommended choice.' },
         { id: 'glossy', name: 'Glossy', sub: 'Shiny, vivid colour', mult: 1, info: 'Coated paper with a shine. Photos and colours look vivid.' },
-        { id: 'outdoor', name: 'Outdoor', sub: 'Weatherproof', color: '#dfe7ef', mult: 1.6, info: 'Materials that can take rain and wind. Heavy weather may still fade the colours over time.' },
+        { id: 'outdoor', name: 'Outdoor', sub: 'Weatherproof', icon: 'materials/pvc', mult: 1.6, info: 'Materials that can take rain and wind. Heavy weather may still fade the colours over time.' },
         { id: 'eco', name: 'Eco', sub: 'Recycled', mult: 1.05, info: 'Recycled paper with a natural look.' },
         { id: 'uncoated', name: 'Writable', sub: 'Uncoated', mult: 1, info: 'Untreated paper you can write on, for planners and notices.' },
         { id: 'special', name: 'Special', sub: 'Photo, foil, backlit', mult: 1.6, info: 'Photo paper, a removable sticky foil or a backlit film for light boxes.' },
-        { id: 'neon', name: 'Neon', sub: 'Fluorescent paper', color: 'linear-gradient(135deg,#f4ff3a,#7dff4a 35%,#ffa23a 70%,#ff5fb4)', mult: 1.4, info: 'Fluorescent paper in yellow, green, orange or pink. Impossible to miss.' },
+        { id: 'neon', name: 'Neon', sub: 'Fluorescent paper', icon: 'materials/neon', mult: 1.4, info: 'Fluorescent paper in yellow, green, orange or pink. Impossible to miss.' },
       ]},
       { key: 'material', title: 'Material', prefer: c => ({ matt: 'matt-170', glossy: 'glossy-170', outdoor: 'blueback', eco: 'eco-170', uncoated: 'offset-120', special: 'photo', neon: 'neon-yellow' })[c.appearance],
         specText: 'Matte / Glossy: 135, 170 or 250 gsm · Outdoor: 115 gsm Blueback, 170 gsm PVC Waterproof, 500 gsm PVC Canvas · Eco: 135 or 170 gsm recycled · Writable: 120 or 250 gsm offset · Special: 190 gsm photo paper, Sticky DOT foil, 275 gsm backlit polyester · Neon: yellow, green, orange, pink',
@@ -640,14 +640,14 @@ const PRODUCTS = {
             ({ id: `${app}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult, info: { 135: 'Light paper at a sharp price.', 170: 'Sturdy enough to hang flat. Our recommended thickness.', 250: 'Thick, card-like paper that stays flat on the wall.' }[gsm], when: c => c.appearance === app })),
           { id: 'offset-120', name: 'Offset', sub: '120 gsm', thick: 0, mult: .95, info: 'Uncoated paper, easy to write on with any pen.', when: c => c.appearance === 'uncoated' },
           { id: 'offset-250', name: 'Offset', sub: '250 gsm', thick: 3, mult: 1.2, info: 'A thick uncoated paper that stays flat.', when: c => c.appearance === 'uncoated' },
-          { id: 'blueback', name: 'Blueback', sub: '115 gsm', color: '#c9d6e6', mult: 1, info: 'Paper with a blue back, so nothing shows through when you paste it on a wall. Made for outdoor billboards.', when: c => c.appearance === 'outdoor' },
-          { id: 'pvc-170', name: 'PVC Waterproof', sub: '170 gsm', color: '#eef2f5', mult: 1.4, info: 'A thin, waterproof plastic: tear-proof for outdoor use.', when: c => c.appearance === 'outdoor' },
-          { id: 'canvas', name: 'PVC Canvas', sub: '500 gsm', color: '#e6e1d6', mult: 1.9, info: 'A heavy, banner-like material for long outdoor use.', when: c => c.appearance === 'outdoor' },
-          { id: 'photo', name: 'Photo paper', sub: '190 gsm', swatch: 'paper-glossy.svg', mult: 1, info: 'Real photo paper for sharp, deep colours.', when: c => c.appearance === 'special' },
-          { id: 'sticky', name: 'Sticky DOT foil', sub: 'Removable', color: 'radial-gradient(#cfcfcf 1px,#f4f4f4 1.5px) 0 0/5px 5px', mult: 1.6, info: 'A foil with tiny adhesive dots: sticks to walls and glass, and comes off without marks.', when: c => c.appearance === 'special' },
-          { id: 'backlit', name: 'Backlit Polyester', sub: '275 gsm', color: 'linear-gradient(135deg,#fff,#f3f6fa)', mult: 1.8, info: 'A translucent film for light boxes: your poster lights up.', when: c => c.appearance === 'special' },
-          ...[['yellow', '#f4ff3a'], ['green', '#7dff4a'], ['orange', '#ffa23a'], ['pink', '#ff5fb4']].map(([n, color]) =>
-            ({ id: `neon-${n}`, name: `Neon ${n[0].toUpperCase() + n.slice(1)}`, sub: '80 gsm', color, mult: 1, info: `Fluorescent ${n} paper.`, when: c => c.appearance === 'neon' })),
+          { id: 'blueback', name: 'Blueback', sub: '115 gsm', icon: 'materials/blueback', mult: 1, info: 'Paper with a blue back, so nothing shows through when you paste it on a wall. Made for outdoor billboards.', when: c => c.appearance === 'outdoor' },
+          { id: 'pvc-170', name: 'PVC Waterproof', sub: '170 gsm', icon: 'materials/pvc', mult: 1.4, info: 'A thin, waterproof plastic: tear-proof for outdoor use.', when: c => c.appearance === 'outdoor' },
+          { id: 'canvas', name: 'PVC Canvas', sub: '500 gsm', icon: 'materials/blockout-pvc', mult: 1.9, info: 'A heavy, banner-like material for long outdoor use.', when: c => c.appearance === 'outdoor' },
+          { id: 'photo', name: 'Photo paper', sub: '190 gsm', icon: 'materials/photo-paper', mult: 1, info: 'Real photo paper for sharp, deep colours.', when: c => c.appearance === 'special' },
+          { id: 'sticky', name: 'Sticky DOT foil', sub: 'Removable', icon: 'materials/dot-foil', mult: 1.6, info: 'A foil with tiny adhesive dots: sticks to walls and glass, and comes off without marks.', when: c => c.appearance === 'special' },
+          { id: 'backlit', name: 'Backlit Polyester', sub: '275 gsm', icon: 'materials/backlit', mult: 1.8, info: 'A translucent film for light boxes: your poster lights up.', when: c => c.appearance === 'special' },
+          ...[['yellow', 'neon'], ['green', 'neon-green'], ['orange', 'neon-orange'], ['pink', 'neon-pink']].map(([n, ic]) =>
+            ({ id: `neon-${n}`, name: `Neon ${n[0].toUpperCase() + n.slice(1)}`, sub: '80 gsm', icon: `materials/${ic}`, mult: 1, info: `Fluorescent ${n} paper.`, when: c => c.appearance === 'neon' })),
         ]},
       { key: 'finishing', title: 'Finishing', when: c => c.appearance === 'glossy' && ['glossy-135', 'glossy-170'].includes(c.material), prefer: () => 'none', items: [
         { id: 'none', name: 'No finishing', sub: 'As printed', mult: 1, info: 'No extra layer. Our recommended choice for most posters.' },
@@ -760,7 +760,7 @@ const PRODUCTS = {
       { key: 'cover', title: 'Cover', prefer: c => c.appearance === 'glossy' ? 'gloss-300' : 'silk-300', items: [
         { id: 'silk-300', name: 'Silk Coated', sub: '300 gsm', mult: 1, info: 'A firm matte cover. Our recommended choice.', when: c => c.appearance !== 'glossy' },
         { id: 'gloss-300', name: 'Gloss Coated', sub: '300 gsm', mult: 1, info: 'A firm, shiny cover.', when: c => c.appearance === 'glossy' },
-        { id: 'sbs-300', name: 'SBS Paperboard', sub: '300 gsm', color: '#f6f6f2', mult: 1.05, info: 'A bright white, stiff board for a premium cover.' },
+        { id: 'sbs-300', name: 'SBS Paperboard', sub: '300 gsm', icon: 'materials/sulfate-cardboard', mult: 1.05, info: 'A bright white, stiff board for a premium cover.' },
       ]},
       { key: 'finishing', title: 'Cover finishing', items: [
         { id: 'gloss-1', name: 'Gloss lamination', sub: 'Cover', mult: 1, info: 'A shiny layer that protects the cover. Our recommended choice.' },
@@ -832,6 +832,342 @@ const PRODUCTS = {
     fixed: [['Print', 'Full colour, double-sided'], ['Fold', 'Half fold, 4 pages']],
     about: ['HelloPrint’s Half Fold Leaflets are a print classic that never goes out of style: for trade shows, events, or as inserts in newspapers and magazines. Up to 170 gsm they arrive folded; from 250 gsm creased, so they arrive without cracks.'],
     specs: [['Fold', 'Half fold, 4 pages'], ['Material', 'Glossy | Matte | Uncoated | Recycled | Bio Top 3 | Paperwise'], ['Finishing', 'Gloss or matte lamination, UV glossy (250 gsm and up)'], ['Print colour', 'Full colour, double-sided']],
+  },
+
+  // ===== Top 20, batch 2 (Cornel 2026-11-22): stickers and stationery, read on live en-ie the same day, same rules as batch 1.
+  // Icons from the guide (stickers/, envelopes/, notepads/, printing/, folds/, materials/) where the option has one.
+
+  // Labels on Roll (helloprint.com/en-ie/labels): Shape → Size (per shape) → Material appearance → Material → Dispenser → Roll winding → Core
+  'labels-on-roll': {
+    name: 'Stickers on Roll', cartName: 'Stickers on roll', noun: 'labels', crumbTop: ['Labels & Stickers', '#all-stickers'], crumb: ['Labels on Roll', '#labels-printing'], liveFunnel: true,
+    img: 'assets/p8.png', priceMult: 1, defaultQty: 1000,
+    qty: [[100, 44.49], [250, 48.49], [500, 52.99], [1000, 63.99], [2000, 86.99], [5000, 133.99], [10000, 207.99], [15000, 268.20], [20000, 333.89], [30000, 467.09], [50000, 711.89], [100000, 1418.99]],
+    delivery: withDays(FLYER_DELIVERY, ['Tue 1 Dec', 'Thu 26 Nov', 'Mon 23 Nov'], [0, 6.50, 37.50], 'labels'),
+    groups: [
+      { key: 'shape', title: 'Shape', items: [
+        { id: 'round', name: 'Round', sub: 'Circle', icon: 'stickers/round', mult: 1, info: 'A round label: our most chosen shape, for lids, jars and packaging.' },
+        { id: 'square', name: 'Square', sub: 'Straight sides', icon: 'stickers/square', mult: 1, info: 'A square label with a clean, modern look.' },
+        { id: 'rectangle', name: 'Rectangle', sub: 'Portrait or landscape', icon: 'stickers/rounded', mult: 1, info: 'A rectangular label: room for a product name, ingredients or an address.' },
+        { id: 'oval', name: 'Oval', sub: 'Ellipse', icon: 'stickers/oval', mult: 1.05, info: 'An oval label, classic on bottles and jars.' },
+      ]},
+      { key: 'size', title: 'Size', prefer: c => ({ round: 'r-50', square: 's-50', rectangle: 'rt-45x85', oval: 'o-40x60' })[c.shape], items: [
+        ...[10, 20, 30, 40, 50, 60, 70, 75, 80, 100].map(d => ({ id: `r-${d}`, name: `${d} mm`, sub: 'Diameter', d, sh: 'round' })),
+        ...[20, 30, 40, 45, 50, 60, 80, 100].map(d => ({ id: `s-${d}`, name: `${d} x ${d} mm`, sub: 'Square', d, sh: 'square' })),
+        ...[[25, 50], [30, 40], [30, 75], [35, 60], [40, 75], [45, 85], [50, 100], [55, 85], [60, 100], [70, 100]].map(([w, h]) => ({ id: `rt-${w}x${h}`, name: `${w} x ${h} mm`, sub: 'Rectangle', d: Math.sqrt(w * h), sh: 'rectangle' })),
+        ...[[30, 50], [40, 60], [48, 70], [50, 80], [75, 100]].map(([w, h]) => ({ id: `o-${w}x${h}`, name: `${w} x ${h} mm`, sub: 'Oval', d: Math.sqrt(w * h), sh: 'oval' })),
+      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, mult: Math.round(Math.max(.75, d / 50) * 100) / 100, info: d <= 20 ? 'A small label, for pens, sample jars and seals.' : d >= 80 ? 'A large label, for boxes, buckets and bottles.' : 'A handy size for jars, bags and packaging.', when: c => c.shape === sh })) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'white', name: 'White film', sub: 'Plastic, white', icon: 'materials/film-white-gloss', mult: 1, info: 'A white plastic film: water-resistant and strong. Our recommended choice.' },
+        { id: 'clear', name: 'Transparent', sub: 'Plastic, clear', icon: 'materials/film-clear', mult: 1.05, info: 'A clear film, so the product or the glass shows through.' },
+        { id: 'paper', name: 'Paper', sub: 'Glossy, matt or Paperwise', icon: 'materials/glossy', mult: .95, info: 'Paper labels, for dry products and writable labels.' },
+        { id: 'special', name: 'Special', sub: 'Off-white, kraft, silver', icon: 'materials/special', mult: 1.15, info: 'Off-white, kraft or silver labels for a premium or natural look.' },
+      ]},
+      { key: 'material', title: 'Material', prefer: c => ({ white: 'pp-gloss', clear: 'pp-clear', paper: 'paper-gloss', special: 'offwhite' })[c.appearance], items: [
+        { id: 'pp-gloss', name: 'Gloss Polypropylene', sub: 'Eco-friendly alternative', icon: 'materials/film-white-gloss', mult: 1, info: 'A glossy white film, an eco-friendlier alternative to PVC. Our recommended choice.', when: c => c.appearance === 'white' },
+        { id: 'pp-matt', name: 'Matt Polypropylene', sub: 'Subtle look', icon: 'materials/film-white-matt', mult: 1, info: 'A white film without shine, for a calm, subtle look.', when: c => c.appearance === 'white' },
+        { id: 'natureflex-white', name: 'Natureflex White', sub: 'Biodegradable', icon: 'materials/film-white-eco', mult: 1.25, info: 'A white film made from wood pulp: compostable and biodegradable.', when: c => c.appearance === 'white' },
+        { id: 'pp-clear', name: 'Transparent Polypropylene', sub: 'Eco-friendly alternative', icon: 'materials/film-clear', mult: 1, info: 'A clear film: your design floats on the product.', when: c => c.appearance === 'clear' },
+        { id: 'natureflex-clear', name: 'Natureflex Transparent', sub: 'Biodegradable', icon: 'materials/film-clear-eco', mult: 1.25, info: 'A clear, compostable film made from wood pulp.', when: c => c.appearance === 'clear' },
+        { id: 'paper-gloss', name: 'Glossy Paper', sub: 'Recycled', icon: 'materials/glossy', mult: 1, info: 'Glossy recycled paper: vivid colours at a sharp price.', when: c => c.appearance === 'paper' },
+        { id: 'paper-matt', name: 'Matt Paper', sub: 'Writable', icon: 'materials/uncoated', mult: 1, info: 'Matt paper you can write on, for dates, prices and names.', when: c => c.appearance === 'paper' },
+        { id: 'paperwise', name: 'Paperwise Paper', sub: 'Agricultural waste', icon: 'materials/paperwise', mult: 1.1, info: 'Paper made from agricultural waste, with a natural tone.', when: c => c.appearance === 'paper' },
+        { id: 'offwhite', name: 'Off-white Paper', sub: 'Luxurious look', icon: 'materials/antique-white', mult: 1, info: 'A textured off-white paper for wine, cosmetics and gifts.', when: c => c.appearance === 'special' },
+        { id: 'kraft', name: 'Kraft Paper', sub: 'Natural look', icon: 'materials/kraft', mult: 1, info: 'Brown kraft paper: natural and honest.', when: c => c.appearance === 'special' },
+        { id: 'silver', name: 'Silver Polypropylene', sub: 'Luxurious look', icon: 'materials/metallic-silver', mult: 1.1, info: 'A shiny silver film that catches the light.', when: c => c.appearance === 'special' },
+      ]},
+      { key: 'dispenser', title: 'Dispenser', items: [
+        { id: 'none', name: 'No dispenser', sub: 'Roll only', mult: 1, info: 'Your labels come on a roll, without a box.' },
+        { id: 'dispenser', name: 'Dispenser per roll', sub: 'Cardboard box', mult: 1.1, info: 'Each roll in a cardboard dispenser box, so you tear off one label at a time. Our recommended choice.' },
+      ]},
+      { key: 'winding', title: 'Roll winding', items: [
+        { id: '2', name: 'Rollwinding 2', sub: '0°', mult: 1, info: 'The label comes off the roll upright, top first. Our recommended choice, and the usual one for hand application.' },
+        { id: '1', name: 'Rollwinding 1', sub: '180°', mult: 1, info: 'The label comes off upside down, bottom first.' },
+        { id: '3', name: 'Rollwinding 3', sub: '90°', mult: 1, info: 'The label comes off sideways, its right side first.' },
+        { id: '4', name: 'Rollwinding 4', sub: '270°', mult: 1, info: 'The label comes off sideways, its left side first. Check which one your labelling machine needs.' },
+      ]},
+      { key: 'core', title: 'Core diameter', items: [
+        { id: '40', name: '40 mm core', sub: 'Hand and small dispensers', mult: 1, info: 'The usual core for applying by hand. Our recommended choice.' },
+        { id: '76', name: '76 mm core', sub: 'Labelling machines', mult: 1, info: 'The standard core for most labelling machines.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { shape: 'round', size: 'r-50', appearance: 'white', material: 'pp-gloss', dispenser: 'none', winding: '2', core: '40' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { shape: 'round', size: 'r-40', appearance: 'paper', material: 'paper-gloss', dispenser: 'none', winding: '2', core: '40' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { shape: 'round', size: 'r-50', appearance: 'white', material: 'natureflex-white', dispenser: 'none', winding: '2', core: '40' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: ['Labels on a roll are easy to peel off, by hand or with a labelling machine, in a range of materials to suit every product. Small cutting deviations are possible.'],
+    specs: [['Shape', 'Round | Square | Rectangle | Oval'], ['Material', 'White or transparent film, paper, Natureflex, off-white, kraft, silver'], ['Print colour', 'Full colour'], ['Core', '40 or 76 mm']],
+  },
+
+  // Individual Stickers (helloprint.com/en-ie/stickers): Shape → Size (per shape) → Material appearance → Material → Finishing (films)
+  'individual-stickers': {
+    name: 'Individual Stickers', cartName: 'Individual stickers', noun: 'stickers', crumbTop: ['Labels & Stickers', '#all-stickers'], crumb: ['Stickers', '#stickers-printing'], liveFunnel: true,
+    img: 'assets/products/stickers.webp', priceMult: 1, defaultQty: 500,
+    qty: [[25, 21.99], [50, 23.99], [100, 26.99], [250, 36.99], [500, 50.99], [1000, 61.99], [1500, 71.99], [2000, 87.99], [2500, 96.99], [3000, 117.99], [4000, 128.99], [5000, 147.99]],
+    delivery: withDays(FLYER_DELIVERY.slice(0, 2), ['Thu 3 Dec', 'Thu 26 Nov'], [0, 29], 'stickers'),
+    groups: [
+      { key: 'shape', title: 'Shape', items: [
+        { id: 'round', name: 'Round', sub: 'Circle', icon: 'stickers/round', mult: 1, info: 'A round sticker: our most chosen shape.' },
+        { id: 'square', name: 'Square', sub: 'Straight sides', icon: 'stickers/square', mult: 1, info: 'A square sticker with a clean, modern look.' },
+        { id: 'rectangle', name: 'Rectangle', sub: 'Portrait or landscape', icon: 'stickers/rounded', mult: 1, info: 'A rectangle, from business-card size to A3.' },
+      ]},
+      { key: 'size', title: 'Size', prefer: c => ({ round: 'r-50', square: 's-50', rectangle: 'rt-55x85' })[c.shape], items: [
+        ...[20, 30, 40, 50, 60, 70, 80, 95, 148].map(d => ({ id: `r-${d}`, name: `${d} mm`, sub: 'Diameter', d, sh: 'round' })),
+        ...[20, 30, 40, 50, 52, 74, 98, 105, 120, 148, 210].map(d => ({ id: `s-${d}`, name: `${d} x ${d} mm`, sub: 'Square', d, sh: 'square' })),
+        ...[['55x85', 55, 85, ''], ['105x210', 105, 210, ''], ['dl', 99, 210, 'DL'], ['a8', 52, 74, 'A8'], ['a7', 74, 105, 'A7'], ['a6', 105, 148, 'A6'], ['a5', 148, 210, 'A5'], ['a4', 210, 297, 'A4'], ['a3', 297, 420, 'A3']]
+          .map(([id, w, h, a]) => ({ id: `rt-${id}`, name: `${w} x ${h} mm`, sub: a || 'Rectangle', d: Math.sqrt(w * h), sh: 'rectangle' })),
+      ].map(({ id, name, sub, d, sh }) => ({ id, name, sub, mult: Math.round(Math.max(.8, (d / 50) ** 1.3) * 100) / 100, info: d <= 30 ? 'A small sticker, for laptops, envelopes and seals.' : d >= 100 ? 'A big sticker, for windows, boxes and walls.' : 'A handy size to hand out, on packaging or laptops.', when: c => c.shape === sh })) },
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'white', name: 'White film', sub: 'Plastic, white', icon: 'materials/film-white-gloss', mult: 1, info: 'A white plastic film: water-resistant and strong. Our recommended choice.' },
+        { id: 'clear', name: 'Transparent', sub: 'Plastic, clear', icon: 'materials/film-clear', mult: 1.05, info: 'A clear film, for windows and glass.' },
+        { id: 'paper', name: 'Paper', sub: 'Writable', icon: 'materials/uncoated', mult: .95, info: 'Matt paper you can write on.' },
+        { id: 'special', name: 'Special', sub: 'Kraft', icon: 'materials/kraft', mult: 1.1, info: 'Brown kraft paper for a natural look.' },
+      ]},
+      { key: 'material', title: 'Material', prefer: c => ({ white: 'pp-gloss', clear: 'pp-clear', paper: 'paper-matt', special: 'kraft' })[c.appearance], items: [
+        { id: 'pp-gloss', name: 'Gloss Polypropylene', sub: 'Eco-friendly alternative', icon: 'materials/film-white-gloss', mult: 1, info: 'A glossy white film, an eco-friendlier alternative to PVC. Our recommended choice.', when: c => c.appearance === 'white' },
+        { id: 'pvc-gloss', name: 'Gloss PVC', sub: 'Vibrant & sturdy', icon: 'materials/pvc', mult: 1.1, info: 'A sturdy, glossy vinyl with vivid colours. Lasts outdoors.', when: c => c.appearance === 'white' },
+        { id: 'pp-clear', name: 'Transparent Polypropylene', sub: 'Eco-friendly alternative', icon: 'materials/film-clear', mult: 1, info: 'A clear film: your design floats on the glass.', when: c => c.appearance === 'clear' },
+        { id: 'pvc-clear', name: 'Transparent PVC', sub: 'Bright background', icon: 'materials/film-clear', mult: 1.1, info: 'A clear vinyl that stays bright on any background.', when: c => c.appearance === 'clear' },
+        { id: 'paper-matt', name: 'Matt Paper', sub: 'Writable', icon: 'materials/uncoated', mult: 1, info: 'Matt paper you can write on.', when: c => c.appearance === 'paper' },
+        { id: 'kraft', name: 'Kraft Paper', sub: 'Natural look', icon: 'materials/kraft', mult: 1, info: 'Brown kraft paper: natural and honest.', when: c => c.appearance === 'special' },
+      ]},
+      { key: 'finishing', title: 'Finishing', when: c => ['white', 'clear'].includes(c.appearance), prefer: () => 'none', items: [
+        { id: 'none', name: 'No finish', sub: 'As printed', mult: 1, info: 'No extra layer.' },
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Front only', mult: 1.15, info: 'A shiny protective layer: colours pop and the print lasts longer outdoors. Our recommended choice.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Front only', mult: 1.15, info: 'A non-reflective protective layer.' },
+        { id: 'velvet-1', name: 'Velvet lamination', sub: 'Front only', mult: 1.3, info: 'A soft, suede-like touch for a premium feel.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { shape: 'round', size: 'r-50', appearance: 'white', material: 'pp-gloss', finishing: 'gloss-1' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { shape: 'round', size: 'r-40', appearance: 'white', material: 'pp-gloss', finishing: 'none' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { shape: 'round', size: 'r-50', appearance: 'special', material: 'kraft' } },
+    ],
+    recapExtra: 'Full colour · Cut one by one',
+    fixed: [['Print', 'Full colour'], ['Cut', 'Each sticker cut out and packed loose']],
+    about: ['Every one of your individual stickers is cut out and packed loose, so you can start giving them away the day they arrive. These stickers are laser cut, which can leave a thin white border around the edge.'],
+    specs: [['Shape', 'Round | Square | Rectangle'], ['Material', 'White or transparent polypropylene or PVC, matt paper, kraft'], ['Finishing', 'Gloss, matte or velvet lamination (films)'], ['Print colour', 'Full colour']],
+  },
+
+  // Standard Envelopes (helloprint.com/en-ie/standardenvelopes): Size → Window → Colours → Closure. Standard delivery only.
+  'standard-envelopes': {
+    name: 'Standard Envelopes', cartName: 'Standard envelopes', noun: 'envelopes', crumbTop: ['Stationery', '#stationery-and-office-supplies'], crumb: ['Envelopes', '#envelopes-printing'],
+    img: 'assets/products/envelopes.webp', priceMult: 1, defaultQty: 1000,
+    qty: [[500, 96.99], [1000, 101.99], [2000, 144.99], [3000, 191.99], [4000, 239.39], [5000, 279.89], [6000, 312.29], [7000, 352.79], [8000, 395.09], [9000, 440.99], [10000, 475.20], [15000, 644.39]],
+    delivery: [STANDARD_ONLY('Tue 1 Dec', 'envelopes')],
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['c5', 'C5', '162 × 229 mm', 'width:37px;height:26px', 1, 'Our recommended size: fits A5 or a folded A4. Common for flyers and brochures.'],
+        ['c6', 'C6', '114 × 162 mm', 'width:31px;height:22px', .75, 'Fits A6 or a folded A5: cards and invitations.'],
+        ['dl', 'DL', '110 × 220 mm', 'width:40px;height:20px', .9, 'The most common business envelope: an A4 letter folded in three.'],
+        ['ea5', 'EA5', '156 × 220 mm', 'width:37px;height:26px', 1, 'Fits A4 folded twice: invoices and tickets.'],
+        ['c56', 'C5/6', '114 × 229 mm', 'width:40px;height:20px', .95, 'A4 folded twice or A5 folded once.'],
+        ['ea4', 'EA4', '220 × 312 mm', 'width:40px;height:28px', 1.7, 'An A4 envelope with a little extra room.'],
+        ['c4', 'C4', '229 × 324 mm', 'width:40px;height:28px', 1.8, 'Fits A4 without folding: business documents and brochures.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      { key: 'window', title: 'Window', items: [
+        { id: 'none', name: 'Without window', sub: 'Closed front', icon: 'envelopes/window-none', mult: 1, info: 'A closed envelope: the address is printed or written on it. Our recommended choice.' },
+        { id: 'left', name: 'Window left', sub: 'Address shows through', icon: 'envelopes/window-left', mult: 1.05, info: 'A window on the left: the address on your letter shows through.' },
+        { id: 'right', name: 'Window right', sub: 'Address shows through', icon: 'envelopes/window-right', mult: 1.05, info: 'A window on the right: the address on your letter shows through.' },
+      ]},
+      { key: 'colours', title: 'Colours', items: [
+        { id: 'full', name: 'Full colour', sub: 'On one side', icon: 'inks/full', mult: 1, info: 'Your logo or design in full colour on the front. All-over print is not possible. Our recommended choice.' },
+        { id: 'unprinted', name: 'Unprinted', sub: 'Blank', icon: 'inks/none', mult: .6, info: 'Plain envelopes, without print.' },
+      ]},
+      { key: 'closure', title: 'Finishing', items: [
+        { id: 'strip', name: 'Self-adhesive strip', sub: 'Peel and seal', icon: 'envelopes/closure-strip', mult: 1, info: 'Peel off the strip and press: easy and clean. Our recommended choice.' },
+        { id: 'gummed', name: 'Gummed', sub: 'Moisten to seal', icon: 'envelopes/closure-gummed', mult: .97, info: 'A classic gummed flap you moisten to seal; the fastest for machines.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'c5', window: 'none', colours: 'full', closure: 'strip' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'dl', window: 'none', colours: 'full', closure: 'gummed' } },
+      { id: 'window', name: 'With window', icon: 'star.svg', cfg: { size: 'dl', window: 'left', colours: 'full', closure: 'strip' } },
+    ],
+    recapExtra: 'Printed on one side',
+    fixed: [['Inside', 'Grey security print, for privacy']],
+    about: ['Make sure your message arrives in style: standard envelopes with your logo or design in full colour, with a self-adhesive strip for easy closure. The inside is grey to keep your post private. Envelopes cannot be printed all-over.'],
+    specs: [['Size', 'C6 | DL | EA5 | C5/6 | C5 | EA4 | C4'], ['Window', 'None, left or right'], ['Print', 'Full colour on one side, or unprinted'], ['Closure', 'Self-adhesive strip or gummed']],
+  },
+
+  // Letterheads (helloprint.com/en-ie/letterheads): Size → Paper type → Weight (per paper) → Printing → Folding (A4)
+  'letterheads': {
+    name: 'Letterheads', cartName: 'Letterheads', noun: 'letterheads', crumbTop: ['Stationery', '#stationery-and-office-supplies'], crumb: ['Letterheads', '#letterheads-printing'], liveFunnel: true,
+    img: 'assets/products/letterheads.webp', priceMult: 1, defaultQty: 1000,
+    qty: [[100, 21.99], [250, 31.99], [500, 50.99], [1000, 62.99], [2000, 87.99], [2500, 100.99], [5000, 163.99], [10000, 264.59]],
+    delivery: withDays(FLYER_DELIVERY, ['Wed 2 Dec', 'Wed 25 Nov', 'Mon 23 Nov'], [0, 50, 70], 'letterheads'),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        { id: 'a4', name: 'A4', sub: '210 x 297 mm', shape: 'width:26px;height:37px', mult: 1, info: 'The standard letter size. Our recommended choice.' },
+        { id: 'a5', name: 'A5', sub: '148 x 210 mm', shape: 'width:21px;height:30px', mult: .7, info: 'A half-size letter, for short notes and compliment slips.' },
+      ]},
+      { key: 'paper', title: 'Paper type', items: [
+        { id: 'white', name: 'Standard White', sub: 'Uncoated', icon: 'materials/uncoated', mult: 1, info: 'Bright white uncoated paper, safe in any inkjet or laser printer. Our recommended choice.' },
+        { id: 'recycled', name: 'White Recycled', sub: '100% recycled', icon: 'materials/recycled', mult: 1.08, info: 'Recycled paper with a white look.' },
+        { id: 'biotop', name: 'Biotop Off-white', sub: 'Chlorine-free', icon: 'materials/bio-top', mult: 1.12, info: 'A chlorine-free paper with a soft, natural white.' },
+      ]},
+      { key: 'weight', title: 'Type', prefer: c => ({ white: 'white-100', recycled: 'recycled-80', biotop: 'biotop-90' })[c.paper], items: [['white', [80, 90, 100, 120]], ['recycled', [80, 120]], ['biotop', [90, 120]]]
+        .flatMap(([pa, list]) => list.map(gsm => ({ id: `${pa}-${gsm}`, name: '', sub: `${gsm} gsm`, thick: 0, mult: { 80: .9, 90: .95, 100: 1, 120: 1.1 }[gsm], info: { 80: 'Light, like copier paper.', 90: 'A touch firmer than copier paper.', 100: 'A quality feel that still runs through any printer. Our recommended choice.', 120: 'Thick paper for a premium letter.' }[gsm], when: c => c.paper === pa }))) },
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'single', name: 'Full colour · single', sub: 'Single-sided', icon: 'printing/e-single', mult: 1, info: 'Your letterhead in full colour on the front. Our recommended choice.' },
+        { id: 'double', name: 'Full colour · double', sub: 'Double-sided', icon: 'printing/e-double', mult: 1.35, info: 'Full colour on both sides, for terms or a design on the back.' },
+        ...[1, 2, 3].flatMap(n => ['single', 'double'].map(s => ({ id: `pms${n}-${s}`, name: `${n} PMS · ${s}`, sub: `${n} Pantone colour${n > 1 ? 's' : ''}`, icon: `printing/pms-${n}-${s}`, mult: 1.1 + n * .15 + (s === 'double' ? .3 : 0), info: `Your house colour${n > 1 ? 's' : ''} as exact Pantone ink${n > 1 ? 's' : ''}, on ${s === 'single' ? 'one side' : 'both sides'}.` }))),
+      ]},
+      { key: 'folding', title: 'Folding', when: c => c.size === 'a4', prefer: () => 'none', items: [
+        { id: 'none', name: 'Unfolded', sub: 'Flat', shape: 'width:26px;height:37px', mult: 1, info: 'Delivered flat, ready for your printer. Our recommended choice.' },
+        { id: 'a5', name: 'Folded to A5', sub: 'Half fold', icon: 'folds/portrait', mult: 1.08, info: 'Folded once, to A5.' },
+        { id: 'tri', name: 'DL tri-fold', sub: 'Folded in three', icon: 'folds/tri-fold', mult: 1.1, info: 'Folded in three, ready for a DL envelope.' },
+        { id: 'z', name: 'DL Z-fold', sub: 'Folded like a Z', icon: 'folds/z-fold', mult: 1.1, info: 'Folded like a Z, ready for a window envelope.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a4', paper: 'white', weight: 'white-100', printing: 'single', folding: 'none' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a4', paper: 'white', weight: 'white-80', printing: 'single', folding: 'none' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a4', paper: 'recycled', weight: 'recycled-80', printing: 'single', folding: 'none' } },
+    ],
+    recapExtra: 'Printer-safe',
+    fixed: [['Use', 'Safe to print on any inkjet or laser printer']],
+    about: ['Letterheads with your logo and details, on paper that is safe to print on any inkjet or laser printer. Single or double-sided, in full colour or your exact Pantone colours.'],
+    specs: [['Size', 'A4 | A5'], ['Paper', 'Standard white 80–120 gsm | White recycled | Biotop off-white'], ['Print', 'Full colour or 1–3 PMS colours, single or double-sided'], ['Folding', 'Unfolded | A5 | DL tri-fold | DL Z-fold']],
+  },
+
+  // Standard Notepads (helloprint.com/en-ie/notepads): Size → Material → Cover → Bind → Printing → Boreholes → Sheets
+  'standard-notepads': {
+    name: 'Standard Notepads', cartName: 'Standard notepads', noun: 'notepads', crumbTop: ['Stationery', '#stationery-and-office-supplies'], crumb: ['Notepads', '#notepad-printing'],
+    img: 'assets/products/notepads.webp', priceMult: 1, defaultQty: 100,
+    qty: [[50, 171.99], [100, 253.79], [200, 438.29], [300, 619.20], [500, 1072.99], [1000, 1906.99], [2500, 4524.99], [5000, 7788.99]],
+    delivery: withDays(FLYER_DELIVERY.slice(0, 2), ['Thu 3 Dec', 'Wed 25 Nov'], [0, 121], 'notepads'),
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['a4', 'A4 Portrait', '210 x 297 mm', 'width:26px;height:37px', 1, 'A big pad for meetings and plans. Our recommended choice.'],
+        ['a5', 'A5 Portrait', '148 x 210 mm', 'width:21px;height:30px', .65, 'The handy desk size.'],
+        ['a6', 'A6 Portrait', '105 x 148 mm', 'width:15px;height:21px', .45, 'A pocket pad for quick notes.'],
+        ['a7', 'A7 Portrait', '74 x 105 mm', 'width:11px;height:15px', .35, 'A mini pad, for the till or a giveaway.'],
+        ['a4-l', 'A4 Landscape', '297 x 210 mm', 'width:37px;height:26px', 1, 'Wide pages for plans and lists.'],
+        ['a5-l', 'A5 Landscape', '210 x 148 mm', 'width:30px;height:21px', .65, 'A wide desk pad.'],
+        ['a6-l', 'A6 Landscape', '148 x 105 mm', 'width:21px;height:15px', .45, 'A small, wide pad.'],
+        ['a7-l', 'A7 Landscape', '105 x 74 mm', 'width:15px;height:11px', .35, 'A mini, wide pad.'],
+        ['98', '98 x 98 mm', 'Square', 'width:14px;height:14px', .38, 'A small square pad.'],
+        ['148', '148 x 148 mm', 'Square', 'width:21px;height:21px', .55, 'A medium square pad.'],
+        ['210', '210 x 210 mm', 'Square', 'width:30px;height:30px', .8, 'A large square pad.'],
+        ['62x148', '62 x 148 mm', 'Long', 'width:9px;height:21px', .4, 'A slim list pad, for shopping and to-do lists.'],
+      ].map(([id, name, sub, shape, mult, info]) => ({ id, name, sub, shape, mult, info })) },
+      { key: 'material', title: 'Material', items: [
+        { id: 'offset-80', name: 'Offset', sub: '80 gsm', icon: 'materials/uncoated', mult: 1, info: 'Writable paper, like a classic notepad. Our recommended choice.' },
+        { id: 'offset-90', name: 'Offset', sub: '90 gsm', icon: 'materials/uncoated', mult: 1.05, info: 'A touch firmer writable paper.' },
+        { id: 'offset-120', name: 'Offset', sub: '120 gsm', icon: 'materials/uncoated', mult: 1.2, info: 'Thick writable paper: no ink shows through.' },
+        { id: 'recycled-80', name: 'Recycled', sub: '80 gsm', icon: 'materials/recycled', mult: 1.05, info: 'Writable recycled paper.' },
+      ]},
+      { key: 'cover', title: 'Cover', items: [
+        { id: 'none', name: 'Without cover', sub: 'Grey cardboard back', icon: 'notepads/self-cover', mult: 1, info: 'The pad has a grey cardboard back and no cover.' },
+        { id: 'silk-170', name: 'Silk', sub: '170 gsm', icon: 'materials/silk-matte', mult: 1.08, info: 'A printed cover that protects the first page. Our recommended choice.' },
+        { id: 'silk-250', name: 'Silk', sub: '250 gsm', icon: 'materials/silk-matte', mult: 1.12, info: 'A thick printed cover for a premium pad.' },
+      ]},
+      { key: 'bind', title: 'Bind', items: [
+        { id: 'top', name: 'Upper bound', sub: 'Glued at the top', icon: 'notepads/bind-top', mult: 1, info: 'Glued along the top: tear off a sheet downwards. Our recommended choice.' },
+        { id: 'left', name: 'Left bound', sub: 'Glued at the left', icon: 'notepads/bind-left', mult: 1, info: 'Glued along the left side, like a book.' },
+      ]},
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'single', name: 'Full colour · single', sub: 'Single-sided', icon: 'printing/e-single', mult: 1, info: 'Your design on every sheet in full colour. Our recommended choice.' },
+        { id: 'double', name: 'Full colour · double', sub: 'Double-sided', icon: 'printing/e-double', mult: 1.4, info: 'Full colour on both sides of every sheet.' },
+        ...[1, 2, 3].map(n => ({ id: `pms${n}`, name: `${n} PMS · single`, sub: `${n} Pantone colour${n > 1 ? 's' : ''}`, icon: `printing/pms-${n}-single`, mult: 1.05 + n * .12, info: `Your house colour${n > 1 ? 's' : ''} as exact Pantone ink${n > 1 ? 's' : ''}.` })),
+      ]},
+      { key: 'holes', title: 'Boreholes', items: [
+        { id: '0', name: 'No holes', sub: 'Plain', icon: 'notepads/holes-0', mult: 1, info: 'Plain sheets. Our recommended choice.' },
+        { id: '2', name: '2 holes', sub: 'For a ring binder', icon: 'notepads/holes-2', mult: 1.05, info: 'Two holes, so the sheets go straight into a ring binder.' },
+        { id: '4', name: '4 holes', sub: 'For a ring binder', icon: 'notepads/holes-4', mult: 1.06, info: 'Four holes, for a four-ring binder.' },
+      ]},
+      { key: 'sheets', title: 'Number of sheets', items: [
+        { id: '100', name: '100 sheets', sub: 'Per pad', mult: 1, info: 'A thick pad that lasts. Our recommended choice.' },
+        { id: '50', name: '50 sheets', sub: 'Per pad', mult: .62, info: 'A medium pad.' },
+        { id: '25', name: '25 sheets', sub: 'Per pad', mult: .42, info: 'A thin pad, ideal as a giveaway.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: 'a4', material: 'offset-80', cover: 'none', bind: 'top', printing: 'single', holes: '0', sheets: '100' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a6', material: 'offset-80', cover: 'none', bind: 'top', printing: 'single', holes: '0', sheets: '50' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: 'a5', material: 'recycled-80', cover: 'none', bind: 'top', printing: 'single', holes: '0', sheets: '100' } },
+    ],
+    recapExtra: 'Glued',
+    fixed: [['Binding', 'Glued, on a grey cardboard back']],
+    about: ['Custom notepads printed with your own design on every inner sheet: a practical promotional tool for desks, tills and trade shows, on a grey cardboard back in 12 sizes.'],
+    specs: [['Size', '12 sizes, A7 to A4, square and long'], ['Paper', '80, 90 or 120 gsm offset | 80 gsm recycled'], ['Sheets', '25, 50 or 100 per pad'], ['Print', 'Full colour or 1–3 PMS colours']],
+  },
+
+  // Christmas Cards (helloprint.com/en-ie/christmascards): Shape → Size (per shape) → Printing → Material appearance → Material → Finishing → Envelopes
+  'christmas-cards': {
+    name: 'Christmas Cards', cartName: 'Christmas cards', noun: 'cards', crumbTop: ['Christmas', 'christmas.html'], crumb: ['Christmas Cards', '#christmas-cards'], liveFunnel: true,
+    img: 'assets/christmas/christmas-cards.webp', priceMult: 1, defaultQty: 100,
+    qty: [[10, 22.99], [50, 28.99], [100, 36.49], [150, 44.49], [250, 60.99], [500, 97.99], [1000, 170.99], [2500, 353.69]],
+    delivery: withDays(FLYER_DELIVERY, ['Mon 30 Nov', 'Wed 25 Nov', 'Mon 23 Nov'], [0, 24.50, 39.50], 'cards'),
+    groups: [
+      { key: 'shape', title: 'Shape', items: [
+        { id: 'portrait-fold', name: 'Portrait left fold', sub: 'Folded card', icon: 'folds/portrait', mult: 1, info: 'A folded card that opens like a book. Our recommended choice.' },
+        { id: 'portrait', name: 'Portrait', sub: 'Flat card', shape: 'width:21px;height:30px', mult: .7, info: 'A flat, upright card.' },
+        { id: 'landscape-fold', name: 'Landscape left fold', sub: 'Folded card', icon: 'folds/landscape', mult: 1, info: 'A wide folded card.' },
+        { id: 'tent', name: 'Landscape tent fold', sub: 'Stands up', icon: 'folds/tent', mult: 1, info: 'Folded at the top, so it stands on a desk or a mantelpiece.' },
+        { id: 'landscape', name: 'Landscape', sub: 'Flat card', shape: 'width:30px;height:21px', mult: .7, info: 'A flat, wide card.' },
+        { id: 'square-fold', name: 'Square folded', sub: 'Folded card', icon: 'folds/square', mult: 1.05, info: 'A folded square card that stands out.' },
+        { id: 'square', name: 'Square', sub: 'Flat card', shape: 'width:26px;height:26px', mult: .75, info: 'A flat square card.' },
+      ]},
+      { key: 'size', title: 'Size', prefer: c => /square/.test(c.shape) ? 'sq-148' : 'a6', items: [
+        { id: 'a6', name: 'A6', sub: '105 x 148 mm', mult: 1, info: 'The classic Christmas card size. Our recommended choice.', when: c => !/square/.test(c.shape) },
+        { id: 'a5', name: 'A5', sub: '148 x 210 mm', mult: 1.5, info: 'A big card with room for a photo and a message.', when: c => !/square/.test(c.shape) },
+        { id: 'a4', name: 'A4', sub: '210 x 297 mm', mult: 2.6, info: 'An extra large card.', when: c => /^portrait/.test(c.shape) },
+        { id: 'a7', name: 'A7', sub: '74 x 105 mm', mult: .75, info: 'A mini card, for gifts and parcels.', when: c => /^portrait/.test(c.shape) },
+        { id: 'along', name: 'A-Long', sub: '210 x 74 mm', mult: .9, info: 'A slim, wide card.', when: c => /^landscape/.test(c.shape) },
+        { id: 'dl', name: 'DL', sub: '210 x 99 mm', mult: 1, info: 'Fits a DL envelope.', when: c => /^landscape/.test(c.shape) },
+        ...[105, 132, 148, 152, 210].map(d => ({ id: `sq-${d}`, name: `${d} x ${d} mm`, sub: 'Square', mult: Math.round((d / 125) ** 2 * 100) / 100, info: d === 148 ? 'A popular square card size.' : 'A square card.', when: c => /square/.test(c.shape) })),
+      ]},
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'double', name: 'Double-sided', sub: 'Front and back', mult: 1.15, info: 'Printed outside and inside: room for your greeting. Our recommended choice.' },
+        { id: 'single', name: 'Single-sided', sub: 'Outside only', mult: 1, info: 'Only the outside is printed; you write your greeting inside.' },
+      ]},
+      { key: 'appearance', title: 'Material appearance', items: [
+        { id: 'uncoated', name: 'Writable', sub: 'Uncoated', mult: 1, info: 'Card you can write on with any pen: for a personal greeting. Our recommended choice.' },
+        { id: 'matt', name: 'Matt', sub: 'Silk', mult: 1, info: 'A smooth matt card for photos and colour.' },
+        { id: 'eco', name: 'Eco', sub: 'Recycled and natural', mult: 1.1, info: 'Recycled, Paperwise or Bio Top card.' },
+        { id: 'seed', name: 'Seed Paper', sub: 'Plant it', mult: 1.8, info: 'Card with seeds in it: plant it after Christmas and wildflowers grow.' },
+        { id: 'special', name: 'Special', sub: 'Metallic and marble', mult: 1.6, info: 'Gold, silver, white metallic or deluxe marble card. White ink is not possible on these.' },
+      ]},
+      { key: 'material', title: 'Material', prefer: c => ({ uncoated: 'sulfate', matt: 'silk-300', eco: 'recycled', seed: 'seed-200', special: 'gold' })[c.appearance], items: [
+        { id: 'sulfate', name: 'Sulfate cardboard', sub: '300 gsm', icon: 'materials/sulfate-cardboard', mult: 1, info: 'A bright white, firm card you can write on. Our recommended choice.', when: c => c.appearance === 'uncoated' },
+        { id: 'offset', name: 'White offset paper', sub: '340 gsm', icon: 'materials/uncoated', mult: 1.05, info: 'A thick, uncoated card with a natural feel.', when: c => c.appearance === 'uncoated' },
+        { id: 'silk-300', name: 'Silk', sub: '300 gsm', icon: 'materials/silk-matte', mult: 1, info: 'A smooth matt card.', when: c => c.appearance === 'matt' },
+        { id: 'silk-350', name: 'Silk', sub: '350 gsm', icon: 'materials/silk-matte', mult: 1.06, info: 'A thicker matt card.', when: c => c.appearance === 'matt' },
+        { id: 'recycled', name: 'Recycled', sub: '300 gsm', icon: 'materials/recycled', mult: 1, info: '100% recycled card.', when: c => c.appearance === 'eco' },
+        { id: 'paperwise', name: 'Paperwise Natural', sub: '295 gsm', icon: 'materials/paperwise', mult: 1.05, info: 'Card made from agricultural waste.', when: c => c.appearance === 'eco' },
+        { id: 'biotop', name: 'Bio Top', sub: '300 gsm', icon: 'materials/bio-top', mult: 1.05, info: 'A chlorine-free card with a soft white.', when: c => c.appearance === 'eco' },
+        { id: 'seed-80', name: 'Seed Paper', sub: '80 gsm', icon: 'materials/seed-paper', mult: .8, info: 'Thin seed paper.', when: c => c.appearance === 'seed' },
+        { id: 'seed-200', name: 'Seed Paper', sub: '200 gsm', icon: 'materials/seed-paper', mult: 1, info: 'Firm seed paper that feels like a card.', when: c => c.appearance === 'seed' },
+        { id: 'gold', name: 'Metallic Gold', sub: '300 gsm', icon: 'materials/metallic-gold', mult: 1, info: 'A shimmering gold card.', when: c => c.appearance === 'special' },
+        { id: 'silver', name: 'Metallic Silver', sub: '300 gsm', icon: 'materials/metallic-silver', mult: 1, info: 'A cool silver card.', when: c => c.appearance === 'special' },
+        { id: 'white', name: 'Metallic White', sub: '300 gsm', icon: 'materials/metallic-white', mult: 1, info: 'White with a subtle metallic glow.', when: c => c.appearance === 'special' },
+        { id: 'marble', name: 'Deluxe marble', sub: '300 gsm', icon: 'materials/pearl-marble', mult: 1.05, info: 'A pearly marble card that changes with the light.', when: c => c.appearance === 'special' },
+      ]},
+      { key: 'finishing', title: 'Finishing', when: c => ['uncoated', 'matt'].includes(c.appearance), prefer: () => 'none', items: [
+        { id: 'none', name: 'No finishing', sub: 'As printed', mult: 1, info: 'No extra layer: the card stays writable.' },
+        { id: 'gloss-1', name: 'Gloss lamination', sub: 'Front only', mult: 1.2, info: 'A shiny layer on the outside that makes colours pop. Our recommended choice.' },
+        { id: 'uv-1', name: 'UV Glossy', sub: 'Front only', mult: 1.25, info: 'A high-gloss varnish on the outside.' },
+        { id: 'matt-1', name: 'Matte lamination', sub: 'Front only', mult: 1.2, info: 'A soft, non-reflective layer on the outside.' },
+        { id: 'velvet-1', name: 'Velvet lamination', sub: 'Front only', mult: 1.35, info: 'A suede-like touch for a premium card.' },
+      ]},
+      { key: 'envelopes', title: 'Envelopes', items: [
+        { id: 'without', name: 'Without envelopes', sub: 'Cards only', icon: 'envelopes/without', mult: 1, info: 'Only the cards.' },
+        { id: 'with', name: 'With white envelopes', sub: 'One per card', icon: 'envelopes/with', mult: 1.3, info: 'A white envelope with every card, ready to post. Our recommended choice.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { shape: 'portrait-fold', size: 'a6', printing: 'double', appearance: 'uncoated', material: 'sulfate', finishing: 'gloss-1', envelopes: 'with' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { shape: 'portrait', size: 'a6', printing: 'single', appearance: 'uncoated', material: 'sulfate', finishing: 'none', envelopes: 'without' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { shape: 'portrait-fold', size: 'a6', printing: 'double', appearance: 'eco', material: 'recycled', envelopes: 'with' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: ['Christmas cards with your own design, on writable, matt, eco, seed or metallic card, with white envelopes if you like. White ink is not possible on metallic white, gold, silver or pearl paper.'],
+    specs: [['Shape', 'Portrait, landscape or square; flat, left fold or tent fold'], ['Material', 'Writable | Silk | Recycled | Paperwise | Bio Top | Seed paper | Metallic | Marble'], ['Finishing', 'Gloss, matte or velvet lamination, UV glossy'], ['Option', 'With or without white envelopes']],
   },
 };
 // More product photos from the live product pages (helloprint.com/en-ie), after the image our category tiles use.

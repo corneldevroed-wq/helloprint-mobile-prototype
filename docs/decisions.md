@@ -12,6 +12,11 @@ Add new decisions here when Cornel makes a final call.
   prices and delivery as live en-ie (read 11-22; dates one working day earlier for the prototype's approve-by Fri 20 Nov). Long live lists: booklet Pages
   8–64 all as cards; perfect bound shows 12 of the 94 page counts (28–400), the rest named in the info. Batch 2: labels on roll, stickers, envelopes,
   letterheads, notepads, Christmas cards; batch 3: Ebony pen, beach flags, foamex.
+- **2026-11-22 — Batch 2 built: Stickers on Roll (labels), Individual Stickers, Standard Envelopes, Letterheads, Standard Notepads, Christmas Cards.**
+  Same rules as batch 1; options use the guide's own icons (stickers/, envelopes/, notepads/, printing/ PMS, folds/, materials/ films, metallics,
+  kraft …), the poster materials got theirs too (blueback, backlit, dot foil, photo paper, neon). Option names are unique within a step, so the
+  summary is clear ("Full colour · single", "1 PMS · double", "Portrait left fold"); live's "Option" steps are named after what they are
+  (Dispenser, Envelopes). Live photos for stickers, envelopes, letterheads and notepads in prototype/assets/products/.
 
 ## Quantities with a thousands comma (Nov 20, 2026)
 - **2026-11-20 — Every quantity reads "1,000 pcs" (1 → "1 pc"), as live and the staging cart: `pcs(n)` in app.js.** Cart (spec line, dropdown,
