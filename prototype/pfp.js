@@ -10,7 +10,8 @@
 const { items, qty: QTY, factor, noun } = PFP;
 const CF = 'https://images.ctfassets.net/wm1n7oady8a5/';
 // Prices at one quantity every product of the page offers, so the cards compare: the live from-price is the lowest per piece, × factor (our own numbers)
-const pce = p => Math.round(p.pp * factor * 100) / 100, total = p => Math.round(pce(p) * QTY * 100) / 100;
+// A product with its own product page carries that page's price at this quantity (total, pce), so list and page agree (Ebony Pens Matte, 2026-11-22)
+const pce = p => p.pce ?? Math.round(p.pp * factor * 100) / 100, total = p => p.total ?? Math.round(pce(p) * QTY * 100) / 100;
 // Delivery: today Thu 19 Nov 2026 + working days of the fastest option
 const WD = { '1': 1, '2to3': 3, '4to5': 5, 'moreThan6': 7 }, RANK = { '1': 0, '2to3': 1, '4to5': 2, 'moreThan6': 3 };
 const addWd = n => { const d = new Date('2026-11-19T12:00'); while (n) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) n--; } return d; };

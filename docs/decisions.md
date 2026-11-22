@@ -17,6 +17,10 @@ Add new decisions here when Cornel makes a final call.
   kraft …), the poster materials got theirs too (blueback, backlit, dot foil, photo paper, neon). Option names are unique within a step, so the
   summary is clear ("Full colour · single", "1 PMS · double", "Portrait left fold"); live's "Option" steps are named after what they are
   (Dispenser, Envelopes). Live photos for stickers, envelopes, letterheads and notepads in prototype/assets/products/.
+- **2026-11-22 — Batch 3 built: Ebony Pens Matte, Beach Flags (live "Feather Flags"), Foamex Signs.** The top 20 is complete (7 existed, 13 new).
+  Live's one-choice steps (pen print area 60 x 5 mm, blue ink) are fixed specs, not steps. Foamex has no price list on live (a calculator):
+  the quantity prices are what live calculates for 60 x 80 cm. Open: the pens list (PFP) still shows Ebony at 500 pcs for €165 (live's lowest
+  from-price × 1.5), the product page €292.68 (laser engraving, as live). Fixed: a PFP item can carry its product page price (total, pce in the data).
 
 ## Quantities with a thousands comma (Nov 20, 2026)
 - **2026-11-20 — Every quantity reads "1,000 pcs" (1 → "1 pc"), as live and the staging cart: `pcs(n)` in app.js.** Cart (spec line, dropdown,

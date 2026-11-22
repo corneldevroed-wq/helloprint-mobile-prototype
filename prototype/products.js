@@ -1169,6 +1169,126 @@ const PRODUCTS = {
     about: ['Christmas cards with your own design, on writable, matt, eco, seed or metallic card, with white envelopes if you like. White ink is not possible on metallic white, gold, silver or pearl paper.'],
     specs: [['Shape', 'Portrait, landscape or square; flat, left fold or tent fold'], ['Material', 'Writable | Silk | Recycled | Paperwise | Bio Top | Seed paper | Metallic | Marble'], ['Finishing', 'Gloss, matte or velvet lamination, UV glossy'], ['Option', 'With or without white envelopes']],
   },
+
+  // ===== Top 20, batch 3 (Cornel 2026-11-22): promo and outdoor, read on live en-ie the same day, same rules as batch 1 and 2.
+
+  // Ebony Pens Matte (helloprint.com/en-ie/ebonymattepen): Colour → Print. Print area 60 x 5 mm and blue ink are fixed (one choice on live).
+  'ebony-pens-matte': {
+    name: 'Ebony Pens Matte', cartName: 'Ebony pens matte', noun: 'pens', crumbTop: ['Corporate Gifts', '#corporate-gifts'], crumb: ['Pens', 'pens.html'],
+    img: 'assets/products/ebony-pen.webp', priceMult: 1, defaultQty: 500, badge: 'Most Popular',
+    qty: [[50, 97.15], [100, 118.70], [150, 157.32], [250, 199.19], [500, 292.68], [700, 404.07], [1000, 495.93], [2500, 1158.54], [5000, 2276.42]],
+    delivery: [STANDARD_ONLY('Wed 9 Dec', 'pens')],
+    groups: [
+      { key: 'colour', title: 'Colour', items: [['black', 'Black', '#1c1c1c'], ['blue', 'Blue', '#1f3fae'], ['red', 'Red', '#c8202f'], ['green', 'Green', '#1d7a3a'], ['yellow', 'Yellow', '#f4c81f'], ['orange', 'Orange', '#ee7a22'],
+        ['silver', 'Silver', '#c4c6c8'], ['light-green', 'Light Green', '#8fcf6a'], ['purple', 'Purple', '#6b3fa0'], ['light-blue', 'Light Blue', '#7fbbe8'], ['anthracite', 'Anthracite', '#3d4045'], ['white', 'White', '#ffffff']]
+        .map(([id, name, color]) => ({ id, name, sub: '', color, mult: 1, info: id === 'black' ? 'A matte black barrel with silver details and a metal clip. Our recommended colour.' : `A matte ${name.toLowerCase()} barrel with silver details and a metal clip.` })) },
+      { key: 'print', title: 'Print', items: [
+        { id: 'engraving', name: 'Laser engraving', sub: 'Silver on the barrel', mult: 1, info: 'Your logo engraved into the barrel: the silver metal shows through and never wears off. Our recommended choice.' },
+        { id: 'full', name: 'Full colour', sub: 'Any colours', icon: 'inks/full', mult: 1.3, info: 'Your design in full colour, photos and gradients included.' },
+        ...[1, 2, 3, 4].map(n => ({ id: `c${n}`, name: `${n} colour${n > 1 ? 's' : ''}`, sub: 'Pad print', icon: `inks/${n}`, mult: 1 + n * .08, info: `A logo in ${n} solid colour${n > 1 ? 's' : ''}, printed on the barrel.` })),
+        { id: 'unprinted', name: 'Unprinted', sub: 'Blank', icon: 'inks/none', mult: .8, info: 'The pen without print.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { colour: 'black', print: 'engraving' } },
+      { id: 'colour', name: 'Full colour', icon: 'star.svg', cfg: { colour: 'white', print: 'full' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { colour: 'blue', print: 'c1' } },
+    ],
+    recapExtra: 'Print area 60 x 5 mm · Blue ink',
+    fixed: [['Print area', '60 x 5 mm'], ['Writing colour', 'Blue']],
+    about: ['A luxurious pen with a matte finish, silver details and a stylish metal clip. Laser engraving makes your logo shine in silver and never wears off. Order any quantity from 25 to 5,000.'],
+    specs: [['Colours', '12 matte colours'], ['Print', 'Laser engraving | Full colour | 1–4 colours | Unprinted'], ['Print area', '60 x 5 mm'], ['Writing colour', 'Blue']],
+  },
+
+  // Beach Flags (helloprint.com/en-ie/featherflags, live "Feather Flags"): Type → Size (per type) → Material → Colour → Base (with pole)
+  'beach-flags': {
+    name: 'Beach Flags', cartName: 'Beach flags', noun: 'flags', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Flags', '#flag-printing'], liveFunnel: true,
+    img: 'assets/products/beach-flag.webp', priceMult: 1, defaultQty: 1,
+    qty: [[1, 54.99], [2, 90.99], [3, 125.99], [4, 158.99], [5, 192.99], [10, 341.09], [15, 511.20], [20, 681.29], [25, 851.39], [50, 1772.99]],
+    delivery: withDays(FLYER_DELIVERY, ['Mon 30 Nov', 'Wed 25 Nov', 'Mon 23 Nov'], [0, 57, 65], 'flags'),
+    groups: [
+      { key: 'type', title: 'Type', items: [
+        { id: 'pole', name: 'Flag with pole', sub: 'Fiberglass pole and bag', icon: 'flags/flag-with-pole', mult: 1, info: 'The flag with a fiberglass pole system and a carry bag: ready to set up. Our recommended choice.' },
+        { id: 'flag', name: 'Only the flag', sub: 'To replace a print', icon: 'flags/flag-only', mult: .55, info: 'Only the printed flag, for a pole you already have.' },
+      ]},
+      { key: 'size', title: 'Size', prefer: c => c.type === 'pole' ? 'p-65' : 'f-65', items: [
+        ['p-40', '40 x 290 cm', 'Small', .75, 'pole'], ['p-65', '65 x 365 cm', 'Medium', 1, 'pole'], ['p-90', '90 x 450 cm', 'Large', 1.45, 'pole'],
+        ['f-40', '40 x 240 cm', 'Small', .75, 'flag'], ['f-65', '65 x 315 cm', 'Medium', 1, 'flag'], ['f-90', '90 x 400 cm', 'Large', 1.45, 'flag'],
+      ].map(([id, name, sub, mult, t]) => ({ id, name, sub, mult, info: sub === 'Medium' ? 'Our recommended size: visible from a distance and easy to carry.' : sub === 'Small' ? 'A compact flag for stands and shop entrances.' : 'A tall flag that stands out above crowds.', when: c => c.type === t })) },
+      { key: 'material', title: 'Material', items: [
+        { id: 'rpet', name: 'Recycled RPET', sub: '110 gsm', icon: 'materials/rpet', mult: 1, info: 'A washable fabric made from recycled bottles. Weatherproof and durable. Our recommended choice.' },
+        { id: 'mesh', name: 'Mesh fabric', sub: '115 gsm', icon: 'materials/mesh', mult: 1.05, info: 'An open fabric that lets the wind through: for windy spots.' },
+      ]},
+      { key: 'colour', title: 'Colour', items: [
+        { id: 'black', name: 'Black', sub: 'Pole and bag', color: '#1c1c1c', mult: 1, info: 'A black pole system. Our recommended choice.' },
+        { id: 'white', name: 'White', sub: 'Pole and bag', color: '#ffffff', mult: 1, info: 'A white pole system.' },
+      ]},
+      { key: 'base', title: 'Base', when: c => c.type === 'pole', prefer: () => 'none', items: [
+        { id: 'none', name: 'No flag base', sub: 'Pole only', mult: 1, info: 'No base: for when you already have one.' },
+        { id: 'cross', name: 'Cross Foot', sub: 'Hard floors', mult: 1.25, info: 'A cross foot for hard floors indoors and on terraces.' },
+        { id: 'cross-water', name: 'Cross Foot + Waterbag', sub: 'Extra stable', mult: 1.35, info: 'A cross foot with a water bag that keeps the flag up in the wind. Our recommended choice.' },
+        { id: 'parasol', name: 'Parasol Base + Rotator', sub: 'Heavy base', mult: 1.45, info: 'A heavy parasol base; the rotator lets the flag turn with the wind.' },
+        { id: 'spike', name: 'Metal Ground Spike', sub: 'Grass and sand', mult: 1.15, info: 'A spike you push into grass or sand: ideal for beaches and fields.' },
+        { id: 'screw', name: 'Plastic Screw Base + Rotator', sub: 'Soft ground', mult: 1.2, info: 'A screw base for soft ground, with a rotator.' },
+        ...[0, 45, 90].map(a => ({ id: `wall-${a}`, name: `Wall suspension ${a}°`, sub: 'On a wall', mult: 1.2, info: `A wall bracket that holds the flag at ${a}°.` })),
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { type: 'pole', size: 'p-65', material: 'rpet', colour: 'black', base: 'cross-water' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { type: 'pole', size: 'p-40', material: 'rpet', colour: 'black', base: 'none' } },
+      { id: 'beach', name: 'Beach', icon: 'star.svg', cfg: { type: 'pole', size: 'p-65', material: 'rpet', colour: 'black', base: 'spike' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour, washable']],
+    about: ['Feather flags that catch every eye at events, beaches and shop entrances: washable, weatherproof and durable for outdoor use, with a fiberglass pole system and carry bag.'],
+    specs: [['Size', '40 x 290, 65 x 365 or 90 x 450 cm (with pole)'], ['Material', 'Recycled RPET 110 gsm | Mesh 115 gsm'], ['Base', 'Cross foot, water bag, parasol base, ground spike, screw base, wall suspension'], ['Use', 'Indoor and outdoor, washable']],
+  },
+
+  // Foamex Signs (helloprint.com/en-ie/foamexsigns): Size → Material → Thickness → Type → Printing → Holes. Standard delivery only.
+  'foamex-signs': {
+    name: 'Foamex Signs', cartName: 'Foamex signs', noun: 'signs', crumbTop: ['Outdoor', '#outdoor'], crumb: ['Signage & Panels', '#foamex-boards'],
+    img: 'assets/products/foamex.webp', priceMult: 1, defaultQty: 1,
+    qty: [[1, 25.63], [2, 33.78], [5, 58.23], [10, 98.98], [25, 223.88], [50, 538.96], [100, 908.45]],
+    delivery: [STANDARD_ONLY('Wed 2 Dec', 'signs')],
+    groups: [
+      { key: 'size', title: 'Size', items: [
+        ['60x80', '60 x 80 cm', 60, 80, 'Our recommended size: a clear sign for walls, counters and events.'], ['40x60', '40 x 60 cm', 40, 60, ''], ['50x70', '50 x 70 cm', 50, 70, ''], ['60x90', '60 x 90 cm', 60, 90, ''],
+        ['70x100', '70 x 100 cm', 70, 100, ''], ['100x150', '100 x 150 cm', 100, 150, 'A big board for facades and fences.'], ['a0', 'A0', 84, 119, ''], ['a1', 'A1', 59, 84, ''], ['a2', 'A2', 42, 59, ''], ['a3', 'A3', 30, 42, 'A small sign for doors and counters.'], ['b1', 'B1', 70, 100, ''],
+      ].map(([id, name, w, h, info]) => ({ id, name, sub: /x/.test(id) ? 'Portrait or landscape' : `${w} x ${h} cm`, shape: `width:${Math.round(w * .28)}px;height:${Math.round(h * .28)}px`, mult: Math.round(Math.max(.4, (w * h / 4800) ** .85) * 100) / 100, info: info || 'A rigid board in this size; any custom size is possible on the live site.' })) },
+      { key: 'material', title: 'Material', items: [
+        { id: 'forex', name: 'Forex', sub: 'PVC foam board', icon: 'panels/forex', mult: 1, info: 'A light, rigid PVC foam board: the classic foamex. Our recommended choice.' },
+        { id: 'easyprint', name: 'Easyprint', sub: 'Smooth PVC foam', icon: 'panels/easyprint', mult: .95, info: 'A smooth foam board at a sharp price, for indoor signs.' },
+        { id: 'pvc-free', name: 'PVC-free', sub: 'Eco board', icon: 'materials/eco', mult: 1.2, info: 'A rigid board without PVC: the eco-friendlier choice.' },
+      ]},
+      { key: 'thickness', title: 'Thickness', items: [
+        { id: '3', name: '3 mm', sub: 'Light', mult: 1, info: 'Light and easy to hang. Our recommended choice.' },
+        { id: '5', name: '5 mm', sub: 'Sturdy', mult: 1.25, info: 'Stiffer, stays flat in bigger sizes.' },
+        { id: '10', name: '10 mm', sub: 'Extra rigid', mult: 1.8, info: 'Very rigid: free-standing displays and big boards.' },
+      ]},
+      { key: 'cut', title: 'Type', items: [
+        { id: 'clean', name: 'Clean cutting', sub: 'Straight edges', shape: 'width:30px;height:40px', mult: 1, info: 'Cut straight to size. Our recommended choice.' },
+        { id: 'contour', name: 'Contour cut', sub: 'Any shape', icon: 'stickers/contour', mult: 1.4, info: 'Cut along the outline of your design, to any shape.' },
+      ]},
+      { key: 'printing', title: 'Printing', items: [
+        { id: 'single', name: 'Single-sided', sub: 'Front only', mult: 1, info: 'Only the front is printed: for signs on a wall. Our recommended choice.' },
+        { id: 'double', name: 'Double-sided', sub: 'Front and back', mult: 1.5, info: 'Both sides printed: for hanging signs and displays.' },
+      ]},
+      { key: 'holes', title: 'Holes', items: [
+        { id: 'none', name: 'No holes', sub: 'Plain', mult: 1, info: 'No holes: for glue, tape or a frame. Our recommended choice.' },
+        { id: '2', name: '2 holes', sub: 'Upper corners, 5 mm', mult: 1.04, info: 'Two holes in the upper corners, to hang the sign.' },
+        { id: '4', name: '4 holes', sub: 'In the corners, 5 mm', mult: 1.06, info: 'Four holes in the corners, to screw the sign on a wall or fence.' },
+      ]},
+    ],
+    presets: [
+      { id: 'recommended', name: 'Recommended', icon: 'star.svg', cfg: { size: '60x80', material: 'forex', thickness: '3', cut: 'clean', printing: 'single', holes: 'none' } },
+      { id: 'budget', name: 'Budget', icon: 'budget.svg', cfg: { size: 'a2', material: 'easyprint', thickness: '3', cut: 'clean', printing: 'single', holes: 'none' } },
+      { id: 'eco', name: 'Eco', icon: 'eco.svg', cfg: { size: '60x80', material: 'pvc-free', thickness: '3', cut: 'clean', printing: 'single', holes: 'none' } },
+    ],
+    recapExtra: 'Full colour',
+    fixed: [['Print', 'Full colour']],
+    about: ['Lightweight, rigid foamex boards for signs and displays, indoors and out, possible with holes in the corners. Any custom size is possible on the live site.'],
+    specs: [['Material', 'Forex | Easyprint | PVC-free'], ['Thickness', '3, 5 or 10 mm'], ['Cut', 'Straight or contour cut to any shape'], ['Holes', 'None, 2 or 4 (5 mm)']],
+  },
 };
 // More product photos from the live product pages (helloprint.com/en-ie), after the image our category tiles use.
 // Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.

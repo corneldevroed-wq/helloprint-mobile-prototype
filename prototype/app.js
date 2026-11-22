@@ -445,6 +445,10 @@ const ROUTES = {
     ['letterheads', 'letterheads', 'letterheads-printing'],
     ['standard-notepads', 'standard-notepads', 'notepads', 'notepad-printing'],
     ['christmas-cards', 'christmas-cards', 'christmascards'],
+    // Top 20, batch 3 (Cornel 2026-11-22); the pens list links its cards by live slug (#ebonymatte)
+    ['ebony-pens-matte', 'ebony-pens-matte', 'ebonymatte', 'ebonymattepen'],
+    ['beach-flags', 'beach-flags', 'featherflags', 'feather-flags', 'beachflags'],
+    ['foamex-signs', 'foamex-signs', 'foamexsigns', 'foamex-boards', 'foamex'],
   ].flatMap(([p, ...slugs]) => slugs.map(sl => [sl, 'product.html?p=' + p]))),
   'cart': 'cart.html',
   'details-shipping': 'details.html',
@@ -514,7 +518,7 @@ const products = [
   { img: 'p4.png', bg: 'var(--light-grey)', name: 'Classic Business Cards', qty: 500, price: 18.89, proto: 'product', href: '#classic-business-cards' },
   { img: 'p5.png', bg: 'var(--light-grey)', name: 'Standard Posters', qty: 50, price: 28.49, href: 'product.html?p=standard-posters' },
   { img: 'p6.png', bg: 'var(--light-grey)', name: 'Basic Cotton Bags', qty: 100, price: 181.99, href: 'product.html?p=basic-cotton-bags' },
-  { img: 'p7.png', bg: 'var(--light-grey)', name: 'Ebony Pens Matte', qty: 500, price: 135.99 },
+  { img: 'p7.png', bg: 'var(--light-grey)', name: 'Ebony Pens Matte', qty: 500, price: 292.68, href: 'product.html?p=ebony-pens-matte' },
   { img: 'p8.png', bg: 'var(--light-grey)', name: 'Stickers on Roll', qty: 1000, price: 63.99, href: 'product.html?p=labels-on-roll' },
   // Desktop only: completes the second row of five (Figma 15848:4851)
   { img: 'products/mug.webp', bg: 'var(--light-grey)', name: '330 ml Full Colour Ceramic Mug', qty: 100, price: 412.32, href: 'product.html?p=ceramic-mug-330ml', desk: true },
@@ -916,9 +920,11 @@ const searchProducts = [
   { name: 'Letterheads', img: 'assets/products/letterheads.webp', qty: 1000, price: 62.99, tags: 'letterheads stationery headed paper' },
   { name: 'Standard Notepads', img: 'assets/products/notepads.webp', qty: 100, price: 253.79, tags: 'notepads stationery' },
   { name: 'Christmas Cards', img: 'assets/christmas/christmas-cards.webp', qty: 100, price: 36.49, tags: 'christmas cards xmas greeting cards' },
+  { name: 'Beach Flags', img: 'assets/products/beach-flag.webp', qty: 1, price: 54.99, tags: 'feather flags beach flags outdoor' },
+  { name: 'Foamex Signs', img: 'assets/products/foamex.webp', qty: 1, price: 25.63, tags: 'foamex boards signs panels outdoor' },
   // The four best-selling pens (pens-data.js, 500 pcs at the PFP price), so the search for pens shows products as on the Search results page
   { name: 'Nash Pen', img: CF_PEN + 'CQoB1gLRBw2C5rJwAlwrS/bf0a613ea281454d438261f513b34fe6/deluxepens.webp?w=150&fm=webp&q=80', qty: 500, price: 195, tags: 'pens ballpoint pens' },
-  { name: 'Ebony Pens Matte', img: CF_PEN + '0J0KKVS4NeEunJfjDIBpe/7be4e342b14fa9884532f98100e5a466/ebonymatte.webp?w=150&fm=webp&q=80', qty: 500, price: 165, tags: 'pens ballpoint pens' },
+  { name: 'Ebony Pens Matte', img: CF_PEN + '0J0KKVS4NeEunJfjDIBpe/7be4e342b14fa9884532f98100e5a466/ebonymatte.webp?w=150&fm=webp&q=80', qty: 500, price: 292.68, tags: 'pens ballpoint pens' },
   { name: 'Clexton Pen', img: CF_PEN + '7CKDSEeKcer7e7w8dsI8ZD/fdbac5a724005d80d509dcca0742ba1b/penclexton.webp?w=150&fm=webp&q=80', qty: 500, price: 215, tags: 'pens ballpoint pens' },
   { name: 'Budget Pens', img: CF_PEN + '2aVdbCjFLuOYvzETu3H2Sg/a0215ef65a1a4fbc44ca2dadaaf7ae95/budgetpens.png?w=150&fm=webp&q=80', qty: 500, price: 275, tags: 'pens ballpoint pens' },
 ].filter((p, i, a) => a.findIndex(q => q.name.toLowerCase() === p.name.toLowerCase()) === i);
