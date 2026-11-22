@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand 3D Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzp">
+<link rel="stylesheet" href="../design-system/components.css?v=20261205zzp">
+<!-- Sketch (not linked), Cornel 2026-11-22: a hypermodern, 3D-like but usable interface for the Brand Guidelines.
+     The slides are the real ones: fetched live from ../brand-guidelines/index.html (its slide styles included), nothing copied.
+     A = tilted wall (every slide on a plane in perspective, scroll moves along it), B = tunnel (scroll flies you through the slides),
+     C = infinite canvas (drag and zoom, chapters as rows). A click opens a slide large (it flies to the front); arrows and Esc.
+     Mobile and "reduce motion": a plain grid. -->
+<style>
+  html, body { background: var(--black); color: var(--white); }
+  body { overflow-x: hidden; }
+  .x-top { position: fixed; z-index: 50; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 16px; height: 56px; padding: 0 24px; background: rgba(25, 25, 25, .7); backdrop-filter: blur(12px); }
+  .x-top .logo { height: 20px; filter: invert(1) brightness(2); }
+  .x-top b { font-weight: 600; font-size: var(--t-14); opacity: .7; }
+  .x-top .seg { margin-left: auto; display: flex; gap: 8px; }
+  .x-top .pill { background: transparent; color: var(--white); border-color: rgba(255, 255, 255, .35); }
+  .x-top .pill:hover { border-color: var(--white); }
+  .x-top .pill.active { background: var(--white); color: var(--black); border-color: var(--white); }
+  .x-top .hint { font-size: var(--t-12); opacity: .6; }
+  /* chapters: a slim list on the left, in every variant */
+  .x-ch { position: fixed; z-index: 40; left: 16px; top: 72px; padding: 8px; border-radius: var(--r-l); background: rgba(25, 25, 25, .6); backdrop-filter: blur(12px); display: flex; flex-direction: column; gap: 4px; }
+  .x-ch button { text-align: left; padding: 4px 10px; border-radius: var(--r-pill); font-size: var(--t-12); line-height: 18px; color: rgba(255, 255, 255, .6); }
+  .x-ch button:hover, .x-ch button.on { color: var(--white); background: rgba(255, 255, 255, .12); }
+  .card { position: relative; overflow: hidden; border-radius: var(--r-m); cursor: pointer; }
+  .card .band { pointer-events: none; }   /* the slide is a picture here: a click is for the card */
+  .card .sl-chrome span:last-child::after { content: none; }   /* the page number is written in, per slide */
+
+  /* ---------- A: tilted wall ---------- */
+  .a-view { position: relative; }
+  .a-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; perspective: 2600px; perspective-origin: 50% 30%; }
+  .a-wall { position: absolute; left: 50%; top: 0; width: 1720px; margin-left: -640px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px;
+    transform-origin: 50% 0; transform: translateY(var(--ty, 0)) translateZ(-520px) rotateX(26deg) rotateZ(-5deg); transform-style: preserve-3d; padding-top: 120px; }
+  .a-wall .lbl { grid-column: 1 / -1; margin: 24px 0 -8px; font-weight: 800; font-size: var(--t-32); letter-spacing: -.02em; color: rgba(255, 255, 255, .85); }
+  .a-wall .card { transition: transform .35s cubic-bezier(.2, .7, .2, 1), box-shadow .35s; }
+  .a-wall .card:hover { transform: translateZ(80px); box-shadow: 0 40px 80px rgba(0, 0, 0, .55); }
+  .a-sticky::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(var(--black), transparent 22%, transparent 70%, var(--black)); }
+
+  /* ---------- B: tunnel ---------- */
+  .b-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .b-stage { position: absolute; inset: 0; }   /* each slide has its own perspective: the page order (nearest last) decides what is in front */
+  .b-stage .card { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+  .b-now { position: fixed; z-index: 40; left: 50%; bottom: 32px; transform: translateX(-50%); font-size: var(--t-14); opacity: .7; }
+
+  /* ---------- C: infinite canvas ---------- */
+  .c-view { position: fixed; inset: 56px 0 0; overflow: hidden; cursor: grab; touch-action: none; }
+  .c-view.drag { cursor: grabbing; }
+  .c-world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .c-world.ease { transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
+  .c-row { display: flex; align-items: center; gap: 24px; margin-bottom: 64px; }
+  .c-row h3 { flex: none; width: 320px; font-weight: 800; font-size: var(--t-48); line-height: 1; letter-spacing: -.03em; }
+  .c-row h3 small { display: block; margin-bottom: 8px; font-size: var(--t-14); font-weight: 600; letter-spacing: 0; opacity: .5; }
+  .c-row .card { --s: calc(384 / 1920); flex: none; }
+  .c-tools { position: fixed; z-index: 40; right: 24px; bottom: 24px; display: flex; gap: 8px; }
+
+  /* ---------- open slide ---------- */
+  .ov { position: fixed; z-index: 60; inset: 0; display: grid; place-items: center; background: rgba(25, 25, 25, .92); backdrop-filter: blur(6px); }
+  .ov[hidden] { display: none; }
+  .ov .card { cursor: default; border-radius: var(--r-l); box-shadow: 0 40px 120px rgba(0, 0, 0, .6); }
+  .ov .nav { position: absolute; top: 50%; width: 48px; height: 48px; margin-top: -24px; border-radius: 50%; background: rgba(255, 255, 255, .12); color: var(--white); font-size: var(--t-24); }
+  .ov .nav:hover { background: rgba(255, 255, 255, .25); }
+  .ov .prev { left: 24px; } .ov .next { right: 24px; }
+  .ov .close { position: absolute; top: 16px; right: 24px; }
+  .ov .meta { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-size: var(--t-14); opacity: .7; }
+
+  /* ---------- flat: mobile and reduce motion ---------- */
+  .f-view { padding: 72px 16px 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .f-view .lbl { grid-column: 1 / -1; margin-top: 16px; font-weight: 800; font-size: var(--t-20); }
+  .x-note { padding: 72px 16px 0; font-size: var(--t-12); opacity: .7; }
+  @media (max-width: 900px) { .x-top .hint, .x-top b, .x-ch, .x-top .seg span { display: none; } .x-top { padding: 0 16px; gap: 8px; } .x-top .pill { padding: 6px 10px; } }
+</style>
+</head>
+<body>
+<header class="x-top">
+  <img class="logo" src="../prototype/assets/logo-dark.svg" alt="HelloPrint">
+  <b>Brand Guidelines · 3D sketch</b>
+  <span class="hint" id="hint"></span>
+  <div class="seg" role="group" aria-label="Variant">
+    <button class="pill" data-v="a">A<span> · Wall</span></button>
+    <button class="pill" data-v="b">B<span> · Tunnel</span></button>
+    <button class="pill" data-v="c">C<span> · Canvas</span></button>
+  </div>
+</header>
+<nav class="x-ch" id="ch" aria-label="Chapters"></nav>
+<main id="out"></main>
+<div class="ov" id="ov" hidden>
+  <button class="pill close" id="ovClose">Close · Esc</button>
+  <button class="nav prev" id="ovPrev" aria-label="Previous slide">‹</button>
+  <button class="nav next" id="ovNext" aria-label="Next slide">›</button>
+  <div id="ovSlot"></div>
+  <p class="meta" id="ovMeta"></p>
+</div>
+
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search), V = ['a', 'b', 'c'].includes(q.get('v')) ? q.get('v') : 'a';
+  const flat = matchMedia('(max-width: 900px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-v]').forEach(b => { b.classList.toggle('active', b.dataset.v === V);
+    b.addEventListener('click', () => { q.set('v', b.dataset.v); location.search = q; }); });
+  document.getElementById('hint').textContent = { a: 'Scroll along the wall · click a slide', b: 'Scroll to fly through · click a slide', c: 'Drag to move · scroll to zoom · click a slide' }[V];
+
+  // The real slides: the brand page's slide styles + its sections (asset paths made relative to this folder)
+  const html = await (await fetch('../brand-guidelines/index.html')).text();
+  const fix = t => t.replaceAll("url('assets/", "url('../brand-guidelines/assets/").replaceAll('src="assets/', 'src="../brand-guidelines/assets/');
+  const doc = new DOMParser().parseFromString(fix(html), 'text/html');
+  const st = document.createElement('style'); st.textContent = doc.querySelector('head style').textContent; document.head.append(st);
+  const slides = [...doc.querySelectorAll('main > section.band')].map((b, i) => {
+    if (b.dataset.ch) b.insertAdjacentHTML('afterbegin', `<div class="sl-chrome" aria-hidden="true"><span>HelloPrint</span><span>Brand Guidelines</span><span>${b.dataset.ch}</span><span>Page ${i + 1}</span></div>`);
+    b.querySelectorAll('.sl-chrome span:last-child').forEach(s => s.textContent = 'Page ' + (i + 1));
+    return { html: b.outerHTML, ch: b.dataset.ch || 'Cover', title: (b.querySelector('h2')?.textContent || 'Cover').trim() };
+  });
+  const chapters = []; slides.forEach((s, i) => { const c = chapters.at(-1); if (!c || c.name !== s.ch) chapters.push({ name: s.ch, from: i, items: [] }); chapters.at(-1).items.push(i); });
+  const card = (i, s) => `<div class="card" data-i="${i}" style="--s:${s};width:${1920 * s}px;height:${1080 * s}px">${slides[i].html}</div>`;
+  const out = document.getElementById('out'), chNav = document.getElementById('ch');
+  chNav.innerHTML = chapters.map((c, n) => `<button data-n="${n}">${c.name}</button>`).join('');
+  let goChapter = () => {};
+
+  // ---- open a slide large: it flies from its card to the front ----
+  const ov = document.getElementById('ov'), slot = document.getElementById('ovSlot'); let cur = -1;
+  const open = (i, from) => {
+    cur = (i + slides.length) % slides.length;
+    const s = Math.min(innerWidth * .86 / 1920, (innerHeight - 140) / 1080);
+    slot.innerHTML = card(cur, s); ov.hidden = false;
+    document.getElementById('ovMeta').textContent = `${cur + 1} / ${slides.length} · ${slides[cur].ch} · ${slides[cur].title}`;
+    if (from && !flat) { const a = from.getBoundingClientRect(), b = slot.firstChild.getBoundingClientRect();
+      slot.firstChild.animate([{ transform: `translate(${a.left - b.left}px, ${a.top - b.top}px) scale(${a.width / b.width})`, transformOrigin: '0 0', opacity: .6 },
+        { transform: 'none', transformOrigin: '0 0', opacity: 1 }], { duration: 500, easing: 'cubic-bezier(.2, .7, .2, 1)' }); }
+  };
+  const close = () => { ov.hidden = true; cur = -1; };
+  document.getElementById('ovClose').onclick = close;
+  document.getElementById('ovPrev').onclick = () => open(cur - 1);
+  document.getElementById('ovNext').onclick = () => open(cur + 1);
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  addEventListener('keydown', e => { if (ov.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') open(cur + 1); if (e.key === 'ArrowLeft') open(cur - 1); });
+  const clickable = root => root.addEventListener('click', e => { const c = e.target.closest('.card'); if (c && !root.dataset.dragged) open(+c.dataset.i, c); });
+
+  if (flat) {   // mobile / reduce motion: a plain grid, same slides
+    out.innerHTML = '<p class="x-note">On a phone (or with reduce motion) the sketch is a plain grid; the 3D views are for desktop.</p><div class="f-view">' +
+      chapters.map(c => `<p class="lbl">${c.name}</p>` + c.items.map(i => card(i, (innerWidth - 44) / 2 / 1920)).join('')).join('') + '</div>';
+    clickable(out); return;
+  }
+
+  // ---- A: tilted wall; the page scroll moves the wall up ----
+  if (V === 'a') {
+    out.innerHTML = '<div class="a-view"><div class="a-sticky"><div class="a-wall">' +
+      chapters.map(c => `<p class="lbl" data-n="${chapters.indexOf(c)}">${c.name}</p>` + c.items.map(i => card(i, 266 / 1920)).join('')).join('') + '</div></div></div>';
+    const view = out.querySelector('.a-view'), wall = out.querySelector('.a-wall');
+    const travel = () => wall.offsetHeight * .82;
+    const size = () => view.style.height = innerHeight + travel() + 'px';
+    const move = () => { const p = Math.min(1, Math.max(0, scrollY / (view.offsetHeight - innerHeight))); wall.style.setProperty('--ty', -p * travel() + 'px');
+      const n = [...wall.querySelectorAll('.lbl')].filter(l => l.offsetTop - 140 <= p * travel() + 200).length - 1;
+      chNav.querySelectorAll('button').forEach((b, k) => b.classList.toggle('on', k === n)); };
+    size(); move(); addEventListener('resize', () => { size(); move(); }); addEventListener('scroll', move, { passive: true });
+    goChapter = n => { const l = wall.querySelector(`.lbl[data-n="${n}"]`); scrollTo({ top: (l.offsetTop - 140) / travel() * (view.offsetHeight - innerHeight), behavior: 'smooth' }); };
+    clickable(wall);
+  }
+
+  // ---- B: tunnel; the camera moves forward through the slides ----
+  if (V === 'b') {
+    const D = 1100, S = Math.min(innerWidth * .62 / 1920, innerHeight * .62 / 1080);
+    out.innerHTML = `<div style="height:${slides.length * 55}vh"><div class="b-sticky"><div class="b-stage">${slides.map((_, i) => card(i, S)).reverse().join('')}</div></div></div><p class="b-now" id="bNow"></p>`;
+    const cards = [...out.querySelectorAll('.b-stage .card')].reverse(), view = out.firstChild, now = document.getElementById('bNow');
+    const move = () => { const p = Math.min(1, Math.max(0, scrollY / (view.offsetHeight - innerHeight))), cam = p * (slides.length - 1) * D;
+      cards.forEach((c, i) => { const z = cam - i * D, x = (i % 2 ? 1 : -1) * Math.min(160, Math.abs(z) * .12);
+        c.style.transform = `translate(-50%, -50%) perspective(1200px) translate3d(${x}px, 0, ${z}px)`;
+        c.style.opacity = z > 250 ? 0 : z < -D * 6 ? 0 : z > 0 ? 1 - z / 250 : 1;
+        c.style.pointerEvents = z > 0 || z < -D ? 'none' : ''; });
+      const i = Math.round(cam / D); now.textContent = `${i + 1} / ${slides.length} · ${slides[i].ch} · ${slides[i].title}`;
+      const n = chapters.findLastIndex(c => c.from <= i); chNav.querySelectorAll('button').forEach((b, k) => b.classList.toggle('on', k === n)); };
+    move(); addEventListener('scroll', move, { passive: true }); addEventListener('resize', move);
+    goChapter = n => scrollTo({ top: chapters[n].from / (slides.length - 1) * (view.offsetHeight - innerHeight), behavior: 'smooth' });
+    clickable(out.querySelector('.b-stage'));
+  }
+
+  // ---- C: infinite canvas; drag to move, scroll to zoom (at the pointer), click a slide ----
+  if (V === 'c') {
+    out.innerHTML = '<div class="c-view"><div class="c-world">' + chapters.map((c, n) => `<div class="c-row" data-n="${n}"><h3><small>${String(n).padStart(2, '0')}</small>${c.name}</h3>${c.items.map(i => card(i, 384 / 1920)).join('')}</div>`).join('') +
+      '</div></div><div class="c-tools"><button class="pill" id="cFit">Fit all</button></div>';
+    const view = out.querySelector('.c-view'), world = out.querySelector('.c-world'); let x = 0, y = 0, k = 1;
+    const set = (ease) => { world.classList.toggle('ease', !!ease); world.style.transform = `translate(${x}px, ${y}px) scale(${k})`; };
+    const fit = (el, pad = 64) => { const w = el ? el.offsetWidth : world.scrollWidth, h = el ? el.offsetHeight : world.scrollHeight;
+      const ox = el ? el.offsetLeft + (el.offsetParent !== world ? el.offsetParent.offsetLeft : 0) : 0, oy = el ? el.offsetTop + (el.offsetParent !== world ? el.offsetParent.offsetTop : 0) : 0;
+      k = Math.min((view.clientWidth - pad * 2) / w, (view.clientHeight - pad * 2) / h, 2.5);
+      x = (view.clientWidth - w * k) / 2 - ox * k; y = (view.clientHeight - h * k) / 2 - oy * k; set(true); };
+    world.querySelectorAll('.c-row').forEach(r => r.style.position = 'relative');
+    fit(); document.getElementById('cFit').onclick = () => fit();
+    view.addEventListener('wheel', e => { e.preventDefault(); const r = view.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+      const nk = Math.min(3, Math.max(.08, k * Math.exp(-e.deltaY * .0015))); x = px - (px - x) * nk / k; y = py - (py - y) * nk / k; k = nk; set(); }, { passive: false });
+    let start = null;
+    view.addEventListener('pointerdown', e => { start = { x: e.clientX, y: e.clientY, ox: x, oy: y }; delete view.dataset.dragged; view.setPointerCapture(e.pointerId); });
+    view.addEventListener('pointermove', e => { if (!start) return; const dx = e.clientX - start.x, dy = e.clientY - start.y;
+      if (Math.abs(dx) + Math.abs(dy) > 4) { view.dataset.dragged = 1; view.classList.add('drag'); } x = start.ox + dx; y = start.oy + dy; set(); });
+    view.addEventListener('pointerup', () => { start = null; view.classList.remove('drag'); setTimeout(() => delete view.dataset.dragged, 0); });
+    goChapter = n => fit(world.querySelector(`.c-row[data-n="${n}"]`));
+    clickable(view);
+  }
+  chNav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) goChapter(+b.dataset.n); });
+})();
+</script>
+</body>
+</html>
