@@ -20,6 +20,8 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
 - **Brand Guidelines motion** (Cornel, 2026-11-22, "hier maken we later een keuze in"): off for now, the switch is gone; the three
   variants stay in the code and show with ?motion=a|b|c: A fade up, B reveal, C big type. When Cornel picks: make that one the
   default and remove the others. My pick: A with C's line reveal for the statements.
+- **Brand Guidelines in 3D** (Cornel, 2026-11-22, "laat 3d maar ff zitten"): parked. Sketch `sketches/brand-3d-sketch.html` on the real
+  slides: A tilted wall, B tunnel, C infinite canvas. My pick was A.
 - **Brand kit contents** (Cornel, 2026-11-12): "Download brand kit" (top right in the Brand Guidelines) is a link to nothing for now;
   the files (logo master artwork, PNG/SVG variants, colours, fonts) come later.
 - **Discount code box** — built on the desktop cart (2026-11-02, "+ Add discount code", also shown on payment).
