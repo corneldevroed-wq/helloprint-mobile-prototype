@@ -7,7 +7,7 @@
 <title>Upload See Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261205zzz">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261123mk">
 <!-- Sketch (not linked; Cornel 2026-11-20 "kun je beter in beeld brengen hoe alle interacties werken?"): the interaction map of Upload & See.
      Top: the flow as boxes (click one to jump there). Under it the clickable flow (upload-see-flow.html, the staging flow screen for screen in
      UI guide parts), mobile and desktop kept in step, and next to it what every number on the screen does and what changed from staging. -->
@@ -60,7 +60,7 @@
 <body>
 <div class="wrap">
   <h1>Upload &amp; See: every interaction</h1>
-  <p class="intro">The staging flow screen for screen, in the same order and with its wording, drawn with UI guide parts only. Every button works. Click a box to jump to a screen, or click through the flow below: mobile and desktop stay in step. “Show numbers” marks everything you can click; the list says what each one does. Test case: Classic Flyers A5, 1,000, double-sided, €33.49 excl. VAT, a <b>landscape file with one page</b>. Earlier: <a href="upload-see-sketch.html">the A/B/C sketch</a> · <a href="../docs/upload-and-see-plan.html">the plan</a>.</p>
+  <p class="intro">The staging flow screen for screen, in the same order and with its wording, drawn with UI guide parts only. Every button works. Click a box to jump to a screen, or click through the flow below: mobile and desktop stay in step. “Show numbers” marks everything you can click; the list says what each one does. Test case: Classic Flyers A5, 1,000, double-sided, €33.49 excl. VAT, a <b>landscape file with one page</b>. Sketches: <a href="upload-see-check-sketch.html">the check choice A/B/C</a> · <a href="upload-see-sketch.html">the earlier A/B/C sketch</a> · <a href="../docs/upload-and-see-plan.html">the plan</a>.</p>
   <div class="flow" id="flow"></div>
   <div class="bar">
     <span class="tabs" role="group" aria-label="Frame"><button aria-pressed="true" data-view="mob">Mobile 390</button><button aria-pressed="false" data-view="desk">Desktop 1512</button></span>
@@ -83,17 +83,17 @@
       [['sending', '2 · Sending', 'Goes on by itself (2 s)', { st: 'sending' }]],
       [['preview', '3 · Your flyer', 'Both sides, About your file', { st: 'preview' }], [
         ['art', 'Zoom in', 'Popup: the flyer big', { st: 'preview', sheet: 'art' }],
-        ['adjust', 'Move or resize', 'Popup: drag, fit, size', { st: 'preview', sheet: 'adjust' }],
+        ['adjust', 'Move or resize', 'Panel: drag, corner, buttons', { st: 'preview', adjust: true }],
         ['designer', 'Designer view', 'Cut + safe lines', { st: 'preview', designer: true }],
         ['over', 'Turn it over', 'One side, tap to flip', { st: 'preview', view: 'over' }]]]]],
     ['Check', [
-      [['choice', '4 · Check choice', 'Basic · Premium · Deluxe', { st: 'choice' }], [['compare', 'Compare everything', 'Popup: the table', { st: 'choice', sheet: 'compare' }]]],
+      [['choice', '4 · Check choice', 'Basic · Premium · Deluxe', { st: 'choice' }], [['diff', 'See all the differences', 'Popup: the full table', { st: 'choice', sheet: 'diff' }]]],
       [['result', '5 · Check result', 'What we checked', { st: 'result', check: 0 }]]]],
     ['Approve', [
       [['approve', '6 · Approve', 'Good to go, Approve', { st: 'approve', check: 0 }]],
-      [['up1', '7 · Upgrade 1/3', 'Paper +€4.00', { st: 'up1', check: 0 }]],
+      [['up1', '7 · Upgrade 1/3', 'Thicker paper +€4.00', { st: 'up1', check: 0 }]],
       [['up2', '8 · Upgrade 2/3', '2,000 flyers +€17.50', { st: 'up2', check: 0 }]],
-      [['up3', '9 · Upgrade 3/3', 'Standard delivery +€42.50', { st: 'up3', check: 0 }]],
+      [['up3', '9 · Upgrade 3/3', 'A week sooner +€42.50', { st: 'up3', check: 0 }]],
       [['cart', '10 · Cart', 'Added to cart', { st: 'cart', check: 0 }]]]]];
   const BOX = {};
   document.getElementById('flow').innerHTML = FLOW.map(([step, nodes]) => `<div class="step"><h2>${step}</h2><div class="row">${nodes.map(([main, pops = []], i) => {
@@ -109,29 +109,29 @@
       ['The big card with the percentage becomes the PDP’s file row with its bar (<code>.up-file</code>) and the file check list for the three steps.']],
     preview: ['There it is: your flyer', 'The landscape file fills the portrait flyer by default (113 mm cut off), the back is empty. Everything on this screen changes the flyer straight away.', [
       ['Zoom in', 'Opens the flyer big in a popup, front and back (swipe or the thumbnails). Tapping a flyer does the same.'], ['Both sides', 'Front and back next to each other.'], ['Turn it over', 'One side; tap the flyer to see the other side.'],
-      ['Designer view', 'Red dashes (the cut) and a dotted line (keep text inside) on the flyers, the legend under the tools.'], ['Move or resize', 'Popup “Adjust the front”.'],
+      ['Designer view', 'Red dashes (the cut) and a dotted line (keep text inside) on the flyers, the legend under the tools.'], ['Move or resize', 'Opens “Adjust the front” above the preview (numbers 22–30).'],
       ['Other file', 'Choose another file for this side.'], ['Turn / Turn it', 'Turns the design a quarter: all of it fits. The point in About your file gets a tick.'],
       ['Remove', 'The side is empty again (“Add your front”).'], ['Add your back', 'Upload a file for the back (in the sketch: the same design).'], ['Same design', 'The back shows the front.'],
       ['One side only', 'No back, the price goes down €4.00 (see the bar). “Print both sides” undoes it.'], ['Show all of it', 'The whole design, white above and under it.'],
       ['Fill the whole flyer', 'The default: filled, 113 mm cut off at each side.'], ['Sharper photo', 'Choose another photo.'], ['Print it as it is', 'The point gets a tick.'],
       ['Let our experts look · €10.99', 'Adds the Premium Check (the price in the bar, chosen on the check screen).'], ['Something we should know…?', 'A note field for our team.'],
       ['Start again with another file', 'Back to screen 1, everything reset.'], ['Start chat', 'Our team.'], ['Next: check my file', 'Screen 4.'], ['A photo may print blurry (the line)', 'Marks that photo on the flyer, with the label “This photo” (desktop: on hover too). Gone once you choose an answer.']],
-      ['The same buttons as staging. Actions are small outline buttons (<code>.btn.outline.small</code>), choices are pills, and the chosen pill is dark green (<code>.pill.active</code>).', '“About your file” is the file check list: an orange dot while open, a tick once answered.', 'The blurry photo is no longer marked on the flyer all the time: only while you look at its line (tap, or hover on desktop), with a label.', 'The total card becomes the fixed order bar, with delivery as “Estimated … — latest …”.', 'The designer at €17.00 becomes the Premium Check at €10.99: one name, one price, as in the cart.', '“Use your phone” is only on screen 1.']],
+      ['The same buttons as staging. Actions are small outline buttons (<code>.btn.outline.small</code>), choices are pills, and the chosen pill is dark green (<code>.pill.active</code>).', '“About your file” is the file check list: an orange dot while open, a tick once answered.', 'The blurry photo is no longer marked on the flyer all the time: only while you look at its line (tap, or hover on desktop), with a label.', 'The total card becomes the fixed order bar, with delivery as “Estimated … — latest …”.', 'The designer at €17.00 becomes the Premium Check at €10.99: one name, one price, as in the cart.', '“Use your phone” is only on screen 1.', 'The two ticks under the preview (“Fits your flyer”, “Change it until we print”) are gone: the first isn’t true while the file is cropped, and the second is already said on the approve screen.']],
     art: ['Popup: Your flyer', 'The cart’s artwork popup (“View artwork”): the flyer as it prints, big on the grey stage. Front and back: swipe, or tap a thumbnail.', [],
       ['Staging shows the bigger flyer in a popup too. Here it is the popup we already use for artwork in the cart (<code>openArt</code>, <code>.art-view</code>): a bottom sheet on mobile, a dialog on desktop.']],
-    adjust: ['Popup: Adjust the front', 'Changes show on the flyer behind it straight away.', [['Drag the design', 'Moves it.'], ['Fill', 'Fills the flyer.'], ['Show all', 'All of it, white above and under.'], ['Smaller', 'Smaller in steps.'], ['Bigger', 'Bigger in steps.'], ['Centre', 'Back to the middle.'], ['Done', 'Closes the popup.']],
-      ['Staging opens a panel above the preview. Here it is a popup (a sheet on mobile, 560 wide on desktop) with the designer lines always on.', 'Fill | Show all is the toggle (<code>.seg</code>). The slider is gone: the system has none, and drag plus Smaller/Bigger do the same job. Centre ↔ and Centre ↕ become one Centre.']],
+    diff: ['Popup: All the differences', 'The seven rows next to each other; the chosen check light green. Close it with × or by tapping outside.', [], ['Staging folds open “Compare everything”. Here it is a popup with a light table in the lists’ table look and the product cards’ ticks.']],
+    adjust: ['Adjust the front', 'A panel above the preview, as staging. Every change shows on the flyer below straight away.', [['Drag the design', 'Moves it.'], ['The green corner', 'Pull it out: bigger; in: smaller.'], ['Smaller', 'Smaller in steps.'], ['Bigger', 'Bigger in steps.'], ['Fill', 'Fills the flyer (part is cut off).'], ['Show all', 'All of it, white above and under.'], ['Centre ↔', 'Back to the middle, left to right.'], ['Centre ↕', 'Back to the middle, top to bottom.'], ['Done', 'Closes the panel.']],
+      ['As staging: the panel opens above the preview, with the corner to pull, the six buttons and the arrow keys (4px a press). The buttons are pills; Fill and Show all show which one is on (dark green).', 'The size slider is left out: the system has no slider, and the corner plus Smaller/Bigger do the same job.', 'Under the design it says what happens: “Part of your design will be cut off” or “All of your design is on the flyer”.'], 21],
     phone: ['Popup: Use your phone', 'Scan the code, or open the link on the phone.', [['Add photos from your phone', 'The photos land in this design.'], ['Continue on your phone', 'Carry on with this flyer on the phone.'], ['Copy link', 'Toast “Link copied”.'], ['Stop sharing', 'The link stops working and the popup closes.']],
       ['The same content. The two tabs become the toggle (<code>.seg</code>), the QR code is a grey block in the sketch, and the link is a read-only field (<code>.field</code>).']],
-    choice: ['How carefully should we check it?', 'Nothing is chosen yet, as on staging: the button says “Choose one” and waits.', [['Basic Check + Proof · Free', 'Chosen; the button becomes “Check my file”.'], ['Premium Check + Proof · €10.99', 'Chosen, and the price is added in the bar.'], ['Deluxe · €21.00', 'Chosen, and the price is added in the bar.'], ['Compare everything', 'Popup with the table.'], ['Back to my flyer', 'Screen 3, your choices kept.'], ['Start chat', 'Our team.'], ['Choose one / Check my file', 'Screen 5.']],
-      ['The cart’s check cards (<code>.fc</code>) with the cart’s names and prices. Staging had €3.99 / €15.00 here and €4.99 / €17.00 elsewhere.', 'On desktop the three cards sit next to each other, as on staging.', 'The pictures on top of the cards are gone: <code>.fc</code> has none.']],
-    compare: ['Popup: Compare our checks', 'Close it with × or by tapping outside.', [], ['Staging opens a fold. Here it is a popup with a simple table.']],
+    choice: ['How carefully should we check it?', 'Nothing is chosen yet, as on staging: the button says “Choose one” and waits.', [['Basic · Free', 'Chosen; the button becomes “Check my file”.'], ['Premium · €10.99', 'Chosen, and the price is added in the bar.'], ['Deluxe · €21.00', 'Chosen, and the price is added in the bar.'], ['See all the differences', 'Popup with all seven rows side by side.'], ['Back to my flyer', 'Screen 3, your choices kept.'], ['Start chat', 'Our team.'], ['Choose one / Check my file', 'Screen 5.']],
+      ['The cart’s check cards (<code>.fc</code>) with the cart’s names and prices. Staging had €3.99 / €15.00 here and €4.99 / €17.00 elsewhere.', 'Every card has the same three rows that tell the checks apart, a tick (the product cards’ thin tick) or a grey dash; all seven rows behind “See all the differences” (as live; staging: “Compare everything”). Sketch B, Cornel 11-23.', 'Desktop, as staging: on top of each card the customer’s own flyer with what that check does: the cut lines (Basic), a soft glow (Premium), a magnifier (Deluxe), and an icon in the corner.']],
     result: ['Your flyer is ready for print', 'What the check found. An orange dot means: look at this on your preview.', [['Back to the check choice', 'Screen 4.'], ['All good · continue', 'Screen 6.']],
       ['The file check list (<code>.file-check</code>). The eyebrow “BASIC ARTWORK CHECK” becomes a lead line.', '“We added the bleed” only shows for a file that has none.', '“Text in a picture” is an orange point in the list, not a separate box.']],
     approve: ['Your flyer is good to go', 'The last look before you approve.', [['Undo', 'Removes the bleed we added (toast).'], ['Back to my file', 'Screen 3, your choices kept.'], ['Approve and finish my order', 'Upgrade 1 of 3.']],
       ['The reassurance block of the upload (<code>.art-calm</code>) plus the file check list. The total card becomes the order bar.', 'The steps stay on screen: staging hides them here.']],
-    up: ['Upgrade', 'One question per screen; the three bars show where you are.', [['Yes, add it for +€…', 'Added, the price goes up, on to the next one.'], ['No, keep …', 'On to the next one. After the third: added to cart.']],
-      ['As staging: one question per screen. The three bars are the compact tracker, and “No” is the outline button (staging: a plain line of text).', 'Still a P1 in the plan: three upsells after “Approve”. We kept them here because this version stays close to staging.']],
+    up: ['Upgrade', 'One offer per screen; the three bars and “Upgrade 1 of 3” say where you are.', [['Yes, add it · +€…', 'Added, the price goes up, on to the next one.'], ['No, keep …', 'On to the next one. After the third: added to cart.']],
+      ['As staging: one offer per screen, the three dashes (the compact tracker, short, so it doesn’t read as the steps’ bars), Yes / No under it.', 'The offer card: on the check cards’ grey stage the customer’s own flyer (paper: lifted, so you feel the sheet; quantity: a fan of flyers; delivery: the two dates as the Delivery tile’s calendar, the old one faded). The title says what changes: “Budget 135 gsm → Standard 170 gsm”. What it adds with the product cards’ ticks, the price difference big, “your order now · with this” under it, and a label where it is true (Recommended, Save 21% a flyer).', 'The buttons sit under the card, as wide as their words; the price is in the Yes button. No order bar on these screens: the buttons are the choice. The live photos are gone.', 'Still a P1 in the plan: three upsells after “Approve”. They are here because this version stays close to staging.']],
     cart: ['Added to cart', 'What is in the order now.', [['Go to cart', 'The prototype’s cart page.'], ['Start this flow again', 'Back to screen 1.']],
       ['Staging jumps straight to the basket. Here there is a stop first, so you can see what the flow put in the order.']]
   };
@@ -141,10 +141,10 @@
   let state = { st: 'upload' }, hot = false;
   const send = (f, m) => f.contentWindow && f.contentWindow.postMessage(m, '*');
   function panel() {
-    const k = state.sheet || (/^up\d$/.test(state.st) ? 'up' : state.st), [t, what, list, chg] = IA[k] || IA.upload;
-    document.getElementById('panel').innerHTML = `<h2>${t}</h2><p class="what">${what}</p>${list.length ? `<ol>${list.map(([a, b], i) => `<li><i>${i + 1}</i><span><b>${a}</b> → ${b}</span></li>`).join('')}</ol>` : ''}
+    const k = state.sheet || (state.st === 'preview' && state.adjust ? 'adjust' : /^up\d$/.test(state.st) ? 'up' : state.st), [t, what, list, chg, start = 0] = IA[k] || IA.upload;
+    document.getElementById('panel').innerHTML = `<h2>${t}</h2><p class="what">${what}</p>${list.length ? `<ol>${list.map(([a, b], i) => `<li><i>${start + i + 1}</i><span><b>${a}</b> → ${b}</span></li>`).join('')}</ol>` : ''}
       <div class="chg"><h3>What changed from staging</h3><ul>${chg.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
-    const on = state.sheet === 'art' ? 'art' : state.sheet === 'adjust' ? 'adjust' : state.sheet === 'phone' ? 'phone' : state.sheet === 'compare' ? 'compare' : state.st === 'preview' && state.designer ? 'designer' : state.st === 'preview' && state.view === 'over' ? 'over' : state.st;
+    const on = state.sheet === 'diff' ? 'diff' : state.sheet === 'art' ? 'art' : state.st === 'preview' && state.adjust ? 'adjust' : state.sheet === 'phone' ? 'phone' : state.st === 'preview' && state.designer ? 'designer' : state.st === 'preview' && state.view === 'over' ? 'over' : state.st;
     document.querySelectorAll('.box').forEach(b => b.classList.toggle('on', b.dataset.k === on));
   }
   // A frame says what it shows now (the customer clicked in it): the other frame follows, the list and the boxes too

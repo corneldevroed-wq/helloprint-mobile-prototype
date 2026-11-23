@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Check Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261123mk">
+<!-- Sketch (not linked; Cornel 2026-11-23 "de check choice is erg lelijk, een volwassen UI table"): the check choice of Upload & See in three ways,
+     each in the flow frame (upload-see-flow.html?st=choice&chk=a|b|c&check=1), mobile 390 and desktop 1512 (at 2/3). Premium is chosen, to show the chosen state. -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 8px; padding-left: 20px; }
+  .chg .pick { margin: 0; color: var(--dark-green); font-weight: 600; }
+  .scr { margin: 56px 0 0; padding-top: 24px; border-top: 2px solid var(--mid-grey); }
+  .scr > h2 { margin: 0; font-size: 22px; }
+  .opt { margin: 32px 0 0; }
+  .opt h3 { margin: 0; font-size: 18px; }
+  .opt h3 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 844px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 48px); height: 600px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 900px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Upload &amp; See: the check choice</h1>
+  <p style="margin:8px 0 0;font-size:14px">Screen 4 of <a href="upload-see-map.html">the flow</a>. The same three checks, names and prices as the cart (Basic free · Premium €10.99 · Deluxe €21.00). Premium is chosen here, so you see the chosen state. Today: <a href="upload-see-flow.html?st=choice&check=1">the cart’s cards</a>.</p>
+  <div class="chg">
+    <h3>What the UI guide has, and what is new</h3>
+    <ul>
+      <li><b>Reused:</b> the lists’ table look (<code>.dash-table</code>: 12 grey head, <code>--line</code> between the rows), the tick (<code>check.svg</code>), the radio, the orange label <code>badgeHtml('Recommended')</code>, the chosen colour <code>--selected</code> and the check cards (<code>.fc</code>).</li>
+      <li><b>New in A:</b> a table whose columns you choose: the column head is the radio, the chosen column light green from top to bottom. It goes in the design system as a variant of the table, with a row in the UI guide.</li>
+      <li>A “–” means not included, in mid grey, so the ticks carry the page.</li>
+    </ul>
+    <p class="pick">Cornel chose B (2026-11-23), with the product cards’ thin ticks and, on desktop, the customer’s flyer on top of each card (as staging). A and C are removed from the flow: every frame below now shows B.</p>
+  </div>
+</div>
+<script>
+  // Cornel chose B (2026-11-23); A (a comparison table) and C (three calm rows) are removed from the flow, so only B is shown
+  const src = 'upload-see-flow.html?st=choice&check=1';
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', `<section class="scr"><h2>The check choice: B, as built</h2><div class="opt"><h3>B · The cards, with the same rows <em>chosen</em></h3>
+    <p>Every card has the same three rows that tell the checks apart (proof, help from our experts, a personal extra check), a thin tick (the product cards’ tick) or a grey dash; under the cards “See all the differences” opens all seven rows as a table (as live). On desktop, as staging, on top of each card the customer’s own flyer with what that check does: the cut lines (Basic), a soft glow (Premium), a magnifier (Deluxe), and an icon in the corner. Mobile: no picture, “Recommended” above Premium.</p>
+    <div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}" loading="lazy"></iframe></div><div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}" loading="lazy"></iframe></div></div></div></div>
+    <div class="chg"><h3>Not chosen (removed)</h3><ul><li><b>A · A comparison table:</b> what you get as rows, the three checks as columns, the chosen column light green.</li><li><b>C · Three calm rows:</b> radio, name, one line and the price; the comparison behind “Compare everything”.</li></ul></div></section>`);
+</script>
+</body>
+</html>
