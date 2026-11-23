@@ -1178,7 +1178,7 @@ function openMini(added) {   // added: true = the last line was just added, a nu
 if (MINI_PAGE) {
   // The icon font: every page loads only its own icons (icon_names), so add edit + delete to it (sorted, as Google wants) or load it
   const mfont = document.querySelector('link[href*="Material+Symbols"]'), m = mfont && mfont.href.match(/icon_names=([^&]*)/);
-  if (!mfont) document.head.insertAdjacentHTML('beforeend', '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=delete,edit&display=block" rel="stylesheet">');
+  if (!mfont) document.head.querySelector('link[rel="stylesheet"]').insertAdjacentHTML('beforebegin', '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=delete,edit&display=block" rel="stylesheet">');   // before our CSS, as the pages do: Google's own class rule (24px) must not win over ours (18)
   else if (m) { const names = new Set(decodeURIComponent(m[1]).split(',')); if (!names.has('edit') || !names.has('delete')) { names.add('edit'); names.add('delete');
     mfont.href = mfont.href.replace(m[0], 'icon_names=' + [...names].filter(Boolean).sort().join(',')); } }
   document.body.insertAdjacentHTML('beforeend', `<div class="sheet-layer drawer" id="sheet-minicart" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
