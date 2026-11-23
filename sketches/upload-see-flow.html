@@ -42,8 +42,7 @@
   .desk .us-sides.one { grid-template-columns: minmax(0, 280px); }
   /* Zoom: the cart's artwork popup (openArt, .art-view) with the flyer as it prints on its grey stage, front and back */
   .art-stage > .art { position: absolute; inset: 0; width: auto; height: calc(100% - 32px); margin: auto; }
-  .art-stage .art img { position: static; inset: auto; margin: 0; max-width: none; max-height: none; box-shadow: none; }   /* the popup's picture rules (centred, max size) are for a plain picture: the flyer keeps its own fit */
-  .art-stage .art.turned img { position: absolute; }
+  .art-stage .art img { inset: auto; left: calc(50% + var(--dx, 0%)); top: calc(50% + var(--dy, 0%)); margin: 0; max-width: none; max-height: none; box-shadow: none; }   /* the popup's picture rules (centred, max size) are for a plain picture: the flyer keeps its own fit */
   .art-thumbs > span > .art { width: auto; height: 48px; }
   .us-side > .art { cursor: zoom-in; }
   .us-side { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; font-size: var(--t-14); line-height: var(--lh-14); }
@@ -53,9 +52,9 @@
   .us-side .gone { display: grid; place-items: center; width: 100%; aspect-ratio: 148 / 210; padding: 16px; border-radius: var(--r-m); background: var(--white); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
   /* the flyer: A5 portrait; the landscape file filled (cropped), shown all (white above and under) or turned */
   .art { position: relative; display: block; width: 100%; aspect-ratio: 148 / 210; overflow: hidden; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: transform .4s; }
-  .art img { width: 100%; height: 100%; object-fit: cover; transform: translate(var(--dx, 0), var(--dy, 0)) scale(var(--sc, 1)); }
-  .art.all img { object-fit: contain; }
-  .art.turned img { position: absolute; left: calc(50% + var(--dx, 0%)); top: calc(50% + var(--dy, 0%)); width: 141.9%; height: 70.48%; max-width: none; transform: translate(-50%, -50%) rotate(90deg) scale(var(--sc, 1)); object-fit: contain; }
+  /* the design keeps its own shape (Cornel 11-23): its size comes from the fit (--iw, --ih: cover for Fill, contain for Show all and Turn), moving pans over it */
+  .art img { position: absolute; left: calc(50% + var(--dx, 0%)); top: calc(50% + var(--dy, 0%)); width: var(--iw, 100%); height: var(--ih, 100%); max-width: none; object-fit: fill; transform: translate(-50%, -50%) scale(var(--sc, 1)); }
+  .art.turned img { transform: translate(-50%, -50%) rotate(90deg) scale(var(--sc, 1)); }
   /* Turn it over: the flyer as a card with two faces that really turns (as staging); without motion it just changes */
   .us-flip { width: 100%; aspect-ratio: 148 / 210; perspective: 1200px; cursor: pointer; }
   .us-flip .us-turn { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3,.7,.2,1); }
@@ -232,9 +231,9 @@
 
   // The state of the flow: the screen, what the customer chose, what is open. The map sends it to the other frame, so both stay in step.
   const START = { st: 'upload', front: 'fill', back: 'empty', photo: null, view: 'both', flipped: false, designer: false, note: false,
-    check: null, paper: false, qty: false, deliv: false, sheet: null, adjust: false, sc: 1, dx: 0, dy: 0, phone: 0,
+    check: 0, paper: false, qty: false, deliv: false, sheet: null, adjust: false, sc: 1, dx: 0, dy: 0, phone: 0,
     file: null, backSrc: null, bk: null, load: null };   // bk: the back's own settings when it is its own file (fit, sc, dx, dy, ratio, kind, w, h)   // file: the customer's own file (read in this browser, nothing is sent); null = the sample
-  let S = { ...START, st: q.get('st') || 'upload', check: q.has('check') ? +q.get('check') : null, back: q.get('back') || 'empty' };
+  let S = { ...START, st: q.get('st') || 'upload', check: q.has('check') ? +q.get('check') : 0, back: q.get('back') || 'empty' };
 
   // The check choice (sketch B, Cornel 2026-11-23): the three cards with the same rows; desktop: the customer's flyer on top of each card
   const FEAT = [['Print proof before we print', 1, 1, 1], ['Automatic check: size, resolution, colour', 1, 1, 1], ['All file formats accepted', 0, 1, 1],
@@ -276,7 +275,16 @@
   const hasBleed = () => { const m = pageMm(); return !!m && Math.abs(m[0] - 154) < 2 && Math.abs(m[1] - 216) < 2; };
   const sizeText = n => n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' KB';
   // The flyer picture: the file as the customer chose it (front, or the back side); the designer lines (cut, keep text inside) when Designer view is on
-  const art = (cls = '', extra = '', side = 'front') => { const d = sd(side); return `<span class="art ${d.fit === 'turned' ? 'turned' : d.fit === 'all' ? 'all' : ''} ${cls}" data-own="${owner(side)}" style="--sc:${d.sc};--dx:${d.dx}%;--dy:${d.dy}%"><img src="${side === 'back' ? backSrc() : frontSrc()}" alt="">${S.designer || cls.includes('lines') ? '<i class="cut"></i><i class="safe"></i>' : ''}${extra}</span>`; };
+  // The picture's size in % of the flyer (width, height), from the design's shape and the fit: Fill covers the flyer, Show all fits in it, Turn fits it turned
+  const imgPct = side => { const r = ratio(side), d = sd(side), W = 1, H = 1 / A5R;
+    if (d.fit === 'turned') { const rr = 1 / r, s = Math.min(H, W / rr); return [s * 100 / W, s * rr * 100 / H]; }   // the element before it turns: its width is the turned height
+    const s = d.fit === 'fill' ? Math.max(H, W / r) : Math.min(H, W / r); return [s * r * 100 / W, s * 100 / H]; };
+  // How far it may move: filled, only as far as the design still covers the flyer (no white edge); otherwise freely, up to 40%
+  const clampMove = (side, dx, dy) => { const d = sd(side); if (d.fit !== 'fill') return [Math.max(-40, Math.min(40, dx)), Math.max(-40, Math.min(40, dy))];
+    const [w, h] = imgPct(side), lx = Math.max(0, (w * d.sc - 100) / 2), ly = Math.max(0, (h * d.sc - 100) / 2);
+    return [+Math.max(-lx, Math.min(lx, dx)).toFixed(1), +Math.max(-ly, Math.min(ly, dy)).toFixed(1)]; };
+  const move = (side, dx, dy) => { const [x, y] = clampMove(side, dx, dy); setSd(side, { dx: x, dy: y }); };
+  const art = (cls = '', extra = '', side = 'front') => { const d = sd(side), [iw, ih] = imgPct(side); return `<span class="art ${d.fit === 'turned' ? 'turned' : d.fit === 'all' ? 'all' : ''} ${cls}" data-own="${owner(side)}" style="--sc:${d.sc};--dx:${d.dx}%;--dy:${d.dy}%;--iw:${iw.toFixed(2)}%;--ih:${ih.toFixed(2)}%"><img src="${side === 'back' ? backSrc() : frontSrc()}" alt="">${S.designer || cls.includes('lines') ? '<i class="cut"></i><i class="safe"></i>' : ''}${extra}</span>`; };
   const sideAttr = side => side && side !== 'front' ? ` data-side="${side}"` : '';
   const btn = (go, t, n, cls = 'outline small', side) => `<button class="btn ${cls}" data-go="${go}"${sideAttr(side)}${hs(n)}>${t}</button>`;
   const pill = (go, t, n, on, side) => `<button class="pill${on ? ' active' : ''}" data-go="${go}"${sideAttr(side)}${hs(n)}>${t}</button>`;
@@ -342,11 +350,11 @@
       ${checkCards()}
       <button class="btn outline center" data-go="diff"${hs(4)}>See all the differences</button>
       <p class="links">${link('preview', 'Back to my flyer', 5)}</p>${team(6)}`,
-      bar(S.check === null ? 'Choose one' : 'Check my file', 'result', 7, S.check === null)],
+      bar('Check my file', 'result', 7)],   // Basic is chosen from the start (every file gets the free check, Cornel 11-23)
 
     cart: () => [`<div class="art-calm"><b>${TICK}Added to cart</b><span>Classic Flyers A5 · ${S.qty ? '2,000' : '1,000'} · ${fmt(total())} excl. VAT</span></div>
       ${dcard(flipStage(), `<div class="file-check"><ul aria-label="In your order"><li>${TICK}<b>${S.file ? S.file.name.replace(/</g, '&lt;') : 'Your file'}</b><small>${S.front === 'turned' ? 'Turned to fit' : S.front === 'all' ? 'All of it shown' : 'Filled'} · back: ${S.back === 'same' ? 'same design' : S.back === 'file' ? 'your back' : S.back === 'one' ? 'one side only' : 'empty'}</small></li>
-        <li>${TICK}<b>${TIERS[S.check ?? 0][0]}</b><small>${S.check ? fmt(TIERS[S.check][1]) : 'Free'}</small></li>
+        <li>${TICK}<b>${TIERS[S.check][0]}</b><small>${S.check ? fmt(TIERS[S.check][1]) : 'Free'}</small></li>
         <li>${TICK}<b>${S.paper ? 'Standard 170 gsm' : 'Budget 135 gsm'} · ${S.deliv ? 'Standard' : 'Saver'} delivery</b><small>${eta()}</small></li></ul></div>`)}
       <a class="btn primary center" href="cart.html" target="_top"${hs(1)}>Go to cart</a>
       <p class="center">${link('restart', 'Start this flow again', 2)}</p>`, '']
@@ -408,7 +416,7 @@
     return `<h2 style="margin:8px 0 -8px" id="about">About your file</h2>${cards.length ? cards.join('') : `<p class="us-dc-state">${TICK}Your file fits your flyer: nothing to change.</p>`}`;
   };
   Object.assign(SCREENS, {
-    result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check ?? 0][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
+    result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
       ${dcard(flipStage(), checkRows())}
       <p class="center">${link('choice', 'Back to the check choice', 1)}</p>`, bar('All good · continue', 'approve', 2)],
     approve: () => [`<h1>Approve your flyer</h1>
@@ -460,7 +468,7 @@
     zoom: () => { S.sheet = 'art'; S.zoomAt = 0; }, 'zoom-0': () => { S.sheet = 'art'; S.zoomAt = 0; }, 'zoom-1': () => { S.sheet = 'art'; S.zoomAt = 1; }, both: () => { S.view = 'both'; S.flipped = false; }, over: () => { if (S.view === 'over') return GO.flip(); S.view = 'over'; S.flipped = false; setTimeout(() => requestAnimationFrame(() => GO.flip(true)), 60); },   // in view, then it turns
     flip: post => { S.flipped = !S.flipped; const f = document.querySelector('.us-flip'); if (!f) return; f.classList.toggle('flipped', S.flipped); document.getElementById('flipCap').textContent = `${S.flipped ? 'The back' : 'The front'} · tap the flyer to turn it over`; if (post) parent.postMessage({ uas: 'state', state: S }, '*'); return 'keep'; }, designer: () => S.designer = !S.designer,
     adjust: side => { S.adjust = side; setTimeout(() => document.getElementById('adjPanel')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }, 'adj-done': () => S.adjust = false,
-    smaller: () => setSd(S.adjust, { sc: Math.max(.6, +(sd(S.adjust).sc - .1).toFixed(1)) }), bigger: () => setSd(S.adjust, { sc: Math.min(1.6, +(sd(S.adjust).sc + .1).toFixed(1)) }),
+    smaller: () => { setSd(S.adjust, { sc: Math.max(.6, +(sd(S.adjust).sc - .1).toFixed(1)) }); move(S.adjust, sd(S.adjust).dx, sd(S.adjust).dy); }, bigger: () => setSd(S.adjust, { sc: Math.min(1.6, +(sd(S.adjust).sc + .1).toFixed(1)) }),
     'centre-x': () => setSd(S.adjust, { dx: 0 }), 'centre-y': () => setSd(S.adjust, { dy: 0 }),
     other: () => choose('front'), turn: side => setSd(side, { fit: sd(side).fit === 'turned' ? 'fill' : 'turned', sc: 1, dx: 0, dy: 0 }), remove: () => { S.front = 'none'; S.file = null; },
     same: () => S.back = 'same', one: () => S.back = 'one', 'back-empty': () => { S.back = 'empty'; S.backSrc = null; S.bk = null; if (S.adjust === 'back') S.adjust = false; },
@@ -510,7 +518,7 @@
       options: `A5 · Glossy · ${S.paper ? 'Standard 170' : 'Budget 135'} gsm · ${S.back === 'one' ? 'Single' : 'Double'}-sided`,
       design: `Artwork placed with Upload & See (${sides.length} side${sides.length > 1 ? 's' : ''})`, designType: 'art', price: Math.round((total() - (S.check ? TIERS[S.check][1] : 0)) * 100) / 100, art });
     setCart(items);
-    try { const a = getAddons(); a.check = ['basic', 'premium', 'deluxe'][S.check ?? 0]; localStorage.setItem('hp-cart-addons', JSON.stringify(a)); } catch (e) {}   // the check chosen in the flow is the cart's check
+    try { const a = getAddons(); a.check = ['basic', 'premium', 'deluxe'][S.check]; localStorage.setItem('hp-cart-addons', JSON.stringify(a)); } catch (e) {}   // the check chosen in the flow is the cart's check
     showToast('Added to cart');
   }
   // Read a file: a PDF page by page with pdf.js (pages 1 and 2, its size in mm), an image as it is (its pixels for the dpi); 1200px pictures
@@ -585,15 +593,15 @@
   });
   document.addEventListener('pointermove', e => {
     if (!drag) return;
-    if (drag.resize) setSd(S.adjust, { sc: +Math.max(.5, Math.min(2, drag.sc + ((e.clientX - drag.x) + (e.clientY - drag.y)) / 300)).toFixed(2) });
-    else setSd(S.adjust, { dx: +Math.max(-40, Math.min(40, drag.dx + (e.clientX - drag.x) / drag.w * 100)).toFixed(1), dy: +Math.max(-40, Math.min(40, drag.dy + (e.clientY - drag.y) / drag.h * 100)).toFixed(1) });
+    if (drag.resize) { setSd(S.adjust, { sc: +Math.max(.5, Math.min(2, drag.sc + ((e.clientX - drag.x) + (e.clientY - drag.y)) / 300)).toFixed(2) }); move(S.adjust, sd(S.adjust).dx, sd(S.adjust).dy); }
+    else move(S.adjust, drag.dx + (e.clientX - drag.x) / drag.w * 100, drag.dy + (e.clientY - drag.y) / drag.h * 100);
     live();
   });
   document.addEventListener('pointerup', () => { if (drag) { drag = null; render(true); } });
   document.addEventListener('keydown', e => {
     const k = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];   // 1% of the flyer a press
     if (!k || !S.adjust || S.st !== 'preview' || e.target.closest?.('textarea, input')) return;
-    e.preventDefault(); const d = sd(S.adjust); setSd(S.adjust, { dx: Math.max(-40, Math.min(40, d.dx + k[0])), dy: Math.max(-40, Math.min(40, d.dy + k[1])) }); render(true);
+    e.preventDefault(); const d = sd(S.adjust); move(S.adjust, d.dx + k[0], d.dy + k[1]); render(true);
   });
   // From the map: go to a state (the other frame was clicked, or a box in the diagram), show or hide the numbers
   addEventListener('message', e => {
