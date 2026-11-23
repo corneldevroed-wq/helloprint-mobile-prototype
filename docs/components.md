@@ -176,6 +176,8 @@ design system + guide, prices for products without a live from-price. Gap histor
   (the panel's corner from above, both front edges with the core, the thickness per material; White aluminium = `panels/dibond`), flexible
   `materials/structured-polyester|cotton|one-way-vision|privacy`; the hardware is the live photo: `prototype/assets/live-opts/signs/hanging-plate-4|7`,
   `spacer`, `ground-plate-6|15`, `whiteboard-kit` (.jpg, on the light grey tile; no extra options = `inks/none`). No sign product in the prototype yet.
+  Print area 2 (`sketches/print-area-2-sketch.html`, 11-23): `printarea/bottle-front|wrap|cap`, `mug-right-handed|left-handed|handle|both|back`, `umbrella-panel-1|panels-1-5`, `backpack-front|left|right|pocket`, `cooler-front|top|pocket|back`,
+  `duffel-up|down|front|back`, `drawstring-front`, `paperbag-front|back|both`, `tech-front|back` (the back = dashed edge).
   PDP steps (`sketches/pdp-step-icons-sketch.html`, 11-23): `labels/winding-1|2|3|4`, `labels/core-40|76`, `labels/dispenser-none|box`, `panels/holes-none|2|4`, `inks/laser`.
   The tail (`sketches/tail-icons-sketch.html`): `folds/tri-fold|z-fold` (standing half open), `paper/ticket-perforation|serial-1|serial-2|perforation-serial-1|perforation-serial-2`, `paper/numbered`,
   `folders/binder-50|70`, `notepads/paper-plain|ruled|grid|dotted`, `drinkware/cup-no-lid|lid-white|lid-black`, `gadgets/fork|knife|spoon|balloon|balloon-ribbon|hem-with|hem-without`,
