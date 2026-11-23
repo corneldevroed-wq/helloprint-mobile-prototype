@@ -22,7 +22,11 @@
    "inks/4": "4 colours",
    "inks/5": "5 colours",
    "inks/full": "Full colour",
-   "inks/laser": "Laser engraving"
+   "inks/laser": "Laser engraving",
+   "inks/6": "6 colours",
+   "inks/7": "7 colours",
+   "inks/8": "8 colours",
+   "inks/10": "10 colours"
   },
   "Print area": {
    "printarea/bag-large": "Bag, large",
@@ -73,7 +77,14 @@
    "printarea/paperbag-back": "Paper bag, back",
    "printarea/paperbag-both": "Paper bag, both",
    "printarea/tech-front": "Tech, front",
-   "printarea/tech-back": "Tech, back"
+   "printarea/tech-back": "Tech, back",
+   "printarea/umbrella-panels-4": "Umbrella, 4 panels",
+   "printarea/box-outside": "Box, outside",
+   "printarea/box-lid": "Box, top of the lid",
+   "printarea/box-inside-outside": "Box, outside and inside",
+   "printarea/bed-duvet": "Bedding, duvet cover",
+   "printarea/bed-sheet": "Fitted sheet",
+   "printarea/bed-pillow": "Pillowcase"
   },
   "Corners": {
    "corners/straight": "Straight",
@@ -331,7 +342,12 @@
    "gadgets/confetti-flower": "Confetti, flower",
    "gadgets/confetti-heart": "Confetti, heart",
    "gadgets/cushion-filled": "Cushion, filled",
-   "gadgets/cushion-case": "Cushion, case only"
+   "gadgets/cushion-case": "Cushion, case only",
+   "drinkware/cup-lid-cardboard": "Cardboard lid",
+   "gadgets/badge-magnet": "Badge, magnet",
+   "gadgets/badge-pin": "Badge, pin",
+   "gadgets/polybag": "In a polybag",
+   "gadgets/no-packaging": "Without packaging"
   },
   "Office stamps and vboard fixings (the live photo)": {
    "../prototype/assets/live-opts/stamps/standard.webp": "Standard stamp",
@@ -360,7 +376,17 @@
    "../prototype/assets/live-opts/tail/dispenser-deluxe.webp": "Deluxe dispenser",
    "../prototype/assets/live-opts/tail/parasol-white.webp": "White parasol base",
    "../prototype/assets/live-opts/tail/parasol-black.webp": "Black parasol base",
-   "../prototype/assets/live-opts/tail/hanging-plate-10.webp": "Hanging plate 10 x 10"
+   "../prototype/assets/live-opts/tail/hanging-plate-10.webp": "Hanging plate 10 x 10",
+   "../prototype/assets/live-opts/tail/hanging-kit-led.webp": "LED frame hanging kit",
+   "../prototype/assets/live-opts/tail/hanging-hooks-snap.webp": "Snap frame hooks",
+   "../prototype/assets/live-opts/tail/skewer-dispenser.webp": "Skewer dispenser"
+  },
+  "Boxes and apparel": {
+   "boxes/strip-none": "No strip",
+   "boxes/strip-single": "Single strip",
+   "boxes/strip-double": "Double strip",
+   "apparel/fit-regular": "Regular fit",
+   "apparel/fit-relaxed": "Relaxed fit"
   }
  },
  "Banner icons": {

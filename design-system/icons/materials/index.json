@@ -68,5 +68,10 @@
  "copper-foil": "Copper foil",
  "black-foil": "Black foil (stamping)",
  "white-foil": "White foil (stamping)",
- "darkred-foil": "Dark red foil (stamping)"
+ "darkred-foil": "Dark red foil (stamping)",
+ "brass": "Brass",
+ "stainless-steel": "Stainless steel",
+ "satin": "Satin",
+ "recycled-plastic": "Recycled plastic",
+ "cotton-striped": "Striped fabric"
 }
