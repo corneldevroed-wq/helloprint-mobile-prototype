@@ -61,9 +61,7 @@
   @media (prefers-reduced-motion: reduce) { .us-flip .card { transition: none; } }
   /* the photo that may print blurry: marked only while the customer looks at its point (hover or tap on the row), with its label */
   .art .blur { display: none; position: absolute; left: 18%; top: 30%; width: 34%; height: 22%; border: 2px solid var(--orange); border-radius: var(--r-s); }
-  .us-sides.spot .art .blur, .us:has(.photo-row:hover) .art .blur { display: block; }
   .art .blur .badge { left: -2px; top: auto; bottom: calc(100% + 4px); white-space: nowrap; }
-  .photo-row { cursor: pointer; }
   .art .cut, .art .safe { position: absolute; pointer-events: none; }
   .art .cut { inset: 2%; border: 1px dashed var(--error); }
   .art .safe { inset: 5%; border: 1px dotted var(--dark-grey); }
@@ -82,9 +80,6 @@
   .us .up-check { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
   .us .up-check .ok { margin: 0; }
   .art-note-text { width: 100%; }
-  .us-result { display: grid; gap: 16px; }
-  .desk .us-result { grid-template-columns: 320px 1fr; gap: 32px; align-items: start; }
-  .desk .us-result .us-sides { gap: 16px; padding: 24px; }
   /* The three upgrades (Cornel 2026-11-23: a real upsell, in UI guide parts): one question per screen; a card with the customer's own flyer on
      the grey stage (the check cards' stage), what it adds as product card ticks and the difference in price; Yes / No as buttons under it, not full width */
   .us-up { display: flex; flex-direction: column; gap: 16px; }
@@ -111,13 +106,33 @@
   .us-offer .tx { display: flex; flex-direction: column; gap: 12px; padding: 0 16px 16px; }
   .desk .us-offer .tx { padding: 24px; }
   .us-offer h2 { margin: 0; }
-  .us-offer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; }
-  .us-offer li { display: flex; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
-  .us-offer li svg { flex-shrink: 0; margin-top: 3px; color: var(--light-green); }
+  .us-offer .tx > ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; }
+  .us-offer .tx > ul li { display: flex; gap: 8px; font-size: var(--t-14); line-height: var(--lh-14); }
+  .us-offer .tx > ul li svg { flex-shrink: 0; margin-top: 3px; color: var(--light-green); }
   .us-offer .plus { font-weight: 800; font-size: var(--t-24); line-height: var(--lh-tight); }
   .us-offer .plus small { display: block; margin-top: 4px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
   .us-up-acts { display: flex; flex-wrap: wrap; gap: 8px; }
   .us-up-acts .btn { padding: 0 24px; }
+  .us-dc .tx .us-up-acts { margin-top: 4px; }
+  .us-up-acts .btn .material-symbols-rounded { margin-right: 6px; font-size: 20px; }
+  /* decision cards (?dc=1): the upgrades' card on every decision moment */
+  .us-dc .us-stage .art { height: 150px; }
+  .us-dc .us-stage { height: auto; min-height: 200px; }   /* the stage grows with its flyer (a turning flyer is taller), so it always fits */
+  .us-win .tx { background: var(--cream); }
+  html:not(.desk) .us-win { gap: 0; }
+  html:not(.desk) .us-win .tx { padding-top: 16px; }   /* mobile: the cream starts right under the stage */   /* approve: the success cream of the upload's reassurance block (.art-calm) */
+  .us-dc .us-stage.spot .art .blur { display: block; }
+  .us-dc-fly { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 0; }
+  .us-dc-fly .us-flip, .us-dc-fly .us-flip .card, .us-dc-fly .us-flip .face { display: block; }
+  .us-dc-fly .us-flip { width: 168px; }
+  .us-dc-fly .us-flip .art { height: auto; width: 100%; }
+  .us-dc-fly small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .us-dc .file-check ul { gap: 12px; }
+  .us-dc-state { display: flex; gap: 8px; margin: 0; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .us-dc-state img, .us-dc-state .dot { flex-shrink: 0; width: 20px; height: 20px; }
+  .us-dc-state .dot { width: 8px; height: 8px; margin: 7px 6px; border-radius: 50%; background: var(--orange); }
+  .us-dc-ok { display: flex; align-items: center; gap: 8px; }
+  .us-dc-ok img { width: 24px; height: 24px; }
   .us-up-back { margin: -8px 0 0; }
   .desk .us .fc-list { flex-direction: row; }
   .desk .us .fc { flex: 1; }
@@ -202,8 +217,8 @@
 
   // The state of the flow: the screen, what the customer chose, what is open. The map sends it to the other frame, so both stay in step.
   const START = { st: 'upload', front: 'fill', back: 'empty', photo: null, view: 'both', flipped: false, designer: false, note: false,
-    spot: false, check: null, paper: false, qty: false, deliv: false, sheet: null, adjust: false, sc: 1, dx: 0, dy: 0, phone: 0 };
-  let S = { ...START, st: q.get('st') || 'upload', check: q.has('check') ? +q.get('check') : null };
+    check: null, paper: false, qty: false, deliv: false, sheet: null, adjust: false, sc: 1, dx: 0, dy: 0, phone: 0 };
+  let S = { ...START, st: q.get('st') || 'upload', check: q.has('check') ? +q.get('check') : null, back: q.get('back') || 'empty' };
 
   // The check choice (sketch B, Cornel 2026-11-23): the three cards with the same rows; desktop: the customer's flyer on top of each card
   const FEAT = [['Print proof before we print', 1, 1, 1], ['Automatic check: size, resolution, colour', 1, 1, 1], ['All file formats accepted', 0, 1, 1],
@@ -225,9 +240,6 @@
 
   // The flyer picture: the file as the customer chose it; the designer lines (cut, keep text inside) when Designer view is on
   const art = (cls = '', extra = '') => `<span class="art ${S.front === 'turned' ? 'turned' : S.front === 'all' ? 'all' : ''} ${cls}" style="--sc:${S.sc};--dx:${S.dx}px;--dy:${S.dy}px"><img src="${WIDE}" alt="">${S.designer || cls.includes('lines') ? '<i class="cut"></i><i class="safe"></i>' : ''}${extra}</span>`;
-  // The sides that print, big, with their names: the front, and the back when it has a design (check result, approve; no check mark over the design, Cornel 11-23)
-  const printed = () => S.back !== 'same' ? `<div class="dash-card us-sides one"><div class="us-side">${art()}<b>Front</b></div></div>`
-    : `<div class="dash-card us-sides one"><div class="us-flip${S.flipped ? ' flipped' : ''}" data-go="flip" role="button" aria-label="Turn the flyer over"><div class="card"><div class="face">${art()}</div><div class="face back">${art()}</div></div></div><p class="us-legend" style="margin:0" id="flipCap">${S.flipped ? 'The back' : 'The front'} · tap the flyer to turn it over</p></div>`;   // with a back: one flyer that turns over (as Turn it over)
   const btn = (go, t, n, cls = 'outline small') => `<button class="btn ${cls}" data-go="${go}"${hs(n)}>${t}</button>`;
   const pill = (go, t, n, on) => `<button class="pill${on ? ' active' : ''}" data-go="${go}"${hs(n)}>${t}</button>`;
   const link = (go, t, n) => `<button class="link" data-go="${go}"${hs(n)}>${t}</button>`;
@@ -274,21 +286,14 @@
         : `<div class="us-side"><span class="gone">Printed on one side only<br>You save €4.00</span><b>Back</b><span class="acts">${btn('back-empty', 'Print both sides', 11)}</span></div>`;
       const face = S.back === 'same' ? art() : S.back === 'one' ? '<span class="gone">Printed on one side only</span>' : '<span class="empty">Your back is still empty</span>';
       const sides = one ? `<div class="dash-card us-sides one"><div class="us-flip${S.flipped ? ' flipped' : ''}" data-go="flip"${hs(3)} role="button" aria-label="Turn the flyer over"><div class="card"><div class="face">${art()}</div><div class="face back">${face}</div></div></div><p class="us-legend" style="margin:0" id="flipCap">${S.flipped ? 'The back' : 'The front'} · tap the flyer to turn it over</p></div>`
-        : `<div class="dash-card us-sides${S.spot && !S.photo ? ' spot' : ''}">${front}${back}</div>`;
+        : `<div class="dash-card us-sides">${front}${back}</div>`;
       // Move or resize: the panel above the preview (staging), the design with the designer lines, the corner to pull
       const adjust = S.adjust && S.front !== 'none' ? `<div class="dash-card us-adjust" id="adjPanel"><h2>Adjust the front</h2><p class="lead">Drag your design, pull its corner, or use the buttons and arrow keys.</p>
         <div class="us-adj" data-drag${hs(22)}>${art('lines')}<span class="us-handle" data-resize aria-label="Pull to resize"${hs(23)}></span></div>
         ${S.front === 'fill' && S.sc >= 1 ? '<p class="art-note">Part of your design will be cut off.</p>' : S.front === 'all' || S.sc < 1 ? '<p class="art-note">All of your design is on the flyer.</p>' : ''}
         <div class="pills-row">${pill('smaller', 'Smaller', 24)}${pill('bigger', 'Bigger', 25)}${pill('fit-fill', 'Fill', 26, S.front === 'fill')}${pill('fit-all', 'Show all', 27, S.front === 'all')}${pill('centre-x', 'Centre ↔', 28)}${pill('centre-y', 'Centre ↕', 29)}</div>
         <button class="btn primary small" data-go="adj-done"${hs(30)}>Done</button></div>` : '';
-      // About your file (staging's block): a row per point, an orange dot while open, a tick once answered; the answers as pills
-      const about = S.front === 'none' ? '' : `<div class="dash-card file-check"><h2 style="margin-bottom:16px">About your file</h2><ul aria-label="About your file">
-        <li>${fixedFront() ? TICK : DOT}<b>${S.front === 'turned' ? 'Turned to fit your flyer' : S.front === 'all' ? 'All of your design is on the flyer' : 'Your file is a different size'}</b>
-          <small>${S.front === 'turned' ? 'Your file is landscape, the flyer portrait: we turned it a quarter.' : S.front === 'all' ? 'With white above and under it.' : 'It fills your flyer: about 113 mm is cut off at each side.'}</small>
-          <span class="pills-row">${pill('fit-all', 'Show all of it', 12, S.front === 'all')}${pill('fit-fill', 'Fill the whole flyer', 13, S.front === 'fill')}${pill('turn', 'Turn it', 7, S.front === 'turned')}</span></li>
-        <li class="photo-row" data-go="spot"${hs(21)}>${S.photo ? TICK : DOT}<b>A photo may print blurry</b><small>${S.photo === 'team' ? 'Premium Check added: our experts look at it.' : S.photo === 'asis' ? 'We print it as it is.' : S.spot ? 'Marked on your flyer.' : 'Tap to see which one on your flyer.'}</small>
-          <span class="pills-row">${pill('photo-new', 'Sharper photo', 14, false)}${pill('photo-asis', 'Print it as it is', 15, S.photo === 'asis')}${pill('photo-team', 'Let our experts look · €10.99', 16, S.photo === 'team')}</span></li></ul></div>`;
-      return [`<h1>There it is: your flyer</h1>${tools}${adjust}${sides}${about}
+      return [`<h1>There it is: your flyer</h1>${tools}${adjust}${sides}${S.front !== 'none' ? aboutCards() : ''}
         ${S.note ? `<textarea class="art-note-text" rows="3" placeholder="For example: the back is the same as the front" aria-label="A note for our team"${hs(17)}></textarea>` : `<p class="center">${link('note', 'Something we should know about your file?', 17)}</p>`}
         <p class="center">${link('upload', 'Start again with another file', 18)}</p>${team(19)}`, bar('Next: check my file', 'choice', 20)];
     },
@@ -298,23 +303,6 @@
       <button class="btn outline center" data-go="diff"${hs(4)}>See all the differences</button>
       <p class="links">${link('preview', 'Back to my flyer', 5)}</p>${team(6)}`,
       bar(S.check === null ? 'Choose one' : 'Check my file', 'result', 7, S.check === null)],
-
-    result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check ?? 0][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
-      <div class="us-result">${printed()}<div class="dash-card file-check"><ul aria-label="What we checked">
-        <li>${TICK}<b>Size and pages</b><small>Right size, right number of pages</small></li>
-        <li>${S.back === 'empty' ? DOT : TICK}<b>Front and back</b><small>${S.back === 'same' ? 'The same design on both sides' : S.back === 'one' ? 'Printed on one side only' : 'Your back is still empty: it prints blank'}</small></li>
-        <li>${TICK}<b>Colours up to the edge</b><small>We added the bleed, so the colours run past the edge</small></li>
-        <li>${S.photo ? TICK : DOT}<b>Sharp photos</b><small>${S.photo ? 'As you chose on your flyer' : 'One photo may print blurry: look at it on your preview'}</small></li>
-        <li>${TICK}<b>Letters and fonts</b><small>All letter types are included</small></li>
-        <li>${DOT}<b>Text in a picture</b><small>Your text is part of the picture: look over its size and distance to the edge</small></li></ul></div></div>
-      <p class="center">${link('choice', 'Back to the check choice', 1)}</p>`, bar('All good · continue', 'approve', 2)],
-
-    approve: () => [`${printed()}
-      <div class="art-calm"><b>${TICK}Your flyer is good to go</b><span>You can still change your design until we start printing.</span></div>
-      <div class="dash-card file-check"><ul aria-label="Fixed for you"><li>${TICK}<b>Fixed for you: colours to the edge ${link('undo', 'Undo', 1)}</b><small>We added 3 mm bleed</small></li>
-        <li>${TICK}<b>Our print software processes it once more</b><small>If the result would look different from what you saw, we ask you first.</small></li></ul></div>
-      <p class="confirm">By approving, you confirm we print your flyer exactly as shown above. Nothing is paid yet.</p>
-      <p class="center">${link('preview', 'Back to my file', 2)}</p>`, bar('Approve and finish my order', 'up1', 3)],
 
     cart: () => [`<div class="art-calm"><b>${TICK}Added to cart</b><span>Classic Flyers A5 · ${S.qty ? '2,000' : '1,000'} · ${fmt(total())} excl. VAT</span></div>
       <div class="dash-card file-check"><ul aria-label="In your order"><li>${TICK}<b>Your file</b><small>${S.front === 'turned' ? 'Turned to fit' : S.front === 'all' ? 'All of it shown' : 'Filled'} · back: ${S.back === 'same' ? 'same design' : S.back === 'one' ? 'one side only' : 'empty'}</small></li>
@@ -341,6 +329,49 @@
       bar('Add to cart', 'to-cart', 4)];   // the order bar stays (total and date follow each Yes); its button skips the rest and adds to cart
   });
 
+  // DECISION CARDS (sketches/upload-see-cards-sketch.html; Cornel 2026-11-23: About your file, check result and approve; Upload and Sending stay as they are "die style van de upsells doorvoeren, de onderdelen goed geconnect"):
+  // every decision moment one card, as the upgrades: the customer's own flyer on the grey stage, fused with the text (one title that says what it is
+  // about, the consequence), the actions right under the card; the order bar stays the anchor for the total
+  // acts: under the card (a step, as the upgrades); inAct: inside the card, under the text (a choice that belongs to the card: About your file, Cornel 11-23)
+  const dcard = (stage, inner, acts = '', cls = '', inAct = '') => `<div class="dash-card us-offer us-dc"><span class="us-stage ${cls}">${stage}</span><div class="tx">${inner}${inAct ? `<div class="us-up-acts">${inAct}</div>` : ''}</div></div>${acts ? `<div class="us-up-acts">${acts}</div>` : ''}`;
+  const flipStage = () => S.back !== 'same' ? `<span class="us-dc-fly">${art()}<small>Front</small></span>`
+    : `<span class="us-dc-fly"><span class="us-flip${S.flipped ? ' flipped' : ''}" data-go="flip" role="button" aria-label="Turn the flyer over"><span class="card"><span class="face">${art()}</span><span class="face back">${art()}</span></span></span><small id="flipCap">${S.flipped ? 'The back' : 'The front'} · tap to turn it over</small></span>`;
+  const checkRows = () => `<div class="file-check"><ul aria-label="What we checked">
+    <li>${TICK}<b>Size and pages</b><small>Right size, right number of pages</small></li>
+    <li>${S.back === 'empty' ? DOT : TICK}<b>Front and back</b><small>${S.back === 'same' ? 'The same design on both sides' : S.back === 'one' ? 'Printed on one side only' : 'Your back is still empty: it prints blank'}</small></li>
+    <li>${TICK}<b>Colours up to the edge</b><small>We added the bleed, so the colours run past the edge</small></li>
+    <li>${S.photo ? TICK : DOT}<b>Sharp photos</b><small>${S.photo ? 'As you chose on your flyer' : 'One photo may print blurry: look at it on your preview'}</small></li>
+    <li>${TICK}<b>Letters and fonts</b><small>All letter types are included</small></li>
+    <li>${DOT}<b>Text in a picture</b><small>Your text is part of the picture: look over its size and distance to the edge</small></li></ul></div>`;
+  // About your file: each question its own card, the effect on the stage (the file as it is now; the photo marked)
+  const aboutCards = () => `<h2 style="margin:8px 0 -8px" id="about">About your file</h2>
+    ${dcard(art(), `<h2 class="us-swap"><span>Landscape file</span>${ARROW}portrait flyer</h2>
+      <p class="us-dc-state">${fixedFront() ? TICK : DOT}${S.front === 'turned' ? 'Turned a quarter: all of your design fits.' : S.front === 'all' ? 'All of your design is on it, with white above and under.' : 'Filled as it is, about 113 mm is cut off at each side.'}</p>`,
+      '', '', `${pill('turn', 'Turn it', 7, S.front === 'turned')}${pill('fit-all', 'Show all of it', 12, S.front === 'all')}${pill('fit-fill', 'Fill the whole flyer', 13, S.front === 'fill')}`)}
+    ${dcard(art('', S.photo ? '' : '<i class="blur"><span class="badge">This photo</span></i>'), `<h2>A photo may print blurry</h2>
+      <p class="us-dc-state">${S.photo ? TICK : DOT}${S.photo === 'team' ? 'Premium Check added: our experts look at it.' : S.photo === 'asis' ? 'We print it as it is.' : 'It is small for A5. Choose a sharper one, or print it as it is.'}</p>`,
+      '', S.photo ? '' : 'spot', `${pill('photo-new', 'Sharper photo', 14, false)}${pill('photo-asis', 'Print it as it is', 15, S.photo === 'asis')}${pill('photo-team', 'Let our experts look · €10.99', 16, S.photo === 'team')}`)}`;
+  Object.assign(SCREENS, {
+    result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check ?? 0][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
+      ${dcard(flipStage(), checkRows())}
+      <p class="center">${link('choice', 'Back to the check choice', 1)}</p>`, bar('All good · continue', 'approve', 2)],
+    approve: () => [`<h1>Approve your flyer</h1>
+      ${dcard(flipStage(), `<h2 class="us-dc-ok">${TICK}Your flyer is good to go</h2>
+        <div class="file-check"><ul aria-label="Fixed for you"><li>${TICK}<b>Fixed for you: colours to the edge ${link('undo', 'Undo', 1)}</b><small>We added 3 mm bleed</small></li>
+        <li>${TICK}<b>Our print software processes it once more</b><small>If the result would look different from what you saw, we ask you first.</small></li>
+        <li>${TICK}<b>You can still change it</b><small>Until we start printing.</small></li></ul></div>`, '', '', '').replace('us-offer us-dc', 'us-offer us-dc us-win')}
+      <p class="confirm">By approving, you confirm we print your flyer exactly as shown above. Nothing is paid yet.</p>
+      <p class="center">${link('preview', 'Back to my file', 2)}</p>`, bar('Approve and finish my order', 'up1', 3)]
+  });
+
+  // Approve: a short burst of confetti over the card, once, when you arrive (the PDP upload's artConfetti; not with reduced motion)
+  function winConfetti() {
+    const card = document.querySelector('.us-win'); if (!card || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = card.getBoundingClientRect(), layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link'];
+    layer.className = 'confetti'; Object.assign(layer.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+    layer.innerHTML = Array.from({ length: 28 }, (_, i) => `<i style="left:${Math.random() * 100}%;background:var(${colours[i % 4]});animation-delay:${Math.random() * .3}s;--x:${Math.random() * 60 - 30}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
+    document.body.appendChild(layer); setTimeout(() => layer.remove(), 1800);
+  }
   // The popups (staging: the Use your phone dialog)
   function sheets() {
     // See all the differences: the seven rows as a light table (the lists' table look), the product cards' ticks, the chosen check light green
@@ -376,11 +407,10 @@
     same: () => S.back = 'same', one: () => S.back = 'one', 'back-empty': () => S.back = 'empty',
     'fit-all': () => { S.front = 'all'; S.sc = 1; }, 'fit-fill': () => { S.front = 'fill'; S.sc = 1; },
     'photo-new': () => showToast('Choose a sharper photo (in the sketch: nothing happens)'), 'photo-asis': () => S.photo = 'asis', 'photo-team': () => { S.photo = 'team'; S.check = 1; },
-    spot: () => { if (S.photo) return; S.spot = !S.spot; if (S.spot) setTimeout(() => document.querySelector('.us-sides')?.scrollIntoView({ behavior: 'smooth', block: 'center' })); },
     note: () => S.note = true, upload: () => Object.assign(S, START), restart: () => Object.assign(S, START),
     preview: () => S.st = 'preview', choice: () => S.st = 'choice',
     'check-0': () => S.check = 0, 'check-1': () => S.check = 1, 'check-2': () => S.check = 2,
-    result: () => { S.st = 'result'; S.flipped = false; }, approve: () => { S.st = 'approve'; S.flipped = false; }, undo: () => showToast('Bleed removed: your colours stop at the edge'), up1: () => S.st = 'up1',
+    result: () => { S.st = 'result'; S.flipped = false; }, approve: () => { S.st = 'approve'; S.flipped = false; setTimeout(winConfetti, 50); }, undo: () => showToast('Bleed removed: your colours stop at the edge'), up1: () => S.st = 'up1',
     // back one step: the previous offer again, as a fresh question (its Yes undone, so the price is honest)
     'back-up1': () => S.st = 'approve', 'back-up2': () => { S.st = 'up1'; S.paper = false; }, 'back-up3': () => { S.st = 'up2'; S.qty = false; },
     'to-cart': () => { S.st = 'cart'; showToast('Added to cart'); },
@@ -397,7 +427,7 @@
     document.getElementById('bar').innerHTML = barHtml;
     sheets();
     clearTimeout(render.t);   // sending: the preview opens on its own after 2 s (in both frames, so no message)
-    if (S.st === 'sending') render.t = setTimeout(() => { S.st = 'preview'; render(false); }, 2200);
+    if (S.st === 'sending' && !q.get('hold')) render.t = setTimeout(() => { S.st = 'preview'; render(false); }, 2200);
     if (user !== null) parent.postMessage({ uas: 'state', state: S, sync: !user }, '*');   // null: the first render, the map sends its state first   // sync: only the list follows, the other frame already got it
   }
   document.addEventListener('click', e => {
@@ -439,6 +469,7 @@
     if (m.uas === 'hot') document.body.classList.toggle('hot', !!m.on);
   });
   render(null);
+  if (q.get('to')) document.getElementById(q.get('to'))?.scrollIntoView({ block: 'start' });   // the sketch page opens a frame at a block
   parent.postMessage({ uas: 'ready', state: S }, '*');
 }
 </script>

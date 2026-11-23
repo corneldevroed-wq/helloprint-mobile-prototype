@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload See Cards Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261123mk">
+<!-- Sketch (not linked; Cornel 2026-11-23 "die style van de upsells doorvoeren op de andere pagina's, de onderdelen goed geconnect"): the decision card
+     (the upgrades' card) on the other decision moments of Upload & See, now vs with cards, each in the flow frame (upload-see-flow.html?st=…&dc=1). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .chg { max-width: 1000px; margin: 16px 0 24px; padding: 16px 24px; border-radius: 8px; background: var(--white); font-size: 14px; line-height: 1.5; }
+  .chg h3 { margin: 0 0 4px; font-size: 14px; }
+  .chg ul { margin: 0 0 8px; padding-left: 20px; }
+  .chg .pick { margin: 0; color: var(--dark-green); font-weight: 600; }
+  .scr { margin: 56px 0 0; padding-top: 24px; border-top: 2px solid var(--mid-grey); }
+  .scr > h2 { margin: 0; font-size: 22px; }
+  .opt { margin: 32px 0 0; }
+  .opt h3 { margin: 0; font-size: 18px; }
+  .opt h3 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob iframe { width: 390px; height: 760px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 756px; max-width: calc(50vw - 40px); height: 560px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1120px; border: 0; transform: scale(.5); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Upload &amp; See: the upgrades’ card on every decision</h1>
+  <p style="margin:8px 0 0;font-size:14px">In <a href="upload-see-map.html">the flow</a> the upgrades read well because each decision is one block: the customer’s own flyer on the grey stage, fused with the text, one title that says what it is about, the consequence, the actions right under it. Here the same card on the other decision moments, <b>now</b> next to <b>with cards</b>. The order bar stays the anchor for the total. Test case: the landscape file, back “same design”.</p>
+  <div class="chg">
+    <h3>The decision card</h3>
+    <ul>
+      <li><b>One card per decision:</b> the grey stage left (on mobile on top) with the customer’s flyer showing the effect, the text right: a title (what changes, “Landscape file → portrait flyer”), the state with a tick or an orange dot, ticks for what you get.</li>
+      <li><b>The actions under the card</b>, as wide as their words: buttons for a step, pills for a choice. The order bar keeps the total and the next step.</li>
+      <li><b>Only on decision moments.</b> The team line, “Back to …” and the note link stay plain lines, so the page doesn’t turn into a stack of cards.</li>
+      <li><b>New in the design system</b> if you choose it: the decision card (stage + text + actions), with a row in the UI guide. Later maybe elsewhere (the upload to-do on order confirmed, the cart’s upsell).</li>
+    </ul>
+    <p class="pick">Cornel chose (2026-11-23): Upload and Sending as they are; About your file, check result and approve with cards (the answers in the card; approve in the success cream with confetti). Built in the flow; below the chosen versions. The biggest win is “About your file”: the question now sits next to the flyer it is about, and the blurry photo is marked in its own card.</p>
+  </div>
+</div>
+<script>
+  // Cornel 2026-11-23: Upload and Sending stay as they are (the same in the whole customer journey); these three are open.
+  // [screen, title, text, extra, desktop height, mobile height]: tall frames, so the whole screen shows without scrolling
+  const SCR = [
+    ['preview', '3 · About your file', 'Each question its own card, with its effect on the stage: the file as it is now (turned, filled or all of it), the blurry photo marked. The answers as pills in the card, under its text (Cornel 11-23).', '', 1920, 2160],
+    ['result', '5 · Check result', 'The turning flyer and the checklist in one card, instead of two blocks next to each other.', '&check=0', 1160, 1460],
+    ['approve', '6 · Approve', 'One card: the flyer, “good to go”, what we changed (Undo), that you can still change it. Approve stays in the order bar.', '&check=0', 1260, 1560]];
+  const fr = (src, dev, dh, mh) => dev === 'mob' ? `<div class="mob"><iframe src="${src}" loading="lazy" style="height:${mh}px"></iframe></div>` : `<div class="desk-box" style="height:${dh / 2}px"><iframe src="${src}" loading="lazy" style="height:${dh}px"></iframe></div>`;
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', `<section class="scr"><h2>Chosen: Upload and Sending stay as they are</h2><div class="chg"><p>The same in the whole customer journey, so no card there (Cornel, 11-23).</p></div></section>` + SCR.map(([st, t, p, extra, dh, mh]) => {
+    const src = `upload-see-flow.html?st=${st}&back=same${extra}`;   // the chosen version, as built (the old one is removed)
+    return `<section class="scr"><h2>${t} <em style="font-style:normal;color:var(--light-green);font-size:14px">chosen, built</em></h2><div class="opt"><p>${p}</p>
+      <div class="row"><div><p class="lbl">Desktop 1512</p>${fr(src, 'desk', dh, mh)}</div><div><p class="lbl">Mobile 390</p>${fr(src, 'mob', dh, mh)}</div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>
