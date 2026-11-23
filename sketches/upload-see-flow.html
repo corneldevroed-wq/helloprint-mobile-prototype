@@ -118,6 +118,7 @@
   .us-offer .plus small { display: block; margin-top: 4px; font-weight: 400; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
   .us-up-acts { display: flex; flex-wrap: wrap; gap: 8px; }
   .us-up-acts .btn { padding: 0 24px; }
+  .us-up-back { margin: -8px 0 0; }
   .desk .us .fc-list { flex-direction: row; }
   .desk .us .fc { flex: 1; }
   .us-no { color: var(--mid-grey); font-weight: 600; }
@@ -335,7 +336,9 @@
         <div class="tx"><h2 class="us-swap"><span>${was}</span>${ARROW}${gets}</h2>
           <ul>${adds.map(t => `<li>${USP}${t}</li>`).join('')}</ul>
           <span class="plus">+${fmt(plus)}<small>Your order now ${fmt(total())} · with this ${fmt(total() + plus)}</small></span></div></div>
-      <div class="us-up-acts"><button class="btn primary" data-go="yes-${key}"${hs(1)}>Yes, add it · +${fmt(plus)}</button><button class="btn outline" data-go="no-${key}"${hs(2)}>${no}</button></div></div>`, ''];
+      <div class="us-up-acts"><button class="btn primary" data-go="yes-${key}"${hs(1)}>Yes, add it · +${fmt(plus)}</button><button class="btn outline" data-go="no-${key}"${hs(2)}>${no}</button></div>
+      <p class="us-up-back">${link(`back-${st}`, ['Back to approve', 'Back to the paper', 'Back to the quantity'][i], 3)}</p></div>`,
+      bar('Add to cart', 'to-cart', 4)];   // the order bar stays (total and date follow each Yes); its button skips the rest and adds to cart
   });
 
   // The popups (staging: the Use your phone dialog)
@@ -378,10 +381,13 @@
     preview: () => S.st = 'preview', choice: () => S.st = 'choice',
     'check-0': () => S.check = 0, 'check-1': () => S.check = 1, 'check-2': () => S.check = 2,
     result: () => { S.st = 'result'; S.flipped = false; }, approve: () => { S.st = 'approve'; S.flipped = false; }, undo: () => showToast('Bleed removed: your colours stop at the edge'), up1: () => S.st = 'up1',
+    // back one step: the previous offer again, as a fresh question (its Yes undone, so the price is honest)
+    'back-up1': () => S.st = 'approve', 'back-up2': () => { S.st = 'up1'; S.paper = false; }, 'back-up3': () => { S.st = 'up2'; S.qty = false; },
+    'to-cart': () => { S.st = 'cart'; showToast('Added to cart'); },
     'yes-paper': () => { S.paper = true; S.st = 'up2'; }, 'no-paper': () => S.st = 'up2', 'yes-qty': () => { S.qty = true; S.st = 'up3'; }, 'no-qty': () => S.st = 'up3',
     'yes-deliv': () => { S.deliv = true; S.st = 'cart'; showToast('Added to cart'); }, 'no-deliv': () => { S.st = 'cart'; showToast('Added to cart'); }
   };
-  const NAV = ['pick', 'upload', 'restart', 'preview', 'choice', 'result', 'approve', 'up1', 'yes-paper', 'no-paper', 'yes-qty', 'no-qty', 'yes-deliv', 'no-deliv'];
+  const NAV = ['pick', 'upload', 'restart', 'preview', 'choice', 'result', 'approve', 'up1', 'back-up1', 'back-up2', 'back-up3', 'yes-paper', 'no-paper', 'yes-qty', 'no-qty', 'yes-deliv', 'no-deliv', 'to-cart'];
 
   function render(user) {
     if (!SCREENS[S.st]) S.st = 'upload';
