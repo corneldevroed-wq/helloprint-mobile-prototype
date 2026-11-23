@@ -59,6 +59,17 @@ Add new decisions here when Cornel makes a final call.
   making the product. Rejected: A the shop header (every link a way out mid-task, pushes the flyer down on mobile), C slim + Need help? (help stays the team line in the page).
 
 ## My account: nothing needs you (Nov 20, 2026)
+- **2026-11-23 — The flow works with the customer's own file** (Cornel: "functioneel maken", standalone, not linked to the prototype): a real PDF, JPG or PNG, chosen or
+  dropped, read in the browser (pdf.js: pages 1 and 2, the page size in mm; an image: its pixels), nothing sent. Page 2 or a second file is the back. The questions
+  follow from the file: landscape or another shape → the "→ A5 flyer" card with the mm cut off worked out; an image under 150 dpi on A5 → the blurry card; a fitting
+  file → "nothing to change". The check rows from the file (size and pages, bleed when a PDF is 154 × 216 mm, dpi, letters for a PDF, text in a picture for an image).
+  Still simulated: the real font / bleed / text check. Jumping in from the map shows the sample file. Each side its own fit, size and move (a back from its own file);
+  About your file in the customer's words (the whole design with what falls off light; "small for A5" with the pixel size it needs and a close look).
+  Add to cart puts a line in the prototype's cart (Cornel 11-23): the artwork drawn per side as placed (a canvas per side), the flow's check as the cart's check.
+- **2026-11-23 — Decision cards** (sketches/upload-see-cards-sketch.html): About your file, check result and approve as the upgrades' card (the customer's flyer on the
+  grey stage fused with the text, answers in the card, approve in the success cream with confetti); Upload and Sending stay as they are (the same in the whole
+  customer journey). Check choice B (the cart's cards, three rows, See all the differences); Move or resize as staging (a panel, no slider); the upgrades as upsell
+  cards with the tracker, Yes / No under the card, the order bar stays, a back link.
 - **2026-11-20 — When nothing needs your attention, that block is hidden and Order again takes the full width** (desktop: Reorder and its
   icons right of each row, one line instead of under the text; mobile: Order again simply moves up). Cornel: an empty "Nothing needs you right now"
   card is noise when there is re-ordering to do. The empty-state text is removed (a new customer sees only Order again's own empty state).
