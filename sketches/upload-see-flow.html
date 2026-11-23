@@ -317,7 +317,7 @@
 
     sending: () => { const L = S.load || { name: 'flyer-a5-landscape.pdf', size: 2e5, ext: 'pdf', step: 1 }, at = j => j < L.step ? TICK : j === L.step ? DOT : '<span></span>';
       return [`<h1>Your file is on its way</h1>
-      <div class="up-file"><span class="up-ico">${L.ext.toUpperCase().slice(0, 4)}</span><div class="t"><b>${L.name.replace(/</g, '&lt;')}</b><small>${sizeText(L.size)}${L.step ? ' received' : ''}</small><span class="up-bar"><i style="width:${[30, 70, 95][L.step]}%"></i></span></div></div>
+      <div class="up-file"><span class="up-ico">${L.ext.toUpperCase().slice(0, 4)}</span><div class="t"><b>${L.name.replace(/</g, '&lt;')}</b><small>${sizeText(L.size)}${L.step ? ' received' : ''}</small><span class="up-bar"><i style="width:${[30, 65, 90, 100][L.step]}%"></i></span></div></div>
       <div class="dash-card file-check"><ul aria-label="Progress"><li>${at(0)}<b>Sending your file</b><small>${sizeText(L.size)}</small></li><li>${at(1)}<b${L.step < 1 ? ' style="color:var(--dark-grey)"' : ''}>Reading your pages</b><small>Looking at what’s in your file…</small></li><li>${at(2)}<b${L.step < 2 ? ' style="color:var(--dark-grey)"' : ''}>Making your preview</b><small>So you can see exactly how your flyer will look</small></li></ul></div>
       <div class="up-check"><p class="ok">${TICK}Your file stays private. Nothing is printed until you approve it.</p></div>`, '']; },
 
@@ -551,13 +551,16 @@
   const choose = t => { target = t; fileIn.click(); return 'keep'; };
   fileIn.addEventListener('change', () => { const list = [...fileIn.files]; fileIn.value = ''; if (list.length) take(list, target); });
   async function take(list, t) {
-    const first = list[0], wait = new Promise(r => setTimeout(r, 1400));   // the steps show long enough to read
+    const first = list[0], pause = ms => new Promise(r => setTimeout(r, ms)), step = n => { if (S.load) { S.load.step = n; render(false); } };
+    // the steps tick off one by one, each long enough to read, and the screen stays until all three are ticked (Cornel 11-23)
     if (t === 'all') { S.load = { name: first.name, size: first.size, ext: (first.name.split('.').pop() || 'file').toLowerCase(), step: 0 }; S.st = 'sending'; render(true); scrollTo(0, 0);
-      setTimeout(() => { if (S.load) { S.load.step = 1; render(false); } }, 500); }
+      }
     else showToast('Reading your file…');
     try {
-      const f = await readFile(first), f2 = list[1] && t === 'all' ? await readFile(list[1]) : null;
-      if (t === 'all') { S.load.step = 2; render(false); await wait; }
+      const reading = Promise.all([readFile(first), list[1] && t === 'all' ? readFile(list[1]) : null]);
+      if (t === 'all') { await pause(900); step(1); }
+      const [f, f2] = await reading;
+      if (t === 'all') { await pause(1000); step(2); await pause(1000); step(3); await pause(800); }
       const bkOf = (g, r) => ({ fit: 'fill', sc: 1, dx: 0, dy: 0, ratio: r || g.ratio, kind: g.kind, w: g.w, h: g.h, name: g.name });   // the back's own settings
       if (t === 'back') { S.back = 'file'; S.backSrc = f.pages[0]; S.bk = bkOf(f); }
       else {
