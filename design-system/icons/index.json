@@ -270,7 +270,10 @@
    "panels/correx": "Correx",
    "panels/plexi-bright": "Plexiglass bright",
    "panels/plexi-opal": "Plexiglass opal",
-   "panels/plexi-blockout": "Plexiglass blockout"
+   "panels/plexi-blockout": "Plexiglass blockout",
+   "panels/trespa": "Trespa",
+   "panels/dibond-double": "Dibond double-sided",
+   "panels/reboard-kraft": "Honeycomb, kraft"
   },
   "Sign holes (the panel front-on)": {
    "panels/holes-none": "No holes",
