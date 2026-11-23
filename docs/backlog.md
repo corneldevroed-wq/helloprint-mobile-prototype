@@ -7,6 +7,9 @@ Not started unless Cornel says go. Move items to `decisions.md` once decided.
   customer's own file, its Add to cart already writes a prototype cart line) still stands alone with a fixed product (Standard flyers A5, 1,000,
   double-sided, €33.49). Next: the PDP's "Upload your design" opens the flow, and the flow takes the PDP's configuration (size, so the shape and cut-off
   maths no longer assume A5; quantity, paper, sides, delivery, price).
+- **Upload & See: skip steps and double info** (Cornel, 2026-11-23, "voor morgen"): some interactions / steps can go and some information is said twice
+  (e.g. the sending screen, check result next to approve, the bar's total next to the cards). First look again at staging for animations we don't copy
+  (they may carry what now reads double), then propose which steps to merge or skip.
 - **Print technique icons** (Cornel, 2026-11-17, "skip, remember for later"): wave 2 of the all-categories run, "Print technique" in 81 products.
   10 new icons (screen print, pad print, full colour, transfer, DTF transfer, screen transfer, laser engraving, hot stamping, embossing, UV print)
   + 4 reused (No imprint = `inks/none`, Screenround = screen print, Engraving = laser, Digital sticker = `stickers/contour`). Three directions in
