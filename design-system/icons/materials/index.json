@@ -64,5 +64,9 @@
  "roughmark": "Roughmark (high-tack)",
  "suction-foil": "Suction cup foil",
  "ceramic": "Ceramic",
- "stoneware": "Stoneware"
+ "stoneware": "Stoneware",
+ "copper-foil": "Copper foil",
+ "black-foil": "Black foil (stamping)",
+ "white-foil": "White foil (stamping)",
+ "darkred-foil": "Dark red foil (stamping)"
 }

@@ -111,7 +111,9 @@
    "stickers/square": "Square",
    "stickers/rounded": "Rounded corners",
    "stickers/contour": "Custom shape",
-   "stickers/on-sheet": "On sheet"
+   "stickers/on-sheet": "On sheet",
+   "stickers/surface-flat": "For flat surfaces",
+   "stickers/surface-curved": "For curved surfaces"
   }
  },
  "Product kit icons": {
@@ -162,7 +164,9 @@
    "exhibition/tube-print": "Tube stand, print only",
    "exhibition/counter-complete": "Counter, complete set",
    "exhibition/counter-frame": "Counter, frame only",
-   "exhibition/counter-print": "Counter, print only"
+   "exhibition/counter-print": "Counter, print only",
+   "exhibition/table-set": "High table, cover and frame",
+   "exhibition/table-cover": "High table, cover only"
   },
   "Exhibition hardware (the live photo)": {
    "inks/none": "None",
@@ -176,7 +180,8 @@
    "../prototype/assets/live-opts/exhibition/magnets-blue.webp": "Magnets, blue",
    "../prototype/assets/live-opts/exhibition/magnets-red.webp": "Magnets, red",
    "../prototype/assets/live-opts/exhibition/pocket.webp": "A4 pocket",
-   "../prototype/assets/live-opts/exhibition/connector.webp": "Connector"
+   "../prototype/assets/live-opts/exhibition/connector.webp": "Connector",
+   "../prototype/assets/live-opts/exhibition/magnets-white.webp": "Magnets, white"
   },
   "A-boards": {
    "aboard/a2": "A2",
@@ -301,7 +306,14 @@
    "notepads/paper-plain": "Plain paper",
    "notepads/paper-ruled": "Ruled",
    "notepads/paper-grid": "Grid",
-   "notepads/paper-dotted": "Dotted"
+   "notepads/paper-dotted": "Dotted",
+   "folders/binder-window-none": "Binder, no window",
+   "folders/binder-window-back": "Window on the back",
+   "folders/binder-window-inside": "Window inside",
+   "folders/binder-window-both": "Window inside and back",
+   "folders/binder-rings-2": "2 rings",
+   "folders/binder-rings-4": "4 rings",
+   "folders/binder-grip": "Grip hole"
   },
   "Cups, cutlery, balloons, tablecloths": {
    "drinkware/cup-no-lid": "No lid",
@@ -313,7 +325,13 @@
    "gadgets/balloon": "Balloon, no finishing",
    "gadgets/balloon-ribbon": "Incl. ribbon",
    "gadgets/hem-without": "Without hem",
-   "gadgets/hem-with": "With hem"
+   "gadgets/hem-with": "With hem",
+   "gadgets/bowl": "Bowl, no lid",
+   "gadgets/bowl-lid": "Bowl with lid",
+   "gadgets/confetti-flower": "Confetti, flower",
+   "gadgets/confetti-heart": "Confetti, heart",
+   "gadgets/cushion-filled": "Cushion, filled",
+   "gadgets/cushion-case": "Cushion, case only"
   },
   "Office stamps and vboard fixings (the live photo)": {
    "../prototype/assets/live-opts/stamps/standard.webp": "Standard stamp",
@@ -333,6 +351,16 @@
    "labels/core-76": "76 mm core",
    "labels/dispenser-none": "No dispenser",
    "labels/dispenser-box": "Dispenser per roll"
+  },
+  "Boards, tapes and parasols (the live photo)": {
+   "../prototype/assets/live-opts/tail/chalk-3.webp": "Chalk pen 3 mm",
+   "../prototype/assets/live-opts/tail/chalk-15.webp": "Chalk pen 15 mm",
+   "../prototype/assets/live-opts/tail/topcard.webp": "Top card",
+   "../prototype/assets/live-opts/tail/dispenser-standard.webp": "Standard dispenser",
+   "../prototype/assets/live-opts/tail/dispenser-deluxe.webp": "Deluxe dispenser",
+   "../prototype/assets/live-opts/tail/parasol-white.webp": "White parasol base",
+   "../prototype/assets/live-opts/tail/parasol-black.webp": "Black parasol base",
+   "../prototype/assets/live-opts/tail/hanging-plate-10.webp": "Hanging plate 10 x 10"
   }
  },
  "Banner icons": {
