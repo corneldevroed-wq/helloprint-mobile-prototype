@@ -6,6 +6,10 @@ Add new decisions here when Cornel makes a final call.
 ## Footer pages (Nov 22, 2026)
 - **11-22 — Our promises and Sustainability are marketing pages** (Cornel: "convert to the marketing template, following our guide"): the live en-ie footer pages rebuilt 1:1 (copy, images, order) with only the template's parts, no new CSS. Big figures are icon cards (as about us); a quote is the centred block without a photo (title = the quote, the name under it); live-only targets (the impact report on Flipsnack, the partner site) stay local anchors. The existing `#our-promises` and `#sustainability` links (footer, about us, our culture, VIP) now open them.
 
+## Photo galleries for the top 20 (Nov 23, 2026)
+- **2026-11-23 — The 13 new PDPs get live's photo gallery** (assets/gallery/<slug>-N.webp, LIVE_GALLERY in products.js): our catalog image first, then
+  live's gallery photos (2 to 8 per product). Christmas Cards skip live's first photo, a backpack (a mistake on live). Mobile keeps one photo, as every PDP.
+
 ## Option icons on the new product pages, an audit (Nov 22, 2026)
 - **2026-11-22 — Every option uses the guide's icon or live photo where one exists** (Cornel: "check all pages for the newest icons"). Audit of all 29
   PDPs: added the flag bases and wall mounts (live photos, assets/live-opts/flags), No flag base = inks/none, Selfcover = notepads/self-cover, the
