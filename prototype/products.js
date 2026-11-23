@@ -883,18 +883,18 @@ const PRODUCTS = {
         { id: 'silver', name: 'Silver Polypropylene', sub: 'Luxurious look', icon: 'materials/metallic-silver', mult: 1.1, info: 'A shiny silver film that catches the light.', when: c => c.appearance === 'special' },
       ]},
       { key: 'dispenser', title: 'Dispenser', items: [
-        { id: 'none', name: 'No dispenser', sub: 'Roll only', mult: 1, info: 'Your labels come on a roll, without a box.' },
-        { id: 'dispenser', name: 'Dispenser per roll', sub: 'Cardboard box', mult: 1.1, info: 'Each roll in a cardboard dispenser box, so you tear off one label at a time. Our recommended choice.' },
+        { id: 'none', name: 'No dispenser', sub: 'Roll only', icon: 'labels/dispenser-none', mult: 1, info: 'Your labels come on a roll, without a box.' },
+        { id: 'dispenser', name: 'Dispenser per roll', sub: 'Cardboard box', icon: 'labels/dispenser-box', mult: 1.1, info: 'Each roll in a cardboard dispenser box, so you tear off one label at a time. Our recommended choice.' },
       ]},
       { key: 'winding', title: 'Roll winding', items: [
-        { id: '2', name: 'Rollwinding 2', sub: '0°', mult: 1, info: 'The label comes off the roll upright, top first. Our recommended choice, and the usual one for hand application.' },
-        { id: '1', name: 'Rollwinding 1', sub: '180°', mult: 1, info: 'The label comes off upside down, bottom first.' },
-        { id: '3', name: 'Rollwinding 3', sub: '90°', mult: 1, info: 'The label comes off sideways, its right side first.' },
-        { id: '4', name: 'Rollwinding 4', sub: '270°', mult: 1, info: 'The label comes off sideways, its left side first. Check which one your labelling machine needs.' },
+        { id: '2', name: 'Rollwinding 2', sub: '0°', icon: 'labels/winding-2', mult: 1, info: 'The label comes off the roll upright, top first. Our recommended choice, and the usual one for hand application.' },
+        { id: '1', name: 'Rollwinding 1', sub: '180°', icon: 'labels/winding-1', mult: 1, info: 'The label comes off upside down, bottom first.' },
+        { id: '3', name: 'Rollwinding 3', sub: '90°', icon: 'labels/winding-3', mult: 1, info: 'The label comes off sideways, its right side first.' },
+        { id: '4', name: 'Rollwinding 4', sub: '270°', icon: 'labels/winding-4', mult: 1, info: 'The label comes off sideways, its left side first. Check which one your labelling machine needs.' },
       ]},
       { key: 'core', title: 'Core diameter', items: [
-        { id: '40', name: '40 mm core', sub: 'Hand and small dispensers', mult: 1, info: 'The usual core for applying by hand. Our recommended choice.' },
-        { id: '76', name: '76 mm core', sub: 'Labelling machines', mult: 1, info: 'The standard core for most labelling machines.' },
+        { id: '40', name: '40 mm core', sub: 'Hand and small dispensers', icon: 'labels/core-40', mult: 1, info: 'The usual core for applying by hand. Our recommended choice.' },
+        { id: '76', name: '76 mm core', sub: 'Labelling machines', icon: 'labels/core-76', mult: 1, info: 'The standard core for most labelling machines.' },
       ]},
     ],
     presets: [
@@ -1190,7 +1190,7 @@ const PRODUCTS = {
         ['silver', 'Silver', '#c4c6c8'], ['light-green', 'Light Green', '#8fcf6a'], ['purple', 'Purple', '#6b3fa0'], ['light-blue', 'Light Blue', '#7fbbe8'], ['anthracite', 'Anthracite', '#3d4045'], ['white', 'White', '#ffffff']]
         .map(([id, name, color]) => ({ id, name, sub: '', color, mult: 1, info: id === 'black' ? 'A matte black barrel with silver details and a metal clip. Our recommended colour.' : `A matte ${name.toLowerCase()} barrel with silver details and a metal clip.` })) },
       { key: 'print', title: 'Print', items: [
-        { id: 'engraving', name: 'Laser engraving', sub: 'Silver on the barrel', mult: 1, info: 'Your logo engraved into the barrel: the silver metal shows through and never wears off. Our recommended choice.' },
+        { id: 'engraving', name: 'Laser engraving', sub: 'Silver on the barrel', icon: 'inks/laser', mult: 1, info: 'Your logo engraved into the barrel: the silver metal shows through and never wears off. Our recommended choice.' },
         { id: 'full', name: 'Full colour', sub: 'Any colours', icon: 'inks/full', mult: 1.3, info: 'Your design in full colour, photos and gradients included.' },
         ...[1, 2, 3, 4].map(n => ({ id: `c${n}`, name: `${n} colour${n > 1 ? 's' : ''}`, sub: 'Pad print', icon: `inks/${n}`, mult: 1 + n * .08, info: `A logo in ${n} solid colour${n > 1 ? 's' : ''}, printed on the barrel.` })),
         { id: 'unprinted', name: 'Unprinted', sub: 'Blank', icon: 'inks/none', mult: .8, info: 'The pen without print.' },
@@ -1281,9 +1281,9 @@ const PRODUCTS = {
         { id: 'double', name: 'Double-sided', sub: 'Front and back', mult: 1.5, info: 'Both sides printed: for hanging signs and displays.' },
       ]},
       { key: 'holes', title: 'Holes', items: [
-        { id: 'none', name: 'No holes', sub: 'Plain', mult: 1, info: 'No holes: for glue, tape or a frame. Our recommended choice.' },
-        { id: '2', name: '2 holes', sub: 'Upper corners, 5 mm', mult: 1.04, info: 'Two holes in the upper corners, to hang the sign.' },
-        { id: '4', name: '4 holes', sub: 'In the corners, 5 mm', mult: 1.06, info: 'Four holes in the corners, to screw the sign on a wall or fence.' },
+        { id: 'none', name: 'No holes', sub: 'Plain', icon: 'panels/holes-none', mult: 1, info: 'No holes: for glue, tape or a frame. Our recommended choice.' },
+        { id: '2', name: '2 holes', sub: 'Upper corners, 5 mm', icon: 'panels/holes-2', mult: 1.04, info: 'Two holes in the upper corners, to hang the sign.' },
+        { id: '4', name: '4 holes', sub: 'In the corners, 5 mm', icon: 'panels/holes-4', mult: 1.06, info: 'Four holes in the corners, to screw the sign on a wall or fence.' },
       ]},
     ],
     presets: [
@@ -1299,7 +1299,10 @@ const PRODUCTS = {
 };
 // More product photos from the live product pages (helloprint.com/en-ie), after the image our category tiles use.
 // Files: assets/gallery/<slug>-2.webp … (the live first photo is that same catalog image). Multilayered has no live page.
-const LIVE_GALLERY = { 'eco-friendly-business-cards': 7, 'pvc-cards-white': 5, 'deluxe-business-cards': 6, 'business-cards-special-materials': 6, 'standard-flyers': 5, 'eco-flyers': 4, 'special-material-flyers': 5, 'special-finishing-flyers': 5, 'ceramic-mug-330ml': 4, 'basic-cotton-bags': 2, 'premium-tote-bags': 3, 'sols-imperial-tshirt': 7, 'banners': 7, 'roller-banners': 6 };
+const LIVE_GALLERY = { 'eco-friendly-business-cards': 7, 'pvc-cards-white': 5, 'deluxe-business-cards': 6, 'business-cards-special-materials': 6, 'standard-flyers': 5, 'eco-flyers': 4, 'special-material-flyers': 5, 'special-finishing-flyers': 5, 'ceramic-mug-330ml': 4, 'basic-cotton-bags': 2, 'premium-tote-bags': 3, 'sols-imperial-tshirt': 7, 'banners': 7, 'roller-banners': 6,
+  // the top 20 (Cornel 2026-11-23): live's gallery after its catalog image; Christmas cards skip live's first photo (a backpack, a live mistake)
+  'standard-posters': 6, 'stapled-booklets': 6, 'perfect-bound-brochures': 5, 'half-fold-leaflets': 5, 'labels-on-roll': 3, 'individual-stickers': 2, 'standard-envelopes': 4,
+  'letterheads': 2, 'standard-notepads': 6, 'christmas-cards': 5, 'ebony-pens-matte': 5, 'beach-flags': 8, 'foamex-signs': 4 };
 for (const [slug, n] of Object.entries(LIVE_GALLERY)) PRODUCTS[slug].gallery = [PRODUCTS[slug].img, ...Array.from({ length: n }, (_, i) => `assets/gallery/${slug}-${i + 2}.webp`)];
 // Our own photo first (Cornel, 2026-11-04): first in the desktop gallery and the one photo on mobile (`photo`, fills the frame);
 // the catalog image stays the image of tiles and cart
