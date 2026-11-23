@@ -21,7 +21,8 @@
    "inks/3": "3 colours",
    "inks/4": "4 colours",
    "inks/5": "5 colours",
-   "inks/full": "Full colour"
+   "inks/full": "Full colour",
+   "inks/laser": "Laser engraving"
   },
   "Print area": {
    "printarea/bag-large": "Bag, large",
@@ -212,6 +213,11 @@
    "panels/plexi-opal": "Plexiglass opal",
    "panels/plexi-blockout": "Plexiglass blockout"
   },
+  "Sign holes (the panel front-on)": {
+   "panels/holes-none": "No holes",
+   "panels/holes-2": "2 holes, upper corners",
+   "panels/holes-4": "4 holes, in the corners"
+  },
   "Sign hardware (the live photo)": {
    "inks/none": "No extra options",
    "../prototype/assets/live-opts/signs/hanging-plate-4.jpg": "Hanging plate 4 x 4 cm",
@@ -255,6 +261,16 @@
    "../prototype/assets/live-opts/stamps/date.webp": "Date stamp",
    "../prototype/assets/live-opts/vboards/tape.webp": "Double sided tape",
    "../prototype/assets/live-opts/vboards/suction-cups.webp": "Suction cups"
+  },
+  "Labels on roll": {
+   "labels/winding-1": "Rollwinding 1 · 180°",
+   "labels/winding-2": "Rollwinding 2 · 0°",
+   "labels/winding-3": "Rollwinding 3 · 90°",
+   "labels/winding-4": "Rollwinding 4 · 270°",
+   "labels/core-40": "40 mm core",
+   "labels/core-76": "76 mm core",
+   "labels/dispenser-none": "No dispenser",
+   "labels/dispenser-box": "Dispenser per roll"
   }
  },
  "Banner icons": {
