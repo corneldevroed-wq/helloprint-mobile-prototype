@@ -1143,6 +1143,65 @@ function renderCartBadge() {
 }
 renderCartBadge();
 
+// Mini cart (Cornel 2026-11-23, sketches/minicart-sketch.html A, as live): Add to cart on the PDP (Upload later, Upload your artwork)
+// and the bag icon (cart not empty) open the cart as a drawer from the right, full width on mobile, so the customer can shop on.
+// It is always the only layer: it closes any popup and the menu first, and nothing opens inside it (no ⓘ, no artwork popup;
+// Edit is the product page, Remove is direct). Not on the cart page and the checkout. Canva / the logo editor and an edit still
+// go to the cart page. Prototype switch "Mini cart": A = off (straight to the cart page, as before), B = on (default; Cornel 2026-11-23
+// kept the version with the added line on top, lit up once; the plain live order was removed). URL ?minicart= + localStorage.
+const MINI = (() => { const q = new URLSearchParams(location.search).get('minicart'); let v = q;
+  try { v = q || localStorage.getItem('hp-minicart'); if (q) localStorage.setItem('hp-minicart', q); } catch (e) {}
+  return v === 'a' ? 'a' : 'b'; })();
+const MINI_PAGE = !!document.querySelector('.header, .dhead') && !document.querySelector('.cart-page');
+let miniNew = -1;   // the line just added: on top, lit up once
+const ico = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;   // the cart's icon font, loaded below when a page lacks it
+function renderMini() {
+  const items = getCart(), eur = n => '€' + n.toFixed(2), n = items.length;
+  const order = items.map((it, i) => i), lines = miniNew > -1 ? [miniNew, ...order.filter(i => i !== miniNew)] : order;
+  document.getElementById('mcCount').textContent = n === 1 ? '1 item' : n + ' items';
+  document.getElementById('mcBody').innerHTML = `<div class="mc-lines">${lines.map(i => { const it = items[i], art = it.art || [];
+    return `<div class="line-item cart-line${i === miniNew ? ' mc-new' : ''}">${art.length
+        ? `<span class="img art-tile">${artPic(art[0])}${art.length > 1 ? `<span class="art-count">+${art.length - 1}</span>` : ''}</span>`
+        : `<span class="img" style="background:${it.bg || 'var(--light-grey)'}"><img src="${it.img}" alt=""></span>`}
+      <div class="t"><strong>${esc(it.name)}</strong><small>${pcs(it.qty)}${it.options ? ' · ' + esc(it.options) : ''}</small></div>
+      <div class="mc-side"><span class="p">${eur(it.price)}</span><div class="icon-btns"><a class="icon-btn" href="${it.href}${it.href.includes('?') ? '&' : '?'}edit=${i}&mini" data-tip="Change options" aria-label="Change options">${ico('edit')}</a><button class="icon-btn" type="button" data-mc-rm="${i}" data-tip="Remove from cart" aria-label="Remove from cart">${ico('delete')}</button></div></div>
+      <div class="eta">${etaHtml(it.arrives, '', it.delivery)}</div></div>`; }).join('')}</div>`;   // the cart's round icon buttons, under the price (Cornel 2026-11-23: not a row of their own)
+  document.getElementById('mcFoot').innerHTML = `${totalsHtml(items, getAddons())}<a class="btn primary" href="cart.html">Proceed to cart</a>
+    <button class="link" type="button" data-close-sheet>Continue shopping</button>`;
+}
+function openMini(added) {   // added: true = the last line was just added, a number = that line was just changed, false = from the bag icon
+  while (sheetStack.length) closeSheet();   // the only layer: no drawer over a popup
+  if (document.getElementById('menu')?.classList.contains('open')) closeMenu();
+  miniNew = added === true ? getCart().length - 1 : typeof added === 'number' ? added : -1;
+  renderMini(); openSheet('minicart');
+}
+if (MINI_PAGE) {
+  // The icon font: every page loads only its own icons (icon_names), so add edit + delete to it (sorted, as Google wants) or load it
+  const mfont = document.querySelector('link[href*="Material+Symbols"]'), m = mfont && mfont.href.match(/icon_names=([^&]*)/);
+  if (!mfont) document.head.insertAdjacentHTML('beforeend', '<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=delete,edit&display=block" rel="stylesheet">');
+  else if (m) { const names = new Set(decodeURIComponent(m[1]).split(',')); if (!names.has('edit') || !names.has('delete')) { names.add('edit'); names.add('delete');
+    mfont.href = mfont.href.replace(m[0], 'icon_names=' + [...names].filter(Boolean).sort().join(',')); } }
+  document.body.insertAdjacentHTML('beforeend', `<div class="sheet-layer drawer" id="sheet-minicart" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
+    <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="mcTitle"><div class="sheet-head"><h2 id="mcTitle">Your cart</h2><span class="mc-count" id="mcCount"></span>
+      <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
+      <div class="sheet-body" id="mcBody"></div><div class="mc-foot" id="mcFoot"></div></aside></div>`
+    + `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Mini cart</span>${[['a', 'Off: to the cart page'], ['b', 'Mini cart, the added line on top']].map(([v, t]) => `<button data-minicart="${v}" aria-pressed="${v === MINI}" title="${t}">${v.toUpperCase()}</button>`).join('')}</div>`);
+  // back from an edit that started in the mini cart (?minicart-line=i): open it with that line on top; the URL loses the parameter
+  const back = new URLSearchParams(location.search).get('minicart-line');
+  if (back !== null && getCart()[+back]) { const u = new URL(location.href); u.searchParams.delete('minicart-line'); history.replaceState(null, '', u);
+    addEventListener('load', () => openMini(+back)); }
+  document.addEventListener('click', e => {
+    const sw = e.target.closest('[data-minicart]');
+    if (sw) { const u = new URL(location.href); u.searchParams.set('minicart', sw.dataset.minicart); location.href = u.toString(); return; }
+    const bag = e.target.closest('a[aria-label="Cart"]');
+    if (bag && MINI !== 'a' && getCart().length) { e.preventDefault(); e.stopPropagation(); openMini(false); return; }   // empty: the cart page (its empty state)
+    const rm = e.target.closest('[data-mc-rm]');
+    if (rm) { const items = getCart(), [gone] = items.splice(+rm.dataset.mcRm, 1); setCart(items); miniNew = -1;
+      if (items.length) renderMini(); else closeSheet();
+      showToast(`${gone.name} removed from your cart`); }
+  }, true);
+}
+
 
 // USP ticker under the search bar: next USP every few seconds (the last item repeats the first for a seamless loop)
 (() => {

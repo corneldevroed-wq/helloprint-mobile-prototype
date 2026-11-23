@@ -1033,3 +1033,23 @@ html:not(.desk) .items-table .nv { display: block; }
 .oc-act .row .btns .btn { margin-left: 0; }
 html:not(.desk) .oc-act .row .btns { flex: 1 1 100%; }   /* mobile, a block's button(s) over the full width, two share it equally; a done block's Change too (Cornel 2026-11-18) */
 html:not(.desk) .oc-act .row .btns .btn { flex: 1; }
+
+/* Mini cart (Cornel 2026-11-23, as live): the cart as a drawer from the right (a .sheet-layer.drawer), full width on mobile,
+   440 on desktop. Lines as the cart (mobile cart line) with its round icon buttons (Edit, Remove; 32, under the price), the totals and Proceed to cart fixed at the bottom */
+.drawer .sheet, .desk .drawer .sheet { top: 0; right: 0; bottom: 0; left: auto; width: 100%; max-height: none; border-radius: 0; opacity: 1; transform: translateX(100%); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+.desk .drawer .sheet { width: 440px; }
+.sheet-layer.drawer.open .sheet, .desk .sheet-layer.drawer.open .sheet { transform: none; }
+.drawer .sheet-head, .desk .drawer .sheet-head { gap: 8px; padding: 16px; border-bottom: 1px solid var(--line); }
+.drawer .sheet-head h2 { flex: 1; padding: 0; }
+.mc-count { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.mc-lines { display: flex; flex-direction: column; padding: 16px; }
+.drawer .cart-line > .eta { padding-bottom: 0; border-bottom: 0; }
+.mc-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }   /* the price, the icon buttons under it (32, as the desktop cart) */
+.drawer .icon-btn { width: 32px; height: 32px; }
+.drawer .mc-new { margin: 0 -16px; padding-left: 16px; padding-right: 16px; animation: mc-new 2.4s ease-out; }   /* the line just added (on top): a light green background that fades out once */
+.desk .drawer .mc-new { margin: 0 -24px; padding-left: 24px; padding-right: 24px; }
+@keyframes mc-new { 0%, 50% { background: var(--tint); } 100% { background: transparent; } }
+.mc-foot { flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; border-top: 1px solid var(--line); }
+.mc-foot .totals { border-top: 0; padding-top: 0; }
+.mc-foot .link { align-self: center; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
+.desk .mc-lines, .desk .mc-foot, .desk .drawer .sheet-head { padding-left: 24px; padding-right: 24px; }

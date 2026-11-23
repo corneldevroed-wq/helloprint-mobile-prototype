@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_circle,add,build,call,campaign,checklist,content_copy,delete,delivery_truck_speed,download,edit,error,expand_more,local_mall,more_vert,person,photo_camera,receipt,request_quote,search,upload,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=20261205zzz">
-<link rel="stylesheet" href="components.css?v=20261205zzz">
-<link rel="stylesheet" href="guide.css?v=20261205zzz">
+<link rel="stylesheet" href="tokens.css?v=20261123mk">
+<link rel="stylesheet" href="components.css?v=20261123mk">
+<link rel="stylesheet" href="guide.css?v=20261123mk">
 <style>
   /* The kit's own chrome (top bar, sidebar, rows). Every example inside a .ds-stage uses the real styles.css,
      and every value shown is read from it when the page loads: change the prototype and the kit follows. */
@@ -547,6 +547,13 @@
       ex: stage(accReal(`<div class="dash-card"><div class="account-who"><span class="av"><img src="icons/account-grey.svg" alt=""></span><b>Loraine Pijffers</b><small>Merrion Studio · customer since 2023</small></div><div class="vip-meter"><div class="top"><span>VIP status (−4%)</span><span class="badge eco co-badge">VIP2</span></div><div class="bar"><i style="width:75%"></i></div><small>€1,876 of €2,500 · €624 to VIP3 (6% off)</small>
           <small><a class="link" href="#account">How VIP works</a></small></div>
         <nav class="d-menu d-head account-nav" aria-label="My account"><a href="#account" aria-current="page"><span class="ico"><img src="icons/home.svg" alt=""></span><span><b>Account Overview</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/package-2.svg" alt=""></span><span><b>Orders</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a><a href="#account"><span class="ico"><img src="icons/chat.svg" alt=""></span><span><b>Complaints</b></span><img class="chev" src="${A}menu/arrow.svg" alt=""></a></nav></div>`, [288, 'account overview, desktop (side card)'])) });
+  // Mini cart (Cornel 2026-11-23, as live): markup 1:1 from renderMini() in prototype/app.js
+  const mcA = '../prototype/assets/';
+  const minicart = row({ name: 'Mini cart', wide: true, meta: [{ t: '.sheet-layer.drawer' }, { t: '.mc-lines' }, { t: '.mc-foot' }, SIZE],
+      use: 'The cart as a drawer from the right, as live: after Add to cart on the PDP (Upload later, Upload your artwork) and from the bag icon (cart not empty; empty = the cart page). Full width on mobile, 440 on desktop, over the blurred dark layer. Head "Your cart · n items" and ✕; every line as the mobile cart line with the cart’s round icon buttons under the price (32): Edit (the product page) and Remove (direct, a toast); the totals, Proceed to cart (the cart page, as live: the file check, a discount code and the checkout are there) and Continue shopping fixed at the bottom. <b>Always the only layer</b>: it closes any popup and the menu first, and nothing opens inside it (no ⓘ, no artwork popup). Canva, the logo editor and an edit go to the cart page. After Add to cart the added line is on top, its light green background fading once. Prototype switch Mini cart: A off, B on.',
+      ex: stage(real(`<div class="sheet-layer drawer open" style="position:relative;height:620px;z-index:0;pointer-events:auto"><aside class="sheet" role="dialog" aria-label="Your cart"><div class="sheet-head"><h2>Your cart</h2><span class="mc-count">1 item</span><button class="close" aria-label="Close"><img src="${mcA}pdp/close.svg" alt=""></button></div>
+        <div class="sheet-body"><div class="mc-lines"><div class="line-item cart-line"><span class="img" style="background:var(--light-grey)"><img src="${mcA}flyers/t-classic.webp" alt=""></span><div class="t"><strong>Standard flyers</strong><small>1,000 pcs · A5 148 × 210 mm · Glossy</small></div><div class="mc-side"><span class="p">€35.99</span><div class="icon-btns"><a class="icon-btn" href="#cart" data-tip="Change options" aria-label="Change options"><span class="material-symbols-rounded" aria-hidden="true">edit</span></a><button class="icon-btn" type="button" data-tip="Remove from cart" aria-label="Remove from cart"><span class="material-symbols-rounded" aria-hidden="true">delete</span></button></div></div><div class="eta"><b>Estimated delivery date</b><p>Tuesday 1 December — latest Wed 2 Dec (Saver)</p></div></div></div></div>
+        <div class="mc-foot"><div class="totals"><div><span>Products (1)</span><span>€35.99</span></div><div><span>Shipping</span><span>€6.00</span></div><div class="sub"><span>Subtotal <small>(Excl. VAT)</small></span><span>€41.99</span></div><div><span>VAT 23%</span><span>€9.66</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€51.65</span></div></div><a class="btn primary" href="#cart">Proceed to cart</a><button class="link" type="button">Continue shopping</button></div></aside></div>`, [390, 'every shop page, mobile'], [440, 'every shop page, desktop (right)'])) });
   const shell = cut('Header', '.header / .dhead', '../prototype/index.html', 'header.header||.dhead', 'every page',
       'Mobile: dark green bar with menu, logo, account and cart, the search under it. Desktop: logo, search, language, account, Need help?, cart, then the category bar (All products, the categories, and right the season link: Christmas, white with a light green tree icon (icons/tree.svg), with its own dropdown). Checkout (.co-header / .co-dhead): logo, Secure Checkout, account, cart; on desktop only the 60 top bar: logo, Secure Checkout (14/22) next to it, account and cart right (no search, menu or USP bar). Login / register (.auth-head): only a 60 dark green bar with the logo in the middle, no menu or footer, from every flow.') +
     row({ name: 'Notification', wide: true, meta: [{ t: '.notice' }, { t: '.notice-close' }, { t: '--light-green' }],
@@ -600,7 +607,7 @@
     sec('cards', 'Cards', 'Products as product cards, categories as category cards: never mix them up. Cards on desktop: light outline, soft shadow only on hover.', cards) +
     sec('accordion', 'Accordion / FAQ', 'Questions fold open with a turning chevron; when every answer has its own page, rows with the list arrow.', accordion) +
     sec('options', 'PDP option cards', 'Configure the product on the page: one card per option, the chosen one in light green.', options) +
-    sec('cart', 'Cart', 'Mobile leads: the same blocks and wording. Desktop: products left, a sticky sidebar right with the upsells, the total and the button.', cart) +
+    sec('cart', 'Cart', 'Mobile leads: the same blocks and wording. Desktop: products left, a sticky sidebar right with the upsells, the total and the button.', cart + minicart) +
     sec('checkout', 'Checkout', 'Details and payment: calm forms, one choice per row, the order overview on the side.', checkout) +
     sec('orderstatus', 'Order status', 'After the order: thank you, then what still needs doing (green, numbered, Pay first) and what is done (grey, a check). Order confirmed, and Needs your attention in My account.', orderstatus) +
     sec('account', 'My account', 'The account pages (account.html, orders.html, order.html): a card per block, rows and a table with a status and where an order is, a card per product on the order page, Order details as on order confirmed, the account card with VIP and the account pages.', account) +
@@ -677,6 +684,6 @@
     b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('view', b.dataset.view); location.href = u.toString(); });
   });
 </script>
-<script src="guide.js?v=20261205zzz"></script>
+<script src="guide.js?v=20261123mk"></script>
 </body>
 </html>

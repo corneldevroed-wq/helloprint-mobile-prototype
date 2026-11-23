@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261122n">
+<link rel="stylesheet" href="../design-system/components.css?v=20261122n">
+<link rel="stylesheet" href="../prototype/pages.css?v=20261122n">
+<!-- Sketch only, not linked from the prototype (Cornel, 2026-11-23): the mini cart after Add to cart and from the bag icon,
+     as live (helloprint.com/en-ie: a drawer from the right over a blurred page). Which design choices open it, and mobile. -->
+<style>
+  html, body { background: var(--white); }
+  .top { max-width: 1240px; margin: 0 auto; padding: 24px 16px 0; font-size: var(--t-14); line-height: var(--lh-14); display: flex; flex-direction: column; gap: 8px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 48px; }
+  .wrap > h2 { margin-bottom: -24px; }
+  .row3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 32px; align-items: start; }
+  .sk { display: flex; flex-direction: column; gap: 12px; }
+  .sk h3 { font-size: 18px; line-height: 24px; }
+  .sk h3 .pick { margin-left: 8px; padding: 2px 8px; border-radius: var(--r-pill); background: var(--light-green); color: var(--white); font-size: var(--t-12); vertical-align: middle; }
+  .sk p.why { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  /* frames */
+  .desk-f { position: relative; height: 640px; border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: var(--light-grey); }
+  .desk-f .page { position: absolute; inset: 0; padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; filter: blur(3px); opacity: .6; }
+  .desk-f .page i { display: block; border-radius: var(--r-l); background: var(--mid-grey); }
+  .desk-f .page i:first-child { grid-row: span 2; }
+  .phone { position: relative; width: 390px; height: 780px; border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; background: var(--light-grey); }
+  .phone .page { position: absolute; inset: 0; padding: 16px; display: flex; flex-direction: column; gap: 16px; opacity: .45; }
+  .phone .page i { display: block; height: 260px; border-radius: var(--r-l); background: var(--mid-grey); }
+  .phone .page i + i { height: 80px; }
+  /* the drawer and the sheet, sketch-only */
+  .mc { position: absolute; top: 0; right: 0; bottom: 0; width: 420px; display: flex; flex-direction: column; background: var(--white); box-shadow: 0 0 24px rgba(0,0,0,.12); }
+  .phone .mc { width: 100%; }
+  .mc-head { display: flex; align-items: center; gap: 8px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
+  .mc-head h2 { flex: 1; }
+  .mc-head small { font-size: var(--t-14); color: var(--dark-grey); }
+  .mc-head .close { width: 32px; height: 32px; display: grid; place-items: center; }
+  .mc-body { flex: 1; overflow: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .mc-foot { padding: 16px 24px 24px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+  .mc .line-item { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .mc .line-item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .mc .added { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+  .mc .added img { width: 16px; height: 16px; }
+  .mc .new { padding: 12px; margin: 0 -12px; border-radius: var(--r-l); background: var(--tint); border-bottom: 0; }
+  .mc .tot { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--t-14); }
+  .mc .tot b { font-weight: 800; font-size: var(--t-20); line-height: var(--lh-20); }
+  .mc .tot small { color: var(--dark-grey); }
+  .mc .more { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+  .mc .more a, .mc-foot a.link { color: var(--link); text-decoration: underline; font-weight: 600; }
+  .mc-foot .btn { width: 100%; }
+  .mc-foot .lnk { text-align: center; font-weight: 600; font-size: var(--t-14); text-decoration: underline; }
+  /* mobile bottom sheet (our sheet: grab, head, body) */
+  .bs { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 16px; padding: 8px 16px 24px; border-radius: var(--r-xl) var(--r-xl) 0 0; background: var(--white); box-shadow: 0 -8px 24px rgba(0,0,0,.12); }
+  .bs .grab { align-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--mid-grey); }
+  .bs .btns { display: flex; flex-direction: column; gap: 8px; }
+  .bs .btn { width: 100%; }
+  .toastbar { position: absolute; left: 16px; right: 16px; bottom: 24px; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--r-l); background: var(--dark-green); color: var(--white); font-size: var(--t-14); line-height: var(--lh-14); }
+  .toastbar img.p { width: 40px; height: 40px; border-radius: var(--r-m); background: var(--white); object-fit: contain; }
+  .toastbar span { flex: 1; }
+  .toastbar a { color: var(--white); font-weight: 600; text-decoration: underline; }
+  /* the rules table */
+  table.rules { width: 100%; border-collapse: collapse; font-size: var(--t-14); line-height: var(--lh-14); }
+  .rules th, .rules td { text-align: left; vertical-align: top; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); }
+  .rules th { font-weight: 700; }
+  .rules td:first-child { font-weight: 600; white-space: nowrap; }
+  .rules .q { color: var(--orange); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="top">
+  <p><b>Mini cart.</b> Live (en-ie, looked at 2026-11-23): Add to cart and the bag icon open a drawer from the <b>right</b> over a blurred page: "Your Cart · 2 items", every line (photo, specs, qty, delivery, Edit, bin), the totals with the discount, Proceed to Checkout and Continue Shopping. The point: add, see it landed, shop on.</p>
+  <p>Below: <b>1</b> when it opens (per design choice), <b>2</b> desktop, <b>3</b> mobile. Prototype data, the pages behind are blurred stand-ins.</p>
+</div>
+<div class="wrap">
+
+  <h2>1 · When does it open?</h2>
+  <table class="rules">
+    <tr><th>Where the line comes from</th><th>After it lands in the cart</th><th>Why</th></tr>
+    <tr><td>PDP · Upload later</td><td>Mini cart opens, you stay on the PDP</td><td>The classic case: nothing else to do now, shop on.</td></tr>
+    <tr><td>PDP · Upload your artwork</td><td>Mini cart opens (the line shows the artwork tile)</td><td>The files were uploaded in the popup on the PDP: done, the same as Upload later.</td></tr>
+    <tr><td>PDP · Design online (Canva) / logo editor</td><td>Straight to the cart page, no mini cart</td><td>A separate tool: you come back from it with a finished design; the cart page is where you land, as live. Going back to the PDP to open a drawer would be a strange detour.</td></tr>
+    <tr><td>Cart · Edit a line → Update cart</td><td>Back to the cart page (toast "Your cart is updated")</td><td>You came from the cart; you go back to it.</td></tr>
+    <tr><td>Cart · Often ordered with (+ Add)</td><td>Stays on the cart page, the line appears (toast)</td><td>The cart is already the full cart.</td></tr>
+    <tr><td>Bag icon, cart not empty</td><td>Desktop: mini cart · Mobile: see 3</td><td>Peek without leaving the page.</td></tr>
+    <tr><td>Bag icon, cart empty</td><td>The cart page (empty state with best sellers)</td><td>An empty drawer has nothing to say; the empty cart page does.</td></tr>
+  </table>
+
+  <h2>2 · Desktop</h2>
+  <div class="row3">
+    <div class="sk"><h3>A · As live: the whole cart</h3><p class="why">Every line the same, the totals and Checkout. Familiar, but after Add to cart you have to look for what you just added, and with 5 lines the drawer is a long list.</p><div class="desk-f" data-d="a"></div></div>
+    <div class="sk"><h3>B · What you added on top <span class="pick">my pick</span></h3><p class="why">"Added to your cart" with the new line in a light green tint on top, the other lines under it (compact, no options), the total and two buttons: Go to checkout and Continue shopping. From the bag icon the same drawer without the "Added" part. Confirms the add, and still shows the whole cart.</p><div class="desk-f" data-d="b"></div></div>
+  </div>
+
+  <h2>3 · Mobile</h2>
+  <div class="row3">
+    <div class="sk"><h3>A · The drawer, full width</h3><p class="why">As live: the whole cart over the whole screen. On a phone that is the cart page again, in a layer, with less room: two places for the same thing.</p><div class="phone" data-m="a"></div></div>
+    <div class="sk"><h3>B · A bottom sheet "Added to your cart" <span class="pick">my pick</span></h3><p class="why">Our standard mobile popup: the added line, "2 items · €75.99", Go to checkout and Continue shopping (closes). Thumb-friendly, swipe down to close, the PDP stays under it. The bag icon on mobile goes to the cart page (the phone’s full cart), as now.</p><div class="phone" data-m="b"></div></div>
+    <div class="sk"><h3>C · Only a toast</h3><p class="why">A bar "Added to your cart · View cart" for 4 seconds, then gone. The calmest, but easy to miss, and no way to checkout without finding the bag.</p><div class="phone" data-m="c"></div></div>
+  </div>
+</div>
+<script>
+  const A = '../prototype/assets/', CHK = `<img src="${A}pdp/check.svg" alt="">`;
+  const line = (img, name, spec, price, cls = '', eta = true) => `<div class="line-item cart-line${cls}"><span class="img" style="background:var(--light-grey)"><img src="${A}${img}" alt=""></span>
+    <div class="t"><strong>${name}</strong><small>${spec}</small></div><span class="p">${price}</span>${eta ? `<div class="eta"><b>Estimated delivery date</b><p>Tuesday 1 December — latest Wed 2 Dec (Saver)</p></div>` : ''}</div>`;
+  const NEW = ['flyers/t-classic.webp', 'Standard flyers', '1,000 pcs · A5 · Glossy · Upload later', '€38.01'];
+  const OLD = ['category/t-classic.png', 'Classic business cards', '500 pcs · Standard 85 × 55 mm · Matt', '€30.12'];
+  const page = `<div class="page"><i></i><i></i><i></i></div>`;
+  const totals = `<div class="tot"><span>Total <small>(Incl. VAT)</small></span><b>€75.99</b></div>`;
+  const foot = (main = 'Go to checkout') => `<div class="mc-foot">${totals}<a class="btn primary" href="#checkout">${main}</a><a class="lnk" href="#close">Continue shopping</a></div>`;
+  const head = n => `<div class="mc-head"><h2>Your cart</h2><small>${n} items</small><button class="close" aria-label="Close"><img src="${A}pdp/close.svg" alt=""></button></div>`;
+  const D = {
+    a: page + `<aside class="mc">${head(2)}<div class="mc-body">${line(...OLD)}${line(...NEW)}</div>
+      <div class="mc-foot"><div class="totals"><div><span>Products (2)</span><span>€68.13</span></div><div><span>Shipping</span><span class="free">Free</span></div><div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€75.99</span></div></div><a class="btn primary" href="#checkout">Proceed to checkout</a><a class="lnk" href="#close">Continue shopping</a></div></aside>`,
+    b: page + `<aside class="mc">${head(2)}<div class="mc-body"><p class="added">${CHK}Added to your cart</p>${line(...NEW, ' new')}${line(...OLD, '', false)}<p class="more">The full overview, a discount code and the file check: <a href="#cart">View cart</a></p></div>${foot()}</aside>`
+  };
+  const M = {
+    a: page + `<aside class="mc">${head(2)}<div class="mc-body">${line(...OLD)}${line(...NEW)}</div>${foot('Proceed to checkout')}</aside>`,
+    b: page + `<div class="bs"><span class="grab"></span><p class="added" style="display:flex;gap:8px;align-items:center;font-weight:600;color:var(--link)">${CHK}Added to your cart</p>${line(...NEW, '', false)}
+      <div class="tot" style="display:flex;justify-content:space-between;font-size:var(--t-14)"><span>Your cart: 2 items</span><b>€75.99</b></div><div class="btns"><a class="btn primary" href="#checkout">Go to checkout</a><a class="btn outline" href="#close">Continue shopping</a></div></div>`,
+    c: page + `<div class="toastbar"><img class="p" src="${A}${NEW[0]}" alt=""><span>Standard flyers added to your cart</span><a href="#cart">View cart</a></div>`
+  };
+  document.querySelectorAll('[data-d]').forEach(el => el.innerHTML = D[el.dataset.d]);
+  document.querySelectorAll('[data-m]').forEach(el => el.innerHTML = M[el.dataset.m]);
+</script>
+</body>
+</html>
