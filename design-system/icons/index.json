@@ -147,6 +147,37 @@
    "../prototype/assets/live-opts/posters/tiewraps-black.webp": "Black tie wraps",
    "../prototype/assets/live-opts/posters/tiewraps-white.webp": "White tie wraps"
   },
+  "Exhibition displays": {
+   "exhibition/set-complete": "Complete set",
+   "exhibition/set-frame": "Frame only",
+   "exhibition/set-print": "Print only",
+   "exhibition/wall-complete": "Straight wall, complete set",
+   "exhibition/wall-frame": "Straight wall, frame only",
+   "exhibition/wall-print": "Straight wall, print only",
+   "exhibition/curved-complete": "Curved wall, complete set",
+   "exhibition/curved-frame": "Curved wall, frame only",
+   "exhibition/curved-print": "Curved wall, print only",
+   "exhibition/tube-complete": "Tube stand, complete set",
+   "exhibition/tube-frame": "Tube stand, frame only",
+   "exhibition/tube-print": "Tube stand, print only",
+   "exhibition/counter-complete": "Counter, complete set",
+   "exhibition/counter-frame": "Counter, frame only",
+   "exhibition/counter-print": "Counter, print only"
+  },
+  "Exhibition hardware (the live photo)": {
+   "inks/none": "None",
+   "../prototype/assets/live-opts/exhibition/base-basic.webp": "Basic base",
+   "../prototype/assets/live-opts/exhibition/base-deluxe.webp": "Deluxe base",
+   "../prototype/assets/live-opts/exhibition/base-premium.webp": "Premium base",
+   "../prototype/assets/live-opts/exhibition/base-triangle.webp": "Triangle base",
+   "../prototype/assets/live-opts/exhibition/lighting.webp": "Lighting",
+   "../prototype/assets/live-opts/exhibition/shelf.webp": "Shelf",
+   "../prototype/assets/live-opts/exhibition/magnets-black.webp": "Magnets, black",
+   "../prototype/assets/live-opts/exhibition/magnets-blue.webp": "Magnets, blue",
+   "../prototype/assets/live-opts/exhibition/magnets-red.webp": "Magnets, red",
+   "../prototype/assets/live-opts/exhibition/pocket.webp": "A4 pocket",
+   "../prototype/assets/live-opts/exhibition/connector.webp": "Connector"
+  },
   "A-boards": {
    "aboard/a2": "A2",
    "aboard/a1": "A1",
