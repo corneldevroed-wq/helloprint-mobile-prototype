@@ -74,10 +74,11 @@
   .sl-cover p { position: absolute; left: 0; right: 0; top: 800px; max-width: none; text-align: center; font-size: var(--t-24); line-height: 38px; }
   .sl-index ol { list-style: none; display: grid; grid-template-columns: 438px 1fr; row-gap: 36px; align-items: center; margin-top: 22px; letter-spacing: 0; }
   .sl-index ol b { font-weight: 800; font-size: var(--c-num); line-height: 45px; letter-spacing: -.03em; }
-  /* persona (Cornel's 77.pdf): their world right (no overlay, Cornel 11-24), their portrait in the square beside the headline angle, the points bottom left, the tone on the photo */
+  /* persona (Cornel's 77.pdf): their world right (no overlay, a soft shadow at the bottom; Cornel 11-24), their portrait in the square beside the headline angle, the points bottom left, the tone on the photo */
   .sl-persona .w { display: block; }
   .sl-persona h2 { width: 476px; padding-right: 48px; }
   .sl-face { position: absolute; top: 0; right: 0; width: 676px; height: 100%; background: var(--mid-grey); }
+  .sl-face::after { content: ''; position: absolute; inset: 50% 0 0; background: linear-gradient(transparent, color-mix(in srgb, var(--dark-green) 70%, transparent)); }   /* a soft shadow at the bottom, behind the tone and the page number */
   .sl-face img, .sl-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .sl-who, .sl-angle, .sl-persona .b-items, .sl-tone { position: absolute; }
   .sl-who { left: 676px; top: 195px; }
@@ -111,7 +112,7 @@
   .sl-human .w > .stmt + p { margin-top: 88px; }
   .sl-diff .w > p { max-width: 438px; }
   .sl-div { background: var(--light-green); color: var(--cream); }
-  .sl-div .sl-chrome, .sl-div .sl-n, .sl-persona .sl-chrome span:nth-child(even) { color: var(--white); }
+  .sl-div .sl-chrome, .sl-div .sl-n, .sl-persona .sl-chrome span:last-child { color: var(--white); }
   .sl-div .sl-n { font-weight: 800; font-size: var(--t-48); line-height: 1; }
   .sl-div h2 { position: absolute; left: 200px; right: 200px; top: 466px; font-size: var(--c-display); line-height: .9; }
   .bg-kit { margin-left: auto; gap: 6px; }   /* top right: the grey pill (UI guide) with an icon in front */
