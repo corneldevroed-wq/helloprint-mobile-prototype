@@ -70,15 +70,6 @@ with live content), `usp-bar-sketch.html` (mobile USP bar A–D), `banner-icons-
 ## Prototype switches
 All switches write their value into the URL and localStorage, so a copied link opens the same version.
 
-**Mini cart** (2026-11-23, every shop page with the header, not the cart page / checkout; `minicart` = a / b): a = off (Add to cart goes
-to the cart page, as before), **b = on (default)**: Add to cart on the PDP (Upload later, Upload your artwork) and the bag icon (cart not
-empty) open the cart as a drawer from the right (`#sheet-minicart`, `.sheet-layer.drawer`, `openMini()` / `renderMini()` in app.js); the
-added line on top with a light green background that fades once (`.mc-new`; Cornel kept this over the plain live order, which was removed).
-Always the only layer (closes popups and the menu); Canva and the logo editor go to the cart page; Edit (✏️ in the mini cart, `&mini`) →
-Update cart comes back to the PDP with the mini cart open and the changed line on top, lit up (`?minicart-line=i`); an edit from the cart
-page goes back to the cart; an empty cart's icon goes to the cart page. Proceed to cart = the cart page (as live). Sketch:
-`sketches/minicart-sketch.html`. A stays for the test with / without a mini cart.
-
 **My account: New customer** (2026-11-17): the N under ↺ in the Demo tab (`?new=1|0`, localStorage `hp-new-customer`): no orders, so every block shows its empty state (`.dash-empty`), the account card says customer since Nov 2026 and 0 points; the order and proof pages go to Orders.
 
 **My account: Demo reset** (2026-11-17): the dark tab on the left edge of every account page ("Demo ↺", the switches' look) clears what was done in this browser (`hp-orders`: approved, uploaded, paid, cancelled, references), so every to-do is open again. `?reset` on any account page does the same (and removes itself from the address).
@@ -102,6 +93,12 @@ Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketc
 
 **Desktop checkout**: no switches. Steps (since 2026-11-06, was switch Steps B): `.co-steps-n`, centred: Cart = a round back button,
 then 1 Details & Shipping (desktop only; mobile says Details) · 2 Payment · 3 Confirmed (numbered circles, current + done light green, 16/22, 96 line, 24 around it). Built in app.js.
+
+**Mini cart** (no switch, final 2026-11-24; every shop page with the header, not the cart page / checkout): Add to cart on the PDP
+(Upload later, Upload your artwork) and the bag icon (cart not empty) open the cart as a drawer from the right (`#sheet-minicart`,
+`.sheet-layer.drawer`, `openMini()` / `renderMini()` in app.js), the added line on top lit up once (`.mc-new`). Always the only layer.
+Edit (✏️, `&mini`) → Update cart comes back to the PDP with the drawer open (`?minicart-line=i`); Canva, the logo editor and an edit from
+the cart page go to the cart page; an empty cart's icon goes to the cart page; Proceed to cart = the cart page. Sketch: `sketches/minicart-sketch.html`.
 
 **Cart** (no switch since 2026-11-03; the demo carts 1 / 4 / 0 were removed): `?secured=off` = no secured delivery offered (one upsell block).
 Empty = the live message + "Our best sellers" (`BEST`, `cardsHtml`); "Request a free quote" opens `#sheet-quote` (cart lines, extras, total excl. VAT,

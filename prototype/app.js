@@ -1147,11 +1147,7 @@ renderCartBadge();
 // and the bag icon (cart not empty) open the cart as a drawer from the right, full width on mobile, so the customer can shop on.
 // It is always the only layer: it closes any popup and the menu first, and nothing opens inside it (no ⓘ, no artwork popup;
 // Edit is the product page, Remove is direct). Not on the cart page and the checkout. Canva / the logo editor and an edit still
-// go to the cart page. Prototype switch "Mini cart": A = off (straight to the cart page, as before), B = on (default; Cornel 2026-11-23
-// kept the version with the added line on top, lit up once; the plain live order was removed). URL ?minicart= + localStorage.
-const MINI = (() => { const q = new URLSearchParams(location.search).get('minicart'); let v = q;
-  try { v = q || localStorage.getItem('hp-minicart'); if (q) localStorage.setItem('hp-minicart', q); } catch (e) {}
-  return v === 'a' ? 'a' : 'b'; })();
+// go to the cart page. The added line comes on top, lit up once. Final (Cornel 2026-11-24, the switch Mini cart B; off was removed).
 const MINI_PAGE = !!document.querySelector('.header, .dhead') && !document.querySelector('.cart-page');
 let miniNew = -1;   // the line just added: on top, lit up once
 const ico = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;   // the cart's icon font, loaded below when a page lacks it
@@ -1184,17 +1180,14 @@ if (MINI_PAGE) {
   document.body.insertAdjacentHTML('beforeend', `<div class="sheet-layer drawer" id="sheet-minicart" aria-hidden="true"><div class="sheet-overlay" data-close-sheet></div>
     <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="mcTitle"><div class="sheet-head"><h2 id="mcTitle">Your cart</h2><span class="mc-count" id="mcCount"></span>
       <button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
-      <div class="sheet-body" id="mcBody"></div><div class="mc-foot" id="mcFoot"></div></aside></div>`
-    + `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Mini cart</span>${[['a', 'Off: to the cart page'], ['b', 'Mini cart, the added line on top']].map(([v, t]) => `<button data-minicart="${v}" aria-pressed="${v === MINI}" title="${t}">${v.toUpperCase()}</button>`).join('')}</div>`);
+      <div class="sheet-body" id="mcBody"></div><div class="mc-foot" id="mcFoot"></div></aside></div>`);
   // back from an edit that started in the mini cart (?minicart-line=i): open it with that line on top; the URL loses the parameter
   const back = new URLSearchParams(location.search).get('minicart-line');
   if (back !== null && getCart()[+back]) { const u = new URL(location.href); u.searchParams.delete('minicart-line'); history.replaceState(null, '', u);
     addEventListener('load', () => openMini(+back)); }
   document.addEventListener('click', e => {
-    const sw = e.target.closest('[data-minicart]');
-    if (sw) { const u = new URL(location.href); u.searchParams.set('minicart', sw.dataset.minicart); location.href = u.toString(); return; }
     const bag = e.target.closest('a[aria-label="Cart"]');
-    if (bag && MINI !== 'a' && getCart().length) { e.preventDefault(); e.stopPropagation(); openMini(false); return; }   // empty: the cart page (its empty state)
+    if (bag && getCart().length) { e.preventDefault(); e.stopPropagation(); openMini(false); return; }   // empty: the cart page (its empty state)
     const rm = e.target.closest('[data-mc-rm]');
     if (rm) { const items = getCart(), [gone] = items.splice(+rm.dataset.mcRm, 1); setCart(items); miniNew = -1;
       if (items.length) renderMini(); else closeSheet();

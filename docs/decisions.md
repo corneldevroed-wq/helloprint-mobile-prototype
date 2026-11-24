@@ -3,6 +3,14 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Mini cart (Nov 24, 2026)
+- **2026-11-24 — The mini cart is final** (Cornel, switch Mini cart B; the switch and "off" removed): Add to cart on the PDP (Upload later,
+  Upload your artwork) and the bag icon (cart not empty) open the cart as a drawer from the right, as live (full width on mobile, 440 on
+  desktop), the added line on top lit up once (Cornel kept this over live's plain order). Always the only layer (it closes popups and the
+  menu; nothing opens inside it). Edit from the drawer comes back to the PDP with the drawer open; Canva, the logo editor and an edit from
+  the cart go to the cart page; Proceed to cart = the cart page (as live). Rejected: a bottom sheet "Added to your cart" on mobile (stacks
+  with the PDP's sheets), only a toast (missed). Sketch: sketches/minicart-sketch.html.
+
 ## Footer pages (Nov 22, 2026)
 - **11-22 — Our promises and Sustainability are marketing pages** (Cornel: "convert to the marketing template, following our guide"): the live en-ie footer pages rebuilt 1:1 (copy, images, order) with only the template's parts, no new CSS. Big figures are icon cards (as about us); a quote is the centred block without a photo (title = the quote, the name under it); live-only targets (the impact report on Flipsnack, the partner site) stay local anchors. The existing `#our-promises` and `#sustainability` links (footer, about us, our culture, VIP) now open them.
 

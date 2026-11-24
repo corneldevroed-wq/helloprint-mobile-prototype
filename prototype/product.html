@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261123mm">
-<link rel="stylesheet" href="../design-system/components.css?v=20261123mm">
-<link rel="stylesheet" href="pages.css?v=20261123mm">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mc">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124mc">
+<link rel="stylesheet" href="pages.css?v=20261124mc">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261123mm"></script>
-<script src="../design-system/components.js?v=20261123mm"></script>
-<script src="products.js?v=20261123mm"></script>
+<script src="app.js?v=20261124mc"></script>
+<script src="../design-system/components.js?v=20261124mc"></script>
+<script src="products.js?v=20261124mc"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -1194,7 +1194,7 @@
     const fromMini = EDIT && new URLSearchParams(location.search).has('mini');   // Edit from the mini cart (not from the cart page)
     if (EDIT) { items[EDIT.i] = line; if (!fromMini) toastOnNextPage('Your cart is updated'); } else items.push(line);
     setCart(items);
-    if (!EDIT && MINI !== 'a') { openMini(true); return; }   // the mini cart (switch on): stay on the PDP and shop on
+    if (!EDIT) { openMini(true); return; }   // the mini cart: stay on the PDP and shop on
     // an edit from the mini cart: this PDP again (no longer in edit mode) with the mini cart open, the changed line on top, lit up
     if (fromMini) { location.href = PRODUCT.href + (PRODUCT.href.includes('?') ? '&' : '?') + 'minicart-line=' + EDIT.i; return; }
     location.href = 'cart.html';   // an edit from the cart page goes back to it
