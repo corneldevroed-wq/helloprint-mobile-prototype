@@ -101,7 +101,7 @@
 
   const TOPICS = HELP_TOPICS;   // help-data.js (shared with the topic and article pages)
   // Topic icons: Google Material Symbols Rounded (line, 24px, weight 400 = the header cart icon), as the PDP edit pen, on a grey tile (Cornel, 2026-10-29)
-  const ico = t => `<span class="hc-ico material-symbols-rounded" aria-hidden="true">${t.ms}</span>`;
+  const topicIco = t => `<span class="hc-ico material-symbols-rounded" aria-hidden="true">${t.ms}</span>`;
   const qlist = t => `<ul class="hc-qlist">${t.q.map(q => `<li><a href="${helpUrl(q)}">${q}<img class="chev" src="assets/category/arrow.svg" alt=""></a></li>`).join('')}</ul>`;   // the grey arrow of the mobile lists
   const viewAll = t => `<a class="link" href="${helpTopicUrl(t.id)}">View all ${t.n} articles</a>`;   // the green "All categories →" link of the home/category pages
   // F (Cornel, 2026-10-29): Home (was Getting started) is the hub: under the head the sidebar with all topics (Getting started marked) and
@@ -117,7 +117,7 @@
     helpSide(hubTopics.querySelector('.ha-side'), TOPICS[0]);   // Home = this page
   } else {
     hubTopics.innerHTML =
-    `<div class="hc-topics">${TOPICS.filter(t => t.id !== 'start').map(t => `<div class="hc-card"><a class="hc-card-top" href="${helpTopicUrl(t.id)}">${ico(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
+    `<div class="hc-topics">${TOPICS.filter(t => t.id !== 'start').map(t => `<div class="hc-card"><a class="hc-card-top" href="${helpTopicUrl(t.id)}">${topicIco(t)}<span class="hc-card-h">${t.name}</span></a>${qlist(t)}${viewAll(t)}</div>`).join('')}</div>`;
   }
 
   // the real team with their own photos (Cornel, 2026-11-04): cut-outs on the light green avatar background (CSS), framed close on
