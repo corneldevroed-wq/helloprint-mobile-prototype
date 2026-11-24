@@ -52,6 +52,9 @@
   .band th { font-weight: 800; }
   .b-items { display: grid; grid-template-columns: 438px minmax(0, 1fr); gap: 84px 0; }
   .b-items > div { padding-right: 48px; }
+  .b-num { counter-reset: num; }   /* numbered points (Our Values): the number in a light green square above the title */
+  .b-num h3::before { counter-increment: num; content: counter(num, decimal-leading-zero); display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 24px;
+    border-radius: calc(var(--r-s) / var(--s, .5)); background: var(--light-green); color: var(--white); letter-spacing: 0; }
   .b-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 16px; }
   .b-tile { display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; min-height: 260px; padding: 32px; border-radius: 20px; color: var(--dark-green); }
   .b-tile.on-dark { color: var(--cream); }
@@ -264,7 +267,7 @@
     <div><h2>Mission</h2><p>Making print easier,<br>for everyone, everywhere.</p></div>
     <div><h2>Vision</h2><p>Disrupting the print industry by building Earth's largest infrastructure for customised products.</p></div></div></section>
   <section class="band" id="our-values" data-ch="Positioning"><div class="w"><h2>Our Values.</h2>
-    <div class="b-items"><div><h3>Think Like A Customer</h3><p>What does it bring to our customers?</p></div><div><h3>Raise the Bar</h3><p>Ambitious, determined. Fail fast, learn fast.</p></div><div><h3>Own It</h3><p>Focus on results. The how is up to you.</p></div><div><h3>AI-First Thinking</h3><p>Technology at the core of everything we do.</p></div><div><h3>Do It Together</h3><p>Selfless, kind, no ego. One team.</p></div><div><h3>Celebrate Success</h3><p>Celebrate what's earned. Never mediocrity.</p></div></div></div></section>
+    <div class="b-items b-num"><div><h3>Think Like A Customer</h3><p>What does it bring to our customers?</p></div><div><h3>Raise the Bar</h3><p>Ambitious, determined. Fail fast, learn fast.</p></div><div><h3>Own It</h3><p>Focus on results. The how is up to you.</p></div><div><h3>AI-First Thinking</h3><p>Technology at the core of everything we do.</p></div><div><h3>Do It Together</h3><p>Selfless, kind, no ego. One team.</p></div><div><h3>Celebrate Success</h3><p>Celebrate what's earned. Never mediocrity.</p></div></div></div></section>
   <section class="band dark sl-statement" id="brand-truth" data-ch="Positioning"><div class="w"><h2>Brand truth</h2>
     <p class="stmt">We make print easy,<br>accessible, and trustworthy<br>— for everyone, everywhere.</p></div></section>
   <section class="band dark sl-statement sl-human" id="human-truth" data-ch="Positioning">
