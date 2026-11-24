@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,auto_awesome,check,group,smartphone,zoom_in&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mc">
-<link rel="stylesheet" href="../design-system/components.css?v=20261124mc">
-<link rel="stylesheet" href="pages.css?v=20261124mc">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124md">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124md">
+<link rel="stylesheet" href="pages.css?v=20261124md">
 <!-- SKETCH FRAME (not linked; Cornel 2026-11-20 "zo dicht mogelijk bij het voorbeeld, volgens onze UI guide"): the staging Upload & See flow
      (uas.staging.helloprint.dev, Classic Flyers A5) screen for screen, in the same order and with its wording, drawn with UI guide parts only.
      Every button works. Loaded by sketches/upload-see-map.html (the interaction map), which keeps mobile and desktop in step through postMessage.
@@ -36,6 +36,14 @@
   .desk .us-tools .seg { order: 0; width: 240px; }
   .us-tools .pill .material-symbols-rounded { margin-right: 4px; font-size: 18px; }
   .us-legend { margin: -8px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); text-align: center; }
+  /* Designer view's legend (as staging): a sample of each line next to what it means */
+  body { --bleed: color-mix(in srgb, var(--orange) 22%, transparent); }   /* the bleed tint, also in the zoom popup */
+  .us-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 24px; margin: -8px 0 0; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .us-key span { display: inline-flex; align-items: center; gap: 8px; }
+  .us-key i { display: inline-block; width: 20px; }
+  .us-key .k-cut { border-top: 1px dashed var(--error); }
+  .us-key .k-bleed { height: 10px; border: 1px solid color-mix(in srgb, var(--orange) 50%, transparent); background: var(--bleed); }
+  .us-key .k-safe { border-top: 1px dotted var(--dark-grey); }
   .us-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; background: var(--light-grey); }
   .desk .us-sides { gap: 48px; padding: 32px 64px; }
   .us-sides.one { grid-template-columns: minmax(0, 240px); justify-content: center; }
@@ -49,6 +57,8 @@
   .us-side > b { font-weight: 600; }
   .us-side .acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   .us-side .addr-add { flex: none; width: 100%; aspect-ratio: 148 / 210; justify-content: center; }
+  .us-side .addr-add .material-symbols-rounded { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 4px; border: 1px solid var(--mid-grey); border-radius: 50%; background: var(--white); transition: border-color .15s; }   /* the + in a round outline, as a button (Cornel 11-24) */
+  .us-side .addr-add:hover .material-symbols-rounded { border-color: var(--light-green); }
   .us-side .gone { display: grid; place-items: center; width: 100%; aspect-ratio: 148 / 210; padding: 16px; border-radius: var(--r-m); background: var(--white); color: var(--dark-grey); font-size: var(--t-12); line-height: var(--lh-12); text-align: center; }
   /* the flyer: A5 portrait; the landscape file filled (cropped), shown all (white above and under) or turned */
   .art { position: relative; display: block; width: 100%; aspect-ratio: 148 / 210; overflow: hidden; background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.12); transition: transform .4s; }
@@ -68,7 +78,7 @@
   .art .blur { display: none; position: absolute; left: 18%; top: 30%; width: 34%; height: 22%; border: 2px solid var(--orange); border-radius: var(--r-s); }
   .art .blur .badge { left: -2px; top: auto; bottom: calc(100% + 4px); white-space: nowrap; }
   .art .cut, .art .safe { position: absolute; pointer-events: none; }
-  .art .cut { inset: 2%; border: 1px dashed var(--error); }
+  .art .cut { inset: 2%; border: 1px dashed var(--error); box-shadow: 0 0 0 999px var(--bleed); }   /* outside the cut: the bleed, lightly tinted */
   .art .safe { inset: 5%; border: 1px dotted var(--dark-grey); }
   /* Move or resize (as staging, Cornel 2026-11-23): a panel above the preview; drag the design, pull the corner, the buttons, the arrow keys */
   .us-adjust { display: flex; flex-direction: column; gap: 16px; }
@@ -204,8 +214,8 @@
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="phT"><div class="grab" data-grab><span></span></div>
     <div class="sheet-head"><h2 id="phT">Use your phone</h2><button class="close" data-close-sheet aria-label="Close"><img src="assets/pdp/close.svg" alt=""></button></div>
     <div class="sheet-body"><div class="pad" id="phBody"></div></div></div></div>
-<script src="app.js?v=20261124mc"></script>
-<script src="../design-system/components.js?v=20261124mc"></script>
+<script src="app.js?v=20261124md"></script>
+<script src="../design-system/components.js?v=20261124md"></script>
 <script>
   // The header: the checkout shell without "Secure Checkout" (Cornel 2026-11-20, B of A shop header · B slim · C slim + Need help?):
   // this is not the checkout, the customer is still making the product. Logo, account, cart.
@@ -240,8 +250,8 @@
   const SHORT = ['Basic', 'Premium', 'Deluxe'], NO = '<span class="us-no" aria-label="Not included">–</span>';
   const USP = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';   // the product cards' tick
   const price = i => TIERS[i][1] ? fmt(TIERS[i][1]) : 'Free';
-  // the customer's own flyer on each card, with the check's icon in the corner; Basic shows the cut lines (we check the size). No glow, no magnifier (Cornel 11-24)
-  const stage = i => `<span class="us-stage">${i === 1 ? badgeHtml('Recommended') : ''}${art(i === 0 ? 'lines' : '')}<span class="ico">${ic(['check', 'auto_awesome', 'group'][i])}</span></span>`;
+  // the customer's own flyer on each card, with the check's icon in the corner; no cut lines, glow or magnifier (Cornel 11-24)
+  const stage = i => `<span class="us-stage">${i === 1 ? badgeHtml('Recommended') : ''}${art()}<span class="ico">${ic(['check', 'auto_awesome', 'group'][i])}</span></span>`;
   const checkCards = () => `<div class="fc-list us-fcb" role="radiogroup">${TIERS.map(([n], i) => `<button class="fc" role="radio" aria-checked="${S.check === i}" data-go="check-${i}"${hs(i + 1)}>
     ${DESK ? stage(i) : `<span class="lab">${i === 1 ? badgeHtml('Recommended') : ''}</span>`}<span class="fc-top"><span class="radio"></span><b>${SHORT[i]}</b><span class="fc-price">${price(i)}</span></span>
     <ul>${KEY.map(k => FEAT[k]).map(([t, ...c]) => `<li class="${c[i] ? '' : 'off'}">${c[i] ? USP : NO}${t}</li>`).join('')}</ul></button>`).join('')}</div>`;
@@ -323,7 +333,7 @@
       const one = S.view === 'over';
       const tools = `<div class="us-tools">${pill('zoom', `${ic('zoom_in')}Zoom in`, 1)}
         <div class="seg" role="radiogroup" aria-label="View"><button role="radio" aria-checked="${!one}" data-go="both"${hs(2)}>Both sides</button><button role="radio" aria-checked="${one}" data-go="over"${hs(3)}>Turn it over</button></div>
-        ${pill('designer', 'Designer view', 4, S.designer)}</div>${S.designer ? '<p class="us-legend">Red dashes: where we cut. Dotted line: keep text inside it. Past the dashes: the bleed.</p>' : ''}`;
+        ${pill('designer', 'Designer view', 4, S.designer)}</div>${S.designer ? '<p class="us-key"><span><i class="k-cut"></i>Where we cut</span><span><i class="k-bleed"></i>Bleed: printed past the cut, then trimmed off</span><span><i class="k-safe"></i>Safety margin: keep text and logos inside</span></p>' : ''}`;
       const front = `<div class="us-side">${S.front === 'none' ? `<button class="addr-card addr-add" data-go="pick"${hs(5)}>${ic('add')}Add your front</button>` : art('', S.photo || S.file ? '' : '<i class="blur"><span class="badge">This photo</span></i>').replace('<span class="art', '<span data-go="zoom-0" class="art')}<b>Front</b>
         ${S.front === 'none' ? '' : `<span class="acts">${btn('adjust', 'Move or resize', 5)}${btn('other', 'Other file', 6)}${shape('front') === 'land' ? btn('turn', S.front === 'turned' ? 'Turn back' : 'Turn', 7) : ''}${btn('remove', 'Remove', 8)}</span>`}</div>`;
       const back = S.back === 'empty' ? `<div class="us-side"><button class="addr-card addr-add" data-go="pick"${hs(9)}>${ic('add')}Add your back<small>A PDF or a picture</small></button><b>Back</b><span class="acts">${btn('same', 'Same design', 10)}${btn('one', 'One side only', 11)}</span></div>`
@@ -390,7 +400,7 @@
     return `<div class="file-check"><ul aria-label="What we checked">
     <li>${TICK}<b>Size and pages</b><small>${size}</small></li>
     <li>${S.back === 'empty' ? DOT : TICK}<b>Front and back</b><small>${S.back === 'same' ? 'The same design on both sides' : S.back === 'file' ? 'Your front and your back' : S.back === 'one' ? 'Printed on one side only' : 'Your back is still empty: it prints blank'}</small></li>
-    <li>${TICK}<b>Colours up to the edge</b><small>${hasBleed() ? 'Your file has 3 mm bleed, as it should' : 'We added the bleed, so the colours run past the edge'}</small></li>
+    <li>${TICK}<b>Colours up to the edge</b><small>${hasBleed() ? 'Your file has 3 mm bleed: the preview shows your flyer cut at the edge, the bleed stays for printing' : 'We added the bleed, so the colours run past the edge'}</small></li>
     ${img || !f ? `<li>${!lowres() || S.photo ? TICK : DOT}<b>Sharp ${img ? 'picture' : 'photos'}</b><small>${S.photo ? 'As you chose on your flyer' : img ? `About ${dpi()} dpi on A5${lowres() ? ': 150 dpi or more prints sharp' : ''}` : 'One photo may print blurry: look at it on your preview'}</small></li>` : `<li>${TICK}<b>Pictures in your PDF</b><small>We look at them again when we make your proof</small></li>`}
     ${img ? '' : `<li>${TICK}<b>Letters and fonts</b><small>All letter types are included</small></li>`}
     ${f && !img ? '' : `<li>${DOT}<b>Text in a picture</b><small>Your text is part of the picture: look over its size and distance to the edge</small></li>`}</ul></div>`; };
@@ -411,7 +421,7 @@
         <p class="us-dc-state">${S.photo ? TICK : DOT}${S.photo === 'team' ? 'Premium Check added: our experts look at it.' : S.photo === 'asis' ? 'We print it as it is.' : sample ? 'It may print blurry. Choose a sharper one, or print it as it is.' : `It may print blurry. For a sharp flyer, upload one of at least 1748 × 2480 px (yours is ${f.w} × ${f.h}).`}</p>`,
         '', sample && !S.photo ? 'spot' : '', `${pill('photo-new', sample ? 'Sharper photo' : 'Upload a bigger picture', 14, false, side)}${pill('photo-asis', 'Print it as it is', 15, S.photo === 'asis')}${pill('photo-team', 'Let our experts look · €10.99', 16, S.photo === 'team')}`)); }
     });
-    return `<h2 style="margin:8px 0 -8px" id="about">About your file</h2>${cards.length ? cards.join('') : `<p class="us-dc-state">${TICK}Your file fits your flyer: nothing to change.</p>`}`;
+    return `<h2 style="margin:8px 0 -8px" id="about">About your file</h2>${cards.length ? cards.join('') : dcard(art(), `<h2>Your file fits your flyer</h2><p class="us-dc-state">${TICK}Nothing to change: the shape is right for A5${S.file?.kind === 'img' ? ' and it is sharp enough' : ''}.</p>`)}`;
   };
   Object.assign(SCREENS, {
     result: () => [`<h1>Your flyer is ready for print</h1><p class="lead">${TIERS[S.check][0]}${S.check ? ': our experts look at it within 4 working hours, the proof comes by e-mail.' : ''}</p>
@@ -527,14 +537,20 @@
     try {
       if (ext === 'pdf' || f.type === 'application/pdf') {
         await pdfJs(); pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        const doc = await pdfjsLib.getDocument(url).promise, pages = []; let mm, r2;
+        const doc = await pdfjsLib.getDocument(url).promise, pages = []; let mm, r2, trimmed = false;
         for (let n = 1; n <= Math.min(doc.numPages, 2); n++) {
           const page = await doc.getPage(n), v = page.getViewport({ scale: 1 }), vp = page.getViewport({ scale: 1200 / Math.max(v.width, v.height) });
           if (n === 1) mm = [Math.round(v.width * 25.4 / 72), Math.round(v.height * 25.4 / 72)]; else r2 = v.width / v.height;
           const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
-          await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise; pages.push(cv.toDataURL('image/jpeg', .85));
+          await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+          // A page with bleed (A5 plus 3 mm on every side, 154 × 216 mm): the preview shows the flyer clean, cut at the trim (as staging does, Cornel 11-24);
+          // the bleed stays in the file for the printer, Designer view shows where it is
+          const pw = v.width * 25.4 / 72, ph = v.height * 25.4 / 72, bled = Math.abs(pw - 154) < 1.5 && Math.abs(ph - 216) < 1.5;
+          if (bled) { const k = vp.width / pw, c = Math.round(3 * k), t = document.createElement('canvas'); t.width = vp.width - 2 * c; t.height = vp.height - 2 * c;
+            t.getContext('2d').drawImage(cv, c, c, t.width, t.height, 0, 0, t.width, t.height); pages.push(t.toDataURL('image/jpeg', .85)); if (n === 1) trimmed = true; if (n > 1) r2 = 148 / 210; }
+          else pages.push(cv.toDataURL('image/jpeg', .85));
         }
-        return { kind: 'pdf', name: f.name, size: f.size, ext: 'pdf', pages, n: doc.numPages, mm, ratio: mm[0] / mm[1], ratio2: r2 };
+        return { kind: 'pdf', name: f.name, size: f.size, ext: 'pdf', pages, n: doc.numPages, mm, ratio: trimmed ? 148 / 210 : mm[0] / mm[1], ratio2: r2, trimmed };
       }
       if (!/^image\/(jpeg|png)$/.test(f.type) && !/^(jpe?g|png)$/.test(ext)) throw new Error('type');
       const img = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = url; });
