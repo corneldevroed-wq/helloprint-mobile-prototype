@@ -35,7 +35,7 @@
           <div class="co-summary">
             <section>
               <div class="h"><p><b id="uvName"></b><span class="row" id="uvEmailRow"><span class="lbl" id="uvEmailLbl" hidden>Email address</span><span id="uvEmail"></span></span></p><button type="button" class="co-act" id="contactEdit">Edit</button></div>
-              <!-- Edit: only the email, not the whole form (the order type and the business fields sit under the card) -->
+              <!-- Edit: only the email, not the whole form (who the invoice is for lives on the billing address) -->
               <div class="co-edit-contact" id="contactForm" hidden>
                 <label class="field" data-field="uvEmailField"><input type="email" id="uvEmailInput" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
                 <div class="btns"><button type="button" class="btn primary" id="contactSave">Save</button><button type="button" class="co-act" id="contactCancel">Cancel</button></div>
@@ -49,38 +49,21 @@
           <div class="addr-wrap"><div class="addr-row" id="addrRow" role="radiogroup" aria-label="Shipping address"></div></div>
           <button type="button" class="link addr-manage" id="manageAddr">Change shipping address</button>
 
-          <!-- Billing (Cornel 2026-11-06): the guest's checkbox, on by default; unchecking opens the address book to pick the billing
-               address (address-flow-sketch.html A); only then the Billing Address block with Change -->
+          <!-- Billing (Cornel 2026-11-06; F from Sven's artifact, 2026-11-24): the checkbox, on by default, then the billing cards -->
           <div class="co-head"><h2>Billing Address</h2></div>
-          <p class="co-desc" data-f-only hidden>Pick the address for your invoice. Its invoice details are saved with it, so next time they are filled in for you.</p>
+          <p class="co-desc">Pick the address for your invoice. Its invoice details are saved with it, so next time they are filled in for you.</p>
           <label class="check"><input type="checkbox" id="sameInvoice" checked>Billing address is the same as shipping address</label>
           <!-- Billing F (Sven's artifact, Cornel 2026-11-24): the billing address picked from cards as the shipping address, always shown;
                the chosen card says what the invoice still needs; the reference number belongs to the order, under the cards -->
-          <div class="addr-wrap" id="billWrap" hidden><div class="addr-row" id="billRow" role="radiogroup" aria-label="Billing address"></div></div>
-          <button type="button" class="link addr-manage" id="manageBill" hidden>Change billing address</button>
-          <div class="co-extra" id="invBlock" hidden>
-            <div class="co-summary"><section><div class="h"><p id="invText"></p><button type="button" class="co-act" id="invToggle">Change</button></div></section></div>
-          </div>
+          <div class="addr-wrap" id="billWrap"><div class="addr-row" id="billRow" role="radiogroup" aria-label="Billing address"></div></div>
+          <button type="button" class="link addr-manage" id="manageBill">Change billing address</button>
         </div>
 
         <div class="co-extra" id="formView">
         <div class="co-head"><h2>Contact Details</h2><a class="link" href="login.html?return=details" id="loginLink">Log in</a></div>
         <p class="co-desc">Who’s placing this order — we’ll send the order confirmation, invoice and any updates here.</p>
         <p class="co-user" id="coUser" hidden></p>
-        <!-- Order type (Cornel 2026-11-06): asked first, as pills (the chosen one .pill.active); Business opens the company fields
-             and the reference number. The pills set the hidden checkbox, which the form logic and the saved form use -->
-        <div class="co-type" id="orderType" role="group" aria-label="Order type"><button type="button" class="pill active" data-type="personal" aria-pressed="true">Personal</button><button type="button" class="pill" data-type="business" aria-pressed="false">Business</button></div>
-        <input type="checkbox" id="isBusiness" hidden>
         <label class="field" data-field="email"><input type="email" name="email" placeholder=" " autocomplete="email" aria-label="Email address"><span class="fl">Email address</span></label>
-        <div class="co-extra" id="businessFields" hidden>
-          <label class="field" data-field="company"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name</span></label>
-          <label class="field" data-field="vatnr"><input name="vatnr" placeholder=" " aria-label="VAT number" autocapitalize="characters"><span class="fl">VAT number (optional)</span></label>
-          <div class="co-extra" id="refField">
-            <label class="field"><input name="reference" placeholder=" " aria-label="Reference number"><span class="fl">Reference number (optional)</span></label>
-            <p class="co-desc">Shown on your invoice and packing slip.</p>
-          </div>
-        </div>
-
         <div class="co-head"><h2>Shipping Address</h2></div>
         <div class="co-row">
           <label class="field" data-field="first"><input name="first" placeholder=" " autocomplete="given-name" aria-label="First name"><span class="fl">First name</span></label>
@@ -107,9 +90,21 @@
           <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
         </div>
         <label class="check" id="saveAddrRow" hidden><input type="checkbox" id="saveAddr" checked>Save this address for future orders</label>
-        <!-- Billing: always its own section, the title above the checkbox (Cornel, 2026-11-06); F: who the invoice is for first -->
+        <!-- Billing: always its own section, the title above the checkbox (Cornel, 2026-11-06); who the invoice is for first (F) -->
         <div class="co-head"><h2>Billing Address</h2></div>
-        <p class="co-desc" id="billTypedDesc" hidden>Your invoice goes to this address. Tell us who it is for.</p>
+        <p class="co-desc">Your invoice goes to this address. Tell us who it is for.</p>
+        <!-- Who the invoice is for (F, Sven's artifact): pills (the chosen one .pill.active); Business opens the company fields
+             and the reference number. The pills set the hidden checkbox, which the form logic and the saved form use -->
+        <div class="co-type" id="orderType" role="group" aria-label="Order type"><button type="button" class="pill active" data-type="personal" aria-pressed="true">Personal</button><button type="button" class="pill" data-type="business" aria-pressed="false">Business</button></div>
+        <input type="checkbox" id="isBusiness" hidden>
+        <div class="co-extra" id="businessFields" hidden>
+          <label class="field" data-field="company"><input name="company" placeholder=" " autocomplete="organization" aria-label="Company name"><span class="fl">Company name</span></label>
+          <label class="field" data-field="vatnr"><input name="vatnr" placeholder=" " aria-label="VAT number" autocapitalize="characters"><span class="fl">VAT number (optional)</span></label>
+          <div class="co-extra" id="refField">
+            <label class="field"><input name="reference" placeholder=" " aria-label="Reference number"><span class="fl">Reference number (optional)</span></label>
+            <p class="co-desc">Shown on your invoice and packing slip.</p>
+          </div>
+        </div>
         <label class="check" id="sameBillingRow"><input type="checkbox" id="sameBilling" checked>Billing address is the same as shipping address</label>
         </div>
         <!-- Billing address: the same form as the shipping address -->
@@ -206,38 +201,6 @@
 <script src="app.js?v=20261124mg"></script>
 <script src="../design-system/components.js?v=20261124mg"></script>
 <script>
-  // Prototype switches (left edge, Cornel 2026-11-24): Billing C = today (Personal | Business at Contact details), F = on the address
-  // (Sven's artifact, the default). Customer G / N / S = guest, signed in without addresses, signed in with saved addresses:
-  // writes the demo data of that customer into this browser once (?cust=…), then the page runs as for a real customer.
-  const qs = new URLSearchParams(location.search);
-  let BILL = qs.get('billing'); try { BILL = BILL || localStorage.getItem('hp-billing'); } catch (e) {}
-  if (BILL !== 'c') BILL = 'f';
-  try { localStorage.setItem('hp-billing', BILL); } catch (e) {}
-  const F_MODE = BILL === 'f';
-  const cust = qs.get('cust');
-  if (cust) {
-    const set = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); } catch (e) {} };
-    let det = {}; try { det = JSON.parse(localStorage.getItem('hp-checkout-details')) || {}; } catch (e) {}
-    ['first', 'last', 'phone', 'address1', 'address2', 'eircode', 'town', 'company', 'vatnr', 'reference'].forEach(n => { delete det[n]; });
-    Object.assign(det, { isBusiness: false, sameBilling: true });
-    const anna = { first: 'Anna', last: 'Murphy', email: 'anna@example.ie' };
-    set('hp-address-sel', null); set('hp-invoice-sel', null);
-    if (cust === 'g') { set('hp-user', null); delete det.email; }
-    if (cust === 'n') { set('hp-user', anna); set('hp-addresses', null); det.email = anna.email; }
-    if (cust === 's') {
-      set('hp-user', anna);
-      set('hp-addresses', [
-        { id: 'a1', label: 'Home', type: 'personal', first: 'Anna', last: 'Murphy', phone: '+353 215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork', isDefault: true },
-        { id: 'a2', label: 'Office', type: 'business', isBillDefault: true, first: 'Anna', last: 'Murphy', company: 'HelloPrint Ltd', vat: '', phone: '+353 15550199', address1: '12 Grand Canal Square', eircode: 'D02 R590', town: 'Dublin' },
-        { id: 'a3', label: 'Studio', type: 'business', first: 'Anna', last: 'Murphy', company: 'Murphy Design Studio', vat: 'IE12345', phone: '+353 15550188', address1: '4 Camden Row', eircode: 'D08 X2F3', town: 'Dublin' },
-      ]);
-      set('hp-invoice-sel', 'a2');
-      Object.assign(det, { email: anna.email, first: 'Anna', last: 'Murphy', prefix: '+353', phone: '215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork' });
-    }
-    set('hp-checkout-details', det);
-    qs.delete('cust'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : ''));
-  }
-
   // Nothing to check out → back to the cart
   const items = getCart();
   if (!items.length) location.replace('cart.html');
@@ -297,28 +260,18 @@
     renderType();
   });
   renderType();
-  // Billing F: Personal | Business and the company fields under the Billing Address title, before "same as shipping" (Sven's F)
-  const bizFields = document.getElementById('businessFields'), refField = document.getElementById('refField');
-  if (F_MODE) { const d = document.getElementById('billTypedDesc'); d.hidden = false; d.after(typeTabs, bizFields); }
+  const refField = document.getElementById('refField');
   // ---------- Logged in: contact card + address book (Cornel's desktop design, as swipeable cards) ----------
   const val = n => (form.querySelector(`[name=${n}]`)?.value || '').trim();
   const escA = t => String(t || '').replace(/</g, '&lt;');
-  let known = user && ['first', 'last', 'email', 'phone', 'address1', 'eircode', 'town'].every(n => val(n));
   // Persist the form after a change made here (the "remember" listeners are attached further down)
   const persist = () => setTimeout(() => form.dispatchEvent(new Event('change')));
-  // Address book (this browser only). A test account starts with its checkout address plus two examples.
+  // Address book (this browser only)
   const BOOK = 'hp-addresses';
   let book = [];
   try { book = JSON.parse(localStorage.getItem(BOOK)) || []; } catch (e) {}
-  if (F_MODE) known = !!user && book.length > 0;   // F: signed in with saved addresses = the cards; without = the form, with "Save this address"
-  document.getElementById('saveAddrRow').hidden = !(F_MODE && user && !book.length);
-  if (known && !book.length) {
-    book = [
-      { id: 'a1', label: 'Home', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true },
-      { id: 'a2', label: 'Office', first: val('first'), last: val('last'), company: 'HelloPrint Ltd', phone: '+353 15550199', address1: '12 Grand Canal Square', eircode: 'D02 R590', town: 'Dublin' },
-      { id: 'a3', label: 'Grandma', first: 'Anna', last: 'Murphy', phone: '+353 215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork' },
-    ];
-  }
+  const known = !!user && book.length > 0;   // signed in with saved addresses = the cards; without = the form, with "Save this address"
+  document.getElementById('saveAddrRow').hidden = !(user && !book.length);
   const saveBook = () => { try { localStorage.setItem(BOOK, JSON.stringify(book)); } catch (e) {} };
   let selected = (book.find(a => a.isDefault) || book[0] || {}).id;
   try { selected = localStorage.getItem('hp-address-sel') || selected; } catch (e) {}
@@ -332,12 +285,11 @@
     if (form.querySelector(`[name=prefix] option[value="${prefix}"]`)) { set('prefix', prefix); set('phone', rest.join(' ')); } else set('phone', a.phone);
     persist();
   }
-  // An address is for a person or a company (F: the invoice details live on the address); an old address with a company = Business
+  // An address is for a person or a company (the invoice details live on the address); an old address with a company = Business
   const isBizA = a => !!a && (a.type ? a.type === 'business' : !!a.company);
-  const addrLines = a => [`${a.first} ${a.last}`, ...(F_MODE ? (isBizA(a) ? [a.company, a.vat && 'VAT ' + a.vat] : []) : [a.company]), a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
+  const addrLines = a => [`${a.first} ${a.last}`, ...(isBizA(a) ? [a.company, a.vat && 'VAT ' + a.vat] : []), a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean);
   // The company between name and address (shipping and billing); on the billing cards the VAT number last, small under a line (Cornel, 2026-11-24)
-  const addrHtml = (a, ship) => { if (!F_MODE) return addrLines(a).map(escA).join('<br>');
-    const biz = isBizA(a);
+  const addrHtml = (a, ship) => { const biz = isBizA(a);
     return [`${a.first} ${a.last}`, biz && a.company, a.address1, a.address2, `${a.eircode} ${a.town}`.trim()].filter(Boolean).map(escA).join('<br>') + (biz && a.vat && !ship ? `<small>VAT ${escA(a.vat)}</small>` : ''); };
   // What a company invoice in Ireland needs (Sven's rules for IE): the company name; the VAT number is optional but recommended, and must be right when given
   const vatNorm = v => String(v || '').toUpperCase().replace(/[\s.\-]/g, '');
@@ -360,11 +312,11 @@
     document.getElementById('addrList').innerHTML = book.map(a => `
       <li class="${a.id === current ? 'on' : ''}" aria-checked="${a.id === current}">
         <button type="button" class="ap-pick" data-pick-addr="${a.id}"><span class="radio" aria-hidden="true"></span>
-          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${(inv && F_MODE ? a.id === defaultBill() : a.isDefault) ? '<span class="badge neutral co-badge">Default</span>' : ''}${inv && a.id === selected ? '<span class="badge neutral co-badge">Shipping address</span>' : ''}</span></button>
+          <span class="t"><b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}${(inv ? a.id === defaultBill() : a.isDefault) ? '<span class="badge neutral co-badge">Default</span>' : ''}${inv && a.id === selected ? '<span class="badge neutral co-badge">Shipping address</span>' : ''}</span></button>
         <button type="button" class="kebab" data-menu="${a.id}" aria-label="More for ${escA(a.label)}" aria-expanded="false"></button>
         <div class="menu" hidden>
           <button type="button" data-edit-addr="${a.id}">Edit</button>
-          ${(inv && F_MODE ? a.id === defaultBill() : a.isDefault) ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
+          ${(inv ? a.id === defaultBill() : a.isDefault) ? '' : `<button type="button" data-default-addr="${a.id}">Make default</button>`}
           ${book.length > 1 ? `<button type="button" class="del" data-del-addr="${a.id}">Delete</button>` : ''}
         </div>
       </li>`).join('') + '<li class="ap-add"><button type="button" class="ap-pick" data-new-addr><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button></li>';
@@ -381,15 +333,15 @@
     document.getElementById('addrRow').innerHTML = book.map(a => `
       <div class="addr-card" role="radio" tabindex="0" aria-checked="${a.id === selected}" data-addr="${a.id}">
         <div class="top"><span class="radio"></span><b>${escA(a.label)}</b>${a.isDefault ? '<span class="badge neutral co-badge">Default</span>' : ''}</div>
-        <p>${addrHtml(a, true)}</p>${F_MODE && a.id === selected ? `<button type="button" class="link addr-edit" data-edit-card="${a.id}">Edit</button>` : ''}
+        <p>${addrHtml(a, true)}</p>${a.id === selected ? `<button type="button" class="link addr-edit" data-edit-card="${a.id}">Edit</button>` : ''}
       </div>`).join('') + '<button type="button" class="addr-card addr-add" data-new-addr><span class="material-symbols-rounded" aria-hidden="true">add</span>New address</button>';
     renderList();
     syncArrows();
   }
-  // Billing F: the billing cards, always shown; the chosen one says what its invoice still needs (red: blocks payment, grey: recommended)
+  // The billing cards, always shown; the chosen one says what its invoice still needs (red: blocks payment, grey: recommended)
   const billRow = document.getElementById('billRow');
   let syncBillArrows = () => {};
-  if (DESK && F_MODE) {
+  if (DESK) {
     billRow.insertAdjacentHTML('beforebegin', `<button type="button" class="d-rev-nav prev" aria-label="Previous addresses">${REV_ARROW}</button>`);
     billRow.insertAdjacentHTML('afterend', `<button type="button" class="d-rev-nav next" aria-label="Next addresses">${REV_ARROW}</button>`);
     syncBillArrows = wireRowArrows(billRow.parentNode, billRow);
@@ -432,18 +384,8 @@
     document.getElementById('formView').hidden = true;
     document.getElementById('coUser').hidden = true;
     selectAddress(selected);
-    if (F_MODE) {
-      firstBill = invoiceSel !== 'same' ? invoiceSel : selected;
-      document.querySelectorAll('[data-f-only]').forEach(el => { el.hidden = false; });
-      document.getElementById('billWrap').hidden = false; document.getElementById('manageBill').hidden = false;
-      document.getElementById('manageBill').after(refField);
-      typeTabs.hidden = true; bizFields.hidden = true;
-    } else {
-      // The order type above the contact card, the business fields under it (order-type-sketch.html D)
-      const card = document.querySelector('#userView .co-summary');
-      card.before(typeTabs);
-      card.after(bizFields);
-    }
+    firstBill = invoiceSel !== 'same' ? invoiceSel : selected;
+    document.getElementById('manageBill').after(refField);   // the reference number belongs to the order, under the billing cards
   }
   document.getElementById('addrRow').addEventListener('click', e => {
     const ed = e.target.closest('[data-edit-card]'); if (ed) { listMode = 'delivery'; openAddressSheet(ed.dataset.editCard); return; }
@@ -453,7 +395,7 @@
   const openList = mode => { listMode = mode; pick = null; renderList(); openSheet('addresses'); };
   document.getElementById('manageAddr').addEventListener('click', () => openList('delivery'));
   document.getElementById('manageBill').addEventListener('click', () => openList('invoice'));
-  // F: tap a billing card = the invoice goes there ("same as shipping" goes off, also on the shipping address's own card)
+  // Tap a billing card = the invoice goes there ("same as shipping" goes off, also on the shipping address's own card)
   billRow.addEventListener('click', e => {
     const ed = e.target.closest('[data-edit-card]'); if (ed) { listMode = 'invoice'; openAddressSheet(ed.dataset.editCard); return; }
     if (e.target.closest('[data-new-addr]')) { listMode = 'invoice'; openAddressSheet(); return; }
@@ -466,7 +408,7 @@
   document.getElementById('useAddress').addEventListener('click', () => {
     const id = pick || (listMode === 'invoice' ? invoiceId() : selected);
     closeSheet();
-    if (listMode === 'invoice') { setInvoice(id === selected && !F_MODE ? 'same' : id); return; }
+    if (listMode === 'invoice') { setInvoice(id); return; }
     selectAddress(id);
     document.querySelector(`[data-addr="${id}"]`).scrollIntoView({ inline: 'center', block: 'nearest' });
   });
@@ -478,7 +420,7 @@
     if (menuBtn) { const m = menuBtn.nextElementSibling; m.hidden = !m.hidden; menuBtn.setAttribute('aria-expanded', String(!m.hidden)); return; }
     const ed = t.closest('[data-edit-addr]'); if (ed) { openAddressSheet(ed.dataset.editAddr); return; }
     const df = t.closest('[data-default-addr]');
-    if (df) { const k = listMode === 'invoice' && F_MODE ? 'isBillDefault' : 'isDefault'; book.forEach(a => { a[k] = a.id === df.dataset.defaultAddr; }); saveBook(); renderBook(); renderInvoice(); showToast(k === 'isDefault' ? 'Default shipping address updated' : 'Default billing address updated'); return; }
+    if (df) { const k = listMode === 'invoice' ? 'isBillDefault' : 'isDefault'; book.forEach(a => { a[k] = a.id === df.dataset.defaultAddr; }); saveBook(); renderBook(); renderInvoice(); showToast(k === 'isDefault' ? 'Default shipping address updated' : 'Default billing address updated'); return; }
     const del = t.closest('[data-del-addr]');
     if (del) {
       const i = book.findIndex(a => a.id === del.dataset.delAddr), was = book[i];
@@ -560,9 +502,9 @@
     closeSheet();
     // From the sheet: back in the list with the new address chosen, the button confirms it; from the card row: used at once
     if (sheetStack.some(el => el.id === 'sheet-addresses')) { if (!editing) pick = id; renderBook(); renderInvoice(); showToast(editing ? 'Address updated' : 'Address added'); return; }
-    // F: Edit on a card changes that address only; a new billing address from the billing row is the billing address
-    if (F_MODE && editing) { renderBook(); renderInvoice(); showToast('Address updated'); return; }
-    if (F_MODE && listMode === 'invoice') { renderBook(); setInvoice(id); showToast('Address added and selected'); return; }
+    // Edit on a card changes that address only; a new billing address from the billing row is the billing address
+    if (editing) { renderBook(); renderInvoice(); showToast('Address updated'); return; }
+    if (listMode === 'invoice') { renderBook(); setInvoice(id); showToast('Address added and selected'); return; }
     selectAddress(id, true);
     showToast(editing ? 'Address updated' : 'Address added and selected');
   });
@@ -580,23 +522,12 @@
     renderInvoice();
     persist();
   }
-  // Same as shipping: the checkbox on, no block. Another address: the checkbox off, the Billing Address block (name, the address as a list)
+  // Same as shipping: the checkbox on; the billing cards follow the choice
   function renderInvoice() {
-    if (F_MODE) { if (known) { document.getElementById('sameInvoice').checked = invoiceSel === 'same'; renderBill(); } return; }
-    const a = book.find(x => x.id === invoiceId()); if (!a) return;
-    const same = a.id === selected;
-    document.getElementById('sameInvoice').checked = same;
-    document.getElementById('invBlock').hidden = same;
-    document.getElementById('invText').innerHTML = `<b>${escA(a.label)}</b>${addrLines(a).map(l => `<span>${escA(l)}</span>`).join('')}`;   // one line each, as on the address card
+    if (known) { document.getElementById('sameInvoice').checked = invoiceSel === 'same'; renderBill(); }
   }
-  document.getElementById('invToggle').addEventListener('click', () => openList('invoice'));
-  // Unchecked: the box stays on until an other address is confirmed in the sheet (✕ = nothing changed); checked again: same as shipping
-  document.getElementById('sameInvoice').addEventListener('change', e => {
-    if (F_MODE) { setInvoice(e.target.checked ? 'same' : selected); return; }   // F: the cards stay, the box only moves the choice
-    if (e.target.checked) { setInvoice('same'); return; }
-    e.target.checked = true;
-    openList('invoice');
-  });
+  // The cards stay, the box only moves the choice: on = the shipping address, off = the shipping address's card as the billing card
+  document.getElementById('sameInvoice').addEventListener('change', e => setInvoice(e.target.checked ? 'same' : selected));
   if (known) setInvoice(invoiceSel);
   // Contact "Edit": an email field (and the business option) in the card, not the whole form
   const cForm = document.getElementById('contactForm'), cInput = document.getElementById('uvEmailInput');
@@ -666,7 +597,7 @@
 
   document.getElementById('coForm').addEventListener('submit', e => {
     e.preventDefault();
-    if (F_MODE && known) {   // F: the chosen billing address misses what its invoice needs → its popup, on the missing fields
+    if (known) {   // the chosen billing address misses what its invoice needs → its popup, on the missing fields
       const a = book.find(x => x.id === invoiceId());
       if (invGaps(a).hard.length) { listMode = 'invoice'; openAddressSheet(a.id, true); showToast('Almost there: complete your invoice details'); return; }
     }
@@ -678,8 +609,8 @@
       showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
       return;
     }
-    // F, signed in without addresses: "Save this address" puts it in the address book with its invoice details (and the billing address, when it is another)
-    if (F_MODE && user && !book.length && document.getElementById('saveAddr').checked) {
+    // Signed in without addresses: "Save this address" puts it in the address book with its invoice details (and the billing address, when it is another)
+    if (user && !book.length && document.getElementById('saveAddr').checked) {
       const biz = isBiz.checked, inv = { type: biz ? 'business' : 'personal', company: biz ? val('company') : '', vat: biz ? vatNorm(val('vatnr')) : '' };
       const ship = { id: 'a1', label: 'Home', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true };
       const same = document.getElementById('sameBilling').checked;
@@ -688,16 +619,6 @@
       try { localStorage.setItem('hp-address-sel', 'a1'); localStorage.setItem('hp-invoice-sel', same ? 'same' : 'a2'); } catch (e) {}
     }
     location.href = 'payment.html';
-  });
-
-  // The switches on the left edge (prototype only)
-  document.body.insertAdjacentHTML('beforeend', `<div class="desk-switch" role="group" aria-label="Prototype versions"><span>Billing</span>${[['c', 'C', 'Today: Personal | Business at Contact details'], ['f', 'F', 'F: the invoice details on the address']].map(([v, l, t]) => `<button type="button" data-bill-v="${v}" aria-pressed="${v === BILL}" title="${t}">${l}</button>`).join('')}
-    <span>Customer</span>${[['g', 'G', 'Guest'], ['n', 'N', 'Signed in, no addresses'], ['s', 'S', 'Signed in, saved addresses']].map(([v, l, t]) => `<button type="button" data-cust="${v}" aria-pressed="${v === (user ? (book.length ? 's' : 'n') : 'g')}" title="${t}">${l}</button>`).join('')}</div>`);
-  document.querySelector('[data-bill-v]').parentNode.addEventListener('click', e => {
-    const b = e.target.closest('[data-bill-v], [data-cust]'); if (!b) return;
-    const u = new URL(location.href);
-    if (b.dataset.billV) u.searchParams.set('billing', b.dataset.billV); else u.searchParams.set('cust', b.dataset.cust);
-    location.href = u.toString();
   });
 </script>
 </body>

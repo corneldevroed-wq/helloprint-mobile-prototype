@@ -4,6 +4,9 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## Checkout details: billing and invoice (Nov 24, 2026)
+- **11-24 — Billing F is final** (Cornel: "F houden, C kan weg, en ook de customer switch kan weg"): variant C (Personal | Business at
+  Contact details, the Billing Address block with Change) and the switches Billing C/F and Customer G/N/S (with its demo data) are removed.
+  Who the invoice is for now always sits under Billing Address (guest form) or on the billing address (cards).
 - **11-24 — What a business billing address misses, in a cream band** (Cornel: "zo'n creme kleurig footertje … zodat business klanten
   die nooit meer over het hoofd zien"; then: "in de creme bar juist aangeven de velden of info die mist"). Company and "VAT …" stay as
   address lines; the cream `.oc-foot` band at the bottom of the `.addr-card` shows only what is missing (red: blocks payment; grey: VAT
