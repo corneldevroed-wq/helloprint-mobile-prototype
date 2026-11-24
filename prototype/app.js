@@ -1164,10 +1164,10 @@ function renderMini() {
       <div class="eta">${etaHtml(it.arrives, '', it.delivery)}</div></div>`; }).join('')}</div>`;   // the cart's round icon buttons, under the price (Cornel 2026-11-23: not a row of their own)
   document.getElementById('mcFoot').innerHTML = `${totalsHtml(items, getAddons())}<a class="btn primary" href="cart.html">Proceed to cart</a>
     <button class="link" type="button" data-close-sheet>Continue shopping</button>`;
-}
-function openMini(added) {   // added: true = the last line was just added, a number = that line was just changed, false = from the bag icon
   // only the total; Show details folds the other rows open above it (Cornel 2026-11-24: too much at the bottom). Closed on every open
   document.querySelector('#mcFoot .grand > span').insertAdjacentHTML('beforeend', '<button class="link fold" type="button" aria-expanded="false" data-mc-details>Show details</button>');
+}
+function openMini(added) {   // added: true = the last line was just added, a number = that line was just changed, false = from the bag icon
   while (sheetStack.length) closeSheet();   // the only layer: no drawer over a popup
   if (document.getElementById('menu')?.classList.contains('open')) closeMenu();
   miniNew = added === true ? getCart().length - 1 : typeof added === 'number' ? added : -1;
@@ -1190,11 +1190,11 @@ if (MINI_PAGE) {
   document.addEventListener('click', e => {
     const bag = e.target.closest('a[aria-label="Cart"]');
     if (bag && getCart().length) { e.preventDefault(); e.stopPropagation(); openMini(false); return; }   // empty: the cart page (its empty state)
-    const rm = e.target.closest('[data-mc-rm]');
-    if (rm) { const items = getCart(), [gone] = items.splice(+rm.dataset.mcRm, 1); setCart(items); miniNew = -1;
     const det = e.target.closest('[data-mc-details]');
     if (det) { const open = det.closest('.totals').classList.toggle('open'); det.classList.toggle('open', open);
       det.setAttribute('aria-expanded', open); det.textContent = open ? 'Hide details' : 'Show details'; return; }
+    const rm = e.target.closest('[data-mc-rm]');
+    if (rm) { const items = getCart(), [gone] = items.splice(+rm.dataset.mcRm, 1); setCart(items); miniNew = -1;
       if (items.length) renderMini(); else closeSheet();
       showToast(`${gone.name} removed from your cart`); }
   }, true);
