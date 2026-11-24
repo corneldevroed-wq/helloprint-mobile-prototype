@@ -1144,11 +1144,12 @@ function renderCartBadge() {
 renderCartBadge();
 
 // Mini cart (Cornel 2026-11-23, sketches/minicart-sketch.html A, as live): Add to cart on the PDP (Upload later, Upload your artwork)
-// and the bag icon (cart not empty) open the cart as a drawer from the right, full width on mobile, so the customer can shop on.
+// and the bag icon (cart not empty) open the cart as a drawer from the right (440), so the customer can shop on. Desktop only (Cornel
+// 2026-11-24: not on mobile; there Add to cart and the bag icon go to the cart page, as before).
 // It is always the only layer: it closes any popup and the menu first, and nothing opens inside it (no ⓘ, no artwork popup;
 // Edit is the product page, Remove is direct). Not on the cart page and the checkout. Canva / the logo editor and an edit still
 // go to the cart page. The added line comes on top, lit up once. Final (Cornel 2026-11-24, the switch Mini cart B; off was removed).
-const MINI_PAGE = !!document.querySelector('.header, .dhead') && !document.querySelector('.cart-page');
+const MINI_PAGE = DESK && !!document.querySelector('.header, .dhead') && !document.querySelector('.cart-page');
 let miniNew = -1;   // the line just added: on top, lit up once
 const ico = n => `<span class="material-symbols-rounded" aria-hidden="true">${n}</span>`;   // the cart's icon font, loaded below when a page lacks it
 function renderMini() {

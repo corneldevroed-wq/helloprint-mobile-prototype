@@ -96,7 +96,7 @@ Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketc
 **Desktop checkout**: no switches. Steps (since 2026-11-06, was switch Steps B): `.co-steps-n`, centred: Cart = a round back button,
 then 1 Details & Shipping (desktop only; mobile says Details) · 2 Payment · 3 Confirmed (numbered circles, current + done light green, 16/22, 96 line, 24 around it). Built in app.js.
 
-**Mini cart** (no switch, final 2026-11-24; every shop page with the header, not the cart page / checkout): Add to cart on the PDP
+**Mini cart** (no switch, final 2026-11-24; desktop only since 2026-11-24, mobile goes to the cart page; every shop page with the header, not the cart page / checkout): Add to cart on the PDP
 (Upload later, Upload your artwork) and the bag icon (cart not empty) open the cart as a drawer from the right (`#sheet-minicart`,
 `.sheet-layer.drawer`, `openMini()` / `renderMini()` in app.js), the added line on top lit up once (`.mc-new`). Always the only layer.
 Edit (✏️, `&mini`) → Update cart comes back to the PDP with the drawer open (`?minicart-line=i`); Canva, the logo editor and an edit from

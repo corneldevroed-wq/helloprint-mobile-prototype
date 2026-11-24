@@ -32,6 +32,8 @@ Add new decisions here when Cornel makes a final call.
   (its ⋮ Make default sets it); My account › Addresses reads and sets the same flag (the receipt, Edit on Default billing address).
 
 ## Mini cart (Nov 24, 2026)
+- **2026-11-24 — The mini cart only on desktop** (Cornel: we no longer use it on mobile): on mobile Add to cart and the bag icon go
+  to the cart page again, as before the mini cart. Desktop keeps the drawer (440) with Show details in the total's row.
 - **2026-11-24 — The mini cart is final** (Cornel, switch Mini cart B; the switch and "off" removed): Add to cart on the PDP (Upload later,
   Upload your artwork) and the bag icon (cart not empty) open the cart as a drawer from the right, as live (full width on mobile, 440 on
   desktop), the added line on top lit up once (Cornel kept this over live's plain order). Always the only layer (it closes popups and the
