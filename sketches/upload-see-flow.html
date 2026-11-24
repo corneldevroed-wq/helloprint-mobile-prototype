@@ -8,7 +8,7 @@
 <base href="../prototype/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,auto_awesome,check,group,search,smartphone,zoom_in&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add,auto_awesome,check,group,smartphone,zoom_in&display=block" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens.css?v=20261123mm">
 <link rel="stylesheet" href="../design-system/components.css?v=20261123mm">
 <link rel="stylesheet" href="pages.css?v=20261123mm">
@@ -158,11 +158,9 @@
   .us-stage { position: relative; display: grid; place-items: center; height: 152px; margin: -16px -16px 8px; border-radius: calc(var(--r-l) - 1px) calc(var(--r-l) - 1px) 0 0; background: var(--light-grey); }
   .fc[aria-checked="true"] .us-stage { margin: -15px -15px 8px; }
   .us-stage .art { width: auto; height: 112px; }
-  .us-stage.glow .art { box-shadow: 0 0 24px color-mix(in srgb, var(--light-green) 45%, transparent); }
   .us-stage .badge { position: absolute; z-index: 1; left: 12px; top: 12px; }   /* over the flyer's edge, as staging */
-  .us-stage .ico, .us-stage .zoomy { position: absolute; display: grid; place-items: center; border-radius: 50%; background: var(--white); color: var(--dark-green); }
+  .us-stage .ico { position: absolute; display: grid; place-items: center; border-radius: 50%; background: var(--white); color: var(--dark-green); }
   .us-stage .ico { top: 12px; right: 12px; width: 32px; height: 32px; }
-  .us-stage .zoomy { left: calc(50% + 16px); bottom: 12px; width: 40px; height: 40px; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
   .us-stage .material-symbols-rounded { font-size: 20px; }
   .us .btn.center { align-self: center; padding: 0 24px; }
   .us-diff { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: var(--t-12); line-height: var(--lh-12); }
@@ -242,8 +240,8 @@
   const SHORT = ['Basic', 'Premium', 'Deluxe'], NO = '<span class="us-no" aria-label="Not included">–</span>';
   const USP = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';   // the product cards' tick
   const price = i => TIERS[i][1] ? fmt(TIERS[i][1]) : 'Free';
-  // what each check does, on the customer's own flyer: Basic the cut lines (we check the size), Premium a soft glow (optimised), Deluxe a person with a magnifier
-  const stage = i => `<span class="us-stage${i === 1 ? ' glow' : ''}">${i === 1 ? badgeHtml('Recommended') : ''}${art(i === 0 ? 'lines' : '')}${i === 2 ? `<span class="zoomy">${ic('search')}</span>` : ''}<span class="ico">${ic(['check', 'auto_awesome', 'group'][i])}</span></span>`;
+  // the customer's own flyer on each card, with the check's icon in the corner; Basic shows the cut lines (we check the size). No glow, no magnifier (Cornel 11-24)
+  const stage = i => `<span class="us-stage">${i === 1 ? badgeHtml('Recommended') : ''}${art(i === 0 ? 'lines' : '')}<span class="ico">${ic(['check', 'auto_awesome', 'group'][i])}</span></span>`;
   const checkCards = () => `<div class="fc-list us-fcb" role="radiogroup">${TIERS.map(([n], i) => `<button class="fc" role="radio" aria-checked="${S.check === i}" data-go="check-${i}"${hs(i + 1)}>
     ${DESK ? stage(i) : `<span class="lab">${i === 1 ? badgeHtml('Recommended') : ''}</span>`}<span class="fc-top"><span class="radio"></span><b>${SHORT[i]}</b><span class="fc-price">${price(i)}</span></span>
     <ul>${KEY.map(k => FEAT[k]).map(([t, ...c]) => `<li class="${c[i] ? '' : 'off'}">${c[i] ? USP : NO}${t}</li>`).join('')}</ul></button>`).join('')}</div>`;
