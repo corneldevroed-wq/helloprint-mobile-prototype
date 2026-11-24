@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,folder,tune&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mf">
-<link rel="stylesheet" href="../design-system/components.css?v=20261124mf">
-<link rel="stylesheet" href="pages.css?v=20261124mf">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mg">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124mg">
+<link rel="stylesheet" href="pages.css?v=20261124mg">
 <!-- SKETCH FRAME (not linked; Cornel 2026-11-20), loaded by sketches/search-sketch.html as ?v=a|b|c&q=pens (q=zzqxv = no results):
      the new page type Search results (live /en-ie/search?q=pens), built on the PFP: the same pfp.js, the 181 live pens of pens-data.js.
      a: as live (a big search field, Related pages pills, one filter "Categories") · b: the query in the header field, the title "Results for …",
@@ -74,9 +74,9 @@
   </div>
 </div>
 
-<script src="app.js?v=20261124mf"></script>
-<script src="../design-system/components.js?v=20261124mf"></script>
-<script src="pens-data.js?v=20261124mf"></script>
+<script src="app.js?v=20261124mg"></script>
+<script src="../design-system/components.js?v=20261124mg"></script>
+<script src="pens-data.js?v=20261124mg"></script>
 <script>
 const U = new URLSearchParams(location.search), V = U.get('v') || 'b', Q = U.get('q') || 'pens', NONE = !/pen/i.test(Q);
 const CFI = 'https://images.ctfassets.net/wm1n7oady8a5/', pic = p => `${CFI + p.i}?w=300&fm=webp&q=80`;
@@ -124,7 +124,7 @@ const PFP = {
   open: ['cat', 'type', 'del', 'price', 'print', 'colour'], openSheet: ['cat', 'type', 'del', 'price'], sib: SIB
 };
 </script>
-<script src="pfp.js?v=20261124mf"></script>
+<script src="pfp.js?v=20261124mg"></script>
 <script>
 // Sort: Relevance first and the default (live); here it keeps the data order, as Most popular
 let REL = true;

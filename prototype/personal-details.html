@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=campaign,domain,lock,mail,sms&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mf">
-<link rel="stylesheet" href="../design-system/components.css?v=20261124mf">
-<link rel="stylesheet" href="pages.css?v=20261124mf">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mg">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124mg">
+<link rel="stylesheet" href="pages.css?v=20261124mg">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,9 +29,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261124mf"></script>
-<script src="account.js?v=20261124mf"></script>
-<script src="../design-system/components.js?v=20261124mf"></script>
+<script src="app.js?v=20261124mg"></script>
+<script src="account.js?v=20261124mg"></script>
+<script src="../design-system/components.js?v=20261124mg"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -94,7 +94,7 @@
     password: ['Change your password', () => `${field('cur', 'Current password', '', 'password', 'current-password')}${field('pw', 'New password', '', 'password', 'new-password')}<p class="pd-note">At least 8 characters.</p>`,
       v => !v.cur ? { cur: 'Enter your current password' } : v.pw.length < 8 ? { pw: 'Use at least 8 characters' } : (P.pw = 'Wed 18 Nov', 'Your password is changed')],
     // the company: the three fields of your invoices in one popup
-    company: ['Company info', () => `<p class="up-intro">On your invoices and shipping labels. An address can have its own in Addresses.</p>${field('company', 'Company name', P.company, 'text', 'organization')}
+    company: ['Company info', () => `<p class="up-intro">Filled in for you when you add a billing address. Each address keeps its own, in Addresses.</p>${field('company', 'Company name', P.company, 'text', 'organization')}
         ${field('vat', 'VAT number (optional)', P.vat || 'IE')}${field('invMail', 'Invoice email (optional)', P.invMail, 'email')}<p class="pd-note">Empty: your invoices go to your own email.</p>`,
       v => { const vat = v.vat.toUpperCase() === 'IE' ? '' : v.vat.toUpperCase().replace(/\s/g, '');
         const err = { ...(vat && !/^[A-Z]{2}[\dA-Z]{7,12}$/.test(vat) && { vat: 'Enter a VAT number like IE1234567X' }), ...(v.invMail && !isEmail(v.invMail) && { invMail: 'Enter a valid email address' }) };

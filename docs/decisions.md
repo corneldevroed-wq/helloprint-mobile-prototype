@@ -3,6 +3,31 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Checkout details: billing and invoice (Nov 24, 2026)
+- **11-24 — What a business billing address misses, in a cream band** (Cornel: "zo'n creme kleurig footertje … zodat business klanten
+  die nooit meer over het hoofd zien"; then: "in de creme bar juist aangeven de velden of info die mist"). Company and "VAT …" stay as
+  address lines; the cream `.oc-foot` band at the bottom of the `.addr-card` shows only what is missing (red: blocks payment; grey: VAT
+  number recommended), on every Business card, not just the chosen one. Complete or Personal: no band. The red border stays on the chosen card.
+  The company always sits between name and address (shipping and billing cards); only on the billing cards the VAT number comes last,
+  small and grey (12/18) under a thin --line rule.
+- **11-24 — Billing F: the invoice details live on the billing address** (Cornel + Sven/finance: "versie F heeft onze voorkeur, de werking
+  niet aanpassen, alleen aanvullen, altijd het design system"; source: Sven's artifact "Checkout Invoice Details", variant F). Behind the
+  switch Billing C (today) / F (default), plus Customer G / N / S (guest, signed in without addresses, signed in with saved addresses:
+  writes that customer's demo data once). Signed in: under Billing Address the billing addresses as a row of `.addr-card`s, always shown,
+  starting at the default billing address; "same as shipping" only moves the choice (off when you tap another card); the chosen card
+  shows company and VAT and what the invoice still needs (red `.field-error` + red border = blocks payment, grey `.pd-note` = recommended)
+  and Edit; Continue with a gap opens that address's popup on the missing field. Personal | Business + Company name + VAT number are part of
+  the address popup (checkout and My account › Addresses alike; "Company (optional)" is gone). Guest / no addresses: Personal | Business
+  and the company fields under the Billing Address title, before "same as shipping"; signed in without addresses gets "Save this address
+  for future orders" (on), which writes the address(es) with their invoice details into the book. Ireland only (the country is fixed,
+  Cornel): Company name required, VAT number optional but recommended, checked when given (IE format). Added to F: the Reference number
+  stays, per order, under the billing cards (Business only); Personal details' Company info fills in a new billing address. Sven's own
+  styling (segmented control, chips, banners, 48/56 buttons, labels above) replaced by ours.
+- **11-24 — Billing F chosen; the address popup has both defaults** (Cornel: "we gaan voor F", fine-tuning): "Use as my default shipping
+  address" and "Use as my default billing address" (as in Sven's F; was one "Make this my default address"). The default billing address is
+  a flag on the address (`isBillDefault`, as `isDefault` for shipping), shown as Default on the billing cards and in the billing list
+  (its ⋮ Make default sets it); My account › Addresses reads and sets the same flag (the receipt, Edit on Default billing address).
+
 ## Mini cart (Nov 24, 2026)
 - **2026-11-24 — The mini cart is final** (Cornel, switch Mini cart B; the switch and "off" removed): Add to cart on the PDP (Upload later,
   Upload your artwork) and the bag icon (cart not empty) open the cart as a drawer from the right, as live (full width on mobile, 440 on

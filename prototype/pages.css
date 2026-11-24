@@ -407,7 +407,7 @@ body.buybar-on .toast { bottom: 100px; }
 .phone-prefix select { width: 112px; padding-left: 36px; padding-right: 28px; background: var(--light-grey) url(../design-system/icons/chevron-down.svg) no-repeat right 8px center / 20px 16px; }
 .phone-prefix .flag { position: absolute; left: 12px; top: 16.5px; width: 16px; height: 10.67px; border-radius: var(--r-s); object-fit: cover; pointer-events: none; }
 .co-extra { display: flex; flex-direction: column; gap: 8px; }   /* checkout forms: 8 between blocks (grid), also title → block */
-.co-extra[hidden], .account-two[hidden], .desk .account-two[hidden] { display: none; }
+.co-extra[hidden], .check[hidden], .account-two[hidden], .desk .account-two[hidden] { display: none; }
 .ship { display: flex; align-items: center; gap: 8px; padding: 16px; border-radius: var(--r-m); background: var(--light-grey); }
 .ship .radio { border: 0; background: var(--light-green); }
 .ship .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
@@ -821,6 +821,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .co-cards[hidden], #formView[hidden], #loginLink[hidden] { display: none; }
 .co-type { display: flex; gap: 8px; }   /* an either / or as pills: the order type (details), Pay now | Pay later (payment) */
 .co-desc ~ .co-type { margin-block: 8px; }   /* 16 under the description and 16 to what follows (+ the 8 gap), so the pills are a block of their own (Cornel, 2026-11-06) */
+.pd-form .co-type, .addr-form .co-type { margin-block: -8px 0; }   /* in an address popup (16 gap) the question sits 8 above its pills, the company fields 16 under them */
 .pay-opts { margin-bottom: 8px; }   /* payment: 16 from the pills to the methods (Cornel, 2026-11-06) */
 #businessFields { padding: 8px; border-radius: var(--r-m); background: var(--light-grey); }   /* Business: the company fields stand out as one block (Cornel, 2026-11-06) */
 #businessFields .co-desc { font-size: var(--t-12); line-height: var(--lh-12); }   /* the note under the reference number */

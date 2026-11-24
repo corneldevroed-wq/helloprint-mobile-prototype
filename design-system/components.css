@@ -849,6 +849,12 @@ html:not(.desk) .list-head { align-items: flex-start; }
 .addr-card[aria-checked="true"] .radio { border: 0; background: var(--light-green); }   /* the radio of the quantity list, one level deeper */
 .addr-card[aria-checked="true"] .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .addr-card p { flex: 1; font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
+.addr-card[aria-checked="true"].invalid { border-color: var(--error); }   /* the chosen billing address misses what its invoice needs (checkout, Billing F) */
+.addr-card p small { display: block; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }   /* a company address: its company and VAT number smaller under a line, so the address leads */
+.addr-card .addr-edit { align-self: flex-end; }   /* Edit on the chosen card */
+.addr-card .oc-foot { margin: 0 -14px -14px; border-radius: 0 0 calc(var(--r-m) - 2px) calc(var(--r-m) - 2px); text-align: left; }   /* a billing address for a company: what its invoice still misses in the cream band, so a business customer never overlooks it (Cornel, 2026-11-24) */
+.addr-card:not([aria-checked="true"]) .oc-foot { margin: 0 -15px -15px; padding-inline: 15px; border-radius: 0 0 calc(var(--r-m) - 1px) calc(var(--r-m) - 1px); }
+.addr-card .oc-foot > * { display: block; margin: 0; }   /* one line per missing field */
 .addr-card.addr-add { flex: 0 0 44%; align-items: center; justify-content: center; gap: 4px; border: 2px dashed var(--outline); color: var(--dark-grey); font-weight: 600; font-size: var(--t-14); }
 .addr-add .material-symbols-rounded, .ap-add .material-symbols-rounded { font-size: 24px; color: var(--light-green); }   /* also "+ New address" in the address sheet */
 .desk .addr-card { flex: 0 0 240px; scroll-snap-align: start; }
@@ -884,7 +890,7 @@ html:not(.desk) .notice-close { right: 4px; }
 .img.more .art-count { border: 1px solid var(--line); }
 .dash-row .t { display: flex; flex-direction: column; font-size: var(--t-14); line-height: var(--lh-14); }
 .dash-row .t b { font-weight: 600; }
-.dash-row .t small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .d-bar-sub, .pd-note, .od-none, .list-older { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
+.dash-row .t small, .addr-card p small, .dash-table .first small, .account-who small, .vip-meter small, .quick-links small, .rp-foot small, .d-bar-sub, .pd-note, .od-none, .list-older { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* the grey line under a title */
 .dash-row .status { grid-column: 2; justify-self: start; }   /* mobile: the status under the title */
 .dash-row.text .status, .desk .dash-row .status, .dash-row .switch { grid-column: auto; justify-self: end; }
 .dash-row.text.has-ico { grid-template-columns: 40px minmax(0, 1fr) auto; }   /* a setting (Personal details, Cornel 2026-11-18): its icon in the grey tile in front, at the top of the row */

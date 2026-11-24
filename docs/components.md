@@ -91,6 +91,8 @@ no file check (the promise under the field with the faces of our print experts, 
 only a failed upload (over 200 MB) blocks. Cart line: "Artwork uploaded (n files)" with View artwork (`designType: 'art'`).
 Sketch concepts A, B, C (and the parked page turn D5b) live only in upload-sketch.html.
 
+**Checkout details** (left edge, `.desk-switch`, details.html, 2026-11-24): Billing `?billing=c|f` (localStorage `hp-billing`, default f): C = Personal | Business at Contact details, F = the invoice details on the billing address (cards). Customer `?cust=g|n|s` writes the demo data of a guest / a signed-in customer without addresses / with three saved addresses (Home, Office without VAT, Studio with a wrong VAT) once, then leaves the address. Addresses carry `type` (personal / business), `company`, `vat`.
+
 **Desktop checkout**: no switches. Steps (since 2026-11-06, was switch Steps B): `.co-steps-n`, centred: Cart = a round back button,
 then 1 Details & Shipping (desktop only; mobile says Details) · 2 Payment · 3 Confirmed (numbered circles, current + done light green, 16/22, 96 line, 24 around it). Built in app.js.
 

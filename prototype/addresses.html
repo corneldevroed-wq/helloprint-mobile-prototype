@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,delete,edit,more_vert,receipt_long,star&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mf">
-<link rel="stylesheet" href="../design-system/components.css?v=20261124mf">
-<link rel="stylesheet" href="pages.css?v=20261124mf">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261124mg">
+<link rel="stylesheet" href="../design-system/components.css?v=20261124mg">
+<link rel="stylesheet" href="pages.css?v=20261124mg">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -29,9 +29,9 @@
   </main>
   <footer class="footer" data-shell="footer"></footer>
 </div>
-<script src="app.js?v=20261124mf"></script>
-<script src="account.js?v=20261124mf"></script>
-<script src="../design-system/components.js?v=20261124mf"></script>
+<script src="app.js?v=20261124mg"></script>
+<script src="account.js?v=20261124mg"></script>
+<script src="../design-system/components.js?v=20261124mg"></script>
 <script>
 { // its own scope: no clash with app.js names
   if (!deskUser) location.replace('login.html');
@@ -41,7 +41,8 @@
   let billSel = 'same'; try { billSel = localStorage.getItem('hp-invoice-sel') || 'same'; } catch (e) {}
   const save = () => { try { localStorage.setItem('hp-addresses', JSON.stringify(book)); localStorage.setItem('hp-invoice-sel', billSel); } catch (e) {} };
   const def = () => book.find(a => a.isDefault) || book[0];
-  const billId = () => book.some(a => a.id === billSel) ? billSel : def().id;   // 'same' = the shipping address
+  const billId = () => (book.find(a => a.isBillDefault) || book.find(a => a.id === billSel) || def()).id;   // the flag (as the checkout's popup sets it), else the old choice; 'same' = the shipping address
+  const setBill = id => { billSel = id; book.forEach(a => { a.isBillDefault = a.id === id; }); };
 
   // the address book as the lists' table (Cornel 2026-11-18): Name (bold, who grey under it) · Address · edit, make default, delete; rows on mobile
   const who = a => esc([`${a.first || ''} ${a.last || ''}`.trim(), a.company].filter(Boolean).join(', '));
@@ -54,10 +55,10 @@
     ...(a.id === billId() ? [] : [[`data-bill="${a.id}"`, 'Use on my invoices']]), ...(book.length > 1 ? [[`class="del" data-del="${a.id}"`, 'Delete']] : [])]);
   function render() {   // on top the two defaults (Cornel 2026-11-18, sketch C), under them the address book; no card is "chosen" here, so no green border
     const card = (a, title, kind) => `<div class="addr-card"><span class="top"><b>${title}</b><span class="badge neutral co-badge">${esc(a.label)}</span></span>
-        <p>${bookLines(a).map(esc).join('<br>')}</p><button type="button" class="btn small outline" data-pick="${kind}">Edit</button></div>`;   // Edit: choose another address from the book (Cornel 2026-11-18)
+        <p>${bookLines(a).map(esc).join('<br>')}${kind === 'bill' && a.vat && (a.type ? a.type === 'business' : !!a.company) ? `<small>VAT ${esc(a.vat)}</small>` : ''}</p><button type="button" class="btn small outline" data-pick="${kind}">Edit</button></div>`;   // Edit: choose another address from the book (Cornel 2026-11-18); the billing card: the VAT number small under a line, as at the checkout (11-24)
     document.getElementById('ad').innerHTML = `<div><h1>Addresses</h1><p class="oc-lead">Where we ship your orders and who we invoice. The checkout uses the same addresses.</p></div>
       <section class="oc-sec addr-top"><div class="addr-two">${card(def(), 'Default shipping address', 'ship')}${card(book.find(a => a.id === billId()), 'Default billing address', 'bill')}</div>
-        <p class="pd-note">Change them here or in the address book below. At the checkout you can still choose another one for one order. Your company and VAT number on invoices come from <a class="link" href="personal-details.html">Personal details</a>.</p></section>
+        <p class="pd-note">Change them here or in the address book below. At the checkout you can still choose another one for one order. Each address keeps who its invoices are for: a person, or a company with its VAT number.</p></section>
       <section class="oc-sec"><h2>Address book</h2><div class="dash-card list-card">
         <table class="dash-table list-table addr-book"><thead><tr><th>Name</th><th>Address</th><th aria-label="Actions"></th></tr></thead><tbody>${book.map(a => `<tr><td><span class="first"><span><b>${esc(a.label)}</b><small>${who(a)}</small></span></span></td>
           <td>${where(a)}</td><td>${acts(a)}</td></tr>`).join('')}</tbody></table>
@@ -70,7 +71,10 @@
   const F = (name, label, auto = '', type = 'text') => `<label class="field"><input name="${name}" type="${type}" placeholder=" " aria-label="${label}"${auto ? ` autocomplete="${auto}"` : ''}><span class="fl">${label}</span></label>`;
   document.body.insertAdjacentHTML('beforeend', accSheet('adbook', '', `<form class="pd-form" id="adForm" novalidate>
       ${F('label', 'Name for this address (e.g. Home, Office)')}<div class="co-row">${F('first', 'First name', 'given-name')}${F('last', 'Last name', 'family-name')}</div>
-      ${F('company', 'Company (optional)', 'organization')}${F('phone', 'Phone number', 'tel', 'tel')}${F('address1', 'Address line 1', 'address-line1')}${F('address2', 'Address line 2 (optional)', 'address-line2')}
+      <p class="co-desc">Who is the invoice for?</p>
+      <div class="co-type" data-addr-type role="group" aria-label="Who is the invoice for"><button type="button" class="pill active" data-atype="personal" aria-pressed="true">Personal</button><button type="button" class="pill" data-atype="business" aria-pressed="false">Business</button></div>
+      <div class="co-extra" data-addr-biz hidden>${F('company', 'Company name', 'organization')}${F('vat', 'VAT number (optional)')}</div>
+      ${F('phone', 'Phone number', 'tel', 'tel')}${F('address1', 'Address line 1', 'address-line1')}${F('address2', 'Address line 2 (optional)', 'address-line2')}
       <div class="co-row">${F('eircode', 'Eircode', 'postal-code')}${F('town', 'Town / city', 'address-level2')}</div>
 </form>`,
     '<button class="btn primary" type="button" data-ad-save>Save address</button>'));
@@ -78,31 +82,40 @@
   let pickKind = null, pickId = null;
   const renderPick = () => { document.getElementById('adpickBody').innerHTML = book.map(a => `<li class="${a.id === pickId ? 'on' : ''}"><button type="button" class="ap-pick" aria-pressed="${a.id === pickId}" data-pick-id="${a.id}"><span class="radio" aria-hidden="true"></span>
       <span class="t"><b>${esc(a.label)}</b>${bookLines(a).map(l => `<span>${esc(l)}</span>`).join('')}</span></button></li>`).join(''); };
-  const form = document.getElementById('adForm'), FIELDS = ['label', 'first', 'last', 'company', 'phone', 'address1', 'address2', 'eircode', 'town'];
+  const form = document.getElementById('adForm'), FIELDS = ['label', 'first', 'last', 'company', 'vat', 'phone', 'address1', 'address2', 'eircode', 'town'];
+  // who the invoice is for (the checkout's Billing F, Cornel 2026-11-24): Business = the company name + VAT number of this address
+  const aType = form.querySelector('[data-addr-type]'), aBiz = form.querySelector('[data-addr-biz]');
+  let addrType = 'personal';
+  const setAType = t => { addrType = t; aType.querySelectorAll('[data-atype]').forEach(b => { const on = b.dataset.atype === t; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); }); aBiz.hidden = t !== 'business'; };
+  aType.addEventListener('click', e => { const b = e.target.closest('[data-atype]'); if (b) setAType(b.dataset.atype); });
+  const vatNorm = v => String(v || '').toUpperCase().replace(/[\s.\-]/g, '');
+  const vatOk = v => !v || (/^IE/.test(v) ? /^IE(\d{7}[A-W][AH]?|\d[A-Z+*]\d{5}[A-W])$/ : /^[A-Z]{2}[\dA-Z]{7,12}$/).test(v);
   let editing = null;
   function open(id) {
     editing = id || null; const a = book.find(x => x.id === id) || {};
     document.getElementById('adbookTitle').textContent = id ? 'Edit address' : 'New address';
     FIELDS.forEach(n => { form[n].value = a[n] || (!id && (n === 'first' || n === 'last') ? deskUser?.[n] || '' : ''); });
+    setAType((a.type ? a.type === 'business' : !!a.company) ? 'business' : 'personal');
     form.querySelectorAll('.field').forEach(f => setFieldError(f, ''));
     openSheet('adbook'); setTimeout(() => form.label.focus(), 300);
   }
   const RULES = { label: [v => v, 'Give this address a name'], first: [v => v, 'Enter a first name'], last: [v => v, 'Enter a last name'],
     phone: [v => v.replace(/\D/g, '').length >= 7, 'Enter a valid phone number'], address1: [v => v.length > 2, 'Enter the address'],
-    eircode: [v => EIRCODE.test(v), 'Enter a valid Eircode'], town: [v => v, 'Enter the town or city'] };
+    eircode: [v => EIRCODE.test(v), 'Enter a valid Eircode'], town: [v => v, 'Enter the town or city'],
+    company: [v => addrType !== 'business' || v.length > 1, 'Enter the company name'], vat: [v => addrType !== 'business' || vatOk(vatNorm(v)), 'Enter a VAT number like IE1234567X'] };
   document.addEventListener('click', e => {
     const pk = e.target.closest('[data-pick]');   // the cards on top: Edit = pick another default from the book
     if (pk) { pickKind = pk.dataset.pick; pickId = pickKind === 'ship' ? def().id : billId();
       document.getElementById('adpickTitle').textContent = pickKind === 'ship' ? 'Your default shipping address' : 'Your default billing address'; renderPick(); openSheet('adpick'); return; }
     const pi = e.target.closest('[data-pick-id]'); if (pi) { pickId = pi.dataset.pickId; renderPick(); return; }
     if (e.target.closest('[data-pick-use]')) { const a = book.find(x => x.id === pickId);
-      if (pickKind === 'ship') book.forEach(x => { x.isDefault = x.id === pickId; }); else billSel = pickId;
+      if (pickKind === 'ship') book.forEach(x => { x.isDefault = x.id === pickId; }); else setBill(pickId);
       save(); closeSheet(); render(); showToast(`${a.label} is your ${pickKind === 'ship' ? 'default shipping' : 'billing'} address`); return; }
     if (e.target.closest('[data-menu]')) return;   // ⋮ opens its menu (rowMenu in account.js)
     const d = e.target.closest('[data-def]');
     if (d) { book.forEach(a => { a.isDefault = a.id === d.dataset.def; }); save(); render(); showToast(`${book.find(a => a.isDefault).label} is your default shipping address`); return; }
     const bl = e.target.closest('[data-bill]');   // the billing address: the receipt, as the star for shipping (Cornel 2026-11-18: one way per role)
-    if (bl) { billSel = bl.dataset.bill; save(); render(); showToast(`${book.find(a => a.id === billSel).label} is your billing address`); return; }
+    if (bl) { setBill(bl.dataset.bill); save(); render(); showToast(`${book.find(a => a.id === billSel).label} is your billing address`); return; }
     const x = e.target.closest('[data-del]');
     if (x) { const was = book.find(a => a.id === x.dataset.del); book = book.filter(a => a !== was);   // delete: only the bin in the address book (Cornel: not in Edit)
       if (was.isDefault) book[0].isDefault = true;
@@ -114,6 +127,7 @@
       const bad = Object.keys(RULES).filter(n => { const ok = !!RULES[n][0](v[n]); setFieldError(form[n].closest('.field'), ok ? '' : RULES[n][1]); return !ok; });
       if (bad.length) { form[bad[0]].focus(); return; }
       v.eircode = v.eircode.toUpperCase();
+      v.type = addrType; if (addrType === 'business') v.vat = vatNorm(v.vat); else { v.company = ''; v.vat = ''; }
       let id = editing;
       if (id) Object.assign(book.find(a => a.id === id), v); else { id = 'a' + Date.now(); book.push({ id, ...v }); }
       if (!book.some(a => a.isDefault)) book[0].isDefault = true;
