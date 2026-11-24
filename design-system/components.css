@@ -580,8 +580,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
-.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link, .mc-foot .fold { flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
-.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after, .mc-foot .fold::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
 .link.fold::after { transform: rotate(90deg); }   /* a link that opens more in place (Show all N): the arrow points down; open (Show less) up (Cornel 2026-11-18) */
 .link.fold.open::after { transform: rotate(-90deg); }
 .ha-back { margin-bottom: 16px; }   /* the back link: the green arrow in front, pointing left (help article, the proof page) */
@@ -1051,8 +1051,9 @@ html:not(.desk) .oc-act .row .btns .btn { flex: 1; }
 @keyframes mc-new { 0%, 50% { background: var(--tint); } 100% { background: transparent; } }
 .mc-foot { flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; border-top: 1px solid var(--line); }
 .mc-foot .totals { border-top: 0; padding-top: 0; }
-.mc-foot .totals:not(.open) > div:not(.grand) { display: none; }   /* closed: only the total, Show details opens the rest above it */
+.mc-foot .totals:not(.open) > div:not(.grand) { display: none; }   /* closed: only the total; Show details in its row opens the rest */
 .mc-foot .totals:not(.open) > .grand { border-top: 0; padding-top: 0; }
-.mc-foot .fold { margin-left: 8px; vertical-align: bottom; }
+.mc-foot .grand { position: relative; }
+.mc-foot .grand .link { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); }   /* Show details in the middle of the total's row */
 .mc-foot .link { align-self: center; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); }
 .desk .mc-lines, .desk .mc-foot, .desk .drawer .sheet-head { padding-left: 24px; padding-right: 24px; }
