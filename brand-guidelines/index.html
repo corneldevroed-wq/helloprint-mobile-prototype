@@ -21,8 +21,8 @@
   .ds { max-width: none; }
   .ds-main { display: flex; flex-direction: column; gap: 32px; padding: 32px 48px 96px; counter-reset: slide; }
   .band { position: relative; flex: none; width: 1920px; height: 1080px; zoom: var(--s, .5); overflow: hidden; padding: 195px 200px 120px;
-    border-radius: calc(var(--r-l) / var(--s, .5)); background: var(--cream); color: var(--dark-green);
-    font-size: var(--t-20); line-height: 26px; letter-spacing: -.03em; counter-increment: slide; }   /* the corner stays 10px on screen */
+    --r: calc(var(--r-l) / var(--s, .5)); --gap: calc(8px / var(--s, .5)); border-radius: var(--r); background: var(--cream); color: var(--dark-green);
+    font-size: var(--t-20); line-height: 26px; letter-spacing: -.03em; counter-increment: slide; }   /* the corner (--r) stays 10px on screen, the gap around a photo (--gap) 8px */
   .band.dark { background: var(--dark-green); color: var(--cream); }
   /* chrome: four corners */
   .sl-chrome { position: absolute; inset: 66px 200px 58px; display: grid; grid-template-columns: 1fr 1fr; align-content: space-between; font-size: var(--t-14); line-height: 18px; letter-spacing: 0; pointer-events: none; z-index: 2; }
@@ -77,7 +77,7 @@
   /* persona (Cornel's 77.pdf): their world right (no overlay, a soft shadow at the bottom; Cornel 11-24), their portrait in the square beside the headline angle, the points bottom left, the tone on the photo */
   .sl-persona .w { display: block; }
   .sl-persona h2 { width: 476px; padding-right: 48px; }
-  .sl-face { position: absolute; top: 0; right: 0; width: 676px; height: 100%; background: var(--mid-grey); }
+  .sl-face { background: var(--mid-grey); }
   .sl-face::after { content: ''; position: absolute; inset: 50% 0 0; background: linear-gradient(transparent, color-mix(in srgb, var(--dark-green) 70%, transparent)); }   /* a soft shadow at the bottom, behind the tone and the page number */
   .sl-face img, .sl-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .sl-who, .sl-angle, .sl-persona .b-items, .sl-tone { position: absolute; }
@@ -85,13 +85,14 @@
   .sl-who b { font-weight: 800; font-size: var(--t-24); }
   .sl-persona h3 { font-size: var(--t-20); line-height: 26px; }
   .sl-persona h3 + * { margin-top: 0; }
-  .sl-angle { left: 1114px; top: 195px; width: 606px; min-height: 302px; padding: 32px 56px; background: var(--light-green); color: var(--white); }
-  .sl-portrait { position: absolute; right: 100%; bottom: 0; width: 130px; height: 130px; background: var(--line); }
+  .sl-angle { left: 1114px; top: 195px; width: 606px; min-height: 302px; padding: 32px 56px; border-radius: var(--r); background: var(--light-green); color: var(--white); }
+  .sl-portrait { position: absolute; right: calc(100% + var(--gap)); bottom: 0; width: 130px; height: 130px; border-radius: var(--r); overflow: hidden; background: var(--line); }
   .sl-angle blockquote { margin-top: 16px; }
   .sl-persona .b-items { display: block; left: 200px; bottom: 195px; width: 486px; }   /* 438 of text, the item's 48 padding */
   .sl-persona .b-items > div + div { margin-top: 24px; }
   .sl-tone { left: 1304px; bottom: 195px; width: 416px; color: var(--white); }   /* up to the right margin */
-  .sl-photo { position: absolute; top: 0; right: 0; width: 676px; height: 100%; object-fit: cover; }
+  /* a photo at the edge: 8px free on top, right and bottom, rounded like a card (Cornel 11-24: we are round) */
+  .sl-photo, .sl-face, .sl-human .sl-shot { position: absolute; top: var(--gap); right: var(--gap); width: calc(676px - var(--gap)); height: calc(100% - 2 * var(--gap)); border-radius: var(--r); overflow: hidden; object-fit: cover; }
   .sl-photo-left .w { width: 920px; }
   .sl-split { background: linear-gradient(90deg, var(--cream) 50%, var(--dark-green) 50%); }
   .sl-split .w { grid-template-columns: 914px 1fr; }
@@ -103,7 +104,7 @@
   .sl-statement .stmt { margin-top: 0; }
   .sl-statement h2 { color: var(--white); }
   .sl-human { background: var(--dark-green); }
-  .sl-human .sl-shot { position: absolute; top: 0; left: 676px; right: 0; height: 100%; }
+  .sl-human .sl-shot { width: calc(1244px - var(--gap)); }
   .sl-human .sl-shot img { width: 100%; height: 100%; object-fit: cover; }
   .sl-human .sl-shot::after { content: ''; position: absolute; inset: 0; background: var(--dark-green); opacity: .55; }   /* the green over the photo, so the text reads */
   .sl-human .w { position: relative; z-index: 1; }
