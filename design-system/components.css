@@ -364,7 +364,7 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
    the one you are on light grey, semibold black */
 .mega-side, .sd-cats { display: flex; flex-direction: column; padding-right: 16px; border-right: 1px solid var(--line); }
 .mega-side a, .sd-cats a { padding: 4px 16px; border-radius: var(--r-s); font-size: var(--t-14); line-height: 1.3; color: var(--dark-grey); }   /* the list rhythm of Browse all we offer: 26 a line */
-.mega-side a:hover { color: var(--black); }
+.mega-side a:not(.link):hover { color: var(--black); }   /* the groups; Shop all products stays link green (a link never turns black) */
 .mega-side a[aria-current], .sd-cats a:hover { background: var(--light-grey); font-weight: 600; color: var(--black); }
 .sd-cats { padding: 16px; padding-left: 8px; }
 .sd-prods { padding: 16px 0 8px; }
@@ -580,8 +580,8 @@ html:not(.desk) .pc-t { font-size: var(--t-20) !important; line-height: var(--lh
 .desk .plp .dc-img { right: 16px; width: 88px; height: 88px; margin-top: -44px; }   /* breathing room above and below: 16px in the 120px tile, 16px to the right (Cornel) */
 /* Section head with a link on the right (blogs on business cards): green link with arrow, as on the home */
 .plp .section-head { align-items: baseline; gap: 16px; }
-.plp .section-head .link, .mega .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
-.plp .section-head .link::after, .mega .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
+.plp .section-head .link, .mega .link, .all-page .acc .link, .hc-card > .link, .ha-back, .sd-all, .account-page h2 .link { flex-shrink: 0; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-14); color: var(--link); }
+.plp .section-head .link::after, .mega .link::after, .all-page .acc .link::after, .hc-card > .link::after, .sd-all::after, .account-page h2 .link::after { content: ""; width: 20px; height: 20px; background: url(icons/arrow-forward-green.svg) center / contain no-repeat; }
 .link.fold::after { transform: rotate(90deg); }   /* a link that opens more in place (Show all N): the arrow points down; open (Show less) up (Cornel 2026-11-18) */
 .link.fold.open::after { transform: rotate(-90deg); }
 .ha-back { margin-bottom: 16px; }   /* the back link: the green arrow in front, pointing left (help article, the proof page) */

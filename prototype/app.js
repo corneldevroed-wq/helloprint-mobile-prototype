@@ -289,7 +289,7 @@ const SHELL_HEADER_DESK = `
       </div>
     </div></div>
     <nav class="dhead-nav" aria-label="Categories"><div class="dwrap">
-      <a href="#all-products" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
+      <a href="all-products.html" class="dnav-all"><img src="assets/menu.svg" alt="">All products</a>
       ${DESK_NAV.map(([label, slug]) => `<a href="#${slug}"${location.pathname.endsWith('promotional.html') && slug === 'promotional-printing' ? ' aria-current="page"' : ''}>${label}</a>`).join('')}
       <a href="#christmas" class="dnav-season"><img src="../design-system/icons/tree.svg" alt="">Christmas</a>
     </div></nav>
@@ -303,7 +303,7 @@ const SHELL_HEADER_DESK = `
       </ul>
       ${DTRUST}
     </div></div>`;
-const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="#${slug}">${l}</a></li>`).join('')}</ul></div>`;
+const deskCol = (title, items) => `<div><h3>${title}</h3><ul>${items.map(([l, slug]) => `<li><a href="${slug.endsWith('.html') ? slug : '#' + slug}">${l}</a></li>`).join('')}</ul></div>`;
 // Desktop footer parts: the help row (team faces + Trustpilot) and the bottom (certificates, payments, VAT, legal)
 const FOOT_HELP = `
       <div class="dfoot-help">
@@ -328,7 +328,7 @@ const SHELL_FOOTER_DESK = `
       <div class="dfoot-cols">
         ${deskCol('Our Company', [['About us', 'about-us'], ['Culture', 'our-culture'], ['Sustainability', 'sustainability'], ['Newsroom', 'newsroom'], ['Jobs', 'jobs'], ['Talent &amp; Culture', 'talent'], ['Blog', 'blog'], ['Culture Book', 'culture-book'], ['Contact', 'new2contactform']])}
         ${deskCol('Our Solutions', [['Business Solutions', 'business-solutions'], ['Reseller Solutions', 'reseller-solutions'], ['HelloPrint Connect', 'connect'], ['VIP Loyalty Programme', 'vip'], ['Become a Supplier', 'become-a-supplier'], ['Partnerships', 'become-a-partner'], ['Non-Profit', 'nonprofits']])}
-        ${deskCol('Our Services', [['All print and merch products', 'all-products'], ['100% Satisfaction Guarantee', 'our-promises'], ['Lowest Price Guarantee', 'lowest-price'], ['Customer Satisfaction', 'customer-satisfaction'], ['Fast Shipping', 'shipping'], ['Design &amp; Artwork', 'always-a-perfect-design'], ['Paper Sizes', 'paper-sizes'], ['Industries', 'industries'], ['Cities', 'cities'], ['FAQ', 'cs']])}
+        ${deskCol('Our Services', [['All print and merch products', 'all-products.html'], ['100% Satisfaction Guarantee', 'our-promises'], ['Lowest Price Guarantee', 'lowest-price'], ['Customer Satisfaction', 'customer-satisfaction'], ['Fast Shipping', 'shipping'], ['Design &amp; Artwork', 'always-a-perfect-design'], ['Paper Sizes', 'paper-sizes'], ['Industries', 'industries'], ['Cities', 'cities'], ['FAQ', 'cs']])}
         <div><h3>Social media</h3><ul class="dsocial">
           <li><a href="#facebook"><img src="assets/s1.svg" alt="">Facebook</a></li>
           <li><a href="#twitter"><img src="assets/s2.svg" alt="">Twitter</a></li>
@@ -750,7 +750,7 @@ const ALL_PRODUCTS = [
 ];
 // Mobile: All products → the groups → their sub groups (photo) → the products; each level starts with its Shop all row
 const allImg = (g, name) => `all/${g}/${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.webp`;
-menu.all = { title: 'All Products', items: ALL_PRODUCTS.map(([label, g, subs]) => ({ label, img: allImg(g, subs[0][0]), fit: 'contain', to: 'g-' + g })) };
+menu.all = { title: 'All Products', all: 'all-products.html', allLabel: 'Shop all products', items: ALL_PRODUCTS.map(([label, g, subs]) => ({ label, img: allImg(g, subs[0][0]), fit: 'contain', to: 'g-' + g })) };
 for (const [title, g, subs] of ALL_PRODUCTS) {
   menu['g-' + g] = { title, all: g, items: subs.map(([label], i) => ({ label, img: allImg(g, label), fit: 'contain', to: `s-${g}-${i}` })) };
   subs.forEach(([stitle, s, , links], i) => menu[`s-${g}-${i}`] = { title: stitle, all: s, items: links.map(([label, slug]) => ({ label, href: '#' + slug })) });
@@ -769,7 +769,7 @@ function renderPanel(key) {
       ${lvl.root ? `<span class="label">${lvl.title}</span>` : `<button class="back" data-menu-back><img src="${M}back.svg" alt="">${esc(lvl.title)}</button>`}
       <button class="close" data-menu-close aria-label="Close menu"><img src="${M}close.svg" alt=""></button>
     </div>
-    <ul class="menu-list">${lvl.all ? `<li><a class="menu-item shop-all" href="#${lvl.all}" data-menu-close><span class="label">Shop all ${esc(lvl.title)}</span><img class="chev" src="${M}arrow.svg" alt=""></a></li>` : ''}${lvl.items.map(it => `<li>${it.to
+    <ul class="menu-list">${lvl.all ? `<li><a class="menu-item shop-all" href="${lvl.all.endsWith('.html') ? lvl.all : '#' + lvl.all}" data-menu-close><span class="label">${lvl.allLabel || 'Shop all ' + esc(lvl.title)}</span><img class="chev" src="${M}arrow.svg" alt=""></a></li>` : ''}${lvl.items.map(it => `<li>${it.to
       ? `<button class="menu-item" data-menu-to="${it.to}">${thumb(it)}<span class="label">${esc(it.label)}</span><img class="chev" src="${M}arrow.svg" alt=""></button>`
       : `<a class="menu-item${it.img ? '' : ' text'}" href="${it.href}" data-menu-close>${thumb(it)}<span class="label">${esc(it.label)}</span></a>`}</li>`).join('')}</ul>
 `;
@@ -844,7 +844,7 @@ if (megaNav) {
         <ul>${links.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('')}</ul></div>`).join('')}</div>
       <a class="link" href="#${g}">Shop all ${esc(name)}</a>`; };
   const html = k => k === 'all'
-    ? `<div class="dwrap mega-all"><nav class="mega-side" aria-label="All products">${ALL_PRODUCTS.map(([name, g], i) => `<a href="#${g}" data-group="${i}"${i ? '' : ' aria-current="true"'}>${esc(name)}</a>`).join('')}</nav>
+    ? `<div class="dwrap mega-all"><nav class="mega-side" aria-label="All products">${ALL_PRODUCTS.map(([name, g], i) => `<a href="#${g}" data-group="${i}"${i ? '' : ' aria-current="true"'}>${esc(name)}</a>`).join('')}<a class="link" href="all-products.html">Shop all products</a></nav>
         <div class="mega-main">${group(0)}</div></div>`
     : `<div class="dwrap"><div class="section-head"><h2>${esc(menu[k].title)}</h2><a class="link" href="#${menu[k].all}">Shop all ${esc(menu[k].title)}</a></div>
         <div class="hscroll cats">${menu[k].items.map(tile).join('')}</div></div>`;
@@ -871,7 +871,7 @@ if (megaNav) {
     el.addEventListener('mouseleave', () => later(close, 200));
     el.addEventListener('mouseenter', () => cur && clearTimeout(timer));
   });
-  megaNav.querySelector('.dnav-all').addEventListener('click', e => { e.preventDefault(); cur === 'all' ? close() : megaOpen('all'); });
+  // All products: hover opens the panel, a click goes to the All products page (Cornel 2026-11-25), as the bar's categories
   panel.addEventListener('click', e => e.target.closest('a') && close());
   document.addEventListener('click', e => { if (cur && !megaNav.contains(e.target) && !panel.contains(e.target) && !e.target.closest('[data-open-menu]')) close(); });
   document.addEventListener('keydown', e => e.key === 'Escape' && close());

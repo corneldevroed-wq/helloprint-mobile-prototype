@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Printed Products | HelloPrint IE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261125f">
+<link rel="stylesheet" href="../design-system/components.css?v=20261125f">
+<link rel="stylesheet" href="pages.css?v=20261125f">
+</head>
+<body data-desktop>
+<!-- All products (2026-11-25, Cornel: sketches/all-products-sketch.html C): live /en-ie/all-products and /en-gb/all-products (title, intro,
+     the groups with their links), plus a photo per group. Data: ALL_PRODUCTS in app.js, the mega menu's groups and sub groups, so menu and
+     page never drift apart. The list is the home's "Browse all we offer" (.acc-wrap .acc): accordions on mobile, open columns on desktop. -->
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <main class="cat-page plp all-page">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / All products</p>
+      <div class="intro">
+        <h1>Our Printed Products</h1>
+        <p>From flyers to sheets, you never know what you'll uncover. Whether it's a gift or a treat, scroll through and discover.</p>
+      </div>
+    </section>
+
+    <section class="acc-wrap"><div class="acc" id="allGroups"></div></section>
+
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+<script src="app.js?v=20261125f"></script>
+<script src="../design-system/components.js?v=20261125f"></script>
+<script>
+  // Per group: its photo (the menu's group photo) and name, its sub groups, Shop all last (the green link with arrow).
+  // Desktop: photo + name link to the group; mobile: they open the accordion (a link in a summary would not)
+  const groups = document.getElementById('allGroups');
+  groups.innerHTML = ALL_PRODUCTS.map(([name, g, subs]) => { const head = `<span class="thumb-sm contain"><img src="${M + allImg(g, subs[0][0])}" alt="" loading="lazy"></span><span>${esc(name)}</span>`;
+    return `<details><summary>${DESK ? `<a href="#${g}">${head}</a>` : head + '<img src="assets/chevron.svg" alt="">'}</summary>
+      <ul>${subs.map(([t, s]) => `<li><a href="#${s}">${esc(t)}</a></li>`).join('')}<li><a class="link" href="#${g}">Shop all ${esc(name)}</a></li></ul></details>`; }).join('');
+  // Desktop: every group open, as the home's Browse all we offer
+  if (DESK) groups.querySelectorAll('details').forEach(d => { d.open = true; d.querySelector('summary').addEventListener('click', e => e.preventDefault()); });
+</script>
+</body>
+</html>

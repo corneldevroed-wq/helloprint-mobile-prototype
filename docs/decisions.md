@@ -3,6 +3,17 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## All products page (Nov 25, 2026)
+- **11-25 — All products = live's one page plus a photo per group** (Cornel: "Bouw C", sketches/all-products-sketch.html): `all-products.html`,
+  title and intro from live (/en-ie, /en-gb all-products), the groups with their sub groups and "Shop all <group>" last (the green link
+  with arrow, 11-25 Cornel), the group's photo before the name; on desktop photo + name link to the group.
+  Data from `ALL_PRODUCTS` (the mega menu), so menu and page never drift apart. The list is the home's "Browse all we offer" (`.acc-wrap .acc`):
+  accordions on mobile, open columns on desktop (4 a row, filled row by row as live, photo 64 above the name). Linked from the menu: a click on "All products" in the green bar goes to the page (hover still opens the
+  mega menu; Cornel: "de knop in het hoofdmenu moet klikbaar zijn"), and "Shop all products" under the groups in
+  the mega menu, the first row of the drawer's All Products level; Cornel: "moet ook gelinkt zijn vanuit het menu"), the desktop footer
+  ("All print and merch products"), About us "Discover our range" and Our promises "See all products". Rejected: A (category tiles per group,
+  stops at the sub group like the menu), B (the mega menu laid open with every product: my pick, more complete, but Cornel chose the calm page).
+
 ## Checkout details: billing and invoice (Nov 24, 2026)
 - **11-24 — Billing F is final** (Cornel: "F houden, C kan weg, en ook de customer switch kan weg"): variant C (Personal | Business at
   Contact details, the Billing Address block with Change) and the switches Billing C/F and Customer G/N/S (with its demo data) are removed.

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All Products Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261125f">
+<link rel="stylesheet" href="../design-system/components.css?v=20261125f">
+<link rel="stylesheet" href="pages.css?v=20261125f">
+<style>
+  /* SKETCH CSS: only what the existing components don't do yet */
+  .ap-sec .section-head { margin-bottom: 8px; }
+  .ap-sec .section-head h2 { margin: 0; }
+  /* A: the PLP category tiles, 4 in a row on desktop */
+  .desk .ap-a .plp-cats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .desk .ap-a .dc-card { height: 120px; }
+  /* B: the mega menu's All products panel, laid open; the side list sticks under the header */
+  .desk .ap-b .mega-all { align-items: start; }
+  .desk .ap-b .mega-side { position: sticky; top: 124px; }
+  .desk .ap-b .ap-sec + .ap-sec { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .desk .ap-b .ap-sec { scroll-margin-top: 124px; }
+  .ap-b .acc summary { justify-content: flex-start; gap: 16px; }
+  .ap-b .acc summary .thumb-sm { width: 48px; height: 48px; }
+  .ap-b .acc summary .thumb-sm img { width: 100%; height: 100%; transform: none; }
+  .ap-b .acc summary > img { margin-left: auto; }
+  .ap-b .acc ul { padding-left: 64px; }
+  /* C: live's one-page sitemap with a photo per group: 4 columns on desktop, the home accordions on mobile */
+  .desk .ap-c .mega-cols { row-gap: 40px; }
+  .ap-c .acc summary { justify-content: flex-start; gap: 16px; }
+  .ap-c .acc summary .thumb-sm { width: 48px; height: 48px; }
+  .ap-c .acc summary .thumb-sm img { width: 100%; height: 100%; transform: none; }
+  .ap-c .acc summary > img { margin-left: auto; }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+
+  <!-- SKETCH FRAME (not linked; Cornel 2026-11-25): the All products page, sketches/all-products-sketch.html, ?v=a|b|c
+       Live: /en-ie/all-products and /en-gb/all-products (title, intro, groups with text links only, no photos).
+       Data: ALL_PRODUCTS in app.js (the mega menu: group → sub group (photo) → products), so menu and page never drift apart. -->
+  <main class="cat-page plp" id="ap">
+    <section class="hero">
+      <p class="crumbs"><a href="index.html">Home</a> / All products</p>
+      <div class="intro">
+        <h1>Our Printed Products</h1>
+        <p>From flyers to sheets, you never know what you'll uncover. Whether it's a gift or a treat, scroll through and discover.</p>
+      </div>
+    </section>
+    <footer class="footer" data-shell="footer"></footer>
+  </main>
+</div>
+<script src="app.js?v=20261125f"></script>
+<script src="../design-system/components.js?v=20261125f"></script>
+<script>
+(() => {   // own scope: app.js already has globals like thumb, tabs, sync
+const V = new URLSearchParams(location.search).get('v') || 'b';
+const main = document.getElementById('ap');
+main.classList.add('ap-' + V);
+const chev = '<img src="assets/chevron.svg" alt="">';
+const tabs = () => `<nav class="tabs" id="tabs" aria-label="Groups">${ALL_PRODUCTS.map(([n, g]) => `<a href="#${g}" data-tab-link="${g}">${esc(n)}</a>`).join('')}</nav>`;
+const head = (n, g) => `<div class="section-head"><h2>${esc(n)}</h2><a class="link" href="#${g}">Shop all</a></div>`;
+const thumb = src => `<span class="thumb-sm contain"><img src="${M + src}" alt="" loading="lazy"></span>`;
+let html = '';
+
+if (V === 'a') {
+  // A: per group the category page's tiles (desktop grey tile, mobile the swipe row of category cards); 2 levels, as live
+  const tile = (name, img, href) => DESK
+    ? `<a class="dc-card" href="${href}"><span class="dc-t">${esc(name)}</span><img class="dc-go" src="assets/desktop/arrow-forward-grey.svg" alt=""><span class="dc-img"><img src="${M + img}" alt="" loading="lazy"></span></a>`
+    : `<a class="cat" href="${href}"><div class="collage"><img src="${M + img}" alt="" loading="lazy" style="inset:0;object-fit:contain"></div><p class="title">${esc(name)}</p></a>`;
+  html = tabs() + ALL_PRODUCTS.map(([n, g, subs]) => `<section class="ap-sec" id="${g}" data-tab-target>${head(n, g)}
+    <div class="${DESK ? 'plp-cats' : 'hscroll cats'}">${subs.map(([t, s]) => tile(t, allImg(g, t), '#' + s)).join('')}</div></section>`).join('');
+}
+
+if (V === 'b') {
+  // B: the mega menu's All products laid open: every group, sub group (photo, Popular) and product; 3 levels
+  const cols = (g, subs) => `<div class="mega-cols">${subs.map(([t, s, pop, links]) => `<div><a href="#${s}">${thumb(allImg(g, t))}<h3><span>${esc(t)}</span>${pop ? badgeHtml('Popular') : ''}</h3></a>
+      <ul>${links.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('')}</ul></div>`).join('')}</div>`;
+  const accs = (g, subs) => `<div class="acc">${subs.map(([t, s, pop, links]) => `<details><summary>${thumb(allImg(g, t))}<span>${esc(t)}</span>${chev}</summary>
+      <ul><li><a href="#${s}">Shop all ${esc(t)}</a></li>${links.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('')}</ul></details>`).join('')}</div>`;
+  const secs = ALL_PRODUCTS.map(([n, g, subs]) => `<section class="ap-sec" id="${g}" data-tab-target>${head(n, g)}${DESK ? cols(g, subs) : accs(g, subs)}</section>`).join('');
+  html = DESK
+    ? `<div class="mega-all"><nav class="mega-side" id="tabs" aria-label="Groups">${ALL_PRODUCTS.map(([n, g]) => `<a href="#${g}" data-tab-link="${g}">${esc(n)}</a>`).join('')}</nav><div>${secs}</div></div>`
+    : tabs() + secs;
+}
+
+if (V === 'c') {
+  // C: live's one page, 1:1 in structure (group → its sub groups), plus the group's photo; desktop 4 columns, mobile the home accordions
+  html = DESK
+    ? `<section><div class="mega-cols">${ALL_PRODUCTS.map(([n, g, subs]) => `<div><a href="#${g}">${thumb(allImg(g, subs[0][0]))}<h3><span>${esc(n)}</span></h3></a>
+        <ul>${subs.map(([t, s]) => `<li><a href="#${s}">${esc(t)}</a></li>`).join('')}<li><a class="link" href="#${g}">Shop all</a></li></ul></div>`).join('')}</div></section>`
+    : `<section><div class="acc">${ALL_PRODUCTS.map(([n, g, subs]) => `<details><summary>${thumb(allImg(g, subs[0][0]))}<span>${esc(n)}</span>${chev}</summary>
+        <ul><li><a href="#${g}">Shop all ${esc(n)}</a></li>${subs.map(([t, s]) => `<li><a href="#${s}">${esc(t)}</a></li>`).join('')}</ul></details>`).join('')}</div></section>`;
+}
+main.querySelector('.hero').insertAdjacentHTML('afterend', html);
+
+// Jump navigation (A, B): a click scrolls to the group, the active one follows the scroll (as the PLP's section tabs)
+const links = [...document.querySelectorAll('[data-tab-link]')], targets = [...document.querySelectorAll('[data-tab-target]')];
+const on = V === 'b' && DESK ? 'aria-current' : 'active';
+links.forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' }); }));
+const sync = () => { if (!targets.length) return;
+  let cur = targets[0]; for (const t of targets) if (t.getBoundingClientRect().top <= (DESK ? 200 : 150)) cur = t;
+  links.forEach(a => { const me = a.dataset.tabLink === cur.id;
+    if (on === 'active') { if (me && !a.classList.contains('active') && !DESK) a.scrollIntoView({ block: 'nearest', inline: 'nearest' }); a.classList.toggle('active', me); }
+    else me ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'); }); };
+addEventListener('scroll', sync, { passive: true }); sync();
+})();
+</script>
+</body>
+</html>
