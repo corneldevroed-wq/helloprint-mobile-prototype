@@ -250,7 +250,7 @@
 .design .t { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .design b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .design small { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
-.design .ico { align-self: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: var(--r-s); background: var(--light-grey); display: grid; place-items: center; }
+.design .ico { align-self: center; width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--outline); border-radius: var(--r-s); background: var(--white); display: grid; place-items: center; }   /* the desktop icons in their box (as the desktop drop menu, Cornel 2026-11-26) */
 .design .ico img { width: 24px; height: 24px; }
 
 .cart-count { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: var(--r-m); background: var(--light-green); color: var(--white); font-size: var(--t-10); font-weight: 700; line-height: 16px; text-align: center; }
