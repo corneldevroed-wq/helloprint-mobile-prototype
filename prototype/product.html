@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261126k">
-<link rel="stylesheet" href="../design-system/components.css?v=20261126k">
-<link rel="stylesheet" href="pages.css?v=20261126k">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126l">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126l">
+<link rel="stylesheet" href="pages.css?v=20261126l">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261126k"></script>
-<script src="../design-system/components.js?v=20261126k"></script>
-<script src="products.js?v=20261126k"></script>
+<script src="app.js?v=20261126l"></script>
+<script src="../design-system/components.js?v=20261126l"></script>
+<script src="products.js?v=20261126l"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -795,14 +795,14 @@
     page.append(...document.querySelector('#sheet-customise .sheet-body .pad').children);
     document.getElementById('presetsIntro').outerHTML = `<p class="opt-title">${DESK ? 'Pick a combination to start quickly' : 'Quick start'}</p>`;
     page.addEventListener('click', onOptionClick);
-    // Mobile: a choice scrolls on to the next step (Cornel, 2026-11-26), its title just under the sticky header
-    if (!DESK) page.addEventListener('click', e => {
+    // A choice scrolls on to the next step (Cornel, 2026-11-26: mobile, then desktop too), its title just under the header
+    page.addEventListener('click', e => {
       const opt = e.target.closest('[data-set]'); if (!opt) return;
       const key = opt.dataset.set;   // the step (the option itself is re-rendered by now)
       setTimeout(() => {   // after the render: a choice can show or hide a later step
         const steps = [...page.querySelectorAll('[data-option]')].filter(g => g.offsetParent);
         const i = steps.findIndex(g => g.dataset.option === key), next = i < 0 ? null : steps[i + 1];
-        if (next) window.scrollTo({ top: next.getBoundingClientRect().top + scrollY - document.querySelector('header').offsetHeight - 16, behavior: 'smooth' });
+        if (next) window.scrollTo({ top: next.getBoundingClientRect().top + scrollY - (DESK ? DESK_HEAD : document.querySelector('header').offsetHeight) - 16, behavior: 'smooth' });
       }, 150);
     });
   }
