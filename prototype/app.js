@@ -873,18 +873,11 @@ if (megaNav) {
   });
   // All products: hover opens the panel, a click goes to the All products page (Cornel 2026-11-25), as the bar's categories
   panel.addEventListener('click', e => e.target.closest('a') && close());
-  document.addEventListener('click', e => { if (cur && !megaNav.contains(e.target) && !panel.contains(e.target) && !e.target.closest('[data-open-menu]')) close(); });
+  document.addEventListener('click', e => { if (cur && !megaNav.contains(e.target) && !panel.contains(e.target)) close(); });
   document.addEventListener('keydown', e => e.key === 'Escape' && close());
   const q = new URLSearchParams(location.search).get('menu');   // after components.js (badgeHtml)
   if (q === 'all' || Object.values(KEY).includes(q)) addEventListener('DOMContentLoaded', () => megaOpen(q));
 }
-// "All categories" (home) and other links into the menu: the drawer on mobile, the mega menu on desktop
-document.addEventListener('click', e => {
-  const t = e.target.closest('[data-open-menu]'); if (!t) return;
-  e.preventDefault();
-  if (megaOpen) return megaOpen(t.dataset.openMenu);
-  openMenu(); pushPanel(t.dataset.openMenu);
-});
 menuLayer.addEventListener('click', e => {
   const to = e.target.closest('[data-menu-to]'), back = e.target.closest('[data-menu-back]'), close = e.target.closest('[data-menu-close]');
   if (to) pushPanel(to.dataset.menuTo);

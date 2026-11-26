@@ -4,6 +4,14 @@ Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
 ## All products page (Nov 25, 2026)
+- **11-26 — All products = the mega menu laid open** (Cornel: "B · The mega menu laid open", sketches/all-products-sketch.html B, after C
+  was built and the collection images tried in sketches/all-products-cards-sketch.html): every group as a section (title + Shop all),
+  its sub groups with the menu photo, Popular and every product (496 links). Desktop: the groups as the menu's side list, sticky,
+  following the scroll; mobile: section tabs on top, per sub group an accordion row (photo, name), the products under it and
+  "Shop all <sub group>" last as the green link with arrow. Only existing parts, no new component. The C list is gone; the cut-out collection
+  images were removed (Cornel: "weggooien").
+- **11-26 — The home's "All categories" links to all-products.html** (it opened the menu; `data-open-menu` and its handler are gone).
+  The en-gb collection images per group (tried the same day, cut out transparent) were dropped with the choice for B above.
 - **11-25 — All products = live's one page plus a photo per group** (Cornel: "Bouw C", sketches/all-products-sketch.html): `all-products.html`,
   title and intro from live (/en-ie, /en-gb all-products), the groups with their sub groups and "Shop all <group>" last (the green link
   with arrow, 11-25 Cornel), the group's photo before the name; on desktop photo + name link to the group.

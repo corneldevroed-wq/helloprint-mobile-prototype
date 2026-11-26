@@ -984,7 +984,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
 .mega-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; width: 100%; }
 .mega-cols > div > a { display: flex; flex-direction: column; align-items: flex-start; }
 .mega-cols .thumb-sm { width: 64px; height: 64px; margin-bottom: 16px; }
-.dfoot-cols h3 { padding-bottom: 12px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); color: var(--black); }   /* the titles of Browse all we offer (home) */
+.dfoot-cols h3, .all-page .mega-cols h3 { padding-bottom: 12px; font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); color: var(--black); }   /* the titles of Browse all we offer (home), also on All products (the page size, not the menu's) */
 /* The menu is smaller, so it fits a laptop screen (Cornel 2026-11-11): the mobile sizes of the UI guide, card title 14 semibold, body 12/18, 4 apart */
 .mega-cols h3 { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; font-weight: 600; font-size: var(--t-14); line-height: var(--lh-tight); color: var(--black); }
 .mega-cols ul { padding: 0; gap: 4px; font-size: var(--t-12); line-height: var(--lh-12); }
@@ -1341,19 +1341,19 @@ html:not(.desk) .desk-only { display: none; }
 .desk .acc-wrap .acc details { border: 0; padding: 0; }
 .desk .acc-wrap .acc summary { padding: 0 0 12px; font-size: var(--t-16); color: var(--black); cursor: default; }
 .desk .acc-wrap .acc summary img { display: none; }
-.desk .acc-wrap .acc ul, .dfoot-cols ul { padding: 0; gap: 8px; }
-.desk .acc-wrap .acc ul a, .dfoot-cols ul a { line-height: 1.3; }
-/* All products (all-products.html): the same list with the group's photo before its name; desktop row by row (live), photo above the name */
+.desk .acc-wrap .acc ul, .dfoot-cols ul, .all-page .mega-cols ul { padding: 0; gap: 8px; font-size: var(--t-14); }
+.desk .acc-wrap .acc ul a, .dfoot-cols ul a, .all-page .mega-cols ul a { line-height: 1.3; }
+/* All products (all-products.html): the mega menu's All products laid open. Desktop: the side list sticks, a line between the groups;
+   mobile: per sub group an accordion row with its photo, the products indented under the name */
+.desk .all-page .mega-all { align-items: start; }
+.desk .all-page .ap-sec + .ap-sec { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--line); }
 .all-page .acc summary { justify-content: flex-start; gap: 16px; }
 .all-page .acc summary > img { margin-left: auto; }   /* the chevron stays right */
 .all-page .acc .thumb-sm { width: 48px; height: 48px; }
-.all-page .acc li:has(> .link) { margin-top: 8px; }   /* Shop all: 16 below the list (8 + the list gap) */
 .all-page .acc .thumb-sm img { width: 100%; height: 100%; transform: none; }   /* not the chevron's 24px and turn */
-.desk .all-page .acc { grid-template-rows: none; grid-auto-flow: row; }
-.desk .all-page .acc summary a { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }   /* photo + name: one link to the group */
-.desk .all-page .acc summary a:hover span { text-decoration: underline; }   /* the name only, as in the mega menu */
-.desk .all-page .acc .thumb-sm { width: 64px; height: 64px; }
-.desk .all-page .acc .thumb-sm img { display: block; }
+.all-page .acc ul { padding-left: 64px; }
+.all-page .acc li:has(> .link) { margin-top: 8px; }   /* Shop all: 16 below the list (8 + the list gap) */
+.desk .all-page .section-head { margin-bottom: 8px; }   /* title to block 8 */
 
 /* SEO text: open on desktop */
 .desk .seo { gap: 16px; }

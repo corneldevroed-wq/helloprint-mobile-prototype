@@ -7,14 +7,14 @@
 <title>Our Printed Products | HelloPrint IE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261125f">
-<link rel="stylesheet" href="../design-system/components.css?v=20261125f">
-<link rel="stylesheet" href="pages.css?v=20261125f">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126d">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126d">
+<link rel="stylesheet" href="pages.css?v=20261126d">
 </head>
 <body data-desktop>
-<!-- All products (2026-11-25, Cornel: sketches/all-products-sketch.html C): live /en-ie/all-products and /en-gb/all-products (title, intro,
-     the groups with their links), plus a photo per group. Data: ALL_PRODUCTS in app.js, the mega menu's groups and sub groups, so menu and
-     page never drift apart. The list is the home's "Browse all we offer" (.acc-wrap .acc): accordions on mobile, open columns on desktop. -->
+<!-- All products (Cornel: sketches/all-products-sketch.html B, 2026-11-26; C was built first on 11-25): live /en-ie/all-products and
+     /en-gb/all-products (title, intro), then the mega menu's All products laid open. Data: ALL_PRODUCTS in app.js, so menu and page never
+     drift apart. Only existing parts: .mega-side, .mega-cols, .tabs, .section-head, the .acc rows. -->
 <div class="phone">
   <div data-shell="header"></div>
 
@@ -27,22 +27,43 @@
       </div>
     </section>
 
-    <section class="acc-wrap"><div class="acc" id="allGroups"></div></section>
+    <div id="allGroups"></div>
 
     <footer class="footer" data-shell="footer"></footer>
   </main>
 </div>
-<script src="app.js?v=20261125f"></script>
-<script src="../design-system/components.js?v=20261125f"></script>
+<script src="app.js?v=20261126d"></script>
+<script src="../design-system/components.js?v=20261126d"></script>
 <script>
-  // Per group: its photo (the menu's group photo) and name, its sub groups, Shop all last (the green link with arrow).
-  // Desktop: photo + name link to the group; mobile: they open the accordion (a link in a summary would not)
-  const groups = document.getElementById('allGroups');
-  groups.innerHTML = ALL_PRODUCTS.map(([name, g, subs]) => { const head = `<span class="thumb-sm contain"><img src="${M + allImg(g, subs[0][0])}" alt="" loading="lazy"></span><span>${esc(name)}</span>`;
-    return `<details><summary>${DESK ? `<a href="#${g}">${head}</a>` : head + '<img src="assets/chevron.svg" alt="">'}</summary>
-      <ul>${subs.map(([t, s]) => `<li><a href="#${s}">${esc(t)}</a></li>`).join('')}<li><a class="link" href="#${g}">Shop all ${esc(name)}</a></li></ul></details>`; }).join('');
-  // Desktop: every group open, as the home's Browse all we offer
-  if (DESK) groups.querySelectorAll('details').forEach(d => { d.open = true; d.querySelector('summary').addEventListener('click', e => e.preventDefault()); });
+(() => {   // own scope: app.js has globals such as thumb and sync
+  // The mega menu's All products laid open (Cornel 2026-11-26, sketches/all-products-sketch.html B): per group its sub groups with
+  // photo, Popular and every product. Desktop: the groups as the menu's side list, sticky, following the scroll; mobile: the section
+  // tabs on top and per group the sub groups as accordion rows (photo + name), opening to the products and Shop all last.
+  const chev = '<img src="assets/chevron.svg" alt="">';
+  const thumb = (g, t) => `<span class="thumb-sm contain"><img src="${M + allImg(g, t)}" alt="" loading="lazy"></span>`;
+  const head = (n, g) => `<div class="section-head"><h2>${esc(n)}</h2><a class="link" href="#${g}">Shop all</a></div>`;
+  const links = list => list.map(([l, h]) => `<li><a href="#${h}">${esc(l)}</a></li>`).join('');
+  const body = (g, subs) => DESK
+    ? `<div class="mega-cols">${subs.map(([t, s, pop, list]) => `<div><a href="#${s}">${thumb(g, t)}<h3><span>${esc(t)}</span>${pop ? badgeHtml('Popular') : ''}</h3></a><ul>${links(list)}</ul></div>`).join('')}</div>`
+    : `<div class="acc">${subs.map(([t, s, , list]) => `<details><summary>${thumb(g, t)}<span>${esc(t)}</span>${chev}</summary><ul>${links(list)}<li><a class="link" href="#${s}">Shop all ${esc(t)}</a></li></ul></details>`).join('')}</div>`;
+  const secs = ALL_PRODUCTS.map(([n, g, subs]) => `<section class="ap-sec" id="${g}" data-tab-target>${head(n, g)}${body(g, subs)}</section>`).join('');
+  const nav = DESK
+    ? `<nav class="mega-side" aria-label="Groups">${ALL_PRODUCTS.map(([n, g], i) => `<a href="#${g}" data-tab-link="${g}"${i ? '' : ' aria-current="true"'}>${esc(n)}</a>`).join('')}</nav>`
+    : `<nav class="tabs" aria-label="Groups">${ALL_PRODUCTS.map(([n, g], i) => `<a href="#${g}" data-tab-link="${g}"${i ? '' : ' class="active"'}>${esc(n)}</a>`).join('')}</nav>`;
+  document.getElementById('allGroups').outerHTML = DESK ? `<div class="mega-all">${nav}<div>${secs}</div></div>` : nav + secs;
+
+  // Jump navigation: a click scrolls to the group, the current one follows the scroll (as the PLP's section tabs)
+  const tabs = [...document.querySelectorAll('[data-tab-link]')], targets = [...document.querySelectorAll('[data-tab-target]')];
+  tabs.forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById(a.dataset.tabLink).scrollIntoView({ behavior: 'smooth' }); }));
+  const sync = () => {
+    let cur = targets[0]; for (const t of targets) if (t.getBoundingClientRect().top <= (DESK ? 200 : 150)) cur = t;
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = targets.at(-1);
+    tabs.forEach(a => { const on = a.dataset.tabLink === cur.id;
+      if (DESK) on ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current');
+      else { if (on && !a.classList.contains('active')) a.scrollIntoView({ block: 'nearest', inline: 'nearest' }); a.classList.toggle('active', on); } });
+  };
+  addEventListener('scroll', sync, { passive: true }); sync();
+})();
 </script>
 </body>
 </html>
