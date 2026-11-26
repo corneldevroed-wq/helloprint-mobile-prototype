@@ -513,7 +513,6 @@ body.flow-a .cta-stack, body.flow-a .flow-b-only, body.flow-b .price-box .cta-ro
 .flow-switch button { width: 18px; height: 18px; border-radius: 0 50% 50% 0; color: var(--white); font-size: var(--t-10); font-weight: 700; }
 .flow-switch button[aria-pressed="true"] { background: var(--light-green); }
 body.menu-open .flow-switch { display: none; }
-.flow-switch { display: none; }   /* hidden: mobile PDP = flow H (Cornel, 2026-11-03); the code stays, ?flow=a…j still works */
 
 /* PDP version C: options as one selector field (like "Kies je iPad"); calmer design links */
 .pick { display: none; flex-direction: column; gap: 6px; }

@@ -75,8 +75,9 @@ All switches write their value into the URL and localStorage, so a copied link o
 
 **My account: Demo reset** (2026-11-17): the dark tab on the left edge of every account page ("Demo ↺", the switches' look) clears what was done in this browser (`hp-orders`: approved, uploaded, paid, cancelled, references), so every to-do is open again. `?reset` on any account page does the same (and removes itself from the address).
 
-**Mobile PDP**: flow H is the default (Cornel, 2026-11-03). The Flow switch is hidden (`.flow-switch { display: none }`), the
-code of flows A–J stays; `?flow=a…j` opens another flow for that visit only (no longer remembered in `hp-flow`).
+**Mobile PDP**: flow H is the default (Cornel, 2026-11-03). Since 2026-11-26 the Flow switch (left edge, mobile only) shows H and J again
+(J = every option on the page, no drawer; the CEO disagrees with the drawer): `?flow=h|j`, remembered in `hp-pdp-flow`. The buttons A–G and I
+are `hidden`, their code stays; `?flow=a…i` opens one for that visit only.
 
 **Home promo cards** (no switch; decided 2026-11-11): titles 20/24 on mobile and desktop (promo cards + Team + Promises), 24px inside
 the card on desktop (16 on mobile). Tried and removed: titles 24 on desktop, the title above the button.

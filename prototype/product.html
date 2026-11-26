@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261126d">
-<link rel="stylesheet" href="../design-system/components.css?v=20261126d">
-<link rel="stylesheet" href="pages.css?v=20261126d">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126e">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126e">
+<link rel="stylesheet" href="pages.css?v=20261126e">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -283,15 +283,15 @@
 <!-- Prototype only: compare the two CTA versions on the product page -->
 <div class="flow-switch" role="group" aria-label="Prototype version">
   <span>Flow</span>
-  <button data-flow="a" title="Add your design, then a design layer">A</button>
-  <button data-flow="b" title="Add to cart, with the other design options right under it">B</button>
-  <button data-flow="c" title="Options as a selector field; the layer only saves">C</button>
-  <button data-flow="d" title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
-  <button data-flow="e" title="Two selector fields (cards + design) and one button">E</button>
-  <button data-flow="f" title="Spec list: every option a row, design as the last row">F</button>
-  <button data-flow="g" title="F + one question first: do you have a design?">G</button>
+  <button data-flow="a" hidden title="Add your design, then a design layer">A</button>
+  <button data-flow="b" hidden title="Add to cart, with the other design options right under it">B</button>
+  <button data-flow="c" hidden title="Options as a selector field; the layer only saves">C</button>
+  <button data-flow="d" hidden title="Combo: C + design options as pills with an explanation (ⓘ)">D</button>
+  <button data-flow="e" hidden title="Two selector fields (cards + design) and one button">E</button>
+  <button data-flow="f" hidden title="Spec list: every option a row, design as the last row">F</button>
+  <button data-flow="g" hidden title="F + one question first: do you have a design?">G</button>
   <button data-flow="h" title="Product first, then Continue to a separate design step">H</button>
-  <button data-flow="i" title="Cornel's design: spec list, design toggle, Upload later / Upload now">I</button>
+  <button data-flow="i" hidden title="Cornel's design: spec list, design toggle, Upload later / Upload now">I</button>
   <button data-flow="j" title="All options on the page (SEO); Continue opens the design step">J</button>
 </div>
 
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261126d"></script>
-<script src="../design-system/components.js?v=20261126d"></script>
-<script src="products.js?v=20261126d"></script>
+<script src="app.js?v=20261126e"></script>
+<script src="../design-system/components.js?v=20261126e"></script>
+<script src="products.js?v=20261126e"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -386,10 +386,13 @@
   const FLOWS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
   const FLOW = (() => {
     if (DESK) return 'j';   // desktop: every option on the page, like J (the version switch is mobile-only)
-    // Mobile default = H (Cornel, 2026-11-03). The other flows stay in the code and open with ?flow=a…j (for that visit only);
-    // the Flow switch is hidden (styles.css), not removed.
+    // Mobile default = H (Cornel, 2026-11-03). The Flow switch shows H and J again (Cornel, 2026-11-26: options on the page);
+    // H / J are remembered (hp-pdp-flow), the other flows stay hidden in the code and open with ?flow=a…i for that visit only.
     const q = new URLSearchParams(location.search).get('flow');
-    return FLOWS.includes(q) ? q : 'h';
+    if (q === 'h' || q === 'j') try { localStorage.setItem('hp-pdp-flow', q); } catch (e) {}
+    if (FLOWS.includes(q)) return q;
+    let m = null; try { m = localStorage.getItem('hp-pdp-flow'); } catch (e) {}
+    return m === 'j' ? 'j' : 'h';
   })();
   const FLOW_B = FLOW !== 'a';   // B and C share the new CTA ("Add to cart" + "No design yet?")
   const FLOW_C = ['c', 'd', 'e', 'f', 'g', 'h', 'i'].includes(FLOW);   // D–I build on C
