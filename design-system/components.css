@@ -127,7 +127,7 @@ body.menu-open { overflow: hidden; }
 [aria-checked="true"] > .radio { border: 0; background: var(--light-green); }
 [aria-checked="true"] > .radio::after { content: ''; position: absolute; left: 6px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
 .qrow .n { flex: 1; font-weight: 600; }
-.qrow .e { flex: 1; font-size: var(--t-12); color: var(--dark-grey); }
+.qrow .e { flex: 1; font-size: var(--t-12); color: var(--dark-grey); white-space: nowrap; }   /* stays one line, also next to the Recommended label */
 .qrow .p { flex: 1; text-align: right; font-weight: 600; }
 .deliv { display: flex; align-items: center; gap: 8px; border: 1px solid var(--outline); border-radius: var(--r-m); background: var(--white); text-align: left; }
 .deliv[aria-checked="true"] { border: 2px solid var(--light-green); }

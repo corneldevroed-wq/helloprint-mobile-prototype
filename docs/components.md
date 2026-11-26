@@ -78,6 +78,7 @@ All switches write their value into the URL and localStorage, so a copied link o
 **Mobile PDP**: flow H is the default (Cornel, 2026-11-03). Since 2026-11-26 the Flow switch (left edge, mobile only) shows H and J again
 (J = every option on the page, no drawer; the CEO disagrees with the drawer): `?flow=h|j`, remembered in `hp-pdp-flow`. The buttons A–G and I
 are `hidden`, their code stays; `?flow=a…i` opens one for that visit only.
+The Recommended labels (the green bar in the option of the Recommended preset, next to the default quantity) show on mobile too since 2026-11-26, in every flow.
 
 **Home promo cards** (no switch; decided 2026-11-11): titles 20/24 on mobile and desktop (promo cards + Team + Promises), 24px inside
 the card on desktop (16 on mobile). Tried and removed: titles 24 on desktop, the title above the button.

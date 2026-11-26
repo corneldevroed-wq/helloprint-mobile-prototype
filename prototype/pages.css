@@ -1428,12 +1428,11 @@ b.art-mini { font-weight: 600; font-size: var(--t-10); color: var(--dark-green);
 .desk #jConfig .qty-foot { margin-top: 0; }
 .d-sel .d-direct + .d-go { margin-top: 16px; }   /* breathing room between the design cards and the button */
 
-/* Desktop PDP: Recommended label on the option of the Recommended preset: a green bar inside the card (Cornel, 2026-10-23) */
-span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card in the cart's file check popup */
-.desk .opt.is-rec { position: relative; overflow: visible; }
+/* PDP: Recommended label on the option of the Recommended preset: a green bar inside the card (Cornel, 2026-10-23; mobile too since 2026-11-26) */
+.opt.is-rec { position: relative; overflow: visible; }
 /* The recommended quantity: the label sits next to the amount (rows are too close for a label on the edge) */
-.desk .qrow.is-rec { position: relative; }
-.desk .qrow.is-rec .n { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.qrow.is-rec { position: relative; }
+.qrow.is-rec .n { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
 
 /* Desktop PDP: product reviews at the bottom (Trustpilot style; summary left, cards right) */
 .pr-wrap { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
@@ -1462,15 +1461,14 @@ span.rec { display: none; }   /* the PDP label only: .fc.rec is the Premium card
 .tp-src { display: flex; align-items: center; gap: 4px; margin-top: 16px; font-weight: 600; font-size: var(--t-14); }
 .tp-src img { width: 16px; height: 16px; }
 /* A full-width green bar inside the card, under the text; nothing sticks out of the card */
-.desk span.rec { display: block; margin-top: 6px; padding: 4px 6px; border-radius: var(--r-s); background: var(--light-green); text-align: center; font-weight: 700; font-size: var(--t-12); line-height: 1; white-space: nowrap; color: var(--white); }   /* same type as the orange "Most Popular" badge (12px bold, no caps) */
-.desk span.rec svg { display: none; }
-.desk span.rec i { font-style: normal; }
-.desk .opt.is-rec .t { align-self: stretch; display: flex; flex-direction: column; }
-.desk .qrow span.rec { display: inline-block; margin: 0; }
+span.rec { display: block; margin-top: 6px; padding: 4px 6px; border-radius: var(--r-s); background: var(--light-green); text-align: center; font-weight: 700; font-size: var(--t-12); line-height: 1; white-space: nowrap; color: var(--white); }   /* same type as the orange "Most Popular" badge (12px bold, no caps) */
+span.rec svg { display: none; }
+span.rec i { font-style: normal; }
+.qrow span.rec { display: inline-block; margin: 0; }
 /* The bar always sits on the bottom of the card (cards in a row are equally tall) */
-.desk .opt.is-rec .t { flex: 1 0 auto; }   /* never shrinks below its text, so a long name (3 lines) pushes the card taller instead of the bar out of it */
-.desk .opt.is-rec .t small { margin-bottom: 6px; }
-.desk .opt span.rec { margin-top: auto; }
+.opt.is-rec .t { align-self: stretch; display: flex; flex-direction: column; flex: 1 0 auto; }   /* never shrinks below its text, so a long name (3 lines) pushes the card taller instead of the bar out of it */
+.opt.is-rec .t small { margin-bottom: 6px; }
+.opt span.rec { margin-top: auto; }
 
 /* Option photos (copy of Standard Flyers with the live site's images): mobile = a small square next to the text; desktop = the photo on top of the card */
 .opt .ph, .gi-vis .ph { flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--r-s); overflow: hidden; background: var(--white); }

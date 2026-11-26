@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..24,400,0,0&icon_names=edit,expand_less&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261126e">
-<link rel="stylesheet" href="../design-system/components.css?v=20261126e">
-<link rel="stylesheet" href="pages.css?v=20261126e">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126g">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126g">
+<link rel="stylesheet" href="pages.css?v=20261126g">
 </head>
 <body data-desktop>
 <div class="phone">
@@ -321,9 +321,9 @@
 <div class="toast" id="toast" role="status"></div>
 
 <div data-shell="sheet-art"></div>   <!-- the artwork popup, shared with the cart and order confirmed -->
-<script src="app.js?v=20261126e"></script>
-<script src="../design-system/components.js?v=20261126e"></script>
-<script src="products.js?v=20261126e"></script>
+<script src="app.js?v=20261126g"></script>
+<script src="../design-system/components.js?v=20261126g"></script>
+<script src="products.js?v=20261126g"></script>
 <script>
   // ---------- Product (products.js, ?p=slug) + options (Figma customise sheet) ----------
   const P = 'assets/pdp/';
@@ -649,8 +649,8 @@
   }
   function optCard(key, o) {
     const visual = optVisual(key, o);
-    // Desktop: the option of the Recommended preset gets a label (prototype switch Rec 0|A|B|C)
-    const rec = DESK && (PRESETS.find(p => p.id === 'recommended') || {}).cfg?.[key] === o.id
+    // The option of the Recommended preset gets a label (desktop; mobile too since 2026-11-26, Cornel)
+    const rec = (PRESETS.find(p => p.id === 'recommended') || {}).cfg?.[key] === o.id
       ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';
     return `<button class="opt${rec ? ' is-rec' : ''}" role="radio" aria-checked="${draft[key] === o.id}" data-set="${key}" data-value="${o.id}"><span class="t"><b>${o.name}</b><small>${o.sub}</small>${rec}</span>${visual}</button>`;
   }
@@ -754,7 +754,7 @@
         const p = productPrice(c, q);
         // J shows the common amounts (+ the chosen one) until "More quantities"
         const common = (DESK ? qi < 8 : [100, 250, 500, 1000, 2000].includes(q)) || c.qty === q;   // desktop: the first 8 (Figma)
-        const recQ = DESK && q === DEFAULT.qty ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';   // desktop: the default quantity is our recommendation
+        const recQ = q === DEFAULT.qty ? `<span class="rec" title="Recommended"><svg viewBox="0 0 24 24"><path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg><i>Recommended</i></span>` : '';   // the default quantity is our recommendation
         return `<button class="qrow${common ? '' : ' j-extra'}${recQ ? ' is-rec' : ''}" role="radio" aria-checked="${c.qty === q}" data-set="qty" data-value="${q}"><span class="radio"></span><span class="n">${pcs(q)}${recQ}</span><span class="e">${each({ qty: q, price: p })}</span><span class="p">${fmt(p)}</span></button>`;
       }).join('')}</div>
       ${DESK
