@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add your design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=auto_awesome,visibility&display=block" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127n">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127n">
+<link rel="stylesheet" href="pages.css?v=20261127n">
+</head>
+<body data-desktop>
+<!-- Design cockpit (Cornel 2026-11-27, sketches/design-cockpit-sketch.html A, look D of sketches/design-cockpit-look-sketch.html): the design options as a
+     page of their own after the PDP. For Standard Posters only for now (PDP switch Design A). The PDP's Continue keeps the cart line without its design in
+     hp-cockpit; this page adds the design and puts it in the cart. The ways as order confirmed's blocks; desktop: the slim sidebar with your product big on
+     top and the button; mobile: the small picture in the title and the sticky bar. -->
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="co-page cockpit" id="ck"></main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<input type="file" id="ckFiles" multiple hidden>
+<div data-shell="sheet-art"></div>   <!-- "Your artwork", the popup of the cart and order confirmed (openArt in app.js) -->
+<div class="cart-bar"><div class="sheet-bar"><div class="total" id="ckTotal"></div><button class="btn primary" id="ckGo" disabled>Add to cart</button></div></div>
+<script src="app.js?v=20261127n"></script>
+<script src="../design-system/components.js?v=20261127n"></script>
+<script src="upload.js?v=20261127n"></script>   <!-- the file rows and pictures (upPics, upRow), shared with the upload popup -->
+<script>
+{
+  let D = null; try { D = JSON.parse(localStorage.getItem('hp-cockpit')); } catch (e) {}
+  if (!D) location.replace('product.html?p=standard-posters');
+  const L = D.line, CHK = '<img src="assets/pdp/check.svg" alt="">';
+  const page = document.getElementById('ck');
+
+  // Upload your artwork: the upload popup's field in the panel, its file rows and "We've got your file" (upload.js helpers)
+  let files = [], wasDone = false, way = 'art';
+  const okFiles = () => files.filter(f => !f.err && f.progress === 100);
+  const uploaded = () => files.length && !files.some(f => f.err || f.progress < 100);
+  const TPL = `<p class="d-tpl-dl">Download the template for ${D.size.replace(' x ', '&nbsp;×&nbsp;').replace(/ mm$/, '&nbsp;mm')}<a href="#template-pdf" aria-label="PDF template"><img src="assets/desktop/icon-pdf.svg" alt=""></a><a href="#template-indd" aria-label="InDesign template"><img src="assets/desktop/icon-indesign.svg" alt=""></a></p>`;
+  const upload = () => !files.length
+    ? `<div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline" data-pick>Choose files</button><small>or drag them here · as many as you like</small></div>${TPL}`
+    : `<div class="up-files">${files.map(upRow).join('')}</div><button class="up-add" data-pick>+ Add more files</button>
+       ${uploaded() ? `<div class="art-calm"><b>${CHK}We’ve got your file${files.length > 1 ? 's' : ''}</b><span>Don’t worry, it’s in good hands.</span><div class="up-check"><p class="ok">${CHK}Every file gets our free automatic check</p><p class="ok">${CHK}You’ll see a proof before we print</p></div></div>` : ''}${TPL}`;
+  // The ways: id, name, the short line under it, icon, what opens. Adobe Express and "Let my designer upload it" are the sketch's test ways.
+  const WAYS = [
+    ['art', 'Upload your artwork', 'Have your design ready? Upload it now', 'assets/desktop/upload-cloud.svg', upload],
+    ['later', 'Upload later', 'Order now, send your files later', 'assets/desktop/upload-later.svg', () => `<p>Add to cart now and send your files after checkout. Upload and approve them by <b>10:30 on ${etaApprove(L.arrives)}</b> to keep your delivery date.</p>${TPL}`],
+    ['see', 'Upload & See', `See your file on your ${D.noun} first`, 'ms:visibility', () => `<p>Upload your file and see it on your ${D.noun} straight away, with our file check: we tell you what we find and fix it with you. Then approve it and it goes into your cart.</p>`],
+    ['canva', 'Design online with Canva', '10.000+ templates, a print ready file fast', 'assets/desktop/canva-logo.png', () => `<p>Choose from 10.000+ templates in ${D.sizeName} and get a print-ready file fast. When you’re done, your design goes straight into your cart.</p>`],
+    ['adobe', 'Design online with Adobe Express', 'Templates and your own brand kit', 'assets/desktop/adobe-express.svg', () => `<p>Start from a template in ${D.sizeName} or from your brand kit (logo, colours, fonts) and get a print-ready file. When you’re done, your design goes straight into your cart.</p>`],
+    ['ai', 'AI Design Studio', 'Describe your idea, get a design', 'ms:auto_awesome', () => `<p>Tell us what your ${D.noun} are for and how they should feel; our AI designs them in ${D.sizeName}, ready to print. Change it until you like it, then it goes into your cart.</p>`],   // a row only, no tool yet (Cornel 11-27)
+    ['designer', 'Let my designer upload it', 'We send your designer an upload link', '../design-system/icons/mail.svg', () => `<p>We send your designer a secure link and add this to your cart; they upload the files for this order, you get an email when they’re in and see the proof before we print. Upload and approve by <b>10:30 on ${etaApprove(L.arrives)}</b> to keep your delivery date.</p>
+      <label class="field"><input type="email" id="ckMail" placeholder=" " aria-label="Your designer’s email" value="${mail}"><span class="fl">Your designer’s email</span></label>`],
+  ];
+  let mail = '';
+  const validMail = () => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail);
+  // The button (sidebar, mobile bar) says what you chose (Cornel 11-27); one primary per screen, so the blocks have no buttons of their own
+  const cta = () => ({ art: uploaded() ? ['Add to cart', true] : ['Upload your artwork', false], see: ['Upload & See', true], canva: ['Design in Canva', true], adobe: ['Design in Adobe Express', true], ai: ['Open AI Design Studio', true],
+    designer: ['Send to my designer', validMail()], later: ['Add to cart', true] })[way];
+
+  const euro = n => '€' + n.toFixed(2);
+  const total = cartTotals([L], { check: 'basic' }).total;
+  // your product as the PDP's grey photo tile: big on top of the sidebar (desktop), small next to the title (mobile); your file replaces the photo once it is in
+  // your files as the cart keeps them: one entry per picture (a 2-page PDF = page 1 of 2, page 2 of 2), for the cart line and the artwork popup
+  const artList = () => okFiles().flatMap(({ name, size, ext, pics = [] }) => pics.length
+    ? pics.map((thumb, k) => ({ name, size, ext, thumb, page: pics.length > 1 ? `page ${k + 1} of ${pics.length}` : '' })) : [{ name, size, ext, thumb: null }]);
+  // your product as the PDP's grey photo tile; once files are in, the cart's artwork tile: the first file, "+N", a click opens "Your artwork" (as everywhere)
+  // only while Upload your artwork is the choice: another way shows the product photo again (Cornel 11-27); the files stay in the upload block
+  const tile = cls => { const a = way === 'art' ? artList() : [];
+    return a.length ? `<button class="ck-tile ${cls} art-tile" type="button" data-art aria-label="View your artwork">${artPic(a[0])}${a.length > 1 ? `<span class="art-count">+${a.length - 1}</span>` : ''}</button>`
+      : `<span class="ck-tile ${cls}" style="background:${L.bg || 'var(--light-grey)'}"><img src="${L.img}" alt=""></span>`; };
+  function render() {
+    const [label, ok] = cta();
+    const pm = `<div class="pm" role="radiogroup" aria-label="How do you want to add your design?">${WAYS.map(([id, name, sub, ico, panel]) => `<div class="pm-item" data-way="${id}">
+        <button type="button" class="pm-row" role="radio" aria-checked="${id === way}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${name}</b><small>${sub}</small></span><span class="pm-logos">${ico.startsWith('ms:') ? `<span class="material-symbols-rounded" aria-hidden="true">${ico.slice(3)}</span>` : `<img src="${ico}" alt="">`}</span></button>
+        <div class="pm-panel"${id === way ? '' : ' hidden'}>${id === way ? panel() : ''}</div></div>`).join('')}</div>`;
+    const head = DESK ? `<div class="co-head"><h2>Add your design</h2></div>`
+      : `<div class="ck-titled">${tile('small')}<div><div class="co-head"><h2>Add your design</h2></div><p class="co-desc">${L.options} · ${euro(L.price)} · Estimated ${etaShort(etaDate(L.arrives))}</p></div></div>`;
+    // desktop: the slim sidebar (it sticks): your product big, the name, specs, delivery, one Total, the button
+    const card = `<aside class="cart-side ck-slim">${tile('side')}<h2>Your ${D.noun}</h2>
+        <div class="totals"><ul class="sum-lines"><li class="line-item"><div class="t"><strong>${L.name}</strong><small>${L.options}</small><small><span>Estimated ${etaShort(etaDate(L.arrives))} —</span> <span>latest ${etaShort(etaLatest(L.arrives))}</span></small></div></li></ul>
+        <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>${euro(total)}</span></div></div>
+        <button class="btn primary" data-go${ok ? '' : ' disabled'}>${label}</button></aside>`;
+    // the top over both columns (desktop), so the sidebar starts level with the first block (Cornel 11-27)
+    page.innerHTML = `<div class="co-extra ck-top"><a class="ha-back" href="${D.back}">Back to ${L.name}</a>
+      ${head}<p class="co-desc">How do you want to add your design to your ${D.noun}?</p></div><div class="co-extra">${pm}</div>${DESK ? `<div class="cart-col">${card}</div>` : ''}`;
+    const go = document.getElementById('ckGo'); go.textContent = label; go.disabled = !ok;
+    if (uploaded() && !wasDone) setTimeout(() => confetti(page.querySelector('.art-calm')));
+    wasDone = !!uploaded();
+  }
+  function confetti(block) {   // the upload popup's burst, from "We've got your file"
+    if (!block || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = block.getBoundingClientRect(), layer = document.createElement('div'), colours = ['--light-green', '--dark-green', '--orange', '--link'];
+    layer.className = 'confetti'; Object.assign(layer.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+    layer.innerHTML = Array.from({ length: 28 }, (_, i) => `<i style="left:${Math.random() * 100}%;background:var(${colours[i % 4]});animation-delay:${Math.random() * .3}s;--x:${Math.random() * 60 - 30}px;--r:${Math.random() * 720 - 360}deg"></i>`).join('');
+    document.body.appendChild(layer); setTimeout(() => layer.remove(), 1800);
+  }
+  function addFiles(list) {   // as upload.js upFiles: progress in steps, pictures of images and PDF pages, over 200 MB fails
+    [...list].forEach(file => {
+      const ext = (file.name.split('.').pop() || '').toLowerCase(), f = { name: file.name, size: file.size, ext, progress: 0, err: file.size > 200e6 };
+      files.push(f); if (f.err) return;
+      if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf'].includes(ext)) upPics(file, ext).then(p => { f.pics = p; f.thumb = p[0]; render(); });
+      const timer = setInterval(() => { f.progress = Math.min(100, f.progress + 20); render(); if (f.progress === 100) clearInterval(timer); }, 180);
+    });
+    render();
+  }
+  function go() {
+    if (way === 'see') { location.href = '../sketches/upload-see-flow.html'; return; }   // the Upload & See flow (still a sketch, fixed to Classic Flyers A5: backlog "link it to a product")
+    if (way === 'canva') { showToast('Opening Canva…'); return; }   // the editors are separate tools (no screens in the prototype), as on the PDP
+    if (way === 'adobe') { showToast('Opening Adobe Express…'); return; }
+    if (way === 'ai') { showToast('Opening AI Design Studio…'); return; }
+    const s = n => n > 1 ? 's' : '';
+    const pics = artList();
+    const design = { art: [`Artwork uploaded (${okFiles().length} file${s(okFiles().length)})`, 'art', { art: pics }],
+      designer: [`Your designer uploads (${mail})`, 'upload', {}], later: ['Upload after checkout', 'upload', {}] }[way];
+    const items = getCart(), it = { ...L, design: design[0], designType: design[1], ...design[2] };
+    if (D.edit !== null && items[D.edit]) { items[D.edit] = it; toastOnNextPage('Your cart is updated'); } else items.push(it);   // an edit from the cart replaces its line
+    setCart(items);
+    try { localStorage.removeItem('hp-cockpit'); } catch (e) {}
+    location.href = 'cart.html';
+  }
+
+  page.addEventListener('click', e => {
+    const row = e.target.closest('.pm-row'); if (row) { way = row.closest('[data-way]').dataset.way; render(); return; }
+    if (e.target.closest('[data-pick]')) document.getElementById('ckFiles').click();
+    const rm = e.target.closest('[data-up-remove]'); if (rm) { files.splice(+rm.dataset.upRemove, 1); render(); }
+    if (e.target.closest('[data-art]')) openArt(artList());   // the picture: "Your artwork" with every file
+    if (e.target.closest('[data-go]')) go();
+  });
+  document.getElementById('ckGo').addEventListener('click', go);
+  page.addEventListener('input', e => { if (e.target.id !== 'ckMail') return; mail = e.target.value; const [l, ok] = cta(); document.querySelectorAll('[data-go], #ckGo').forEach(b => { b.textContent = l; b.disabled = !ok; }); });
+  document.getElementById('ckFiles').addEventListener('change', e => { addFiles(e.target.files); e.target.value = ''; });
+  page.addEventListener('dragover', e => { if (!e.target.closest('.art-drop')) return; e.preventDefault(); e.target.closest('.art-drop').classList.add('over'); });
+  page.addEventListener('dragleave', e => e.target.closest?.('.art-drop')?.classList.remove('over'));
+  page.addEventListener('drop', e => { if (!e.target.closest('[data-way="art"]')) return; e.preventDefault(); addFiles(e.dataTransfer.files); });
+
+  document.getElementById('ckTotal').innerHTML = `<strong>${euro(total)}</strong><span>Incl. VAT &amp; delivery</span>`;
+  if (!DESK) document.body.classList.add('buybar-on');
+  render();
+}
+</script>
+</body>
+</html>

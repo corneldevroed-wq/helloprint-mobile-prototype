@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Cockpit Look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127j">
+<!-- Sketch (not linked; Cornel 2026-11-27): the design cockpit (prototype/design.html) with your product picture on top (A/B/C) and the ways as
+     order confirmed's blocks. The real page in iframes: design.html?look=oc&pic=a|b|c, mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob { max-width: 100%; }
+  .mob iframe { width: 390px; max-width: 100%; height: 1100px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 32px); height: 760px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1140px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Design cockpit: product picture and order confirmed's blocks</h1>
+  <div class="note"><b>Cornel chose D (2026-11-27), built as prototype/design.html; A, B and C are removed from the page, so every frame below now shows D.</b><br><b>Two questions.</b> 1 · Where does your product picture go (on top, Cornel)? A, B or C below. 2 · The ways as <b>order confirmed's blocks</b>
+    (<code>.oc-act</code>): 16 between the blocks (now 8), 16 inside, the title 16/22, and the chosen block holds its own button (desktop on the right,
+    mobile over the full width), as Upload your design and Pay now on order confirmed. Like order confirmed: no sidebar and no sticky bar, so the button is
+    always in the block you chose. Shown in all three. The real page, live: click the blocks, upload a file.
+    <ul>
+      <li><b>D (11-27, Cornel: “toch aan een sidebar”), shown first:</b> the blocks with the sidebar back; the button stays in the sidebar, not in the block.</li>
+      <li><b>My pick before D: C</b> with the blocks. The picture tells you at a glance what you are designing for, without pushing the ways down; A repeats the
+        cart (and sits above the title), B is beautiful on desktop but on mobile 240px of photo pushes every way below the fold.</li>
+      <li>Only existing parts: the cart line (A), the PDP's grey photo tile (B, C), the title and description (<code>.co-head</code>, <code>.co-desc</code>).</li>
+    </ul></div>
+</div>
+<script>
+  // the poster the PDP hands over (hp-cockpit), so the page opens without going through the PDP first
+  try { if (!localStorage.getItem('hp-cockpit')) localStorage.setItem('hp-cockpit', JSON.stringify({ line: { name: 'Standard posters', img: 'assets/p5.png', bg: 'var(--light-grey)', href: 'product.html?p=standard-posters',
+    cfg: { size: 'a2', shape: 'portrait', appearance: 'matt', material: 'matt-170', printing: 'single', qty: 50, delivery: 'saver' }, qty: 50, delivery: 'Saver', arrives: 'Mon 30 Nov',
+    options: 'A2 420 x 594 mm · Portrait · Matte · Standard · Single-sided', price: 28.49 }, back: 'product.html?p=standard-posters', noun: 'posters', size: '420 x 594 mm', sizeName: 'A2', edit: null })); } catch (e) {}
+  const OPTS = [
+    ['d', 'D · The blocks with the sidebar, your product big in it', 'Desktop: the slim sidebar with your posters big on top of the card (the PDP’s grey photo tile, the card’s width), then the name, specs, delivery, the total and the button; it sticks while you scroll, so you always see what you design for, and the ways start at the top. Your file replaces the photo once it is in. The blocks: 16 apart, 16 inside, title 16/22, no button in them. Mobile (no sidebar): the small picture in the title (as C) and the button in the sticky bar, as now.', true],
+    ['a', 'A · The cart line on top', 'Your posters as the cart line (photo, specs, price, delivery, Edit) above the title, as order confirmed holds the order line in its upload block. Complete, but it is the cart again, and the page starts with the product instead of the question.'],
+    ['b', 'B · A big picture with the title', 'The PDP’s grey photo tile big (240) with “Add your design for Standard posters” and the specs next to it (desktop) or under it (mobile). Once you upload, your file sits on the tile. The nicest on desktop; on mobile it pushes the ways down.'],
+    ['c', 'C · A small picture in the title', 'A 64px tile next to “Add your design for Standard posters”, the specs, price and delivery in one grey line under it. Your file replaces the photo once it is in. Compact on mobile and desktop.'],
+  ];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([v, h, p, pick]) => { const src = `../prototype/design.html?look=oc&pic=${v}`;
+    return `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p><div class="row"><div class="mob"><p class="lbl">Mobile 390</p><iframe src="${src}"></iframe></div>
+      <div><p class="lbl">Desktop 1512</p><div class="desk-box"><iframe src="${src}"></iframe></div></div></div></section>`; }).join(''));
+</script>
+</body>
+</html>

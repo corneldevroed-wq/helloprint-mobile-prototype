@@ -1199,6 +1199,7 @@ body.flow-d .alt-btn { padding: 8px 20px; }
    the three ways above it; the chosen one only gets the tick (no coloured row) */
 .d-split { position: relative; display: flex; flex-shrink: 0; }
 .d-bar .d-split .d-go { padding: 0 20px 0 24px; border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.d-bar .d-split .d-go:only-child { padding: 0 24px; border-radius: var(--r-pill); }   /* no drop-up (the design cockpit): the whole pill again */
 .d-bar .d-more { width: 44px; padding: 0; border-radius: 0 var(--r-pill) var(--r-pill) 0; border-left: 1px solid rgba(255,255,255,.35); }
 .d-more .material-symbols-rounded { font-size: 24px; }
 .d-split .d-menu { bottom: calc(100% + 8px); }   /* the drop menu (components.css) opens upwards from the bar */
@@ -1998,7 +1999,7 @@ html:not(.desk) .help-page > .pb, html:not(.desk) .plp > .pb { margin: 16px 0; s
 .co-dhead .co-secure { margin-right: auto; font-size: var(--t-14); line-height: var(--lh-14); }   /* left, next to the logo; account and bag stay right */
 .desk .co-page { column-gap: 64px; }   /* 64 between the form and the sidebar (Cornel 2026-11-10: 128 too much, the cart's 32 too tight) */
 .desk .co-page, .co-dhead .dwrap, .co-dfoot .dwrap { max-width: 1064px; }   /* a dedicated checkout, narrower than the shop: the form 608 + 64 + the cart's 392 sidebar; the header lines up with it (Cornel, 2026-11-06) */
-.desk .co-page .cart-side { top: 84px; }
+.desk .co-page:not(.cockpit) .cart-side { top: 84px; }   /* under the checkout's slim header; the design cockpit has the shop header: 124 (components.css), as the shop pages */
 /* Payment, Your details: the FAQ collapsibles (.d-acc) under the order overview; closed: the title and a one-line summary, open: the details + Change */
 .co-review { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }   /* a new section under the order overview */
 .desk .cart-col:has(.co-review) { display: flex; flex-direction: column; align-self: start; position: sticky; top: 84px; }   /* desktop: under the Order overview card, they stick together */
@@ -2185,3 +2186,23 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 .sr-quote { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 32px; padding: 24px; border-radius: var(--r-l); background: var(--light-grey); }
 .sr-quote p { font-size: var(--t-14); line-height: var(--lh-14); color: var(--dark-grey); }
 .sr-quote .btn { width: auto; padding: 0 24px; flex-shrink: 0; }
+
+/* ---------- Design cockpit (design.html, Cornel 2026-11-27, sketches/design-cockpit-sketch.html A, look D of design-cockpit-look-sketch.html) ----------
+   The checkout layout (.co-page) with the payment methods list (.pm) as the ways, drawn as order confirmed's blocks (.oc-act: 16 apart, 16 inside, the title 16/22) */
+.desk .cockpit .ck-top { grid-column: 1 / -1; }   /* the back link, title and intro over both columns: the sidebar starts level with the first block (Cornel 11-27) */
+.cockpit .pm { gap: 16px; }
+.cockpit .pm-item { padding: 15px; }   /* 16 inside with the 1 border (the chosen one's second pixel is a shadow) */
+.cockpit .pm-row { min-height: 0; }
+.cockpit .pm-row .t { flex: 1; display: flex; flex-direction: column; }   /* a short line under the name: 12/18 grey, as the drop-up and delivery rows */
+.cockpit .pm-row .t b { font-size: var(--t-16); line-height: var(--lh-16); }
+.cockpit .pm-row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+.cockpit .pm-logos img, .cockpit .pm-logos .material-symbols-rounded { width: 24px; height: 24px; object-fit: contain; font-size: 24px; }
+.cockpit .pm-panel { padding: 16px 0 0 32px; }   /* the content under the title, not under the radio: radio 20 + gap 12 (Payment keeps its full width) */
+.cockpit .pm-panel .d-tpl-dl { margin: 8px -15px -15px -47px; padding: 8px 15px; font-size: var(--t-12); line-height: var(--lh-12); border-radius: 0 0 calc(var(--r-l) - 1px) calc(var(--r-l) - 1px); background: var(--light-grey); }   /* the PDP's template download as the card's grey footer (the band of .oc-act > .pm-logos), edge to edge, 16 under the content */
+.cockpit .ck-slim .sum-lines { padding-top: 0; border-bottom: 0; }   /* the slim sidebar: your product straight under the title, one line (the total's) under it */
+.ck-tile { display: flex; align-items: center; justify-content: center; flex: none; border-radius: var(--r-l); overflow: hidden; }   /* your product as the PDP's grey photo tile, centred */
+.ck-tile > img { width: 80%; height: 80%; object-fit: contain; }   /* the product photo; your files: the cart's .art-tile (components.css) */
+.ck-tile.side { width: 100%; height: 240px; }   /* desktop: big on top of the sidebar card, its width */
+.ck-tile.small { width: 64px; height: 64px; }   /* mobile: next to the title */
+.ck-titled { display: flex; align-items: center; gap: 16px; }
+.ck-titled .co-head { margin-top: 0; }

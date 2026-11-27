@@ -192,9 +192,9 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
 /* Uploaded artwork in the cart line (cart-artwork-sketch.html C, Cornel 2026-11-05): the first file in its own shape on the grey photo tile,
    a soft shadow as a printed sheet, "+N" for more files. A click / tap opens it big in a popup (.art-view; mobile a sheet) with the others
    as thumbnails to switch (no hover preview, Cornel 2026-11-05: confusing). A file without a picture (AI, PSD…) shows its type (.up-ico) */
-.line-item .art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
-.line-item .art-tile > img { position: absolute; inset: 0; width: auto; height: auto; max-width: 78%; max-height: 78%; margin: auto; }   /* centred in the tile, also a tall file (a roller banner proof): a % max-height needs the absolute box */
-.line-item .art-tile > img, .art-stage img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.line-item .art-tile, .ck-tile.art-tile { position: relative; display: grid; place-items: center; padding: 0; background: var(--light-grey); overflow: visible; cursor: zoom-in; }
+.line-item .art-tile > img, .ck-tile.art-tile > img { position: absolute; inset: 0; width: auto; height: auto; max-width: 78%; max-height: 78%; margin: auto; }   /* centred in the tile, also a tall file (a roller banner proof): a % max-height needs the absolute box */
+.line-item .art-tile > img, .ck-tile.art-tile > img, .art-stage img { box-shadow: 0 1px 4px rgba(0,0,0,.2); }
 .art-count { position: absolute; right: 8px; bottom: 8px; padding: 0 8px; border-radius: var(--r-pill); background: var(--white); font-weight: 600; font-size: var(--t-12); line-height: var(--lh-12); color: var(--black); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
 /* Request a free quote sheet (cart-empty-quote-sketch.html B): the cart lines + extras + total, the contact fields, notes, files */
 .q-item { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; column-gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--line); }
@@ -476,7 +476,7 @@ small .link, .pd-note .link, .oc-foot .link { font-size: inherit; line-height: i
 .d-cal-card .tx b { font-weight: 600; font-size: var(--t-16); line-height: var(--lh-tight); }
 .d-cal-card .gain, .d-cal-card .lt { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* .lt: "latest …" under the option (Cornel 2026-11-19, sketches/delivery-dates-sketch.html B) */
 .d-cal-card .pr { font-weight: 600; font-size: var(--t-14); }
-.ico .art-count, .img.more .art-count { right: -8px; bottom: -8px; }   /* "+N" on the corner of a small photo or artwork */
+.ico .art-count, .img.more .art-count, .ck-tile.small .art-count { right: -8px; bottom: -8px; }   /* "+N" on the corner of a small photo or artwork */
 /* Material icons (new style): 40px on mobile, 50px on desktop; same box as the old swatch */
 .opt .mi, .gi-vis .mi { flex-shrink: 0; align-self: flex-start; width: 40px; height: 40px; }
 .desk .opt .mi { width: 50px; height: 50px; }

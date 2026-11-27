@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Cockpit Sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126l">
+<!-- Sketch (not linked; Cornel 2026-11-26): "Design cockpit", the design options as a page of their own after the PDP.
+     Round 2 (Cornel: "kijk beter naar het design system"): the real shell and UI guide parts in design-cockpit-frame.html?v=a|a2|b|b2|c,
+     mobile 390 and desktop 1512 (at 2/3). -->
+<style>
+  body { margin: 0; background: #e9e9e9; font-family: Inter, sans-serif; color: var(--black); }
+  .wrap { max-width: 1760px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1 { margin: 0; font-size: 24px; }
+  .note { max-width: 1000px; margin: 8px 0 32px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .note b { color: var(--black); }
+  .note ul { margin: 8px 0 0; padding-left: 20px; }
+  .note code { font-size: 12px; color: var(--dark-green); }
+  .opt { margin-bottom: 56px; }
+  .opt h2 { margin: 0; font-size: 18px; }
+  .opt h2 em { font-style: normal; color: var(--light-green); }
+  .opt > p { max-width: 1000px; margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: var(--dark-grey); }
+  .opt > p b { color: var(--black); }
+  .row { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .lbl { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--dark-grey); }
+  .mob { max-width: 100%; }
+  .mob iframe { width: 390px; max-width: 100%; height: 1200px; border: 0; border-radius: 24px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box { width: 1008px; max-width: calc(100vw - 32px); height: 900px; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .desk-box iframe { width: 1512px; height: 1350px; border: 0; transform: scale(.6667); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Design cockpit</h1>
+  <div class="note"><b>The idea:</b> the design options leave the bottom of the PDP and get a page of their own. The PDP ends with one button,
+    <b>Continue to your design</b> (price and delivery stay). Then: PDP → <b>Add your design</b> → cart.
+    <ul>
+      <li><b>Round 2, only UI guide parts</b>, nothing new except B’s preview tile: the shell, <code>.ha-back</code>, the checkout layout (<code>.co-page</code>: 608 + 64 + 392 on desktop),
+        <code>.co-head</code>, the <b>payment methods list</b> (<code>.pm</code>: radio rows, the chosen one opens in place), the upload field from the Upload your artwork popup
+        (<code>.art-drop</code>, <code>.up-file</code>, <code>.art-calm</code>) with the PDP’s template download (<code>.d-tpl-dl</code>), the cart’s product line (<code>.line-item.cart-line</code> + <code>.eta</code>),
+        the Order overview card (<code>.cart-side</code>), the sticky bar (<code>.cart-bar</code>), <code>.addr-list</code> and <code>.tracker</code> (C).</li>
+      <li>Add to cart stays grey until the design is settled: a file in, Canva done, or Upload later chosen.</li>
+      <li>Prototype data: Standard flyers, 1,000 pcs, A5, Glossy, €38.01 excl. VAT.</li>
+    </ul></div>
+</div>
+<script>
+  const OPTS = [
+    ['A · The ways as a list, like Payment', '<b>Cornel chose A (11-26), building it now.</b> 11-27: every way has a short line under its name, and as a test (here only, not in the prototype) two more ways: <b>Design online with Adobe Express</b> and <b>Let my designer upload it</b> (your designer’s email, we send a link). The three ways as the payment methods list: a radio row per way, the chosen one opens in place (the upload field, Open Canva, or the deadline with the template). Your flyers on top as the cart line, so you see what you add a design to; on desktop that line sits in the Order overview card on the right, as in the checkout. People know this list from paying: nothing to learn. <b>My pick.</b>', [['a', 'Mobile · nothing uploaded yet'], ['a2', 'Mobile · a file uploaded'], ['a&o=designer', 'Mobile · test: Let my designer upload it']], 'a2', true],
+    ['B · A, with your flyer big on top', 'The same list, plus a big preview of your product above it. Before an upload it is the product photo; once a file is in, your own design sits on it (as the cart already shows your file on the product). So B = A + “see it before you buy”. Nicer, but on mobile the list moves half a screen down, and the preview is only as good as our mock-up per product (a flat print works; a mug or a t-shirt needs the logo editor).', [['b', 'Mobile · nothing uploaded yet'], ['b2', 'Mobile · a file uploaded']], 'b2'],
+    ['C · One question first', '“Do you have a design?” with three answers (the address book’s radio cards), then the next step. Friendly for a first order, but one tap more for everyone, and a step bar right before the checkout’s own steps.', [['c', 'Mobile · the question']], 'c'],
+  ];
+  document.querySelector('.wrap').insertAdjacentHTML('beforeend', OPTS.map(([h, p, mob, d, pick]) => `<section class="opt"><h2>${h}${pick ? ' <em>my pick</em>' : ''}</h2><p>${p}</p>
+    <div class="row">${mob.map(([v, l]) => `<div class="mob"><p class="lbl">${l}</p><iframe src="design-cockpit-frame.html?v=${v}"></iframe></div>`).join('')}
+    <div><p class="lbl">Desktop 1512 · ${d.endsWith('2') ? 'a file uploaded' : 'the question'}</p><div class="desk-box"><iframe src="design-cockpit-frame.html?v=${d}"></iframe></div></div></div></section>`).join(''));
+</script>
+</body>
+</html>

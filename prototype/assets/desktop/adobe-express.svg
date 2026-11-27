@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 936">
+  <!-- Adobe Express app icon, redrawn from Cornel's image (2026-11-27): the design cockpit (design.html) -->
+  <defs>
+    <linearGradient id="r" x1="480" y1="240" x2="680" y2="680" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ed1c24"/><stop offset=".35" stop-color="#f58c25"/><stop offset=".65" stop-color="#ffd618"/><stop offset="1" stop-color="#4db748"/>
+    </linearGradient>
+    <linearGradient id="l" x1="460" y1="240" x2="430" y2="690" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ed1c24"/><stop offset=".3" stop-color="#e4508f"/><stop offset=".65" stop-color="#9a6cb0"/><stop offset="1" stop-color="#3a8dd0"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="936" rx="170" fill="#0c111c"/>
+  <path d="M482 270 L300 636 H458" fill="none" stroke="url(#l)" stroke-width="136" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M482 270 L664 636" fill="none" stroke="url(#r)" stroke-width="136" stroke-linecap="round"/>
+</svg>

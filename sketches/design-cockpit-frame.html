@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Cockpit Frame</title>
+<base href="../prototype/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261126l">
+<link rel="stylesheet" href="../design-system/components.css?v=20261126l">
+<link rel="stylesheet" href="pages.css?v=20261126l">
+<!-- SKETCH FRAME (not linked; Cornel 2026-11-26), loaded by sketches/design-cockpit-sketch.html as ?v=a|a2|b|b2|c: the design options as a page of
+     their own after the PDP. Only UI guide parts: the shell, .ha-back, .co-page (the checkout layout: 608 + 64 + 392), .co-head/.co-desc,
+     the payment methods list (.pm / .pm-row / .pm-panel: the chosen one opens in place), the upload field (.art-drop, .up-file, .art-calm) with the PDP's template download (.d-tpl-dl),
+     the cart's product line (.line-item.cart-line + .eta), the Order overview card (.cart-side + .totals), the sticky bar (.cart-bar), .addr-list, .tracker.
+     a: the ways as the payment list (+ ?o=<way> opens another; 11-27: a short line under each name, test ways Adobe Express and Let my designer upload it) · b: a + your product big on top (your file on it) · c: one question first. a2/b2: a file uploaded. -->
+<style>
+  /* SKETCH CSS: only the preview of B is new */
+  .ck-prev { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: var(--r-l); background: var(--light-grey); overflow: hidden; }
+  .ck-prev img { width: 70%; height: 80%; object-fit: contain; }
+  .ck-prev .art { width: 44%; height: auto; aspect-ratio: 148 / 210; object-fit: cover; box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+  .ck-prev .badge { position: absolute; left: 16px; top: 16px; }
+  .ck-cap { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+  .co-extra > .addr-list { padding: 0; }   /* as in the report page: no sheet padding */
+  .pm-logos img { width: 24px; height: 24px; object-fit: contain; }
+  /* a short explanation under the name (Cornel 11-27), as the bar's drop-up and the delivery rows: 12/18 grey */
+  .pm-row .t { flex: 1; display: flex; flex-direction: column; padding: 8px 0; }
+  .ck-slim .sum-lines { padding-top: 0; border-bottom: 0; }   /* the slim sidebar: the product row straight under the title, one line (the total's) under it */
+  #ck .pm-panel { padding-left: 32px; }   /* the content starts under the title, not under the radio (Cornel 11-27): radio 20 + gap 12. Payment keeps its full width */
+  /* the template download as the card's footer (Cornel 11-27): the grey band of .oc-act > .pm-logos, edge to edge under the panel
+     (pm-item padding 15 + the panel's 32 indent on the left, its 15 at the bottom), 16 under the content, 12/18 as the other bands */
+  #ck .pm-panel .d-tpl-dl { margin: 8px -15px -15px -47px; padding: 8px 15px; font-size: var(--t-12); line-height: var(--lh-12); border-radius: 0 0 calc(var(--r-l) - 1px) calc(var(--r-l) - 1px); background: var(--light-grey); }
+  .pm-row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
+</style>
+</head>
+<body data-desktop>
+<div class="phone">
+  <div data-shell="header"></div>
+  <main class="co-page" id="ck"></main>
+  <footer class="footer" data-shell="footer"></footer>
+</div>
+<div class="cart-bar"><div class="sheet-bar"><div class="total"><strong>€46.75</strong><span>Incl. VAT · €38.01 excl.</span></div><button class="btn primary" id="ckGo">Add to cart</button></div></div>
+<script src="app.js?v=20261126l"></script>
+<script src="../design-system/components.js?v=20261126l"></script>
+<script>
+{
+  const V = new URLSearchParams(location.search).get('v') || 'a';
+  const done = V.endsWith('2');
+  const CHK = '<img src="assets/pdp/check.svg" alt="">';
+  const SPECS = '1,000 pcs · A5 · Glossy · 170 gsm · Double-sided';
+  const ETA = `<div class="eta"><b>Estimated delivery date</b><p>Tuesday 1 December — latest Wed 2 Dec (Saver)</p><small>${CHK}Upload and approve your files by <b>10:30 on Fri 27 Nov</b></small></div>`;
+  // the cart's product line: once a file is in, the file replaces the product photo (as the cart and order confirmed)
+  const line = `<div class="line-item cart-line"><span class="img" style="background:var(--light-grey)"><img src="${done ? 'assets/proofs/leaflet.png' : 'assets/flyers/t-classic.webp'}" alt=""></span>
+    <div class="t"><strong>Standard flyers</strong><small>${SPECS}</small><a class="link" href="#edit">Edit</a></div><span class="p">€38.01</span>${ETA}</div>`;
+  // the upload field, empty and done: 1:1 the Upload your artwork popup (product.html renderArt)
+  // the PDP's template download for the selection (deskTemplate, .d-tpl-dl): in place of "Any questions?" (Cornel 11-27), and in Upload later
+  const TPL = `<p class="d-tpl-dl">Download the template for 148&nbsp;×&nbsp;210&nbsp;mm<a href="#template-a5-pdf" aria-label="PDF template"><img src="assets/desktop/icon-pdf.svg" alt=""></a><a href="#template-a5-indd" aria-label="InDesign template"><img src="assets/desktop/icon-indesign.svg" alt=""></a></p>`;
+  const upload = done
+    ? `<div class="up-files"><div class="up-file"><span class="up-thumb" style="width:56px;height:36px"><img src="assets/proofs/leaflet.png" alt=""></span><div class="t"><b>flyer-a5.pdf</b><small>2.4 MB · uploaded ✓ · 2 pages</small></div><button class="up-replace">Remove</button></div></div>
+       <button class="up-add">+ Add more files</button>
+       <div class="art-calm"><b>${CHK}We’ve got your file</b><span>Don’t worry, it’s in good hands.</span><div class="up-check"><p class="ok">${CHK}Every file gets our free automatic check</p><p class="ok">${CHK}You’ll see a proof before we print</p></div></div>`
+    : `<div class="art-drop"><img src="assets/desktop/upload-cloud.svg" alt=""><button class="btn outline">Choose files</button><small>or drag them here · as many as you like</small></div>${TPL}`;
+  // the ways: id, name, the short explanation under it (the PDP drop-up's lines where they exist), icon, what opens. Adobe Express and
+  // "Let my designer upload it" are a test in the cockpit only (Cornel 11-27), not in the prototype.
+  const O = new URLSearchParams(location.search).get('o') || 'art';   // which way is open
+  const WAYS = [
+    ['art', 'Upload your artwork', 'Have your design ready? Upload it now', 'assets/desktop/upload-cloud.svg', upload],
+    ['canva', 'Design online with Canva', '10.000+ templates, a print ready file fast', 'assets/desktop/canva-logo.png', `<p>Choose from 10.000+ templates in A5 and get a print-ready file fast. When you’re done, your design goes straight into your cart.</p>`],
+    ['adobe', 'Design online with Adobe Express', 'Templates and your own brand kit', '../sketches/design-cockpit/adobe-express.svg', `<p>Start from a template in A5 or from your brand kit (logo, colours, fonts) and get a print-ready file. When you’re done, your design goes straight into your cart.</p>`],
+    ['designer', 'Let my designer upload it', 'We send your designer an upload link', '../design-system/icons/mail.svg', `<p>We send your designer a secure link and add this to your cart; they upload the files for this order; you get an email when they’re in and see the proof before we print. Upload and approve by <b>10:30 on Fri 27 Nov</b> to keep your delivery date.</p>
+      <label class="field"><input type="email" placeholder=" " aria-label="Your designer’s email"><span class="fl">Your designer’s email</span></label>`],
+    ['later', 'Upload later', 'Order now, send your files later', 'assets/desktop/upload-later.svg', `<p>Add to cart now and send your files after checkout. Upload and approve them by <b>10:30 on Fri 27 Nov</b> to keep your delivery date.</p>${TPL}`],
+  ];
+  const pm = `<div class="pm" role="radiogroup" aria-label="How will you add your design?">${WAYS.map(([id, name, sub, ico, panel]) => `<div class="pm-item" data-way="${id}">
+      <button type="button" class="pm-row" role="radio" aria-checked="${id === O}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${name}</b><small>${sub}</small></span><span class="pm-logos"><img src="${ico}" alt=""></span></button>
+      <div class="pm-panel"${id === O ? '' : ' hidden'}>${panel}</div></div>`).join('')}</div>`;
+  const back = `<a class="ha-back" href="product.html?p=flyers">Back to Standard flyers</a>`;
+  const head = (t, d) => `<div class="co-head"><h2>${t}</h2></div><p class="co-desc">${d}</p>`;
+  const preview = `<div class="ck-prev">${done ? `<span class="badge eco">Front ✓</span><img class="art" src="assets/proofs/leaflet.png" alt="">` : '<img src="assets/flyers/t-classic.webp" alt="">'}</div>
+    <p class="ck-cap">${done ? 'Your file on your flyer. Back side: blank, or add a second page.' : 'Upload a file and you see it here, on your flyer.'}</p>`;
+  let body;
+  // mobile: the design options first, your product line under them with the sidebar's title (Cornel 11-27); desktop: the product is in the sidebar
+  if (V.startsWith('a')) body = head('Add your design', 'How do you want to add your design to your flyers?') + pm + (DESK ? '' : `<div class="co-head"><h2>Your flyers</h2></div><div class="cart-main"><section class="summary-box">${line}</section></div>`);
+  if (V.startsWith('b')) body = head('Add your design', 'Standard flyers · ' + SPECS) + preview + pm;
+  if (V === 'c') body = `<ol class="tracker"><li class="now">Your design</li><li>Check</li><li>Cart</li></ol>` + head('Do you have a design?', 'We help you either way.') +
+    `<ul class="addr-list">${[['Yes, my file is ready', 'Upload it now. Every file gets our free automatic check.', 1], ['No, help me make one', 'Start from a template in A5, in Canva.'], ['Not yet', 'Order now and upload after checkout.']].map(([t, s, on]) =>
+      `<li class="${on ? 'on' : ''}" aria-checked="${!!on}"><button type="button" class="ap-pick"><span class="radio" aria-hidden="true"></span><span class="t"><b>${t}</b><span>${s}</span></span></button></li>`).join('')}</ul>`;
+  document.getElementById('ck').innerHTML = `<div class="co-extra">${back}${body}</div>`;
+  // desktop: the slim sidebar (Cornel 11-27: "doe maar de dunne sidebar"): the Order overview card with only what this page needs: your product
+  // (the Products fold's row from totalsHtml, with Edit and the delivery), one Total line and the button. The breakdown, USPs and payment
+  // logos stay in the cart and checkout. Totals from cartTotals, so the mobile bar says the same.
+  const item = { name: 'Standard flyers', img: done ? 'assets/proofs/leaflet.png' : 'assets/flyers/t-classic.webp', qty: 1000, delivery: 'Saver', arrives: 'Tue 1 Dec', price: 38.01 };
+  const addons = { check: 'basic' };
+  if (DESK) document.getElementById('ck').insertAdjacentHTML('beforeend', `<div class="cart-col"><aside class="cart-side ck-slim"><h2>Your flyers</h2>
+    <div class="totals"><ul class="sum-lines"><li class="line-item"><span class="img" style="background:var(--light-grey)"><img src="${item.img}" alt=""></span>
+      <div class="t"><strong>${item.name}</strong><small>1,000 pcs · A5 · Glossy</small><small><span>Estimated ${etaShort(etaDate(item.arrives))} —</span> <span>latest ${etaShort(etaLatest(item.arrives))}</span></small></div><a class="link" href="#edit">Edit</a></li></ul>
+    <div class="grand"><span>Total <small>(Incl. VAT)</small></span><span>€${cartTotals([item], addons).total.toFixed(2)}</span></div></div>
+    <button class="btn primary">${V === 'c' ? 'Next' : 'Add to cart'}</button></aside></div>`);
+  if (!DESK) document.body.classList.add('buybar-on');
+  // the mobile bar: the same totals as the sidebar (cartTotals: shipping, the check, VAT)
+  { const t = cartTotals([item], addons); document.querySelector('.cart-bar .total').innerHTML = `<strong>€${t.total.toFixed(2)}</strong><span>Incl. VAT &amp; delivery</span>`; }
+  // The button follows the choice (Cornel 11-27), as the PDP's (deskCta): one primary per screen, so the panels have no buttons of their own.
+  // Upload: Upload your artwork, grey until a file is in (Cornel 11-27), then Add to cart · Canva / Adobe Express: Design in … (opens the editor; when done,
+  // straight to the cart, as Canva from the PDP) · designer: Send to my designer once the email looks right (adds to cart too) · Upload later: Add to cart.
+  const btns = [document.getElementById('ckGo'), document.querySelector('.cart-side .btn')].filter(Boolean);
+  const cta = () => {
+    if (V === 'c') { btns.forEach(b => { b.textContent = 'Next'; b.disabled = false; }); return; }
+    const way = document.querySelector('.pm-row[aria-checked="true"]').closest('.pm-item').dataset.way;
+    const mail = document.querySelector('[data-way="designer"] input')?.value || '';
+    // the label says what you chose (Cornel 11-27: "laten meelopen met de keuze"); each fits the mobile bar at 390 (room 241, measured)
+    const [label, ok] = { art: done ? ['Add to cart', true] : ['Upload your artwork', false], canva: ['Design in Canva', true], adobe: ['Design in Adobe Express', true],
+      designer: ['Send to my designer', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)], later: ['Add to cart', true] }[way];
+    btns.forEach(b => { b.textContent = label; b.disabled = !ok; });
+  };
+  document.addEventListener('click', e => {   // a row = the choice: it opens, the others close (as Payment)
+    const row = e.target.closest('.pm-row'); if (!row) return;
+    document.querySelectorAll('.pm-item').forEach(it => { const on = it.contains(row); it.querySelector('.pm-row').setAttribute('aria-checked', on); it.querySelector('.pm-panel').hidden = !on; });
+    cta();
+  });
+  document.addEventListener('input', cta);
+  cta();
+}
+</script>
+</body>
+</html>

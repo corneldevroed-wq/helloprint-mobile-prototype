@@ -3,6 +3,33 @@
 Newest on top. Format: **date — decision.** Why / what was rejected.
 Add new decisions here when Cornel makes a final call.
 
+## Design cockpit (Nov 26, 2026)
+- **11-27 — The cockpit's look: D** (Cornel: "ik zou voor D gaan", sketches/design-cockpit-look-sketch.html; after "toch aan een sidebar"). The ways as
+  order confirmed's blocks (.oc-act: 16 apart, 16 inside, the title 16/22; no button in the blocks). Desktop: the slim sidebar (sticky) with your product
+  big on top (the PDP's grey photo tile, 240 high, the picture centred; your file replaces it once uploaded), the name, specs, delivery, one Total and the
+  button. Mobile: a 64 tile next to the title "Add your design" (the same title as desktop, Cornel 11-27) with specs, price and delivery in one grey line; the button in the sticky bar.
+  Rejected: A (the cart line on top: the cart again), B (a big picture with the title: on mobile it pushes the ways down), C (the small picture in the
+  title on desktop too), and switch Side B (one column, the button in the open way): removed with the Side switch.
+- **11-27 — Design cockpit A built, for Standard Posters only** (Cornel: "nu bouwen we A in het prototype, maar wel voor 1 product alleen", product posters).
+  prototype/design.html = the sketch's A, after round 2 and the 11-27 tweaks: every way has a short line under its name; test ways Design online with
+  Adobe Express and Let my designer upload it; the content indented under the title; the PDP's template download as the card's grey footer (12/18,
+  "Download the template for <size>"); the button says what you chose (Upload your artwork, grey until a file is in, then Add to cart · Design in Canva ·
+  Design in Adobe Express · Send to my designer, grey until the email is right · Add to cart) and the panels have no buttons of their own; Canva and
+  Adobe Express go straight to the cart when done (a toast in the prototype); desktop: the slim sidebar (your product, the delivery, one Total, the button),
+  no help block ("veel te veel noise"), 8 between the rows (as every choice list); mobile: the ways first, "Your posters" with the cart line under them.
+  The PDP (posters, switch Design A): no design cards, no template line, no drop-up; the button is "Continue to your design" (mobile: Continue, flows H and J),
+  which keeps the cart line without its design (hp-cockpit) and opens design.html. Add to cart there goes to the cart page; an edit from the cart replaces its line.
+  11-27 later: **Upload & See** as the second way (Cornel: "op de design cockpit kun je ook toevoegen 'Upload and see'"): "See your file on your <noun> before you order",
+  the Material eye icon; its button "Upload & See" opens the Upload & See flow (sketches/upload-see-flow.html, still fixed to Classic Flyers A5).
+  Order of the ways (Cornel 11-27): Upload your artwork · Upload later · Upload & See · Design online with Canva · Design online with Adobe Express · AI Design Studio (a row only, no tool: a toast) · Let my designer upload it.
+- **11-26 — The design options get a page of their own after the PDP: concept A** (Cornel: "A is wel de meest straight forward one", "we bouwen A
+  morgen"; sketches/design-cockpit-sketch.html + design-cockpit-frame.html, round 2). The PDP ends with one button "Continue to your design";
+  the page "Add your design" is the checkout layout (`.co-page`, desktop 608 + 64 + 392) with the three ways as the payment methods list
+  (`.pm`: Upload your artwork with the upload field of the artwork popup, Design online with Canva, Upload later with the deadline and the
+  template), your product as the cart line on top (mobile) or in the Order overview card (desktop), the sticky bar; Add to cart stays grey
+  until the design is settled. Only UI guide parts. Rejected: B (A + a big preview of your product: "mooi, maar snap ik niet echt") and
+  C (one question first). Round 1 (own CSS) was rejected: "kijk beter naar het design system".
+
 ## All products page (Nov 25, 2026)
 - **11-26 — All products = the mega menu laid open** (Cornel: "B · The mega menu laid open", sketches/all-products-sketch.html B, after C
   was built and the collection images tried in sketches/all-products-cards-sketch.html): every group as a section (title + Shop all),

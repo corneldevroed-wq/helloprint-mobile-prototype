@@ -3,6 +3,9 @@
 Not started unless Cornel says go. Move items to `decisions.md` once decided.
 
 ## Parked by Cornel
+- **Design cockpit: next** (Cornel, 2026-11-27): built for Standard Posters (decisions.md 11-27). Open: more products (logo products: the logo editor
+  as a way?), Edit from the cockpit back to the PDP with the selection kept (now: the PDP as it was opened), what Canva / Adobe Express return to,
+  the mini cart after Add to cart (now the cart page), Upload & See opens the flyers flow (it should take the poster and come back here), the cockpit parts in the UI Style Guide once final (pm-row with a short line, the panel's grey footer).
 - **Upload & See: link it to a product** (Cornel, 2026-11-23, "doen we later (morgen)"): the flow (`sketches/upload-see-flow.html`, functional with the
   customer's own file, its Add to cart already writes a prototype cart line) still stands alone with a fixed product (Standard flyers A5, 1,000,
   double-sided, €33.49). Next: the PDP's "Upload your design" opens the flow, and the flow takes the PDP's configuration (size, so the shape and cut-off
