@@ -20,7 +20,7 @@ Add new decisions here when Cornel makes a final call.
   The PDP (posters, switch Design A): no design cards, no template line, no drop-up; the button is "Continue to your design" (mobile: Continue, flows H and J),
   which keeps the cart line without its design (hp-cockpit) and opens design.html. Add to cart there goes to the cart page; an edit from the cart replaces its line.
   11-27 later: **Upload & See** as the second way (Cornel: "op de design cockpit kun je ook toevoegen 'Upload and see'"): "See your file on your <noun> before you order",
-  the Material eye icon; its button "Upload & See" opens the Upload & See flow (sketches/upload-see-flow.html, still fixed to Classic Flyers A5).
+  the Material eye icon; its button "Upload & See" only shows a message for now (Cornel 11-27: not connected; the flow is still a sketch for flyers).
   Order of the ways (Cornel 11-27): Upload your artwork · Upload later · Upload & See · Design online with Canva · Design online with Adobe Express · AI Design Studio (a row only, no tool: a toast) · Let my designer upload it.
 - **11-26 — The design options get a page of their own after the PDP: concept A** (Cornel: "A is wel de meest straight forward one", "we bouwen A
   morgen"; sketches/design-cockpit-sketch.html + design-cockpit-frame.html, round 2). The PDP ends with one button "Continue to your design";

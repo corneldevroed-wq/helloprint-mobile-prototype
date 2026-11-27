@@ -108,7 +108,7 @@
     render();
   }
   function go() {
-    if (way === 'see') { location.href = '../sketches/upload-see-flow.html'; return; }   // the Upload & See flow (still a sketch, fixed to Classic Flyers A5: backlog "link it to a product")
+    if (way === 'see') { showToast('Opening Upload & See…'); return; }   // not connected yet (Cornel 11-27: the flow is still a sketch for flyers; backlog "link it to a product")
     if (way === 'canva') { showToast('Opening Canva…'); return; }   // the editors are separate tools (no screens in the prototype), as on the PDP
     if (way === 'adobe') { showToast('Opening Adobe Express…'); return; }
     if (way === 'ai') { showToast('Opening AI Design Studio…'); return; }
