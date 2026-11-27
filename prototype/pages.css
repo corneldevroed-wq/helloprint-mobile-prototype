@@ -2189,16 +2189,20 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 
 /* ---------- Design cockpit (design.html, Cornel 2026-11-27, sketches/design-cockpit-sketch.html A, look D of design-cockpit-look-sketch.html) ----------
    The checkout layout (.co-page) with the payment methods list (.pm) as the ways, drawn as order confirmed's blocks (.oc-act: 16 apart, 16 inside, the title 16/22) */
+.cockpit { padding-top: 16px; }   /* mobile: the back link 16 under the header, as the account pages (the checkout's 8 is for its steps); desktop keeps .desk .co-page's 32 */
 .desk .cockpit .ck-top { grid-column: 1 / -1; }   /* the back link, title and intro over both columns: the sidebar starts level with the first block (Cornel 11-27) */
 .cockpit .pm { gap: 16px; }
-.cockpit .pm-item { padding: 15px; }   /* 16 inside with the 1 border (the chosen one's second pixel is a shadow) */
+.cockpit .pm-item { position: relative; padding: 15px; }   /* 16 inside with the 1 border (the chosen one's second pixel is a shadow) */
+.cockpit .pm-row[aria-checked="false"]::after { content: ''; position: absolute; inset: 0; }   /* the whole block is the tap area, its padding too (as .addr-list .ap-pick::after); not the open one, its fields stay usable (Cornel 11-27) */
 .cockpit .pm-row { min-height: 0; }
 .cockpit .pm-row .t { flex: 1; display: flex; flex-direction: column; }   /* a short line under the name: 12/18 grey, as the drop-up and delivery rows */
 .cockpit .pm-row .t b { font-size: var(--t-16); line-height: var(--lh-16); }
 .cockpit .pm-row .t small { font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }
 .cockpit .pm-logos img, .cockpit .pm-logos .material-symbols-rounded { width: 24px; height: 24px; object-fit: contain; font-size: 24px; }
-.cockpit .pm-panel { padding: 16px 0 0 32px; }   /* the content under the title, not under the radio: radio 20 + gap 12 (Payment keeps its full width) */
-.cockpit .pm-panel .d-tpl-dl { margin: 8px -15px -15px -47px; padding: 8px 15px; font-size: var(--t-12); line-height: var(--lh-12); border-radius: 0 0 calc(var(--r-l) - 1px) calc(var(--r-l) - 1px); background: var(--light-grey); }   /* the PDP's template download as the card's grey footer (the band of .oc-act > .pm-logos), edge to edge, 16 under the content */
+.cockpit .pm-panel { padding-top: 16px; padding-bottom: 0; }   /* mobile: the content over the block's full width (Cornel 11-27) */
+.desk .cockpit .pm-panel { padding-left: 32px; }   /* desktop: under the title, not under the radio: radio 20 + gap 12 (Payment keeps its full width) */
+.cockpit .pm-panel .d-tpl-dl { margin: 8px -15px -15px; padding: 8px 15px; font-size: var(--t-12); line-height: var(--lh-12); border-radius: 0 0 calc(var(--r-l) - 1px) calc(var(--r-l) - 1px); background: var(--light-grey); }   /* the PDP's template download as the card's grey footer (the band of .oc-act > .pm-logos), edge to edge, 16 under the content */
+.desk .cockpit .pm-panel .d-tpl-dl { margin-left: -47px; }   /* desktop: + the 32 indent, so the footer still runs edge to edge */
 .cockpit .ck-slim .sum-lines { padding-top: 0; border-bottom: 0; }   /* the slim sidebar: your product straight under the title, one line (the total's) under it */
 .ck-tile { display: flex; align-items: center; justify-content: center; flex: none; border-radius: var(--r-l); overflow: hidden; }   /* your product as the PDP's grey photo tile, centred */
 .ck-tile > img { width: 80%; height: 80%; object-fit: contain; }   /* the product photo; your files: the cart's .art-tile (components.css) */
@@ -2206,3 +2210,4 @@ html:not(.desk) .pdf-viewer .box { min-width: 48px; }
 .ck-tile.small { width: 64px; height: 64px; }   /* mobile: next to the title */
 .ck-titled { display: flex; align-items: center; gap: 16px; }
 .ck-titled .co-head { margin-top: 0; }
+.ck-eta { display: block; margin-top: 8px; font-size: var(--t-12); line-height: var(--lh-12); color: var(--dark-grey); }   /* mobile: the delivery date on its own line under the specs (Cornel 11-27) */

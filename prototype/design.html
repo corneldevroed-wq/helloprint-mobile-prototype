@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=auto_awesome,visibility&display=block" rel="stylesheet">
-<link rel="stylesheet" href="../design-system/tokens.css?v=20261127n">
-<link rel="stylesheet" href="../design-system/components.css?v=20261127n">
-<link rel="stylesheet" href="pages.css?v=20261127n">
+<link rel="stylesheet" href="../design-system/tokens.css?v=20261127r">
+<link rel="stylesheet" href="../design-system/components.css?v=20261127r">
+<link rel="stylesheet" href="pages.css?v=20261127r">
 </head>
 <body data-desktop>
 <!-- Design cockpit (Cornel 2026-11-27, sketches/design-cockpit-sketch.html A, look D of sketches/design-cockpit-look-sketch.html): the design options as a
@@ -25,9 +25,9 @@
 <input type="file" id="ckFiles" multiple hidden>
 <div data-shell="sheet-art"></div>   <!-- "Your artwork", the popup of the cart and order confirmed (openArt in app.js) -->
 <div class="cart-bar"><div class="sheet-bar"><div class="total" id="ckTotal"></div><button class="btn primary" id="ckGo" disabled>Add to cart</button></div></div>
-<script src="app.js?v=20261127n"></script>
-<script src="../design-system/components.js?v=20261127n"></script>
-<script src="upload.js?v=20261127n"></script>   <!-- the file rows and pictures (upPics, upRow), shared with the upload popup -->
+<script src="app.js?v=20261127r"></script>
+<script src="../design-system/components.js?v=20261127r"></script>
+<script src="upload.js?v=20261127r"></script>   <!-- the file rows and pictures (upPics, upRow), shared with the upload popup -->
 <script>
 {
   let D = null; try { D = JSON.parse(localStorage.getItem('hp-cockpit')); } catch (e) {}
@@ -78,7 +78,7 @@
         <button type="button" class="pm-row" role="radio" aria-checked="${id === way}"><span class="radio" aria-hidden="true"></span><span class="t"><b>${name}</b><small>${sub}</small></span><span class="pm-logos">${ico.startsWith('ms:') ? `<span class="material-symbols-rounded" aria-hidden="true">${ico.slice(3)}</span>` : `<img src="${ico}" alt="">`}</span></button>
         <div class="pm-panel"${id === way ? '' : ' hidden'}>${id === way ? panel() : ''}</div></div>`).join('')}</div>`;
     const head = DESK ? `<div class="co-head"><h2>Add your design</h2></div>`
-      : `<div class="ck-titled">${tile('small')}<div><div class="co-head"><h2>Add your design</h2></div><p class="co-desc">${L.options} · ${euro(L.price)} · Estimated ${etaShort(etaDate(L.arrives))}</p></div></div>`;
+      : `<div class="ck-titled">${tile('small')}<div><div class="co-head"><h2>Add your design</h2></div><p class="co-desc">${L.options} · ${euro(L.price)}</p><small class="ck-eta">Estimated ${etaShort(etaDate(L.arrives))}</small></div></div>`;
     // desktop: the slim sidebar (it sticks): your product big, the name, specs, delivery, one Total, the button
     const card = `<aside class="cart-side ck-slim">${tile('side')}<h2>Your ${D.noun}</h2>
         <div class="totals"><ul class="sum-lines"><li class="line-item"><div class="t"><strong>${L.name}</strong><small>${L.options}</small><small><span>Estimated ${etaShort(etaDate(L.arrives))} —</span> <span>latest ${etaShort(etaLatest(L.arrives))}</span></small></div></li></ul>
