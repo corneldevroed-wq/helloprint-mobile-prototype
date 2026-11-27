@@ -89,7 +89,6 @@
           <label class="field" data-field="eircode"><input name="eircode" placeholder=" " autocomplete="postal-code" aria-label="Eircode" autocapitalize="characters"><span class="fl">Eircode</span></label>
           <label class="field" data-field="town"><input name="town" placeholder=" " autocomplete="address-level2" aria-label="Town or city"><span class="fl">Town / city</span></label>
         </div>
-        <label class="check" id="saveAddrRow" hidden><input type="checkbox" id="saveAddr" checked>Save this address for future orders</label>
         <!-- Billing: always its own section, the title above the checkbox (Cornel, 2026-11-06); who the invoice is for first (F) -->
         <div class="co-head"><h2>Billing Address</h2></div>
         <p class="co-desc">Your invoice goes to this address. Tell us who it is for.</p>
@@ -270,8 +269,17 @@
   const BOOK = 'hp-addresses';
   let book = [];
   try { book = JSON.parse(localStorage.getItem(BOOK)) || []; } catch (e) {}
-  const known = !!user && book.length > 0;   // signed in with saved addresses = the cards; without = the form, with "Save this address"
-  document.getElementById('saveAddrRow').hidden = !(user && !book.length);
+  // Signed in = always the cards (Cornel, 2026-11-27): an empty book starts with the typed address (or an example) plus two examples
+  if (user && !book.length) {
+    const typed = ['first', 'last', 'phone', 'address1', 'eircode', 'town'].every(n => val(n)), me = user.first && user.last ? { first: user.first, last: user.last } : { first: 'Anna', last: 'Murphy' };
+    book = [
+      typed ? { id: 'a1', label: 'Home', type: 'personal', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true }
+        : { id: 'a1', label: 'Home', type: 'personal', ...me, phone: '+353 871234567', address1: '5 Quay Street', eircode: 'H91 X2Y3', town: 'Galway', isDefault: true },
+      { id: 'a2', label: 'Office', type: 'business', ...me, company: 'HelloPrint Ltd', vat: '', phone: '+353 15550199', address1: '12 Grand Canal Square', eircode: 'D02 R590', town: 'Dublin' },
+      { id: 'a3', label: 'Grandma', type: 'personal', first: 'Anna', last: 'Murphy', phone: '+353 215550123', address1: '8 Harbour Road', eircode: 'T12 X7K2', town: 'Cork' },
+    ];
+  }
+  const known = !!user;   // signed in = the cards; guest = the form
   const saveBook = () => { try { localStorage.setItem(BOOK, JSON.stringify(book)); } catch (e) {} };
   let selected = (book.find(a => a.isDefault) || book[0] || {}).id;
   try { selected = localStorage.getItem('hp-address-sel') || selected; } catch (e) {}
@@ -608,15 +616,6 @@
       first.focus({ preventScroll: true });
       showToast(bad.length === 1 ? '1 field needs your attention' : `${bad.length} fields need your attention`);
       return;
-    }
-    // Signed in without addresses: "Save this address" puts it in the address book with its invoice details (and the billing address, when it is another)
-    if (user && !book.length && document.getElementById('saveAddr').checked) {
-      const biz = isBiz.checked, inv = { type: biz ? 'business' : 'personal', company: biz ? val('company') : '', vat: biz ? vatNorm(val('vatnr')) : '' };
-      const ship = { id: 'a1', label: 'Home', first: val('first'), last: val('last'), phone: `${form.querySelector('[name=prefix]').value} ${val('phone')}`, address1: val('address1'), address2: val('address2'), eircode: val('eircode').toUpperCase(), town: val('town'), isDefault: true };
-      const same = document.getElementById('sameBilling').checked;
-      book = same ? [{ ...ship, ...inv }] : [{ ...ship, type: 'personal' }, { id: 'a2', label: 'Billing', first: val('billFirst'), last: val('billLast'), phone: `${form.querySelector('[name=billPrefix]').value} ${val('billPhone')}`, address1: val('billAddress'), address2: val('billAddress2'), eircode: val('billEircode').toUpperCase(), town: val('billTown'), ...inv }];
-      saveBook();
-      try { localStorage.setItem('hp-address-sel', 'a1'); localStorage.setItem('hp-invoice-sel', same ? 'same' : 'a2'); } catch (e) {}
     }
     location.href = 'payment.html';
   });
